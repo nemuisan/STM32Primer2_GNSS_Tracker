@@ -1,0 +1,440 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"adc_support.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.ADC_DMA_Configuration,"ax",%progbits
+  19              		.align	1
+  20              		.global	ADC_DMA_Configuration
+  21              		.thumb
+  22              		.thumb_func
+  24              	ADC_DMA_Configuration:
+  25              	.LFB56:
+  26              		.file 1 "src/adc_support.c"
+   1:src/adc_support.c **** /********************************************************************************/
+   2:src/adc_support.c **** /*!
+   3:src/adc_support.c **** 	@file			adc_support.c
+   4:src/adc_support.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:src/adc_support.c ****     @version        2.00
+   6:src/adc_support.c ****     @date           2011.03.10
+   7:src/adc_support.c **** 	@brief          Based on Keil's Sample Thanks!
+   8:src/adc_support.c **** 
+   9:src/adc_support.c ****     @section HISTORY
+  10:src/adc_support.c **** 		2010.12.31	V1.00	Restart Here.
+  11:src/adc_support.c **** 		2011.03.10	V2.00	C++ Ready.
+  12:src/adc_support.c **** 
+  13:src/adc_support.c ****     @section LICENSE
+  14:src/adc_support.c **** 		BSD License. See Copyright.txt
+  15:src/adc_support.c **** */
+  16:src/adc_support.c **** /********************************************************************************/
+  17:src/adc_support.c **** 
+  18:src/adc_support.c **** /* Includes ------------------------------------------------------------------*/
+  19:src/adc_support.c **** #include "adc_support.h"
+  20:src/adc_support.c **** 
+  21:src/adc_support.c **** /* Defines -------------------------------------------------------------------*/
+  22:src/adc_support.c **** 
+  23:src/adc_support.c **** /* Variables -----------------------------------------------------------------*/
+  24:src/adc_support.c **** ADC_InitTypeDef ADC_InitStructure;
+  25:src/adc_support.c **** DMA_InitTypeDef DMA_InitStructure;
+  26:src/adc_support.c **** ADC_InitTypeDef ADC_InitStructure;
+  27:src/adc_support.c **** GPIO_InitTypeDef GPIO_InitStructure;
+  28:src/adc_support.c **** 
+  29:src/adc_support.c **** __IO uint16_t ADC_RegularConvertedValueTab[ADC_DMA_SIZE];
+  30:src/adc_support.c **** 
+  31:src/adc_support.c **** /* Constants -----------------------------------------------------------------*/
+  32:src/adc_support.c **** 
+  33:src/adc_support.c **** /* Function prototypes -------------------------------------------------------*/
+  34:src/adc_support.c **** 
+  35:src/adc_support.c **** /* Functions -----------------------------------------------------------------*/
+  36:src/adc_support.c **** 
+  37:src/adc_support.c **** /**************************************************************************/
+  38:src/adc_support.c **** /*! 
+  39:src/adc_support.c ****     DMA Driving A/D Converter Initialize
+  40:src/adc_support.c **** */
+  41:src/adc_support.c **** /**************************************************************************/
+  42:src/adc_support.c **** void ADC_DMA_Configuration(void){
+  27              		.loc 1 42 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 70B5     		push	{r4, r5, r6, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 4, -16
+  35              		.cfi_offset 5, -12
+  36              		.cfi_offset 6, -8
+  37              		.cfi_offset 14, -4
+  43:src/adc_support.c **** 
+  44:src/adc_support.c ****     /* Clocks for ADC */
+  45:src/adc_support.c ****     /* Enable DMA clock */
+  46:src/adc_support.c ****     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1 | RCC_APB2Periph_GPIOC, ENABLE);
+  38              		.loc 1 46 0
+  39 0002 4FF40470 		mov	r0, #528
+  40 0006 0121     		movs	r1, #1
+  41 0008 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+  42              	.LVL0:
+  47:src/adc_support.c ****     RCC_AHBPeriphClockCmd( RCC_AHBPeriph_DMA1, ENABLE );
+  43              		.loc 1 47 0
+  44 000c 0120     		movs	r0, #1
+  45 000e 0146     		mov	r1, r0
+  46 0010 FFF7FEFF 		bl	RCC_AHBPeriphClockCmd
+  47              	.LVL1:
+  48:src/adc_support.c ****     /* GPIO Speed valid for all further GPIO configurations*/
+  49:src/adc_support.c ****     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  48              		.loc 1 49 0
+  49 0014 4049     		ldr	r1, .L7
+  50 0016 0326     		movs	r6, #3
+  51 0018 8E70     		strb	r6, [r1, #2]
+  50:src/adc_support.c **** 
+  51:src/adc_support.c ****     /* Configure PC.01 to PC.03 (ADC Channel10-13) as analog input ---------------*/
+  52:src/adc_support.c ****     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3;
+  52              		.loc 1 52 0
+  53 001a 0F23     		movs	r3, #15
+  54 001c 0B80     		strh	r3, [r1, #0]	@ movhi
+  53:src/adc_support.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+  55              		.loc 1 53 0
+  56 001e 0025     		movs	r5, #0
+  57 0020 CD70     		strb	r5, [r1, #3]
+  54:src/adc_support.c ****     GPIO_Init(GPIOC, &GPIO_InitStructure);
+  58              		.loc 1 54 0
+  59 0022 3E48     		ldr	r0, .L7+4
+  60 0024 FFF7FEFF 		bl	GPIO_Init
+  61              	.LVL2:
+  55:src/adc_support.c ****  
+  56:src/adc_support.c ****      /* Enable ADC1 clock */
+  57:src/adc_support.c ****     RCC_APB2PeriphClockCmd( RCC_APB2Periph_ADC1, ENABLE );
+  62              		.loc 1 57 0
+  63 0028 4FF40070 		mov	r0, #512
+  64 002c 0121     		movs	r1, #1
+  65 002e FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+  66              	.LVL3:
+  58:src/adc_support.c **** 	
+  59:src/adc_support.c ****   
+  60:src/adc_support.c ****      /* DMA Channel 1 Configuration */
+  61:src/adc_support.c ****     DMA_DeInit( DMA1_Channel1 );
+  67              		.loc 1 61 0
+  68 0032 3B48     		ldr	r0, .L7+8
+  69 0034 FFF7FEFF 		bl	DMA_DeInit
+  70              	.LVL4:
+  62:src/adc_support.c **** 
+  63:src/adc_support.c ****     DMA_InitStructure.DMA_PeripheralBaseAddr  = ADC1_DR_Address;
+  71              		.loc 1 63 0
+  72 0038 3A49     		ldr	r1, .L7+12
+  73 003a 3B48     		ldr	r0, .L7+16
+  74 003c 0860     		str	r0, [r1, #0]
+  64:src/adc_support.c ****     DMA_InitStructure.DMA_MemoryBaseAddr      = (uint32_t)ADC_RegularConvertedValueTab;
+  75              		.loc 1 64 0
+  76 003e 3B4A     		ldr	r2, .L7+20
+  77 0040 4A60     		str	r2, [r1, #4]
+  65:src/adc_support.c ****     DMA_InitStructure.DMA_DIR                 = DMA_DIR_PeripheralSRC;
+  78              		.loc 1 65 0
+  79 0042 8D60     		str	r5, [r1, #8]
+  66:src/adc_support.c ****     DMA_InitStructure.DMA_BufferSize          = ADC_DMA_SIZE;
+  80              		.loc 1 66 0
+  81 0044 3224     		movs	r4, #50
+  82 0046 CC60     		str	r4, [r1, #12]
+  67:src/adc_support.c ****     DMA_InitStructure.DMA_PeripheralInc       = DMA_PeripheralInc_Disable;
+  83              		.loc 1 67 0
+  84 0048 0D61     		str	r5, [r1, #16]
+  68:src/adc_support.c ****     DMA_InitStructure.DMA_MemoryInc           = DMA_MemoryInc_Enable;
+  85              		.loc 1 68 0
+  86 004a 8023     		movs	r3, #128
+  87 004c 4B61     		str	r3, [r1, #20]
+  69:src/adc_support.c ****     DMA_InitStructure.DMA_PeripheralDataSize  = DMA_PeripheralDataSize_HalfWord;
+  88              		.loc 1 69 0
+  89 004e 4FF48070 		mov	r0, #256
+  90 0052 8861     		str	r0, [r1, #24]
+  70:src/adc_support.c ****     DMA_InitStructure.DMA_MemoryDataSize      = DMA_MemoryDataSize_HalfWord;
+  91              		.loc 1 70 0
+  92 0054 4FF48062 		mov	r2, #1024
+  93 0058 CA61     		str	r2, [r1, #28]
+  71:src/adc_support.c ****     DMA_InitStructure.DMA_Mode                = DMA_Mode_Circular;
+  94              		.loc 1 71 0
+  95 005a 2024     		movs	r4, #32
+  96 005c 0C62     		str	r4, [r1, #32]
+  72:src/adc_support.c ****     DMA_InitStructure.DMA_Priority            = DMA_Priority_Low;
+  97              		.loc 1 72 0
+  98 005e 4D62     		str	r5, [r1, #36]
+  73:src/adc_support.c ****     DMA_InitStructure.DMA_M2M                 = DMA_M2M_Disable;
+  99              		.loc 1 73 0
+ 100 0060 8D62     		str	r5, [r1, #40]
+  74:src/adc_support.c ****   
+  75:src/adc_support.c **** 	DMA_Init(DMA1_Channel1, &DMA_InitStructure);
+ 101              		.loc 1 75 0
+ 102 0062 2F48     		ldr	r0, .L7+8
+ 103 0064 FFF7FEFF 		bl	DMA_Init
+ 104              	.LVL5:
+  76:src/adc_support.c ****   
+  77:src/adc_support.c ****     /* Enable DMA Channel 1 */
+  78:src/adc_support.c ****     DMA_Cmd( DMA1_Channel1, ENABLE );
+ 105              		.loc 1 78 0
+ 106 0068 2D48     		ldr	r0, .L7+8
+ 107 006a 0121     		movs	r1, #1
+ 108 006c FFF7FEFF 		bl	DMA_Cmd
+ 109              	.LVL6:
+  79:src/adc_support.c **** 
+  80:src/adc_support.c ****     /* ADC1 Configuration ------------------------------------------------------*/
+  81:src/adc_support.c ****     ADC_InitStructure.ADC_Mode                = ADC_Mode_Independent;
+ 110              		.loc 1 81 0
+ 111 0070 2F49     		ldr	r1, .L7+24
+ 112 0072 0D60     		str	r5, [r1, #0]
+  82:src/adc_support.c ****     ADC_InitStructure.ADC_ScanConvMode        = ENABLE;
+ 113              		.loc 1 82 0
+ 114 0074 0124     		movs	r4, #1
+ 115 0076 0C71     		strb	r4, [r1, #4]
+  83:src/adc_support.c ****     ADC_InitStructure.ADC_ContinuousConvMode  = ENABLE;
+ 116              		.loc 1 83 0
+ 117 0078 4C71     		strb	r4, [r1, #5]
+  84:src/adc_support.c ****     ADC_InitStructure.ADC_ExternalTrigConv    = ADC_ExternalTrigConv_None;
+ 118              		.loc 1 84 0
+ 119 007a 4FF46023 		mov	r3, #917504
+ 120 007e 8B60     		str	r3, [r1, #8]
+  85:src/adc_support.c ****     ADC_InitStructure.ADC_DataAlign           = ADC_DataAlign_Right;
+ 121              		.loc 1 85 0
+ 122 0080 CD60     		str	r5, [r1, #12]
+  86:src/adc_support.c ****     ADC_InitStructure.ADC_NbrOfChannel        = ADC_NB_CHANNELS; 
+ 123              		.loc 1 86 0
+ 124 0082 0525     		movs	r5, #5
+ 125 0084 0D74     		strb	r5, [r1, #16]
+  87:src/adc_support.c **** 
+  88:src/adc_support.c ****     ADC_Init( ADC1, &ADC_InitStructure );
+ 126              		.loc 1 88 0
+ 127 0086 2B48     		ldr	r0, .L7+28
+ 128 0088 FFF7FEFF 		bl	ADC_Init
+ 129              	.LVL7:
+  89:src/adc_support.c **** 
+  90:src/adc_support.c **** 	/* Internal TempSence */
+  91:src/adc_support.c ****     ADC_TempSensorVrefintCmd(ENABLE); /*%%*/
+ 130              		.loc 1 91 0
+ 131 008c 2046     		mov	r0, r4
+ 132 008e FFF7FEFF 		bl	ADC_TempSensorVrefintCmd
+ 133              	.LVL8:
+  92:src/adc_support.c **** 
+  93:src/adc_support.c ****     /* ADC1 Regular Channel 9 Configuration = Vbatt */
+  94:src/adc_support.c ****     ADC_RegularChannelConfig( ADC1, ADC_Channel_9,  1, ADC_SampleTime_239Cycles5);
+ 134              		.loc 1 94 0
+ 135 0092 2848     		ldr	r0, .L7+28
+ 136 0094 0921     		movs	r1, #9
+ 137 0096 2246     		mov	r2, r4
+ 138 0098 0723     		movs	r3, #7
+ 139 009a FFF7FEFF 		bl	ADC_RegularChannelConfig
+ 140              	.LVL9:
+  95:src/adc_support.c **** 
+  96:src/adc_support.c ****     /* ADC1 Regular Channel 16 internal temperature */
+  97:src/adc_support.c ****     ADC_RegularChannelConfig( ADC1, ADC_Channel_16, 2, ADC_SampleTime_55Cycles5 ); 
+ 141              		.loc 1 97 0
+ 142 009e 2548     		ldr	r0, .L7+28
+ 143 00a0 1021     		movs	r1, #16
+ 144 00a2 0222     		movs	r2, #2
+ 145 00a4 2B46     		mov	r3, r5
+ 146 00a6 FFF7FEFF 		bl	ADC_RegularChannelConfig
+ 147              	.LVL10:
+  98:src/adc_support.c **** 
+  99:src/adc_support.c ****     /* ADC1 Regular Channel 10 to 13 Configuration = touchscreen */
+ 100:src/adc_support.c ****     ADC_RegularChannelConfig( ADC1, ADC_Channel_10, 3, ADC_SampleTime_239Cycles5 ); 
+ 148              		.loc 1 100 0
+ 149 00aa 2248     		ldr	r0, .L7+28
+ 150 00ac 0A21     		movs	r1, #10
+ 151 00ae 3246     		mov	r2, r6
+ 152 00b0 0723     		movs	r3, #7
+ 153 00b2 FFF7FEFF 		bl	ADC_RegularChannelConfig
+ 154              	.LVL11:
+ 101:src/adc_support.c ****     ADC_RegularChannelConfig( ADC1, ADC_Channel_12, 4, ADC_SampleTime_239Cycles5 ); 
+ 155              		.loc 1 101 0
+ 156 00b6 1F48     		ldr	r0, .L7+28
+ 157 00b8 0C21     		movs	r1, #12
+ 158 00ba 0422     		movs	r2, #4
+ 159 00bc 0723     		movs	r3, #7
+ 160 00be FFF7FEFF 		bl	ADC_RegularChannelConfig
+ 161              	.LVL12:
+ 102:src/adc_support.c ****     ADC_RegularChannelConfig( ADC1, ADC_Channel_13, 5, ADC_SampleTime_239Cycles5 );
+ 162              		.loc 1 102 0
+ 163 00c2 1C48     		ldr	r0, .L7+28
+ 164 00c4 0D21     		movs	r1, #13
+ 165 00c6 2A46     		mov	r2, r5
+ 166 00c8 0723     		movs	r3, #7
+ 167 00ca FFF7FEFF 		bl	ADC_RegularChannelConfig
+ 168              	.LVL13:
+ 103:src/adc_support.c **** 
+ 104:src/adc_support.c ****  
+ 105:src/adc_support.c ****     /* Enable ADC1 external trigger conversion */
+ 106:src/adc_support.c ****     ADC_ExternalTrigConvCmd( ADC1, ENABLE );  /* <==== moved above cal and above enable in circleOS
+ 169              		.loc 1 106 0
+ 170 00ce 1948     		ldr	r0, .L7+28
+ 171 00d0 2146     		mov	r1, r4
+ 172 00d2 FFF7FEFF 		bl	ADC_ExternalTrigConvCmd
+ 173              	.LVL14:
+ 107:src/adc_support.c **** 
+ 108:src/adc_support.c ****     /* Enable ADC1  */
+ 109:src/adc_support.c ****     ADC_Cmd(ADC1, ENABLE);
+ 174              		.loc 1 109 0
+ 175 00d6 1748     		ldr	r0, .L7+28
+ 176 00d8 2146     		mov	r1, r4
+ 177 00da FFF7FEFF 		bl	ADC_Cmd
+ 178              	.LVL15:
+ 110:src/adc_support.c **** 
+ 111:src/adc_support.c ****     /* Enable Vrefint channel 17  Calibrate Internal tempsence */
+ 112:src/adc_support.c ****     ADC_TempSensorVrefintCmd(ENABLE);
+ 179              		.loc 1 112 0
+ 180 00de 2046     		mov	r0, r4
+ 181 00e0 FFF7FEFF 		bl	ADC_TempSensorVrefintCmd
+ 182              	.LVL16:
+ 113:src/adc_support.c **** 
+ 114:src/adc_support.c ****     /* Enable ADC1 reset calibaration register */   
+ 115:src/adc_support.c ****     ADC_ResetCalibration(ADC1);
+ 183              		.loc 1 115 0
+ 184 00e4 1348     		ldr	r0, .L7+28
+ 185 00e6 FFF7FEFF 		bl	ADC_ResetCalibration
+ 186              	.LVL17:
+ 187              	.L2:
+ 116:src/adc_support.c **** 
+ 117:src/adc_support.c ****     /* Check the end of ADC1 reset calibration register */
+ 118:src/adc_support.c ****     while(ADC_GetResetCalibrationStatus(ADC1));
+ 188              		.loc 1 118 0 discriminator 1
+ 189 00ea 1248     		ldr	r0, .L7+28
+ 190 00ec FFF7FEFF 		bl	ADC_GetResetCalibrationStatus
+ 191              	.LVL18:
+ 192 00f0 0028     		cmp	r0, #0
+ 193 00f2 FAD1     		bne	.L2
+ 119:src/adc_support.c **** 
+ 120:src/adc_support.c ****     /* Start ADC1 calibaration */
+ 121:src/adc_support.c ****     ADC_StartCalibration(ADC1);
+ 194              		.loc 1 121 0
+ 195 00f4 0F48     		ldr	r0, .L7+28
+ 196 00f6 FFF7FEFF 		bl	ADC_StartCalibration
+ 197              	.LVL19:
+ 198              	.L3:
+ 122:src/adc_support.c ****     /* Check the end of ADC1 calibration */
+ 123:src/adc_support.c ****     while(ADC_GetCalibrationStatus(ADC1));
+ 199              		.loc 1 123 0 discriminator 1
+ 200 00fa 0E48     		ldr	r0, .L7+28
+ 201 00fc FFF7FEFF 		bl	ADC_GetCalibrationStatus
+ 202              	.LVL20:
+ 203 0100 0028     		cmp	r0, #0
+ 204 0102 FAD1     		bne	.L3
+ 124:src/adc_support.c ****  
+ 125:src/adc_support.c ****   
+ 126:src/adc_support.c ****     /* Enable ADC1's DMA interface */
+ 127:src/adc_support.c ****     ADC_DMACmd( ADC1, ENABLE );
+ 205              		.loc 1 127 0
+ 206 0104 0B48     		ldr	r0, .L7+28
+ 207 0106 0121     		movs	r1, #1
+ 208 0108 FFF7FEFF 		bl	ADC_DMACmd
+ 209              	.LVL21:
+ 128:src/adc_support.c **** 
+ 129:src/adc_support.c ****     /* Start ADC1 Software Conversion */
+ 130:src/adc_support.c ****     ADC_SoftwareStartConvCmd( ADC1, ENABLE );
+ 210              		.loc 1 130 0
+ 211 010c 0948     		ldr	r0, .L7+28
+ 212 010e 0121     		movs	r1, #1
+ 131:src/adc_support.c ****   
+ 132:src/adc_support.c **** }
+ 213              		.loc 1 132 0
+ 214 0110 BDE87040 		pop	{r4, r5, r6, lr}
+ 130:src/adc_support.c ****     ADC_SoftwareStartConvCmd( ADC1, ENABLE );
+ 215              		.loc 1 130 0
+ 216 0114 FFF7FEBF 		b	ADC_SoftwareStartConvCmd
+ 217              	.LVL22:
+ 218              	.L8:
+ 219              		.align	2
+ 220              	.L7:
+ 221 0118 00000000 		.word	.LANCHOR0
+ 222 011c 00100140 		.word	1073811456
+ 223 0120 08000240 		.word	1073872904
+ 224 0124 00000000 		.word	.LANCHOR1
+ 225 0128 4C240140 		.word	1073816652
+ 226 012c 00000000 		.word	.LANCHOR2
+ 227 0130 00000000 		.word	.LANCHOR3
+ 228 0134 00240140 		.word	1073816576
+ 229              		.cfi_endproc
+ 230              	.LFE56:
+ 232              		.global	ADC_RegularConvertedValueTab
+ 233              		.global	GPIO_InitStructure
+ 234              		.global	DMA_InitStructure
+ 235              		.global	ADC_InitStructure
+ 236              		.section	.bss.ADC_InitStructure,"aw",%nobits
+ 237              		.align	2
+ 238              		.set	.LANCHOR3,. + 0
+ 241              	ADC_InitStructure:
+ 242 0000 00000000 		.space	20
+ 242      00000000 
+ 242      00000000 
+ 242      00000000 
+ 242      00000000 
+ 243              		.section	.bss.DMA_InitStructure,"aw",%nobits
+ 244              		.align	2
+ 245              		.set	.LANCHOR1,. + 0
+ 248              	DMA_InitStructure:
+ 249 0000 00000000 		.space	44
+ 249      00000000 
+ 249      00000000 
+ 249      00000000 
+ 249      00000000 
+ 250              		.section	.bss.ADC_RegularConvertedValueTab,"aw",%nobits
+ 251              		.align	1
+ 252              		.set	.LANCHOR2,. + 0
+ 255              	ADC_RegularConvertedValueTab:
+ 256 0000 00000000 		.space	100
+ 256      00000000 
+ 256      00000000 
+ 256      00000000 
+ 256      00000000 
+ 257              		.section	.bss.GPIO_InitStructure,"aw",%nobits
+ 258              		.align	1
+ 259              		.set	.LANCHOR0,. + 0
+ 262              	GPIO_InitStructure:
+ 263 0000 00000000 		.space	4
+ 264              		.text
+ 265              	.Letext0:
+ 266              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 267              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
+ 268              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h"
+ 269              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_dma.h"
+ 270              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 271              		.file 7 "./lib/CMSIS/Include/core_cm3.h"
+ 272              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 adc_support.c
+  R:\TEMP\cciWviek.s:19     .text.ADC_DMA_Configuration:00000000 $t
+  R:\TEMP\cciWviek.s:24     .text.ADC_DMA_Configuration:00000000 ADC_DMA_Configuration
+  R:\TEMP\cciWviek.s:221    .text.ADC_DMA_Configuration:00000118 $d
+  R:\TEMP\cciWviek.s:255    .bss.ADC_RegularConvertedValueTab:00000000 ADC_RegularConvertedValueTab
+  R:\TEMP\cciWviek.s:262    .bss.GPIO_InitStructure:00000000 GPIO_InitStructure
+  R:\TEMP\cciWviek.s:248    .bss.DMA_InitStructure:00000000 DMA_InitStructure
+  R:\TEMP\cciWviek.s:241    .bss.ADC_InitStructure:00000000 ADC_InitStructure
+  R:\TEMP\cciWviek.s:237    .bss.ADC_InitStructure:00000000 $d
+  R:\TEMP\cciWviek.s:244    .bss.DMA_InitStructure:00000000 $d
+  R:\TEMP\cciWviek.s:251    .bss.ADC_RegularConvertedValueTab:00000000 $d
+  R:\TEMP\cciWviek.s:258    .bss.GPIO_InitStructure:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+RCC_APB2PeriphClockCmd
+RCC_AHBPeriphClockCmd
+GPIO_Init
+DMA_DeInit
+DMA_Init
+DMA_Cmd
+ADC_Init
+ADC_TempSensorVrefintCmd
+ADC_RegularChannelConfig
+ADC_ExternalTrigConvCmd
+ADC_Cmd
+ADC_ResetCalibration
+ADC_GetResetCalibrationStatus
+ADC_StartCalibration
+ADC_GetCalibrationStatus
+ADC_DMACmd
+ADC_SoftwareStartConvCmd

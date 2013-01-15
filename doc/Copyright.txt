@@ -1,0 +1,69 @@
+******************************************************************************
+  STM32 Primer2 BARE-METAL Project GPS Tr@cker.
+  Since : 20100901
+  by Nemui Trinomius
+     http://nemuisan.blog.bai.ne.jp
+     nemuisan_kawausogasuki@live.jp
+******************************************************************************
+   Copyright (c) 2010-2013
+   - Nemui Trinomius (add STM32Primer2 Compatibility support.
+					  add SDIO FatFs HAL for STM32F1 Support.
+					  and TFT-LCD Module Controller drivers Support. )
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+   * Neither the name of the copyright holders nor the names of
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE. 
+******************************************************************************
+
+===!NOTICE!===
+Nemuisan uses following INTELLECTUAL PROPERTIES under each licence.
+Those sourcecode are included in this project.
+
+* STMicroelectronics CMSIS Libraries
+  STM32F10x standard peripheral library
+  STM32F10x and STM32L1xx USB full-speed device library
+  http://www.st.com/software_license_agreement_liberty_v2
+
+* ChaN's FatFs and FatFs Control(e.g. xprintf()) Apprications
+  GPS Logger Main routines.
+  http://elm-chan.org/fsw/ff/00index_e.html
+  http://elm-chan.org/fsw/ff/en/appnote.html#license
+
+* stm32f10x_io_view.c
+ Peripheral View Magic for STM32F1
+ Ver.0.1 (2010/08)
+ Copyright (c) 2010, audin
+ All rights reserved.
+ http://avr.paslog.jp
+ This code is licensed under the BSD License.
+
+* M+ Bitmap Fonts for FONTX2 is free font.
+  http://members.at.infoseek.co.jp/yu_izumi/mplus/index.html
+  Yu Izumi thanks!
+
+* Misaki Fonts for FONTX2 is free font.
+  http://www.geocities.jp/littlimi/misaki.htm
+  Num Kadoma thanks!
+ 

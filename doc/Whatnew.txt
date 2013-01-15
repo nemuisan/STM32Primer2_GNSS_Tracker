@@ -1,0 +1,49 @@
+20130107:
+V10.01 Adopted Launchpad GCC-ARM(GCC4.7.3) with nano-newlib.
+
+20121231:
+V10.00 Added Gms-g6a GNSS Module Support.
+
+20121127:
+V9.52  Minor Fix
+       #define SYNC_INTERVAL	180->90 in gps_support.c
+
+20121005:
+V9.51  Fixed Makefile.
+       Updated syscalls.c
+
+20120915:
+V9.50  Updated STM32_USB-FS-Device_Driver(4.0.0).
+
+20120909:
+V9.10  Imploved PA6C Support.
+	   (Anti Interference & force to 9600bps for 38400bps Firmware for PA6C).
+
+20120831:
+V9.00  Adopted Sourcery CodeBench Lite 2012.03-56  GCC4.6.3
+	   Adopted FatFs 0.09a.
+	   Imploved FatFs Support Function's Portability.
+
+20120714:
+V8.01  Updated STM32_USB-FS-Device_Driver(3.4.0)
+
+20120707:
+V8.00  Fixed Some Makefile Descriptions.
+
+20120520:
+V7.01  Updated STM32F10x_StdPeriph_Driver(3.6.1)
+V7.00  Add USB-CommunicationDeviceClass.
+       Add USB-Alternative-role Functions.
+	   Adopted Sourcery CodeBench Lite 2011.09-69 ,GCC4.6.1
+V6.00  More Reduced Power Consumption.
+       Adopted to PA6C(QZSS Supported!) Module.
+V5.00  Advenced RTC Synchronization via GPS.
+       Fixed UART Buffer structure for GPS long messages.
+	   Updated FatFs0.09.
+V4.00  Added USB-MassStorageClass
+V3.00  Internal Release
+V2.00  Internal Release
+V1.01  Internal Release
+       Updated STM32F10x_StdPeriph_Driver(3.5.0) & STM32_USB-FS-Device_Driver(3.3.0)
+V1.00  Internal Release
+       Start Here.

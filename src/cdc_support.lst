@@ -1,0 +1,1248 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"cdc_support.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.USART_Config_Default,"ax",%progbits
+  19              		.align	1
+  20              		.global	USART_Config_Default
+  21              		.thumb
+  22              		.thumb_func
+  24              	USART_Config_Default:
+  25              	.LFB57:
+  26              		.file 1 "src/cdc_support.c"
+   1:src/cdc_support.c **** /********************************************************************************/
+   2:src/cdc_support.c **** /*!
+   3:src/cdc_support.c **** 	@file			cdc_support.c
+   4:src/cdc_support.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:src/cdc_support.c ****     @version        1.00
+   6:src/cdc_support.c ****     @date           2012.1.30
+   7:src/cdc_support.c **** 	@brief          Interface of USB-CommunicationDeviceClass.
+   8:src/cdc_support.c **** 
+   9:src/cdc_support.c ****     @section HISTORY
+  10:src/cdc_support.c **** 		2012.01.30	V1.00	Start Here.
+  11:src/cdc_support.c **** 
+  12:src/cdc_support.c ****     @section LICENSE
+  13:src/cdc_support.c **** 		BSD License. See Copyright.txt
+  14:src/cdc_support.c **** */
+  15:src/cdc_support.c **** /********************************************************************************/
+  16:src/cdc_support.c **** 
+  17:src/cdc_support.c **** /* Includes ------------------------------------------------------------------*/
+  18:src/cdc_support.c **** #include "cdc_support.h"
+  19:src/cdc_support.c **** /* check header file version for fool proof */
+  20:src/cdc_support.c **** #if __CDC_SUPPORT_H!= 0x0100
+  21:src/cdc_support.c **** #error "header file version is not correspond!"
+  22:src/cdc_support.c **** #endif
+  23:src/cdc_support.c **** 
+  24:src/cdc_support.c **** #include "display_if.h"
+  25:src/cdc_support.c **** #include "display_if_support.h"
+  26:src/cdc_support.c **** 
+  27:src/cdc_support.c **** /* Defines -------------------------------------------------------------------*/
+  28:src/cdc_support.c **** /* Set FONTX */
+  29:src/cdc_support.c **** #define ANKFONT					Mplus_Ank
+  30:src/cdc_support.c **** /* Set USB-CDC RX-Buffer Size */
+  31:src/cdc_support.c **** #define USART_RX_DATA_SIZE   	2048
+  32:src/cdc_support.c **** 
+  33:src/cdc_support.c **** /* Variables -----------------------------------------------------------------*/
+  34:src/cdc_support.c **** extern FontX_Ank   ANKFONT;
+  35:src/cdc_support.c **** extern USART_InitTypeDef USART_InitStructure;
+  36:src/cdc_support.c **** extern LINE_CODING linecoding;
+  37:src/cdc_support.c **** 
+  38:src/cdc_support.c **** uint8_t  USART_Rx_Buffer [USART_RX_DATA_SIZE]; 
+  39:src/cdc_support.c **** uint32_t USART_Rx_ptr_in  = 0;
+  40:src/cdc_support.c **** uint32_t USART_Rx_ptr_out = 0;
+  41:src/cdc_support.c **** uint32_t USART_Rx_length  = 0;
+  42:src/cdc_support.c **** uint8_t  USB_Tx_State     = 0;
+  43:src/cdc_support.c **** uint8_t  USB_xMutex       = 0;
+  44:src/cdc_support.c **** 
+  45:src/cdc_support.c **** /* Constants -----------------------------------------------------------------*/
+  46:src/cdc_support.c **** 
+  47:src/cdc_support.c **** /* Function prototypes -------------------------------------------------------*/
+  48:src/cdc_support.c **** 
+  49:src/cdc_support.c **** /* Functions -----------------------------------------------------------------*/
+  50:src/cdc_support.c **** 
+  51:src/cdc_support.c **** /**************************************************************************/
+  52:src/cdc_support.c **** /*! 
+  53:src/cdc_support.c ****     @brief	Configure of UART Specific CDC.
+  54:src/cdc_support.c **** 	@param	None.
+  55:src/cdc_support.c ****     @retval	None.
+  56:src/cdc_support.c **** */
+  57:src/cdc_support.c **** /**************************************************************************/
+  58:src/cdc_support.c **** void USART_Config_Default(void)
+  59:src/cdc_support.c **** {
+  27              		.loc 1 59 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 32
+  34              		.cfi_offset 0, -32
+  35              		.cfi_offset 1, -28
+  36              		.cfi_offset 2, -24
+  37              		.cfi_offset 4, -20
+  38              		.cfi_offset 5, -16
+  39              		.cfi_offset 6, -12
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  60:src/cdc_support.c **** 	GPIO_InitTypeDef GPIO_InitStructure;
+  61:src/cdc_support.c **** 	/* Default configuration
+  62:src/cdc_support.c **** 		- BaudRate = 9600 baud  
+  63:src/cdc_support.c **** 		- Word Length = 8 Bits
+  64:src/cdc_support.c **** 		- One Stop Bit
+  65:src/cdc_support.c **** 		- Parity None
+  66:src/cdc_support.c **** 		- Hardware flow control disabled
+  67:src/cdc_support.c **** 		- Receive and transmit enabled
+  68:src/cdc_support.c **** 	*/
+  69:src/cdc_support.c **** 	USART_InitStructure.USART_BaudRate 				= 9600;
+  42              		.loc 1 69 0
+  43 0002 1F4C     		ldr	r4, .L2
+  44 0004 4FF41653 		mov	r3, #9600
+  45 0008 2360     		str	r3, [r4, #0]
+  70:src/cdc_support.c **** 	USART_InitStructure.USART_WordLength 			= USART_WordLength_8b;
+  46              		.loc 1 70 0
+  47 000a 0020     		movs	r0, #0
+  48 000c A080     		strh	r0, [r4, #4]	@ movhi
+  71:src/cdc_support.c **** 	USART_InitStructure.USART_StopBits 				= USART_StopBits_1;
+  49              		.loc 1 71 0
+  50 000e E080     		strh	r0, [r4, #6]	@ movhi
+  72:src/cdc_support.c **** 	USART_InitStructure.USART_Parity 				= USART_Parity_No;
+  51              		.loc 1 72 0
+  52 0010 2081     		strh	r0, [r4, #8]	@ movhi
+  73:src/cdc_support.c **** 	USART_InitStructure.USART_HardwareFlowControl	= USART_HardwareFlowControl_None;
+  53              		.loc 1 73 0
+  54 0012 A081     		strh	r0, [r4, #12]	@ movhi
+  74:src/cdc_support.c **** 	USART_InitStructure.USART_Mode 					= USART_Mode_Rx | USART_Mode_Tx;
+  55              		.loc 1 74 0
+  56 0014 0C21     		movs	r1, #12
+  57 0016 6181     		strh	r1, [r4, #10]	@ movhi
+  75:src/cdc_support.c **** 	
+  76:src/cdc_support.c **** 	/* Turn on peripheral clocks */
+  77:src/cdc_support.c **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO, ENABLE);
+  58              		.loc 1 77 0
+  59 0018 0520     		movs	r0, #5
+  60 001a 0121     		movs	r1, #1
+  61 001c FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+  62              	.LVL0:
+  78:src/cdc_support.c **** 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+  63              		.loc 1 78 0
+  64 0020 4FF40030 		mov	r0, #131072
+  65 0024 0121     		movs	r1, #1
+  66 0026 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+  67              	.LVL1:
+  79:src/cdc_support.c **** 
+  80:src/cdc_support.c **** 	/* Configure USART2 TX as alternate function push-pull */
+  81:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_2;
+  68              		.loc 1 81 0
+  69 002a 0422     		movs	r2, #4
+  70 002c 1746     		mov	r7, r2	@ movhi
+  71 002e ADF80420 		strh	r2, [sp, #4]	@ movhi
+  82:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+  72              		.loc 1 82 0
+  73 0032 0326     		movs	r6, #3
+  74 0034 8DF80660 		strb	r6, [sp, #6]
+  83:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
+  75              		.loc 1 83 0
+  76 0038 1825     		movs	r5, #24
+  77 003a 8DF80750 		strb	r5, [sp, #7]
+  84:src/cdc_support.c **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+  78              		.loc 1 84 0
+  79 003e 114D     		ldr	r5, .L2+4
+  80 0040 2846     		mov	r0, r5
+  81 0042 01A9     		add	r1, sp, #4
+  82 0044 FFF7FEFF 		bl	GPIO_Init
+  83              	.LVL2:
+  85:src/cdc_support.c **** 
+  86:src/cdc_support.c **** 	/* Configure USART2 RX as input floating */
+  87:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_3;
+  84              		.loc 1 87 0
+  85 0048 0823     		movs	r3, #8
+  86 004a ADF80430 		strh	r3, [sp, #4]	@ movhi
+  88:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+  87              		.loc 1 88 0
+  88 004e 8DF80660 		strb	r6, [sp, #6]
+  89:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+  89              		.loc 1 89 0
+  90 0052 8DF80770 		strb	r7, [sp, #7]
+  90:src/cdc_support.c **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+  91              		.loc 1 90 0
+  92 0056 2846     		mov	r0, r5
+  93 0058 01A9     		add	r1, sp, #4
+  94 005a FFF7FEFF 		bl	GPIO_Init
+  95              	.LVL3:
+  91:src/cdc_support.c **** 	
+  92:src/cdc_support.c **** 	/* Init USART */
+  93:src/cdc_support.c **** 	USART_Init(USART2, &USART_InitStructure);
+  96              		.loc 1 93 0
+  97 005e A5F54445 		sub	r5, r5, #50176
+  98 0062 2846     		mov	r0, r5
+  99 0064 2146     		mov	r1, r4
+ 100 0066 FFF7FEFF 		bl	USART_Init
+ 101              	.LVL4:
+  94:src/cdc_support.c **** 	
+  95:src/cdc_support.c **** 	/* Enable USART */
+  96:src/cdc_support.c **** 	USART_Cmd(USART2, ENABLE);
+ 102              		.loc 1 96 0
+ 103 006a 2846     		mov	r0, r5
+ 104 006c 0121     		movs	r1, #1
+ 105 006e FFF7FEFF 		bl	USART_Cmd
+ 106              	.LVL5:
+  97:src/cdc_support.c **** 	
+  98:src/cdc_support.c **** 	/* Enable the USART Receive interrupt */
+  99:src/cdc_support.c **** 	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+ 107              		.loc 1 99 0
+ 108 0072 2846     		mov	r0, r5
+ 109 0074 40F22551 		movw	r1, #1317
+ 110 0078 0122     		movs	r2, #1
+ 111 007a FFF7FEFF 		bl	USART_ITConfig
+ 112              	.LVL6:
+ 100:src/cdc_support.c **** }
+ 113              		.loc 1 100 0
+ 114 007e FEBD     		pop	{r1, r2, r3, r4, r5, r6, r7, pc}
+ 115              	.L3:
+ 116              		.align	2
+ 117              	.L2:
+ 118 0080 00000000 		.word	USART_InitStructure
+ 119 0084 00080140 		.word	1073809408
+ 120              		.cfi_endproc
+ 121              	.LFE57:
+ 123              		.section	.text.USART_Config,"ax",%progbits
+ 124              		.align	1
+ 125              		.global	USART_Config
+ 126              		.thumb
+ 127              		.thumb_func
+ 129              	USART_Config:
+ 130              	.LFB58:
+ 101:src/cdc_support.c **** 
+ 102:src/cdc_support.c **** 
+ 103:src/cdc_support.c **** /**************************************************************************/
+ 104:src/cdc_support.c **** /*! 
+ 105:src/cdc_support.c ****     @brief	Configure of UART Specific CDC.
+ 106:src/cdc_support.c **** 	@param	None.
+ 107:src/cdc_support.c ****     @retval	None.
+ 108:src/cdc_support.c **** */
+ 109:src/cdc_support.c **** /**************************************************************************/
+ 110:src/cdc_support.c **** bool USART_Config(void)
+ 111:src/cdc_support.c **** {
+ 131              		.loc 1 111 0
+ 132              		.cfi_startproc
+ 133              		@ args = 0, pretend = 0, frame = 8
+ 134              		@ frame_needed = 0, uses_anonymous_args = 0
+ 135 0000 73B5     		push	{r0, r1, r4, r5, r6, lr}
+ 136              	.LCFI1:
+ 137              		.cfi_def_cfa_offset 24
+ 138              		.cfi_offset 0, -24
+ 139              		.cfi_offset 1, -20
+ 140              		.cfi_offset 4, -16
+ 141              		.cfi_offset 5, -12
+ 142              		.cfi_offset 6, -8
+ 143              		.cfi_offset 14, -4
+ 112:src/cdc_support.c **** 	GPIO_InitTypeDef GPIO_InitStructure;
+ 113:src/cdc_support.c **** 	/* set the Stop bit*/
+ 114:src/cdc_support.c **** 	switch (linecoding.format)
+ 144              		.loc 1 114 0
+ 145 0002 384A     		ldr	r2, .L29
+ 146 0004 1379     		ldrb	r3, [r2, #4]	@ zero_extendqisi2
+ 147 0006 012B     		cmp	r3, #1
+ 148 0008 0AD0     		beq	.L7
+ 149 000a 4FF00004 		mov	r4, #0
+ 150 000e 04D3     		bcc	.L6
+ 151 0010 022B     		cmp	r3, #2
+ 152 0012 2ED1     		bne	.L23
+ 115:src/cdc_support.c **** 	{
+ 116:src/cdc_support.c **** 		case 0:
+ 117:src/cdc_support.c **** 			USART_InitStructure.USART_StopBits = USART_StopBits_1;
+ 118:src/cdc_support.c **** 			break;
+ 119:src/cdc_support.c **** 		case 1:
+ 120:src/cdc_support.c **** 			USART_InitStructure.USART_StopBits = USART_StopBits_1_5;
+ 121:src/cdc_support.c **** 			break;
+ 122:src/cdc_support.c **** 		case 2:
+ 123:src/cdc_support.c **** 			USART_InitStructure.USART_StopBits = USART_StopBits_2;
+ 153              		.loc 1 123 0
+ 154 0014 4FF40051 		mov	r1, #8192
+ 155 0018 04E0     		b	.L24
+ 156              	.L6:
+ 117:src/cdc_support.c **** 			USART_InitStructure.USART_StopBits = USART_StopBits_1;
+ 157              		.loc 1 117 0
+ 158 001a 3348     		ldr	r0, .L29+4
+ 159 001c C480     		strh	r4, [r0, #6]	@ movhi
+ 118:src/cdc_support.c **** 			break;
+ 160              		.loc 1 118 0
+ 161 001e 03E0     		b	.L9
+ 162              	.L7:
+ 120:src/cdc_support.c **** 			USART_InitStructure.USART_StopBits = USART_StopBits_1_5;
+ 163              		.loc 1 120 0
+ 164 0020 4FF44051 		mov	r1, #12288
+ 165              	.L24:
+ 166              		.loc 1 123 0
+ 167 0024 304C     		ldr	r4, .L29+4
+ 168 0026 E180     		strh	r1, [r4, #6]	@ movhi
+ 169              	.L9:
+ 124:src/cdc_support.c **** 			break;
+ 125:src/cdc_support.c **** 		default :
+ 126:src/cdc_support.c **** 			{
+ 127:src/cdc_support.c **** 				USART_Config_Default();
+ 128:src/cdc_support.c **** 				return (FALSE);
+ 129:src/cdc_support.c **** 			}
+ 130:src/cdc_support.c **** 	}
+ 131:src/cdc_support.c **** 
+ 132:src/cdc_support.c **** 	/* set the parity bit*/
+ 133:src/cdc_support.c **** 	switch (linecoding.paritytype)
+ 170              		.loc 1 133 0
+ 171 0028 5279     		ldrb	r2, [r2, #5]	@ zero_extendqisi2
+ 172 002a 012A     		cmp	r2, #1
+ 173 002c 0AD0     		beq	.L13
+ 174 002e 4FF00004 		mov	r4, #0
+ 175 0032 04D3     		bcc	.L12
+ 176 0034 022A     		cmp	r2, #2
+ 177 0036 1CD1     		bne	.L23
+ 134:src/cdc_support.c **** 	{
+ 135:src/cdc_support.c **** 		case 0:
+ 136:src/cdc_support.c **** 			USART_InitStructure.USART_Parity = USART_Parity_No;
+ 137:src/cdc_support.c **** 			break;
+ 138:src/cdc_support.c **** 		case 1:
+ 139:src/cdc_support.c **** 			USART_InitStructure.USART_Parity = USART_Parity_Even;
+ 140:src/cdc_support.c **** 			break;
+ 141:src/cdc_support.c **** 		case 2:
+ 142:src/cdc_support.c **** 			USART_InitStructure.USART_Parity = USART_Parity_Odd;
+ 178              		.loc 1 142 0
+ 179 0038 4FF4C061 		mov	r1, #1536
+ 180 003c 04E0     		b	.L25
+ 181              	.L12:
+ 136:src/cdc_support.c **** 			USART_InitStructure.USART_Parity = USART_Parity_No;
+ 182              		.loc 1 136 0
+ 183 003e 2A4B     		ldr	r3, .L29+4
+ 184 0040 1C81     		strh	r4, [r3, #8]	@ movhi
+ 137:src/cdc_support.c **** 			break;
+ 185              		.loc 1 137 0
+ 186 0042 03E0     		b	.L15
+ 187              	.L13:
+ 139:src/cdc_support.c **** 			USART_InitStructure.USART_Parity = USART_Parity_Even;
+ 188              		.loc 1 139 0
+ 189 0044 4FF48061 		mov	r1, #1024
+ 190              	.L25:
+ 191              		.loc 1 142 0
+ 192 0048 2748     		ldr	r0, .L29+4
+ 193 004a 0181     		strh	r1, [r0, #8]	@ movhi
+ 194              	.L15:
+ 143:src/cdc_support.c **** 			break;
+ 144:src/cdc_support.c **** 		default :
+ 145:src/cdc_support.c **** 			{
+ 146:src/cdc_support.c **** 				USART_Config_Default();
+ 147:src/cdc_support.c **** 				return (false);
+ 148:src/cdc_support.c **** 			}
+ 149:src/cdc_support.c **** 	}
+ 150:src/cdc_support.c **** 
+ 151:src/cdc_support.c **** 	/*set the data type : only 8bits and 9bits is supported */
+ 152:src/cdc_support.c **** 	switch (linecoding.datatype)
+ 195              		.loc 1 152 0
+ 196 004c 254C     		ldr	r4, .L29
+ 197 004e A279     		ldrb	r2, [r4, #6]	@ zero_extendqisi2
+ 198 0050 072A     		cmp	r2, #7
+ 199 0052 4FF00004 		mov	r4, #0
+ 200 0056 02D0     		beq	.L17
+ 201 0058 082A     		cmp	r2, #8
+ 202 005a 0AD1     		bne	.L23
+ 203 005c 02E0     		b	.L28
+ 204              	.L17:
+ 153:src/cdc_support.c **** 	{
+ 154:src/cdc_support.c **** 		case 0x07:
+ 155:src/cdc_support.c **** 			/* With this configuration a parity (Even or Odd) should be set */
+ 156:src/cdc_support.c **** 			USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+ 205              		.loc 1 156 0
+ 206 005e 2249     		ldr	r1, .L29+4
+ 207 0060 8C80     		strh	r4, [r1, #4]	@ movhi
+ 157:src/cdc_support.c **** 			break;
+ 208              		.loc 1 157 0
+ 209 0062 0AE0     		b	.L19
+ 210              	.L28:
+ 158:src/cdc_support.c **** 		case 0x08:
+ 159:src/cdc_support.c **** 			if (USART_InitStructure.USART_Parity == USART_Parity_No)
+ 211              		.loc 1 159 0
+ 212 0064 204D     		ldr	r5, .L29+4
+ 213 0066 2E89     		ldrh	r6, [r5, #8]
+ 214 0068 0EB1     		cbz	r6, .L26
+ 215              	.L20:
+ 160:src/cdc_support.c **** 			{
+ 161:src/cdc_support.c **** 				USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+ 162:src/cdc_support.c **** 			}
+ 163:src/cdc_support.c **** 			else 
+ 164:src/cdc_support.c **** 			{
+ 165:src/cdc_support.c **** 				USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+ 216              		.loc 1 165 0
+ 217 006a 4FF48056 		mov	r6, #4096
+ 218              	.L26:
+ 219 006e AE80     		strh	r6, [r5, #4]	@ movhi
+ 220 0070 03E0     		b	.L19
+ 221              	.L23:
+ 166:src/cdc_support.c **** 			}
+ 167:src/cdc_support.c **** 			break;
+ 168:src/cdc_support.c **** 			
+ 169:src/cdc_support.c **** 		default :
+ 170:src/cdc_support.c **** 			{
+ 171:src/cdc_support.c **** 				USART_Config_Default();
+ 222              		.loc 1 171 0
+ 223 0072 FFF7FEFF 		bl	USART_Config_Default
+ 224              	.LVL7:
+ 172:src/cdc_support.c **** 				return (false);
+ 225              		.loc 1 172 0
+ 226 0076 2046     		mov	r0, r4
+ 227 0078 32E0     		b	.L10
+ 228              	.L19:
+ 173:src/cdc_support.c **** 			}
+ 174:src/cdc_support.c **** 	}
+ 175:src/cdc_support.c **** 
+ 176:src/cdc_support.c **** 	USART_InitStructure.USART_BaudRate = linecoding.bitrate;
+ 229              		.loc 1 176 0
+ 230 007a 1B4C     		ldr	r4, .L29+4
+ 231 007c 194B     		ldr	r3, .L29
+ 232 007e 1868     		ldr	r0, [r3, #0]
+ 233 0080 2060     		str	r0, [r4, #0]
+ 177:src/cdc_support.c **** 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+ 234              		.loc 1 177 0
+ 235 0082 0022     		movs	r2, #0
+ 236 0084 A281     		strh	r2, [r4, #12]	@ movhi
+ 178:src/cdc_support.c **** 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+ 237              		.loc 1 178 0
+ 238 0086 0C25     		movs	r5, #12
+ 239 0088 6581     		strh	r5, [r4, #10]	@ movhi
+ 179:src/cdc_support.c **** 
+ 180:src/cdc_support.c **** 	/* Configure and enable the USART */
+ 181:src/cdc_support.c **** 	/* Turn on peripheral clocks */
+ 182:src/cdc_support.c **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO, ENABLE);
+ 240              		.loc 1 182 0
+ 241 008a 0520     		movs	r0, #5
+ 242 008c 0121     		movs	r1, #1
+ 243 008e FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+ 244              	.LVL8:
+ 183:src/cdc_support.c **** 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+ 245              		.loc 1 183 0
+ 246 0092 4FF40030 		mov	r0, #131072
+ 247 0096 0121     		movs	r1, #1
+ 248 0098 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+ 249              	.LVL9:
+ 184:src/cdc_support.c **** 
+ 185:src/cdc_support.c **** 	/* Configure USART2 TX as alternate function push-pull */
+ 186:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_2;
+ 250              		.loc 1 186 0
+ 251 009c 0421     		movs	r1, #4
+ 252 009e 0E46     		mov	r6, r1	@ movhi
+ 253 00a0 ADF80410 		strh	r1, [sp, #4]	@ movhi
+ 187:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+ 254              		.loc 1 187 0
+ 255 00a4 0325     		movs	r5, #3
+ 256 00a6 8DF80650 		strb	r5, [sp, #6]
+ 188:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
+ 257              		.loc 1 188 0
+ 258 00aa 1823     		movs	r3, #24
+ 259 00ac 8DF80730 		strb	r3, [sp, #7]
+ 189:src/cdc_support.c **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 260              		.loc 1 189 0
+ 261 00b0 0E48     		ldr	r0, .L29+8
+ 262 00b2 01A9     		add	r1, sp, #4
+ 263 00b4 FFF7FEFF 		bl	GPIO_Init
+ 264              	.LVL10:
+ 190:src/cdc_support.c **** 
+ 191:src/cdc_support.c **** 	/* Configure USART2 RX as input floating */
+ 192:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_3;
+ 265              		.loc 1 192 0
+ 266 00b8 0820     		movs	r0, #8
+ 267 00ba ADF80400 		strh	r0, [sp, #4]	@ movhi
+ 193:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+ 268              		.loc 1 193 0
+ 269 00be 8DF80650 		strb	r5, [sp, #6]
+ 194:src/cdc_support.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+ 270              		.loc 1 194 0
+ 271 00c2 8DF80760 		strb	r6, [sp, #7]
+ 195:src/cdc_support.c **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 272              		.loc 1 195 0
+ 273 00c6 0948     		ldr	r0, .L29+8
+ 274 00c8 01A9     		add	r1, sp, #4
+ 275 00ca FFF7FEFF 		bl	GPIO_Init
+ 276              	.LVL11:
+ 196:src/cdc_support.c **** 
+ 197:src/cdc_support.c **** 
+ 198:src/cdc_support.c **** 	/* Init USART */
+ 199:src/cdc_support.c **** 	USART_Init(USART2, &USART_InitStructure);
+ 277              		.loc 1 199 0
+ 278 00ce 0848     		ldr	r0, .L29+12
+ 279 00d0 2146     		mov	r1, r4
+ 280 00d2 FFF7FEFF 		bl	USART_Init
+ 281              	.LVL12:
+ 200:src/cdc_support.c **** 
+ 201:src/cdc_support.c **** 	/* Enable USART */
+ 202:src/cdc_support.c **** 	USART_Cmd(USART2, ENABLE);
+ 282              		.loc 1 202 0
+ 283 00d6 0648     		ldr	r0, .L29+12
+ 284 00d8 0121     		movs	r1, #1
+ 285 00da FFF7FEFF 		bl	USART_Cmd
+ 286              	.LVL13:
+ 203:src/cdc_support.c **** 
+ 204:src/cdc_support.c **** 	return (true);
+ 287              		.loc 1 204 0
+ 288 00de 0120     		movs	r0, #1
+ 289              	.L10:
+ 205:src/cdc_support.c **** }
+ 290              		.loc 1 205 0
+ 291 00e0 7CBD     		pop	{r2, r3, r4, r5, r6, pc}
+ 292              	.L30:
+ 293 00e2 00BF     		.align	2
+ 294              	.L29:
+ 295 00e4 00000000 		.word	linecoding
+ 296 00e8 00000000 		.word	USART_InitStructure
+ 297 00ec 00080140 		.word	1073809408
+ 298 00f0 00440040 		.word	1073759232
+ 299              		.cfi_endproc
+ 300              	.LFE58:
+ 302              		.section	.text.USB_To_USART_Send_Data,"ax",%progbits
+ 303              		.align	1
+ 304              		.global	USB_To_USART_Send_Data
+ 305              		.thumb
+ 306              		.thumb_func
+ 308              	USB_To_USART_Send_Data:
+ 309              	.LFB59:
+ 206:src/cdc_support.c **** 
+ 207:src/cdc_support.c **** 
+ 208:src/cdc_support.c **** /**************************************************************************/
+ 209:src/cdc_support.c **** /*! 
+ 210:src/cdc_support.c ****     @brief	Send the received data from USB to the UART.
+ 211:src/cdc_support.c **** 	@param	data_buffer : data address.
+ 212:src/cdc_support.c ****             Nb_bytes    : number of bytes to send.
+ 213:src/cdc_support.c ****     @retval	None.
+ 214:src/cdc_support.c **** */
+ 215:src/cdc_support.c **** /**************************************************************************/
+ 216:src/cdc_support.c **** void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes)
+ 217:src/cdc_support.c **** {
+ 310              		.loc 1 217 0
+ 311              		.cfi_startproc
+ 312              		@ args = 0, pretend = 0, frame = 0
+ 313              		@ frame_needed = 0, uses_anonymous_args = 0
+ 314              	.LVL14:
+ 315 0000 70B5     		push	{r4, r5, r6, lr}
+ 316              	.LCFI2:
+ 317              		.cfi_def_cfa_offset 16
+ 318              		.cfi_offset 4, -16
+ 319              		.cfi_offset 5, -12
+ 320              		.cfi_offset 6, -8
+ 321              		.cfi_offset 14, -4
+ 322 0002 0646     		mov	r6, r0
+ 323 0004 0D46     		mov	r5, r1
+ 324              	.LVL15:
+ 218:src/cdc_support.c **** 	uint32_t i;
+ 219:src/cdc_support.c **** 
+ 220:src/cdc_support.c **** 	for (i = 0; i < Nb_bytes; i++)
+ 325              		.loc 1 220 0
+ 326 0006 0024     		movs	r4, #0
+ 327              	.LVL16:
+ 328              	.L32:
+ 329              		.loc 1 220 0 is_stmt 0 discriminator 1
+ 330 0008 AC42     		cmp	r4, r5
+ 331 000a 0BD2     		bcs	.L39
+ 332              	.L34:
+ 221:src/cdc_support.c **** 	{
+ 222:src/cdc_support.c **** 		USART_SendData(USART2, *(data_buffer + i));
+ 333              		.loc 1 222 0 is_stmt 1
+ 334 000c 0648     		ldr	r0, .L40
+ 335 000e 315D     		ldrb	r1, [r6, r4]	@ zero_extendqisi2
+ 336 0010 FFF7FEFF 		bl	USART_SendData
+ 337              	.LVL17:
+ 338              	.L33:
+ 223:src/cdc_support.c **** 		while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET); 
+ 339              		.loc 1 223 0 discriminator 1
+ 340 0014 0448     		ldr	r0, .L40
+ 341 0016 8021     		movs	r1, #128
+ 342 0018 FFF7FEFF 		bl	USART_GetFlagStatus
+ 343              	.LVL18:
+ 344 001c 0028     		cmp	r0, #0
+ 345 001e F9D0     		beq	.L33
+ 220:src/cdc_support.c **** 	for (i = 0; i < Nb_bytes; i++)
+ 346              		.loc 1 220 0
+ 347 0020 0134     		adds	r4, r4, #1
+ 348              	.LVL19:
+ 349 0022 F1E7     		b	.L32
+ 350              	.L39:
+ 224:src/cdc_support.c **** 	}
+ 225:src/cdc_support.c **** 
+ 226:src/cdc_support.c **** }
+ 351              		.loc 1 226 0
+ 352 0024 70BD     		pop	{r4, r5, r6, pc}
+ 353              	.L41:
+ 354 0026 00BF     		.align	2
+ 355              	.L40:
+ 356 0028 00440040 		.word	1073759232
+ 357              		.cfi_endproc
+ 358              	.LFE59:
+ 360              		.section	.text.Handle_USBAsynchXfer,"ax",%progbits
+ 361              		.align	1
+ 362              		.global	Handle_USBAsynchXfer
+ 363              		.thumb
+ 364              		.thumb_func
+ 366              	Handle_USBAsynchXfer:
+ 367              	.LFB60:
+ 227:src/cdc_support.c **** 
+ 228:src/cdc_support.c **** 
+ 229:src/cdc_support.c **** /**************************************************************************/
+ 230:src/cdc_support.c **** /*! 
+ 231:src/cdc_support.c ****     @brief	Send data to USB.
+ 232:src/cdc_support.c **** 	@param	None.
+ 233:src/cdc_support.c ****     @retval	None.
+ 234:src/cdc_support.c **** */
+ 235:src/cdc_support.c **** /**************************************************************************/
+ 236:src/cdc_support.c **** void Handle_USBAsynchXfer (void)
+ 237:src/cdc_support.c **** {
+ 368              		.loc 1 237 0
+ 369              		.cfi_startproc
+ 370              		@ args = 0, pretend = 0, frame = 0
+ 371              		@ frame_needed = 0, uses_anonymous_args = 0
+ 372 0000 38B5     		push	{r3, r4, r5, lr}
+ 373              	.LCFI3:
+ 374              		.cfi_def_cfa_offset 16
+ 375              		.cfi_offset 3, -16
+ 376              		.cfi_offset 4, -12
+ 377              		.cfi_offset 5, -8
+ 378              		.cfi_offset 14, -4
+ 238:src/cdc_support.c **** 	uint16_t USB_Tx_ptr;
+ 239:src/cdc_support.c **** 	uint16_t USB_Tx_length;
+ 240:src/cdc_support.c **** 
+ 241:src/cdc_support.c **** 	USB_xMutex =0;
+ 379              		.loc 1 241 0
+ 380 0002 0022     		movs	r2, #0
+ 381 0004 1F4B     		ldr	r3, .L54
+ 382 0006 1A70     		strb	r2, [r3, #0]
+ 242:src/cdc_support.c **** 	if(USB_Tx_State != 1)
+ 383              		.loc 1 242 0
+ 384 0008 1F48     		ldr	r0, .L54+4
+ 385 000a 0178     		ldrb	r1, [r0, #0]	@ zero_extendqisi2
+ 386 000c 0129     		cmp	r1, #1
+ 387 000e 38D0     		beq	.L42
+ 243:src/cdc_support.c **** 	{
+ 244:src/cdc_support.c **** 		if (USART_Rx_ptr_out == USART_RX_DATA_SIZE)
+ 388              		.loc 1 244 0
+ 389 0010 1E4B     		ldr	r3, .L54+8
+ 390 0012 1868     		ldr	r0, [r3, #0]
+ 391 0014 B0F5006F 		cmp	r0, #2048
+ 245:src/cdc_support.c **** 		{
+ 246:src/cdc_support.c **** 			USART_Rx_ptr_out = 0;
+ 392              		.loc 1 246 0
+ 393 0018 08BF     		it	eq
+ 394 001a 1A60     		streq	r2, [r3, #0]
+ 247:src/cdc_support.c **** 		}
+ 248:src/cdc_support.c ****     
+ 249:src/cdc_support.c ****     if(USART_Rx_ptr_out == USART_Rx_ptr_in) 
+ 395              		.loc 1 249 0
+ 396 001c 1B68     		ldr	r3, [r3, #0]
+ 397 001e 1C4A     		ldr	r2, .L54+12
+ 398 0020 1168     		ldr	r1, [r2, #0]
+ 399 0022 8B42     		cmp	r3, r1
+ 400 0024 03D1     		bne	.L45
+ 250:src/cdc_support.c ****     {
+ 251:src/cdc_support.c ****       USB_Tx_State = 0; 
+ 401              		.loc 1 251 0
+ 402 0026 0020     		movs	r0, #0
+ 403 0028 174B     		ldr	r3, .L54+4
+ 404 002a 1870     		strb	r0, [r3, #0]
+ 252:src/cdc_support.c ****       return;
+ 405              		.loc 1 252 0
+ 406 002c 38BD     		pop	{r3, r4, r5, pc}
+ 407              	.L45:
+ 408 002e 194C     		ldr	r4, .L54+16
+ 253:src/cdc_support.c ****     }
+ 254:src/cdc_support.c ****     
+ 255:src/cdc_support.c ****     if(USART_Rx_ptr_out > USART_Rx_ptr_in) /* rollback */
+ 256:src/cdc_support.c ****     { 
+ 257:src/cdc_support.c **** 		USART_Rx_length = USART_RX_DATA_SIZE - USART_Rx_ptr_out;
+ 409              		.loc 1 257 0
+ 410 0030 8CBF     		ite	hi
+ 411 0032 C3F50061 		rsbhi	r1, r3, #2048
+ 258:src/cdc_support.c ****     }
+ 259:src/cdc_support.c ****     else 
+ 260:src/cdc_support.c ****     {
+ 261:src/cdc_support.c **** 		USART_Rx_length = USART_Rx_ptr_in - USART_Rx_ptr_out;
+ 412              		.loc 1 261 0
+ 413 0036 C3EB0101 		rsbls	r1, r3, r1
+ 414 003a 2160     		str	r1, [r4, #0]
+ 262:src/cdc_support.c ****     }
+ 263:src/cdc_support.c ****     
+ 264:src/cdc_support.c ****     if(USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE)
+ 415              		.loc 1 264 0
+ 416 003c 1549     		ldr	r1, .L54+16
+ 417 003e 2468     		ldr	r4, [r4, #0]
+ 418 0040 402C     		cmp	r4, #64
+ 419 0042 124A     		ldr	r2, .L54+8
+ 420 0044 98B2     		uxth	r0, r3
+ 421 0046 05D9     		bls	.L48
+ 422              	.LVL20:
+ 265:src/cdc_support.c ****     {
+ 266:src/cdc_support.c **** 		USB_Tx_ptr = USART_Rx_ptr_out;
+ 267:src/cdc_support.c **** 		USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
+ 268:src/cdc_support.c ****       
+ 269:src/cdc_support.c **** 		USART_Rx_ptr_out += VIRTUAL_COM_PORT_DATA_SIZE;	
+ 423              		.loc 1 269 0
+ 424 0048 4033     		adds	r3, r3, #64
+ 425              	.LVL21:
+ 426 004a 1360     		str	r3, [r2, #0]
+ 270:src/cdc_support.c **** 		USART_Rx_length -= VIRTUAL_COM_PORT_DATA_SIZE;	
+ 427              		.loc 1 270 0
+ 428 004c 403C     		subs	r4, r4, #64
+ 429 004e 0C60     		str	r4, [r1, #0]
+ 267:src/cdc_support.c **** 		USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
+ 430              		.loc 1 267 0
+ 431 0050 4025     		movs	r5, #64
+ 432 0052 04E0     		b	.L49
+ 433              	.LVL22:
+ 434              	.L48:
+ 271:src/cdc_support.c ****     }
+ 272:src/cdc_support.c ****     else
+ 273:src/cdc_support.c ****     {
+ 274:src/cdc_support.c **** 		USB_Tx_ptr = USART_Rx_ptr_out;
+ 275:src/cdc_support.c **** 		USB_Tx_length = USART_Rx_length;
+ 435              		.loc 1 275 0
+ 436 0054 A5B2     		uxth	r5, r4
+ 437              	.LVL23:
+ 276:src/cdc_support.c ****       
+ 277:src/cdc_support.c **** 		USART_Rx_ptr_out += USART_Rx_length;
+ 438              		.loc 1 277 0
+ 439 0056 E318     		adds	r3, r4, r3
+ 440 0058 1360     		str	r3, [r2, #0]
+ 278:src/cdc_support.c **** 		USART_Rx_length = 0;
+ 441              		.loc 1 278 0
+ 442 005a 0024     		movs	r4, #0
+ 443              	.LVL24:
+ 444 005c 0C60     		str	r4, [r1, #0]
+ 445              	.LVL25:
+ 446              	.L49:
+ 279:src/cdc_support.c ****     }
+ 280:src/cdc_support.c ****     USB_Tx_State = 1; 
+ 447              		.loc 1 280 0
+ 448 005e 0124     		movs	r4, #1
+ 449 0060 0949     		ldr	r1, .L54+4
+ 450 0062 0C70     		strb	r4, [r1, #0]
+ 281:src/cdc_support.c ****     
+ 282:src/cdc_support.c ****     UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], CDC_ENDP1_TXADDR, USB_Tx_length);
+ 451              		.loc 1 282 0
+ 452 0064 0C4A     		ldr	r2, .L54+20
+ 453 0066 1018     		adds	r0, r2, r0
+ 454              	.LVL26:
+ 455 0068 C021     		movs	r1, #192
+ 456 006a 2A46     		mov	r2, r5
+ 457 006c FFF7FEFF 		bl	UserToPMABufferCopy
+ 458              	.LVL27:
+ 283:src/cdc_support.c ****     SetEPTxCount(ENDP1, USB_Tx_length);
+ 459              		.loc 1 283 0
+ 460 0070 2046     		mov	r0, r4
+ 461 0072 2946     		mov	r1, r5
+ 462 0074 FFF7FEFF 		bl	SetEPTxCount
+ 463              	.LVL28:
+ 284:src/cdc_support.c ****     SetEPTxValid(ENDP1); 
+ 464              		.loc 1 284 0
+ 465 0078 2046     		mov	r0, r4
+ 285:src/cdc_support.c **** 
+ 286:src/cdc_support.c ****   }  
+ 287:src/cdc_support.c ****   
+ 288:src/cdc_support.c **** }
+ 466              		.loc 1 288 0
+ 467 007a BDE83840 		pop	{r3, r4, r5, lr}
+ 284:src/cdc_support.c ****     SetEPTxValid(ENDP1); 
+ 468              		.loc 1 284 0
+ 469 007e FFF7FEBF 		b	SetEPTxValid
+ 470              	.LVL29:
+ 471              	.L42:
+ 472 0082 38BD     		pop	{r3, r4, r5, pc}
+ 473              	.L55:
+ 474              		.align	2
+ 475              	.L54:
+ 476 0084 00000000 		.word	.LANCHOR0
+ 477 0088 00000000 		.word	.LANCHOR1
+ 478 008c 00000000 		.word	.LANCHOR2
+ 479 0090 00000000 		.word	.LANCHOR3
+ 480 0094 00000000 		.word	.LANCHOR4
+ 481 0098 00000000 		.word	.LANCHOR5
+ 482              		.cfi_endproc
+ 483              	.LFE60:
+ 485              		.section	.text.USART_To_USB_Send_Data,"ax",%progbits
+ 486              		.align	1
+ 487              		.global	USART_To_USB_Send_Data
+ 488              		.thumb
+ 489              		.thumb_func
+ 491              	USART_To_USB_Send_Data:
+ 492              	.LFB61:
+ 289:src/cdc_support.c **** 
+ 290:src/cdc_support.c **** /**************************************************************************/
+ 291:src/cdc_support.c **** /*! 
+ 292:src/cdc_support.c ****     @brief	Send the received data from UART 0 to USB.
+ 293:src/cdc_support.c **** 	@param	None.
+ 294:src/cdc_support.c ****     @retval	None.
+ 295:src/cdc_support.c **** */
+ 296:src/cdc_support.c **** /**************************************************************************/
+ 297:src/cdc_support.c **** void USART_To_USB_Send_Data(void)
+ 298:src/cdc_support.c **** {
+ 493              		.loc 1 298 0
+ 494              		.cfi_startproc
+ 495              		@ args = 0, pretend = 0, frame = 0
+ 496              		@ frame_needed = 0, uses_anonymous_args = 0
+ 497 0000 10B5     		push	{r4, lr}
+ 498              	.LCFI4:
+ 499              		.cfi_def_cfa_offset 8
+ 500              		.cfi_offset 4, -8
+ 501              		.cfi_offset 14, -4
+ 299:src/cdc_support.c **** 
+ 300:src/cdc_support.c **** 	if (linecoding.datatype == 7)
+ 502              		.loc 1 300 0
+ 503 0002 0E4B     		ldr	r3, .L63
+ 504 0004 9A79     		ldrb	r2, [r3, #6]	@ zero_extendqisi2
+ 505 0006 072A     		cmp	r2, #7
+ 506 0008 0D48     		ldr	r0, .L63+4
+ 507 000a 06D1     		bne	.L57
+ 301:src/cdc_support.c **** 	{
+ 302:src/cdc_support.c **** 		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2) & 0x7F;
+ 508              		.loc 1 302 0
+ 509 000c 0468     		ldr	r4, [r0, #0]
+ 510 000e 0D48     		ldr	r0, .L63+8
+ 511 0010 FFF7FEFF 		bl	USART_ReceiveData
+ 512              	.LVL30:
+ 513 0014 00F07F00 		and	r0, r0, #127
+ 514 0018 05E0     		b	.L61
+ 515              	.L57:
+ 303:src/cdc_support.c **** 	}
+ 304:src/cdc_support.c **** 	else if (linecoding.datatype == 8)
+ 516              		.loc 1 304 0
+ 517 001a 082A     		cmp	r2, #8
+ 518 001c 05D1     		bne	.L58
+ 305:src/cdc_support.c **** 	{
+ 306:src/cdc_support.c **** 		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2);
+ 519              		.loc 1 306 0
+ 520 001e 0468     		ldr	r4, [r0, #0]
+ 521 0020 0848     		ldr	r0, .L63+8
+ 522 0022 FFF7FEFF 		bl	USART_ReceiveData
+ 523              	.LVL31:
+ 524              	.L61:
+ 525 0026 0849     		ldr	r1, .L63+12
+ 526 0028 0855     		strb	r0, [r1, r4]
+ 527              	.L58:
+ 307:src/cdc_support.c **** 	}
+ 308:src/cdc_support.c **** 
+ 309:src/cdc_support.c **** 	USART_Rx_ptr_in++;
+ 528              		.loc 1 309 0
+ 529 002a 054B     		ldr	r3, .L63+4
+ 530 002c 1A68     		ldr	r2, [r3, #0]
+ 531 002e 501C     		adds	r0, r2, #1
+ 310:src/cdc_support.c **** 
+ 311:src/cdc_support.c **** 	/* To avoid buffer overflow */
+ 312:src/cdc_support.c **** 	if(USART_Rx_ptr_in == USART_RX_DATA_SIZE)
+ 532              		.loc 1 312 0
+ 533 0030 B0F5006F 		cmp	r0, #2048
+ 313:src/cdc_support.c **** 	{
+ 314:src/cdc_support.c **** 		USART_Rx_ptr_in = 0;
+ 534              		.loc 1 314 0
+ 535 0034 08BF     		it	eq
+ 536 0036 0020     		moveq	r0, #0
+ 537 0038 1860     		str	r0, [r3, #0]
+ 538 003a 10BD     		pop	{r4, pc}
+ 539              	.L64:
+ 540              		.align	2
+ 541              	.L63:
+ 542 003c 00000000 		.word	linecoding
+ 543 0040 00000000 		.word	.LANCHOR3
+ 544 0044 00440040 		.word	1073759232
+ 545 0048 00000000 		.word	.LANCHOR5
+ 546              		.cfi_endproc
+ 547              	.LFE61:
+ 549              		.section	.text.CDC_IRQ,"ax",%progbits
+ 550              		.align	1
+ 551              		.global	CDC_IRQ
+ 552              		.thumb
+ 553              		.thumb_func
+ 555              	CDC_IRQ:
+ 556              	.LFB63:
+ 315:src/cdc_support.c **** 	}
+ 316:src/cdc_support.c **** }
+ 317:src/cdc_support.c **** 
+ 318:src/cdc_support.c **** 
+ 319:src/cdc_support.c **** /**************************************************************************/
+ 320:src/cdc_support.c **** /*! 
+ 321:src/cdc_support.c ****     @brief	Configures the USB interrupts.
+ 322:src/cdc_support.c **** 	@param	None.
+ 323:src/cdc_support.c ****     @retval	None.
+ 324:src/cdc_support.c **** */
+ 325:src/cdc_support.c **** /**************************************************************************/
+ 326:src/cdc_support.c **** static void USB_Interrupts_Config(void)
+ 327:src/cdc_support.c **** {
+ 328:src/cdc_support.c **** 	NVIC_InitTypeDef NVIC_InitStructure;
+ 329:src/cdc_support.c **** 
+ 330:src/cdc_support.c **** 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+ 331:src/cdc_support.c **** 
+ 332:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+ 333:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+ 334:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+ 335:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+ 336:src/cdc_support.c **** 	NVIC_Init(&NVIC_InitStructure);
+ 337:src/cdc_support.c **** 
+ 338:src/cdc_support.c **** 	/* Enable USART Interrupt */
+ 339:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+ 340:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+ 341:src/cdc_support.c **** 	NVIC_Init(&NVIC_InitStructure);
+ 342:src/cdc_support.c ****   
+ 343:src/cdc_support.c **** }
+ 344:src/cdc_support.c **** 
+ 345:src/cdc_support.c **** 
+ 346:src/cdc_support.c **** /**************************************************************************/
+ 347:src/cdc_support.c **** /*! 
+ 348:src/cdc_support.c ****    UART Interrupt Handlers.
+ 349:src/cdc_support.c **** */
+ 350:src/cdc_support.c **** /**************************************************************************/
+ 351:src/cdc_support.c **** void CDC_IRQ(void)
+ 352:src/cdc_support.c **** {
+ 557              		.loc 1 352 0
+ 558              		.cfi_startproc
+ 559              		@ args = 0, pretend = 0, frame = 0
+ 560              		@ frame_needed = 0, uses_anonymous_args = 0
+ 561 0000 08B5     		push	{r3, lr}
+ 562              	.LCFI5:
+ 563              		.cfi_def_cfa_offset 8
+ 564              		.cfi_offset 3, -8
+ 565              		.cfi_offset 14, -4
+ 353:src/cdc_support.c **** 	if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
+ 566              		.loc 1 353 0
+ 567 0002 0948     		ldr	r0, .L71
+ 568 0004 40F22551 		movw	r1, #1317
+ 569 0008 FFF7FEFF 		bl	USART_GetITStatus
+ 570              	.LVL32:
+ 571 000c 08B1     		cbz	r0, .L66
+ 354:src/cdc_support.c **** 	{
+ 355:src/cdc_support.c **** 		/* Send the received data to the PC Host*/
+ 356:src/cdc_support.c **** 		USART_To_USB_Send_Data();
+ 572              		.loc 1 356 0
+ 573 000e FFF7FEFF 		bl	USART_To_USB_Send_Data
+ 574              	.LVL33:
+ 575              	.L66:
+ 357:src/cdc_support.c **** 	}
+ 358:src/cdc_support.c **** 
+ 359:src/cdc_support.c **** 	/* If overrun condition occurs, clear the ORE flag and recover communication */
+ 360:src/cdc_support.c **** 	if (USART_GetFlagStatus(USART2, USART_FLAG_ORE) != RESET)
+ 576              		.loc 1 360 0
+ 577 0012 0548     		ldr	r0, .L71
+ 578 0014 0821     		movs	r1, #8
+ 579 0016 FFF7FEFF 		bl	USART_GetFlagStatus
+ 580              	.LVL34:
+ 581 001a 20B1     		cbz	r0, .L65
+ 361:src/cdc_support.c **** 	{
+ 362:src/cdc_support.c **** 		(void)USART_ReceiveData(USART2);
+ 582              		.loc 1 362 0
+ 583 001c 0248     		ldr	r0, .L71
+ 363:src/cdc_support.c **** 	}
+ 364:src/cdc_support.c ****  }
+ 584              		.loc 1 364 0
+ 585 001e BDE80840 		pop	{r3, lr}
+ 362:src/cdc_support.c **** 		(void)USART_ReceiveData(USART2);
+ 586              		.loc 1 362 0
+ 587 0022 FFF7FEBF 		b	USART_ReceiveData
+ 588              	.LVL35:
+ 589              	.L65:
+ 590 0026 08BD     		pop	{r3, pc}
+ 591              	.L72:
+ 592              		.align	2
+ 593              	.L71:
+ 594 0028 00440040 		.word	1073759232
+ 595              		.cfi_endproc
+ 596              	.LFE63:
+ 598              		.section	.text.cdc_task,"ax",%progbits
+ 599              		.align	1
+ 600              		.global	cdc_task
+ 601              		.thumb
+ 602              		.thumb_func
+ 604              	cdc_task:
+ 605              	.LFB64:
+ 365:src/cdc_support.c **** 
+ 366:src/cdc_support.c **** 
+ 367:src/cdc_support.c **** /**************************************************************************/
+ 368:src/cdc_support.c **** /*! 
+ 369:src/cdc_support.c ****     Main CommunicationDeviceClass Task Routine.
+ 370:src/cdc_support.c **** */
+ 371:src/cdc_support.c **** /**************************************************************************/
+ 372:src/cdc_support.c **** void cdc_task(void)
+ 373:src/cdc_support.c **** {
+ 606              		.loc 1 373 0
+ 607              		.cfi_startproc
+ 608              		@ args = 0, pretend = 0, frame = 8
+ 609              		@ frame_needed = 0, uses_anonymous_args = 0
+ 610 0000 37B5     		push	{r0, r1, r2, r4, r5, lr}
+ 611              	.LCFI6:
+ 612              		.cfi_def_cfa_offset 24
+ 613              		.cfi_offset 0, -24
+ 614              		.cfi_offset 1, -20
+ 615              		.cfi_offset 2, -16
+ 616              		.cfi_offset 4, -12
+ 617              		.cfi_offset 5, -8
+ 618              		.cfi_offset 14, -4
+ 374:src/cdc_support.c **** 	/* Available USB Clock Frequency */
+ 375:src/cdc_support.c **** 	Set72();
+ 619              		.loc 1 375 0
+ 620 0002 FFF7FEFF 		bl	Set72
+ 621              	.LVL36:
+ 376:src/cdc_support.c **** 	/* Retrive SystemClock Frequency */
+ 377:src/cdc_support.c **** 	SystemCoreClockUpdate();
+ 622              		.loc 1 377 0
+ 623 0006 FFF7FEFF 		bl	SystemCoreClockUpdate
+ 624              	.LVL37:
+ 378:src/cdc_support.c **** 
+ 379:src/cdc_support.c **** 	/* Init Display Driver and FONTX Driver */
+ 380:src/cdc_support.c **** 	Display_init_if();
+ 625              		.loc 1 380 0
+ 626 000a FFF7FEFF 		bl	ST7732_init
+ 627              	.LVL38:
+ 381:src/cdc_support.c **** 	InitFont_Ank(&ANKFONT,font_table_ank);
+ 628              		.loc 1 381 0
+ 629 000e 1D48     		ldr	r0, .L77
+ 630 0010 1D49     		ldr	r1, .L77+4
+ 631 0012 FFF7FEFF 		bl	InitFont_Ank
+ 632              	.LVL39:
+ 382:src/cdc_support.c **** 	ChangeCurrentAnk(&ANKFONT);
+ 633              		.loc 1 382 0
+ 634 0016 1B48     		ldr	r0, .L77
+ 635 0018 FFF7FEFF 		bl	ChangeCurrentAnk
+ 636              	.LVL40:
+ 383:src/cdc_support.c **** 
+ 384:src/cdc_support.c **** 	/* Diaplay CDC mode message */
+ 385:src/cdc_support.c **** 	Display_clear_if();
+ 637              		.loc 1 385 0
+ 638 001c FFF7FEFF 		bl	ST7732_clear
+ 639              	.LVL41:
+ 386:src/cdc_support.c **** 	Display_Puts_If(0,0,(uint8_t*)"Start Virtual COM",OPAQUE);
+ 640              		.loc 1 386 0
+ 641 0020 0020     		movs	r0, #0
+ 642 0022 0146     		mov	r1, r0
+ 643 0024 194A     		ldr	r2, .L77+8
+ 644 0026 0123     		movs	r3, #1
+ 645 0028 FFF7FEFF 		bl	Display_Puts_If
+ 646              	.LVL42:
+ 387:src/cdc_support.c **** 
+ 388:src/cdc_support.c **** 	/* USB-CDC Configurations */
+ 389:src/cdc_support.c ****   	USB_Disconnect_Config();
+ 647              		.loc 1 389 0
+ 648 002c FFF7FEFF 		bl	USB_Disconnect_Config
+ 649              	.LVL43:
+ 390:src/cdc_support.c **** 	USB_Cable_Config(DISABLE); /* fool ploof */
+ 650              		.loc 1 390 0
+ 651 0030 0020     		movs	r0, #0
+ 652 0032 FFF7FEFF 		bl	USB_Cable_Config
+ 653              	.LVL44:
+ 391:src/cdc_support.c **** 
+ 392:src/cdc_support.c **** 	Set_USBClock();
+ 654              		.loc 1 392 0
+ 655 0036 FFF7FEFF 		bl	Set_USBClock
+ 656              	.LVL45:
+ 657              	.LBB4:
+ 658              	.LBB5:
+ 330:src/cdc_support.c **** 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+ 659              		.loc 1 330 0
+ 660 003a 4FF4C060 		mov	r0, #1536
+ 661 003e FFF7FEFF 		bl	NVIC_PriorityGroupConfig
+ 662              	.LVL46:
+ 332:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+ 663              		.loc 1 332 0
+ 664 0042 1423     		movs	r3, #20
+ 665 0044 8DF80430 		strb	r3, [sp, #4]
+ 333:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+ 666              		.loc 1 333 0
+ 667 0048 0124     		movs	r4, #1
+ 668 004a 8DF80540 		strb	r4, [sp, #5]
+ 334:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+ 669              		.loc 1 334 0
+ 670 004e 0025     		movs	r5, #0
+ 671 0050 8DF80650 		strb	r5, [sp, #6]
+ 335:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+ 672              		.loc 1 335 0
+ 673 0054 8DF80740 		strb	r4, [sp, #7]
+ 336:src/cdc_support.c **** 	NVIC_Init(&NVIC_InitStructure);
+ 674              		.loc 1 336 0
+ 675 0058 01A8     		add	r0, sp, #4
+ 676 005a FFF7FEFF 		bl	NVIC_Init
+ 677              	.LVL47:
+ 339:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+ 678              		.loc 1 339 0
+ 679 005e 2620     		movs	r0, #38
+ 680 0060 8DF80400 		strb	r0, [sp, #4]
+ 340:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+ 681              		.loc 1 340 0
+ 682 0064 8DF80550 		strb	r5, [sp, #5]
+ 341:src/cdc_support.c **** 	NVIC_Init(&NVIC_InitStructure);
+ 683              		.loc 1 341 0
+ 684 0068 01A8     		add	r0, sp, #4
+ 685 006a FFF7FEFF 		bl	NVIC_Init
+ 686              	.LVL48:
+ 687              	.LBE5:
+ 688              	.LBE4:
+ 393:src/cdc_support.c **** 	USB_Interrupts_Config();
+ 394:src/cdc_support.c **** 	USB_Init();
+ 689              		.loc 1 394 0
+ 690 006e FFF7FEFF 		bl	USB_Init
+ 691              	.LVL49:
+ 395:src/cdc_support.c **** 	USB_Cable_Config(ENABLE);
+ 692              		.loc 1 395 0
+ 693 0072 2046     		mov	r0, r4
+ 694 0074 FFF7FEFF 		bl	USB_Cable_Config
+ 695              	.LVL50:
+ 696              	.L74:
+ 396:src/cdc_support.c **** 	while (bDeviceState != CONFIGURED);
+ 697              		.loc 1 396 0 discriminator 1
+ 698 0078 0549     		ldr	r1, .L77+12
+ 699 007a 0A68     		ldr	r2, [r1, #0]
+ 700 007c 052A     		cmp	r2, #5
+ 701 007e FBD1     		bne	.L74
+ 702              	.L75:
+ 703 0080 FEE7     		b	.L75
+ 704              	.L78:
+ 705 0082 00BF     		.align	2
+ 706              	.L77:
+ 707 0084 00000000 		.word	Mplus_Ank
+ 708 0088 00000000 		.word	font_table_ank
+ 709 008c 00000000 		.word	.LC0
+ 710 0090 00000000 		.word	bDeviceState
+ 711              		.cfi_endproc
+ 712              	.LFE64:
+ 714              		.global	USB_xMutex
+ 715              		.global	USB_Tx_State
+ 716              		.global	USART_Rx_length
+ 717              		.global	USART_Rx_ptr_out
+ 718              		.global	USART_Rx_ptr_in
+ 719              		.global	USART_Rx_Buffer
+ 720              		.section	.bss.USB_xMutex,"aw",%nobits
+ 721              		.set	.LANCHOR0,. + 0
+ 724              	USB_xMutex:
+ 725 0000 00       		.space	1
+ 726              		.section	.bss.USART_Rx_Buffer,"aw",%nobits
+ 727              		.set	.LANCHOR5,. + 0
+ 730              	USART_Rx_Buffer:
+ 731 0000 00000000 		.space	2048
+ 731      00000000 
+ 731      00000000 
+ 731      00000000 
+ 731      00000000 
+ 732              		.section	.bss.USB_Tx_State,"aw",%nobits
+ 733              		.set	.LANCHOR1,. + 0
+ 736              	USB_Tx_State:
+ 737 0000 00       		.space	1
+ 738              		.section	.bss.USART_Rx_ptr_in,"aw",%nobits
+ 739              		.align	2
+ 740              		.set	.LANCHOR3,. + 0
+ 743              	USART_Rx_ptr_in:
+ 744 0000 00000000 		.space	4
+ 745              		.section	.bss.USART_Rx_ptr_out,"aw",%nobits
+ 746              		.align	2
+ 747              		.set	.LANCHOR2,. + 0
+ 750              	USART_Rx_ptr_out:
+ 751 0000 00000000 		.space	4
+ 752              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 753              	.LC0:
+ 754 0000 53746172 		.ascii	"Start Virtual COM\000"
+ 754      74205669 
+ 754      72747561 
+ 754      6C20434F 
+ 754      4D00
+ 755              		.section	.bss.USART_Rx_length,"aw",%nobits
+ 756              		.align	2
+ 757              		.set	.LANCHOR4,. + 0
+ 760              	USART_Rx_length:
+ 761 0000 00000000 		.space	4
+ 762              		.text
+ 763              	.Letext0:
+ 764              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 765              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
+ 766              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 767              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
+ 768              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
+ 769              		.file 7 "./lib/USB_Functions/usb_pwr.h"
+ 770              		.file 8 "./lib/USB_Functions/cdc/inc/usb_cdc_prop.h"
+ 771              		.file 9 "./lib/FONTX2/inc/font_if.h"
+ 772              		.file 10 "./lib/display/abstract/inc/display_if_support.h"
+ 773              		.file 11 "./lib/CMSIS/Include/core_cm3.h"
+ 774              		.file 12 "./inc/systick.h"
+ 775              		.file 13 "./lib/FONTX2/inc/font_if_datatable.h"
+ 776              		.file 14 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
+ 777              		.file 15 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
+ 778              		.file 16 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
+ 779              		.file 17 "./inc/hw_config.h"
+ 780              		.file 18 "./lib/CMSIS/Device/ST/STM32F10x/Include/system_stm32f10x.h"
+ 781              		.file 19 "./lib/display/drivers/inc/st7732.h"
+ 782              		.file 20 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 cdc_support.c
+  R:\TEMP\ccKT4ZRl.s:19     .text.USART_Config_Default:00000000 $t
+  R:\TEMP\ccKT4ZRl.s:24     .text.USART_Config_Default:00000000 USART_Config_Default
+  R:\TEMP\ccKT4ZRl.s:118    .text.USART_Config_Default:00000080 $d
+  R:\TEMP\ccKT4ZRl.s:124    .text.USART_Config:00000000 $t
+  R:\TEMP\ccKT4ZRl.s:129    .text.USART_Config:00000000 USART_Config
+  R:\TEMP\ccKT4ZRl.s:295    .text.USART_Config:000000e4 $d
+  R:\TEMP\ccKT4ZRl.s:303    .text.USB_To_USART_Send_Data:00000000 $t
+  R:\TEMP\ccKT4ZRl.s:308    .text.USB_To_USART_Send_Data:00000000 USB_To_USART_Send_Data
+  R:\TEMP\ccKT4ZRl.s:356    .text.USB_To_USART_Send_Data:00000028 $d
+  R:\TEMP\ccKT4ZRl.s:361    .text.Handle_USBAsynchXfer:00000000 $t
+  R:\TEMP\ccKT4ZRl.s:366    .text.Handle_USBAsynchXfer:00000000 Handle_USBAsynchXfer
+  R:\TEMP\ccKT4ZRl.s:476    .text.Handle_USBAsynchXfer:00000084 $d
+  R:\TEMP\ccKT4ZRl.s:486    .text.USART_To_USB_Send_Data:00000000 $t
+  R:\TEMP\ccKT4ZRl.s:491    .text.USART_To_USB_Send_Data:00000000 USART_To_USB_Send_Data
+  R:\TEMP\ccKT4ZRl.s:542    .text.USART_To_USB_Send_Data:0000003c $d
+  R:\TEMP\ccKT4ZRl.s:550    .text.CDC_IRQ:00000000 $t
+  R:\TEMP\ccKT4ZRl.s:555    .text.CDC_IRQ:00000000 CDC_IRQ
+  R:\TEMP\ccKT4ZRl.s:594    .text.CDC_IRQ:00000028 $d
+  R:\TEMP\ccKT4ZRl.s:599    .text.cdc_task:00000000 $t
+  R:\TEMP\ccKT4ZRl.s:604    .text.cdc_task:00000000 cdc_task
+  R:\TEMP\ccKT4ZRl.s:707    .text.cdc_task:00000084 $d
+  R:\TEMP\ccKT4ZRl.s:724    .bss.USB_xMutex:00000000 USB_xMutex
+  R:\TEMP\ccKT4ZRl.s:736    .bss.USB_Tx_State:00000000 USB_Tx_State
+  R:\TEMP\ccKT4ZRl.s:760    .bss.USART_Rx_length:00000000 USART_Rx_length
+  R:\TEMP\ccKT4ZRl.s:750    .bss.USART_Rx_ptr_out:00000000 USART_Rx_ptr_out
+  R:\TEMP\ccKT4ZRl.s:743    .bss.USART_Rx_ptr_in:00000000 USART_Rx_ptr_in
+  R:\TEMP\ccKT4ZRl.s:730    .bss.USART_Rx_Buffer:00000000 USART_Rx_Buffer
+  R:\TEMP\ccKT4ZRl.s:725    .bss.USB_xMutex:00000000 $d
+  R:\TEMP\ccKT4ZRl.s:731    .bss.USART_Rx_Buffer:00000000 $d
+  R:\TEMP\ccKT4ZRl.s:737    .bss.USB_Tx_State:00000000 $d
+  R:\TEMP\ccKT4ZRl.s:739    .bss.USART_Rx_ptr_in:00000000 $d
+  R:\TEMP\ccKT4ZRl.s:746    .bss.USART_Rx_ptr_out:00000000 $d
+  R:\TEMP\ccKT4ZRl.s:756    .bss.USART_Rx_length:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+RCC_APB2PeriphClockCmd
+RCC_APB1PeriphClockCmd
+GPIO_Init
+USART_Init
+USART_Cmd
+USART_ITConfig
+USART_InitStructure
+linecoding
+USART_SendData
+USART_GetFlagStatus
+UserToPMABufferCopy
+SetEPTxCount
+SetEPTxValid
+USART_ReceiveData
+USART_GetITStatus
+Set72
+SystemCoreClockUpdate
+ST7732_init
+InitFont_Ank
+ChangeCurrentAnk
+ST7732_clear
+Display_Puts_If
+USB_Disconnect_Config
+USB_Cable_Config
+Set_USBClock
+NVIC_PriorityGroupConfig
+NVIC_Init
+USB_Init
+Mplus_Ank
+font_table_ank
+bDeviceState

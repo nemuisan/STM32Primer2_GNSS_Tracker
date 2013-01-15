@@ -1,0 +1,593 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"font_if.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.SearchKanjiBlock,"ax",%progbits
+  19              		.align	1
+  20              		.thumb
+  21              		.thumb_func
+  23              	SearchKanjiBlock:
+  24              	.LFB5:
+  25              		.file 1 "lib/FONTX2/src/font_if.c"
+   1:lib/FONTX2/src/font_if.c **** /********************************************************************************/
+   2:lib/FONTX2/src/font_if.c **** /*!
+   3:lib/FONTX2/src/font_if.c **** 	@file			font_if.c
+   4:lib/FONTX2/src/font_if.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:lib/FONTX2/src/font_if.c ****     @version        3.01
+   6:lib/FONTX2/src/font_if.c ****     @date           2011.09.17
+   7:lib/FONTX2/src/font_if.c **** 	@brief          Interface of FONTX Driver								@n
+   8:lib/FONTX2/src/font_if.c ****                     Refered under URL thanks!								@n
+   9:lib/FONTX2/src/font_if.c **** 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
+  10:lib/FONTX2/src/font_if.c **** 					http://hp.vector.co.jp/authors/VA007110/technicalworkshop
+  11:lib/FONTX2/src/font_if.c **** 
+  12:lib/FONTX2/src/font_if.c ****     @section HISTORY
+  13:lib/FONTX2/src/font_if.c **** 		2010.12.31	V1.00	Stable Release.
+  14:lib/FONTX2/src/font_if.c **** 		2011.03.10	V2.00	C++ Ready.
+  15:lib/FONTX2/src/font_if.c **** 		2011.05.11	V3.00	Selectable KanjiFonts to Reduce Memory Space.
+  16:lib/FONTX2/src/font_if.c **** 		2011.09.17	V3.01	Fixed handling Selectable KanjiFonts.
+  17:lib/FONTX2/src/font_if.c **** 		
+  18:lib/FONTX2/src/font_if.c ****     @section LICENSE
+  19:lib/FONTX2/src/font_if.c **** 		BSD License. See Copyright.txt
+  20:lib/FONTX2/src/font_if.c **** */
+  21:lib/FONTX2/src/font_if.c **** /********************************************************************************/
+  22:lib/FONTX2/src/font_if.c **** 
+  23:lib/FONTX2/src/font_if.c **** /* Includes ------------------------------------------------------------------*/
+  24:lib/FONTX2/src/font_if.c **** #include "font_if.h"
+  25:lib/FONTX2/src/font_if.c **** 
+  26:lib/FONTX2/src/font_if.c **** /* Defines   -----------------------------------------------------------------*/
+  27:lib/FONTX2/src/font_if.c **** #ifdef USE_KANJIFONT
+  28:lib/FONTX2/src/font_if.c ****  #warning "USE_KANJIFONTX2"
+  29:lib/FONTX2/src/font_if.c **** #else
+  30:lib/FONTX2/src/font_if.c ****  #warning "USE_ANKFONTX2 ONLY"
+  31:lib/FONTX2/src/font_if.c **** #endif
+  32:lib/FONTX2/src/font_if.c **** 
+  33:lib/FONTX2/src/font_if.c **** /* Variables -----------------------------------------------------------------*/
+  34:lib/FONTX2/src/font_if.c **** FontX_Ank*   CurrentAnkDat;
+  35:lib/FONTX2/src/font_if.c **** FontX_Kanji* CurrentKanjiDat;
+  36:lib/FONTX2/src/font_if.c **** 
+  37:lib/FONTX2/src/font_if.c **** /* Constants -----------------------------------------------------------------*/
+  38:lib/FONTX2/src/font_if.c **** 
+  39:lib/FONTX2/src/font_if.c **** /* Function prototypes -------------------------------------------------------*/
+  40:lib/FONTX2/src/font_if.c **** 
+  41:lib/FONTX2/src/font_if.c **** /* Functions -----------------------------------------------------------------*/
+  42:lib/FONTX2/src/font_if.c **** 
+  43:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+  44:lib/FONTX2/src/font_if.c **** /*! 
+  45:lib/FONTX2/src/font_if.c ****     FontX2 Ank Initialize
+  46:lib/FONTX2/src/font_if.c **** */
+  47:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+  48:lib/FONTX2/src/font_if.c **** void InitFont_Ank(FontX_Ank* AnkDat,const char* addr_ofs)
+  49:lib/FONTX2/src/font_if.c **** {
+  50:lib/FONTX2/src/font_if.c **** 	/* Store ANK Addres Offset */
+  51:lib/FONTX2/src/font_if.c **** 	AnkDat->AnkFileOffset = addr_ofs;
+  52:lib/FONTX2/src/font_if.c **** 	
+  53:lib/FONTX2/src/font_if.c **** 	/* Store ANK Pixel Size */
+  54:lib/FONTX2/src/font_if.c **** 	AnkDat->X_Size		  = READ_ADDR_UNIT8(ANK_XSIZE);
+  55:lib/FONTX2/src/font_if.c **** 	AnkDat->Y_Size		  = READ_ADDR_UNIT8(ANK_YSIZE);
+  56:lib/FONTX2/src/font_if.c **** 
+  57:lib/FONTX2/src/font_if.c **** 	/* Store ANK Byte Size */
+  58:lib/FONTX2/src/font_if.c **** 	if(( (AnkDat->X_Size) % 8)){
+  59:lib/FONTX2/src/font_if.c **** 		AnkDat->AnkSize =  ( (((AnkDat->X_Size) >> 3)+1) * (AnkDat->Y_Size));
+  60:lib/FONTX2/src/font_if.c **** 	}
+  61:lib/FONTX2/src/font_if.c **** 	else{
+  62:lib/FONTX2/src/font_if.c **** 		AnkDat->AnkSize =  ( (((AnkDat->X_Size) >> 3))   * (AnkDat->Y_Size));
+  63:lib/FONTX2/src/font_if.c **** 	}
+  64:lib/FONTX2/src/font_if.c **** 
+  65:lib/FONTX2/src/font_if.c **** }
+  66:lib/FONTX2/src/font_if.c **** 
+  67:lib/FONTX2/src/font_if.c **** 
+  68:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+  69:lib/FONTX2/src/font_if.c **** /*! 
+  70:lib/FONTX2/src/font_if.c ****     Change Ank Fonts Pointe
+  71:lib/FONTX2/src/font_if.c **** */
+  72:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+  73:lib/FONTX2/src/font_if.c **** void ChangeCurrentAnk(FontX_Ank* AnkDat){
+  74:lib/FONTX2/src/font_if.c **** 
+  75:lib/FONTX2/src/font_if.c **** 	CurrentAnkDat = AnkDat;
+  76:lib/FONTX2/src/font_if.c **** }
+  77:lib/FONTX2/src/font_if.c **** 
+  78:lib/FONTX2/src/font_if.c **** 
+  79:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+  80:lib/FONTX2/src/font_if.c **** /*! 
+  81:lib/FONTX2/src/font_if.c ****    Get Ank Address Pointer
+  82:lib/FONTX2/src/font_if.c **** */
+  83:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+  84:lib/FONTX2/src/font_if.c **** uint8_t* GetPtr_Ank(uint8_t AnkCode){
+  85:lib/FONTX2/src/font_if.c **** 
+  86:lib/FONTX2/src/font_if.c **** 	return ( (uint8_t*)((CurrentAnkDat->AnkFileOffset + ANK_DATSTART) + (AnkCode * CurrentAnkDat->AnkS
+  87:lib/FONTX2/src/font_if.c **** }
+  88:lib/FONTX2/src/font_if.c **** 
+  89:lib/FONTX2/src/font_if.c **** 
+  90:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+  91:lib/FONTX2/src/font_if.c **** /*! 
+  92:lib/FONTX2/src/font_if.c ****    FontX2 Kanji Initialize
+  93:lib/FONTX2/src/font_if.c **** */
+  94:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+  95:lib/FONTX2/src/font_if.c **** void InitFont_Kanji(FontX_Kanji* KanjiDat,const char* addr_ofs)
+  96:lib/FONTX2/src/font_if.c **** {
+  97:lib/FONTX2/src/font_if.c **** 	int i;
+  98:lib/FONTX2/src/font_if.c **** 
+  99:lib/FONTX2/src/font_if.c **** 	/* Store Kanji Addres Offset */
+ 100:lib/FONTX2/src/font_if.c **** 	KanjiDat->KanjiFileOffset = addr_ofs;
+ 101:lib/FONTX2/src/font_if.c **** 
+ 102:lib/FONTX2/src/font_if.c **** 	/* Store Kanji Pixel Size */
+ 103:lib/FONTX2/src/font_if.c **** 	KanjiDat->X_Size		  = READ_ADDR_UNIT8(KANJI_XSIZE);
+ 104:lib/FONTX2/src/font_if.c **** 	KanjiDat->Y_Size		  = READ_ADDR_UNIT8(KANJI_YSIZE);
+ 105:lib/FONTX2/src/font_if.c **** 
+ 106:lib/FONTX2/src/font_if.c **** 	/* Store Kanji Byte Size */
+ 107:lib/FONTX2/src/font_if.c **** 	if(( (KanjiDat->X_Size) % 8)){
+ 108:lib/FONTX2/src/font_if.c **** 		KanjiDat->KanjiSize =  ( (((KanjiDat->X_Size) >> 3)+1) * (KanjiDat->Y_Size));
+ 109:lib/FONTX2/src/font_if.c **** 	}
+ 110:lib/FONTX2/src/font_if.c **** 	else{
+ 111:lib/FONTX2/src/font_if.c **** 		KanjiDat->KanjiSize =  ( (((KanjiDat->X_Size) >> 3))   * (KanjiDat->Y_Size));
+ 112:lib/FONTX2/src/font_if.c **** 	}
+ 113:lib/FONTX2/src/font_if.c **** 
+ 114:lib/FONTX2/src/font_if.c **** 	/* Store Kanji Table Number */
+ 115:lib/FONTX2/src/font_if.c **** 	KanjiDat->KanjiTableNum = READ_ADDR_UNIT8(KANJI_TABLENUM);
+ 116:lib/FONTX2/src/font_if.c **** 	
+ 117:lib/FONTX2/src/font_if.c **** 	/* Store Kanji Search Table */
+ 118:lib/FONTX2/src/font_if.c **** 	KanjiDat->KanjiStartOffset =  (KanjiDat->KanjiFileOffset + (KanjiDat->KanjiTableNum  * 4) + KANJI_
+ 119:lib/FONTX2/src/font_if.c **** 	
+ 120:lib/FONTX2/src/font_if.c **** 	KanjiDat->KanjiSearchTable[0] = 0;
+ 121:lib/FONTX2/src/font_if.c **** 
+ 122:lib/FONTX2/src/font_if.c **** 	for (i=1;i<KanjiDat->KanjiTableNum;i++){
+ 123:lib/FONTX2/src/font_if.c **** 		KanjiDat->KanjiSearchTable[i] = (KANJI_ENDE(i-1) - KANJI_START(i-1) + 1) + KanjiDat->KanjiSearchT
+ 124:lib/FONTX2/src/font_if.c **** 	}
+ 125:lib/FONTX2/src/font_if.c **** }
+ 126:lib/FONTX2/src/font_if.c **** 
+ 127:lib/FONTX2/src/font_if.c **** 
+ 128:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+ 129:lib/FONTX2/src/font_if.c **** /*! 
+ 130:lib/FONTX2/src/font_if.c ****    Change Kanji Fonts Pointer 
+ 131:lib/FONTX2/src/font_if.c **** */
+ 132:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+ 133:lib/FONTX2/src/font_if.c **** void ChangeCurrentKanji(FontX_Kanji* KanjiDat){
+ 134:lib/FONTX2/src/font_if.c **** 
+ 135:lib/FONTX2/src/font_if.c **** 	CurrentKanjiDat = KanjiDat;
+ 136:lib/FONTX2/src/font_if.c **** }
+ 137:lib/FONTX2/src/font_if.c **** 
+ 138:lib/FONTX2/src/font_if.c **** 
+ 139:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+ 140:lib/FONTX2/src/font_if.c **** /*! 
+ 141:lib/FONTX2/src/font_if.c ****   Search Kanji Block Table 
+ 142:lib/FONTX2/src/font_if.c **** */
+ 143:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+ 144:lib/FONTX2/src/font_if.c **** static int SearchKanjiBlock(uint16_t SjisCode){
+  26              		.loc 1 144 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 70B5     		push	{r4, r5, r6, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 4, -16
+  35              		.cfi_offset 5, -12
+  36              		.cfi_offset 6, -8
+  37              		.cfi_offset 14, -4
+  38              	.LVL1:
+ 145:lib/FONTX2/src/font_if.c **** 	int i;
+ 146:lib/FONTX2/src/font_if.c **** 
+ 147:lib/FONTX2/src/font_if.c **** 	for (i=0;i<CurrentKanjiDat->KanjiTableNum;i++){
+  39              		.loc 1 147 0
+  40 0002 0B4B     		ldr	r3, .L8
+  41 0004 1968     		ldr	r1, [r3, #0]
+  42 0006 CD7A     		ldrb	r5, [r1, #11]	@ zero_extendqisi2
+  43 0008 1422     		movs	r2, #20
+  44 000a 0023     		movs	r3, #0
+  45              	.LVL2:
+  46              	.L2:
+  47              		.loc 1 147 0 is_stmt 0 discriminator 1
+  48 000c AB42     		cmp	r3, r5
+  49 000e 0BDA     		bge	.L7
+  50              	.L5:
+ 148:lib/FONTX2/src/font_if.c **** 
+ 149:lib/FONTX2/src/font_if.c **** 		if((KANJI_START_C(i) <= SjisCode) && (KANJI_ENDE_C(i) >= SjisCode)){
+  51              		.loc 1 149 0 is_stmt 1
+  52 0010 0C68     		ldr	r4, [r1, #0]
+  53 0012 A618     		adds	r6, r4, r2
+  54 0014 36F8026C 		ldrh	r6, [r6, #-2]
+  55 0018 8642     		cmp	r6, r0
+  56 001a 02D8     		bhi	.L3
+  57              		.loc 1 149 0 is_stmt 0 discriminator 1
+  58 001c A45A     		ldrh	r4, [r4, r2]
+  59 001e 8442     		cmp	r4, r0
+  60 0020 04D2     		bcs	.L4
+  61              	.L3:
+ 147:lib/FONTX2/src/font_if.c **** 	for (i=0;i<CurrentKanjiDat->KanjiTableNum;i++){
+  62              		.loc 1 147 0 is_stmt 1
+  63 0022 0133     		adds	r3, r3, #1
+  64              	.LVL3:
+  65 0024 0432     		adds	r2, r2, #4
+  66 0026 F1E7     		b	.L2
+  67              	.L7:
+ 150:lib/FONTX2/src/font_if.c **** 			return(i);
+ 151:lib/FONTX2/src/font_if.c **** 		}
+ 152:lib/FONTX2/src/font_if.c **** 	}
+ 153:lib/FONTX2/src/font_if.c **** 	return (-1);
+  68              		.loc 1 153 0
+  69 0028 4FF0FF33 		mov	r3, #-1
+  70              	.LVL4:
+  71              	.L4:
+ 154:lib/FONTX2/src/font_if.c **** }
+  72              		.loc 1 154 0
+  73 002c 1846     		mov	r0, r3
+  74              	.LVL5:
+  75 002e 70BD     		pop	{r4, r5, r6, pc}
+  76              	.L9:
+  77              		.align	2
+  78              	.L8:
+  79 0030 00000000 		.word	.LANCHOR0
+  80              		.cfi_endproc
+  81              	.LFE5:
+  83              		.section	.text.InitFont_Ank,"ax",%progbits
+  84              		.align	1
+  85              		.global	InitFont_Ank
+  86              		.thumb
+  87              		.thumb_func
+  89              	InitFont_Ank:
+  90              	.LFB0:
+  49:lib/FONTX2/src/font_if.c **** {
+  91              		.loc 1 49 0
+  92              		.cfi_startproc
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              	.LVL6:
+  96 0000 10B5     		push	{r4, lr}
+  97              	.LCFI1:
+  98              		.cfi_def_cfa_offset 8
+  99              		.cfi_offset 4, -8
+ 100              		.cfi_offset 14, -4
+  51:lib/FONTX2/src/font_if.c **** 	AnkDat->AnkFileOffset = addr_ofs;
+ 101              		.loc 1 51 0
+ 102 0002 0160     		str	r1, [r0, #0]
+  54:lib/FONTX2/src/font_if.c **** 	AnkDat->X_Size		  = READ_ADDR_UNIT8(ANK_XSIZE);
+ 103              		.loc 1 54 0
+ 104 0004 D1F80E40 		ldr	r4, [r1, #14]
+ 105 0008 E2B2     		uxtb	r2, r4
+ 106 000a 4271     		strb	r2, [r0, #5]
+  55:lib/FONTX2/src/font_if.c **** 	AnkDat->Y_Size		  = READ_ADDR_UNIT8(ANK_YSIZE);
+ 107              		.loc 1 55 0
+ 108 000c CB7B     		ldrb	r3, [r1, #15]	@ zero_extendqisi2
+ 109 000e 8371     		strb	r3, [r0, #6]
+  58:lib/FONTX2/src/font_if.c **** 	if(( (AnkDat->X_Size) % 8)){
+ 110              		.loc 1 58 0
+ 111 0010 14F0070F 		tst	r4, #7
+ 112 0014 4FEAD201 		lsr	r1, r2, #3
+ 113              	.LVL7:
+  59:lib/FONTX2/src/font_if.c **** 		AnkDat->AnkSize =  ( (((AnkDat->X_Size) >> 3)+1) * (AnkDat->Y_Size));
+ 114              		.loc 1 59 0
+ 115 0018 18BF     		it	ne
+ 116 001a 0131     		addne	r1, r1, #1
+  62:lib/FONTX2/src/font_if.c **** 		AnkDat->AnkSize =  ( (((AnkDat->X_Size) >> 3))   * (AnkDat->Y_Size));
+ 117              		.loc 1 62 0
+ 118 001c 4B43     		muls	r3, r1, r3
+ 119 001e 0371     		strb	r3, [r0, #4]
+ 120 0020 10BD     		pop	{r4, pc}
+ 121              		.cfi_endproc
+ 122              	.LFE0:
+ 124              		.section	.text.ChangeCurrentAnk,"ax",%progbits
+ 125              		.align	1
+ 126              		.global	ChangeCurrentAnk
+ 127              		.thumb
+ 128              		.thumb_func
+ 130              	ChangeCurrentAnk:
+ 131              	.LFB1:
+  73:lib/FONTX2/src/font_if.c **** void ChangeCurrentAnk(FontX_Ank* AnkDat){
+ 132              		.loc 1 73 0
+ 133              		.cfi_startproc
+ 134              		@ args = 0, pretend = 0, frame = 0
+ 135              		@ frame_needed = 0, uses_anonymous_args = 0
+ 136              		@ link register save eliminated.
+ 137              	.LVL8:
+  75:lib/FONTX2/src/font_if.c **** 	CurrentAnkDat = AnkDat;
+ 138              		.loc 1 75 0
+ 139 0000 014B     		ldr	r3, .L14
+ 140 0002 1860     		str	r0, [r3, #0]
+ 141 0004 7047     		bx	lr
+ 142              	.L15:
+ 143 0006 00BF     		.align	2
+ 144              	.L14:
+ 145 0008 00000000 		.word	.LANCHOR1
+ 146              		.cfi_endproc
+ 147              	.LFE1:
+ 149              		.section	.text.GetPtr_Ank,"ax",%progbits
+ 150              		.align	1
+ 151              		.global	GetPtr_Ank
+ 152              		.thumb
+ 153              		.thumb_func
+ 155              	GetPtr_Ank:
+ 156              	.LFB2:
+  84:lib/FONTX2/src/font_if.c **** uint8_t* GetPtr_Ank(uint8_t AnkCode){
+ 157              		.loc 1 84 0
+ 158              		.cfi_startproc
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              		@ link register save eliminated.
+ 162              	.LVL9:
+  86:lib/FONTX2/src/font_if.c **** 	return ( (uint8_t*)((CurrentAnkDat->AnkFileOffset + ANK_DATSTART) + (AnkCode * CurrentAnkDat->AnkS
+ 163              		.loc 1 86 0
+ 164 0000 044B     		ldr	r3, .L17
+ 165 0002 1968     		ldr	r1, [r3, #0]
+ 166 0004 0A79     		ldrb	r2, [r1, #4]	@ zero_extendqisi2
+ 167 0006 5043     		muls	r0, r2, r0
+ 168              	.LVL10:
+ 169 0008 00F11103 		add	r3, r0, #17
+ 170 000c 0868     		ldr	r0, [r1, #0]
+  87:lib/FONTX2/src/font_if.c **** }
+ 171              		.loc 1 87 0
+ 172 000e C018     		adds	r0, r0, r3
+ 173 0010 7047     		bx	lr
+ 174              	.L18:
+ 175 0012 00BF     		.align	2
+ 176              	.L17:
+ 177 0014 00000000 		.word	.LANCHOR1
+ 178              		.cfi_endproc
+ 179              	.LFE2:
+ 181              		.section	.text.InitFont_Kanji,"ax",%progbits
+ 182              		.align	1
+ 183              		.global	InitFont_Kanji
+ 184              		.thumb
+ 185              		.thumb_func
+ 187              	InitFont_Kanji:
+ 188              	.LFB3:
+  96:lib/FONTX2/src/font_if.c **** {
+ 189              		.loc 1 96 0
+ 190              		.cfi_startproc
+ 191              		@ args = 0, pretend = 0, frame = 0
+ 192              		@ frame_needed = 0, uses_anonymous_args = 0
+ 193              	.LVL11:
+ 194 0000 30B5     		push	{r4, r5, lr}
+ 195              	.LCFI2:
+ 196              		.cfi_def_cfa_offset 12
+ 197              		.cfi_offset 4, -12
+ 198              		.cfi_offset 5, -8
+ 199              		.cfi_offset 14, -4
+ 100:lib/FONTX2/src/font_if.c **** 	KanjiDat->KanjiFileOffset = addr_ofs;
+ 200              		.loc 1 100 0
+ 201 0002 0160     		str	r1, [r0, #0]
+ 103:lib/FONTX2/src/font_if.c **** 	KanjiDat->X_Size		  = READ_ADDR_UNIT8(KANJI_XSIZE);
+ 202              		.loc 1 103 0
+ 203 0004 D1F80E40 		ldr	r4, [r1, #14]
+ 204 0008 E2B2     		uxtb	r2, r4
+ 205 000a 4272     		strb	r2, [r0, #9]
+ 104:lib/FONTX2/src/font_if.c **** 	KanjiDat->Y_Size		  = READ_ADDR_UNIT8(KANJI_YSIZE);
+ 206              		.loc 1 104 0
+ 207 000c CB7B     		ldrb	r3, [r1, #15]	@ zero_extendqisi2
+ 208 000e 8372     		strb	r3, [r0, #10]
+ 107:lib/FONTX2/src/font_if.c **** 	if(( (KanjiDat->X_Size) % 8)){
+ 209              		.loc 1 107 0
+ 210 0010 14F0070F 		tst	r4, #7
+ 211 0014 4FEAD202 		lsr	r2, r2, #3
+ 108:lib/FONTX2/src/font_if.c **** 		KanjiDat->KanjiSize =  ( (((KanjiDat->X_Size) >> 3)+1) * (KanjiDat->Y_Size));
+ 212              		.loc 1 108 0
+ 213 0018 18BF     		it	ne
+ 214 001a 0132     		addne	r2, r2, #1
+ 111:lib/FONTX2/src/font_if.c **** 		KanjiDat->KanjiSize =  ( (((KanjiDat->X_Size) >> 3))   * (KanjiDat->Y_Size));
+ 215              		.loc 1 111 0
+ 216 001c 5343     		muls	r3, r2, r3
+ 217 001e 0372     		strb	r3, [r0, #8]
+ 115:lib/FONTX2/src/font_if.c **** 	KanjiDat->KanjiTableNum = READ_ADDR_UNIT8(KANJI_TABLENUM);
+ 218              		.loc 1 115 0
+ 219 0020 D1F81130 		ldr	r3, [r1, #17]
+ 220 0024 C372     		strb	r3, [r0, #11]
+  95:lib/FONTX2/src/font_if.c **** void InitFont_Kanji(FontX_Kanji* KanjiDat,const char* addr_ofs)
+ 221              		.loc 1 95 0
+ 222 0026 DAB2     		uxtb	r2, r3
+ 118:lib/FONTX2/src/font_if.c **** 	KanjiDat->KanjiStartOffset =  (KanjiDat->KanjiFileOffset + (KanjiDat->KanjiTableNum  * 4) + KANJI_
+ 223              		.loc 1 118 0
+ 224 0028 01EB8203 		add	r3, r1, r2, lsl #2
+ 225 002c 1233     		adds	r3, r3, #18
+ 226 002e 4360     		str	r3, [r0, #4]
+ 120:lib/FONTX2/src/font_if.c **** 	KanjiDat->KanjiSearchTable[0] = 0;
+ 227              		.loc 1 120 0
+ 228 0030 0023     		movs	r3, #0
+ 229 0032 8381     		strh	r3, [r0, #12]	@ movhi
+ 230              	.LVL12:
+ 122:lib/FONTX2/src/font_if.c **** 	for (i=1;i<KanjiDat->KanjiTableNum;i++){
+ 231              		.loc 1 122 0
+ 232 0034 0123     		movs	r3, #1
+ 233              	.LVL13:
+ 234              	.L22:
+ 235 0036 0431     		adds	r1, r1, #4
+ 236 0038 0230     		adds	r0, r0, #2
+ 122:lib/FONTX2/src/font_if.c **** 	for (i=1;i<KanjiDat->KanjiTableNum;i++){
+ 237              		.loc 1 122 0 is_stmt 0 discriminator 1
+ 238 003a 9342     		cmp	r3, r2
+ 239 003c 09DA     		bge	.L24
+ 240              	.L23:
+ 123:lib/FONTX2/src/font_if.c **** 		KanjiDat->KanjiSearchTable[i] = (KANJI_ENDE(i-1) - KANJI_START(i-1) + 1) + KanjiDat->KanjiSearchT
+ 241              		.loc 1 123 0 is_stmt 1 discriminator 2
+ 242 003e 4589     		ldrh	r5, [r0, #10]
+ 243 0040 0135     		adds	r5, r5, #1
+ 244 0042 0C69     		ldr	r4, [r1, #16]
+ 245 0044 2D19     		adds	r5, r5, r4
+ 246 0046 D1F80E40 		ldr	r4, [r1, #14]
+ 247 004a 2C1B     		subs	r4, r5, r4
+ 248 004c 8481     		strh	r4, [r0, #12]	@ movhi
+ 122:lib/FONTX2/src/font_if.c **** 	for (i=1;i<KanjiDat->KanjiTableNum;i++){
+ 249              		.loc 1 122 0 discriminator 2
+ 250 004e 0133     		adds	r3, r3, #1
+ 251              	.LVL14:
+ 252 0050 F1E7     		b	.L22
+ 253              	.L24:
+ 125:lib/FONTX2/src/font_if.c **** }
+ 254              		.loc 1 125 0
+ 255 0052 30BD     		pop	{r4, r5, pc}
+ 256              		.cfi_endproc
+ 257              	.LFE3:
+ 259              		.section	.text.ChangeCurrentKanji,"ax",%progbits
+ 260              		.align	1
+ 261              		.global	ChangeCurrentKanji
+ 262              		.thumb
+ 263              		.thumb_func
+ 265              	ChangeCurrentKanji:
+ 266              	.LFB4:
+ 133:lib/FONTX2/src/font_if.c **** void ChangeCurrentKanji(FontX_Kanji* KanjiDat){
+ 267              		.loc 1 133 0
+ 268              		.cfi_startproc
+ 269              		@ args = 0, pretend = 0, frame = 0
+ 270              		@ frame_needed = 0, uses_anonymous_args = 0
+ 271              		@ link register save eliminated.
+ 272              	.LVL15:
+ 135:lib/FONTX2/src/font_if.c **** 	CurrentKanjiDat = KanjiDat;
+ 273              		.loc 1 135 0
+ 274 0000 014B     		ldr	r3, .L26
+ 275 0002 1860     		str	r0, [r3, #0]
+ 276 0004 7047     		bx	lr
+ 277              	.L27:
+ 278 0006 00BF     		.align	2
+ 279              	.L26:
+ 280 0008 00000000 		.word	.LANCHOR0
+ 281              		.cfi_endproc
+ 282              	.LFE4:
+ 284              		.section	.text.GetPtr_Kanji,"ax",%progbits
+ 285              		.align	1
+ 286              		.global	GetPtr_Kanji
+ 287              		.thumb
+ 288              		.thumb_func
+ 290              	GetPtr_Kanji:
+ 291              	.LFB6:
+ 155:lib/FONTX2/src/font_if.c **** 
+ 156:lib/FONTX2/src/font_if.c **** 
+ 157:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+ 158:lib/FONTX2/src/font_if.c **** /*! 
+ 159:lib/FONTX2/src/font_if.c ****   Get Kanji Address Pointer 
+ 160:lib/FONTX2/src/font_if.c **** */
+ 161:lib/FONTX2/src/font_if.c **** /**************************************************************************/
+ 162:lib/FONTX2/src/font_if.c **** uint8_t* GetPtr_Kanji(uint16_t SjisCode){
+ 292              		.loc 1 162 0
+ 293              		.cfi_startproc
+ 294              		@ args = 0, pretend = 0, frame = 0
+ 295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 296              	.LVL16:
+ 297 0000 10B5     		push	{r4, lr}
+ 298              	.LCFI3:
+ 299              		.cfi_def_cfa_offset 8
+ 300              		.cfi_offset 4, -8
+ 301              		.cfi_offset 14, -4
+ 302 0002 0446     		mov	r4, r0
+ 163:lib/FONTX2/src/font_if.c **** 
+ 164:lib/FONTX2/src/font_if.c **** 	int FontBlock;
+ 165:lib/FONTX2/src/font_if.c **** 	uint32_t KanjiDatOfs;
+ 166:lib/FONTX2/src/font_if.c **** 
+ 167:lib/FONTX2/src/font_if.c **** 	/* Store Kanji Font Block */
+ 168:lib/FONTX2/src/font_if.c **** 	FontBlock = SearchKanjiBlock(SjisCode);
+ 303              		.loc 1 168 0
+ 304 0004 FFF7FEFF 		bl	SearchKanjiBlock
+ 305              	.LVL17:
+ 169:lib/FONTX2/src/font_if.c **** 
+ 170:lib/FONTX2/src/font_if.c **** 	/* Invalide SJIS code change into TOOFU */
+ 171:lib/FONTX2/src/font_if.c **** 	if (FontBlock == -1){
+ 306              		.loc 1 171 0
+ 307 0008 431C     		adds	r3, r0, #1
+ 308 000a 05D1     		bne	.L29
+ 309              	.LVL18:
+ 172:lib/FONTX2/src/font_if.c **** 		SjisCode = SJIS_TOOFU;
+ 173:lib/FONTX2/src/font_if.c **** 		/* Restore SjisCode as TOOFU */
+ 174:lib/FONTX2/src/font_if.c **** 		FontBlock = SearchKanjiBlock(SjisCode);
+ 310              		.loc 1 174 0
+ 311 000c 48F2A010 		movw	r0, #33184
+ 312              	.LVL19:
+ 313 0010 FFF7FEFF 		bl	SearchKanjiBlock
+ 314              	.LVL20:
+ 172:lib/FONTX2/src/font_if.c **** 		SjisCode = SJIS_TOOFU;
+ 315              		.loc 1 172 0
+ 316 0014 48F2A014 		movw	r4, #33184
+ 317              	.LVL21:
+ 318              	.L29:
+ 175:lib/FONTX2/src/font_if.c **** 	}
+ 176:lib/FONTX2/src/font_if.c **** 
+ 177:lib/FONTX2/src/font_if.c **** 	/* Store Relative Font Address Offset */
+ 178:lib/FONTX2/src/font_if.c **** 	KanjiDatOfs = (CurrentKanjiDat->KanjiSearchTable[FontBlock] + (SjisCode - KANJI_START_C(FontBlock)
+ 319              		.loc 1 178 0
+ 320 0018 074B     		ldr	r3, .L30
+ 321 001a 1B68     		ldr	r3, [r3, #0]
+ 322              	.LVL22:
+ 323 001c 03EB4002 		add	r2, r3, r0, lsl #1
+ 324 0020 9189     		ldrh	r1, [r2, #12]
+ 325 0022 1A68     		ldr	r2, [r3, #0]
+ 326 0024 02EB8000 		add	r0, r2, r0, lsl #2
+ 327              	.LVL23:
+ 179:lib/FONTX2/src/font_if.c **** 
+ 180:lib/FONTX2/src/font_if.c **** 	/* Return Absolute Font Address Offset */
+ 181:lib/FONTX2/src/font_if.c **** 	return((uint8_t*)(CurrentKanjiDat->KanjiStartOffset + KanjiDatOfs));
+ 182:lib/FONTX2/src/font_if.c **** 
+ 183:lib/FONTX2/src/font_if.c **** }
+ 328              		.loc 1 183 0
+ 329 0028 428A     		ldrh	r2, [r0, #18]
+ 178:lib/FONTX2/src/font_if.c **** 	KanjiDatOfs = (CurrentKanjiDat->KanjiSearchTable[FontBlock] + (SjisCode - KANJI_START_C(FontBlock)
+ 330              		.loc 1 178 0
+ 331 002a A41A     		subs	r4, r4, r2
+ 332              	.LVL24:
+ 333 002c 0C19     		adds	r4, r1, r4
+ 334 002e 197A     		ldrb	r1, [r3, #8]	@ zero_extendqisi2
+ 181:lib/FONTX2/src/font_if.c **** 	return((uint8_t*)(CurrentKanjiDat->KanjiStartOffset + KanjiDatOfs));
+ 335              		.loc 1 181 0
+ 336 0030 5B68     		ldr	r3, [r3, #4]
+ 337              		.loc 1 183 0
+ 338 0032 01FB0430 		mla	r0, r1, r4, r3
+ 339 0036 10BD     		pop	{r4, pc}
+ 340              	.L31:
+ 341              		.align	2
+ 342              	.L30:
+ 343 0038 00000000 		.word	.LANCHOR0
+ 344              		.cfi_endproc
+ 345              	.LFE6:
+ 347              		.global	CurrentKanjiDat
+ 348              		.global	CurrentAnkDat
+ 349              		.section	.bss.CurrentAnkDat,"aw",%nobits
+ 350              		.align	2
+ 351              		.set	.LANCHOR1,. + 0
+ 354              	CurrentAnkDat:
+ 355 0000 00000000 		.space	4
+ 356              		.section	.bss.CurrentKanjiDat,"aw",%nobits
+ 357              		.align	2
+ 358              		.set	.LANCHOR0,. + 0
+ 361              	CurrentKanjiDat:
+ 362 0000 00000000 		.space	4
+ 363              		.text
+ 364              	.Letext0:
+ 365              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 366              		.file 3 "./lib/FONTX2/inc/font_if.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 font_if.c
+  R:\TEMP\ccPMgUAM.s:19     .text.SearchKanjiBlock:00000000 $t
+  R:\TEMP\ccPMgUAM.s:23     .text.SearchKanjiBlock:00000000 SearchKanjiBlock
+  R:\TEMP\ccPMgUAM.s:79     .text.SearchKanjiBlock:00000030 $d
+  R:\TEMP\ccPMgUAM.s:84     .text.InitFont_Ank:00000000 $t
+  R:\TEMP\ccPMgUAM.s:89     .text.InitFont_Ank:00000000 InitFont_Ank
+  R:\TEMP\ccPMgUAM.s:125    .text.ChangeCurrentAnk:00000000 $t
+  R:\TEMP\ccPMgUAM.s:130    .text.ChangeCurrentAnk:00000000 ChangeCurrentAnk
+  R:\TEMP\ccPMgUAM.s:145    .text.ChangeCurrentAnk:00000008 $d
+  R:\TEMP\ccPMgUAM.s:150    .text.GetPtr_Ank:00000000 $t
+  R:\TEMP\ccPMgUAM.s:155    .text.GetPtr_Ank:00000000 GetPtr_Ank
+  R:\TEMP\ccPMgUAM.s:177    .text.GetPtr_Ank:00000014 $d
+  R:\TEMP\ccPMgUAM.s:182    .text.InitFont_Kanji:00000000 $t
+  R:\TEMP\ccPMgUAM.s:187    .text.InitFont_Kanji:00000000 InitFont_Kanji
+  R:\TEMP\ccPMgUAM.s:260    .text.ChangeCurrentKanji:00000000 $t
+  R:\TEMP\ccPMgUAM.s:265    .text.ChangeCurrentKanji:00000000 ChangeCurrentKanji
+  R:\TEMP\ccPMgUAM.s:280    .text.ChangeCurrentKanji:00000008 $d
+  R:\TEMP\ccPMgUAM.s:285    .text.GetPtr_Kanji:00000000 $t
+  R:\TEMP\ccPMgUAM.s:290    .text.GetPtr_Kanji:00000000 GetPtr_Kanji
+  R:\TEMP\ccPMgUAM.s:343    .text.GetPtr_Kanji:00000038 $d
+  R:\TEMP\ccPMgUAM.s:361    .bss.CurrentKanjiDat:00000000 CurrentKanjiDat
+  R:\TEMP\ccPMgUAM.s:354    .bss.CurrentAnkDat:00000000 CurrentAnkDat
+  R:\TEMP\ccPMgUAM.s:350    .bss.CurrentAnkDat:00000000 $d
+  R:\TEMP\ccPMgUAM.s:357    .bss.CurrentKanjiDat:00000000 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

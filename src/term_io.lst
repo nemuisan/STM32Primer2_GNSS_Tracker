@@ -1,0 +1,305 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"term_io.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.xgetc_n,"ax",%progbits
+  19              		.align	1
+  20              		.global	xgetc_n
+  21              		.thumb
+  22              		.thumb_func
+  24              	xgetc_n:
+  25              	.LFB57:
+  26              		.file 1 "src/term_io.c"
+   1:src/term_io.c **** /********************************************************************************/
+   2:src/term_io.c **** /*!
+   3:src/term_io.c **** 	@file			term_io.c
+   4:src/term_io.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:src/term_io.c ****     @version        3.00
+   6:src/term_io.c ****     @date           2011.03.10
+   7:src/term_io.c **** 	@brief          Interface of Chan's Universal string handler For STM32 uC. @n
+   8:src/term_io.c **** 					Based on Chan's FatFs Test Terminal Thanks!
+   9:src/term_io.c **** 
+  10:src/term_io.c ****     @section HISTORY
+  11:src/term_io.c **** 		2010.06.01	V1.00	Start Here.
+  12:src/term_io.c **** 		2010.08.28	V1.10	Add Etherpod+TFT-LCD Shield's Key.
+  13:src/term_io.c **** 		2010.12.31	V2.00	Removed uart includion.
+  14:src/term_io.c **** 		2011.03.10	V3.00	C++ Ready.
+  15:src/term_io.c **** 
+  16:src/term_io.c ****     @section LICENSE
+  17:src/term_io.c **** 		BSD License. See Copyright.txt
+  18:src/term_io.c **** */
+  19:src/term_io.c **** /********************************************************************************/
+  20:src/term_io.c **** 
+  21:src/term_io.c **** /* Includes ------------------------------------------------------------------*/
+  22:src/term_io.c **** #include "term_io.h"
+  23:src/term_io.c **** /* check header file version for fool proof */
+  24:src/term_io.c **** #if __TERM_IO_H!= 0x0300
+  25:src/term_io.c **** #error "header file version is not correspond!"
+  26:src/term_io.c **** #endif
+  27:src/term_io.c **** 
+  28:src/term_io.c **** /* Defines -------------------------------------------------------------------*/
+  29:src/term_io.c **** 
+  30:src/term_io.c **** /* Variables -----------------------------------------------------------------*/
+  31:src/term_io.c **** 
+  32:src/term_io.c **** /* Constants -----------------------------------------------------------------*/
+  33:src/term_io.c **** 
+  34:src/term_io.c **** /* Function prototypes -------------------------------------------------------*/
+  35:src/term_io.c **** 
+  36:src/term_io.c **** /* Functions -----------------------------------------------------------------*/
+  37:src/term_io.c **** 
+  38:src/term_io.c **** /**************************************************************************/
+  39:src/term_io.c **** /*! 
+  40:src/term_io.c ****     @brief	Get Raw InputData and Return CommandData.
+  41:src/term_io.c **** 	@param	None
+  42:src/term_io.c ****     @retval	CommandData.
+  43:src/term_io.c **** */
+  44:src/term_io.c **** /**************************************************************************/
+  45:src/term_io.c **** char xgetc_n (void)
+  46:src/term_io.c **** {
+  27              		.loc 1 46 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 08B5     		push	{r3, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  36              	.LVL0:
+  47:src/term_io.c **** 	int c;
+  48:src/term_io.c **** #if  defined (USE_ETHERPOD) 
+  49:src/term_io.c **** 	static int flip=0;
+  50:src/term_io.c **** #endif
+  51:src/term_io.c **** 	c = 0;
+  52:src/term_io.c **** 
+  53:src/term_io.c **** 	c = getch();
+  37              		.loc 1 53 0
+  38 0002 FFF7FEFF 		bl	getch
+  39              	.LVL1:
+  54:src/term_io.c **** 
+  55:src/term_io.c **** 	if (c!=false){}
+  40              		.loc 1 55 0
+  41 0006 A8B9     		cbnz	r0, .L2
+  56:src/term_io.c **** 		
+  57:src/term_io.c **** 	else
+  58:src/term_io.c **** 	{
+  59:src/term_io.c **** #if defined (USE_STM32PRIMER2)
+  60:src/term_io.c **** 		c = CmdKey;
+  42              		.loc 1 60 0
+  43 0008 0B4A     		ldr	r2, .L10
+  44 000a 1388     		ldrh	r3, [r2, #0]
+  45 000c 99B2     		uxth	r1, r3
+  46              	.LVL2:
+  61:src/term_io.c **** 		CmdKey = 0;
+  47              		.loc 1 61 0
+  48 000e 1080     		strh	r0, [r2, #0]	@ movhi
+  62:src/term_io.c **** 		
+  63:src/term_io.c **** 		switch (c) {
+  49              		.loc 1 63 0
+  50 0010 1029     		cmp	r1, #16
+  51 0012 0ED0     		beq	.L5
+  52 0014 04D8     		bhi	.L7
+  64:src/term_io.c **** 
+  65:src/term_io.c **** 		case KEY_R:
+  66:src/term_io.c **** 			c = BTN_OK;
+  67:src/term_io.c **** 			break;
+  68:src/term_io.c **** 		case KEY_L:
+  69:src/term_io.c **** 			c = BTN_ESC;
+  70:src/term_io.c **** 			break;
+  71:src/term_io.c **** 		case KEY_U:
+  72:src/term_io.c **** 			c = BTN_UP;
+  53              		.loc 1 72 0
+  54 0016 0829     		cmp	r1, #8
+  55 0018 0CBF     		ite	eq
+  56 001a 0520     		moveq	r0, #5
+  57 001c 0020     		movne	r0, #0
+  58 001e 09E0     		b	.L2
+  59              	.L7:
+  63:src/term_io.c **** 		switch (c) {
+  60              		.loc 1 63 0
+  61 0020 2029     		cmp	r1, #32
+  62 0022 04D0     		beq	.L6
+  69:src/term_io.c **** 			c = BTN_ESC;
+  63              		.loc 1 69 0
+  64 0024 4029     		cmp	r1, #64
+  65 0026 0CBF     		ite	eq
+  66 0028 1A20     		moveq	r0, #26
+  67 002a 0020     		movne	r0, #0
+  68 002c 02E0     		b	.L2
+  69              	.L6:
+  66:src/term_io.c **** 			c = BTN_OK;
+  70              		.loc 1 66 0
+  71 002e 0D20     		movs	r0, #13
+  72 0030 00E0     		b	.L2
+  73              	.L5:
+  74              	.LVL3:
+  73:src/term_io.c **** 			break;
+  74:src/term_io.c **** 		case KEY_D:
+  75:src/term_io.c **** 			c = BTN_DOWN;
+  75              		.loc 1 75 0
+  76 0032 1820     		movs	r0, #24
+  77              	.LVL4:
+  78              	.L2:
+  76:src/term_io.c **** 			break;
+  77:src/term_io.c **** 
+  78:src/term_io.c **** 		default:
+  79:src/term_io.c **** 			c = 0;
+  80:src/term_io.c **** 		}
+  81:src/term_io.c **** #elif  defined (USE_ETHERPOD) 
+  82:src/term_io.c **** 		c = CmdKey;
+  83:src/term_io.c **** 		CmdKey = 0;
+  84:src/term_io.c **** 		
+  85:src/term_io.c **** 		switch (c) {
+  86:src/term_io.c **** 
+  87:src/term_io.c **** 		case KEY_RT:
+  88:src/term_io.c **** 			c = BTN_OK;
+  89:src/term_io.c **** 			break;
+  90:src/term_io.c **** 		case KEY_LT:
+  91:src/term_io.c **** 			c = BTN_ESC;
+  92:src/term_io.c **** 			break;
+  93:src/term_io.c **** 		case KEY_UP:
+  94:src/term_io.c **** 			c = BTN_UP;
+  95:src/term_io.c **** 			break;
+  96:src/term_io.c **** 		case KEY_DN:
+  97:src/term_io.c **** 			c = BTN_DOWN;
+  98:src/term_io.c **** 			break;
+  99:src/term_io.c **** 		case KEY_CT:
+ 100:src/term_io.c **** 			if ( flip ) GPIO_LED->BSRR = GPIO_Pin_LED1;
+ 101:src/term_io.c **** 			else	    GPIO_LED->BRR  = GPIO_Pin_LED1;
+ 102:src/term_io.c **** 			flip = !flip;
+ 103:src/term_io.c **** 			break;
+ 104:src/term_io.c **** 		default:
+ 105:src/term_io.c **** 			c = 0;
+ 106:src/term_io.c **** 		}
+ 107:src/term_io.c **** #elif defined (USE_REDBULL)
+ 108:src/term_io.c **** 		c = CmdKey;
+ 109:src/term_io.c **** 		CmdKey = 0;
+ 110:src/term_io.c **** 		
+ 111:src/term_io.c **** 		switch (c) {
+ 112:src/term_io.c **** 
+ 113:src/term_io.c **** 		case KEY_R:
+ 114:src/term_io.c **** 			c = BTN_OK;
+ 115:src/term_io.c **** 			break;
+ 116:src/term_io.c **** 		case KEY_L:
+ 117:src/term_io.c **** 			c = BTN_ESC;
+ 118:src/term_io.c **** 			break;
+ 119:src/term_io.c **** 		case KEY_U:
+ 120:src/term_io.c **** 			c = BTN_UP;
+ 121:src/term_io.c **** 			break;
+ 122:src/term_io.c **** 		case KEY_D:
+ 123:src/term_io.c **** 			c = BTN_DOWN;
+ 124:src/term_io.c **** 			break;
+ 125:src/term_io.c **** 
+ 126:src/term_io.c **** 		default:
+ 127:src/term_io.c **** 			c = 0;
+ 128:src/term_io.c **** 		}
+ 129:src/term_io.c **** #endif
+ 130:src/term_io.c **** 
+ 131:src/term_io.c **** #if	defined(USE_ADS7843)
+ 132:src/term_io.c **** 	if(scaned_tc){
+ 133:src/term_io.c **** 		scaned_tc =0;
+ 134:src/term_io.c **** 		TC_ScanPen();
+ 135:src/term_io.c **** 		if (TOUCH_MIGI)		  {if(tc_stat==TC_STAT_DOWN) c = BTN_OK;}
+ 136:src/term_io.c **** 		else if (TOUCH_HIDARI){if(tc_stat==TC_STAT_DOWN) c = BTN_ESC;}
+ 137:src/term_io.c **** 		else if (TOUCH_UE)    {if((tc_stat==TC_STAT_DOWN || tc_stat==TC_STAT_HOLD)) c = BTN_UP;}
+ 138:src/term_io.c **** 		else if (TOUCH_SHITA) {if((tc_stat==TC_STAT_DOWN || tc_stat==TC_STAT_HOLD)) c = BTN_DOWN;}
+ 139:src/term_io.c **** 		else c = 0;
+ 140:src/term_io.c **** 		}
+ 141:src/term_io.c **** #endif
+ 142:src/term_io.c **** 	}
+ 143:src/term_io.c **** 
+ 144:src/term_io.c **** 	return c;
+ 145:src/term_io.c **** }
+  79              		.loc 1 145 0
+  80 0034 40B2     		sxtb	r0, r0
+  81              	.LVL5:
+  82 0036 08BD     		pop	{r3, pc}
+  83              	.L11:
+  84              		.align	2
+  85              	.L10:
+  86 0038 00000000 		.word	CmdKey
+  87              		.cfi_endproc
+  88              	.LFE57:
+  90              		.section	.text.xgetc,"ax",%progbits
+  91              		.align	1
+  92              		.global	xgetc
+  93              		.thumb
+  94              		.thumb_func
+  96              	xgetc:
+  97              	.LFB58:
+ 146:src/term_io.c **** 
+ 147:src/term_io.c **** 
+ 148:src/term_io.c **** /**************************************************************************/
+ 149:src/term_io.c **** /*! 
+ 150:src/term_io.c ****     @brief	Return CommandData Wrapper.
+ 151:src/term_io.c **** 	@param	None
+ 152:src/term_io.c ****     @retval	CommandData.
+ 153:src/term_io.c **** */
+ 154:src/term_io.c **** /**************************************************************************/
+ 155:src/term_io.c **** unsigned char xgetc (void)
+ 156:src/term_io.c **** {
+  98              		.loc 1 156 0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 0
+ 101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102 0000 08B5     		push	{r3, lr}
+ 103              	.LCFI1:
+ 104              		.cfi_def_cfa_offset 8
+ 105              		.cfi_offset 3, -8
+ 106              		.cfi_offset 14, -4
+ 107              	.L13:
+ 157:src/term_io.c **** 	unsigned char c;
+ 158:src/term_io.c **** 
+ 159:src/term_io.c **** 	do {
+ 160:src/term_io.c **** #if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
+ 161:src/term_io.c **** /*		ts_rtc();*/
+ 162:src/term_io.c **** #endif
+ 163:src/term_io.c **** 		c = xgetc_n();
+ 108              		.loc 1 163 0 discriminator 1
+ 109 0002 FFF7FEFF 		bl	xgetc_n
+ 110              	.LVL6:
+ 111 0006 C0B2     		uxtb	r0, r0
+ 112              	.LVL7:
+ 164:src/term_io.c **** 	} while (!c);
+ 113              		.loc 1 164 0 discriminator 1
+ 114 0008 0028     		cmp	r0, #0
+ 115 000a FAD0     		beq	.L13
+ 165:src/term_io.c **** 	return c;
+ 166:src/term_io.c **** 	
+ 167:src/term_io.c **** }
+ 116              		.loc 1 167 0
+ 117 000c 08BD     		pop	{r3, pc}
+ 118              		.cfi_endproc
+ 119              	.LFE58:
+ 121              		.text
+ 122              	.Letext0:
+ 123              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 124              		.file 3 "./lib/CMSIS/Include/core_cm3.h"
+ 125              		.file 4 "./inc/systick.h"
+ 126              		.file 5 "./inc/hw_config.h"
+ 127              		.file 6 "./inc/uart_support_gps.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 term_io.c
+  R:\TEMP\ccNyVVKq.s:19     .text.xgetc_n:00000000 $t
+  R:\TEMP\ccNyVVKq.s:24     .text.xgetc_n:00000000 xgetc_n
+  R:\TEMP\ccNyVVKq.s:86     .text.xgetc_n:00000038 $d
+  R:\TEMP\ccNyVVKq.s:91     .text.xgetc:00000000 $t
+  R:\TEMP\ccNyVVKq.s:96     .text.xgetc:00000000 xgetc
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+getch
+CmdKey

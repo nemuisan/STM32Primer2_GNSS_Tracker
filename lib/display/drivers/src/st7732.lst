@@ -1,0 +1,1706 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"st7732.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.ST7732_reset,"ax",%progbits
+  19              		.align	1
+  20              		.global	ST7732_reset
+  21              		.thumb
+  22              		.thumb_func
+  24              	ST7732_reset:
+  25              	.LFB57:
+  26              		.file 1 "lib/display/drivers/src/st7732.c"
+   1:lib/display/drivers/src/st7732.c **** /********************************************************************************/
+   2:lib/display/drivers/src/st7732.c **** /*!
+   3:lib/display/drivers/src/st7732.c **** 	@file			st7732.c
+   4:lib/display/drivers/src/st7732.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:lib/display/drivers/src/st7732.c ****     @version        4.00
+   6:lib/display/drivers/src/st7732.c ****     @date           2011.03.10
+   7:lib/display/drivers/src/st7732.c **** 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
+   8:lib/display/drivers/src/st7732.c **** 					Display Device Driver for STM32 Primer2
+   9:lib/display/drivers/src/st7732.c **** 
+  10:lib/display/drivers/src/st7732.c ****     @section HISTORY
+  11:lib/display/drivers/src/st7732.c **** 		2010.03.24	V1.00	Stable Release.
+  12:lib/display/drivers/src/st7732.c **** 		2010.09.06	V2.00	Changed CTRL-Port Contol Procedure.
+  13:lib/display/drivers/src/st7732.c **** 		2010.12.31	V3.00	Added GRAM write function.
+  14:lib/display/drivers/src/st7732.c **** 		2011.03.10	V4.00	C++ Ready.
+  15:lib/display/drivers/src/st7732.c **** 
+  16:lib/display/drivers/src/st7732.c ****     @section LICENSE
+  17:lib/display/drivers/src/st7732.c **** 		BSD License. See Copyright.txt
+  18:lib/display/drivers/src/st7732.c **** */
+  19:lib/display/drivers/src/st7732.c **** /********************************************************************************/
+  20:lib/display/drivers/src/st7732.c **** 
+  21:lib/display/drivers/src/st7732.c **** /* Includes ------------------------------------------------------------------*/
+  22:lib/display/drivers/src/st7732.c **** #include "st7732.h"
+  23:lib/display/drivers/src/st7732.c **** /* check header file version for fool proof */
+  24:lib/display/drivers/src/st7732.c **** #if __ST7732_H != 0x0400
+  25:lib/display/drivers/src/st7732.c **** #error "header file version is not correspond!"
+  26:lib/display/drivers/src/st7732.c **** #endif
+  27:lib/display/drivers/src/st7732.c **** 
+  28:lib/display/drivers/src/st7732.c **** /* Defines -------------------------------------------------------------------*/
+  29:lib/display/drivers/src/st7732.c **** 
+  30:lib/display/drivers/src/st7732.c **** /* Variables -----------------------------------------------------------------*/
+  31:lib/display/drivers/src/st7732.c **** 
+  32:lib/display/drivers/src/st7732.c **** /* Constants -----------------------------------------------------------------*/
+  33:lib/display/drivers/src/st7732.c **** 
+  34:lib/display/drivers/src/st7732.c **** /* Function prototypes -------------------------------------------------------*/
+  35:lib/display/drivers/src/st7732.c **** 
+  36:lib/display/drivers/src/st7732.c **** /* Functions -----------------------------------------------------------------*/
+  37:lib/display/drivers/src/st7732.c **** 
+  38:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  39:lib/display/drivers/src/st7732.c **** /*! 
+  40:lib/display/drivers/src/st7732.c ****     Abstract Layer Delay Settings.
+  41:lib/display/drivers/src/st7732.c **** */
+  42:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  43:lib/display/drivers/src/st7732.c **** #ifndef __SYSTICK_H
+  44:lib/display/drivers/src/st7732.c **** volatile uint32_t ticktime;
+  45:lib/display/drivers/src/st7732.c **** static inline void _delay_ms(uint32_t ms)
+  46:lib/display/drivers/src/st7732.c **** {
+  47:lib/display/drivers/src/st7732.c **** 	ms += ticktime;
+  48:lib/display/drivers/src/st7732.c **** 	while (ticktime < ms);
+  49:lib/display/drivers/src/st7732.c **** }
+  50:lib/display/drivers/src/st7732.c **** #endif
+  51:lib/display/drivers/src/st7732.c **** 
+  52:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  53:lib/display/drivers/src/st7732.c **** /*! 
+  54:lib/display/drivers/src/st7732.c ****     Display Module Reset Routine.
+  55:lib/display/drivers/src/st7732.c **** */
+  56:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  57:lib/display/drivers/src/st7732.c **** void ST7732_reset(void)
+  58:lib/display/drivers/src/st7732.c **** {
+  27              		.loc 1 58 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 38B5     		push	{r3, r4, r5, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 3, -16
+  35              		.cfi_offset 4, -12
+  36              		.cfi_offset 5, -8
+  37              		.cfi_offset 14, -4
+  59:lib/display/drivers/src/st7732.c **** 	ST7732_RES_SET();							/* RES=H			   		*/
+  38              		.loc 1 59 0
+  39 0002 094C     		ldr	r4, .L2
+  40 0004 4025     		movs	r5, #64
+  41 0006 2561     		str	r5, [r4, #16]
+  60:lib/display/drivers/src/st7732.c **** 	_delay_ms(100);								/* wait 1ms     			*/
+  42              		.loc 1 60 0
+  43 0008 6420     		movs	r0, #100
+  44 000a FFF7FEFF 		bl	_delay_ms
+  45              	.LVL0:
+  61:lib/display/drivers/src/st7732.c **** 
+  62:lib/display/drivers/src/st7732.c **** 	ST7732_RES_CLR();							/* RES=L, CS=L   			*/
+  46              		.loc 1 62 0
+  47 000e 6561     		str	r5, [r4, #20]
+  63:lib/display/drivers/src/st7732.c **** 	ST7732_CS_CLR();
+  48              		.loc 1 63 0
+  49 0010 8023     		movs	r3, #128
+  50 0012 6361     		str	r3, [r4, #20]
+  64:lib/display/drivers/src/st7732.c **** 	_delay_ms(100);								/* wait 100ms     			*/
+  51              		.loc 1 64 0
+  52 0014 6420     		movs	r0, #100
+  53 0016 FFF7FEFF 		bl	_delay_ms
+  54              	.LVL1:
+  65:lib/display/drivers/src/st7732.c **** 
+  66:lib/display/drivers/src/st7732.c **** 	ST7732_RES_SET();						  	/* RES=H		 			*/
+  55              		.loc 1 66 0
+  56 001a 2561     		str	r5, [r4, #16]
+  67:lib/display/drivers/src/st7732.c **** 	_delay_ms(100);				    			/* wait 100 ms    			 */
+  57              		.loc 1 67 0
+  58 001c 6420     		movs	r0, #100
+  68:lib/display/drivers/src/st7732.c **** }
+  59              		.loc 1 68 0
+  60 001e BDE83840 		pop	{r3, r4, r5, lr}
+  67:lib/display/drivers/src/st7732.c **** 	_delay_ms(100);				    			/* wait 100 ms    			 */
+  61              		.loc 1 67 0
+  62 0022 FFF7FEBF 		b	_delay_ms
+  63              	.LVL2:
+  64              	.L3:
+  65 0026 00BF     		.align	2
+  66              	.L2:
+  67 0028 00140140 		.word	1073812480
+  68              		.cfi_endproc
+  69              	.LFE57:
+  71              		.section	.text.ST7732_wr_cmd,"ax",%progbits
+  72              		.align	1
+  73              		.global	ST7732_wr_cmd
+  74              		.thumb
+  75              		.thumb_func
+  77              	ST7732_wr_cmd:
+  78              	.LFB58:
+  69:lib/display/drivers/src/st7732.c **** 
+  70:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  71:lib/display/drivers/src/st7732.c **** /*! 
+  72:lib/display/drivers/src/st7732.c ****     Write LCD Command.
+  73:lib/display/drivers/src/st7732.c **** */
+  74:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  75:lib/display/drivers/src/st7732.c **** inline void ST7732_wr_cmd(uint8_t cmd)
+  76:lib/display/drivers/src/st7732.c **** {
+  79              		.loc 1 76 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84              	.LVL3:
+  77:lib/display/drivers/src/st7732.c **** 	/* Transfer command to the FSMC */
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+  85              		.loc 1 78 0
+  86 0000 0001     		lsls	r0, r0, #4
+  87              	.LVL4:
+  88 0002 4FF0D043 		mov	r3, #1744830464
+  89 0006 1880     		strh	r0, [r3, #0]	@ movhi
+  90 0008 7047     		bx	lr
+  91              		.cfi_endproc
+  92              	.LFE58:
+  94              		.section	.text.ST7732_wr_dat,"ax",%progbits
+  95              		.align	1
+  96              		.global	ST7732_wr_dat
+  97              		.thumb
+  98              		.thumb_func
+ 100              	ST7732_wr_dat:
+ 101              	.LFB59:
+  79:lib/display/drivers/src/st7732.c **** }
+  80:lib/display/drivers/src/st7732.c **** 
+  81:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  82:lib/display/drivers/src/st7732.c **** /*! 
+  83:lib/display/drivers/src/st7732.c ****     Write LCD Data.
+  84:lib/display/drivers/src/st7732.c **** */
+  85:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  86:lib/display/drivers/src/st7732.c **** inline void ST7732_wr_dat(uint8_t dat)
+  87:lib/display/drivers/src/st7732.c **** {
+ 102              		.loc 1 87 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107              	.LVL5:
+  88:lib/display/drivers/src/st7732.c **** 	/* Transfer data to the FSMC */
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 108              		.loc 1 89 0
+ 109 0000 0001     		lsls	r0, r0, #4
+ 110              	.LVL6:
+ 111 0002 014B     		ldr	r3, .L6
+ 112 0004 1880     		strh	r0, [r3, #0]	@ movhi
+ 113 0006 7047     		bx	lr
+ 114              	.L7:
+ 115              		.align	2
+ 116              	.L6:
+ 117 0008 00000268 		.word	1744961536
+ 118              		.cfi_endproc
+ 119              	.LFE59:
+ 121              		.section	.text.ST7732_wr_gram,"ax",%progbits
+ 122              		.align	1
+ 123              		.global	ST7732_wr_gram
+ 124              		.thumb
+ 125              		.thumb_func
+ 127              	ST7732_wr_gram:
+ 128              	.LFB60:
+  90:lib/display/drivers/src/st7732.c **** }
+  91:lib/display/drivers/src/st7732.c **** 
+  92:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  93:lib/display/drivers/src/st7732.c **** /*! 
+  94:lib/display/drivers/src/st7732.c ****     Write LCD GRAM.
+  95:lib/display/drivers/src/st7732.c **** */
+  96:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+  97:lib/display/drivers/src/st7732.c **** inline void ST7732_wr_gram(uint16_t gram)
+  98:lib/display/drivers/src/st7732.c **** {
+ 129              		.loc 1 98 0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133              		@ link register save eliminated.
+ 134              	.LVL7:
+  99:lib/display/drivers/src/st7732.c **** 	/* Transfer data to the FSMC */
+ 100:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (gram>>4);
+ 135              		.loc 1 100 0
+ 136 0000 0209     		lsrs	r2, r0, #4
+ 137 0002 034B     		ldr	r3, .L9
+ 138 0004 1A80     		strh	r2, [r3, #0]	@ movhi
+ 101:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (gram<<4);
+ 139              		.loc 1 101 0
+ 140 0006 0001     		lsls	r0, r0, #4
+ 141              	.LVL8:
+ 142 0008 81B2     		uxth	r1, r0
+ 143 000a 1980     		strh	r1, [r3, #0]	@ movhi
+ 144 000c 7047     		bx	lr
+ 145              	.L10:
+ 146 000e 00BF     		.align	2
+ 147              	.L9:
+ 148 0010 00000268 		.word	1744961536
+ 149              		.cfi_endproc
+ 150              	.LFE60:
+ 152              		.section	.text.ST7732_wr_block,"ax",%progbits
+ 153              		.align	1
+ 154              		.global	ST7732_wr_block
+ 155              		.thumb
+ 156              		.thumb_func
+ 158              	ST7732_wr_block:
+ 159              	.LFB61:
+ 102:lib/display/drivers/src/st7732.c **** }
+ 103:lib/display/drivers/src/st7732.c **** 
+ 104:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 105:lib/display/drivers/src/st7732.c **** /*! 
+ 106:lib/display/drivers/src/st7732.c ****     Write LCD Block Data.
+ 107:lib/display/drivers/src/st7732.c **** */
+ 108:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 109:lib/display/drivers/src/st7732.c **** inline void ST7732_wr_block(uint8_t *p,unsigned int cnt)
+ 110:lib/display/drivers/src/st7732.c **** {
+ 160              		.loc 1 110 0
+ 161              		.cfi_startproc
+ 162              		@ args = 0, pretend = 0, frame = 0
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164              	.LVL9:
+ 165 0000 70B5     		push	{r4, r5, r6, lr}
+ 166              	.LCFI1:
+ 167              		.cfi_def_cfa_offset 16
+ 168              		.cfi_offset 4, -16
+ 169              		.cfi_offset 5, -12
+ 170              		.cfi_offset 6, -8
+ 171              		.cfi_offset 14, -4
+ 111:lib/display/drivers/src/st7732.c **** 	int n;
+ 112:lib/display/drivers/src/st7732.c **** 
+ 113:lib/display/drivers/src/st7732.c **** 	n = cnt % 4;
+ 172              		.loc 1 113 0
+ 173 0002 01F00305 		and	r5, r1, #3
+ 174              	.LVL10:
+ 114:lib/display/drivers/src/st7732.c **** 	cnt /= 4;
+ 175              		.loc 1 114 0
+ 176 0006 8908     		lsrs	r1, r1, #2
+ 177              	.LVL11:
+ 178 0008 0C46     		mov	r4, r1
+ 115:lib/display/drivers/src/st7732.c **** 	while (cnt--) {
+ 179              		.loc 1 115 0
+ 180 000a 0346     		mov	r3, r0
+ 181              	.LVL12:
+ 182              	.L12:
+ 183              		.loc 1 115 0 is_stmt 0 discriminator 1
+ 184 000c 14F1FF34 		adds	r4, r4, #-1
+ 185              	.LVL13:
+ 186 0010 0ED3     		bcc	.L17
+ 187              	.L13:
+ 188              	.LVL14:
+ 189              	.LBB178:
+ 190              	.LBB179:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 191              		.loc 1 89 0 is_stmt 1
+ 192 0012 1E78     		ldrb	r6, [r3, #0]	@ zero_extendqisi2
+ 193 0014 3601     		lsls	r6, r6, #4
+ 194 0016 0C4A     		ldr	r2, .L19
+ 195 0018 1680     		strh	r6, [r2, #0]	@ movhi
+ 196              	.LVL15:
+ 197              	.LBE179:
+ 198              	.LBE178:
+ 199              	.LBB180:
+ 200              	.LBB181:
+ 201 001a 5E78     		ldrb	r6, [r3, #1]	@ zero_extendqisi2
+ 202 001c 3601     		lsls	r6, r6, #4
+ 203 001e 1680     		strh	r6, [r2, #0]	@ movhi
+ 204              	.LVL16:
+ 205              	.LBE181:
+ 206              	.LBE180:
+ 207              	.LBB182:
+ 208              	.LBB183:
+ 209 0020 9E78     		ldrb	r6, [r3, #2]	@ zero_extendqisi2
+ 210 0022 3601     		lsls	r6, r6, #4
+ 211 0024 1680     		strh	r6, [r2, #0]	@ movhi
+ 212              	.LBE183:
+ 213              	.LBE182:
+ 116:lib/display/drivers/src/st7732.c **** 		ST7732_wr_dat(*p++);
+ 117:lib/display/drivers/src/st7732.c **** 		ST7732_wr_dat(*p++);
+ 118:lib/display/drivers/src/st7732.c **** 		ST7732_wr_dat(*p++);
+ 119:lib/display/drivers/src/st7732.c **** 		ST7732_wr_dat(*p++);
+ 214              		.loc 1 119 0
+ 215 0026 DE78     		ldrb	r6, [r3, #3]	@ zero_extendqisi2
+ 109:lib/display/drivers/src/st7732.c **** inline void ST7732_wr_block(uint8_t *p,unsigned int cnt)
+ 216              		.loc 1 109 0
+ 217 0028 0433     		adds	r3, r3, #4
+ 218              	.LVL17:
+ 219              	.LBB184:
+ 220              	.LBB185:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 221              		.loc 1 89 0
+ 222 002a 3601     		lsls	r6, r6, #4
+ 223 002c 1680     		strh	r6, [r2, #0]	@ movhi
+ 224 002e EDE7     		b	.L12
+ 225              	.LVL18:
+ 226              	.L17:
+ 227 0030 00EB8100 		add	r0, r0, r1, lsl #2
+ 228              	.LBE185:
+ 229              	.LBE184:
+ 109:lib/display/drivers/src/st7732.c **** inline void ST7732_wr_block(uint8_t *p,unsigned int cnt)
+ 230              		.loc 1 109 0
+ 231 0034 0023     		movs	r3, #0
+ 232              	.LVL19:
+ 233              	.L14:
+ 120:lib/display/drivers/src/st7732.c **** 	}
+ 121:lib/display/drivers/src/st7732.c **** 	while (n--) {
+ 234              		.loc 1 121 0 discriminator 1
+ 235 0036 AB42     		cmp	r3, r5
+ 236 0038 05D0     		beq	.L18
+ 237              	.L15:
+ 238              	.LVL20:
+ 239              	.LBB186:
+ 240              	.LBB187:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 241              		.loc 1 89 0
+ 242 003a C15C     		ldrb	r1, [r0, r3]	@ zero_extendqisi2
+ 243 003c 0901     		lsls	r1, r1, #4
+ 244 003e 024A     		ldr	r2, .L19
+ 245 0040 1180     		strh	r1, [r2, #0]	@ movhi
+ 246 0042 0133     		adds	r3, r3, #1
+ 247              	.LVL21:
+ 248 0044 F7E7     		b	.L14
+ 249              	.LVL22:
+ 250              	.L18:
+ 251              	.LBE187:
+ 252              	.LBE186:
+ 122:lib/display/drivers/src/st7732.c **** 		ST7732_wr_dat(*p++);
+ 123:lib/display/drivers/src/st7732.c **** 	}
+ 124:lib/display/drivers/src/st7732.c **** }
+ 253              		.loc 1 124 0
+ 254 0046 70BD     		pop	{r4, r5, r6, pc}
+ 255              	.L20:
+ 256              		.align	2
+ 257              	.L19:
+ 258 0048 00000268 		.word	1744961536
+ 259              		.cfi_endproc
+ 260              	.LFE61:
+ 262              		.section	.text.ST7732_rect,"ax",%progbits
+ 263              		.align	1
+ 264              		.global	ST7732_rect
+ 265              		.thumb
+ 266              		.thumb_func
+ 268              	ST7732_rect:
+ 269              	.LFB62:
+ 125:lib/display/drivers/src/st7732.c **** 
+ 126:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 127:lib/display/drivers/src/st7732.c **** /*! 
+ 128:lib/display/drivers/src/st7732.c ****     Set Rectangle.
+ 129:lib/display/drivers/src/st7732.c **** */
+ 130:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 131:lib/display/drivers/src/st7732.c **** inline void ST7732_rect(uint32_t x, uint32_t width, uint32_t y, uint32_t height)
+ 132:lib/display/drivers/src/st7732.c **** {
+ 270              		.loc 1 132 0
+ 271              		.cfi_startproc
+ 272              		@ args = 0, pretend = 0, frame = 0
+ 273              		@ frame_needed = 0, uses_anonymous_args = 0
+ 274              	.LVL23:
+ 275 0000 70B5     		push	{r4, r5, r6, lr}
+ 276              	.LCFI2:
+ 277              		.cfi_def_cfa_offset 16
+ 278              		.cfi_offset 4, -16
+ 279              		.cfi_offset 5, -12
+ 280              		.cfi_offset 6, -8
+ 281              		.cfi_offset 14, -4
+ 282              	.LVL24:
+ 283              	.LBB188:
+ 284              	.LBB189:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 285              		.loc 1 78 0
+ 286 0002 4FF0D046 		mov	r6, #1744830464
+ 287 0006 4FF42874 		mov	r4, #672
+ 288 000a 3480     		strh	r4, [r6, #0]	@ movhi
+ 289              	.LVL25:
+ 290              	.LBE189:
+ 291              	.LBE188:
+ 292              	.LBB190:
+ 293              	.LBB191:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 294              		.loc 1 89 0
+ 295 000c 0C4C     		ldr	r4, .L22
+ 296 000e 0025     		movs	r5, #0
+ 297 0010 2580     		strh	r5, [r4, #0]	@ movhi
+ 298              	.LVL26:
+ 299              	.LBE191:
+ 300              	.LBE190:
+ 301              	.LBB192:
+ 302              	.LBB193:
+ 303 0012 C0B2     		uxtb	r0, r0
+ 304              	.LVL27:
+ 305 0014 0001     		lsls	r0, r0, #4
+ 306              	.LVL28:
+ 307 0016 2080     		strh	r0, [r4, #0]	@ movhi
+ 308              	.LVL29:
+ 309              	.LBE193:
+ 310              	.LBE192:
+ 311              	.LBB194:
+ 312              	.LBB195:
+ 313 0018 2580     		strh	r5, [r4, #0]	@ movhi
+ 314              	.LVL30:
+ 315              	.LBE195:
+ 316              	.LBE194:
+ 317              	.LBB196:
+ 318              	.LBB197:
+ 319 001a C9B2     		uxtb	r1, r1
+ 320              	.LVL31:
+ 321 001c 0801     		lsls	r0, r1, #4
+ 322 001e 2080     		strh	r0, [r4, #0]	@ movhi
+ 323              	.LVL32:
+ 324              	.LBE197:
+ 325              	.LBE196:
+ 326              	.LBB198:
+ 327              	.LBB199:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 328              		.loc 1 78 0
+ 329 0020 4FF42C71 		mov	r1, #688
+ 330              	.LVL33:
+ 331 0024 3180     		strh	r1, [r6, #0]	@ movhi
+ 332              	.LVL34:
+ 333              	.LBE199:
+ 334              	.LBE198:
+ 335              	.LBB200:
+ 336              	.LBB201:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 337              		.loc 1 89 0
+ 338 0026 2580     		strh	r5, [r4, #0]	@ movhi
+ 339              	.LVL35:
+ 340              	.LBE201:
+ 341              	.LBE200:
+ 342              	.LBB202:
+ 343              	.LBB203:
+ 344 0028 D2B2     		uxtb	r2, r2
+ 345              	.LVL36:
+ 346 002a 1001     		lsls	r0, r2, #4
+ 347 002c 2080     		strh	r0, [r4, #0]	@ movhi
+ 348              	.LVL37:
+ 349              	.LBE203:
+ 350              	.LBE202:
+ 351              	.LBB204:
+ 352              	.LBB205:
+ 353 002e 2580     		strh	r5, [r4, #0]	@ movhi
+ 354              	.LVL38:
+ 355              	.LBE205:
+ 356              	.LBE204:
+ 357              	.LBB206:
+ 358              	.LBB207:
+ 359 0030 DBB2     		uxtb	r3, r3
+ 360              	.LVL39:
+ 361 0032 1901     		lsls	r1, r3, #4
+ 362 0034 2180     		strh	r1, [r4, #0]	@ movhi
+ 363              	.LVL40:
+ 364              	.LBE207:
+ 365              	.LBE206:
+ 366              	.LBB208:
+ 367              	.LBB209:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 368              		.loc 1 78 0
+ 369 0036 4FF43072 		mov	r2, #704
+ 370              	.LVL41:
+ 371 003a 3280     		strh	r2, [r6, #0]	@ movhi
+ 372 003c 70BD     		pop	{r4, r5, r6, pc}
+ 373              	.L23:
+ 374 003e 00BF     		.align	2
+ 375              	.L22:
+ 376 0040 00000268 		.word	1744961536
+ 377              	.LBE209:
+ 378              	.LBE208:
+ 379              		.cfi_endproc
+ 380              	.LFE62:
+ 382              		.section	.text.ST7732_clear,"ax",%progbits
+ 383              		.align	1
+ 384              		.global	ST7732_clear
+ 385              		.thumb
+ 386              		.thumb_func
+ 388              	ST7732_clear:
+ 389              	.LFB63:
+ 133:lib/display/drivers/src/st7732.c **** 
+ 134:lib/display/drivers/src/st7732.c **** 	/* Set CAS Address */
+ 135:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(CASET); 
+ 136:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0);
+ 137:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(OFS_COL+x);
+ 138:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0);
+ 139:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(OFS_COL+width); 
+ 140:lib/display/drivers/src/st7732.c **** 	
+ 141:lib/display/drivers/src/st7732.c **** 	/* Set RAS Address */
+ 142:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(RASET);
+ 143:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0);
+ 144:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(OFS_RAW+y);
+ 145:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0);
+ 146:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(OFS_RAW+height);
+ 147:lib/display/drivers/src/st7732.c **** 	
+ 148:lib/display/drivers/src/st7732.c **** 	/* Write RAM */
+ 149:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(RAMWR);
+ 150:lib/display/drivers/src/st7732.c **** }
+ 151:lib/display/drivers/src/st7732.c **** 
+ 152:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 153:lib/display/drivers/src/st7732.c **** /*! 
+ 154:lib/display/drivers/src/st7732.c ****     Clear Display.
+ 155:lib/display/drivers/src/st7732.c **** */
+ 156:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 157:lib/display/drivers/src/st7732.c **** inline void ST7732_clear(void)
+ 158:lib/display/drivers/src/st7732.c **** {
+ 390              		.loc 1 158 0
+ 391              		.cfi_startproc
+ 392              		@ args = 0, pretend = 0, frame = 8
+ 393              		@ frame_needed = 0, uses_anonymous_args = 0
+ 394 0000 07B5     		push	{r0, r1, r2, lr}
+ 395              	.LCFI3:
+ 396              		.cfi_def_cfa_offset 16
+ 397              		.cfi_offset 0, -16
+ 398              		.cfi_offset 1, -12
+ 399              		.cfi_offset 2, -8
+ 400              		.cfi_offset 14, -4
+ 159:lib/display/drivers/src/st7732.c **** 	volatile uint32_t n;
+ 160:lib/display/drivers/src/st7732.c **** 
+ 161:lib/display/drivers/src/st7732.c **** 	ST7732_rect(0,MAX_X-1,0,MAX_Y-1);
+ 401              		.loc 1 161 0
+ 402 0002 0020     		movs	r0, #0
+ 403 0004 7F21     		movs	r1, #127
+ 404 0006 0246     		mov	r2, r0
+ 405 0008 9F23     		movs	r3, #159
+ 406 000a FFF7FEFF 		bl	ST7732_rect
+ 407              	.LVL42:
+ 162:lib/display/drivers/src/st7732.c **** 	n = (MAX_X) * (MAX_Y);
+ 408              		.loc 1 162 0
+ 409 000e 4FF4A043 		mov	r3, #20480
+ 410 0012 0193     		str	r3, [sp, #4]
+ 411              	.LVL43:
+ 412              	.L25:
+ 413              	.LBB212:
+ 414              	.LBB213:
+ 100:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (gram>>4);
+ 415              		.loc 1 100 0 discriminator 1
+ 416 0014 0648     		ldr	r0, .L27
+ 417 0016 40F6FF72 		movw	r2, #4095
+ 418 001a 0280     		strh	r2, [r0, #0]	@ movhi
+ 101:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (gram<<4);
+ 419              		.loc 1 101 0 discriminator 1
+ 420 001c 4FF6F071 		movw	r1, #65520
+ 421 0020 0180     		strh	r1, [r0, #0]	@ movhi
+ 422              	.LBE213:
+ 423              	.LBE212:
+ 163:lib/display/drivers/src/st7732.c **** 	
+ 164:lib/display/drivers/src/st7732.c **** 	do {
+ 165:lib/display/drivers/src/st7732.c **** 		ST7732_wr_gram(COL_WHITE);
+ 166:lib/display/drivers/src/st7732.c **** 	} while (--n);
+ 424              		.loc 1 166 0 discriminator 1
+ 425 0022 019B     		ldr	r3, [sp, #4]
+ 426 0024 581E     		subs	r0, r3, #1
+ 427 0026 0190     		str	r0, [sp, #4]
+ 428 0028 0028     		cmp	r0, #0
+ 429 002a F3D1     		bne	.L25
+ 167:lib/display/drivers/src/st7732.c **** 
+ 168:lib/display/drivers/src/st7732.c **** }
+ 430              		.loc 1 168 0
+ 431 002c 0EBD     		pop	{r1, r2, r3, pc}
+ 432              	.L28:
+ 433 002e 00BF     		.align	2
+ 434              	.L27:
+ 435 0030 00000268 		.word	1744961536
+ 436              		.cfi_endproc
+ 437              	.LFE63:
+ 439              		.section	.text.ST7732_init,"ax",%progbits
+ 440              		.align	1
+ 441              		.global	ST7732_init
+ 442              		.thumb
+ 443              		.thumb_func
+ 445              	ST7732_init:
+ 446              	.LFB64:
+ 169:lib/display/drivers/src/st7732.c **** 
+ 170:lib/display/drivers/src/st7732.c **** 
+ 171:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 172:lib/display/drivers/src/st7732.c **** /*! 
+ 173:lib/display/drivers/src/st7732.c ****     TFT-LCD Module Initialize.
+ 174:lib/display/drivers/src/st7732.c **** */
+ 175:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 176:lib/display/drivers/src/st7732.c **** void ST7732_init(void)
+ 177:lib/display/drivers/src/st7732.c **** {
+ 447              		.loc 1 177 0
+ 448              		.cfi_startproc
+ 449              		@ args = 0, pretend = 0, frame = 0
+ 450              		@ frame_needed = 0, uses_anonymous_args = 0
+ 451 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 452              	.LCFI4:
+ 453              		.cfi_def_cfa_offset 32
+ 454              		.cfi_offset 3, -32
+ 455              		.cfi_offset 4, -28
+ 456              		.cfi_offset 5, -24
+ 457              		.cfi_offset 6, -20
+ 458              		.cfi_offset 7, -16
+ 459              		.cfi_offset 8, -12
+ 460              		.cfi_offset 9, -8
+ 461              		.cfi_offset 14, -4
+ 178:lib/display/drivers/src/st7732.c **** 	Display_IoInit_If();
+ 462              		.loc 1 178 0
+ 463 0004 FFF7FEFF 		bl	Display_IoInit_If
+ 464              	.LVL44:
+ 179:lib/display/drivers/src/st7732.c **** 
+ 180:lib/display/drivers/src/st7732.c **** 	ST7732_reset();
+ 465              		.loc 1 180 0
+ 466 0008 FFF7FEFF 		bl	ST7732_reset
+ 467              	.LVL45:
+ 468              	.LBB214:
+ 469              	.LBB215:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 470              		.loc 1 78 0
+ 471 000c 4FF0D044 		mov	r4, #1744830464
+ 472 0010 1025     		movs	r5, #16
+ 473 0012 2580     		strh	r5, [r4, #0]	@ movhi
+ 474              	.LBE215:
+ 475              	.LBE214:
+ 181:lib/display/drivers/src/st7732.c **** 	
+ 182:lib/display/drivers/src/st7732.c **** 	/* ST7732 */
+ 183:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(SWRESET);		/* Software Reset */
+ 184:lib/display/drivers/src/st7732.c **** 	_delay_ms(180);				/* above 150mSec */
+ 476              		.loc 1 184 0
+ 477 0014 B420     		movs	r0, #180
+ 478 0016 FFF7FEFF 		bl	_delay_ms
+ 479              	.LVL46:
+ 480              	.LBB216:
+ 481              	.LBB217:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 482              		.loc 1 78 0
+ 483 001a 4FF48073 		mov	r3, #256
+ 484 001e 2380     		strh	r3, [r4, #0]	@ movhi
+ 485              	.LBE217:
+ 486              	.LBE216:
+ 185:lib/display/drivers/src/st7732.c **** 	
+ 186:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(SLPIN);		/* Sleep In */
+ 187:lib/display/drivers/src/st7732.c **** 	_delay_ms(100);
+ 487              		.loc 1 187 0
+ 488 0020 6420     		movs	r0, #100
+ 489 0022 FFF7FEFF 		bl	_delay_ms
+ 490              	.LVL47:
+ 491              	.LBB218:
+ 492              	.LBB219:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 493              		.loc 1 78 0
+ 494 0026 4FF48870 		mov	r0, #272
+ 495 002a 2080     		strh	r0, [r4, #0]	@ movhi
+ 496              	.LBE219:
+ 497              	.LBE218:
+ 188:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(SLPOUT);		/* Sleep Out */
+ 189:lib/display/drivers/src/st7732.c **** 	_delay_ms(150);
+ 498              		.loc 1 189 0
+ 499 002c 9620     		movs	r0, #150
+ 500 002e FFF7FEFF 		bl	_delay_ms
+ 501              	.LVL48:
+ 502              	.LBB220:
+ 503              	.LBB221:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 504              		.loc 1 78 0
+ 505 0032 4FF43161 		mov	r1, #2832
+ 506 0036 2180     		strh	r1, [r4, #0]	@ movhi
+ 507              	.LVL49:
+ 508              	.LBE221:
+ 509              	.LBE220:
+ 510              	.LBB222:
+ 511              	.LBB223:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 512              		.loc 1 89 0
+ 513 0038 4F4B     		ldr	r3, .L30
+ 514 003a 6026     		movs	r6, #96
+ 515 003c 1E80     		strh	r6, [r3, #0]	@ movhi
+ 516              	.LVL50:
+ 517              	.LBE223:
+ 518              	.LBE222:
+ 519              	.LBB224:
+ 520              	.LBB225:
+ 521 003e 3020     		movs	r0, #48
+ 522 0040 1880     		strh	r0, [r3, #0]	@ movhi
+ 523              	.LVL51:
+ 524              	.LBE225:
+ 525              	.LBE224:
+ 526              	.LBB226:
+ 527              	.LBB227:
+ 528 0042 2022     		movs	r2, #32
+ 529 0044 1A80     		strh	r2, [r3, #0]	@ movhi
+ 530              	.LVL52:
+ 531              	.LBE227:
+ 532              	.LBE226:
+ 533              	.LBB228:
+ 534              	.LBB229:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 535              		.loc 1 78 0
+ 536 0046 4FF43467 		mov	r7, #2880
+ 537 004a 2780     		strh	r7, [r4, #0]	@ movhi
+ 538              	.LVL53:
+ 539              	.LBE229:
+ 540              	.LBE228:
+ 541              	.LBB230:
+ 542              	.LBB231:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 543              		.loc 1 89 0
+ 544 004c 1880     		strh	r0, [r3, #0]	@ movhi
+ 545              	.LVL54:
+ 546              	.LBE231:
+ 547              	.LBE230:
+ 548              	.LBB232:
+ 549              	.LBB233:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 550              		.loc 1 78 0
+ 551 004e 4FF43661 		mov	r1, #2912
+ 552 0052 2180     		strh	r1, [r4, #0]	@ movhi
+ 553              	.LVL55:
+ 554              	.LBE233:
+ 555              	.LBE232:
+ 556              	.LBB234:
+ 557              	.LBB235:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 558              		.loc 1 89 0
+ 559 0054 1A80     		strh	r2, [r3, #0]	@ movhi
+ 560              	.LVL56:
+ 561              	.LBE235:
+ 562              	.LBE234:
+ 563              	.LBB236:
+ 564              	.LBB237:
+ 565 0056 4FF0E00C 		mov	ip, #224
+ 566 005a A3F800C0 		strh	ip, [r3, #0]	@ movhi
+ 567              	.LVL57:
+ 568              	.LBE237:
+ 569              	.LBE236:
+ 570              	.LBB238:
+ 571              	.LBB239:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 572              		.loc 1 78 0
+ 573 005e 4FF47567 		mov	r7, #3920
+ 574 0062 2780     		strh	r7, [r4, #0]	@ movhi
+ 575              	.LVL58:
+ 576              	.LBE239:
+ 577              	.LBE238:
+ 578              	.LBB240:
+ 579              	.LBB241:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 580              		.loc 1 89 0
+ 581 0064 4FF4D071 		mov	r1, #416
+ 582 0068 1980     		strh	r1, [r3, #0]	@ movhi
+ 583              	.LVL59:
+ 584              	.LBE241:
+ 585              	.LBE240:
+ 586              	.LBB242:
+ 587              	.LBB243:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 588              		.loc 1 78 0
+ 589 006a 4FF4406E 		mov	lr, #3072
+ 590 006e A4F800E0 		strh	lr, [r4, #0]	@ movhi
+ 591              	.LVL60:
+ 592              	.LBE243:
+ 593              	.LBE242:
+ 594              	.LBB244:
+ 595              	.LBB245:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 596              		.loc 1 89 0
+ 597 0072 1A80     		strh	r2, [r3, #0]	@ movhi
+ 598              	.LVL61:
+ 599              	.LBE245:
+ 600              	.LBE244:
+ 601              	.LBB246:
+ 602              	.LBB247:
+ 603 0074 0021     		movs	r1, #0
+ 604 0076 1980     		strh	r1, [r3, #0]	@ movhi
+ 605              	.LVL62:
+ 606              	.LBE247:
+ 607              	.LBE246:
+ 608              	.LBB248:
+ 609              	.LBB249:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 610              		.loc 1 78 0
+ 611 0078 4FF44167 		mov	r7, #3088
+ 612 007c 2780     		strh	r7, [r4, #0]	@ movhi
+ 613              	.LVL63:
+ 614              	.LBE249:
+ 615              	.LBE248:
+ 616              	.LBB250:
+ 617              	.LBB251:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 618              		.loc 1 89 0
+ 619 007e 5027     		movs	r7, #80
+ 620 0080 1F80     		strh	r7, [r3, #0]	@ movhi
+ 621              	.LVL64:
+ 622              	.LBE251:
+ 623              	.LBE250:
+ 624              	.LBB252:
+ 625              	.LBB253:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 626              		.loc 1 78 0
+ 627 0082 4FF44267 		mov	r7, #3104
+ 628 0086 2780     		strh	r7, [r4, #0]	@ movhi
+ 629              	.LVL65:
+ 630              	.LBE253:
+ 631              	.LBE252:
+ 632              	.LBB254:
+ 633              	.LBB255:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 634              		.loc 1 89 0
+ 635 0088 1A80     		strh	r2, [r3, #0]	@ movhi
+ 636              	.LVL66:
+ 637              	.LBE255:
+ 638              	.LBE254:
+ 639              	.LBB256:
+ 640              	.LBB257:
+ 641 008a 1A80     		strh	r2, [r3, #0]	@ movhi
+ 642              	.LVL67:
+ 643              	.LBE257:
+ 644              	.LBE256:
+ 645              	.LBB258:
+ 646              	.LBB259:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 647              		.loc 1 78 0
+ 648 008c 4FF44367 		mov	r7, #3120
+ 649 0090 2780     		strh	r7, [r4, #0]	@ movhi
+ 650              	.LVL68:
+ 651              	.LBE259:
+ 652              	.LBE258:
+ 653              	.LBB260:
+ 654              	.LBB261:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 655              		.loc 1 89 0
+ 656 0092 1D80     		strh	r5, [r3, #0]	@ movhi
+ 657              	.LVL69:
+ 658              	.LBE261:
+ 659              	.LBE260:
+ 660              	.LBB262:
+ 661              	.LBB263:
+ 662 0094 1A80     		strh	r2, [r3, #0]	@ movhi
+ 663              	.LVL70:
+ 664              	.LBE263:
+ 665              	.LBE262:
+ 666              	.LBB264:
+ 667              	.LBB265:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 668              		.loc 1 78 0
+ 669 0096 4FF44467 		mov	r7, #3136
+ 670 009a 2780     		strh	r7, [r4, #0]	@ movhi
+ 671              	.LVL71:
+ 672              	.LBE265:
+ 673              	.LBE264:
+ 674              	.LBB266:
+ 675              	.LBB267:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 676              		.loc 1 89 0
+ 677 009c 1D80     		strh	r5, [r3, #0]	@ movhi
+ 678              	.LVL72:
+ 679              	.LBE267:
+ 680              	.LBE266:
+ 681              	.LBB268:
+ 682              	.LBB269:
+ 683 009e 1A80     		strh	r2, [r3, #0]	@ movhi
+ 684              	.LVL73:
+ 685              	.LBE269:
+ 686              	.LBE268:
+ 687              	.LBB270:
+ 688              	.LBB271:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 689              		.loc 1 78 0
+ 690 00a0 4FF44567 		mov	r7, #3152
+ 691 00a4 2780     		strh	r7, [r4, #0]	@ movhi
+ 692              	.LVL74:
+ 693              	.LBE271:
+ 694              	.LBE270:
+ 695              	.LBB272:
+ 696              	.LBB273:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 697              		.loc 1 89 0
+ 698 00a6 4FF48E67 		mov	r7, #1136
+ 699 00aa 1F80     		strh	r7, [r3, #0]	@ movhi
+ 700              	.LVL75:
+ 701              	.LBE273:
+ 702              	.LBE272:
+ 703              	.LBB274:
+ 704              	.LBB275:
+ 705 00ac 4FF46877 		mov	r7, #928
+ 706 00b0 1F80     		strh	r7, [r3, #0]	@ movhi
+ 707              	.LVL76:
+ 708              	.LBE275:
+ 709              	.LBE274:
+ 710              	.LBB276:
+ 711              	.LBB277:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 712              		.loc 1 78 0
+ 713 00b2 4FF47268 		mov	r8, #3872
+ 714 00b6 A4F80080 		strh	r8, [r4, #0]	@ movhi
+ 715              	.LVL77:
+ 716              	.LBE277:
+ 717              	.LBE276:
+ 718              	.LBB278:
+ 719              	.LBB279:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 720              		.loc 1 89 0
+ 721 00ba 1A80     		strh	r2, [r3, #0]	@ movhi
+ 722              	.LVL78:
+ 723              	.LBE279:
+ 724              	.LBE278:
+ 725              	.LBB280:
+ 726              	.LBB281:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 727              		.loc 1 78 0
+ 728 00bc 4FF47669 		mov	r9, #3936
+ 729 00c0 A4F80090 		strh	r9, [r4, #0]	@ movhi
+ 730              	.LVL79:
+ 731              	.LBE281:
+ 732              	.LBE280:
+ 733              	.LBB282:
+ 734              	.LBB283:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 735              		.loc 1 89 0
+ 736 00c4 4FF49868 		mov	r8, #1216
+ 737 00c8 A3F80080 		strh	r8, [r3, #0]	@ movhi
+ 738              	.LVL80:
+ 739              	.LBE283:
+ 740              	.LBE282:
+ 741              	.LBB284:
+ 742              	.LBB285:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 743              		.loc 1 78 0
+ 744 00cc 4FF47869 		mov	r9, #3968
+ 745 00d0 A4F80090 		strh	r9, [r4, #0]	@ movhi
+ 746              	.LVL81:
+ 747              	.LBE285:
+ 748              	.LBE284:
+ 749              	.LBB286:
+ 750              	.LBB287:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 751              		.loc 1 89 0
+ 752 00d4 1E80     		strh	r6, [r3, #0]	@ movhi
+ 753              	.LVL82:
+ 754              	.LBE287:
+ 755              	.LBE286:
+ 756              	.LBB288:
+ 757              	.LBB289:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 758              		.loc 1 78 0
+ 759 00d6 4FF46068 		mov	r8, #3584
+ 760 00da A4F80080 		strh	r8, [r4, #0]	@ movhi
+ 761              	.LVL83:
+ 762              	.LBE289:
+ 763              	.LBE288:
+ 764              	.LBB290:
+ 765              	.LBB291:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 766              		.loc 1 89 0
+ 767 00de 1E80     		strh	r6, [r3, #0]	@ movhi
+ 768              	.LVL84:
+ 769              	.LBE291:
+ 770              	.LBE290:
+ 771              	.LBB292:
+ 772              	.LBB293:
+ 773 00e0 4FF4E079 		mov	r9, #448
+ 774 00e4 A3F80090 		strh	r9, [r3, #0]	@ movhi
+ 775              	.LVL85:
+ 776              	.LBE293:
+ 777              	.LBE292:
+ 778              	.LBB294:
+ 779              	.LBB295:
+ 780 00e8 4FF4F878 		mov	r8, #496
+ 781 00ec A3F80080 		strh	r8, [r3, #0]	@ movhi
+ 782              	.LVL86:
+ 783              	.LBE295:
+ 784              	.LBE294:
+ 785              	.LBB296:
+ 786              	.LBB297:
+ 787 00f0 A3F80080 		strh	r8, [r3, #0]	@ movhi
+ 788              	.LVL87:
+ 789              	.LBE297:
+ 790              	.LBE296:
+ 791              	.LBB298:
+ 792              	.LBB299:
+ 793 00f4 4FF4C078 		mov	r8, #384
+ 794 00f8 A3F80080 		strh	r8, [r3, #0]	@ movhi
+ 795              	.LVL88:
+ 796              	.LBE299:
+ 797              	.LBE298:
+ 798              	.LBB300:
+ 799              	.LBB301:
+ 800 00fc 4FF49879 		mov	r9, #304
+ 801 0100 A3F80090 		strh	r9, [r3, #0]	@ movhi
+ 802              	.LVL89:
+ 803              	.LBE301:
+ 804              	.LBE300:
+ 805              	.LBB302:
+ 806              	.LBB303:
+ 807 0104 1E80     		strh	r6, [r3, #0]	@ movhi
+ 808              	.LVL90:
+ 809              	.LBE303:
+ 810              	.LBE302:
+ 811              	.LBB304:
+ 812              	.LBB305:
+ 813 0106 1880     		strh	r0, [r3, #0]	@ movhi
+ 814              	.LVL91:
+ 815              	.LBE305:
+ 816              	.LBE304:
+ 817              	.LBB306:
+ 818              	.LBB307:
+ 819 0108 1880     		strh	r0, [r3, #0]	@ movhi
+ 820              	.LVL92:
+ 821              	.LBE307:
+ 822              	.LBE306:
+ 823              	.LBB308:
+ 824              	.LBB309:
+ 825 010a 4026     		movs	r6, #64
+ 826 010c 1E80     		strh	r6, [r3, #0]	@ movhi
+ 827              	.LVL93:
+ 828              	.LBE309:
+ 829              	.LBE308:
+ 830              	.LBB310:
+ 831              	.LBB311:
+ 832 010e 7020     		movs	r0, #112
+ 833 0110 1880     		strh	r0, [r3, #0]	@ movhi
+ 834              	.LVL94:
+ 835              	.LBE311:
+ 836              	.LBE310:
+ 837              	.LBB312:
+ 838              	.LBB313:
+ 839 0112 1880     		strh	r0, [r3, #0]	@ movhi
+ 840              	.LVL95:
+ 841              	.LBE313:
+ 842              	.LBE312:
+ 843              	.LBB314:
+ 844              	.LBB315:
+ 845 0114 1980     		strh	r1, [r3, #0]	@ movhi
+ 846              	.LVL96:
+ 847              	.LBE315:
+ 848              	.LBE314:
+ 849              	.LBB316:
+ 850              	.LBB317:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 851              		.loc 1 78 0
+ 852 0116 4FF46166 		mov	r6, #3600
+ 853 011a 2680     		strh	r6, [r4, #0]	@ movhi
+ 854              	.LVL97:
+ 855              	.LBE317:
+ 856              	.LBE316:
+ 857              	.LBB318:
+ 858              	.LBB319:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 859              		.loc 1 89 0
+ 860 011c A026     		movs	r6, #160
+ 861 011e 1E80     		strh	r6, [r3, #0]	@ movhi
+ 862              	.LVL98:
+ 863              	.LBE319:
+ 864              	.LBE318:
+ 865              	.LBB320:
+ 866              	.LBB321:
+ 867 0120 4FF4A076 		mov	r6, #320
+ 868 0124 1E80     		strh	r6, [r3, #0]	@ movhi
+ 869              	.LVL99:
+ 870              	.LBE321:
+ 871              	.LBE320:
+ 872              	.LBB322:
+ 873              	.LBB323:
+ 874 0126 4FF4D876 		mov	r6, #432
+ 875 012a 1E80     		strh	r6, [r3, #0]	@ movhi
+ 876              	.LVL100:
+ 877              	.LBE323:
+ 878              	.LBE322:
+ 879              	.LBB324:
+ 880              	.LBB325:
+ 881 012c A3F80080 		strh	r8, [r3, #0]	@ movhi
+ 882              	.LVL101:
+ 883              	.LBE325:
+ 884              	.LBE324:
+ 885              	.LBB326:
+ 886              	.LBB327:
+ 887 0130 4FF49076 		mov	r6, #288
+ 888 0134 1E80     		strh	r6, [r3, #0]	@ movhi
+ 889              	.LVL102:
+ 890              	.LBE327:
+ 891              	.LBE326:
+ 892              	.LBB328:
+ 893              	.LBB329:
+ 894 0136 A3F800C0 		strh	ip, [r3, #0]	@ movhi
+ 895              	.LVL103:
+ 896              	.LBE329:
+ 897              	.LBE328:
+ 898              	.LBB330:
+ 899              	.LBB331:
+ 900 013a 1A80     		strh	r2, [r3, #0]	@ movhi
+ 901              	.LVL104:
+ 902              	.LBE331:
+ 903              	.LBE330:
+ 904              	.LBB332:
+ 905              	.LBB333:
+ 906 013c 1D80     		strh	r5, [r3, #0]	@ movhi
+ 907              	.LVL105:
+ 908              	.LBE333:
+ 909              	.LBE332:
+ 910              	.LBB334:
+ 911              	.LBB335:
+ 912 013e 1980     		strh	r1, [r3, #0]	@ movhi
+ 913              	.LVL106:
+ 914              	.LBE335:
+ 915              	.LBE334:
+ 916              	.LBB336:
+ 917              	.LBB337:
+ 918 0140 1D80     		strh	r5, [r3, #0]	@ movhi
+ 919              	.LVL107:
+ 920              	.LBE337:
+ 921              	.LBE336:
+ 922              	.LBB338:
+ 923              	.LBB339:
+ 924 0142 8022     		movs	r2, #128
+ 925 0144 1A80     		strh	r2, [r3, #0]	@ movhi
+ 926              	.LVL108:
+ 927              	.LBE339:
+ 928              	.LBE338:
+ 929              	.LBB340:
+ 930              	.LBB341:
+ 931 0146 1880     		strh	r0, [r3, #0]	@ movhi
+ 932              	.LVL109:
+ 933              	.LBE341:
+ 934              	.LBE340:
+ 935              	.LBB342:
+ 936              	.LBB343:
+ 937 0148 1980     		strh	r1, [r3, #0]	@ movhi
+ 938              	.LVL110:
+ 939              	.LBE343:
+ 940              	.LBE342:
+ 941              	.LBB344:
+ 942              	.LBB345:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 943              		.loc 1 78 0
+ 944 014a 4FF45870 		mov	r0, #864
+ 945 014e 2080     		strh	r0, [r4, #0]	@ movhi
+ 946              	.LVL111:
+ 947              	.LBE345:
+ 948              	.LBE344:
+ 949              	.LBB346:
+ 950              	.LBB347:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 951              		.loc 1 89 0
+ 952 0150 A3F800E0 		strh	lr, [r3, #0]	@ movhi
+ 953              	.LVL112:
+ 954              	.LBE347:
+ 955              	.LBE346:
+ 956              	.LBB348:
+ 957              	.LBB349:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 958              		.loc 1 78 0
+ 959 0154 2780     		strh	r7, [r4, #0]	@ movhi
+ 960              	.LVL113:
+ 961              	.LBE349:
+ 962              	.LBE348:
+ 963              	.LBB350:
+ 964              	.LBB351:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 965              		.loc 1 89 0
+ 966 0156 4FF4AA62 		mov	r2, #1360
+ 967 015a 1A80     		strh	r2, [r3, #0]	@ movhi
+ 968              	.LVL114:
+ 969              	.LBE351:
+ 970              	.LBE350:
+ 971              	.LBB352:
+ 972              	.LBB353:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 973              		.loc 1 78 0
+ 974 015c 4FF45470 		mov	r0, #848
+ 975 0160 2080     		strh	r0, [r4, #0]	@ movhi
+ 976              	.LVL115:
+ 977              	.LBE353:
+ 978              	.LBE352:
+ 979              	.LBB354:
+ 980              	.LBB355:
+  89:lib/display/drivers/src/st7732.c **** 	ST7732_DATA = (dat<<4);
+ 981              		.loc 1 89 0
+ 982 0162 1980     		strh	r1, [r3, #0]	@ movhi
+ 983              	.LBE355:
+ 984              	.LBE354:
+ 190:lib/display/drivers/src/st7732.c **** 	
+ 191:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(FRMCTR1);     /* Frame Rate Control (In normal mode/ Full colors) */
+ 192:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x06);		/* Set RTNA2 */
+ 193:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x03);		/* Set FPA2 */
+ 194:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);		/* Set BPA2 */
+ 195:lib/display/drivers/src/st7732.c **** 
+ 196:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(INVCTR);		/* Set Display Inversion Control */
+ 197:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x03);		/* Set to Flame inversion */
+ 198:lib/display/drivers/src/st7732.c **** 
+ 199:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(DISSET5);		/* Display Function set 5 */
+ 200:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);		/* Amount of non-overlap of the gate output 						:1 clock cycle */
+ 201:lib/display/drivers/src/st7732.c **** 								/* delay amount from gate signal falling edge of the source output  :1 clock cycle */
+ 202:lib/display/drivers/src/st7732.c **** 								/* Set the Equalizing period										:4 clock cycle */
+ 203:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x0E);		/* Normal scan,Source output on non-display area AGND,VCOM output on non-dis
+ 204:lib/display/drivers/src/st7732.c **** 
+ 205:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(DISPCTRL);	/* OTP and OSC function control */
+ 206:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x1A);		/* PDM:VCOML,FLM:Disable the monochrom image detection function
+ 207:lib/display/drivers/src/st7732.c **** 								   C8ON:Enable the monochrom line detection function
+ 208:lib/display/drivers/src/st7732.c **** 								   EQPW:VDD(+frame), GND(-frame), ps. EQVDD=f1f
+ 209:lib/display/drivers/src/st7732.c **** 								   EQVDD:VDD(+frame), GND(-frame) mode, ps. EQPW=f10f
+ 210:lib/display/drivers/src/st7732.c **** 								   ENGS:Gate ScanDirection G1~G162 */
+ 211:lib/display/drivers/src/st7732.c **** 
+ 212:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(PWCTR1);		/* Power Control 1*/
+ 213:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);		/* GVDD=4.70V */
+ 214:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x00);		/* VCI1=2.75V */
+ 215:lib/display/drivers/src/st7732.c **** 
+ 216:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(PWCTR2);		/* Power Control 2 */
+ 217:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x05);		/* AVDD= 5.49V,VCL= -2.74, VGHH= 14.70, VGLL= -9.80 */
+ 218:lib/display/drivers/src/st7732.c **** 
+ 219:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(PWCTR3);		/* Power Control 3 */
+ 220:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);		/* Amount of Current in Operational Amplifier :Medium Low */
+ 221:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);		/* Set the Booster circuit Step-up cycle in Normal mode/ full colors. */
+ 222:lib/display/drivers/src/st7732.c **** 								/* circuit 1 :BCLK / 1, circuit 2,3 :BCLK / 4 */
+ 223:lib/display/drivers/src/st7732.c **** 
+ 224:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(PWCTR4);		/* Power Control 4 */
+ 225:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x01);		/* Amount of Current in Operational Amplifier :Small */
+ 226:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);		/* Set the Booster circuit Step-up cycle in Idle mode/8 colors. */
+ 227:lib/display/drivers/src/st7732.c **** 								/* circuit 1 :BCLK / 1, circuit 2,3 :BCLK / 4 */
+ 228:lib/display/drivers/src/st7732.c **** 
+ 229:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(PWCTR5);		/* Power Control 5 */
+ 230:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x01);		/* Amount of Current in Operational Amplifier :Small */
+ 231:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);		/* Set the Booster circuit Step-up cycle in Partial mode/ full-colors. */
+ 232:lib/display/drivers/src/st7732.c **** 								/* circuit 1 :BCLK / 1, circuit 2,3 :BCLK / 4 */
+ 233:lib/display/drivers/src/st7732.c **** 
+ 234:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(VMCTR1);		/* VCOM Control 1 */
+ 235:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x47);		/* VCOMH=+4.275V */
+ 236:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x3A);		/* VCOML=-1.050V */
+ 237:lib/display/drivers/src/st7732.c **** 
+ 238:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(OSCADJ);		/* Internal OSC frequency control */
+ 239:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);		/* 80Hz */
+ 240:lib/display/drivers/src/st7732.c **** 
+ 241:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(DEFADJ);		/* Default mode setting */
+ 242:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x4C);		/* Disable the output mode of TESEL pin */
+ 243:lib/display/drivers/src/st7732.c **** 
+ 244:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(0xF8);		/* SLEEP OUT LOAD DEFAULT*/
+ 245:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x06);		/* Enable */
+ 246:lib/display/drivers/src/st7732.c **** 
+ 247:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(GAMCTRP1);    /* Set Gamma correction Polarity + */	          
+ 248:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x06);
+ 249:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x1c);
+ 250:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x1f);
+ 251:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x1f);
+ 252:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x18);
+ 253:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x13);
+ 254:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x06);
+ 255:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x03);
+ 256:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x03);
+ 257:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x04);
+ 258:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x07);
+ 259:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x07);
+ 260:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x00);
+ 261:lib/display/drivers/src/st7732.c **** 
+ 262:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(GAMCTRN1);    /* Set Gamma correction Polarity - */	          
+ 263:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x0a);
+ 264:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x14);
+ 265:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x1b);
+ 266:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x18);
+ 267:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x12);
+ 268:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x0e);
+ 269:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x02);
+ 270:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x01);
+ 271:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x00);
+ 272:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x01);
+ 273:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x08);
+ 274:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x07);
+ 275:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x00);
+ 276:lib/display/drivers/src/st7732.c **** 
+ 277:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(MADCTL);		/* Memory Data Access Control */
+ 278:lib/display/drivers/src/st7732.c **** 								/* -This command defines read/ write scanning direction of frame memory. */
+ 279:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0xC0); 
+ 280:lib/display/drivers/src/st7732.c **** 								/* MY=1,MX=1,MV=0,ML=0(LCD vertical refresh Top to Bottom) */
+ 281:lib/display/drivers/src/st7732.c **** 								/* Color selector switch control :RGB color filter panel */
+ 282:lib/display/drivers/src/st7732.c **** 
+ 283:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(COLMOD);		/* Interface Pixel Format */
+ 284:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x55);		/* 16-bit/pixel R5G6B5 */
+ 285:lib/display/drivers/src/st7732.c **** 
+ 286:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(TEON);		/* Tearing Effect Line ON */
+ 287:lib/display/drivers/src/st7732.c **** 	ST7732_wr_dat(0x00);		/* OFF */
+ 288:lib/display/drivers/src/st7732.c **** 	
+ 289:lib/display/drivers/src/st7732.c **** 	ST7732_clear();
+ 985              		.loc 1 289 0
+ 986 0164 FFF7FEFF 		bl	ST7732_clear
+ 987              	.LVL116:
+ 988              	.LBB356:
+ 989              	.LBB357:
+  78:lib/display/drivers/src/st7732.c **** 	ST7732_CMD = (cmd<<4);
+ 990              		.loc 1 78 0
+ 991 0168 4FF42473 		mov	r3, #656
+ 992 016c 2380     		strh	r3, [r4, #0]	@ movhi
+ 993              	.LBE357:
+ 994              	.LBE356:
+ 290:lib/display/drivers/src/st7732.c **** 	
+ 291:lib/display/drivers/src/st7732.c **** 	ST7732_wr_cmd(DISPON);		/* Display On */
+ 292:lib/display/drivers/src/st7732.c **** 	_delay_ms(20);
+ 995              		.loc 1 292 0
+ 996 016e 1420     		movs	r0, #20
+ 293:lib/display/drivers/src/st7732.c **** 
+ 294:lib/display/drivers/src/st7732.c **** 
+ 295:lib/display/drivers/src/st7732.c **** #if 0	/* test code RED */
+ 296:lib/display/drivers/src/st7732.c **** 	volatile uint32_t n;
+ 297:lib/display/drivers/src/st7732.c **** 	
+ 298:lib/display/drivers/src/st7732.c **** 	ST7732_rect(0,MAX_X-1,0,MAX_Y-1);
+ 299:lib/display/drivers/src/st7732.c **** 	n = (uint32_t)(MAX_X) * (MAX_Y);
+ 300:lib/display/drivers/src/st7732.c **** 
+ 301:lib/display/drivers/src/st7732.c **** 	do {
+ 302:lib/display/drivers/src/st7732.c **** 		ST7732_wr_gram(COL_RED);
+ 303:lib/display/drivers/src/st7732.c **** 	} while (--n);
+ 304:lib/display/drivers/src/st7732.c **** 	_delay_ms(500);
+ 305:lib/display/drivers/src/st7732.c **** 	for(;;);
+ 306:lib/display/drivers/src/st7732.c **** 
+ 307:lib/display/drivers/src/st7732.c **** #endif
+ 308:lib/display/drivers/src/st7732.c **** 
+ 309:lib/display/drivers/src/st7732.c **** }
+ 997              		.loc 1 309 0
+ 998 0170 BDE8F843 		pop	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 292:lib/display/drivers/src/st7732.c **** 	_delay_ms(20);
+ 999              		.loc 1 292 0
+ 1000 0174 FFF7FEBF 		b	_delay_ms
+ 1001              	.LVL117:
+ 1002              	.L31:
+ 1003              		.align	2
+ 1004              	.L30:
+ 1005 0178 00000268 		.word	1744961536
+ 1006              		.cfi_endproc
+ 1007              	.LFE64:
+ 1009              		.section	.text.ST7732_draw_bmp,"ax",%progbits
+ 1010              		.align	1
+ 1011              		.global	ST7732_draw_bmp
+ 1012              		.thumb
+ 1013              		.thumb_func
+ 1015              	ST7732_draw_bmp:
+ 1016              	.LFB65:
+ 310:lib/display/drivers/src/st7732.c **** 
+ 311:lib/display/drivers/src/st7732.c **** 
+ 312:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 313:lib/display/drivers/src/st7732.c **** /*! 
+ 314:lib/display/drivers/src/st7732.c ****     Draw Windows 24bitBMP File.
+ 315:lib/display/drivers/src/st7732.c **** */
+ 316:lib/display/drivers/src/st7732.c **** /**************************************************************************/
+ 317:lib/display/drivers/src/st7732.c **** int ST7732_draw_bmp(const uint8_t* ptr){
+ 1017              		.loc 1 317 0
+ 1018              		.cfi_startproc
+ 1019              		@ args = 0, pretend = 0, frame = 8
+ 1020              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1021              	.LVL118:
+ 1022 0000 2DE9F74F 		push	{r0, r1, r2, r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 1023              	.LCFI5:
+ 1024              		.cfi_def_cfa_offset 48
+ 1025              		.cfi_offset 0, -48
+ 1026              		.cfi_offset 1, -44
+ 1027              		.cfi_offset 2, -40
+ 1028              		.cfi_offset 4, -36
+ 1029              		.cfi_offset 5, -32
+ 1030              		.cfi_offset 6, -28
+ 1031              		.cfi_offset 7, -24
+ 1032              		.cfi_offset 8, -20
+ 1033              		.cfi_offset 9, -16
+ 1034              		.cfi_offset 10, -12
+ 1035              		.cfi_offset 11, -8
+ 1036              		.cfi_offset 14, -4
+ 1037 0004 0446     		mov	r4, r0
+ 318:lib/display/drivers/src/st7732.c **** 
+ 319:lib/display/drivers/src/st7732.c **** 	uint32_t n, m, biofs, bw, iw, bh, w;
+ 320:lib/display/drivers/src/st7732.c **** 	uint32_t xs, xe, ys, ye, i;
+ 321:lib/display/drivers/src/st7732.c **** 	uint8_t *p;
+ 322:lib/display/drivers/src/st7732.c **** 	uint16_t d;
+ 323:lib/display/drivers/src/st7732.c **** 
+ 324:lib/display/drivers/src/st7732.c **** 	/* Load BitStream Address Offset  */
+ 325:lib/display/drivers/src/st7732.c **** 	biofs = LD_UINT32(ptr+10);
+ 1038              		.loc 1 325 0
+ 1039 0006 90F80DC0 		ldrb	ip, [r0, #13]	@ zero_extendqisi2
+ 1040 000a 037B     		ldrb	r3, [r0, #12]	@ zero_extendqisi2
+ 1041 000c C27A     		ldrb	r2, [r0, #11]	@ zero_extendqisi2
+ 1042 000e 817A     		ldrb	r1, [r0, #10]	@ zero_extendqisi2
+ 1043              	.LVL119:
+ 326:lib/display/drivers/src/st7732.c **** 	/* Check Plane Count "1" */
+ 327:lib/display/drivers/src/st7732.c **** 	if (LD_UINT16(ptr+26) != 1)  return 0;
+ 1044              		.loc 1 327 0
+ 1045 0010 C57E     		ldrb	r5, [r0, #27]	@ zero_extendqisi2
+ 1046 0012 807E     		ldrb	r0, [r0, #26]	@ zero_extendqisi2
+ 1047              	.LVL120:
+ 1048 0014 40EA0520 		orr	r0, r0, r5, lsl #8
+ 1049 0018 0128     		cmp	r0, #1
+ 1050 001a 40F08380 		bne	.L41
+ 328:lib/display/drivers/src/st7732.c **** 	/* Check BMP bit_counts "24(windows bitmap standard)" */
+ 329:lib/display/drivers/src/st7732.c **** 	if (LD_UINT16(ptr+28) != 24) return 0;
+ 1051              		.loc 1 329 0
+ 1052 001e 657F     		ldrb	r5, [r4, #29]	@ zero_extendqisi2
+ 1053 0020 207F     		ldrb	r0, [r4, #28]	@ zero_extendqisi2
+ 1054 0022 40EA0520 		orr	r0, r0, r5, lsl #8
+ 1055 0026 1828     		cmp	r0, #24
+ 1056 0028 7CD1     		bne	.L41
+ 330:lib/display/drivers/src/st7732.c **** 	/* Check BMP Compression "BI_RGB(no compresstion)"*/
+ 331:lib/display/drivers/src/st7732.c **** 	if (LD_UINT32(ptr+30) != 0)  return 0;
+ 1057              		.loc 1 331 0
+ 1058 002a 94F82100 		ldrb	r0, [r4, #33]	@ zero_extendqisi2
+ 1059 002e 94F82090 		ldrb	r9, [r4, #32]	@ zero_extendqisi2
+ 1060 0032 4FEA0949 		lsl	r9, r9, #16
+ 1061 0036 49EA0069 		orr	r9, r9, r0, lsl #24
+ 1062 003a A07F     		ldrb	r0, [r4, #30]	@ zero_extendqisi2
+ 1063 003c 49EA0009 		orr	r9, r9, r0
+ 1064 0040 E07F     		ldrb	r0, [r4, #31]	@ zero_extendqisi2
+ 1065 0042 59EA0029 		orrs	r9, r9, r0, lsl #8
+ 1066 0046 6DD1     		bne	.L41
+ 332:lib/display/drivers/src/st7732.c **** 	/* Load BMP width */
+ 333:lib/display/drivers/src/st7732.c **** 	bw = LD_UINT32(ptr+18);
+ 1067              		.loc 1 333 0
+ 1068 0048 657D     		ldrb	r5, [r4, #21]	@ zero_extendqisi2
+ 1069 004a 277D     		ldrb	r7, [r4, #20]	@ zero_extendqisi2
+ 1070 004c 3E04     		lsls	r6, r7, #16
+ 1071 004e 46EA0565 		orr	r5, r6, r5, lsl #24
+ 1072 0052 A07C     		ldrb	r0, [r4, #18]	@ zero_extendqisi2
+ 1073 0054 0543     		orrs	r5, r5, r0
+ 1074 0056 E77C     		ldrb	r7, [r4, #19]	@ zero_extendqisi2
+ 1075 0058 45EA0727 		orr	r7, r5, r7, lsl #8
+ 1076              	.LVL121:
+ 334:lib/display/drivers/src/st7732.c **** 	/* Load BMP height */
+ 335:lib/display/drivers/src/st7732.c **** 	bh = LD_UINT32(ptr+22);
+ 1077              		.loc 1 335 0
+ 1078 005c 94F81980 		ldrb	r8, [r4, #25]	@ zero_extendqisi2
+ 1079 0060 257E     		ldrb	r5, [r4, #24]	@ zero_extendqisi2
+ 1080 0062 E07D     		ldrb	r0, [r4, #23]	@ zero_extendqisi2
+ 1081 0064 A67D     		ldrb	r6, [r4, #22]	@ zero_extendqisi2
+ 1082              	.LVL122:
+ 336:lib/display/drivers/src/st7732.c **** 	/* Check BMP width under 1280px */
+ 337:lib/display/drivers/src/st7732.c **** 	if (!bw || bw > 1280 || !bh) return 0;
+ 1083              		.loc 1 337 0
+ 1084 0066 07F1FF3B 		add	fp, r7, #-1
+ 1085 006a BBF5A06F 		cmp	fp, #1280
+ 1086 006e 59D2     		bcs	.L41
+ 335:lib/display/drivers/src/st7732.c **** 	bh = LD_UINT32(ptr+22);
+ 1087              		.loc 1 335 0 discriminator 2
+ 1088 0070 2D04     		lsls	r5, r5, #16
+ 1089              	.LVL123:
+ 1090 0072 45EA0865 		orr	r5, r5, r8, lsl #24
+ 1091 0076 3543     		orrs	r5, r5, r6
+ 1092              		.loc 1 337 0 discriminator 2
+ 1093 0078 55EA0025 		orrs	r5, r5, r0, lsl #8
+ 1094 007c 54D0     		beq	.L43
+ 338:lib/display/drivers/src/st7732.c **** 	
+ 339:lib/display/drivers/src/st7732.c **** 	/* Calculate Data byte count per holizontal line */
+ 340:lib/display/drivers/src/st7732.c **** 	iw = ((bw * 3) + 3) & ~3;
+ 1095              		.loc 1 340 0
+ 1096 007e 7E1C     		adds	r6, r7, #1
+ 1097              	.LVL124:
+ 1098 0080 4FF0030A 		mov	sl, #3
+ 1099 0084 0AFB06F0 		mul	r0, sl, r6
+ 1100              	.LVL125:
+ 1101 0088 20F0030A 		bic	sl, r0, #3
+ 1102              	.LVL126:
+ 341:lib/display/drivers/src/st7732.c **** 
+ 342:lib/display/drivers/src/st7732.c **** 	/* Centering */
+ 343:lib/display/drivers/src/st7732.c **** 	if (bw > MAX_X) {
+ 1103              		.loc 1 343 0
+ 1104 008c 802F     		cmp	r7, #128
+ 344:lib/display/drivers/src/st7732.c **** 		xs = 0; xe = MAX_X-1;
+ 345:lib/display/drivers/src/st7732.c **** 	} else {
+ 346:lib/display/drivers/src/st7732.c **** 		xs = (MAX_X - bw) / 2;
+ 1105              		.loc 1 346 0
+ 1106 008e 9DBF     		ittte	ls
+ 1107 0090 C7F18009 		rsbls	r9, r7, #128
+ 1108 0094 4FEA5909 		lsrls	r9, r9, #1
+ 1109              	.LVL127:
+ 347:lib/display/drivers/src/st7732.c **** 		xe = (MAX_X - bw) / 2 + bw - 1;
+ 1110              		.loc 1 347 0
+ 1111 0098 CB44     		addls	fp, r9, fp
+ 1112              	.LVL128:
+ 344:lib/display/drivers/src/st7732.c **** 		xs = 0; xe = MAX_X-1;
+ 1113              		.loc 1 344 0
+ 1114 009a 4FF07F0B 		movhi	fp, #127
+ 1115              	.LVL129:
+ 348:lib/display/drivers/src/st7732.c **** 	}
+ 349:lib/display/drivers/src/st7732.c **** 	if (bh > MAX_Y) {
+ 1116              		.loc 1 349 0
+ 1117 009e A02D     		cmp	r5, #160
+ 1118 00a0 06D8     		bhi	.L45
+ 350:lib/display/drivers/src/st7732.c **** 		ys = 0; ye = MAX_Y-1;
+ 351:lib/display/drivers/src/st7732.c **** 	} else {
+ 352:lib/display/drivers/src/st7732.c **** 		ys = (MAX_Y - bh) / 2;
+ 1119              		.loc 1 352 0
+ 1120 00a2 C5F1A008 		rsb	r8, r5, #160
+ 1121              	.LVL130:
+ 1122 00a6 4FEA5808 		lsr	r8, r8, #1
+ 1123              	.LVL131:
+ 353:lib/display/drivers/src/st7732.c **** 		ye = (MAX_Y - bh) / 2 + bh - 1;
+ 1124              		.loc 1 353 0
+ 1125 00aa 6E1E     		subs	r6, r5, #1
+ 1126 00ac 4644     		add	r6, r6, r8
+ 1127              	.LVL132:
+ 1128 00ae 02E0     		b	.L35
+ 1129              	.LVL133:
+ 1130              	.L45:
+ 350:lib/display/drivers/src/st7732.c **** 		ys = 0; ye = MAX_Y-1;
+ 1131              		.loc 1 350 0
+ 1132 00b0 9F26     		movs	r6, #159
+ 1133 00b2 4FF00008 		mov	r8, #0
+ 1134              	.LVL134:
+ 1135              	.L35:
+ 325:lib/display/drivers/src/st7732.c **** 	biofs = LD_UINT32(ptr+10);
+ 1136              		.loc 1 325 0
+ 1137 00b6 1B04     		lsls	r3, r3, #16
+ 1138              	.LVL135:
+ 1139 00b8 43EA0C60 		orr	r0, r3, ip, lsl #24
+ 1140 00bc 0843     		orrs	r0, r0, r1
+ 1141 00be 40EA0222 		orr	r2, r0, r2, lsl #8
+ 1142              	.LVL136:
+ 354:lib/display/drivers/src/st7732.c **** 	}
+ 355:lib/display/drivers/src/st7732.c **** 
+ 356:lib/display/drivers/src/st7732.c **** 	/* Clear Display */
+ 357:lib/display/drivers/src/st7732.c **** 	ST7732_clear();
+ 1143              		.loc 1 357 0
+ 1144 00c2 0192     		str	r2, [sp, #4]
+ 1145 00c4 FFF7FEFF 		bl	ST7732_clear
+ 1146              	.LVL137:
+ 358:lib/display/drivers/src/st7732.c **** 
+ 359:lib/display/drivers/src/st7732.c ****     /* Limit to MAX_Y */
+ 360:lib/display/drivers/src/st7732.c **** 	m = (bh <= MAX_Y) ? biofs : biofs + (bh - MAX_Y) * iw;
+ 1147              		.loc 1 360 0
+ 1148 00c8 A02D     		cmp	r5, #160
+ 1149 00ca 0199     		ldr	r1, [sp, #4]
+ 1150 00cc 02D9     		bls	.L36
+ 1151              		.loc 1 360 0 is_stmt 0 discriminator 2
+ 1152 00ce A03D     		subs	r5, r5, #160
+ 1153 00d0 05FB0A11 		mla	r1, r5, sl, r1
+ 1154              	.L36:
+ 1155              	.LVL138:
+ 361:lib/display/drivers/src/st7732.c **** 
+ 362:lib/display/drivers/src/st7732.c **** 	/* Set First data offset */  
+ 363:lib/display/drivers/src/st7732.c **** 	i = m % 512;
+ 364:lib/display/drivers/src/st7732.c **** 
+ 365:lib/display/drivers/src/st7732.c **** 	/* Set BMP's Bottom-Left point */
+ 366:lib/display/drivers/src/st7732.c **** 	m = ye;
+ 367:lib/display/drivers/src/st7732.c **** 
+ 368:lib/display/drivers/src/st7732.c ****     /* Limit MAX_X */
+ 369:lib/display/drivers/src/st7732.c **** 	w = (bw > MAX_X) ? MAX_X : bw;
+ 1156              		.loc 1 369 0 is_stmt 1 discriminator 3
+ 1157 00d4 802F     		cmp	r7, #128
+ 1158 00d6 28BF     		it	cs
+ 1159 00d8 8027     		movcs	r7, #128
+ 1160              	.LVL139:
+ 363:lib/display/drivers/src/st7732.c **** 	i = m % 512;
+ 1161              		.loc 1 363 0 discriminator 3
+ 1162 00da CD05     		lsls	r5, r1, #23
+ 317:lib/display/drivers/src/st7732.c **** int ST7732_draw_bmp(const uint8_t* ptr){
+ 1163              		.loc 1 317 0 discriminator 3
+ 1164 00dc 04EBD554 		add	r4, r4, r5, lsr #23
+ 1165              	.LVL140:
+ 1166              	.L38:
+ 370:lib/display/drivers/src/st7732.c **** 
+ 371:lib/display/drivers/src/st7732.c **** 	do {
+ 372:lib/display/drivers/src/st7732.c **** 		ST7732_rect(xs, xe, m, m);
+ 1167              		.loc 1 372 0
+ 1168 00e0 4846     		mov	r0, r9
+ 1169 00e2 5946     		mov	r1, fp
+ 1170 00e4 3246     		mov	r2, r6
+ 1171 00e6 3346     		mov	r3, r6
+ 1172 00e8 FFF7FEFF 		bl	ST7732_rect
+ 1173              	.LVL141:
+ 373:lib/display/drivers/src/st7732.c **** 		n = 0;
+ 374:lib/display/drivers/src/st7732.c **** 		p = (uint8_t*)ptr + i;
+ 1174              		.loc 1 374 0
+ 1175 00ec 2546     		mov	r5, r4
+ 1176              	.LVL142:
+ 373:lib/display/drivers/src/st7732.c **** 		n = 0;
+ 1177              		.loc 1 373 0
+ 1178 00ee 0023     		movs	r3, #0
+ 1179              	.LVL143:
+ 1180              	.L37:
+ 375:lib/display/drivers/src/st7732.c **** 		do {
+ 376:lib/display/drivers/src/st7732.c **** 			n++;
+ 1181              		.loc 1 376 0 discriminator 1
+ 1182 00f0 0133     		adds	r3, r3, #1
+ 1183              	.LVL144:
+ 377:lib/display/drivers/src/st7732.c **** 			/* 65k colour access */
+ 378:lib/display/drivers/src/st7732.c **** 			d = *p++ >> 3;
+ 379:lib/display/drivers/src/st7732.c **** 			d |= (*p++ >> 2) << 5;
+ 1184              		.loc 1 379 0 discriminator 1
+ 1185 00f2 6878     		ldrb	r0, [r5, #1]	@ zero_extendqisi2
+ 1186 00f4 8108     		lsrs	r1, r0, #2
+ 380:lib/display/drivers/src/st7732.c **** 			d |= (*p++ >> 3) << 11;
+ 1187              		.loc 1 380 0 discriminator 1
+ 1188 00f6 AA78     		ldrb	r2, [r5, #2]	@ zero_extendqisi2
+ 1189 00f8 D008     		lsrs	r0, r2, #3
+ 1190 00fa C202     		lsls	r2, r0, #11
+ 379:lib/display/drivers/src/st7732.c **** 			d |= (*p++ >> 2) << 5;
+ 1191              		.loc 1 379 0 discriminator 1
+ 1192 00fc 42EA4111 		orr	r1, r2, r1, lsl #5
+ 378:lib/display/drivers/src/st7732.c **** 			d = *p++ >> 3;
+ 1193              		.loc 1 378 0 discriminator 1
+ 1194 0100 15F8030B 		ldrb	r0, [r5], #3	@ zero_extendqisi2
+ 1195              	.LVL145:
+ 381:lib/display/drivers/src/st7732.c **** 			ST7732_wr_gram(d);
+ 1196              		.loc 1 381 0 discriminator 1
+ 1197 0104 41EAD000 		orr	r0, r1, r0, lsr #3
+ 1198              	.LVL146:
+ 1199 0108 0193     		str	r3, [sp, #4]
+ 1200 010a FFF7FEFF 		bl	ST7732_wr_gram
+ 1201              	.LVL147:
+ 382:lib/display/drivers/src/st7732.c **** 		} while (n < w);
+ 1202              		.loc 1 382 0 discriminator 1
+ 1203 010e 019B     		ldr	r3, [sp, #4]
+ 1204 0110 BB42     		cmp	r3, r7
+ 1205 0112 EDD3     		bcc	.L37
+ 383:lib/display/drivers/src/st7732.c **** 		i += iw;
+ 384:lib/display/drivers/src/st7732.c **** 
+ 385:lib/display/drivers/src/st7732.c **** 	} while (m-- > ys);
+ 1206              		.loc 1 385 0
+ 1207 0114 721E     		subs	r2, r6, #1
+ 1208              	.LVL148:
+ 1209 0116 5444     		add	r4, r4, sl
+ 1210 0118 4645     		cmp	r6, r8
+ 1211 011a 01D9     		bls	.L49
+ 1212              	.L47:
+ 1213 011c 1646     		mov	r6, r2
+ 1214 011e DFE7     		b	.L38
+ 1215              	.L49:
+ 386:lib/display/drivers/src/st7732.c **** 
+ 387:lib/display/drivers/src/st7732.c **** 	return 1;
+ 1216              		.loc 1 387 0
+ 1217 0120 0120     		movs	r0, #1
+ 1218 0122 02E0     		b	.L33
+ 1219              	.LVL149:
+ 1220              	.L41:
+ 327:lib/display/drivers/src/st7732.c **** 	if (LD_UINT16(ptr+26) != 1)  return 0;
+ 1221              		.loc 1 327 0
+ 1222 0124 0020     		movs	r0, #0
+ 1223 0126 00E0     		b	.L33
+ 1224              	.LVL150:
+ 1225              	.L43:
+ 1226 0128 2846     		mov	r0, r5
+ 1227              	.LVL151:
+ 1228              	.L33:
+ 388:lib/display/drivers/src/st7732.c **** }
+ 1229              		.loc 1 388 0
+ 1230 012a BDE8FE8F 		pop	{r1, r2, r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 1231              		.cfi_endproc
+ 1232              	.LFE65:
+ 1234              		.text
+ 1235              	.Letext0:
+ 1236              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 1237              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
+ 1238              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
+ 1239              		.file 5 "./inc/systick.h"
+ 1240              		.file 6 "./lib/display/mcu_depend/inc/display_if_basis.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 st7732.c
+  R:\TEMP\ccS4wrbf.s:19     .text.ST7732_reset:00000000 $t
+  R:\TEMP\ccS4wrbf.s:24     .text.ST7732_reset:00000000 ST7732_reset
+  R:\TEMP\ccS4wrbf.s:67     .text.ST7732_reset:00000028 $d
+  R:\TEMP\ccS4wrbf.s:72     .text.ST7732_wr_cmd:00000000 $t
+  R:\TEMP\ccS4wrbf.s:77     .text.ST7732_wr_cmd:00000000 ST7732_wr_cmd
+  R:\TEMP\ccS4wrbf.s:95     .text.ST7732_wr_dat:00000000 $t
+  R:\TEMP\ccS4wrbf.s:100    .text.ST7732_wr_dat:00000000 ST7732_wr_dat
+  R:\TEMP\ccS4wrbf.s:117    .text.ST7732_wr_dat:00000008 $d
+  R:\TEMP\ccS4wrbf.s:122    .text.ST7732_wr_gram:00000000 $t
+  R:\TEMP\ccS4wrbf.s:127    .text.ST7732_wr_gram:00000000 ST7732_wr_gram
+  R:\TEMP\ccS4wrbf.s:148    .text.ST7732_wr_gram:00000010 $d
+  R:\TEMP\ccS4wrbf.s:153    .text.ST7732_wr_block:00000000 $t
+  R:\TEMP\ccS4wrbf.s:158    .text.ST7732_wr_block:00000000 ST7732_wr_block
+  R:\TEMP\ccS4wrbf.s:258    .text.ST7732_wr_block:00000048 $d
+  R:\TEMP\ccS4wrbf.s:263    .text.ST7732_rect:00000000 $t
+  R:\TEMP\ccS4wrbf.s:268    .text.ST7732_rect:00000000 ST7732_rect
+  R:\TEMP\ccS4wrbf.s:376    .text.ST7732_rect:00000040 $d
+  R:\TEMP\ccS4wrbf.s:383    .text.ST7732_clear:00000000 $t
+  R:\TEMP\ccS4wrbf.s:388    .text.ST7732_clear:00000000 ST7732_clear
+  R:\TEMP\ccS4wrbf.s:435    .text.ST7732_clear:00000030 $d
+  R:\TEMP\ccS4wrbf.s:440    .text.ST7732_init:00000000 $t
+  R:\TEMP\ccS4wrbf.s:445    .text.ST7732_init:00000000 ST7732_init
+  R:\TEMP\ccS4wrbf.s:1005   .text.ST7732_init:00000178 $d
+  R:\TEMP\ccS4wrbf.s:1010   .text.ST7732_draw_bmp:00000000 $t
+  R:\TEMP\ccS4wrbf.s:1015   .text.ST7732_draw_bmp:00000000 ST7732_draw_bmp
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+_delay_ms
+Display_IoInit_If

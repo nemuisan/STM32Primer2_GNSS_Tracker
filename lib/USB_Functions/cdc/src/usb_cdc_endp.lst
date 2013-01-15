@@ -1,0 +1,540 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"usb_cdc_endp.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.CDC_EP1_IN_Callback,"ax",%progbits
+  19              		.align	1
+  20              		.global	CDC_EP1_IN_Callback
+  21              		.thumb
+  22              		.thumb_func
+  24              	CDC_EP1_IN_Callback:
+  25              	.LFB57:
+  26              		.file 1 "lib/USB_Functions/cdc/src/usb_cdc_endp.c"
+   1:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /********************************************************************************/
+   2:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /*!
+   3:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	@file			usb_cdc_endp.c
+   4:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @version        1.00
+   6:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @date           2012.01.30
+   7:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	@brief          Endpoint routines.
+   8:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 					Based On STMicro's Sample Thanks!
+   9:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  10:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @section HISTORY
+  11:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		2012.01.30	V1.00	Start Here.
+  12:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  13:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @section LICENSE
+  14:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		BSD License. See Copyright.txt
+  15:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** */
+  16:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /********************************************************************************/
+  17:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  18:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /* Includes ------------------------------------------------------------------*/
+  19:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** #include "usb_lib.h"
+  20:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** #include "usb_cdc_desc.h"
+  21:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** #include "usb_cdc_conf.h"
+  22:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** #include "usb_pwr.h"
+  23:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** #include "usb_istr.h"
+  24:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  25:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /* Defines -------------------------------------------------------------------*/
+  26:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /* Interval between sending IN packets in frame number (1 frame = 1ms) */
+  27:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** #define VCOMPORT_IN_FRAME_INTERVAL             5
+  28:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  29:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /* Variables -----------------------------------------------------------------*/
+  30:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** uint8_t USB_Rx_Buffer[VIRTUAL_COM_PORT_DATA_SIZE];
+  31:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern  uint8_t USART_Rx_Buffer[];
+  32:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern uint32_t USART_Rx_ptr_out;
+  33:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern uint32_t USART_Rx_length;
+  34:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern uint8_t  USB_Tx_State;
+  35:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern uint8_t  USB_xMutex;
+  36:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern uint32_t USART_Rx_ptr_in;
+  37:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  38:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  39:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /* Constants -----------------------------------------------------------------*/
+  40:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  41:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /* Function prototypes -------------------------------------------------------*/
+  42:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern void USART_Config_Default(void);
+  43:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern bool USART_Config(void);
+  44:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes);
+  45:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** extern void Handle_USBAsynchXfer(void);
+  46:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  47:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /* Functions -----------------------------------------------------------------*/
+  48:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  49:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /**************************************************************************/
+  50:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /*! 
+  51:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @brief  CDC_EP1_IN_Callback.
+  52:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	@param  None.
+  53:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @retval None.
+  54:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** */
+  55:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /**************************************************************************/
+  56:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** void CDC_EP1_IN_Callback(void)
+  57:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** {
+  27              		.loc 1 57 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 38B5     		push	{r3, r4, r5, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 3, -16
+  35              		.cfi_offset 4, -12
+  36              		.cfi_offset 5, -8
+  37              		.cfi_offset 14, -4
+  58:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   uint16_t USB_Tx_ptr;
+  59:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   uint16_t USB_Tx_length;
+  60:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   
+  61:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   if (USB_Tx_State == 1)
+  38              		.loc 1 61 0
+  39 0002 2948     		ldr	r0, .L15
+  40 0004 0178     		ldrb	r1, [r0, #0]	@ zero_extendqisi2
+  41 0006 0129     		cmp	r1, #1
+  42 0008 4CD1     		bne	.L1
+  62:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   {
+  63:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     if (USART_Rx_length == 0) 
+  43              		.loc 1 63 0
+  44 000a 284A     		ldr	r2, .L15+4
+  45 000c 1368     		ldr	r3, [r2, #0]
+  46 000e 1BB9     		cbnz	r3, .L4
+  64:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     {
+  65:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       USB_Tx_State = 0;
+  47              		.loc 1 65 0
+  48 0010 0370     		strb	r3, [r0, #0]
+  66:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	  USB_xMutex =1;
+  49              		.loc 1 66 0
+  50 0012 274B     		ldr	r3, .L15+8
+  51 0014 1970     		strb	r1, [r3, #0]
+  52 0016 1CE0     		b	.L5
+  53              	.L4:
+  67:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     }
+  68:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     else 
+  69:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     {
+  70:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  71:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		  if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE){
+  54              		.loc 1 71 0
+  55 0018 402B     		cmp	r3, #64
+  56 001a 264C     		ldr	r4, .L15+12
+  72:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_ptr = USART_Rx_ptr_out;
+  57              		.loc 1 72 0
+  58 001c 2068     		ldr	r0, [r4, #0]
+  59 001e 81B2     		uxth	r1, r0
+  71:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		  if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE){
+  60              		.loc 1 71 0
+  61 0020 05D9     		bls	.L6
+  62              	.LVL0:
+  73:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
+  74:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			
+  75:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USART_Rx_ptr_out += VIRTUAL_COM_PORT_DATA_SIZE;
+  63              		.loc 1 75 0
+  64 0022 4030     		adds	r0, r0, #64
+  65              	.LVL1:
+  66 0024 2060     		str	r0, [r4, #0]
+  76:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USART_Rx_length -= VIRTUAL_COM_PORT_DATA_SIZE;    
+  67              		.loc 1 76 0
+  68 0026 403B     		subs	r3, r3, #64
+  69 0028 1360     		str	r3, [r2, #0]
+  73:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
+  70              		.loc 1 73 0
+  71 002a 4025     		movs	r5, #64
+  72 002c 04E0     		b	.L7
+  73              	.LVL2:
+  74              	.L6:
+  77:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		  }
+  78:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		  else 
+  79:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		  {
+  80:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_ptr = USART_Rx_ptr_out;
+  81:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_length = USART_Rx_length;
+  75              		.loc 1 81 0
+  76 002e 9DB2     		uxth	r5, r3
+  77              	.LVL3:
+  82:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			
+  83:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USART_Rx_ptr_out += USART_Rx_length;
+  78              		.loc 1 83 0
+  79 0030 C318     		adds	r3, r0, r3
+  80              	.LVL4:
+  81 0032 2360     		str	r3, [r4, #0]
+  84:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USART_Rx_length = 0;
+  82              		.loc 1 84 0
+  83 0034 0020     		movs	r0, #0
+  84 0036 1060     		str	r0, [r2, #0]
+  85              	.LVL5:
+  86              	.L7:
+  85:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		  }
+  86:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  87:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], CDC_ENDP1_TXADDR, USB_Tx_length);
+  87              		.loc 1 87 0
+  88 0038 1F4A     		ldr	r2, .L15+16
+  89 003a 5018     		adds	r0, r2, r1
+  90 003c C021     		movs	r1, #192
+  91              	.LVL6:
+  92 003e 2A46     		mov	r2, r5
+  93 0040 FFF7FEFF 		bl	UserToPMABufferCopy
+  94              	.LVL7:
+  88:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       SetEPTxCount(ENDP1, USB_Tx_length);
+  95              		.loc 1 88 0
+  96 0044 0120     		movs	r0, #1
+  97 0046 2946     		mov	r1, r5
+  98 0048 FFF7FEFF 		bl	SetEPTxCount
+  99              	.LVL8:
+  89:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       SetEPTxValid(ENDP1); 
+ 100              		.loc 1 89 0
+ 101 004c 0120     		movs	r0, #1
+ 102 004e FFF7FEFF 		bl	SetEPTxValid
+ 103              	.LVL9:
+ 104              	.L5:
+  90:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     }
+  91:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	
+  92:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	if((USART_Rx_ptr_in != 0) && (USB_xMutex ==1)){ /* USB_Tx_State =0,xMutex=1,and UARTRX data reache
+ 105              		.loc 1 92 0
+ 106 0052 1A49     		ldr	r1, .L15+20
+ 107 0054 0868     		ldr	r0, [r1, #0]
+ 108 0056 0028     		cmp	r0, #0
+ 109 0058 24D0     		beq	.L1
+ 110              		.loc 1 92 0 is_stmt 0 discriminator 1
+ 111 005a 154A     		ldr	r2, .L15+8
+ 112 005c 1378     		ldrb	r3, [r2, #0]	@ zero_extendqisi2
+ 113 005e 012B     		cmp	r3, #1
+ 114 0060 20D1     		bne	.L1
+  93:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+  94:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE){
+ 115              		.loc 1 94 0 is_stmt 1
+ 116 0062 124A     		ldr	r2, .L15+4
+ 117 0064 1468     		ldr	r4, [r2, #0]
+ 118 0066 402C     		cmp	r4, #64
+ 119 0068 124B     		ldr	r3, .L15+12
+  95:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_ptr = USART_Rx_ptr_out;
+ 120              		.loc 1 95 0
+ 121 006a 1868     		ldr	r0, [r3, #0]
+ 122 006c 81B2     		uxth	r1, r0
+  94:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE){
+ 123              		.loc 1 94 0
+ 124 006e 05D9     		bls	.L9
+ 125              	.LVL10:
+  96:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
+  97:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			
+  98:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USART_Rx_ptr_out += VIRTUAL_COM_PORT_DATA_SIZE;
+ 126              		.loc 1 98 0
+ 127 0070 4030     		adds	r0, r0, #64
+ 128              	.LVL11:
+ 129 0072 1860     		str	r0, [r3, #0]
+  99:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USART_Rx_length -= VIRTUAL_COM_PORT_DATA_SIZE;    
+ 130              		.loc 1 99 0
+ 131 0074 403C     		subs	r4, r4, #64
+ 132 0076 1460     		str	r4, [r2, #0]
+  96:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
+ 133              		.loc 1 96 0
+ 134 0078 4025     		movs	r5, #64
+ 135 007a 04E0     		b	.L10
+ 136              	.LVL12:
+ 137              	.L9:
+ 100:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		}
+ 101:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		else 
+ 102:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		{
+ 103:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_ptr = USART_Rx_ptr_out;
+ 104:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_length = USART_Rx_length;
+ 138              		.loc 1 104 0
+ 139 007c A5B2     		uxth	r5, r4
+ 140              	.LVL13:
+ 105:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			
+ 106:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USART_Rx_ptr_out += USART_Rx_length;
+ 141              		.loc 1 106 0
+ 142 007e 0419     		adds	r4, r0, r4
+ 143              	.LVL14:
+ 144 0080 1C60     		str	r4, [r3, #0]
+ 107:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USART_Rx_length = 0;
+ 145              		.loc 1 107 0
+ 146 0082 0023     		movs	r3, #0
+ 147 0084 1360     		str	r3, [r2, #0]
+ 148              	.LVL15:
+ 149              	.L10:
+ 108:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		}
+ 109:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		
+ 110:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], CDC_ENDP1_TXADDR, USB_Tx_length);
+ 150              		.loc 1 110 0
+ 151 0086 0C4A     		ldr	r2, .L15+16
+ 152 0088 5018     		adds	r0, r2, r1
+ 153 008a C021     		movs	r1, #192
+ 154              	.LVL16:
+ 155 008c 2A46     		mov	r2, r5
+ 156 008e FFF7FEFF 		bl	UserToPMABufferCopy
+ 157              	.LVL17:
+ 111:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       SetEPTxCount(ENDP1, USB_Tx_length);
+ 158              		.loc 1 111 0
+ 159 0092 0120     		movs	r0, #1
+ 160 0094 2946     		mov	r1, r5
+ 161 0096 FFF7FEFF 		bl	SetEPTxCount
+ 162              	.LVL18:
+ 112:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       SetEPTxValid(ENDP1); 
+ 163              		.loc 1 112 0
+ 164 009a 0120     		movs	r0, #1
+ 113:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		}
+ 114:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+ 115:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   }
+ 116:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** }
+ 165              		.loc 1 116 0
+ 166 009c BDE83840 		pop	{r3, r4, r5, lr}
+ 112:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       SetEPTxValid(ENDP1); 
+ 167              		.loc 1 112 0
+ 168 00a0 FFF7FEBF 		b	SetEPTxValid
+ 169              	.LVL19:
+ 170              	.L1:
+ 171 00a4 38BD     		pop	{r3, r4, r5, pc}
+ 172              	.L16:
+ 173 00a6 00BF     		.align	2
+ 174              	.L15:
+ 175 00a8 00000000 		.word	USB_Tx_State
+ 176 00ac 00000000 		.word	USART_Rx_length
+ 177 00b0 00000000 		.word	USB_xMutex
+ 178 00b4 00000000 		.word	USART_Rx_ptr_out
+ 179 00b8 00000000 		.word	USART_Rx_Buffer
+ 180 00bc 00000000 		.word	USART_Rx_ptr_in
+ 181              		.cfi_endproc
+ 182              	.LFE57:
+ 184              		.section	.text.CDC_EP3_OUT_Callback,"ax",%progbits
+ 185              		.align	1
+ 186              		.global	CDC_EP3_OUT_Callback
+ 187              		.thumb
+ 188              		.thumb_func
+ 190              	CDC_EP3_OUT_Callback:
+ 191              	.LFB58:
+ 117:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+ 118:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /**************************************************************************/
+ 119:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /*! 
+ 120:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @brief  CDC_EP3_OUT_Callback.
+ 121:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	@param  None.
+ 122:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @retval None.
+ 123:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** */
+ 124:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /**************************************************************************/
+ 125:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** void CDC_EP3_OUT_Callback(void)
+ 126:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** {
+ 192              		.loc 1 126 0
+ 193              		.cfi_startproc
+ 194              		@ args = 0, pretend = 0, frame = 0
+ 195              		@ frame_needed = 0, uses_anonymous_args = 0
+ 196 0000 10B5     		push	{r4, lr}
+ 197              	.LCFI1:
+ 198              		.cfi_def_cfa_offset 8
+ 199              		.cfi_offset 4, -8
+ 200              		.cfi_offset 14, -4
+ 127:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   uint16_t USB_Rx_Cnt;
+ 128:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   
+ 129:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   /* Get the received data buffer and update the counter */
+ 130:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   /* Nemui Added DoubleBuffer */
+ 131:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   if (GetENDPOINT(ENDP3) & EP_DTOG_TX)
+ 201              		.loc 1 131 0
+ 202 0002 0320     		movs	r0, #3
+ 203 0004 FFF7FEFF 		bl	GetENDPOINT
+ 204              	.LVL20:
+ 205 0008 00F04000 		and	r0, r0, #64
+ 206 000c 81B2     		uxth	r1, r0
+ 207 000e 59B1     		cbz	r1, .L18
+ 132:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   {
+ 133:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	FreeUserBuffer(ENDP3, EP_DBUF_OUT); 
+ 208              		.loc 1 133 0
+ 209 0010 0320     		movs	r0, #3
+ 210 0012 0121     		movs	r1, #1
+ 211 0014 FFF7FEFF 		bl	FreeUserBuffer
+ 212              	.LVL21:
+ 134:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	USB_Rx_Cnt = GetEPDblBuf0Count(ENDP3);
+ 213              		.loc 1 134 0
+ 214 0018 0320     		movs	r0, #3
+ 215 001a FFF7FEFF 		bl	GetEPDblBuf0Count
+ 216              	.LVL22:
+ 217 001e 0446     		mov	r4, r0
+ 218              	.LVL23:
+ 135:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	PMAToUserBufferCopy(USB_Rx_Buffer, CDC_ENDP3_BUF0Addr, USB_Rx_Cnt);
+ 219              		.loc 1 135 0
+ 220 0020 0D48     		ldr	r0, .L21
+ 221              	.LVL24:
+ 222 0022 4FF48871 		mov	r1, #272
+ 223 0026 0AE0     		b	.L20
+ 224              	.LVL25:
+ 225              	.L18:
+ 136:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   }
+ 137:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   else
+ 138:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   {
+ 139:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	FreeUserBuffer(ENDP3, EP_DBUF_OUT); 
+ 226              		.loc 1 139 0
+ 227 0028 0320     		movs	r0, #3
+ 228 002a 0121     		movs	r1, #1
+ 229 002c FFF7FEFF 		bl	FreeUserBuffer
+ 230              	.LVL26:
+ 140:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	USB_Rx_Cnt = GetEPDblBuf1Count(ENDP3);
+ 231              		.loc 1 140 0
+ 232 0030 0320     		movs	r0, #3
+ 233 0032 FFF7FEFF 		bl	GetEPDblBuf1Count
+ 234              	.LVL27:
+ 235 0036 0446     		mov	r4, r0
+ 236              	.LVL28:
+ 141:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	PMAToUserBufferCopy(USB_Rx_Buffer, CDC_ENDP3_BUF1Addr, USB_Rx_Cnt);
+ 237              		.loc 1 141 0
+ 238 0038 0748     		ldr	r0, .L21
+ 239              	.LVL29:
+ 240 003a 4FF4B071 		mov	r1, #352
+ 241              	.LVL30:
+ 242              	.L20:
+ 243 003e 2246     		mov	r2, r4
+ 244 0040 FFF7FEFF 		bl	PMAToUserBufferCopy
+ 245              	.LVL31:
+ 142:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   } 
+ 143:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+ 144:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   /* USB data will be immediately processed, this allow next USB traffic beeing 
+ 145:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   NAKed till the end of the USART Xfet */
+ 146:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   USB_To_USART_Send_Data(USB_Rx_Buffer, USB_Rx_Cnt);
+ 246              		.loc 1 146 0
+ 247 0044 0448     		ldr	r0, .L21
+ 248 0046 E1B2     		uxtb	r1, r4
+ 249 0048 FFF7FEFF 		bl	USB_To_USART_Send_Data
+ 250              	.LVL32:
+ 147:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+ 148:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   /* Enable the receive of data on EP3 */
+ 149:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   SetEPRxValid(ENDP3);
+ 251              		.loc 1 149 0
+ 252 004c 0320     		movs	r0, #3
+ 150:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****  
+ 151:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** }
+ 253              		.loc 1 151 0
+ 254 004e BDE81040 		pop	{r4, lr}
+ 149:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   SetEPRxValid(ENDP3);
+ 255              		.loc 1 149 0
+ 256 0052 FFF7FEBF 		b	SetEPRxValid
+ 257              	.LVL33:
+ 258              	.L22:
+ 259 0056 00BF     		.align	2
+ 260              	.L21:
+ 261 0058 00000000 		.word	.LANCHOR0
+ 262              		.cfi_endproc
+ 263              	.LFE58:
+ 265              		.section	.text.CDC_SOF_Callback,"ax",%progbits
+ 266              		.align	1
+ 267              		.global	CDC_SOF_Callback
+ 268              		.thumb
+ 269              		.thumb_func
+ 271              	CDC_SOF_Callback:
+ 272              	.LFB59:
+ 152:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 
+ 153:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /**************************************************************************/
+ 154:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /*! 
+ 155:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @brief  CDC_SOF_Callback / INTR_SOFINTR_Callback.
+ 156:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 	@param  None.
+ 157:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     @retval None.
+ 158:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** */
+ 159:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** /**************************************************************************/
+ 160:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** void CDC_SOF_Callback(void)
+ 161:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** {
+ 273              		.loc 1 161 0
+ 274              		.cfi_startproc
+ 275              		@ args = 0, pretend = 0, frame = 0
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277              		@ link register save eliminated.
+ 162:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   static uint32_t FrameCount = 0;
+ 163:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   
+ 164:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   if(bDeviceState == CONFIGURED)
+ 278              		.loc 1 164 0
+ 279 0000 074B     		ldr	r3, .L27
+ 280 0002 1868     		ldr	r0, [r3, #0]
+ 281 0004 0528     		cmp	r0, #5
+ 282 0006 09D1     		bne	.L23
+ 165:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   {
+ 166:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     if (FrameCount++ == VCOMPORT_IN_FRAME_INTERVAL)
+ 283              		.loc 1 166 0
+ 284 0008 064B     		ldr	r3, .L27+4
+ 285 000a 1A68     		ldr	r2, [r3, #0]
+ 286 000c 511C     		adds	r1, r2, #1
+ 287 000e 1960     		str	r1, [r3, #0]
+ 288 0010 052A     		cmp	r2, #5
+ 289 0012 03D1     		bne	.L23
+ 167:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     {
+ 168:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       /* Reset the frame counter */
+ 169:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       FrameCount = 0;
+ 290              		.loc 1 169 0
+ 291 0014 0020     		movs	r0, #0
+ 292 0016 1860     		str	r0, [r3, #0]
+ 170:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       
+ 171:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       /* Check the data to be sent through IN pipe */
+ 172:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       Handle_USBAsynchXfer();
+ 173:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     }
+ 174:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   }  
+ 175:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** }
+ 293              		.loc 1 175 0
+ 172:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       Handle_USBAsynchXfer();
+ 294              		.loc 1 172 0
+ 295 0018 FFF7FEBF 		b	Handle_USBAsynchXfer
+ 296              	.LVL34:
+ 297              	.L23:
+ 298 001c 7047     		bx	lr
+ 299              	.L28:
+ 300 001e 00BF     		.align	2
+ 301              	.L27:
+ 302 0020 00000000 		.word	bDeviceState
+ 303 0024 00000000 		.word	.LANCHOR1
+ 304              		.cfi_endproc
+ 305              	.LFE59:
+ 307              		.global	USB_Rx_Buffer
+ 308              		.section	.bss.USB_Rx_Buffer,"aw",%nobits
+ 309              		.set	.LANCHOR0,. + 0
+ 312              	USB_Rx_Buffer:
+ 313 0000 00000000 		.space	64
+ 313      00000000 
+ 313      00000000 
+ 313      00000000 
+ 313      00000000 
+ 314              		.section	.bss.FrameCount.8845,"aw",%nobits
+ 315              		.align	2
+ 316              		.set	.LANCHOR1,. + 0
+ 319              	FrameCount.8845:
+ 320 0000 00000000 		.space	4
+ 321              		.text
+ 322              	.Letext0:
+ 323              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 324              		.file 3 "./lib/USB_Functions/usb_pwr.h"
+ 325              		.file 4 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
+ 326              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
+ 327              		.file 6 "./inc/systick.h"
+ 328              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_cdc_endp.c
+  R:\TEMP\cc8C2Zxf.s:19     .text.CDC_EP1_IN_Callback:00000000 $t
+  R:\TEMP\cc8C2Zxf.s:24     .text.CDC_EP1_IN_Callback:00000000 CDC_EP1_IN_Callback
+  R:\TEMP\cc8C2Zxf.s:175    .text.CDC_EP1_IN_Callback:000000a8 $d
+  R:\TEMP\cc8C2Zxf.s:185    .text.CDC_EP3_OUT_Callback:00000000 $t
+  R:\TEMP\cc8C2Zxf.s:190    .text.CDC_EP3_OUT_Callback:00000000 CDC_EP3_OUT_Callback
+  R:\TEMP\cc8C2Zxf.s:261    .text.CDC_EP3_OUT_Callback:00000058 $d
+  R:\TEMP\cc8C2Zxf.s:266    .text.CDC_SOF_Callback:00000000 $t
+  R:\TEMP\cc8C2Zxf.s:271    .text.CDC_SOF_Callback:00000000 CDC_SOF_Callback
+  R:\TEMP\cc8C2Zxf.s:302    .text.CDC_SOF_Callback:00000020 $d
+  R:\TEMP\cc8C2Zxf.s:312    .bss.USB_Rx_Buffer:00000000 USB_Rx_Buffer
+  R:\TEMP\cc8C2Zxf.s:313    .bss.USB_Rx_Buffer:00000000 $d
+  R:\TEMP\cc8C2Zxf.s:315    .bss.FrameCount.8845:00000000 $d
+  R:\TEMP\cc8C2Zxf.s:319    .bss.FrameCount.8845:00000000 FrameCount.8845
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+UserToPMABufferCopy
+SetEPTxCount
+SetEPTxValid
+USB_Tx_State
+USART_Rx_length
+USB_xMutex
+USART_Rx_ptr_out
+USART_Rx_Buffer
+USART_Rx_ptr_in
+GetENDPOINT
+FreeUserBuffer
+GetEPDblBuf0Count
+GetEPDblBuf1Count
+PMAToUserBufferCopy
+USB_To_USART_Send_Data
+SetEPRxValid
+Handle_USBAsynchXfer
+bDeviceState

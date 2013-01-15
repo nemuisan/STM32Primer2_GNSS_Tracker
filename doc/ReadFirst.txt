@@ -1,0 +1,51 @@
+========== What is this ? ==========
+This is THE GPS Tr@cker for STM32Primer2!
+
+
+========== To Build and Debug ==========
+Supported Only ARM-GCC(EABI)!
+To Build And Debug This Programs....
+See Under URL
+(Sorry Written in Japanese Only! Use Google-Transration for Other Language).
+http://nemuisan.blog.bai.ne.jp/?eid=188089
+http://nemuisan.blog.bai.ne.jp/?eid=188402
+
+
+========== Support Modules ==========
+appricable GPS modules, you can use...
+Gms-g6a (GlobalTOP CO., LTD.)
+ Supports MP3333,9600bps,38400bps,AIC Setting,AGPS With PC-Software.
+PA6C    (GlobalTOP CO., LTD.)
+ Supports MT3339,9600bps,38400bps,AIC Setting,AGPS With PC-Software.
+UP-501  (FASTRAX CO., LTD.)
+ Supports MT33329,9600bps,38400bps,AGPS With PC-Software.
+GT-723F (CANMORE ELECTRONICS CO., LTD.)
+ Supports Venus6,9600bps,AGPS With PC-Software.
+
+/* ATTENTION!! */
+If you use UP501 o rPA6C or Gms-g6a,
+U MUST connect module-VBAT pin to Li+ion battery or VCC!
+
+For mode detail, See under URL.
+http://nemuisan.blog.bai.ne.jp/?eid=192946
+
+
+
+
+/* for nemuisan only information */
+
+power.*
+term_io.*
+hw_config.*
+and makefile
+
+** this is the global variables note for nemui-san **
+
+1. extern __IO uint16_t CmdKey;
+
+   ->Key-Input(STM32Primer Hardware) and UART Inputs from PC's keyboard.
+    UP    -> KEY:Up,     UART:Ctrl+e (0x05),
+    DOWN  -> KEY:Down,   UART:Ctrl+x (0x18),
+    OK    -> KEY:Right,  UART:Enter  (0x0D),
+    CAN   -> KEY:Left,   UART:Esc	 (0x1A),
+    CT    -> KEY:Center, UART:None.

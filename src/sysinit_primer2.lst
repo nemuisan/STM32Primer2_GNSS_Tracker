@@ -1,0 +1,614 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"sysinit_primer2.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.SystemInit,"ax",%progbits
+  19              		.align	1
+  20              		.global	SystemInit
+  21              		.thumb
+  22              		.thumb_func
+  24              	SystemInit:
+  25              	.LFB56:
+  26              		.file 1 "src/sysinit_primer2.c"
+   1:src/sysinit_primer2.c **** /********************************************************************************/
+   2:src/sysinit_primer2.c **** /*!
+   3:src/sysinit_primer2.c **** 	@file			sysinit_primer2.c
+   4:src/sysinit_primer2.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:src/sysinit_primer2.c ****     @version        1.00
+   6:src/sysinit_primer2.c ****     @date           2011.06.30
+   7:src/sysinit_primer2.c **** 	@brief          For STM32 GPS Tr@cker.
+   8:src/sysinit_primer2.c **** 
+   9:src/sysinit_primer2.c ****     @section HISTORY
+  10:src/sysinit_primer2.c **** 		2011.06.30	V1.00	See Update.txt
+  11:src/sysinit_primer2.c **** 
+  12:src/sysinit_primer2.c ****     @section LICENSE
+  13:src/sysinit_primer2.c **** 		BSD License. See Copyright.txt
+  14:src/sysinit_primer2.c **** */
+  15:src/sysinit_primer2.c **** /********************************************************************************/
+  16:src/sysinit_primer2.c **** 
+  17:src/sysinit_primer2.c **** /* Includes ------------------------------------------------------------------*/
+  18:src/sysinit_primer2.c **** #include "stm32f10x.h"
+  19:src/sysinit_primer2.c **** 
+  20:src/sysinit_primer2.c **** /* Defines -------------------------------------------------------------------*/
+  21:src/sysinit_primer2.c **** /*!< Uncomment the line corresponding to the desired System clock (SYSCLK)
+  22:src/sysinit_primer2.c ****    frequency (after reset the HSI is used as SYSCLK source)
+  23:src/sysinit_primer2.c ****    
+  24:src/sysinit_primer2.c ****    IMPORTANT NOTE:
+  25:src/sysinit_primer2.c ****    ============== 
+  26:src/sysinit_primer2.c ****    1. After each device reset the HSI is used as System clock source.
+  27:src/sysinit_primer2.c **** 
+  28:src/sysinit_primer2.c ****    2. Please make sure that the selected System clock doesn't exceed your device's
+  29:src/sysinit_primer2.c ****       maximum frequency.
+  30:src/sysinit_primer2.c ****       
+  31:src/sysinit_primer2.c ****    3. If none of the define below is enabled, the HSI is used as System clock
+  32:src/sysinit_primer2.c ****     source.
+  33:src/sysinit_primer2.c **** 
+  34:src/sysinit_primer2.c ****    4. The System clock configuration functions provided within this file assume that:
+  35:src/sysinit_primer2.c ****         - For Low, Medium and High density Value line devices an external 8MHz 
+  36:src/sysinit_primer2.c ****           crystal is used to drive the System clock.
+  37:src/sysinit_primer2.c ****         - For Low, Medium and High density devices an external 8MHz crystal is
+  38:src/sysinit_primer2.c ****           used to drive the System clock.
+  39:src/sysinit_primer2.c ****         - For Connectivity line devices an external 25MHz crystal is used to drive
+  40:src/sysinit_primer2.c ****           the System clock.
+  41:src/sysinit_primer2.c ****      If you are using different crystal you have to adapt those functions accordingly.
+  42:src/sysinit_primer2.c ****     */
+  43:src/sysinit_primer2.c **** /*#define SYSCLK_FREQ_HSE    HSE_VALUE*/
+  44:src/sysinit_primer2.c **** #define SYSCLK_FREQ_24MHz  24000000UL
+  45:src/sysinit_primer2.c **** /*#define SYSCLK_FREQ_36MHz  36000000UL*/
+  46:src/sysinit_primer2.c **** 
+  47:src/sysinit_primer2.c **** 
+  48:src/sysinit_primer2.c **** /*!< Uncomment the following line if you need to relocate your vector Table in
+  49:src/sysinit_primer2.c ****      Internal SRAM. */ 
+  50:src/sysinit_primer2.c **** /* #define VECT_TAB_SRAM */
+  51:src/sysinit_primer2.c **** #define VECT_TAB_OFFSET  0x0 /*!< Vector Table base offset field. 
+  52:src/sysinit_primer2.c ****                                   This value must be a multiple of 0x100. */
+  53:src/sysinit_primer2.c **** 								  
+  54:src/sysinit_primer2.c **** 
+  55:src/sysinit_primer2.c **** /* Variables -----------------------------------------------------------------*/
+  56:src/sysinit_primer2.c **** 
+  57:src/sysinit_primer2.c **** /* Constants -----------------------------------------------------------------*/
+  58:src/sysinit_primer2.c **** #ifdef SYSCLK_FREQ_36MHz 
+  59:src/sysinit_primer2.c ****   uint32_t SystemCoreClock         = SYSCLK_FREQ_36MHz;        /*!< System Clock Frequency (Core Cl
+  60:src/sysinit_primer2.c **** #else
+  61:src/sysinit_primer2.c ****   uint32_t SystemCoreClock         = SYSCLK_FREQ_24MHz;        /*!< System Clock Frequency (Core Cl
+  62:src/sysinit_primer2.c **** #endif
+  63:src/sysinit_primer2.c **** __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+  64:src/sysinit_primer2.c **** 
+  65:src/sysinit_primer2.c **** 
+  66:src/sysinit_primer2.c **** /* Function prototypes -------------------------------------------------------*/
+  67:src/sysinit_primer2.c **** static void SetSysClock(void);
+  68:src/sysinit_primer2.c **** 
+  69:src/sysinit_primer2.c **** /*static void SetSysClockToHSE(void);*/
+  70:src/sysinit_primer2.c **** #ifdef SYSCLK_FREQ_36MHz 
+  71:src/sysinit_primer2.c ****  static void SetSysClockTo36(void);
+  72:src/sysinit_primer2.c **** #else
+  73:src/sysinit_primer2.c ****  static void SetSysClockTo24(void);
+  74:src/sysinit_primer2.c **** #endif
+  75:src/sysinit_primer2.c **** 
+  76:src/sysinit_primer2.c **** 
+  77:src/sysinit_primer2.c **** /* Functions -----------------------------------------------------------------*/
+  78:src/sysinit_primer2.c **** /**************************************************************************/
+  79:src/sysinit_primer2.c **** /*! 
+  80:src/sysinit_primer2.c **** 	@brief  Setup the microcontroller system
+  81:src/sysinit_primer2.c **** 			Initialize the Embedded Flash Interface, the PLL and update the 
+  82:src/sysinit_primer2.c **** 			SystemCoreClock variable.
+  83:src/sysinit_primer2.c **** 	@note   This function should be used only after reset.
+  84:src/sysinit_primer2.c **** 	@param  None
+  85:src/sysinit_primer2.c **** 	@retval None
+  86:src/sysinit_primer2.c **** */
+  87:src/sysinit_primer2.c **** /**************************************************************************/
+  88:src/sysinit_primer2.c **** void SystemInit (void)
+  89:src/sysinit_primer2.c **** {
+  27              		.loc 1 89 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 82B0     		sub	sp, sp, #8
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  90:src/sysinit_primer2.c ****   /* Reset the RCC clock configuration to the default reset state(for debug purpose) */
+  91:src/sysinit_primer2.c ****   /* Set HSION bit */
+  92:src/sysinit_primer2.c ****   RCC->CR |= (uint32_t)0x00000001;
+  35              		.loc 1 92 0
+  36 0002 384B     		ldr	r3, .L18
+  37 0004 1A68     		ldr	r2, [r3, #0]
+  38 0006 42F00100 		orr	r0, r2, #1
+  39 000a 1860     		str	r0, [r3, #0]
+  93:src/sysinit_primer2.c **** 
+  94:src/sysinit_primer2.c ****   /* Reset SW, HPRE, PPRE1, PPRE2, ADCPRE and MCO bits */
+  95:src/sysinit_primer2.c ****   RCC->CFGR &= (uint32_t)0xF8FF0000;
+  40              		.loc 1 95 0
+  41 000c 5968     		ldr	r1, [r3, #4]
+  42 000e 364A     		ldr	r2, .L18+4
+  43 0010 0A40     		ands	r2, r2, r1
+  44 0012 5A60     		str	r2, [r3, #4]
+  96:src/sysinit_primer2.c ****   
+  97:src/sysinit_primer2.c ****   /* Reset HSEON, CSSON and PLLON bits */
+  98:src/sysinit_primer2.c ****   RCC->CR &= (uint32_t)0xFEF6FFFF;
+  45              		.loc 1 98 0
+  46 0014 1868     		ldr	r0, [r3, #0]
+  47 0016 20F08471 		bic	r1, r0, #17301504
+  48 001a 21F48032 		bic	r2, r1, #65536
+  49 001e 1A60     		str	r2, [r3, #0]
+  99:src/sysinit_primer2.c **** 
+ 100:src/sysinit_primer2.c ****   /* Reset HSEBYP bit */
+ 101:src/sysinit_primer2.c ****   RCC->CR &= (uint32_t)0xFFFBFFFF;
+  50              		.loc 1 101 0
+  51 0020 1868     		ldr	r0, [r3, #0]
+  52 0022 20F48021 		bic	r1, r0, #262144
+  53 0026 1960     		str	r1, [r3, #0]
+ 102:src/sysinit_primer2.c **** 
+ 103:src/sysinit_primer2.c ****   /* Reset PLLSRC, PLLXTPRE, PLLMUL and USBPRE/OTGFSPRE bits */
+ 104:src/sysinit_primer2.c ****   RCC->CFGR &= (uint32_t)0xFF80FFFF;
+  54              		.loc 1 104 0
+  55 0028 5A68     		ldr	r2, [r3, #4]
+  56 002a 22F4FE00 		bic	r0, r2, #8323072
+  57 002e 5860     		str	r0, [r3, #4]
+ 105:src/sysinit_primer2.c **** 
+ 106:src/sysinit_primer2.c ****   /* Disable all interrupts and clear pending bits  */
+ 107:src/sysinit_primer2.c ****   RCC->CIR = 0x009F0000;
+  58              		.loc 1 107 0
+  59 0030 4FF41F01 		mov	r1, #10420224
+  60 0034 9960     		str	r1, [r3, #8]
+  61              	.LBB8:
+  62              	.LBB9:
+  63              	.LBB10:
+ 108:src/sysinit_primer2.c **** 
+ 109:src/sysinit_primer2.c ****   /* Configure the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers */
+ 110:src/sysinit_primer2.c ****   /* Configure the Flash Latency cycles and enable prefetch buffer */
+ 111:src/sysinit_primer2.c ****   SetSysClock();
+ 112:src/sysinit_primer2.c **** 
+ 113:src/sysinit_primer2.c ****   SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH. */
+ 114:src/sysinit_primer2.c ****  
+ 115:src/sysinit_primer2.c **** }
+ 116:src/sysinit_primer2.c **** 
+ 117:src/sysinit_primer2.c **** /**************************************************************************/
+ 118:src/sysinit_primer2.c **** /*! 
+ 119:src/sysinit_primer2.c **** 	@brief  Update SystemCoreClock according to Clock Register Values
+ 120:src/sysinit_primer2.c **** 	@note   None
+ 121:src/sysinit_primer2.c **** 	@param  None
+ 122:src/sysinit_primer2.c **** 	@retval None
+ 123:src/sysinit_primer2.c **** */
+ 124:src/sysinit_primer2.c **** /**************************************************************************/
+ 125:src/sysinit_primer2.c **** void SystemCoreClockUpdate(void)
+ 126:src/sysinit_primer2.c **** {
+ 127:src/sysinit_primer2.c ****   uint32_t tmp = 0, pllmull = 0, pllsource = 0;
+ 128:src/sysinit_primer2.c ****     
+ 129:src/sysinit_primer2.c ****   /* Get SYSCLK source -------------------------------------------------------*/
+ 130:src/sysinit_primer2.c ****   tmp = RCC->CFGR & RCC_CFGR_SWS;
+ 131:src/sysinit_primer2.c ****   
+ 132:src/sysinit_primer2.c ****   switch (tmp)
+ 133:src/sysinit_primer2.c ****   {
+ 134:src/sysinit_primer2.c ****     case 0x00:  /* HSI used as system clock */
+ 135:src/sysinit_primer2.c ****       SystemCoreClock = HSI_VALUE;
+ 136:src/sysinit_primer2.c ****       break;
+ 137:src/sysinit_primer2.c ****     case 0x04:  /* HSE used as system clock */
+ 138:src/sysinit_primer2.c ****       SystemCoreClock = HSE_VALUE;
+ 139:src/sysinit_primer2.c ****       break;
+ 140:src/sysinit_primer2.c ****     case 0x08:  /* PLL used as system clock */
+ 141:src/sysinit_primer2.c **** 
+ 142:src/sysinit_primer2.c ****       /* Get PLL clock source and multiplication factor ----------------------*/
+ 143:src/sysinit_primer2.c ****       pllmull = RCC->CFGR & RCC_CFGR_PLLMULL;
+ 144:src/sysinit_primer2.c ****       pllsource = RCC->CFGR & RCC_CFGR_PLLSRC;
+ 145:src/sysinit_primer2.c ****  
+ 146:src/sysinit_primer2.c ****       pllmull = ( pllmull >> 18) + 2;
+ 147:src/sysinit_primer2.c ****       
+ 148:src/sysinit_primer2.c ****       if (pllsource == 0x00)
+ 149:src/sysinit_primer2.c ****       {
+ 150:src/sysinit_primer2.c ****         /* HSI oscillator clock divided by 2 selected as PLL clock entry */
+ 151:src/sysinit_primer2.c ****         SystemCoreClock = (HSI_VALUE >> 1) * pllmull;
+ 152:src/sysinit_primer2.c ****       }
+ 153:src/sysinit_primer2.c ****       else
+ 154:src/sysinit_primer2.c ****       {
+ 155:src/sysinit_primer2.c ****         /* HSE selected as PLL clock entry */
+ 156:src/sysinit_primer2.c ****         if ((RCC->CFGR & RCC_CFGR_PLLXTPRE) != (uint32_t)RESET)
+ 157:src/sysinit_primer2.c ****         {/* HSE oscillator clock divided by 2 */
+ 158:src/sysinit_primer2.c ****           SystemCoreClock = (HSE_VALUE >> 1) * pllmull;
+ 159:src/sysinit_primer2.c ****         }
+ 160:src/sysinit_primer2.c ****         else
+ 161:src/sysinit_primer2.c ****         {
+ 162:src/sysinit_primer2.c ****           SystemCoreClock = HSE_VALUE * pllmull;
+ 163:src/sysinit_primer2.c ****         }
+ 164:src/sysinit_primer2.c ****       }
+ 165:src/sysinit_primer2.c ****       break;
+ 166:src/sysinit_primer2.c **** 
+ 167:src/sysinit_primer2.c ****     default:
+ 168:src/sysinit_primer2.c ****       SystemCoreClock = HSI_VALUE;
+ 169:src/sysinit_primer2.c ****       break;
+ 170:src/sysinit_primer2.c ****   }
+ 171:src/sysinit_primer2.c ****   
+ 172:src/sysinit_primer2.c ****   /* Compute HCLK clock frequency ----------------*/
+ 173:src/sysinit_primer2.c ****   /* Get HCLK prescaler */
+ 174:src/sysinit_primer2.c ****   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)];
+ 175:src/sysinit_primer2.c ****   /* HCLK clock frequency */
+ 176:src/sysinit_primer2.c ****   SystemCoreClock >>= tmp;  
+ 177:src/sysinit_primer2.c **** }
+ 178:src/sysinit_primer2.c **** 
+ 179:src/sysinit_primer2.c **** 
+ 180:src/sysinit_primer2.c **** /**************************************************************************/
+ 181:src/sysinit_primer2.c **** /*! 
+ 182:src/sysinit_primer2.c **** 	@brief  Configures the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers.
+ 183:src/sysinit_primer2.c **** 	@param  None
+ 184:src/sysinit_primer2.c **** 	@retval None
+ 185:src/sysinit_primer2.c **** */
+ 186:src/sysinit_primer2.c **** /**************************************************************************/
+ 187:src/sysinit_primer2.c **** static void SetSysClock(void)
+ 188:src/sysinit_primer2.c **** {
+ 189:src/sysinit_primer2.c **** #ifdef SYSCLK_FREQ_36MHz 
+ 190:src/sysinit_primer2.c **** 	SetSysClockTo36();
+ 191:src/sysinit_primer2.c **** #else
+ 192:src/sysinit_primer2.c **** 	SetSysClockTo24();
+ 193:src/sysinit_primer2.c **** #endif
+ 194:src/sysinit_primer2.c **** }
+ 195:src/sysinit_primer2.c **** 
+ 196:src/sysinit_primer2.c **** 
+ 197:src/sysinit_primer2.c **** #if defined SYSCLK_FREQ_24MHz
+ 198:src/sysinit_primer2.c **** /**************************************************************************/
+ 199:src/sysinit_primer2.c **** /*! 
+ 200:src/sysinit_primer2.c **** 	@brief  Sets System clock frequency to 24MHz and configure HCLK, PCLK2 
+ 201:src/sysinit_primer2.c **** 			and PCLK1 prescalers.
+ 202:src/sysinit_primer2.c **** 	@note   This function should be used only after reset.
+ 203:src/sysinit_primer2.c **** 	@param  None
+ 204:src/sysinit_primer2.c **** 	@retval None
+ 205:src/sysinit_primer2.c **** */
+ 206:src/sysinit_primer2.c **** /**************************************************************************/
+ 207:src/sysinit_primer2.c **** static void SetSysClockTo24(void)
+ 208:src/sysinit_primer2.c **** {
+ 209:src/sysinit_primer2.c ****   __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+  64              		.loc 1 209 0
+  65 0036 0022     		movs	r2, #0
+  66 0038 0092     		str	r2, [sp, #0]
+  67              	.LVL0:
+  68 003a 0192     		str	r2, [sp, #4]
+  69              	.LVL1:
+ 210:src/sysinit_primer2.c ****   
+ 211:src/sysinit_primer2.c ****   /* SYSCLK, HCLK, PCLK2 and PCLK1 configuration ---------------------------*/    
+ 212:src/sysinit_primer2.c ****   /* Enable HSE */    
+ 213:src/sysinit_primer2.c ****   RCC->CR |= ((uint32_t)RCC_CR_HSEON);
+  70              		.loc 1 213 0
+  71 003c 1868     		ldr	r0, [r3, #0]
+  72 003e 40F48031 		orr	r1, r0, #65536
+  73 0042 1960     		str	r1, [r3, #0]
+  74              	.L3:
+ 214:src/sysinit_primer2.c ****  
+ 215:src/sysinit_primer2.c ****   /* Wait till HSE is ready and if Time out is reached exit */
+ 216:src/sysinit_primer2.c ****   do
+ 217:src/sysinit_primer2.c ****   {
+ 218:src/sysinit_primer2.c ****     HSEStatus = RCC->CR & RCC_CR_HSERDY;
+  75              		.loc 1 218 0
+  76 0044 274B     		ldr	r3, .L18
+  77 0046 1A68     		ldr	r2, [r3, #0]
+  78 0048 02F40030 		and	r0, r2, #131072
+  79              	.LVL2:
+  80 004c 0190     		str	r0, [sp, #4]
+  81              	.LVL3:
+ 219:src/sysinit_primer2.c ****     StartUpCounter++;  
+  82              		.loc 1 219 0
+  83 004e 0099     		ldr	r1, [sp, #0]
+  84 0050 4A1C     		adds	r2, r1, #1
+  85              	.LVL4:
+  86 0052 0092     		str	r2, [sp, #0]
+  87              	.LVL5:
+ 220:src/sysinit_primer2.c ****   } while((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
+  88              		.loc 1 220 0
+  89 0054 0198     		ldr	r0, [sp, #4]
+  90              	.LVL6:
+  91 0056 18B9     		cbnz	r0, .L2
+  92 0058 0099     		ldr	r1, [sp, #0]
+  93 005a B1F5A06F 		cmp	r1, #1280
+  94 005e F1D1     		bne	.L3
+  95              	.L2:
+ 221:src/sysinit_primer2.c **** 
+ 222:src/sysinit_primer2.c ****   if ((RCC->CR & RCC_CR_HSERDY) != RESET)
+  96              		.loc 1 222 0
+  97 0060 1B68     		ldr	r3, [r3, #0]
+  98 0062 13F40032 		ands	r2, r3, #131072
+ 223:src/sysinit_primer2.c ****   {
+ 224:src/sysinit_primer2.c ****     HSEStatus = (uint32_t)0x01;
+  99              		.loc 1 224 0
+ 100 0066 18BF     		it	ne
+ 101 0068 0122     		movne	r2, #1
+ 225:src/sysinit_primer2.c ****   }
+ 226:src/sysinit_primer2.c ****   else
+ 227:src/sysinit_primer2.c ****   {
+ 228:src/sysinit_primer2.c ****     HSEStatus = (uint32_t)0x00;
+ 102              		.loc 1 228 0
+ 103 006a 0192     		str	r2, [sp, #4]
+ 229:src/sysinit_primer2.c ****   }  
+ 230:src/sysinit_primer2.c **** 
+ 231:src/sysinit_primer2.c ****   if (HSEStatus == (uint32_t)0x01)
+ 104              		.loc 1 231 0
+ 105 006c 0198     		ldr	r0, [sp, #4]
+ 106 006e 0128     		cmp	r0, #1
+ 107 0070 05D0     		beq	.L6
+ 108              	.L9:
+ 109              	.LBE10:
+ 110              	.LBE9:
+ 111              	.LBE8:
+ 113:src/sysinit_primer2.c ****   SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH. */
+ 112              		.loc 1 113 0
+ 113 0072 4FF00060 		mov	r0, #134217728
+ 114 0076 1D4A     		ldr	r2, .L18+8
+ 115 0078 9060     		str	r0, [r2, #8]
+ 115:src/sysinit_primer2.c **** }
+ 116              		.loc 1 115 0
+ 117 007a 02B0     		add	sp, sp, #8
+ 118 007c 7047     		bx	lr
+ 119              	.L6:
+ 120              	.LBB13:
+ 121              	.LBB12:
+ 122              	.LBB11:
+ 232:src/sysinit_primer2.c ****   {
+ 233:src/sysinit_primer2.c ****  
+ 234:src/sysinit_primer2.c ****     /* Enable Prefetch Buffer */
+ 235:src/sysinit_primer2.c ****     FLASH->ACR |= FLASH_ACR_PRFTBE;
+ 123              		.loc 1 235 0
+ 124 007e 1C49     		ldr	r1, .L18+12
+ 125 0080 0B68     		ldr	r3, [r1, #0]
+ 126 0082 43F01002 		orr	r2, r3, #16
+ 127 0086 0A60     		str	r2, [r1, #0]
+ 236:src/sysinit_primer2.c **** 
+ 237:src/sysinit_primer2.c ****     /* Flash 0 wait state */
+ 238:src/sysinit_primer2.c ****     FLASH->ACR &= (uint32_t)((uint32_t)~FLASH_ACR_LATENCY);
+ 128              		.loc 1 238 0
+ 129 0088 0868     		ldr	r0, [r1, #0]
+ 130 008a 20F00303 		bic	r3, r0, #3
+ 131 008e 0B60     		str	r3, [r1, #0]
+ 239:src/sysinit_primer2.c ****     FLASH->ACR |= (uint32_t)FLASH_ACR_LATENCY_0;    
+ 132              		.loc 1 239 0
+ 133 0090 0A68     		ldr	r2, [r1, #0]
+ 134 0092 0A60     		str	r2, [r1, #0]
+ 240:src/sysinit_primer2.c ****  
+ 241:src/sysinit_primer2.c ****     /* HCLK = SYSCLK */
+ 242:src/sysinit_primer2.c ****     RCC->CFGR |= (uint32_t)RCC_CFGR_HPRE_DIV1;
+ 135              		.loc 1 242 0
+ 136 0094 A1F58050 		sub	r0, r1, #4096
+ 137 0098 4168     		ldr	r1, [r0, #4]
+ 138 009a 4160     		str	r1, [r0, #4]
+ 243:src/sysinit_primer2.c ****       
+ 244:src/sysinit_primer2.c ****     /* PCLK2 = HCLK */
+ 245:src/sysinit_primer2.c ****     RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE2_DIV1;
+ 139              		.loc 1 245 0
+ 140 009c 4368     		ldr	r3, [r0, #4]
+ 141 009e 4360     		str	r3, [r0, #4]
+ 246:src/sysinit_primer2.c ****     
+ 247:src/sysinit_primer2.c ****     /* PCLK1 = HCLK */
+ 248:src/sysinit_primer2.c ****     RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE1_DIV1;
+ 142              		.loc 1 248 0
+ 143 00a0 4268     		ldr	r2, [r0, #4]
+ 144 00a2 4260     		str	r2, [r0, #4]
+ 249:src/sysinit_primer2.c ****  
+ 250:src/sysinit_primer2.c ****     /*  PLL configuration:  = (HSE / 2) * 4 = 24 MHz (STM32 Primer2) */
+ 251:src/sysinit_primer2.c ****     RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_PLLSRC | RCC_CFGR_PLLXTPRE | RCC_CFGR_PLLMULL));
+ 145              		.loc 1 251 0
+ 146 00a4 4168     		ldr	r1, [r0, #4]
+ 147 00a6 21F47C13 		bic	r3, r1, #4128768
+ 148 00aa 4360     		str	r3, [r0, #4]
+ 252:src/sysinit_primer2.c ****     RCC->CFGR |= (uint32_t)(RCC_CFGR_PLLSRC_HSE | RCC_CFGR_PLLXTPRE_HSE_Div2 | RCC_CFGR_PLLMULL4);
+ 149              		.loc 1 252 0
+ 150 00ac 4268     		ldr	r2, [r0, #4]
+ 151 00ae 42F43021 		orr	r1, r2, #720896
+ 152 00b2 4160     		str	r1, [r0, #4]
+ 253:src/sysinit_primer2.c **** 
+ 254:src/sysinit_primer2.c ****     /* Enable PLL */
+ 255:src/sysinit_primer2.c ****     RCC->CR |= RCC_CR_PLLON;
+ 153              		.loc 1 255 0
+ 154 00b4 0368     		ldr	r3, [r0, #0]
+ 155 00b6 43F08072 		orr	r2, r3, #16777216
+ 156 00ba 0260     		str	r2, [r0, #0]
+ 157              	.L7:
+ 256:src/sysinit_primer2.c **** 
+ 257:src/sysinit_primer2.c ****     /* Wait till PLL is ready */
+ 258:src/sysinit_primer2.c ****     while((RCC->CR & RCC_CR_PLLRDY) == 0)
+ 158              		.loc 1 258 0
+ 159 00bc 094A     		ldr	r2, .L18
+ 160 00be 0168     		ldr	r1, [r0, #0]
+ 161 00c0 8901     		lsls	r1, r1, #6
+ 162 00c2 FBD5     		bpl	.L7
+ 259:src/sysinit_primer2.c ****     {
+ 260:src/sysinit_primer2.c ****     }
+ 261:src/sysinit_primer2.c **** 
+ 262:src/sysinit_primer2.c ****     /* Select PLL as system clock source */
+ 263:src/sysinit_primer2.c ****     RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_SW));
+ 163              		.loc 1 263 0
+ 164 00c4 5068     		ldr	r0, [r2, #4]
+ 165 00c6 20F00303 		bic	r3, r0, #3
+ 166 00ca 5360     		str	r3, [r2, #4]
+ 264:src/sysinit_primer2.c ****     RCC->CFGR |= (uint32_t)RCC_CFGR_SW_PLL;    
+ 167              		.loc 1 264 0
+ 168 00cc 5168     		ldr	r1, [r2, #4]
+ 169 00ce 41F00200 		orr	r0, r1, #2
+ 170 00d2 5060     		str	r0, [r2, #4]
+ 171              	.L8:
+ 265:src/sysinit_primer2.c **** 
+ 266:src/sysinit_primer2.c ****     /* Wait till PLL is used as system clock source */
+ 267:src/sysinit_primer2.c ****     while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS) != (uint32_t)0x08)
+ 172              		.loc 1 267 0
+ 173 00d4 034A     		ldr	r2, .L18
+ 174 00d6 5368     		ldr	r3, [r2, #4]
+ 175 00d8 03F00C01 		and	r1, r3, #12
+ 176 00dc 0829     		cmp	r1, #8
+ 177 00de F9D1     		bne	.L8
+ 178 00e0 C7E7     		b	.L9
+ 179              	.L19:
+ 180 00e2 00BF     		.align	2
+ 181              	.L18:
+ 182 00e4 00100240 		.word	1073876992
+ 183 00e8 0000FFF8 		.word	-117506048
+ 184 00ec 00ED00E0 		.word	-536810240
+ 185 00f0 00200240 		.word	1073881088
+ 186              	.LBE11:
+ 187              	.LBE12:
+ 188              	.LBE13:
+ 189              		.cfi_endproc
+ 190              	.LFE56:
+ 192              		.section	.text.SystemCoreClockUpdate,"ax",%progbits
+ 193              		.align	1
+ 194              		.global	SystemCoreClockUpdate
+ 195              		.thumb
+ 196              		.thumb_func
+ 198              	SystemCoreClockUpdate:
+ 199              	.LFB57:
+ 126:src/sysinit_primer2.c **** {
+ 200              		.loc 1 126 0
+ 201              		.cfi_startproc
+ 202              		@ args = 0, pretend = 0, frame = 0
+ 203              		@ frame_needed = 0, uses_anonymous_args = 0
+ 204              		@ link register save eliminated.
+ 205              	.LVL7:
+ 130:src/sysinit_primer2.c ****   tmp = RCC->CFGR & RCC_CFGR_SWS;
+ 206              		.loc 1 130 0
+ 207 0000 144A     		ldr	r2, .L30
+ 208 0002 5168     		ldr	r1, [r2, #4]
+ 209              	.LVL8:
+ 210 0004 01F00C00 		and	r0, r1, #12
+ 211              	.LVL9:
+ 132:src/sysinit_primer2.c ****   switch (tmp)
+ 212              		.loc 1 132 0
+ 213 0008 0428     		cmp	r0, #4
+ 214 000a 134B     		ldr	r3, .L30+4
+ 215 000c 03D0     		beq	.L23
+ 216 000e 0828     		cmp	r0, #8
+ 217 0010 04D0     		beq	.L24
+ 218 0012 1248     		ldr	r0, .L30+8
+ 219              	.LVL10:
+ 220 0014 00E0     		b	.L28
+ 221              	.LVL11:
+ 222              	.L23:
+ 138:src/sysinit_primer2.c ****       SystemCoreClock = HSE_VALUE;
+ 223              		.loc 1 138 0
+ 224 0016 1248     		ldr	r0, .L30+12
+ 225              	.LVL12:
+ 226              	.L28:
+ 227 0018 1860     		str	r0, [r3, #0]
+ 139:src/sysinit_primer2.c ****       break;
+ 228              		.loc 1 139 0
+ 229 001a 0FE0     		b	.L25
+ 230              	.LVL13:
+ 231              	.L24:
+ 143:src/sysinit_primer2.c ****       pllmull = RCC->CFGR & RCC_CFGR_PLLMULL;
+ 232              		.loc 1 143 0
+ 233 001c 5168     		ldr	r1, [r2, #4]
+ 234              	.LVL14:
+ 144:src/sysinit_primer2.c ****       pllsource = RCC->CFGR & RCC_CFGR_PLLSRC;
+ 235              		.loc 1 144 0
+ 236 001e 5068     		ldr	r0, [r2, #4]
+ 237              	.LVL15:
+ 146:src/sysinit_primer2.c ****       pllmull = ( pllmull >> 18) + 2;
+ 238              		.loc 1 146 0
+ 239 0020 C1F38341 		ubfx	r1, r1, #18, #4
+ 240              	.LVL16:
+ 241 0024 0231     		adds	r1, r1, #2
+ 242              	.LVL17:
+ 148:src/sysinit_primer2.c ****       if (pllsource == 0x00)
+ 243              		.loc 1 148 0
+ 244 0026 C003     		lsls	r0, r0, #15
+ 245              	.LVL18:
+ 246 0028 01D4     		bmi	.L26
+ 151:src/sysinit_primer2.c ****         SystemCoreClock = (HSI_VALUE >> 1) * pllmull;
+ 247              		.loc 1 151 0
+ 248 002a 0E4A     		ldr	r2, .L30+16
+ 249 002c 04E0     		b	.L29
+ 250              	.L26:
+ 156:src/sysinit_primer2.c ****         if ((RCC->CFGR & RCC_CFGR_PLLXTPRE) != (uint32_t)RESET)
+ 251              		.loc 1 156 0
+ 252 002e 5268     		ldr	r2, [r2, #4]
+ 253 0030 9003     		lsls	r0, r2, #14
+ 158:src/sysinit_primer2.c ****           SystemCoreClock = (HSE_VALUE >> 1) * pllmull;
+ 254              		.loc 1 158 0
+ 255 0032 4CBF     		ite	mi
+ 256 0034 0C4A     		ldrmi	r2, .L30+20
+ 162:src/sysinit_primer2.c ****           SystemCoreClock = HSE_VALUE * pllmull;
+ 257              		.loc 1 162 0
+ 258 0036 0A4A     		ldrpl	r2, .L30+12
+ 259              	.L29:
+ 260 0038 5143     		muls	r1, r2, r1
+ 261              	.LVL19:
+ 262 003a 1960     		str	r1, [r3, #0]
+ 263              	.L25:
+ 174:src/sysinit_primer2.c ****   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)];
+ 264              		.loc 1 174 0
+ 265 003c 054B     		ldr	r3, .L30
+ 266 003e 5968     		ldr	r1, [r3, #4]
+ 267 0040 C1F30310 		ubfx	r0, r1, #4, #4
+ 268 0044 094A     		ldr	r2, .L30+24
+ 269 0046 115C     		ldrb	r1, [r2, r0]	@ zero_extendqisi2
+ 270              	.LVL20:
+ 176:src/sysinit_primer2.c ****   SystemCoreClock >>= tmp;  
+ 271              		.loc 1 176 0
+ 272 0048 034B     		ldr	r3, .L30+4
+ 273 004a 1868     		ldr	r0, [r3, #0]
+ 274 004c 20FA01F0 		lsr	r0, r0, r1
+ 275 0050 1860     		str	r0, [r3, #0]
+ 276 0052 7047     		bx	lr
+ 277              	.L31:
+ 278              		.align	2
+ 279              	.L30:
+ 280 0054 00100240 		.word	1073876992
+ 281 0058 00000000 		.word	.LANCHOR0
+ 282 005c 00127A00 		.word	8000000
+ 283 0060 001BB700 		.word	12000000
+ 284 0064 00093D00 		.word	4000000
+ 285 0068 808D5B00 		.word	6000000
+ 286 006c 00000000 		.word	.LANCHOR1
+ 287              		.cfi_endproc
+ 288              	.LFE57:
+ 290              		.global	AHBPrescTable
+ 291              		.global	SystemCoreClock
+ 292              		.section	.data.AHBPrescTable,"aw",%progbits
+ 293              		.set	.LANCHOR1,. + 0
+ 296              	AHBPrescTable:
+ 297 0000 00       		.byte	0
+ 298 0001 00       		.byte	0
+ 299 0002 00       		.byte	0
+ 300 0003 00       		.byte	0
+ 301 0004 00       		.byte	0
+ 302 0005 00       		.byte	0
+ 303 0006 00       		.byte	0
+ 304 0007 00       		.byte	0
+ 305 0008 01       		.byte	1
+ 306 0009 02       		.byte	2
+ 307 000a 03       		.byte	3
+ 308 000b 04       		.byte	4
+ 309 000c 06       		.byte	6
+ 310 000d 07       		.byte	7
+ 311 000e 08       		.byte	8
+ 312 000f 09       		.byte	9
+ 313              		.section	.data.SystemCoreClock,"aw",%progbits
+ 314              		.align	2
+ 315              		.set	.LANCHOR0,. + 0
+ 318              	SystemCoreClock:
+ 319 0000 00366E01 		.word	24000000
+ 320              		.text
+ 321              	.Letext0:
+ 322              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 323              		.file 3 "./lib/CMSIS/Include/core_cm3.h"
+ 324              		.file 4 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 sysinit_primer2.c
+  R:\TEMP\cc1PYFAa.s:19     .text.SystemInit:00000000 $t
+  R:\TEMP\cc1PYFAa.s:24     .text.SystemInit:00000000 SystemInit
+  R:\TEMP\cc1PYFAa.s:182    .text.SystemInit:000000e4 $d
+  R:\TEMP\cc1PYFAa.s:193    .text.SystemCoreClockUpdate:00000000 $t
+  R:\TEMP\cc1PYFAa.s:198    .text.SystemCoreClockUpdate:00000000 SystemCoreClockUpdate
+  R:\TEMP\cc1PYFAa.s:280    .text.SystemCoreClockUpdate:00000054 $d
+  R:\TEMP\cc1PYFAa.s:296    .data.AHBPrescTable:00000000 AHBPrescTable
+  R:\TEMP\cc1PYFAa.s:318    .data.SystemCoreClock:00000000 SystemCoreClock
+  R:\TEMP\cc1PYFAa.s:314    .data.SystemCoreClock:00000000 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

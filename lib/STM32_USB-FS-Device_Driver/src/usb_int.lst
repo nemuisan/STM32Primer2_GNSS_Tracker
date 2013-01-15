@@ -1,0 +1,580 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"usb_int.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.CTR_LP,"ax",%progbits
+  19              		.align	1
+  20              		.global	CTR_LP
+  21              		.thumb
+  22              		.thumb_func
+  24              	CTR_LP:
+  25              	.LFB57:
+  26              		.file 1 "lib/STM32_USB-FS-Device_Driver/src/usb_int.c"
+   1:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /**
+   2:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   ******************************************************************************
+   3:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * @file    usb_int.c
+   4:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * @author  MCD Application Team
+   5:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * @version V4.0.0
+   6:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * @date    28-August-2012
+   7:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * @brief   Endpoint CTR (Low and High) interrupt's service routines
+   8:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   ******************************************************************************
+   9:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * @attention
+  10:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   *
+  11:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  12:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   *
+  13:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  14:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * You may not use this file except in compliance with the License.
+  15:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * You may obtain a copy of the License at:
+  16:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   *
+  17:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   *        http://www.st.com/software_license_agreement_liberty_v2
+  18:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   *
+  19:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * Unless required by applicable law or agreed to in writing, software 
+  20:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * distributed under the License is distributed on an "AS IS" BASIS, 
+  21:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  22:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * See the License for the specific language governing permissions and
+  23:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   * limitations under the License.
+  24:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   *
+  25:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   ******************************************************************************
+  26:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   */
+  27:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  28:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /* Includes ------------------------------------------------------------------*/
+  29:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** #include "usb_lib.h"
+  30:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  31:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /* Private typedef -----------------------------------------------------------*/
+  32:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /* Private define ------------------------------------------------------------*/
+  33:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /* Private macro -------------------------------------------------------------*/
+  34:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /* Private variables ---------------------------------------------------------*/
+  35:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** __IO uint16_t SaveRState;
+  36:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** __IO uint16_t SaveTState;
+  37:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  38:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /* Extern variables ----------------------------------------------------------*/
+  39:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** extern void (*pEpInt_IN[7])(void);    /*  Handles IN  interrupts   */
+  40:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** extern void (*pEpInt_OUT[7])(void);   /*  Handles OUT interrupts   */
+  41:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  42:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /* Private function prototypes -----------------------------------------------*/
+  43:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /* Private functions ---------------------------------------------------------*/
+  44:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  45:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /*******************************************************************************
+  46:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Function Name  : CTR_LP.
+  47:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Description    : Low priority Endpoint Correct Transfer interrupt's service
+  48:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** *                  routine.
+  49:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Input          : None.
+  50:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Output         : None.
+  51:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Return         : None.
+  52:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** *******************************************************************************/
+  53:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** void CTR_LP(void)
+  54:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** {
+  27              		.loc 1 54 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 37B5     		push	{r0, r1, r2, r4, r5, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 24
+  34              		.cfi_offset 0, -24
+  35              		.cfi_offset 1, -20
+  36              		.cfi_offset 2, -16
+  37              		.cfi_offset 4, -12
+  38              		.cfi_offset 5, -8
+  39              		.cfi_offset 14, -4
+  55:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   __IO uint16_t wEPVal = 0;
+  40              		.loc 1 55 0
+  41 0002 0023     		movs	r3, #0
+  42 0004 ADF80630 		strh	r3, [sp, #6]	@ movhi
+  43              	.LVL0:
+  44              	.L65:
+  56:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   /* stay in loop while pending interrupts */
+  57:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   while (((wIstr = _GetISTR()) & ISTR_CTR) != 0)
+  45              		.loc 1 57 0 discriminator 1
+  46 0008 5948     		ldr	r0, .L80
+  47 000a 0268     		ldr	r2, [r0, #0]
+  48 000c 91B2     		uxth	r1, r2
+  49 000e 594B     		ldr	r3, .L80+4
+  50 0010 1980     		strh	r1, [r3, #0]	@ movhi
+  51 0012 1204     		lsls	r2, r2, #16
+  52 0014 40F1AA80 		bpl	.L1
+  53              	.L23:
+  58:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   {
+  59:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     /* extract highest priority endpoint number */
+  60:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     EPindex = (uint8_t)(wIstr & ISTR_EP_ID);
+  54              		.loc 1 60 0
+  55 0018 1888     		ldrh	r0, [r3, #0]
+  56 001a 00F00F02 		and	r2, r0, #15
+  57 001e 5649     		ldr	r1, .L80+8
+  58 0020 0A70     		strb	r2, [r1, #0]
+  61:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     if (EPindex == 0)
+  59              		.loc 1 61 0
+  60 0022 002A     		cmp	r2, #0
+  61 0024 6ED1     		bne	.L3
+  62              	.LVL1:
+  62:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     {
+  63:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* Decode and service control endpoint interrupt */
+  64:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* calling related service routine */
+  65:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* (Setup0_Process, In0_Process, Out0_Process) */
+  66:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  67:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* save RX & TX status */
+  68:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* and set both to NAK */
+  69:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       
+  70:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 	    SaveRState = _GetENDPOINT(ENDP0);
+  63              		.loc 1 70 0
+  64 0026 554C     		ldr	r4, .L80+12
+  65 0028 2568     		ldr	r5, [r4, #0]
+  66 002a AAB2     		uxth	r2, r5
+  67              	.LVL2:
+  68 002c 544D     		ldr	r5, .L80+16
+  69 002e 2A80     		strh	r2, [r5, #0]	@ movhi
+  71:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 	    SaveTState = SaveRState & EPTX_STAT;
+  70              		.loc 1 71 0
+  71 0030 2988     		ldrh	r1, [r5, #0]
+  72 0032 01F03000 		and	r0, r1, #48
+  73 0036 534A     		ldr	r2, .L80+20
+  74 0038 1080     		strh	r0, [r2, #0]	@ movhi
+  72:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 	    SaveRState &=  EPRX_STAT;	
+  75              		.loc 1 72 0
+  76 003a 2988     		ldrh	r1, [r5, #0]
+  77 003c 01F44050 		and	r0, r1, #12288
+  78 0040 2880     		strh	r0, [r5, #0]	@ movhi
+  79              	.LBB2:
+  73:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  74:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 	    _SetEPRxTxStatus(ENDP0,EP_RX_NAK,EP_TX_NAK);
+  80              		.loc 1 74 0
+  81 0042 2168     		ldr	r1, [r4, #0]
+  82 0044 4BF6BF72 		movw	r2, #49087
+  83 0048 0A40     		ands	r2, r2, r1
+  84              	.LVL3:
+  85 004a 82F40050 		eor	r0, r2, #8192
+  86 004e 80F02001 		eor	r1, r0, #32
+  87 0052 41F40042 		orr	r2, r1, #32768
+  88              	.LVL4:
+  89 0056 42F08000 		orr	r0, r2, #128
+  90              	.LVL5:
+  91 005a 2060     		str	r0, [r4, #0]
+  92              	.LBE2:
+  75:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  76:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* DIR bit = origin of the interrupt */
+  77:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  78:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       if ((wIstr & ISTR_DIR) == 0)
+  93              		.loc 1 78 0
+  94 005c 1B88     		ldrh	r3, [r3, #0]
+  95 005e 03F01001 		and	r1, r3, #16
+  96              	.LVL6:
+  97 0062 8AB2     		uxth	r2, r1
+  98 0064 3AB9     		cbnz	r2, .L4
+  79:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       {
+  80:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* DIR = 0 */
+  81:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  82:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* DIR = 0      => IN  int */
+  83:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* DIR = 0 implies that (EP_CTR_TX = 1) always  */
+  84:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  85:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         _ClearEP_CTR_TX(ENDP0);
+  99              		.loc 1 85 0
+ 100 0066 2268     		ldr	r2, [r4, #0]
+ 101 0068 48F60F70 		movw	r0, #36623
+ 102 006c 1040     		ands	r0, r0, r2
+ 103 006e 2060     		str	r0, [r4, #0]
+  86:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         In0_Process();
+ 104              		.loc 1 86 0
+ 105 0070 FFF7FEFF 		bl	In0_Process
+ 106              	.LVL7:
+ 107 0074 1DE0     		b	.L77
+ 108              	.L4:
+  87:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  88:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****            /* before terminate set Tx & Rx status */
+  89:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  90:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****             _SetEPRxTxStatus(ENDP0,SaveRState,SaveTState);
+  91:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 		  return;
+  92:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       }
+  93:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       else
+  94:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       {
+  95:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* DIR = 1 */
+  96:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+  97:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* DIR = 1 & CTR_RX       => SETUP or OUT int */
+  98:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* DIR = 1 & (CTR_TX | CTR_RX) => 2 int pending */
+  99:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 100:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         wEPVal = _GetENDPOINT(ENDP0);
+ 109              		.loc 1 100 0
+ 110 0076 2068     		ldr	r0, [r4, #0]
+ 111 0078 83B2     		uxth	r3, r0
+ 112              	.LVL8:
+ 113 007a ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 101:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         
+ 102:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         if ((wEPVal &EP_SETUP) != 0)
+ 114              		.loc 1 102 0
+ 115 007e BDF80610 		ldrh	r1, [sp, #6]
+ 116 0082 01F40062 		and	r2, r1, #2048
+ 117 0086 90B2     		uxth	r0, r2
+ 118 0088 38B1     		cbz	r0, .L10
+ 103:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         {
+ 104:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****           _ClearEP_CTR_RX(ENDP0); /* SETUP bit kept frozen while CTR_RX = 1 */
+ 119              		.loc 1 104 0
+ 120 008a 2168     		ldr	r1, [r4, #0]
+ 121 008c 40F68F73 		movw	r3, #3983
+ 122 0090 0B40     		ands	r3, r3, r1
+ 123 0092 2360     		str	r3, [r4, #0]
+ 105:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****           Setup0_Process();
+ 124              		.loc 1 105 0
+ 125 0094 FFF7FEFF 		bl	Setup0_Process
+ 126              	.LVL9:
+ 127 0098 0BE0     		b	.L77
+ 128              	.LVL10:
+ 129              	.L10:
+ 106:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****           /* before terminate set Tx & Rx status */
+ 107:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 108:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 		      _SetEPRxTxStatus(ENDP0,SaveRState,SaveTState);
+ 109:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****           return;
+ 110:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         }
+ 111:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 112:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         else if ((wEPVal & EP_CTR_RX) != 0)
+ 130              		.loc 1 112 0
+ 131 009a BDF80630 		ldrh	r3, [sp, #6]
+ 132 009e 19B2     		sxth	r1, r3
+ 133              	.LVL11:
+ 134 00a0 0029     		cmp	r1, #0
+ 135 00a2 B1DA     		bge	.L65
+ 113:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         {
+ 114:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****           _ClearEP_CTR_RX(ENDP0);
+ 136              		.loc 1 114 0
+ 137 00a4 2268     		ldr	r2, [r4, #0]
+ 138 00a6 40F68F70 		movw	r0, #3983
+ 139 00aa 1040     		ands	r0, r0, r2
+ 140 00ac 2060     		str	r0, [r4, #0]
+ 115:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****           Out0_Process();
+ 141              		.loc 1 115 0
+ 142 00ae FFF7FEFF 		bl	Out0_Process
+ 143              	.LVL12:
+ 144              	.L77:
+ 145              	.LBB3:
+ 116:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****           /* before terminate set Tx & Rx status */
+ 117:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****      
+ 118:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 		     _SetEPRxTxStatus(ENDP0,SaveRState,SaveTState);
+ 146              		.loc 1 118 0
+ 147 00b2 2168     		ldr	r1, [r4, #0]
+ 148 00b4 4BF6BF73 		movw	r3, #49087
+ 149 00b8 0B40     		ands	r3, r3, r1
+ 150              	.LVL13:
+ 151 00ba 2A88     		ldrh	r2, [r5, #0]
+ 152 00bc 02F48050 		and	r0, r2, #4096
+ 153 00c0 81B2     		uxth	r1, r0
+ 154 00c2 09B1     		cbz	r1, .L17
+ 155              		.loc 1 118 0 is_stmt 0 discriminator 1
+ 156 00c4 83F48053 		eor	r3, r3, #4096
+ 157              	.LVL14:
+ 158              	.L17:
+ 159              		.loc 1 118 0 discriminator 2
+ 160 00c8 2D4A     		ldr	r2, .L80+16
+ 161 00ca 1088     		ldrh	r0, [r2, #0]
+ 162 00cc 00F40051 		and	r1, r0, #8192
+ 163 00d0 8AB2     		uxth	r2, r1
+ 164 00d2 0AB1     		cbz	r2, .L18
+ 165              		.loc 1 118 0 discriminator 3
+ 166 00d4 83F40053 		eor	r3, r3, #8192
+ 167              	.LVL15:
+ 168              	.L18:
+ 169              		.loc 1 118 0 discriminator 4
+ 170 00d8 2A48     		ldr	r0, .L80+20
+ 171 00da 0188     		ldrh	r1, [r0, #0]
+ 172 00dc 01F01002 		and	r2, r1, #16
+ 173 00e0 91B2     		uxth	r1, r2
+ 174 00e2 09B1     		cbz	r1, .L19
+ 175              		.loc 1 118 0 discriminator 5
+ 176 00e4 83F01003 		eor	r3, r3, #16
+ 177              	.LVL16:
+ 178              	.L19:
+ 179              		.loc 1 118 0 discriminator 6
+ 180 00e8 0088     		ldrh	r0, [r0, #0]
+ 181 00ea 00F02002 		and	r2, r0, #32
+ 182 00ee 91B2     		uxth	r1, r2
+ 183 00f0 09B1     		cbz	r1, .L20
+ 184              		.loc 1 118 0 discriminator 7
+ 185 00f2 83F02003 		eor	r3, r3, #32
+ 186              	.LVL17:
+ 187              	.L20:
+ 188              		.loc 1 118 0 discriminator 8
+ 189 00f6 43F40040 		orr	r0, r3, #32768
+ 190 00fa 40F08001 		orr	r1, r0, #128
+ 191 00fe 1F4A     		ldr	r2, .L80+12
+ 192 0100 1160     		str	r1, [r2, #0]
+ 193              	.LBE3:
+ 119:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****           return;
+ 194              		.loc 1 119 0 is_stmt 1 discriminator 8
+ 195 0102 33E0     		b	.L1
+ 196              	.LVL18:
+ 197              	.L3:
+ 120:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         }
+ 121:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       }
+ 122:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     }/* if(EPindex == 0) */
+ 123:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     else
+ 124:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     {
+ 125:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* Decode and service non control endpoints interrupt  */
+ 126:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 127:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* process related endpoint register */
+ 128:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       wEPVal = _GetENDPOINT(EPindex);
+ 198              		.loc 1 128 0
+ 199 0104 9300     		lsls	r3, r2, #2
+ 200 0106 03F18040 		add	r0, r3, #1073741824
+ 201 010a 00F5B843 		add	r3, r0, #23552
+ 202 010e 1A68     		ldr	r2, [r3, #0]
+ 203              	.LVL19:
+ 204 0110 90B2     		uxth	r0, r2
+ 205              	.LVL20:
+ 206 0112 ADF80600 		strh	r0, [sp, #6]	@ movhi
+ 129:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       if ((wEPVal & EP_CTR_RX) != 0)
+ 207              		.loc 1 129 0
+ 208 0116 BDF80620 		ldrh	r2, [sp, #6]
+ 209 011a 10B2     		sxth	r0, r2
+ 210              	.LVL21:
+ 211 011c 0028     		cmp	r0, #0
+ 212 011e 0ADA     		bge	.L21
+ 130:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       {
+ 131:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* clear int flag */
+ 132:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         _ClearEP_CTR_RX(EPindex);
+ 213              		.loc 1 132 0
+ 214 0120 1868     		ldr	r0, [r3, #0]
+ 215 0122 40F68F72 		movw	r2, #3983
+ 216 0126 0240     		ands	r2, r2, r0
+ 217 0128 1A60     		str	r2, [r3, #0]
+ 133:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 134:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* call OUT service function */
+ 135:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         (*pEpInt_OUT[EPindex-1])();
+ 218              		.loc 1 135 0
+ 219 012a 0978     		ldrb	r1, [r1, #0]	@ zero_extendqisi2
+ 220 012c 481E     		subs	r0, r1, #1
+ 221 012e 164B     		ldr	r3, .L80+24
+ 222 0130 53F82020 		ldr	r2, [r3, r0, lsl #2]
+ 223 0134 9047     		blx	r2
+ 224              	.LVL22:
+ 225              	.L21:
+ 136:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 137:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       } /* if((wEPVal & EP_CTR_RX) */
+ 138:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 139:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       if ((wEPVal & EP_CTR_TX) != 0)
+ 226              		.loc 1 139 0
+ 227 0136 BDF80610 		ldrh	r1, [sp, #6]
+ 228 013a 01F08000 		and	r0, r1, #128
+ 229 013e 83B2     		uxth	r3, r0
+ 230 0140 002B     		cmp	r3, #0
+ 231 0142 3FF461AF 		beq	.L65
+ 140:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       {
+ 141:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* clear int flag */
+ 142:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         _ClearEP_CTR_TX(EPindex);
+ 232              		.loc 1 142 0
+ 233 0146 0C4A     		ldr	r2, .L80+8
+ 234 0148 1178     		ldrb	r1, [r2, #0]	@ zero_extendqisi2
+ 235 014a 8800     		lsls	r0, r1, #2
+ 236 014c 00F18043 		add	r3, r0, #1073741824
+ 237 0150 03F5B841 		add	r1, r3, #23552
+ 238 0154 0868     		ldr	r0, [r1, #0]
+ 239 0156 48F60F73 		movw	r3, #36623
+ 240 015a 0340     		ands	r3, r3, r0
+ 241 015c 0B60     		str	r3, [r1, #0]
+ 143:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 144:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         /* call IN service function */
+ 145:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****         (*pEpInt_IN[EPindex-1])();
+ 242              		.loc 1 145 0
+ 243 015e 1278     		ldrb	r2, [r2, #0]	@ zero_extendqisi2
+ 244 0160 511E     		subs	r1, r2, #1
+ 245 0162 0A48     		ldr	r0, .L80+28
+ 246 0164 50F82130 		ldr	r3, [r0, r1, lsl #2]
+ 247 0168 9847     		blx	r3
+ 248              	.LVL23:
+ 249 016a 4DE7     		b	.L65
+ 250              	.L1:
+ 146:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       } /* if((wEPVal & EP_CTR_TX) != 0) */
+ 147:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 148:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     }/* if(EPindex == 0) else */
+ 149:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 150:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   }/* while(...) */
+ 151:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** }
+ 251              		.loc 1 151 0
+ 252 016c 3EBD     		pop	{r1, r2, r3, r4, r5, pc}
+ 253              	.L81:
+ 254 016e 00BF     		.align	2
+ 255              	.L80:
+ 256 0170 445C0040 		.word	1073765444
+ 257 0174 00000000 		.word	wIstr
+ 258 0178 00000000 		.word	EPindex
+ 259 017c 005C0040 		.word	1073765376
+ 260 0180 00000000 		.word	.LANCHOR0
+ 261 0184 00000000 		.word	.LANCHOR1
+ 262 0188 00000000 		.word	pEpInt_OUT
+ 263 018c 00000000 		.word	pEpInt_IN
+ 264              		.cfi_endproc
+ 265              	.LFE57:
+ 267              		.section	.text.CTR_HP,"ax",%progbits
+ 268              		.align	1
+ 269              		.global	CTR_HP
+ 270              		.thumb
+ 271              		.thumb_func
+ 273              	CTR_HP:
+ 274              	.LFB58:
+ 152:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 153:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** /*******************************************************************************
+ 154:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Function Name  : CTR_HP.
+ 155:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Description    : High Priority Endpoint Correct Transfer interrupt's service 
+ 156:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** *                  routine.
+ 157:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Input          : None.
+ 158:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Output         : None.
+ 159:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** * Return         : None.
+ 160:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** *******************************************************************************/
+ 161:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** void CTR_HP(void)
+ 162:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** {
+ 275              		.loc 1 162 0
+ 276              		.cfi_startproc
+ 277              		@ args = 0, pretend = 0, frame = 0
+ 278              		@ frame_needed = 0, uses_anonymous_args = 0
+ 279 0000 08B5     		push	{r3, lr}
+ 280              	.LCFI1:
+ 281              		.cfi_def_cfa_offset 8
+ 282              		.cfi_offset 3, -8
+ 283              		.cfi_offset 14, -4
+ 284              	.L92:
+ 285              	.LVL24:
+ 163:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   uint32_t wEPVal = 0;
+ 164:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 165:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   while (((wIstr = _GetISTR()) & ISTR_CTR) != 0)
+ 286              		.loc 1 165 0
+ 287 0002 174A     		ldr	r2, .L94
+ 288 0004 1168     		ldr	r1, [r2, #0]
+ 289 0006 88B2     		uxth	r0, r1
+ 290 0008 164B     		ldr	r3, .L94+4
+ 291 000a 1880     		strh	r0, [r3, #0]	@ movhi
+ 292 000c 0904     		lsls	r1, r1, #16
+ 293 000e 26D5     		bpl	.L82
+ 166:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****   {
+ 167:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     _SetISTR((uint16_t)CLR_CTR); /* clear CTR flag */
+ 294              		.loc 1 167 0
+ 295 0010 47F6FF71 		movw	r1, #32767
+ 296 0014 1160     		str	r1, [r2, #0]
+ 168:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     /* extract highest priority endpoint number */
+ 169:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     EPindex = (uint8_t)(wIstr & ISTR_EP_ID);
+ 297              		.loc 1 169 0
+ 298 0016 1A88     		ldrh	r2, [r3, #0]
+ 299 0018 02F00F00 		and	r0, r2, #15
+ 300 001c 124A     		ldr	r2, .L94+8
+ 301 001e 1070     		strb	r0, [r2, #0]
+ 170:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     /* process related endpoint register */
+ 171:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     wEPVal = _GetENDPOINT(EPindex);
+ 302              		.loc 1 171 0
+ 303 0020 8300     		lsls	r3, r0, #2
+ 304 0022 03F18041 		add	r1, r3, #1073741824
+ 305 0026 01F5B843 		add	r3, r1, #23552
+ 306 002a 1968     		ldr	r1, [r3, #0]
+ 307              	.LVL25:
+ 172:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     if ((wEPVal & EP_CTR_RX) != 0)
+ 308              		.loc 1 172 0
+ 309 002c 0804     		lsls	r0, r1, #16
+ 310 002e 08D5     		bpl	.L85
+ 173:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     {
+ 174:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* clear int flag */
+ 175:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       _ClearEP_CTR_RX(EPindex);
+ 311              		.loc 1 175 0
+ 312 0030 1868     		ldr	r0, [r3, #0]
+ 313 0032 40F68F71 		movw	r1, #3983
+ 314              	.LVL26:
+ 315 0036 0140     		ands	r1, r1, r0
+ 316 0038 1960     		str	r1, [r3, #0]
+ 176:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 177:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* call OUT service function */
+ 178:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       (*pEpInt_OUT[EPindex-1])();
+ 317              		.loc 1 178 0
+ 318 003a 1278     		ldrb	r2, [r2, #0]	@ zero_extendqisi2
+ 319 003c 501E     		subs	r0, r2, #1
+ 320 003e 0B4B     		ldr	r3, .L94+12
+ 321 0040 09E0     		b	.L93
+ 322              	.LVL27:
+ 323              	.L85:
+ 179:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 180:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     } /* if((wEPVal & EP_CTR_RX) */
+ 181:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     else if ((wEPVal & EP_CTR_TX) != 0)
+ 324              		.loc 1 181 0
+ 325 0042 0906     		lsls	r1, r1, #24
+ 326              	.LVL28:
+ 327 0044 DDD5     		bpl	.L92
+ 182:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****     {
+ 183:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* clear int flag */
+ 184:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       _ClearEP_CTR_TX(EPindex);
+ 328              		.loc 1 184 0
+ 329 0046 1868     		ldr	r0, [r3, #0]
+ 330 0048 48F60F71 		movw	r1, #36623
+ 331 004c 0140     		ands	r1, r1, r0
+ 332 004e 1960     		str	r1, [r3, #0]
+ 185:lib/STM32_USB-FS-Device_Driver/src/usb_int.c **** 
+ 186:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       /* call IN service function */
+ 187:lib/STM32_USB-FS-Device_Driver/src/usb_int.c ****       (*pEpInt_IN[EPindex-1])();
+ 333              		.loc 1 187 0
+ 334 0050 1278     		ldrb	r2, [r2, #0]	@ zero_extendqisi2
+ 335 0052 501E     		subs	r0, r2, #1
+ 336 0054 064B     		ldr	r3, .L94+16
+ 337              	.L93:
+ 338 0056 53F82030 		ldr	r3, [r3, r0, lsl #2]
+ 339 005a 9847     		blx	r3
+ 340              	.LVL29:
+ 341 005c D1E7     		b	.L92
+ 342              	.LVL30:
+ 343              	.L82:
+ 344 005e 08BD     		pop	{r3, pc}
+ 345              	.L95:
+ 346              		.align	2
+ 347              	.L94:
+ 348 0060 445C0040 		.word	1073765444
+ 349 0064 00000000 		.word	wIstr
+ 350 0068 00000000 		.word	EPindex
+ 351 006c 00000000 		.word	pEpInt_OUT
+ 352 0070 00000000 		.word	pEpInt_IN
+ 353              		.cfi_endproc
+ 354              	.LFE58:
+ 356              		.global	SaveTState
+ 357              		.global	SaveRState
+ 358              		.section	.bss.SaveRState,"aw",%nobits
+ 359              		.align	1
+ 360              		.set	.LANCHOR0,. + 0
+ 363              	SaveRState:
+ 364 0000 0000     		.space	2
+ 365              		.section	.bss.SaveTState,"aw",%nobits
+ 366              		.align	1
+ 367              		.set	.LANCHOR1,. + 0
+ 370              	SaveTState:
+ 371 0000 0000     		.space	2
+ 372              		.text
+ 373              	.Letext0:
+ 374              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 375              		.file 3 "./lib/CMSIS/Include/core_cm3.h"
+ 376              		.file 4 "./inc/systick.h"
+ 377              		.file 5 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
+ 378              		.file 6 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
+ 379              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_core.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_int.c
+  R:\TEMP\ccbtArMv.s:19     .text.CTR_LP:00000000 $t
+  R:\TEMP\ccbtArMv.s:24     .text.CTR_LP:00000000 CTR_LP
+  R:\TEMP\ccbtArMv.s:256    .text.CTR_LP:00000170 $d
+  R:\TEMP\ccbtArMv.s:268    .text.CTR_HP:00000000 $t
+  R:\TEMP\ccbtArMv.s:273    .text.CTR_HP:00000000 CTR_HP
+  R:\TEMP\ccbtArMv.s:348    .text.CTR_HP:00000060 $d
+  R:\TEMP\ccbtArMv.s:370    .bss.SaveTState:00000000 SaveTState
+  R:\TEMP\ccbtArMv.s:363    .bss.SaveRState:00000000 SaveRState
+  R:\TEMP\ccbtArMv.s:359    .bss.SaveRState:00000000 $d
+  R:\TEMP\ccbtArMv.s:366    .bss.SaveTState:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+In0_Process
+Setup0_Process
+Out0_Process
+wIstr
+EPindex
+pEpInt_OUT
+pEpInt_IN

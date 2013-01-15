@@ -1,0 +1,139 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"usb_msc_scsi_data.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	ReadFormatCapacity_Data
+  19              		.global	ReadCapacity10_Data
+  20              		.global	Scsi_Sense_Data
+  21              		.global	Mode_Sense10_data
+  22              		.global	Mode_Sense6_data
+  23              		.global	Standard_Inquiry_Data
+  24              		.global	Page00_Inquiry_Data
+  25              		.section	.data.Mode_Sense10_data,"aw",%progbits
+  28              	Mode_Sense10_data:
+  29 0000 00       		.byte	0
+  30 0001 06       		.byte	6
+  31 0002 00       		.byte	0
+  32 0003 00       		.byte	0
+  33 0004 00       		.byte	0
+  34 0005 00       		.byte	0
+  35 0006 00       		.byte	0
+  36 0007 00       		.byte	0
+  37              		.section	.bss.ReadCapacity10_Data,"aw",%nobits
+  40              	ReadCapacity10_Data:
+  41 0000 00000000 		.space	8
+  41      00000000 
+  42              		.section	.data.Scsi_Sense_Data,"aw",%progbits
+  45              	Scsi_Sense_Data:
+  46 0000 70       		.byte	112
+  47 0001 00       		.byte	0
+  48 0002 00       		.byte	0
+  49 0003 00       		.byte	0
+  50 0004 00       		.byte	0
+  51 0005 00       		.byte	0
+  52 0006 00       		.byte	0
+  53 0007 0A       		.byte	10
+  54 0008 00       		.byte	0
+  55 0009 00       		.byte	0
+  56 000a 00       		.byte	0
+  57 000b 00       		.byte	0
+  58 000c 00       		.byte	0
+  59 000d 00       		.byte	0
+  60 000e 00       		.byte	0
+  61 000f 00       		.byte	0
+  62 0010 00       		.byte	0
+  63 0011 00       		.byte	0
+  64              		.section	.data.Mode_Sense6_data,"aw",%progbits
+  67              	Mode_Sense6_data:
+  68 0000 03       		.byte	3
+  69 0001 00       		.byte	0
+  70 0002 00       		.byte	0
+  71 0003 00       		.byte	0
+  72              		.section	.data.ReadFormatCapacity_Data,"aw",%progbits
+  75              	ReadFormatCapacity_Data:
+  76 0000 00       		.byte	0
+  77 0001 00       		.byte	0
+  78 0002 00       		.byte	0
+  79 0003 08       		.byte	8
+  80 0004 00       		.byte	0
+  81 0005 00       		.byte	0
+  82 0006 00       		.byte	0
+  83 0007 00       		.byte	0
+  84 0008 02       		.byte	2
+  85 0009 00       		.byte	0
+  86 000a 00       		.byte	0
+  87 000b 00       		.byte	0
+  88              		.section	.bss.Page00_Inquiry_Data,"aw",%nobits
+  91              	Page00_Inquiry_Data:
+  92 0000 00000000 		.space	5
+  92      00
+  93              		.section	.data.Standard_Inquiry_Data,"aw",%progbits
+  96              	Standard_Inquiry_Data:
+  97 0000 00       		.byte	0
+  98 0001 80       		.byte	-128
+  99 0002 02       		.byte	2
+ 100 0003 02       		.byte	2
+ 101 0004 20       		.byte	32
+ 102 0005 00       		.byte	0
+ 103 0006 00       		.byte	0
+ 104 0007 00       		.byte	0
+ 105 0008 53       		.byte	83
+ 106 0009 54       		.byte	84
+ 107 000a 4D       		.byte	77
+ 108 000b 20       		.byte	32
+ 109 000c 20       		.byte	32
+ 110 000d 20       		.byte	32
+ 111 000e 20       		.byte	32
+ 112 000f 20       		.byte	32
+ 113 0010 53       		.byte	83
+ 114 0011 44       		.byte	68
+ 115 0012 20       		.byte	32
+ 116 0013 46       		.byte	70
+ 117 0014 6C       		.byte	108
+ 118 0015 61       		.byte	97
+ 119 0016 73       		.byte	115
+ 120 0017 68       		.byte	104
+ 121 0018 20       		.byte	32
+ 122 0019 44       		.byte	68
+ 123 001a 69       		.byte	105
+ 124 001b 73       		.byte	115
+ 125 001c 6B       		.byte	107
+ 126 001d 20       		.byte	32
+ 127 001e 20       		.byte	32
+ 128 001f 20       		.byte	32
+ 129 0020 31       		.byte	49
+ 130 0021 2E       		.byte	46
+ 131 0022 30       		.byte	48
+ 132 0023 20       		.byte	32
+ 133              		.text
+ 134              	.Letext0:
+ 135              		.file 1 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 136              		.file 2 "./lib/CMSIS/Include/core_cm3.h"
+ 137              		.file 3 "lib/USB_Functions/msc/src/usb_msc_scsi_data.c"
+ 138              		.file 4 "./inc/systick.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_msc_scsi_data.c
+  R:\TEMP\ccFftP0d.s:75     .data.ReadFormatCapacity_Data:00000000 ReadFormatCapacity_Data
+  R:\TEMP\ccFftP0d.s:40     .bss.ReadCapacity10_Data:00000000 ReadCapacity10_Data
+  R:\TEMP\ccFftP0d.s:45     .data.Scsi_Sense_Data:00000000 Scsi_Sense_Data
+  R:\TEMP\ccFftP0d.s:28     .data.Mode_Sense10_data:00000000 Mode_Sense10_data
+  R:\TEMP\ccFftP0d.s:67     .data.Mode_Sense6_data:00000000 Mode_Sense6_data
+  R:\TEMP\ccFftP0d.s:96     .data.Standard_Inquiry_Data:00000000 Standard_Inquiry_Data
+  R:\TEMP\ccFftP0d.s:91     .bss.Page00_Inquiry_Data:00000000 Page00_Inquiry_Data
+  R:\TEMP\ccFftP0d.s:41     .bss.ReadCapacity10_Data:00000000 $d
+  R:\TEMP\ccFftP0d.s:92     .bss.Page00_Inquiry_Data:00000000 $d
+
+NO UNDEFINED SYMBOLS

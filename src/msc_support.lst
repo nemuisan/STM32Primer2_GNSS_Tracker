@@ -1,0 +1,294 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"msc_support.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.msc_task,"ax",%progbits
+  19              		.align	1
+  20              		.global	msc_task
+  21              		.thumb
+  22              		.thumb_func
+  24              	msc_task:
+  25              	.LFB58:
+  26              		.file 1 "src/msc_support.c"
+   1:src/msc_support.c **** /********************************************************************************/
+   2:src/msc_support.c **** /*!
+   3:src/msc_support.c **** 	@file			msc_support.c
+   4:src/msc_support.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:src/msc_support.c ****     @version        2.00
+   6:src/msc_support.c ****     @date           2012.01.30
+   7:src/msc_support.c **** 	@brief          Interface of USB-MassStorageClass.
+   8:src/msc_support.c **** 
+   9:src/msc_support.c ****     @section HISTORY
+  10:src/msc_support.c **** 		2011.07.06	V1.00	Start Here.
+  11:src/msc_support.c **** 		2012.01.30	V2.00	Added Consideration CoOperate with CDC Function .
+  12:src/msc_support.c **** 
+  13:src/msc_support.c ****     @section LICENSE
+  14:src/msc_support.c **** 		BSD License. See Copyright.txt
+  15:src/msc_support.c **** */
+  16:src/msc_support.c **** /********************************************************************************/
+  17:src/msc_support.c **** 
+  18:src/msc_support.c **** /* Includes ------------------------------------------------------------------*/
+  19:src/msc_support.c **** #include "msc_support.h"
+  20:src/msc_support.c **** /* check header file version for fool proof */
+  21:src/msc_support.c **** #if __MSC_SUPPORT_H!= 0x0100
+  22:src/msc_support.c **** #error "header file version is not correspond!"
+  23:src/msc_support.c **** #endif
+  24:src/msc_support.c **** 
+  25:src/msc_support.c **** #include "display_if.h"
+  26:src/msc_support.c **** #include "display_if_support.h"
+  27:src/msc_support.c **** 
+  28:src/msc_support.c **** /* Defines -------------------------------------------------------------------*/
+  29:src/msc_support.c **** /* FONTX */
+  30:src/msc_support.c **** #define ANKFONT		Mplus_Ank
+  31:src/msc_support.c **** 
+  32:src/msc_support.c **** /* Variables -----------------------------------------------------------------*/
+  33:src/msc_support.c **** extern FontX_Ank   	ANKFONT;
+  34:src/msc_support.c **** 
+  35:src/msc_support.c **** /* Constants -----------------------------------------------------------------*/
+  36:src/msc_support.c **** 
+  37:src/msc_support.c **** /* Function prototypes -------------------------------------------------------*/
+  38:src/msc_support.c **** 
+  39:src/msc_support.c **** /* Functions -----------------------------------------------------------------*/
+  40:src/msc_support.c **** 
+  41:src/msc_support.c **** /**************************************************************************/
+  42:src/msc_support.c **** /*! 
+  43:src/msc_support.c ****     @brief	Configures the USB interrupts.
+  44:src/msc_support.c **** 	@param	None.
+  45:src/msc_support.c ****     @retval	None.
+  46:src/msc_support.c **** */
+  47:src/msc_support.c **** /**************************************************************************/
+  48:src/msc_support.c **** static void USB_Interrupts_Config(void)
+  49:src/msc_support.c **** {
+  50:src/msc_support.c ****   NVIC_InitTypeDef NVIC_InitStructure;
+  51:src/msc_support.c **** 
+  52:src/msc_support.c ****   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+  53:src/msc_support.c **** 
+  54:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+  55:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  56:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  57:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  58:src/msc_support.c ****   NVIC_Init(&NVIC_InitStructure);
+  59:src/msc_support.c **** 
+  60:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn;
+  61:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  62:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  63:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  64:src/msc_support.c ****   NVIC_Init(&NVIC_InitStructure);
+  65:src/msc_support.c ****   
+  66:src/msc_support.c **** }
+  67:src/msc_support.c **** 
+  68:src/msc_support.c **** /**************************************************************************/
+  69:src/msc_support.c **** /*! 
+  70:src/msc_support.c ****     Main Mass Storage Class Task Routine.
+  71:src/msc_support.c **** */
+  72:src/msc_support.c **** /**************************************************************************/
+  73:src/msc_support.c **** void msc_task(void)
+  74:src/msc_support.c **** {
+  27              		.loc 1 74 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 13B5     		push	{r0, r1, r4, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 0, -16
+  35              		.cfi_offset 1, -12
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  75:src/msc_support.c **** 	/* Available USB Clock Frequency */
+  76:src/msc_support.c **** 	Set72();
+  38              		.loc 1 76 0
+  39 0002 FFF7FEFF 		bl	Set72
+  40              	.LVL0:
+  77:src/msc_support.c **** 	/* Retrive SystemClock Frequency */
+  78:src/msc_support.c **** 	SystemCoreClockUpdate();
+  41              		.loc 1 78 0
+  42 0006 FFF7FEFF 		bl	SystemCoreClockUpdate
+  43              	.LVL1:
+  79:src/msc_support.c **** 
+  80:src/msc_support.c **** 	/* Init Display Driver and FONTX Driver */
+  81:src/msc_support.c **** 	Display_init_if();
+  44              		.loc 1 81 0
+  45 000a FFF7FEFF 		bl	ST7732_init
+  46              	.LVL2:
+  82:src/msc_support.c **** 	InitFont_Ank(&ANKFONT,font_table_ank);
+  47              		.loc 1 82 0
+  48 000e 2048     		ldr	r0, .L6
+  49 0010 2049     		ldr	r1, .L6+4
+  50 0012 FFF7FEFF 		bl	InitFont_Ank
+  51              	.LVL3:
+  83:src/msc_support.c **** 	ChangeCurrentAnk(&ANKFONT);
+  52              		.loc 1 83 0
+  53 0016 1E48     		ldr	r0, .L6
+  54 0018 FFF7FEFF 		bl	ChangeCurrentAnk
+  55              	.LVL4:
+  84:src/msc_support.c **** 
+  85:src/msc_support.c **** 	/* Diaplay MSC mode message */
+  86:src/msc_support.c **** 	Display_clear_if();
+  56              		.loc 1 86 0
+  57 001c FFF7FEFF 		bl	ST7732_clear
+  58              	.LVL5:
+  87:src/msc_support.c **** 	Display_Puts_If(0,0,(uint8_t*)"Start Mass Storage",OPAQUE);
+  59              		.loc 1 87 0
+  60 0020 0020     		movs	r0, #0
+  61 0022 0146     		mov	r1, r0
+  62 0024 1C4A     		ldr	r2, .L6+8
+  63 0026 0123     		movs	r3, #1
+  64 0028 FFF7FEFF 		bl	Display_Puts_If
+  65              	.LVL6:
+  88:src/msc_support.c **** 
+  89:src/msc_support.c **** 	/* USB-MSC Configurations */
+  90:src/msc_support.c ****   	USB_Disconnect_Config();
+  66              		.loc 1 90 0
+  67 002c FFF7FEFF 		bl	USB_Disconnect_Config
+  68              	.LVL7:
+  91:src/msc_support.c **** 	USB_Cable_Config(DISABLE); /* fool ploof */
+  69              		.loc 1 91 0
+  70 0030 0020     		movs	r0, #0
+  71 0032 FFF7FEFF 		bl	USB_Cable_Config
+  72              	.LVL8:
+  92:src/msc_support.c **** 	MAL_Init(0);
+  73              		.loc 1 92 0
+  74 0036 0020     		movs	r0, #0
+  75 0038 FFF7FEFF 		bl	MAL_Init
+  76              	.LVL9:
+  93:src/msc_support.c **** 	Set_USBClock();
+  77              		.loc 1 93 0
+  78 003c FFF7FEFF 		bl	Set_USBClock
+  79              	.LVL10:
+  80              	.LBB4:
+  81              	.LBB5:
+  52:src/msc_support.c ****   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+  82              		.loc 1 52 0
+  83 0040 4FF4C060 		mov	r0, #1536
+  84 0044 FFF7FEFF 		bl	NVIC_PriorityGroupConfig
+  85              	.LVL11:
+  54:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+  86              		.loc 1 54 0
+  87 0048 1423     		movs	r3, #20
+  88 004a 8DF80430 		strb	r3, [sp, #4]
+  55:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  89              		.loc 1 55 0
+  90 004e 0124     		movs	r4, #1
+  91 0050 8DF80540 		strb	r4, [sp, #5]
+  56:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  92              		.loc 1 56 0
+  93 0054 8DF80640 		strb	r4, [sp, #6]
+  57:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  94              		.loc 1 57 0
+  95 0058 8DF80740 		strb	r4, [sp, #7]
+  58:src/msc_support.c ****   NVIC_Init(&NVIC_InitStructure);
+  96              		.loc 1 58 0
+  97 005c 01A8     		add	r0, sp, #4
+  98 005e FFF7FEFF 		bl	NVIC_Init
+  99              	.LVL12:
+  60:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn;
+ 100              		.loc 1 60 0
+ 101 0062 1320     		movs	r0, #19
+ 102 0064 8DF80400 		strb	r0, [sp, #4]
+  61:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+ 103              		.loc 1 61 0
+ 104 0068 8DF80540 		strb	r4, [sp, #5]
+  62:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+ 105              		.loc 1 62 0
+ 106 006c 0021     		movs	r1, #0
+ 107 006e 8DF80610 		strb	r1, [sp, #6]
+  63:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+ 108              		.loc 1 63 0
+ 109 0072 8DF80740 		strb	r4, [sp, #7]
+  64:src/msc_support.c ****   NVIC_Init(&NVIC_InitStructure);
+ 110              		.loc 1 64 0
+ 111 0076 01A8     		add	r0, sp, #4
+ 112 0078 FFF7FEFF 		bl	NVIC_Init
+ 113              	.LVL13:
+ 114              	.LBE5:
+ 115              	.LBE4:
+  94:src/msc_support.c **** 	USB_Interrupts_Config();
+  95:src/msc_support.c **** 	USB_Init();
+ 116              		.loc 1 95 0
+ 117 007c FFF7FEFF 		bl	USB_Init
+ 118              	.LVL14:
+  96:src/msc_support.c **** 	USB_Cable_Config(ENABLE);
+ 119              		.loc 1 96 0
+ 120 0080 2046     		mov	r0, r4
+ 121 0082 FFF7FEFF 		bl	USB_Cable_Config
+ 122              	.LVL15:
+ 123              	.L2:
+  97:src/msc_support.c **** 	while (bDeviceState != CONFIGURED);
+ 124              		.loc 1 97 0 discriminator 1
+ 125 0086 054A     		ldr	r2, .L6+12
+ 126 0088 1368     		ldr	r3, [r2, #0]
+ 127 008a 052B     		cmp	r3, #5
+ 128 008c FBD1     		bne	.L2
+ 129              	.L3:
+ 130 008e FEE7     		b	.L3
+ 131              	.L7:
+ 132              		.align	2
+ 133              	.L6:
+ 134 0090 00000000 		.word	Mplus_Ank
+ 135 0094 00000000 		.word	font_table_ank
+ 136 0098 00000000 		.word	.LC0
+ 137 009c 00000000 		.word	bDeviceState
+ 138              		.cfi_endproc
+ 139              	.LFE58:
+ 141              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 142              	.LC0:
+ 143 0000 53746172 		.ascii	"Start Mass Storage\000"
+ 143      74204D61 
+ 143      73732053 
+ 143      746F7261 
+ 143      676500
+ 144              		.text
+ 145              	.Letext0:
+ 146              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 147              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
+ 148              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
+ 149              		.file 5 "./lib/USB_Functions/usb_pwr.h"
+ 150              		.file 6 "./lib/FONTX2/inc/font_if.h"
+ 151              		.file 7 "./lib/display/abstract/inc/display_if_support.h"
+ 152              		.file 8 "./lib/CMSIS/Include/core_cm3.h"
+ 153              		.file 9 "./inc/systick.h"
+ 154              		.file 10 "./lib/FONTX2/inc/font_if_datatable.h"
+ 155              		.file 11 "./inc/hw_config.h"
+ 156              		.file 12 "./lib/CMSIS/Device/ST/STM32F10x/Include/system_stm32f10x.h"
+ 157              		.file 13 "./lib/display/drivers/inc/st7732.h"
+ 158              		.file 14 "./lib/USB_Functions/msc/inc/usb_msc_mass_mal.h"
+ 159              		.file 15 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 msc_support.c
+  R:\TEMP\ccgecQeO.s:19     .text.msc_task:00000000 $t
+  R:\TEMP\ccgecQeO.s:24     .text.msc_task:00000000 msc_task
+  R:\TEMP\ccgecQeO.s:134    .text.msc_task:00000090 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+Set72
+SystemCoreClockUpdate
+ST7732_init
+InitFont_Ank
+ChangeCurrentAnk
+ST7732_clear
+Display_Puts_If
+USB_Disconnect_Config
+USB_Cable_Config
+MAL_Init
+Set_USBClock
+NVIC_PriorityGroupConfig
+NVIC_Init
+USB_Init
+Mplus_Ank
+font_table_ank
+bDeviceState

@@ -1,0 +1,232 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"usb_conf.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.EP1_IN_Callback,"ax",%progbits
+  19              		.align	1
+  20              		.global	EP1_IN_Callback
+  21              		.thumb
+  22              		.thumb_func
+  24              	EP1_IN_Callback:
+  25              	.LFB56:
+  26              		.file 1 "lib/USB_Functions/usb_conf.c"
+   1:lib/USB_Functions/usb_conf.c **** /********************************************************************************/
+   2:lib/USB_Functions/usb_conf.c **** /*!
+   3:lib/USB_Functions/usb_conf.c **** 	@file			usb_conf.c
+   4:lib/USB_Functions/usb_conf.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:lib/USB_Functions/usb_conf.c ****     @version        1.00
+   6:lib/USB_Functions/usb_conf.c ****     @date           2012.01.30
+   7:lib/USB_Functions/usb_conf.c **** 	@brief          USB Endpoint and Misc Function Wrappers.
+   8:lib/USB_Functions/usb_conf.c **** 
+   9:lib/USB_Functions/usb_conf.c ****     @section HISTORY
+  10:lib/USB_Functions/usb_conf.c **** 		2012.01.30	V1.00	Start Here
+  11:lib/USB_Functions/usb_conf.c **** 
+  12:lib/USB_Functions/usb_conf.c ****     @section LICENSE
+  13:lib/USB_Functions/usb_conf.c **** 		BSD License. See Copyright.txt
+  14:lib/USB_Functions/usb_conf.c **** */
+  15:lib/USB_Functions/usb_conf.c **** /********************************************************************************/
+  16:lib/USB_Functions/usb_conf.c **** 
+  17:lib/USB_Functions/usb_conf.c **** /* Includes ------------------------------------------------------------------*/
+  18:lib/USB_Functions/usb_conf.c **** #include "usb_conf.h"
+  19:lib/USB_Functions/usb_conf.c **** #include "usb_core.h"
+  20:lib/USB_Functions/usb_conf.c **** 
+  21:lib/USB_Functions/usb_conf.c **** /* Defines -------------------------------------------------------------------*/
+  22:lib/USB_Functions/usb_conf.c **** 
+  23:lib/USB_Functions/usb_conf.c **** /* Variables -----------------------------------------------------------------*/
+  24:lib/USB_Functions/usb_conf.c **** void (*xEP1_IN_Callback)(void);
+  25:lib/USB_Functions/usb_conf.c **** void (*xEP2_OUT_Callback)(void);
+  26:lib/USB_Functions/usb_conf.c **** void (*xEP3_OUT_Callback)(void);
+  27:lib/USB_Functions/usb_conf.c **** void (*xSOF_Callback)(void);
+  28:lib/USB_Functions/usb_conf.c **** 
+  29:lib/USB_Functions/usb_conf.c **** /* Constants -----------------------------------------------------------------*/
+  30:lib/USB_Functions/usb_conf.c **** 
+  31:lib/USB_Functions/usb_conf.c **** /* Function prototypes -------------------------------------------------------*/
+  32:lib/USB_Functions/usb_conf.c **** void EP1_IN_Callback(void)
+  33:lib/USB_Functions/usb_conf.c **** {
+  27              		.loc 1 33 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 08B5     		push	{r3, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  34:lib/USB_Functions/usb_conf.c **** 	xEP1_IN_Callback();
+  36              		.loc 1 34 0
+  37 0002 024B     		ldr	r3, .L2
+  38 0004 1868     		ldr	r0, [r3, #0]
+  39 0006 8047     		blx	r0
+  40              	.LVL0:
+  41 0008 08BD     		pop	{r3, pc}
+  42              	.L3:
+  43 000a 00BF     		.align	2
+  44              	.L2:
+  45 000c 00000000 		.word	.LANCHOR0
+  46              		.cfi_endproc
+  47              	.LFE56:
+  49              		.section	.text.EP3_OUT_Callback,"ax",%progbits
+  50              		.align	1
+  51              		.global	EP3_OUT_Callback
+  52              		.thumb
+  53              		.thumb_func
+  55              	EP3_OUT_Callback:
+  56              	.LFB57:
+  35:lib/USB_Functions/usb_conf.c **** }
+  36:lib/USB_Functions/usb_conf.c **** 
+  37:lib/USB_Functions/usb_conf.c **** void EP3_OUT_Callback(void)
+  38:lib/USB_Functions/usb_conf.c **** {
+  57              		.loc 1 38 0
+  58              		.cfi_startproc
+  59              		@ args = 0, pretend = 0, frame = 0
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61 0000 08B5     		push	{r3, lr}
+  62              	.LCFI1:
+  63              		.cfi_def_cfa_offset 8
+  64              		.cfi_offset 3, -8
+  65              		.cfi_offset 14, -4
+  39:lib/USB_Functions/usb_conf.c **** 	xEP3_OUT_Callback();
+  66              		.loc 1 39 0
+  67 0002 024B     		ldr	r3, .L5
+  68 0004 1868     		ldr	r0, [r3, #0]
+  69 0006 8047     		blx	r0
+  70              	.LVL1:
+  71 0008 08BD     		pop	{r3, pc}
+  72              	.L6:
+  73 000a 00BF     		.align	2
+  74              	.L5:
+  75 000c 00000000 		.word	.LANCHOR1
+  76              		.cfi_endproc
+  77              	.LFE57:
+  79              		.section	.text.EP2_OUT_Callback,"ax",%progbits
+  80              		.align	1
+  81              		.global	EP2_OUT_Callback
+  82              		.thumb
+  83              		.thumb_func
+  85              	EP2_OUT_Callback:
+  86              	.LFB58:
+  40:lib/USB_Functions/usb_conf.c **** }
+  41:lib/USB_Functions/usb_conf.c **** 
+  42:lib/USB_Functions/usb_conf.c **** void EP2_OUT_Callback(void)
+  43:lib/USB_Functions/usb_conf.c **** {
+  87              		.loc 1 43 0
+  88              		.cfi_startproc
+  89              		@ args = 0, pretend = 0, frame = 0
+  90              		@ frame_needed = 0, uses_anonymous_args = 0
+  91 0000 08B5     		push	{r3, lr}
+  92              	.LCFI2:
+  93              		.cfi_def_cfa_offset 8
+  94              		.cfi_offset 3, -8
+  95              		.cfi_offset 14, -4
+  44:lib/USB_Functions/usb_conf.c **** 	xEP2_OUT_Callback();
+  96              		.loc 1 44 0
+  97 0002 024B     		ldr	r3, .L8
+  98 0004 1868     		ldr	r0, [r3, #0]
+  99 0006 8047     		blx	r0
+ 100              	.LVL2:
+ 101 0008 08BD     		pop	{r3, pc}
+ 102              	.L9:
+ 103 000a 00BF     		.align	2
+ 104              	.L8:
+ 105 000c 00000000 		.word	.LANCHOR2
+ 106              		.cfi_endproc
+ 107              	.LFE58:
+ 109              		.section	.text.SOF_Callback,"ax",%progbits
+ 110              		.align	1
+ 111              		.global	SOF_Callback
+ 112              		.thumb
+ 113              		.thumb_func
+ 115              	SOF_Callback:
+ 116              	.LFB59:
+  45:lib/USB_Functions/usb_conf.c **** }
+  46:lib/USB_Functions/usb_conf.c **** 
+  47:lib/USB_Functions/usb_conf.c **** void SOF_Callback(void)
+  48:lib/USB_Functions/usb_conf.c **** {
+ 117              		.loc 1 48 0
+ 118              		.cfi_startproc
+ 119              		@ args = 0, pretend = 0, frame = 0
+ 120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121 0000 08B5     		push	{r3, lr}
+ 122              	.LCFI3:
+ 123              		.cfi_def_cfa_offset 8
+ 124              		.cfi_offset 3, -8
+ 125              		.cfi_offset 14, -4
+  49:lib/USB_Functions/usb_conf.c **** 	xSOF_Callback();
+ 126              		.loc 1 49 0
+ 127 0002 024B     		ldr	r3, .L11
+ 128 0004 1868     		ldr	r0, [r3, #0]
+ 129 0006 8047     		blx	r0
+ 130              	.LVL3:
+ 131 0008 08BD     		pop	{r3, pc}
+ 132              	.L12:
+ 133 000a 00BF     		.align	2
+ 134              	.L11:
+ 135 000c 00000000 		.word	.LANCHOR3
+ 136              		.cfi_endproc
+ 137              	.LFE59:
+ 139              		.global	xSOF_Callback
+ 140              		.global	xEP3_OUT_Callback
+ 141              		.global	xEP2_OUT_Callback
+ 142              		.global	xEP1_IN_Callback
+ 143              		.section	.bss.xEP2_OUT_Callback,"aw",%nobits
+ 144              		.align	2
+ 145              		.set	.LANCHOR2,. + 0
+ 148              	xEP2_OUT_Callback:
+ 149 0000 00000000 		.space	4
+ 150              		.section	.bss.xEP1_IN_Callback,"aw",%nobits
+ 151              		.align	2
+ 152              		.set	.LANCHOR0,. + 0
+ 155              	xEP1_IN_Callback:
+ 156 0000 00000000 		.space	4
+ 157              		.section	.bss.xEP3_OUT_Callback,"aw",%nobits
+ 158              		.align	2
+ 159              		.set	.LANCHOR1,. + 0
+ 162              	xEP3_OUT_Callback:
+ 163 0000 00000000 		.space	4
+ 164              		.section	.bss.xSOF_Callback,"aw",%nobits
+ 165              		.align	2
+ 166              		.set	.LANCHOR3,. + 0
+ 169              	xSOF_Callback:
+ 170 0000 00000000 		.space	4
+ 171              		.text
+ 172              	.Letext0:
+ 173              		.file 2 "./lib/CMSIS/Include/core_cm3.h"
+ 174              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_conf.c
+  R:\TEMP\ccClir18.s:19     .text.EP1_IN_Callback:00000000 $t
+  R:\TEMP\ccClir18.s:24     .text.EP1_IN_Callback:00000000 EP1_IN_Callback
+  R:\TEMP\ccClir18.s:45     .text.EP1_IN_Callback:0000000c $d
+  R:\TEMP\ccClir18.s:50     .text.EP3_OUT_Callback:00000000 $t
+  R:\TEMP\ccClir18.s:55     .text.EP3_OUT_Callback:00000000 EP3_OUT_Callback
+  R:\TEMP\ccClir18.s:75     .text.EP3_OUT_Callback:0000000c $d
+  R:\TEMP\ccClir18.s:80     .text.EP2_OUT_Callback:00000000 $t
+  R:\TEMP\ccClir18.s:85     .text.EP2_OUT_Callback:00000000 EP2_OUT_Callback
+  R:\TEMP\ccClir18.s:105    .text.EP2_OUT_Callback:0000000c $d
+  R:\TEMP\ccClir18.s:110    .text.SOF_Callback:00000000 $t
+  R:\TEMP\ccClir18.s:115    .text.SOF_Callback:00000000 SOF_Callback
+  R:\TEMP\ccClir18.s:135    .text.SOF_Callback:0000000c $d
+  R:\TEMP\ccClir18.s:169    .bss.xSOF_Callback:00000000 xSOF_Callback
+  R:\TEMP\ccClir18.s:162    .bss.xEP3_OUT_Callback:00000000 xEP3_OUT_Callback
+  R:\TEMP\ccClir18.s:148    .bss.xEP2_OUT_Callback:00000000 xEP2_OUT_Callback
+  R:\TEMP\ccClir18.s:155    .bss.xEP1_IN_Callback:00000000 xEP1_IN_Callback
+  R:\TEMP\ccClir18.s:144    .bss.xEP2_OUT_Callback:00000000 $d
+  R:\TEMP\ccClir18.s:151    .bss.xEP1_IN_Callback:00000000 $d
+  R:\TEMP\ccClir18.s:158    .bss.xEP3_OUT_Callback:00000000 $d
+  R:\TEMP\ccClir18.s:165    .bss.xSOF_Callback:00000000 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,724 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"rtc_support.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Time_ConvUnixToCalendar,"ax",%progbits
+  19              		.align	1
+  20              		.global	Time_ConvUnixToCalendar
+  21              		.thumb
+  22              		.thumb_func
+  24              	Time_ConvUnixToCalendar:
+  25              	.LFB57:
+  26              		.file 1 "src/rtc_support.c"
+   1:src/rtc_support.c **** /********************************************************************************/
+   2:src/rtc_support.c **** /*!
+   3:src/rtc_support.c **** 	@file			rtc_support.c
+   4:src/rtc_support.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+   5:src/rtc_support.c ****     @version        4.00
+   6:src/rtc_support.c ****     @date           2012.08.27
+   7:src/rtc_support.c **** 	@brief          Based on Keil's Sample Thanks!
+   8:src/rtc_support.c **** 
+   9:src/rtc_support.c ****     @section HISTORY
+  10:src/rtc_support.c **** 		2010.01.19	V1.00	Restart Here.
+  11:src/rtc_support.c **** 		2010.12.31	V2.00	Renamed Filename.
+  12:src/rtc_support.c **** 		2011.03.10	V3.00	C++ Ready.
+  13:src/rtc_support.c **** 		2012.08.27	V4.00	Improve Portability
+  14:src/rtc_support.c **** 
+  15:src/rtc_support.c ****     @section LICENSE
+  16:src/rtc_support.c **** 		BSD License. See Copyright.txt
+  17:src/rtc_support.c **** */
+  18:src/rtc_support.c **** /********************************************************************************/
+  19:src/rtc_support.c **** 
+  20:src/rtc_support.c **** /* Includes ------------------------------------------------------------------*/
+  21:src/rtc_support.c **** #include "rtc_support.h"
+  22:src/rtc_support.c **** 
+  23:src/rtc_support.c **** /* Defines -------------------------------------------------------------------*/
+  24:src/rtc_support.c **** 
+  25:src/rtc_support.c **** /* Variables -----------------------------------------------------------------*/
+  26:src/rtc_support.c **** __IO uint32_t TimeDisplay = 0;
+  27:src/rtc_support.c **** time_t current_time;
+  28:src/rtc_support.c **** struct tm rtc;
+  29:src/rtc_support.c **** 
+  30:src/rtc_support.c **** /* Constants -----------------------------------------------------------------*/
+  31:src/rtc_support.c **** 
+  32:src/rtc_support.c **** /* Function prototypes -------------------------------------------------------*/
+  33:src/rtc_support.c **** 
+  34:src/rtc_support.c **** /* Functions -----------------------------------------------------------------*/
+  35:src/rtc_support.c **** 
+  36:src/rtc_support.c **** /**************************************************************************/
+  37:src/rtc_support.c **** /*! 
+  38:src/rtc_support.c ****     RealTimeClockmodule Initialize
+  39:src/rtc_support.c **** */
+  40:src/rtc_support.c **** /**************************************************************************/
+  41:src/rtc_support.c **** void RTC_Configuration(void)
+  42:src/rtc_support.c **** {
+  43:src/rtc_support.c **** 
+  44:src/rtc_support.c **** 	if (BKP_ReadBackupRegister(BKP_DR5) != 0xA5A5) {
+  45:src/rtc_support.c **** 		/* Backup data register value is not correct or not yet programmed (when
+  46:src/rtc_support.c **** 		   the first time the program is executed) */
+  47:src/rtc_support.c **** 
+  48:src/rtc_support.c **** 		/* CK_RTC clock selection */
+  49:src/rtc_support.c **** 		RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
+  50:src/rtc_support.c **** 
+  51:src/rtc_support.c **** 		/* LSI clock stabilization time */
+  52:src/rtc_support.c **** 		/* for(i=0;i<5000;i++) { ; } */
+  53:src/rtc_support.c **** 
+  54:src/rtc_support.c **** 		/* Allow access to BKP Domain */
+  55:src/rtc_support.c **** 		PWR_BackupAccessCmd(ENABLE);
+  56:src/rtc_support.c **** 		
+  57:src/rtc_support.c **** 		/* Write Baby Flag */
+  58:src/rtc_support.c **** 		BKP_WriteBackupRegister(BKP_DR5, 0xA5A5);
+  59:src/rtc_support.c **** 	
+  60:src/rtc_support.c **** 		/* Reset Backup Domain */
+  61:src/rtc_support.c **** 		BKP_DeInit();
+  62:src/rtc_support.c **** 
+  63:src/rtc_support.c **** 		/* Enable LSE */
+  64:src/rtc_support.c **** 		RCC_LSEConfig(RCC_LSE_ON);
+  65:src/rtc_support.c **** 
+  66:src/rtc_support.c **** 		/* Wait till LSE is ready */
+  67:src/rtc_support.c **** 		while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET) { ; }
+  68:src/rtc_support.c **** 
+  69:src/rtc_support.c **** 		/* Select LSE as RTC Clock Source */
+  70:src/rtc_support.c **** 		RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
+  71:src/rtc_support.c **** 
+  72:src/rtc_support.c **** 		/* Enable RTC Clock */
+  73:src/rtc_support.c **** 		RCC_RTCCLKCmd(ENABLE);
+  74:src/rtc_support.c **** 
+  75:src/rtc_support.c **** 		/* Wait until last write operation on RTC registers has finished */
+  76:src/rtc_support.c **** 		RTC_WaitForLastTask();
+  77:src/rtc_support.c **** 
+  78:src/rtc_support.c **** 		/* Enable the RTC Second */
+  79:src/rtc_support.c **** 		RTC_ITConfig(RTC_IT_SEC, ENABLE);
+  80:src/rtc_support.c **** 
+  81:src/rtc_support.c **** 		/* Wait until last write operation on RTC registers has finished */
+  82:src/rtc_support.c **** 		RTC_WaitForLastTask();
+  83:src/rtc_support.c **** 
+  84:src/rtc_support.c **** 		/* Set RTC prescaler: set RTC period to 1sec */
+  85:src/rtc_support.c **** 		RTC_SetPrescaler(32767); /* RTC period = RTCCLK/RTC_PR = (32.768 KHz)/(32767+1) */
+  86:src/rtc_support.c **** 
+  87:src/rtc_support.c **** 		/* Wait until last write operation on RTC registers has finished */
+  88:src/rtc_support.c **** 		RTC_WaitForLastTask();
+  89:src/rtc_support.c **** 
+  90:src/rtc_support.c **** 		/* Set initial value */
+  91:src/rtc_support.c **** 		rtc.tm_year = 2009;
+  92:src/rtc_support.c **** 		rtc.tm_mon = (7)-1;
+  93:src/rtc_support.c **** 		rtc.tm_mday = 15;
+  94:src/rtc_support.c **** 		rtc.tm_hour = 23;
+  95:src/rtc_support.c **** 		rtc.tm_min = 45;
+  96:src/rtc_support.c **** 		rtc.tm_sec = 45;
+  97:src/rtc_support.c **** 		Time_SetCalendarTime(rtc);
+  98:src/rtc_support.c **** 
+  99:src/rtc_support.c **** 		/* Wait until last write operation on RTC registers has finished */
+ 100:src/rtc_support.c **** 		RTC_WaitForLastTask();
+ 101:src/rtc_support.c **** 
+ 102:src/rtc_support.c **** 		/* Allow access to BKP Domain */
+ 103:src/rtc_support.c **** 		PWR_BackupAccessCmd(ENABLE);
+ 104:src/rtc_support.c **** 		
+ 105:src/rtc_support.c **** 		/* Write Baby Flag */
+ 106:src/rtc_support.c **** 		BKP_WriteBackupRegister(BKP_DR5, 0xA5A5);
+ 107:src/rtc_support.c **** 
+ 108:src/rtc_support.c **** 		/* Lock access to BKP Domain */
+ 109:src/rtc_support.c **** 		PWR_BackupAccessCmd(DISABLE);
+ 110:src/rtc_support.c **** 
+ 111:src/rtc_support.c **** 	} else {
+ 112:src/rtc_support.c **** 
+ 113:src/rtc_support.c **** 		/* CK_RTC clock selection */
+ 114:src/rtc_support.c **** 		RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
+ 115:src/rtc_support.c **** 
+ 116:src/rtc_support.c **** 		/* Wait for RTC registers synchronization */
+ 117:src/rtc_support.c **** 		RTC_WaitForSynchro();
+ 118:src/rtc_support.c **** 		
+ 119:src/rtc_support.c **** 		/* Enable the RTC Second */
+ 120:src/rtc_support.c **** 		RTC_ITConfig(RTC_IT_SEC, ENABLE);
+ 121:src/rtc_support.c **** 		
+ 122:src/rtc_support.c **** 		/* Wait until last write operation on RTC registers has finished */
+ 123:src/rtc_support.c **** 		RTC_WaitForLastTask();
+ 124:src/rtc_support.c **** 
+ 125:src/rtc_support.c **** 	}
+ 126:src/rtc_support.c **** 
+ 127:src/rtc_support.c **** }
+ 128:src/rtc_support.c **** 
+ 129:src/rtc_support.c **** /**************************************************************************/
+ 130:src/rtc_support.c **** /*! 
+ 131:src/rtc_support.c ****     Calculate CalendarTime using newlib
+ 132:src/rtc_support.c **** 	UnixTime -> CalendarTime
+ 133:src/rtc_support.c **** */
+ 134:src/rtc_support.c **** /**************************************************************************/
+ 135:src/rtc_support.c **** struct tm Time_ConvUnixToCalendar(time_t t)
+ 136:src/rtc_support.c **** {
+  27              		.loc 1 136 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 73B5     		push	{r0, r1, r4, r5, r6, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 24
+  35              		.cfi_offset 0, -24
+  36              		.cfi_offset 1, -20
+  37              		.cfi_offset 4, -16
+  38              		.cfi_offset 5, -12
+  39              		.cfi_offset 6, -8
+  40              		.cfi_offset 14, -4
+  41              	.LVL1:
+  42 0002 0646     		mov	r6, r0
+  43 0004 02A8     		add	r0, sp, #8
+  44              	.LVL2:
+  45 0006 40F8041D 		str	r1, [r0, #-4]!
+ 137:src/rtc_support.c **** 	struct tm *t_tm;
+ 138:src/rtc_support.c **** 	t_tm = localtime(&t);
+  46              		.loc 1 138 0
+  47 000a FFF7FEFF 		bl	localtime
+  48              	.LVL3:
+ 139:src/rtc_support.c **** 	t_tm->tm_year += 1900;
+  49              		.loc 1 139 0
+  50 000e 4369     		ldr	r3, [r0, #20]
+  51 0010 03F26C71 		addw	r1, r3, #1900
+  52 0014 4161     		str	r1, [r0, #20]
+ 140:src/rtc_support.c **** 	return *t_tm;
+  53              		.loc 1 140 0
+  54 0016 3446     		mov	r4, r6
+  55 0018 0546     		mov	r5, r0
+  56 001a 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+  57              	.LVL4:
+  58 001c 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+  59 001e 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+  60              	.LVL5:
+  61 0020 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+  62 0022 2868     		ldr	r0, [r5, #0]
+  63 0024 2060     		str	r0, [r4, #0]
+ 141:src/rtc_support.c **** }
+  64              		.loc 1 141 0
+  65 0026 3046     		mov	r0, r6
+  66 0028 7CBD     		pop	{r2, r3, r4, r5, r6, pc}
+  67              		.cfi_endproc
+  68              	.LFE57:
+  70              		.section	.text.Time_ConvCalendarToUnix,"ax",%progbits
+  71              		.align	1
+  72              		.global	Time_ConvCalendarToUnix
+  73              		.thumb
+  74              		.thumb_func
+  76              	Time_ConvCalendarToUnix:
+  77              	.LFB58:
+ 142:src/rtc_support.c **** 
+ 143:src/rtc_support.c **** /**************************************************************************/
+ 144:src/rtc_support.c **** /*! 
+ 145:src/rtc_support.c ****     Calculate CalendarTime using newlib
+ 146:src/rtc_support.c **** 	Calendar -> TimeUnixTime
+ 147:src/rtc_support.c **** */
+ 148:src/rtc_support.c **** /**************************************************************************/
+ 149:src/rtc_support.c **** time_t Time_ConvCalendarToUnix(struct tm t)
+ 150:src/rtc_support.c **** {
+  78              		.loc 1 150 0
+  79              		.cfi_startproc
+  80              		@ args = 36, pretend = 16, frame = 0
+  81              		@ frame_needed = 0, uses_anonymous_args = 0
+  82 0000 84B0     		sub	sp, sp, #16
+  83              	.LCFI1:
+  84              		.cfi_def_cfa_offset 16
+  85 0002 10B5     		push	{r4, lr}
+  86              	.LCFI2:
+  87              		.cfi_def_cfa_offset 24
+  88              		.cfi_offset 4, -24
+  89              		.cfi_offset 14, -20
+  90 0004 02AC     		add	r4, sp, #8
+  91 0006 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+ 151:src/rtc_support.c **** 	t.tm_year -= 1900;
+  92              		.loc 1 151 0
+  93 000a 079B     		ldr	r3, [sp, #28]
+  94 000c A3F26C70 		subw	r0, r3, #1900
+  95 0010 0790     		str	r0, [sp, #28]
+ 152:src/rtc_support.c **** 
+ 153:src/rtc_support.c **** 	return mktime(&t);
+  96              		.loc 1 153 0
+  97 0012 2046     		mov	r0, r4
+  98 0014 FFF7FEFF 		bl	mktime
+  99              	.LVL6:
+ 154:src/rtc_support.c **** }
+ 100              		.loc 1 154 0
+ 101 0018 BDE81040 		pop	{r4, lr}
+ 102 001c 04B0     		add	sp, sp, #16
+ 103 001e 7047     		bx	lr
+ 104              		.cfi_endproc
+ 105              	.LFE58:
+ 107              		.section	.text.Time_GetUnixTime,"ax",%progbits
+ 108              		.align	1
+ 109              		.global	Time_GetUnixTime
+ 110              		.thumb
+ 111              		.thumb_func
+ 113              	Time_GetUnixTime:
+ 114              	.LFB59:
+ 155:src/rtc_support.c **** 
+ 156:src/rtc_support.c **** /**************************************************************************/
+ 157:src/rtc_support.c **** /*! 
+ 158:src/rtc_support.c ****     Interface newlib time module between STM32uC RTC.
+ 159:src/rtc_support.c **** */
+ 160:src/rtc_support.c **** /**************************************************************************/
+ 161:src/rtc_support.c **** time_t Time_GetUnixTime(void)
+ 162:src/rtc_support.c **** {
+ 115              		.loc 1 162 0
+ 116              		.cfi_startproc
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119              		@ link register save eliminated.
+ 163:src/rtc_support.c **** 	return (time_t)RTC_GetCounter();
+ 164:src/rtc_support.c **** }
+ 120              		.loc 1 164 0
+ 163:src/rtc_support.c **** 	return (time_t)RTC_GetCounter();
+ 121              		.loc 1 163 0
+ 122 0000 FFF7FEBF 		b	RTC_GetCounter
+ 123              	.LVL7:
+ 124              		.cfi_endproc
+ 125              	.LFE59:
+ 127              		.section	.text.Time_GetCalendarTime,"ax",%progbits
+ 128              		.align	1
+ 129              		.global	Time_GetCalendarTime
+ 130              		.thumb
+ 131              		.thumb_func
+ 133              	Time_GetCalendarTime:
+ 134              	.LFB60:
+ 165:src/rtc_support.c **** 
+ 166:src/rtc_support.c **** /**************************************************************************/
+ 167:src/rtc_support.c **** /*! 
+ 168:src/rtc_support.c ****     Interface newlib time module between STM32uC RTC.
+ 169:src/rtc_support.c **** */
+ 170:src/rtc_support.c **** /**************************************************************************/
+ 171:src/rtc_support.c **** struct tm Time_GetCalendarTime(void)
+ 172:src/rtc_support.c **** {
+ 135              		.loc 1 172 0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139              	.LVL8:
+ 140 0000 10B5     		push	{r4, lr}
+ 141              	.LCFI3:
+ 142              		.cfi_def_cfa_offset 8
+ 143              		.cfi_offset 4, -8
+ 144              		.cfi_offset 14, -4
+ 145 0002 0446     		mov	r4, r0
+ 173:src/rtc_support.c **** 	time_t t_t;
+ 174:src/rtc_support.c **** 	struct tm t_tm;
+ 175:src/rtc_support.c **** 
+ 176:src/rtc_support.c **** 	t_t = (time_t)RTC_GetCounter();
+ 146              		.loc 1 176 0
+ 147 0004 FFF7FEFF 		bl	RTC_GetCounter
+ 148              	.LVL9:
+ 149 0008 0146     		mov	r1, r0
+ 150              	.LVL10:
+ 177:src/rtc_support.c **** 	t_tm = Time_ConvUnixToCalendar(t_t);
+ 151              		.loc 1 177 0
+ 152 000a 2046     		mov	r0, r4
+ 153              	.LVL11:
+ 154 000c FFF7FEFF 		bl	Time_ConvUnixToCalendar
+ 155              	.LVL12:
+ 178:src/rtc_support.c **** 	return t_tm;
+ 179:src/rtc_support.c **** }
+ 156              		.loc 1 179 0
+ 157 0010 2046     		mov	r0, r4
+ 158 0012 10BD     		pop	{r4, pc}
+ 159              		.cfi_endproc
+ 160              	.LFE60:
+ 162              		.section	.text.Time_SetUnixTime,"ax",%progbits
+ 163              		.align	1
+ 164              		.global	Time_SetUnixTime
+ 165              		.thumb
+ 166              		.thumb_func
+ 168              	Time_SetUnixTime:
+ 169              	.LFB61:
+ 180:src/rtc_support.c **** 
+ 181:src/rtc_support.c **** /**************************************************************************/
+ 182:src/rtc_support.c **** /*! 
+ 183:src/rtc_support.c ****     Interface newlib time module between STM32uC RTC.
+ 184:src/rtc_support.c **** */
+ 185:src/rtc_support.c **** /**************************************************************************/
+ 186:src/rtc_support.c **** void Time_SetUnixTime(time_t t)
+ 187:src/rtc_support.c **** {
+ 170              		.loc 1 187 0
+ 171              		.cfi_startproc
+ 172              		@ args = 0, pretend = 0, frame = 0
+ 173              		@ frame_needed = 0, uses_anonymous_args = 0
+ 174              	.LVL13:
+ 175 0000 10B5     		push	{r4, lr}
+ 176              	.LCFI4:
+ 177              		.cfi_def_cfa_offset 8
+ 178              		.cfi_offset 4, -8
+ 179              		.cfi_offset 14, -4
+ 180 0002 0446     		mov	r4, r0
+ 188:src/rtc_support.c **** 	PWR_BackupAccessCmd(ENABLE);
+ 181              		.loc 1 188 0
+ 182 0004 0120     		movs	r0, #1
+ 183              	.LVL14:
+ 184 0006 FFF7FEFF 		bl	PWR_BackupAccessCmd
+ 185              	.LVL15:
+ 189:src/rtc_support.c **** 	RTC_WaitForLastTask();
+ 186              		.loc 1 189 0
+ 187 000a FFF7FEFF 		bl	RTC_WaitForLastTask
+ 188              	.LVL16:
+ 190:src/rtc_support.c **** 	RTC_SetCounter((uint32_t)t);
+ 189              		.loc 1 190 0
+ 190 000e 2046     		mov	r0, r4
+ 191 0010 FFF7FEFF 		bl	RTC_SetCounter
+ 192              	.LVL17:
+ 191:src/rtc_support.c **** 	RTC_WaitForLastTask();
+ 193              		.loc 1 191 0
+ 194 0014 FFF7FEFF 		bl	RTC_WaitForLastTask
+ 195              	.LVL18:
+ 192:src/rtc_support.c **** 	PWR_BackupAccessCmd(DISABLE);
+ 196              		.loc 1 192 0
+ 197 0018 0020     		movs	r0, #0
+ 193:src/rtc_support.c **** 	return;
+ 194:src/rtc_support.c **** }
+ 198              		.loc 1 194 0
+ 199 001a BDE81040 		pop	{r4, lr}
+ 192:src/rtc_support.c **** 	PWR_BackupAccessCmd(DISABLE);
+ 200              		.loc 1 192 0
+ 201 001e FFF7FEBF 		b	PWR_BackupAccessCmd
+ 202              	.LVL19:
+ 203              		.cfi_endproc
+ 204              	.LFE61:
+ 206              		.section	.text.Time_SetCalendarTime,"ax",%progbits
+ 207              		.align	1
+ 208              		.global	Time_SetCalendarTime
+ 209              		.thumb
+ 210              		.thumb_func
+ 212              	Time_SetCalendarTime:
+ 213              	.LFB62:
+ 195:src/rtc_support.c **** 
+ 196:src/rtc_support.c **** /**************************************************************************/
+ 197:src/rtc_support.c **** /*! 
+ 198:src/rtc_support.c ****     Interface newlib time module between STM32uC RTC.
+ 199:src/rtc_support.c **** */
+ 200:src/rtc_support.c **** /**************************************************************************/
+ 201:src/rtc_support.c **** void Time_SetCalendarTime(struct tm t)
+ 202:src/rtc_support.c **** {
+ 214              		.loc 1 202 0
+ 215              		.cfi_startproc
+ 216              		@ args = 36, pretend = 16, frame = 40
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218 0000 84B0     		sub	sp, sp, #16
+ 219              	.LCFI5:
+ 220              		.cfi_def_cfa_offset 16
+ 221 0002 30B5     		push	{r4, r5, lr}
+ 222              	.LCFI6:
+ 223              		.cfi_def_cfa_offset 28
+ 224              		.cfi_offset 4, -28
+ 225              		.cfi_offset 5, -24
+ 226              		.cfi_offset 14, -20
+ 227 0004 8BB0     		sub	sp, sp, #44
+ 228              	.LCFI7:
+ 229              		.cfi_def_cfa_offset 72
+ 230 0006 0EAC     		add	r4, sp, #56
+ 231 0008 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+ 232 000c 01AC     		add	r4, sp, #4
+ 233 000e 0EAD     		add	r5, sp, #56
+ 234 0010 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 235 0012 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 236 0014 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 237 0016 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 238 0018 2B68     		ldr	r3, [r5, #0]
+ 239 001a 2360     		str	r3, [r4, #0]
+ 240              	.LBB4:
+ 241              	.LBB5:
+ 151:src/rtc_support.c **** 	t.tm_year -= 1900;
+ 242              		.loc 1 151 0
+ 243 001c 0698     		ldr	r0, [sp, #24]
+ 244 001e A0F26C71 		subw	r1, r0, #1900
+ 245 0022 0691     		str	r1, [sp, #24]
+ 153:src/rtc_support.c **** 	return mktime(&t);
+ 246              		.loc 1 153 0
+ 247 0024 01A8     		add	r0, sp, #4
+ 248 0026 FFF7FEFF 		bl	mktime
+ 249              	.LVL20:
+ 250              	.LBE5:
+ 251              	.LBE4:
+ 203:src/rtc_support.c **** 	Time_SetUnixTime(Time_ConvCalendarToUnix(t));
+ 252              		.loc 1 203 0
+ 253 002a FFF7FEFF 		bl	Time_SetUnixTime
+ 254              	.LVL21:
+ 204:src/rtc_support.c **** 	return;
+ 205:src/rtc_support.c **** }
+ 255              		.loc 1 205 0
+ 256 002e 0BB0     		add	sp, sp, #44
+ 257 0030 BDE83040 		pop	{r4, r5, lr}
+ 258 0034 04B0     		add	sp, sp, #16
+ 259 0036 7047     		bx	lr
+ 260              		.cfi_endproc
+ 261              	.LFE62:
+ 263              		.section	.text.RTC_Configuration,"ax",%progbits
+ 264              		.align	1
+ 265              		.global	RTC_Configuration
+ 266              		.thumb
+ 267              		.thumb_func
+ 269              	RTC_Configuration:
+ 270              	.LFB56:
+  42:src/rtc_support.c **** {
+ 271              		.loc 1 42 0
+ 272              		.cfi_startproc
+ 273              		@ args = 0, pretend = 0, frame = 0
+ 274              		@ frame_needed = 0, uses_anonymous_args = 0
+ 275 0000 70B5     		push	{r4, r5, r6, lr}
+ 276              	.LCFI8:
+ 277              		.cfi_def_cfa_offset 16
+ 278              		.cfi_offset 4, -16
+ 279              		.cfi_offset 5, -12
+ 280              		.cfi_offset 6, -8
+ 281              		.cfi_offset 14, -4
+ 282 0002 86B0     		sub	sp, sp, #24
+ 283              	.LCFI9:
+ 284              		.cfi_def_cfa_offset 40
+  44:src/rtc_support.c **** 	if (BKP_ReadBackupRegister(BKP_DR5) != 0xA5A5) {
+ 285              		.loc 1 44 0
+ 286 0004 1420     		movs	r0, #20
+ 287 0006 FFF7FEFF 		bl	BKP_ReadBackupRegister
+ 288              	.LVL22:
+ 289 000a 4AF2A554 		movw	r4, #42405
+ 290 000e A042     		cmp	r0, r4
+  49:src/rtc_support.c **** 		RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
+ 291              		.loc 1 49 0
+ 292 0010 4FF0C050 		mov	r0, #402653184
+ 293 0014 4FF00101 		mov	r1, #1
+  44:src/rtc_support.c **** 	if (BKP_ReadBackupRegister(BKP_DR5) != 0xA5A5) {
+ 294              		.loc 1 44 0
+ 295 0018 4FD0     		beq	.L8
+  49:src/rtc_support.c **** 		RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
+ 296              		.loc 1 49 0
+ 297 001a FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+ 298              	.LVL23:
+  55:src/rtc_support.c **** 		PWR_BackupAccessCmd(ENABLE);
+ 299              		.loc 1 55 0
+ 300 001e 0120     		movs	r0, #1
+ 301 0020 FFF7FEFF 		bl	PWR_BackupAccessCmd
+ 302              	.LVL24:
+  58:src/rtc_support.c **** 		BKP_WriteBackupRegister(BKP_DR5, 0xA5A5);
+ 303              		.loc 1 58 0
+ 304 0024 1420     		movs	r0, #20
+ 305 0026 2146     		mov	r1, r4
+ 306 0028 FFF7FEFF 		bl	BKP_WriteBackupRegister
+ 307              	.LVL25:
+  61:src/rtc_support.c **** 		BKP_DeInit();
+ 308              		.loc 1 61 0
+ 309 002c FFF7FEFF 		bl	BKP_DeInit
+ 310              	.LVL26:
+  64:src/rtc_support.c **** 		RCC_LSEConfig(RCC_LSE_ON);
+ 311              		.loc 1 64 0
+ 312 0030 0120     		movs	r0, #1
+ 313 0032 FFF7FEFF 		bl	RCC_LSEConfig
+ 314              	.LVL27:
+ 315              	.L9:
+  67:src/rtc_support.c **** 		while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET) { ; }
+ 316              		.loc 1 67 0 discriminator 1
+ 317 0036 4120     		movs	r0, #65
+ 318 0038 FFF7FEFF 		bl	RCC_GetFlagStatus
+ 319              	.LVL28:
+ 320 003c 0028     		cmp	r0, #0
+ 321 003e FAD0     		beq	.L9
+  70:src/rtc_support.c **** 		RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
+ 322              		.loc 1 70 0
+ 323 0040 4FF48070 		mov	r0, #256
+ 324 0044 FFF7FEFF 		bl	RCC_RTCCLKConfig
+ 325              	.LVL29:
+  73:src/rtc_support.c **** 		RCC_RTCCLKCmd(ENABLE);
+ 326              		.loc 1 73 0
+ 327 0048 0120     		movs	r0, #1
+ 328 004a FFF7FEFF 		bl	RCC_RTCCLKCmd
+ 329              	.LVL30:
+  76:src/rtc_support.c **** 		RTC_WaitForLastTask();
+ 330              		.loc 1 76 0
+ 331 004e FFF7FEFF 		bl	RTC_WaitForLastTask
+ 332              	.LVL31:
+  79:src/rtc_support.c **** 		RTC_ITConfig(RTC_IT_SEC, ENABLE);
+ 333              		.loc 1 79 0
+ 334 0052 0120     		movs	r0, #1
+ 335 0054 0146     		mov	r1, r0
+ 336 0056 FFF7FEFF 		bl	RTC_ITConfig
+ 337              	.LVL32:
+  82:src/rtc_support.c **** 		RTC_WaitForLastTask();
+ 338              		.loc 1 82 0
+ 339 005a FFF7FEFF 		bl	RTC_WaitForLastTask
+ 340              	.LVL33:
+  85:src/rtc_support.c **** 		RTC_SetPrescaler(32767); /* RTC period = RTCCLK/RTC_PR = (32.768 KHz)/(32767+1) */
+ 341              		.loc 1 85 0
+ 342 005e 47F6FF70 		movw	r0, #32767
+ 343 0062 FFF7FEFF 		bl	RTC_SetPrescaler
+ 344              	.LVL34:
+  88:src/rtc_support.c **** 		RTC_WaitForLastTask();
+ 345              		.loc 1 88 0
+ 346 0066 FFF7FEFF 		bl	RTC_WaitForLastTask
+ 347              	.LVL35:
+  91:src/rtc_support.c **** 		rtc.tm_year = 2009;
+ 348              		.loc 1 91 0
+ 349 006a 1A4C     		ldr	r4, .L15
+ 350 006c 40F2D973 		movw	r3, #2009
+ 351 0070 6361     		str	r3, [r4, #20]
+  92:src/rtc_support.c **** 		rtc.tm_mon = (7)-1;
+ 352              		.loc 1 92 0
+ 353 0072 0620     		movs	r0, #6
+ 354 0074 2061     		str	r0, [r4, #16]
+  93:src/rtc_support.c **** 		rtc.tm_mday = 15;
+ 355              		.loc 1 93 0
+ 356 0076 0F21     		movs	r1, #15
+ 357 0078 E160     		str	r1, [r4, #12]
+  94:src/rtc_support.c **** 		rtc.tm_hour = 23;
+ 358              		.loc 1 94 0
+ 359 007a 1722     		movs	r2, #23
+ 360 007c A260     		str	r2, [r4, #8]
+  95:src/rtc_support.c **** 		rtc.tm_min = 45;
+ 361              		.loc 1 95 0
+ 362 007e 2D26     		movs	r6, #45
+ 363 0080 6660     		str	r6, [r4, #4]
+  96:src/rtc_support.c **** 		rtc.tm_sec = 45;
+ 364              		.loc 1 96 0
+ 365 0082 2546     		mov	r5, r4
+ 366 0084 45F8106B 		str	r6, [r5], #16
+  97:src/rtc_support.c **** 		Time_SetCalendarTime(rtc);
+ 367              		.loc 1 97 0
+ 368 0088 6E46     		mov	r6, sp
+ 369 008a 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 370 008c 0FC6     		stmia	r6!, {r0, r1, r2, r3}
+ 371 008e 2B68     		ldr	r3, [r5, #0]
+ 372 0090 3360     		str	r3, [r6, #0]
+ 373 0092 94E80F00 		ldmia	r4, {r0, r1, r2, r3}
+ 374 0096 FFF7FEFF 		bl	Time_SetCalendarTime
+ 375              	.LVL36:
+ 100:src/rtc_support.c **** 		RTC_WaitForLastTask();
+ 376              		.loc 1 100 0
+ 377 009a FFF7FEFF 		bl	RTC_WaitForLastTask
+ 378              	.LVL37:
+ 103:src/rtc_support.c **** 		PWR_BackupAccessCmd(ENABLE);
+ 379              		.loc 1 103 0
+ 380 009e 0120     		movs	r0, #1
+ 381 00a0 FFF7FEFF 		bl	PWR_BackupAccessCmd
+ 382              	.LVL38:
+ 106:src/rtc_support.c **** 		BKP_WriteBackupRegister(BKP_DR5, 0xA5A5);
+ 383              		.loc 1 106 0
+ 384 00a4 1420     		movs	r0, #20
+ 385 00a6 4AF2A551 		movw	r1, #42405
+ 386 00aa FFF7FEFF 		bl	BKP_WriteBackupRegister
+ 387              	.LVL39:
+ 109:src/rtc_support.c **** 		PWR_BackupAccessCmd(DISABLE);
+ 388              		.loc 1 109 0
+ 389 00ae 0020     		movs	r0, #0
+ 127:src/rtc_support.c **** }
+ 390              		.loc 1 127 0
+ 391 00b0 06B0     		add	sp, sp, #24
+ 392 00b2 BDE87040 		pop	{r4, r5, r6, lr}
+ 109:src/rtc_support.c **** 		PWR_BackupAccessCmd(DISABLE);
+ 393              		.loc 1 109 0
+ 394 00b6 FFF7FEBF 		b	PWR_BackupAccessCmd
+ 395              	.LVL40:
+ 396              	.L8:
+ 114:src/rtc_support.c **** 		RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
+ 397              		.loc 1 114 0
+ 398 00ba FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+ 399              	.LVL41:
+ 117:src/rtc_support.c **** 		RTC_WaitForSynchro();
+ 400              		.loc 1 117 0
+ 401 00be FFF7FEFF 		bl	RTC_WaitForSynchro
+ 402              	.LVL42:
+ 120:src/rtc_support.c **** 		RTC_ITConfig(RTC_IT_SEC, ENABLE);
+ 403              		.loc 1 120 0
+ 404 00c2 0120     		movs	r0, #1
+ 405 00c4 0146     		mov	r1, r0
+ 406 00c6 FFF7FEFF 		bl	RTC_ITConfig
+ 407              	.LVL43:
+ 127:src/rtc_support.c **** }
+ 408              		.loc 1 127 0
+ 409 00ca 06B0     		add	sp, sp, #24
+ 410 00cc BDE87040 		pop	{r4, r5, r6, lr}
+ 123:src/rtc_support.c **** 		RTC_WaitForLastTask();
+ 411              		.loc 1 123 0
+ 412 00d0 FFF7FEBF 		b	RTC_WaitForLastTask
+ 413              	.LVL44:
+ 414              	.L16:
+ 415              		.align	2
+ 416              	.L15:
+ 417 00d4 00000000 		.word	.LANCHOR0
+ 418              		.cfi_endproc
+ 419              	.LFE56:
+ 421              		.global	rtc
+ 422              		.global	current_time
+ 423              		.global	TimeDisplay
+ 424              		.section	.bss.current_time,"aw",%nobits
+ 425              		.align	2
+ 428              	current_time:
+ 429 0000 00000000 		.space	4
+ 430              		.section	.bss.rtc,"aw",%nobits
+ 431              		.align	2
+ 432              		.set	.LANCHOR0,. + 0
+ 435              	rtc:
+ 436 0000 00000000 		.space	36
+ 436      00000000 
+ 436      00000000 
+ 436      00000000 
+ 436      00000000 
+ 437              		.section	.bss.TimeDisplay,"aw",%nobits
+ 438              		.align	2
+ 441              	TimeDisplay:
+ 442 0000 00000000 		.space	4
+ 443              		.text
+ 444              	.Letext0:
+ 445              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
+ 446              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
+ 447              		.file 4 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 448              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
+ 449              		.file 6 "./lib/CMSIS/Include/core_cm3.h"
+ 450              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_pwr.h"
+ 451              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rtc.h"
+ 452              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_bkp.h"
+ 453              		.file 10 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 rtc_support.c
+  R:\TEMP\ccDwEjQv.s:19     .text.Time_ConvUnixToCalendar:00000000 $t
+  R:\TEMP\ccDwEjQv.s:24     .text.Time_ConvUnixToCalendar:00000000 Time_ConvUnixToCalendar
+  R:\TEMP\ccDwEjQv.s:71     .text.Time_ConvCalendarToUnix:00000000 $t
+  R:\TEMP\ccDwEjQv.s:76     .text.Time_ConvCalendarToUnix:00000000 Time_ConvCalendarToUnix
+  R:\TEMP\ccDwEjQv.s:108    .text.Time_GetUnixTime:00000000 $t
+  R:\TEMP\ccDwEjQv.s:113    .text.Time_GetUnixTime:00000000 Time_GetUnixTime
+  R:\TEMP\ccDwEjQv.s:128    .text.Time_GetCalendarTime:00000000 $t
+  R:\TEMP\ccDwEjQv.s:133    .text.Time_GetCalendarTime:00000000 Time_GetCalendarTime
+  R:\TEMP\ccDwEjQv.s:163    .text.Time_SetUnixTime:00000000 $t
+  R:\TEMP\ccDwEjQv.s:168    .text.Time_SetUnixTime:00000000 Time_SetUnixTime
+  R:\TEMP\ccDwEjQv.s:207    .text.Time_SetCalendarTime:00000000 $t
+  R:\TEMP\ccDwEjQv.s:212    .text.Time_SetCalendarTime:00000000 Time_SetCalendarTime
+  R:\TEMP\ccDwEjQv.s:264    .text.RTC_Configuration:00000000 $t
+  R:\TEMP\ccDwEjQv.s:269    .text.RTC_Configuration:00000000 RTC_Configuration
+  R:\TEMP\ccDwEjQv.s:417    .text.RTC_Configuration:000000d4 $d
+  R:\TEMP\ccDwEjQv.s:435    .bss.rtc:00000000 rtc
+  R:\TEMP\ccDwEjQv.s:428    .bss.current_time:00000000 current_time
+  R:\TEMP\ccDwEjQv.s:441    .bss.TimeDisplay:00000000 TimeDisplay
+  R:\TEMP\ccDwEjQv.s:425    .bss.current_time:00000000 $d
+  R:\TEMP\ccDwEjQv.s:431    .bss.rtc:00000000 $d
+  R:\TEMP\ccDwEjQv.s:438    .bss.TimeDisplay:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+localtime
+mktime
+RTC_GetCounter
+PWR_BackupAccessCmd
+RTC_WaitForLastTask
+RTC_SetCounter
+BKP_ReadBackupRegister
+RCC_APB1PeriphClockCmd
+BKP_WriteBackupRegister
+BKP_DeInit
+RCC_LSEConfig
+RCC_GetFlagStatus
+RCC_RTCCLKConfig
+RCC_RTCCLKCmd
+RTC_ITConfig
+RTC_SetPrescaler
+RTC_WaitForSynchro

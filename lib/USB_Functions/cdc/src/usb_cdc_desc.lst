@@ -1,0 +1,248 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"usb_cdc_desc.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	Virtual_Com_Port_StringSerial
+  19              		.global	Virtual_Com_Port_StringProduct
+  20              		.global	Virtual_Com_Port_StringVendor
+  21              		.global	Virtual_Com_Port_StringLangID
+  22              		.global	Virtual_Com_Port_ConfigDescriptor
+  23              		.global	Virtual_Com_Port_DeviceDescriptor
+  24              		.section	.rodata.Virtual_Com_Port_StringVendor,"a",%progbits
+  27              	Virtual_Com_Port_StringVendor:
+  28 0000 26       		.byte	38
+  29 0001 03       		.byte	3
+  30 0002 53       		.byte	83
+  31 0003 00       		.byte	0
+  32 0004 54       		.byte	84
+  33 0005 00       		.byte	0
+  34 0006 4D       		.byte	77
+  35 0007 00       		.byte	0
+  36 0008 69       		.byte	105
+  37 0009 00       		.byte	0
+  38 000a 63       		.byte	99
+  39 000b 00       		.byte	0
+  40 000c 72       		.byte	114
+  41 000d 00       		.byte	0
+  42 000e 6F       		.byte	111
+  43 000f 00       		.byte	0
+  44 0010 65       		.byte	101
+  45 0011 00       		.byte	0
+  46 0012 6C       		.byte	108
+  47 0013 00       		.byte	0
+  48 0014 65       		.byte	101
+  49 0015 00       		.byte	0
+  50 0016 63       		.byte	99
+  51 0017 00       		.byte	0
+  52 0018 74       		.byte	116
+  53 0019 00       		.byte	0
+  54 001a 72       		.byte	114
+  55 001b 00       		.byte	0
+  56 001c 6F       		.byte	111
+  57 001d 00       		.byte	0
+  58 001e 6E       		.byte	110
+  59 001f 00       		.byte	0
+  60 0020 69       		.byte	105
+  61 0021 00       		.byte	0
+  62 0022 63       		.byte	99
+  63 0023 00       		.byte	0
+  64 0024 73       		.byte	115
+  65 0025 00       		.byte	0
+  66              		.section	.rodata.Virtual_Com_Port_DeviceDescriptor,"a",%progbits
+  69              	Virtual_Com_Port_DeviceDescriptor:
+  70 0000 12       		.byte	18
+  71 0001 01       		.byte	1
+  72 0002 00       		.byte	0
+  73 0003 02       		.byte	2
+  74 0004 02       		.byte	2
+  75 0005 00       		.byte	0
+  76 0006 00       		.byte	0
+  77 0007 40       		.byte	64
+  78 0008 83       		.byte	-125
+  79 0009 04       		.byte	4
+  80 000a 40       		.byte	64
+  81 000b 57       		.byte	87
+  82 000c 00       		.byte	0
+  83 000d 02       		.byte	2
+  84 000e 01       		.byte	1
+  85 000f 02       		.byte	2
+  86 0010 03       		.byte	3
+  87 0011 01       		.byte	1
+  88              		.section	.rodata.Virtual_Com_Port_StringLangID,"a",%progbits
+  91              	Virtual_Com_Port_StringLangID:
+  92 0000 04       		.byte	4
+  93 0001 03       		.byte	3
+  94 0002 09       		.byte	9
+  95 0003 04       		.byte	4
+  96              		.section	.rodata.Virtual_Com_Port_StringProduct,"a",%progbits
+  99              	Virtual_Com_Port_StringProduct:
+ 100 0000 32       		.byte	50
+ 101 0001 03       		.byte	3
+ 102 0002 53       		.byte	83
+ 103 0003 00       		.byte	0
+ 104 0004 54       		.byte	84
+ 105 0005 00       		.byte	0
+ 106 0006 4D       		.byte	77
+ 107 0007 00       		.byte	0
+ 108 0008 33       		.byte	51
+ 109 0009 00       		.byte	0
+ 110 000a 32       		.byte	50
+ 111 000b 00       		.byte	0
+ 112 000c 20       		.byte	32
+ 113 000d 00       		.byte	0
+ 114 000e 56       		.byte	86
+ 115 000f 00       		.byte	0
+ 116 0010 69       		.byte	105
+ 117 0011 00       		.byte	0
+ 118 0012 72       		.byte	114
+ 119 0013 00       		.byte	0
+ 120 0014 74       		.byte	116
+ 121 0015 00       		.byte	0
+ 122 0016 75       		.byte	117
+ 123 0017 00       		.byte	0
+ 124 0018 61       		.byte	97
+ 125 0019 00       		.byte	0
+ 126 001a 6C       		.byte	108
+ 127 001b 00       		.byte	0
+ 128 001c 20       		.byte	32
+ 129 001d 00       		.byte	0
+ 130 001e 43       		.byte	67
+ 131 001f 00       		.byte	0
+ 132 0020 4F       		.byte	79
+ 133 0021 00       		.byte	0
+ 134 0022 4D       		.byte	77
+ 135 0023 00       		.byte	0
+ 136 0024 20       		.byte	32
+ 137 0025 00       		.byte	0
+ 138 0026 50       		.byte	80
+ 139 0027 00       		.byte	0
+ 140 0028 6F       		.byte	111
+ 141 0029 00       		.byte	0
+ 142 002a 72       		.byte	114
+ 143 002b 00       		.byte	0
+ 144 002c 74       		.byte	116
+ 145 002d 00       		.byte	0
+ 146 002e 20       		.byte	32
+ 147 002f 00       		.byte	0
+ 148 0030 20       		.byte	32
+ 149 0031 00       		.byte	0
+ 150              		.section	.data.Virtual_Com_Port_StringSerial,"aw",%progbits
+ 153              	Virtual_Com_Port_StringSerial:
+ 154 0000 1A       		.byte	26
+ 155 0001 03       		.byte	3
+ 156 0002 53       		.byte	83
+ 157 0003 00       		.byte	0
+ 158 0004 54       		.byte	84
+ 159 0005 00       		.byte	0
+ 160 0006 4D       		.byte	77
+ 161 0007 00       		.byte	0
+ 162 0008 33       		.byte	51
+ 163 0009 00       		.byte	0
+ 164 000a 32       		.byte	50
+ 165 000b 00       		.byte	0
+ 166 000c 31       		.byte	49
+ 167 000d 00       		.byte	0
+ 168 000e 30       		.byte	48
+ 169 000f 00       		.byte	0
+ 170 0010 00000000 		.space	10
+ 170      00000000 
+ 170      0000
+ 171              		.section	.rodata.Virtual_Com_Port_ConfigDescriptor,"a",%progbits
+ 174              	Virtual_Com_Port_ConfigDescriptor:
+ 175 0000 09       		.byte	9
+ 176 0001 02       		.byte	2
+ 177 0002 43       		.byte	67
+ 178 0003 00       		.byte	0
+ 179 0004 02       		.byte	2
+ 180 0005 01       		.byte	1
+ 181 0006 00       		.byte	0
+ 182 0007 C0       		.byte	-64
+ 183 0008 32       		.byte	50
+ 184 0009 09       		.byte	9
+ 185 000a 04       		.byte	4
+ 186 000b 00       		.byte	0
+ 187 000c 00       		.byte	0
+ 188 000d 01       		.byte	1
+ 189 000e 02       		.byte	2
+ 190 000f 02       		.byte	2
+ 191 0010 01       		.byte	1
+ 192 0011 00       		.byte	0
+ 193 0012 05       		.byte	5
+ 194 0013 24       		.byte	36
+ 195 0014 00       		.byte	0
+ 196 0015 10       		.byte	16
+ 197 0016 01       		.byte	1
+ 198 0017 05       		.byte	5
+ 199 0018 24       		.byte	36
+ 200 0019 01       		.byte	1
+ 201 001a 00       		.byte	0
+ 202 001b 01       		.byte	1
+ 203 001c 04       		.byte	4
+ 204 001d 24       		.byte	36
+ 205 001e 02       		.byte	2
+ 206 001f 02       		.byte	2
+ 207 0020 05       		.byte	5
+ 208 0021 24       		.byte	36
+ 209 0022 06       		.byte	6
+ 210 0023 00       		.byte	0
+ 211 0024 01       		.byte	1
+ 212 0025 07       		.byte	7
+ 213 0026 05       		.byte	5
+ 214 0027 82       		.byte	-126
+ 215 0028 03       		.byte	3
+ 216 0029 08       		.byte	8
+ 217 002a 00       		.byte	0
+ 218 002b FF       		.byte	-1
+ 219 002c 09       		.byte	9
+ 220 002d 04       		.byte	4
+ 221 002e 01       		.byte	1
+ 222 002f 00       		.byte	0
+ 223 0030 02       		.byte	2
+ 224 0031 0A       		.byte	10
+ 225 0032 00       		.byte	0
+ 226 0033 00       		.byte	0
+ 227 0034 00       		.byte	0
+ 228 0035 07       		.byte	7
+ 229 0036 05       		.byte	5
+ 230 0037 03       		.byte	3
+ 231 0038 02       		.byte	2
+ 232 0039 40       		.byte	64
+ 233 003a 00       		.byte	0
+ 234 003b 00       		.byte	0
+ 235 003c 07       		.byte	7
+ 236 003d 05       		.byte	5
+ 237 003e 81       		.byte	-127
+ 238 003f 02       		.byte	2
+ 239 0040 40       		.byte	64
+ 240 0041 00       		.byte	0
+ 241 0042 00       		.byte	0
+ 242              		.text
+ 243              	.Letext0:
+ 244              		.file 1 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 245              		.file 2 "./lib/CMSIS/Include/core_cm3.h"
+ 246              		.file 3 "./inc/systick.h"
+ 247              		.file 4 "lib/USB_Functions/cdc/src/usb_cdc_desc.c"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_cdc_desc.c
+  R:\TEMP\ccPRwYfE.s:153    .data.Virtual_Com_Port_StringSerial:00000000 Virtual_Com_Port_StringSerial
+  R:\TEMP\ccPRwYfE.s:99     .rodata.Virtual_Com_Port_StringProduct:00000000 Virtual_Com_Port_StringProduct
+  R:\TEMP\ccPRwYfE.s:27     .rodata.Virtual_Com_Port_StringVendor:00000000 Virtual_Com_Port_StringVendor
+  R:\TEMP\ccPRwYfE.s:91     .rodata.Virtual_Com_Port_StringLangID:00000000 Virtual_Com_Port_StringLangID
+  R:\TEMP\ccPRwYfE.s:174    .rodata.Virtual_Com_Port_ConfigDescriptor:00000000 Virtual_Com_Port_ConfigDescriptor
+  R:\TEMP\ccPRwYfE.s:69     .rodata.Virtual_Com_Port_DeviceDescriptor:00000000 Virtual_Com_Port_DeviceDescriptor
+  R:\TEMP\ccPRwYfE.s:170    .data.Virtual_Com_Port_StringSerial:00000010 $d
+
+NO UNDEFINED SYMBOLS
