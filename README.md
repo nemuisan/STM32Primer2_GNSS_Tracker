@@ -14,7 +14,7 @@ This program can build following compilers
 -devkitPRO ARM  
  http://sourceforge.jp/projects/sfnet_devkitpro/releases/  
   
-And MUST need Coreutils for windows.  
+And MUST need Coreutils for windows to build this projects.  
  http://gnuwin32.sourceforge.net/packages/coreutils.htm  
 
 Misc

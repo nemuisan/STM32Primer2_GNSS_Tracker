@@ -643,29 +643,29 @@
  419              		.file 8 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
 DEFINED SYMBOLS
                             *ABS*:00000000 diskio_sdio.c
-  R:\TEMP\ccZPTcN7.s:19     .text.disk_initialize:00000000 $t
-  R:\TEMP\ccZPTcN7.s:24     .text.disk_initialize:00000000 disk_initialize
-  R:\TEMP\ccZPTcN7.s:61     .text.disk_initialize:0000001c $d
-  R:\TEMP\ccZPTcN7.s:66     .text.disk_status:00000000 $t
-  R:\TEMP\ccZPTcN7.s:71     .text.disk_status:00000000 disk_status
-  R:\TEMP\ccZPTcN7.s:109    .text.disk_status:0000001c $d
-  R:\TEMP\ccZPTcN7.s:115    .text.disk_read:00000000 $t
-  R:\TEMP\ccZPTcN7.s:120    .text.disk_read:00000000 disk_read
-  R:\TEMP\ccZPTcN7.s:178    .text.disk_write:00000000 $t
-  R:\TEMP\ccZPTcN7.s:183    .text.disk_write:00000000 disk_write
-  R:\TEMP\ccZPTcN7.s:241    .text.disk_ioctl:00000000 $t
-  R:\TEMP\ccZPTcN7.s:246    .text.disk_ioctl:00000000 disk_ioctl
-  R:\TEMP\ccZPTcN7.s:269    .text.disk_ioctl:00000012 $d
-  R:\TEMP\ccZPTcN7.s:283    .text.disk_ioctl:00000020 $t
-  R:\TEMP\ccZPTcN7.s:373    .text.disk_ioctl:00000078 $d
-  R:\TEMP\ccZPTcN7.s:398    .bss.SDCardStatus:00000000 SDCardStatus
-  R:\TEMP\ccZPTcN7.s:404    .data.Status:00000000 Status
-  R:\TEMP\ccZPTcN7.s:382    .bss.Timer1:00000000 $d
-  R:\TEMP\ccZPTcN7.s:385    .bss.Timer1:00000000 Timer1
-  R:\TEMP\ccZPTcN7.s:388    .bss.Timer2:00000000 $d
-  R:\TEMP\ccZPTcN7.s:391    .bss.Timer2:00000000 Timer2
-  R:\TEMP\ccZPTcN7.s:394    .bss.SDCardStatus:00000000 $d
-  R:\TEMP\ccZPTcN7.s:409    .data.Stat:00000000 Stat
+  R:\TEMP\cc6rwpYz.s:19     .text.disk_initialize:00000000 $t
+  R:\TEMP\cc6rwpYz.s:24     .text.disk_initialize:00000000 disk_initialize
+  R:\TEMP\cc6rwpYz.s:61     .text.disk_initialize:0000001c $d
+  R:\TEMP\cc6rwpYz.s:66     .text.disk_status:00000000 $t
+  R:\TEMP\cc6rwpYz.s:71     .text.disk_status:00000000 disk_status
+  R:\TEMP\cc6rwpYz.s:109    .text.disk_status:0000001c $d
+  R:\TEMP\cc6rwpYz.s:115    .text.disk_read:00000000 $t
+  R:\TEMP\cc6rwpYz.s:120    .text.disk_read:00000000 disk_read
+  R:\TEMP\cc6rwpYz.s:178    .text.disk_write:00000000 $t
+  R:\TEMP\cc6rwpYz.s:183    .text.disk_write:00000000 disk_write
+  R:\TEMP\cc6rwpYz.s:241    .text.disk_ioctl:00000000 $t
+  R:\TEMP\cc6rwpYz.s:246    .text.disk_ioctl:00000000 disk_ioctl
+  R:\TEMP\cc6rwpYz.s:269    .text.disk_ioctl:00000012 $d
+  R:\TEMP\cc6rwpYz.s:283    .text.disk_ioctl:00000020 $t
+  R:\TEMP\cc6rwpYz.s:373    .text.disk_ioctl:00000078 $d
+  R:\TEMP\cc6rwpYz.s:398    .bss.SDCardStatus:00000000 SDCardStatus
+  R:\TEMP\cc6rwpYz.s:404    .data.Status:00000000 Status
+  R:\TEMP\cc6rwpYz.s:382    .bss.Timer1:00000000 $d
+  R:\TEMP\cc6rwpYz.s:385    .bss.Timer1:00000000 Timer1
+  R:\TEMP\cc6rwpYz.s:388    .bss.Timer2:00000000 $d
+  R:\TEMP\cc6rwpYz.s:391    .bss.Timer2:00000000 Timer2
+  R:\TEMP\cc6rwpYz.s:394    .bss.SDCardStatus:00000000 $d
+  R:\TEMP\cc6rwpYz.s:409    .data.Stat:00000000 Stat
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------/
-/  FatFs - FAT file system module configuration file  R0.09a (C)ChaN, 2012
+/  FatFs - FAT file system module configuration file  R0.09b (C)ChaN, 2013
 /----------------------------------------------------------------------------/
 /
 / CAUTION! Do not forget to make clean the project after any changes to
@@ -7,7 +7,7 @@
 /
 /----------------------------------------------------------------------------*/
 #ifndef _FFCONF
-#define _FFCONF 4004	/* Revision ID */
+#define _FFCONF 82786	/* Revision ID */
 
 
 /*---------------------------------------------------------------------------/
@@ -44,13 +44,16 @@
 /* To enable f_mkfs function, set _USE_MKFS to 1 and set _FS_READONLY to 0 */
 
 
-#define	_USE_FORWARD	1	/* 0:Disable or 1:Enable */
-/* To enable f_forward function, set _USE_FORWARD to 1 and set _FS_TINY to 1. */
-
-
 #define	_USE_FASTSEEK	1	/* 0:Disable or 1:Enable */
 /* To enable fast seek feature, set _USE_FASTSEEK to 1. */
 
+
+#define _USE_LABEL		1	/* 0:Disable or 1:Enable */
+/* To enable volume label functions, set _USE_LAVEL to 1 */
+
+
+#define	_USE_FORWARD	1	/* 0:Disable or 1:Enable */
+/* To enable f_forward function, set _USE_FORWARD to 1 and set _FS_TINY to 1. */
 
 
 /*---------------------------------------------------------------------------/
@@ -120,7 +123,6 @@
 /  Note that output of the f_readdir fnction is affected by this option. */
 
 
-
 /*---------------------------------------------------------------------------/
 / Physical Drive Configurations
 /----------------------------------------------------------------------------*/
@@ -137,7 +139,7 @@
 /  and GET_SECTOR_SIZE command must be implememted to the disk_ioctl function. */
 
 
-#define	_MULTI_PARTITION	0	/* 0:Single partition, 1/2:Enable multiple partition */
+#define	_MULTI_PARTITION	0	/* 0:Single partition, 1:Enable multiple partition */
 /* When set to 0, each volume is bound to the same physical drive number and
 / it can mount only first primaly partition. When it is set to 1, each volume
 / is tied to the partitions listed in VolToPart[]. */

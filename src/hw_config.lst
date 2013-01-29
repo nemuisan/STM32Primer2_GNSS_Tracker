@@ -1215,25 +1215,25 @@
  727              		.cfi_endproc
  728              	.LFE69:
  730              		.global	CmdKey
- 731              		.section	.bss.prev.8836,"aw",%nobits
+ 731              		.section	.bss.keycounts.8842,"aw",%nobits
  732              		.align	2
- 733              		.set	.LANCHOR2,. + 0
- 736              	prev.8836:
+ 733              		.set	.LANCHOR0,. + 0
+ 736              	keycounts.8842:
  737 0000 00000000 		.space	4
- 738              		.section	.bss.CmdKey,"aw",%nobits
- 739              		.align	1
- 740              		.set	.LANCHOR3,. + 0
- 743              	CmdKey:
- 744 0000 0000     		.space	2
- 745              		.section	.bss.now.8837,"aw",%nobits
- 746              		.align	2
- 747              		.set	.LANCHOR1,. + 0
- 750              	now.8837:
- 751 0000 00000000 		.space	4
- 752              		.section	.bss.keycounts.8835,"aw",%nobits
+ 738              		.section	.bss.prev.8843,"aw",%nobits
+ 739              		.align	2
+ 740              		.set	.LANCHOR2,. + 0
+ 743              	prev.8843:
+ 744 0000 00000000 		.space	4
+ 745              		.section	.bss.CmdKey,"aw",%nobits
+ 746              		.align	1
+ 747              		.set	.LANCHOR3,. + 0
+ 750              	CmdKey:
+ 751 0000 0000     		.space	2
+ 752              		.section	.bss.now.8844,"aw",%nobits
  753              		.align	2
- 754              		.set	.LANCHOR0,. + 0
- 757              	keycounts.8835:
+ 754              		.set	.LANCHOR1,. + 0
+ 757              	now.8844:
  758 0000 00000000 		.space	4
  759              		.text
  760              	.Letext0:
@@ -1252,49 +1252,49 @@
  773              		.file 14 "./inc/adc_support.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 hw_config.c
-  R:\TEMP\ccoHou1s.s:19     .text.IntToUnicode:00000000 $t
-  R:\TEMP\ccoHou1s.s:23     .text.IntToUnicode:00000000 IntToUnicode
-  R:\TEMP\ccoHou1s.s:79     .text.LED_Configuration:00000000 $t
-  R:\TEMP\ccoHou1s.s:84     .text.LED_Configuration:00000000 LED_Configuration
-  R:\TEMP\ccoHou1s.s:192    .text.LED_Configuration:0000009c $d
-  R:\TEMP\ccoHou1s.s:201    .text.KEY_Configuration:00000000 $t
-  R:\TEMP\ccoHou1s.s:206    .text.KEY_Configuration:00000000 KEY_Configuration
-  R:\TEMP\ccoHou1s.s:261    .text.KEY_Configuration:0000004c $d
-  R:\TEMP\ccoHou1s.s:267    .text.NVIC_Configuration:00000000 $t
-  R:\TEMP\ccoHou1s.s:272    .text.NVIC_Configuration:00000000 NVIC_Configuration
-  R:\TEMP\ccoHou1s.s:290    .text.Set_System:00000000 $t
-  R:\TEMP\ccoHou1s.s:295    .text.Set_System:00000000 Set_System
-  R:\TEMP\ccoHou1s.s:333    .text.JoyInp_Chk:00000000 $t
-  R:\TEMP\ccoHou1s.s:338    .text.JoyInp_Chk:00000000 JoyInp_Chk
-  R:\TEMP\ccoHou1s.s:394    .text.JoyInp_Chk:00000048 $d
-  R:\TEMP\ccoHou1s.s:404    .text.Set72:00000000 $t
-  R:\TEMP\ccoHou1s.s:409    .text.Set72:00000000 Set72
-  R:\TEMP\ccoHou1s.s:483    .text.Set72:0000005c $d
-  R:\TEMP\ccoHou1s.s:488    .text.USB_Disconnect_Config:00000000 $t
-  R:\TEMP\ccoHou1s.s:493    .text.USB_Disconnect_Config:00000000 USB_Disconnect_Config
-  R:\TEMP\ccoHou1s.s:530    .text.USB_Disconnect_Config:00000028 $d
-  R:\TEMP\ccoHou1s.s:535    .text.Set_USBClock:00000000 $t
-  R:\TEMP\ccoHou1s.s:540    .text.Set_USBClock:00000000 Set_USBClock
-  R:\TEMP\ccoHou1s.s:567    .text.USB_Cable_Config:00000000 $t
-  R:\TEMP\ccoHou1s.s:572    .text.USB_Cable_Config:00000000 USB_Cable_Config
-  R:\TEMP\ccoHou1s.s:602    .text.USB_Cable_Config:00000014 $d
-  R:\TEMP\ccoHou1s.s:607    .text.Enter_LowPowerMode:00000000 $t
-  R:\TEMP\ccoHou1s.s:612    .text.Enter_LowPowerMode:00000000 Enter_LowPowerMode
-  R:\TEMP\ccoHou1s.s:627    .text.Enter_LowPowerMode:00000008 $d
-  R:\TEMP\ccoHou1s.s:632    .text.Leave_LowPowerMode:00000000 $t
-  R:\TEMP\ccoHou1s.s:637    .text.Leave_LowPowerMode:00000000 Leave_LowPowerMode
-  R:\TEMP\ccoHou1s.s:662    .text.Leave_LowPowerMode:00000014 $d
-  R:\TEMP\ccoHou1s.s:668    .text.Get_SerialNum:00000000 $t
-  R:\TEMP\ccoHou1s.s:673    .text.Get_SerialNum:00000000 Get_SerialNum
-  R:\TEMP\ccoHou1s.s:725    .text.Get_SerialNum:00000030 $d
-  R:\TEMP\ccoHou1s.s:743    .bss.CmdKey:00000000 CmdKey
-  R:\TEMP\ccoHou1s.s:732    .bss.prev.8836:00000000 $d
-  R:\TEMP\ccoHou1s.s:736    .bss.prev.8836:00000000 prev.8836
-  R:\TEMP\ccoHou1s.s:739    .bss.CmdKey:00000000 $d
-  R:\TEMP\ccoHou1s.s:746    .bss.now.8837:00000000 $d
-  R:\TEMP\ccoHou1s.s:750    .bss.now.8837:00000000 now.8837
-  R:\TEMP\ccoHou1s.s:753    .bss.keycounts.8835:00000000 $d
-  R:\TEMP\ccoHou1s.s:757    .bss.keycounts.8835:00000000 keycounts.8835
+  R:\TEMP\ccZycADl.s:19     .text.IntToUnicode:00000000 $t
+  R:\TEMP\ccZycADl.s:23     .text.IntToUnicode:00000000 IntToUnicode
+  R:\TEMP\ccZycADl.s:79     .text.LED_Configuration:00000000 $t
+  R:\TEMP\ccZycADl.s:84     .text.LED_Configuration:00000000 LED_Configuration
+  R:\TEMP\ccZycADl.s:192    .text.LED_Configuration:0000009c $d
+  R:\TEMP\ccZycADl.s:201    .text.KEY_Configuration:00000000 $t
+  R:\TEMP\ccZycADl.s:206    .text.KEY_Configuration:00000000 KEY_Configuration
+  R:\TEMP\ccZycADl.s:261    .text.KEY_Configuration:0000004c $d
+  R:\TEMP\ccZycADl.s:267    .text.NVIC_Configuration:00000000 $t
+  R:\TEMP\ccZycADl.s:272    .text.NVIC_Configuration:00000000 NVIC_Configuration
+  R:\TEMP\ccZycADl.s:290    .text.Set_System:00000000 $t
+  R:\TEMP\ccZycADl.s:295    .text.Set_System:00000000 Set_System
+  R:\TEMP\ccZycADl.s:333    .text.JoyInp_Chk:00000000 $t
+  R:\TEMP\ccZycADl.s:338    .text.JoyInp_Chk:00000000 JoyInp_Chk
+  R:\TEMP\ccZycADl.s:394    .text.JoyInp_Chk:00000048 $d
+  R:\TEMP\ccZycADl.s:404    .text.Set72:00000000 $t
+  R:\TEMP\ccZycADl.s:409    .text.Set72:00000000 Set72
+  R:\TEMP\ccZycADl.s:483    .text.Set72:0000005c $d
+  R:\TEMP\ccZycADl.s:488    .text.USB_Disconnect_Config:00000000 $t
+  R:\TEMP\ccZycADl.s:493    .text.USB_Disconnect_Config:00000000 USB_Disconnect_Config
+  R:\TEMP\ccZycADl.s:530    .text.USB_Disconnect_Config:00000028 $d
+  R:\TEMP\ccZycADl.s:535    .text.Set_USBClock:00000000 $t
+  R:\TEMP\ccZycADl.s:540    .text.Set_USBClock:00000000 Set_USBClock
+  R:\TEMP\ccZycADl.s:567    .text.USB_Cable_Config:00000000 $t
+  R:\TEMP\ccZycADl.s:572    .text.USB_Cable_Config:00000000 USB_Cable_Config
+  R:\TEMP\ccZycADl.s:602    .text.USB_Cable_Config:00000014 $d
+  R:\TEMP\ccZycADl.s:607    .text.Enter_LowPowerMode:00000000 $t
+  R:\TEMP\ccZycADl.s:612    .text.Enter_LowPowerMode:00000000 Enter_LowPowerMode
+  R:\TEMP\ccZycADl.s:627    .text.Enter_LowPowerMode:00000008 $d
+  R:\TEMP\ccZycADl.s:632    .text.Leave_LowPowerMode:00000000 $t
+  R:\TEMP\ccZycADl.s:637    .text.Leave_LowPowerMode:00000000 Leave_LowPowerMode
+  R:\TEMP\ccZycADl.s:662    .text.Leave_LowPowerMode:00000014 $d
+  R:\TEMP\ccZycADl.s:668    .text.Get_SerialNum:00000000 $t
+  R:\TEMP\ccZycADl.s:673    .text.Get_SerialNum:00000000 Get_SerialNum
+  R:\TEMP\ccZycADl.s:725    .text.Get_SerialNum:00000030 $d
+  R:\TEMP\ccZycADl.s:750    .bss.CmdKey:00000000 CmdKey
+  R:\TEMP\ccZycADl.s:732    .bss.keycounts.8842:00000000 $d
+  R:\TEMP\ccZycADl.s:736    .bss.keycounts.8842:00000000 keycounts.8842
+  R:\TEMP\ccZycADl.s:739    .bss.prev.8843:00000000 $d
+  R:\TEMP\ccZycADl.s:743    .bss.prev.8843:00000000 prev.8843
+  R:\TEMP\ccZycADl.s:746    .bss.CmdKey:00000000 $d
+  R:\TEMP\ccZycADl.s:753    .bss.now.8844:00000000 $d
+  R:\TEMP\ccZycADl.s:757    .bss.now.8844:00000000 now.8844
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

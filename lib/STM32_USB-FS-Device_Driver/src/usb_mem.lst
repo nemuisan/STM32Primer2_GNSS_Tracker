@@ -212,10 +212,10 @@
  130              		.file 4 "./inc/systick.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_mem.c
-  R:\TEMP\ccD7YUIW.s:19     .text.UserToPMABufferCopy:00000000 $t
-  R:\TEMP\ccD7YUIW.s:24     .text.UserToPMABufferCopy:00000000 UserToPMABufferCopy
-  R:\TEMP\ccD7YUIW.s:79     .text.PMAToUserBufferCopy:00000000 $t
-  R:\TEMP\ccD7YUIW.s:84     .text.PMAToUserBufferCopy:00000000 PMAToUserBufferCopy
+  R:\TEMP\ccxvk1hh.s:19     .text.UserToPMABufferCopy:00000000 $t
+  R:\TEMP\ccxvk1hh.s:24     .text.UserToPMABufferCopy:00000000 UserToPMABufferCopy
+  R:\TEMP\ccxvk1hh.s:79     .text.PMAToUserBufferCopy:00000000 $t
+  R:\TEMP\ccxvk1hh.s:84     .text.PMAToUserBufferCopy:00000000 PMAToUserBufferCopy
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

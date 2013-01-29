@@ -348,13 +348,13 @@
  255              		.file 12 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-  R:\TEMP\cc6ApEJS.s:19     .text.startup.main:00000000 $t
-  R:\TEMP\cc6ApEJS.s:24     .text.startup.main:00000000 main
-  R:\TEMP\cc6ApEJS.s:202    .text.startup.main:000000e4 $d
-  R:\TEMP\cc6ApEJS.s:234    .bss.xTask:00000000 xTask
-  R:\TEMP\cc6ApEJS.s:241    .bss.TaskStat:00000000 TaskStat
-  R:\TEMP\cc6ApEJS.s:230    .bss.xTask:00000000 $d
-  R:\TEMP\cc6ApEJS.s:237    .bss.TaskStat:00000000 $d
+  R:\TEMP\ccbE050s.s:19     .text.startup.main:00000000 $t
+  R:\TEMP\ccbE050s.s:24     .text.startup.main:00000000 main
+  R:\TEMP\ccbE050s.s:202    .text.startup.main:000000e4 $d
+  R:\TEMP\ccbE050s.s:234    .bss.xTask:00000000 xTask
+  R:\TEMP\ccbE050s.s:241    .bss.TaskStat:00000000 TaskStat
+  R:\TEMP\ccbE050s.s:230    .bss.xTask:00000000 $d
+  R:\TEMP\ccbE050s.s:237    .bss.TaskStat:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

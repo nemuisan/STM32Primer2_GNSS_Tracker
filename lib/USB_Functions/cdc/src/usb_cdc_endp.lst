@@ -489,10 +489,10 @@
  313      00000000 
  313      00000000 
  313      00000000 
- 314              		.section	.bss.FrameCount.8845,"aw",%nobits
+ 314              		.section	.bss.FrameCount.8852,"aw",%nobits
  315              		.align	2
  316              		.set	.LANCHOR1,. + 0
- 319              	FrameCount.8845:
+ 319              	FrameCount.8852:
  320 0000 00000000 		.space	4
  321              		.text
  322              	.Letext0:
@@ -504,19 +504,19 @@
  328              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_cdc_endp.c
-  R:\TEMP\cc8C2Zxf.s:19     .text.CDC_EP1_IN_Callback:00000000 $t
-  R:\TEMP\cc8C2Zxf.s:24     .text.CDC_EP1_IN_Callback:00000000 CDC_EP1_IN_Callback
-  R:\TEMP\cc8C2Zxf.s:175    .text.CDC_EP1_IN_Callback:000000a8 $d
-  R:\TEMP\cc8C2Zxf.s:185    .text.CDC_EP3_OUT_Callback:00000000 $t
-  R:\TEMP\cc8C2Zxf.s:190    .text.CDC_EP3_OUT_Callback:00000000 CDC_EP3_OUT_Callback
-  R:\TEMP\cc8C2Zxf.s:261    .text.CDC_EP3_OUT_Callback:00000058 $d
-  R:\TEMP\cc8C2Zxf.s:266    .text.CDC_SOF_Callback:00000000 $t
-  R:\TEMP\cc8C2Zxf.s:271    .text.CDC_SOF_Callback:00000000 CDC_SOF_Callback
-  R:\TEMP\cc8C2Zxf.s:302    .text.CDC_SOF_Callback:00000020 $d
-  R:\TEMP\cc8C2Zxf.s:312    .bss.USB_Rx_Buffer:00000000 USB_Rx_Buffer
-  R:\TEMP\cc8C2Zxf.s:313    .bss.USB_Rx_Buffer:00000000 $d
-  R:\TEMP\cc8C2Zxf.s:315    .bss.FrameCount.8845:00000000 $d
-  R:\TEMP\cc8C2Zxf.s:319    .bss.FrameCount.8845:00000000 FrameCount.8845
+  R:\TEMP\ccz3oFYC.s:19     .text.CDC_EP1_IN_Callback:00000000 $t
+  R:\TEMP\ccz3oFYC.s:24     .text.CDC_EP1_IN_Callback:00000000 CDC_EP1_IN_Callback
+  R:\TEMP\ccz3oFYC.s:175    .text.CDC_EP1_IN_Callback:000000a8 $d
+  R:\TEMP\ccz3oFYC.s:185    .text.CDC_EP3_OUT_Callback:00000000 $t
+  R:\TEMP\ccz3oFYC.s:190    .text.CDC_EP3_OUT_Callback:00000000 CDC_EP3_OUT_Callback
+  R:\TEMP\ccz3oFYC.s:261    .text.CDC_EP3_OUT_Callback:00000058 $d
+  R:\TEMP\ccz3oFYC.s:266    .text.CDC_SOF_Callback:00000000 $t
+  R:\TEMP\ccz3oFYC.s:271    .text.CDC_SOF_Callback:00000000 CDC_SOF_Callback
+  R:\TEMP\ccz3oFYC.s:302    .text.CDC_SOF_Callback:00000020 $d
+  R:\TEMP\ccz3oFYC.s:312    .bss.USB_Rx_Buffer:00000000 USB_Rx_Buffer
+  R:\TEMP\ccz3oFYC.s:313    .bss.USB_Rx_Buffer:00000000 $d
+  R:\TEMP\ccz3oFYC.s:315    .bss.FrameCount.8852:00000000 $d
+  R:\TEMP\ccz3oFYC.s:319    .bss.FrameCount.8852:00000000 FrameCount.8852
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

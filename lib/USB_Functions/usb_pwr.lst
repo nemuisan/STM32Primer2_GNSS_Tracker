@@ -591,28 +591,28 @@
  364              		.file 9 "./inc/hw_config.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_pwr.c
-  R:\TEMP\ccECnU5n.s:19     .text.PowerOn:00000000 $t
-  R:\TEMP\ccECnU5n.s:24     .text.PowerOn:00000000 PowerOn
-  R:\TEMP\ccECnU5n.s:62     .text.PowerOn:00000024 $d
-  R:\TEMP\ccECnU5n.s:69     .text.PowerOff:00000000 $t
-  R:\TEMP\ccECnU5n.s:74     .text.PowerOff:00000000 PowerOff
-  R:\TEMP\ccECnU5n.s:108    .text.PowerOff:0000001c $d
-  R:\TEMP\ccECnU5n.s:114    .text.Suspend:00000000 $t
-  R:\TEMP\ccECnU5n.s:119    .text.Suspend:00000000 Suspend
-  R:\TEMP\ccECnU5n.s:148    .text.Suspend:0000001c $d
-  R:\TEMP\ccECnU5n.s:153    .text.Resume_Init:00000000 $t
-  R:\TEMP\ccECnU5n.s:158    .text.Resume_Init:00000000 Resume_Init
-  R:\TEMP\ccECnU5n.s:189    .text.Resume_Init:0000001c $d
-  R:\TEMP\ccECnU5n.s:194    .text.Resume:00000000 $t
-  R:\TEMP\ccECnU5n.s:199    .text.Resume:00000000 Resume
-  R:\TEMP\ccECnU5n.s:224    .text.Resume:00000016 $d
-  R:\TEMP\ccECnU5n.s:230    .text.Resume:0000001c $t
-  R:\TEMP\ccECnU5n.s:330    .text.Resume:00000080 $d
-  R:\TEMP\ccECnU5n.s:342    .bss.ResumeS:00000000 ResumeS
-  R:\TEMP\ccECnU5n.s:347    .data.fSuspendEnabled:00000000 fSuspendEnabled
-  R:\TEMP\ccECnU5n.s:353    .bss.bDeviceState:00000000 bDeviceState
-  R:\TEMP\ccECnU5n.s:343    .bss.ResumeS:00000000 $d
-  R:\TEMP\ccECnU5n.s:350    .bss.bDeviceState:00000000 $d
+  R:\TEMP\ccPYEKhp.s:19     .text.PowerOn:00000000 $t
+  R:\TEMP\ccPYEKhp.s:24     .text.PowerOn:00000000 PowerOn
+  R:\TEMP\ccPYEKhp.s:62     .text.PowerOn:00000024 $d
+  R:\TEMP\ccPYEKhp.s:69     .text.PowerOff:00000000 $t
+  R:\TEMP\ccPYEKhp.s:74     .text.PowerOff:00000000 PowerOff
+  R:\TEMP\ccPYEKhp.s:108    .text.PowerOff:0000001c $d
+  R:\TEMP\ccPYEKhp.s:114    .text.Suspend:00000000 $t
+  R:\TEMP\ccPYEKhp.s:119    .text.Suspend:00000000 Suspend
+  R:\TEMP\ccPYEKhp.s:148    .text.Suspend:0000001c $d
+  R:\TEMP\ccPYEKhp.s:153    .text.Resume_Init:00000000 $t
+  R:\TEMP\ccPYEKhp.s:158    .text.Resume_Init:00000000 Resume_Init
+  R:\TEMP\ccPYEKhp.s:189    .text.Resume_Init:0000001c $d
+  R:\TEMP\ccPYEKhp.s:194    .text.Resume:00000000 $t
+  R:\TEMP\ccPYEKhp.s:199    .text.Resume:00000000 Resume
+  R:\TEMP\ccPYEKhp.s:224    .text.Resume:00000016 $d
+  R:\TEMP\ccPYEKhp.s:230    .text.Resume:0000001c $t
+  R:\TEMP\ccPYEKhp.s:330    .text.Resume:00000080 $d
+  R:\TEMP\ccPYEKhp.s:342    .bss.ResumeS:00000000 ResumeS
+  R:\TEMP\ccPYEKhp.s:347    .data.fSuspendEnabled:00000000 fSuspendEnabled
+  R:\TEMP\ccPYEKhp.s:353    .bss.bDeviceState:00000000 bDeviceState
+  R:\TEMP\ccPYEKhp.s:343    .bss.ResumeS:00000000 $d
+  R:\TEMP\ccPYEKhp.s:350    .bss.bDeviceState:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

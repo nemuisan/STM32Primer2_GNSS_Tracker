@@ -1,4 +1,4 @@
-FatFs Module Source Files R0.09a                       (C)ChaN, 2012
+FatFs Module Source Files R0.09b                       (C)ChaN, 2013
 
 
 FILES
@@ -131,5 +131,8 @@ REVISION HISTORY
                        Added f_fdisk(). (_MULTI_PARTITION = 2)
 
   Aug 27,'12 R0.09a    Fixed assertion failure due to OS/2 EA on FAT12/16.
-                       Changed API rejects null object pointer to avoid crash.
+                       Changed f_open() and f_opendir() reject null object pointer to avoid crash.
                        Changed option name _FS_SHARE to _FS_LOCK.
+
+  Jan 23,'13 R0.09b    Added f_getlabel() and f_setlabel(). (_USE_LABEL == 1)
+

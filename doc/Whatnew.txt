@@ -1,3 +1,6 @@
+20130129:
+V11.00 Adopted FatFs0.09b
+
 20130107:
 V10.01 Adopted Launchpad GCC-ARM(GCC4.7.3) with nano-newlib.
 

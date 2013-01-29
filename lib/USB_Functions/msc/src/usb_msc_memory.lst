@@ -542,39 +542,39 @@
  388              		.set	.LANCHOR6,. + 0
  391              	Counter:
  392 0000 00000000 		.space	4
- 393              		.section	.bss.W_Length.8928,"aw",%nobits
+ 393              		.section	.bss.W_Length.8935,"aw",%nobits
  394              		.align	2
  395              		.set	.LANCHOR8,. + 0
- 398              	W_Length.8928:
+ 398              	W_Length.8935:
  399 0000 00000000 		.space	4
- 400              		.section	.bss.Data_Buffer,"aw",%nobits
+ 400              		.section	.bss.W_Offset.8934,"aw",%nobits
  401              		.align	2
- 402              		.set	.LANCHOR4,. + 0
- 405              	Data_Buffer:
- 406 0000 00000000 		.space	512
- 406      00000000 
- 406      00000000 
- 406      00000000 
- 406      00000000 
- 407              		.section	.bss.Idx,"aw",%nobits
+ 402              		.set	.LANCHOR7,. + 0
+ 405              	W_Offset.8934:
+ 406 0000 00000000 		.space	4
+ 407              		.section	.bss.Data_Buffer,"aw",%nobits
  408              		.align	2
- 409              		.set	.LANCHOR9,. + 0
- 412              	Idx:
- 413 0000 00000000 		.space	4
- 414              		.section	.bss.Length.8921,"aw",%nobits
+ 409              		.set	.LANCHOR4,. + 0
+ 412              	Data_Buffer:
+ 413 0000 00000000 		.space	512
+ 413      00000000 
+ 413      00000000 
+ 413      00000000 
+ 413      00000000 
+ 414              		.section	.bss.Idx,"aw",%nobits
  415              		.align	2
- 416              		.set	.LANCHOR2,. + 0
- 419              	Length.8921:
+ 416              		.set	.LANCHOR9,. + 0
+ 419              	Idx:
  420 0000 00000000 		.space	4
- 421              		.section	.bss.Offset.8920,"aw",%nobits
+ 421              		.section	.bss.Length.8928,"aw",%nobits
  422              		.align	2
- 423              		.set	.LANCHOR1,. + 0
- 426              	Offset.8920:
+ 423              		.set	.LANCHOR2,. + 0
+ 426              	Length.8928:
  427 0000 00000000 		.space	4
- 428              		.section	.bss.W_Offset.8927,"aw",%nobits
+ 428              		.section	.bss.Offset.8927,"aw",%nobits
  429              		.align	2
- 430              		.set	.LANCHOR7,. + 0
- 433              	W_Offset.8927:
+ 430              		.set	.LANCHOR1,. + 0
+ 433              	Offset.8927:
  434 0000 00000000 		.space	4
  435              		.section	.bss.TransferState,"aw",%nobits
  436              		.set	.LANCHOR0,. + 0
@@ -593,32 +593,32 @@
  451              		.file 10 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_msc_memory.c
-  R:\TEMP\ccMly6vV.s:19     .text.Read_Memory:00000000 $t
-  R:\TEMP\ccMly6vV.s:24     .text.Read_Memory:00000000 Read_Memory
-  R:\TEMP\ccMly6vV.s:178    .text.Read_Memory:000000d0 $d
-  R:\TEMP\ccMly6vV.s:192    .text.Write_Memory:00000000 $t
-  R:\TEMP\ccMly6vV.s:197    .text.Write_Memory:00000000 Write_Memory
-  R:\TEMP\ccMly6vV.s:351    .text.Write_Memory:000000d0 $d
-  R:\TEMP\ccMly6vV.s:439    .bss.TransferState:00000000 TransferState
-  R:\TEMP\ccMly6vV.s:405    .bss.Data_Buffer:00000000 Data_Buffer
-  R:\TEMP\ccMly6vV.s:412    .bss.Idx:00000000 Idx
-  R:\TEMP\ccMly6vV.s:391    .bss.Counter:00000000 Counter
-  R:\TEMP\ccMly6vV.s:377    .bss.Block_offset:00000000 Block_offset
-  R:\TEMP\ccMly6vV.s:384    .bss.Block_Read_count:00000000 Block_Read_count
-  R:\TEMP\ccMly6vV.s:373    .bss.Block_offset:00000000 $d
-  R:\TEMP\ccMly6vV.s:380    .bss.Block_Read_count:00000000 $d
-  R:\TEMP\ccMly6vV.s:387    .bss.Counter:00000000 $d
-  R:\TEMP\ccMly6vV.s:394    .bss.W_Length.8928:00000000 $d
-  R:\TEMP\ccMly6vV.s:398    .bss.W_Length.8928:00000000 W_Length.8928
-  R:\TEMP\ccMly6vV.s:401    .bss.Data_Buffer:00000000 $d
-  R:\TEMP\ccMly6vV.s:408    .bss.Idx:00000000 $d
-  R:\TEMP\ccMly6vV.s:415    .bss.Length.8921:00000000 $d
-  R:\TEMP\ccMly6vV.s:419    .bss.Length.8921:00000000 Length.8921
-  R:\TEMP\ccMly6vV.s:422    .bss.Offset.8920:00000000 $d
-  R:\TEMP\ccMly6vV.s:426    .bss.Offset.8920:00000000 Offset.8920
-  R:\TEMP\ccMly6vV.s:429    .bss.W_Offset.8927:00000000 $d
-  R:\TEMP\ccMly6vV.s:433    .bss.W_Offset.8927:00000000 W_Offset.8927
-  R:\TEMP\ccMly6vV.s:440    .bss.TransferState:00000000 $d
+  R:\TEMP\ccqw7arj.s:19     .text.Read_Memory:00000000 $t
+  R:\TEMP\ccqw7arj.s:24     .text.Read_Memory:00000000 Read_Memory
+  R:\TEMP\ccqw7arj.s:178    .text.Read_Memory:000000d0 $d
+  R:\TEMP\ccqw7arj.s:192    .text.Write_Memory:00000000 $t
+  R:\TEMP\ccqw7arj.s:197    .text.Write_Memory:00000000 Write_Memory
+  R:\TEMP\ccqw7arj.s:351    .text.Write_Memory:000000d0 $d
+  R:\TEMP\ccqw7arj.s:439    .bss.TransferState:00000000 TransferState
+  R:\TEMP\ccqw7arj.s:412    .bss.Data_Buffer:00000000 Data_Buffer
+  R:\TEMP\ccqw7arj.s:419    .bss.Idx:00000000 Idx
+  R:\TEMP\ccqw7arj.s:391    .bss.Counter:00000000 Counter
+  R:\TEMP\ccqw7arj.s:377    .bss.Block_offset:00000000 Block_offset
+  R:\TEMP\ccqw7arj.s:384    .bss.Block_Read_count:00000000 Block_Read_count
+  R:\TEMP\ccqw7arj.s:373    .bss.Block_offset:00000000 $d
+  R:\TEMP\ccqw7arj.s:380    .bss.Block_Read_count:00000000 $d
+  R:\TEMP\ccqw7arj.s:387    .bss.Counter:00000000 $d
+  R:\TEMP\ccqw7arj.s:394    .bss.W_Length.8935:00000000 $d
+  R:\TEMP\ccqw7arj.s:398    .bss.W_Length.8935:00000000 W_Length.8935
+  R:\TEMP\ccqw7arj.s:401    .bss.W_Offset.8934:00000000 $d
+  R:\TEMP\ccqw7arj.s:405    .bss.W_Offset.8934:00000000 W_Offset.8934
+  R:\TEMP\ccqw7arj.s:408    .bss.Data_Buffer:00000000 $d
+  R:\TEMP\ccqw7arj.s:415    .bss.Idx:00000000 $d
+  R:\TEMP\ccqw7arj.s:422    .bss.Length.8928:00000000 $d
+  R:\TEMP\ccqw7arj.s:426    .bss.Length.8928:00000000 Length.8928
+  R:\TEMP\ccqw7arj.s:429    .bss.Offset.8927:00000000 $d
+  R:\TEMP\ccqw7arj.s:433    .bss.Offset.8927:00000000 Offset.8927
+  R:\TEMP\ccqw7arj.s:440    .bss.TransferState:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

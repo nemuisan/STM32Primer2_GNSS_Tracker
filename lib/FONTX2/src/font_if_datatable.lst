@@ -2608,8 +2608,8 @@
  2611              		.file 3 "lib/FONTX2/src/font_if_datatable.c"
 DEFINED SYMBOLS
                             *ABS*:00000000 font_if_datatable.c
-  R:\TEMP\cc7xMqOv.s:2605   .bss.Mplus_Ank:00000000 Mplus_Ank
-  R:\TEMP\cc7xMqOv.s:23     .rodata.font_table_ank:00000000 font_table_ank
-  R:\TEMP\cc7xMqOv.s:2602   .bss.Mplus_Ank:00000000 $d
+  R:\TEMP\ccPg5Z1u.s:2605   .bss.Mplus_Ank:00000000 Mplus_Ank
+  R:\TEMP\ccPg5Z1u.s:23     .rodata.font_table_ank:00000000 font_table_ank
+  R:\TEMP\ccPg5Z1u.s:2602   .bss.Mplus_Ank:00000000 $d
 
 NO UNDEFINED SYMBOLS

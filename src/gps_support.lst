@@ -1612,7 +1612,7 @@
  859              		.align	2
  860              		.set	.LANCHOR6,. + 0
  863              	Fatfs:
- 864 0000 00000000 		.space	564
+ 864 0000 00000000 		.space	568
  864      00000000 
  864      00000000 
  864      00000000 
@@ -1707,48 +1707,48 @@
  937              		.file 16 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/
 DEFINED SYMBOLS
                             *ABS*:00000000 gps_support.c
-  R:\TEMP\ccfofwKW.s:19     .text.get_line_GPS:00000000 $t
-  R:\TEMP\ccfofwKW.s:23     .text.get_line_GPS:00000000 get_line_GPS
-  R:\TEMP\ccfofwKW.s:77     .text.get_line_GPS:0000002c $d
-  R:\TEMP\ccfofwKW.s:83     .text.gp_val:00000000 $t
-  R:\TEMP\ccfofwKW.s:87     .text.gp_val:00000000 gp_val
-  R:\TEMP\ccfofwKW.s:129    .text.gp_comp.constprop.0:00000000 $t
-  R:\TEMP\ccfofwKW.s:133    .text.gp_comp.constprop.0:00000000 gp_comp.constprop.0
-  R:\TEMP\ccfofwKW.s:165    .text.gp_comp.constprop.0:00000014 $d
-  R:\TEMP\ccfofwKW.s:170    .text.gp_col.constprop.1:00000000 $t
-  R:\TEMP\ccfofwKW.s:174    .text.gp_col.constprop.1:00000000 gp_col.constprop.1
-  R:\TEMP\ccfofwKW.s:221    .text.gp_col.constprop.1:00000020 $d
-  R:\TEMP\ccfofwKW.s:226    .text.ff_support_timerproc:00000000 $t
-  R:\TEMP\ccfofwKW.s:231    .text.ff_support_timerproc:00000000 ff_support_timerproc
-  R:\TEMP\ccfofwKW.s:247    .text.ff_support_timerproc:0000000c $d
-  R:\TEMP\ccfofwKW.s:252    .text.get_fattime:00000000 $t
-  R:\TEMP\ccfofwKW.s:257    .text.get_fattime:00000000 get_fattime
-  R:\TEMP\ccfofwKW.s:300    .text.get_fattime:00000034 $d
-  R:\TEMP\ccfofwKW.s:305    .text.ChkAckLimit:00000000 $t
-  R:\TEMP\ccfofwKW.s:310    .text.ChkAckLimit:00000000 ChkAckLimit
-  R:\TEMP\ccfofwKW.s:345    .text.ChkAckLimit:00000028 $d
-  R:\TEMP\ccfofwKW.s:351    .text.ShutFileClose:00000000 $t
-  R:\TEMP\ccfofwKW.s:356    .text.ShutFileClose:00000000 ShutFileClose
-  R:\TEMP\ccfofwKW.s:383    .text.ShutFileClose:00000014 $d
-  R:\TEMP\ccfofwKW.s:389    .text.gps_task:00000000 $t
-  R:\TEMP\ccfofwKW.s:394    .text.gps_task:00000000 gps_task
-  R:\TEMP\ccfofwKW.s:822    .text.gps_task:00000248 $d
-  R:\TEMP\ccfofwKW.s:877    .bss.ack_limit:00000000 ack_limit
-  R:\TEMP\ccfofwKW.s:913    .bss.l_stat:00000000 l_stat
-  R:\TEMP\ccfofwKW.s:920    .bss.Timer:00000000 Timer
-  R:\TEMP\ccfofwKW.s:900    .bss.Buff:00000000 Buff
-  R:\TEMP\ccfofwKW.s:906    .bss.Dir:00000000 Dir
-  R:\TEMP\ccfofwKW.s:856    .bss.File1:00000000 File1
-  R:\TEMP\ccfofwKW.s:863    .bss.Fatfs:00000000 Fatfs
-  R:\TEMP\ccfofwKW.s:870    .bss.ff_rtc:00000000 ff_rtc
-  R:\TEMP\ccfofwKW.s:852    .bss.File1:00000000 $d
-  R:\TEMP\ccfofwKW.s:859    .bss.Fatfs:00000000 $d
-  R:\TEMP\ccfofwKW.s:866    .bss.ff_rtc:00000000 $d
-  R:\TEMP\ccfofwKW.s:873    .bss.ack_limit:00000000 $d
-  R:\TEMP\ccfofwKW.s:901    .bss.Buff:00000000 $d
-  R:\TEMP\ccfofwKW.s:903    .bss.Dir:00000000 $d
-  R:\TEMP\ccfofwKW.s:909    .bss.l_stat:00000000 $d
-  R:\TEMP\ccfofwKW.s:916    .bss.Timer:00000000 $d
+  R:\TEMP\cc6BjWz4.s:19     .text.get_line_GPS:00000000 $t
+  R:\TEMP\cc6BjWz4.s:23     .text.get_line_GPS:00000000 get_line_GPS
+  R:\TEMP\cc6BjWz4.s:77     .text.get_line_GPS:0000002c $d
+  R:\TEMP\cc6BjWz4.s:83     .text.gp_val:00000000 $t
+  R:\TEMP\cc6BjWz4.s:87     .text.gp_val:00000000 gp_val
+  R:\TEMP\cc6BjWz4.s:129    .text.gp_comp.constprop.0:00000000 $t
+  R:\TEMP\cc6BjWz4.s:133    .text.gp_comp.constprop.0:00000000 gp_comp.constprop.0
+  R:\TEMP\cc6BjWz4.s:165    .text.gp_comp.constprop.0:00000014 $d
+  R:\TEMP\cc6BjWz4.s:170    .text.gp_col.constprop.1:00000000 $t
+  R:\TEMP\cc6BjWz4.s:174    .text.gp_col.constprop.1:00000000 gp_col.constprop.1
+  R:\TEMP\cc6BjWz4.s:221    .text.gp_col.constprop.1:00000020 $d
+  R:\TEMP\cc6BjWz4.s:226    .text.ff_support_timerproc:00000000 $t
+  R:\TEMP\cc6BjWz4.s:231    .text.ff_support_timerproc:00000000 ff_support_timerproc
+  R:\TEMP\cc6BjWz4.s:247    .text.ff_support_timerproc:0000000c $d
+  R:\TEMP\cc6BjWz4.s:252    .text.get_fattime:00000000 $t
+  R:\TEMP\cc6BjWz4.s:257    .text.get_fattime:00000000 get_fattime
+  R:\TEMP\cc6BjWz4.s:300    .text.get_fattime:00000034 $d
+  R:\TEMP\cc6BjWz4.s:305    .text.ChkAckLimit:00000000 $t
+  R:\TEMP\cc6BjWz4.s:310    .text.ChkAckLimit:00000000 ChkAckLimit
+  R:\TEMP\cc6BjWz4.s:345    .text.ChkAckLimit:00000028 $d
+  R:\TEMP\cc6BjWz4.s:351    .text.ShutFileClose:00000000 $t
+  R:\TEMP\cc6BjWz4.s:356    .text.ShutFileClose:00000000 ShutFileClose
+  R:\TEMP\cc6BjWz4.s:383    .text.ShutFileClose:00000014 $d
+  R:\TEMP\cc6BjWz4.s:389    .text.gps_task:00000000 $t
+  R:\TEMP\cc6BjWz4.s:394    .text.gps_task:00000000 gps_task
+  R:\TEMP\cc6BjWz4.s:822    .text.gps_task:00000248 $d
+  R:\TEMP\cc6BjWz4.s:877    .bss.ack_limit:00000000 ack_limit
+  R:\TEMP\cc6BjWz4.s:913    .bss.l_stat:00000000 l_stat
+  R:\TEMP\cc6BjWz4.s:920    .bss.Timer:00000000 Timer
+  R:\TEMP\cc6BjWz4.s:900    .bss.Buff:00000000 Buff
+  R:\TEMP\cc6BjWz4.s:906    .bss.Dir:00000000 Dir
+  R:\TEMP\cc6BjWz4.s:856    .bss.File1:00000000 File1
+  R:\TEMP\cc6BjWz4.s:863    .bss.Fatfs:00000000 Fatfs
+  R:\TEMP\cc6BjWz4.s:870    .bss.ff_rtc:00000000 ff_rtc
+  R:\TEMP\cc6BjWz4.s:852    .bss.File1:00000000 $d
+  R:\TEMP\cc6BjWz4.s:859    .bss.Fatfs:00000000 $d
+  R:\TEMP\cc6BjWz4.s:866    .bss.ff_rtc:00000000 $d
+  R:\TEMP\cc6BjWz4.s:873    .bss.ack_limit:00000000 $d
+  R:\TEMP\cc6BjWz4.s:901    .bss.Buff:00000000 $d
+  R:\TEMP\cc6BjWz4.s:903    .bss.Dir:00000000 $d
+  R:\TEMP\cc6BjWz4.s:909    .bss.l_stat:00000000 $d
+  R:\TEMP\cc6BjWz4.s:916    .bss.Timer:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
