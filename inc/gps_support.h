@@ -3,7 +3,7 @@
 	@file			gps_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
     @version        7.00
-    @date           2013.01.07
+    @date           2013.02.19
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -17,7 +17,7 @@
 		                     (Anti Interference & force 9600bps for 38400bps Firmware).
 		2012.12.24  V6.00   Add Gms-g6a Support.
 							Imploved Error Handlings.
-		2013.01.07  V6.01   Fixed Minor bug.
+		2013.02.19  V7.00   Added Some MT3339/MT3333 Commands
 
     @section LICENSE
 		BSD License. See Copyright.txt

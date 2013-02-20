@@ -247,12 +247,12 @@
  159              		.file 6 "./inc/rtc_support.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 ff_rtc_if.c
-  R:\TEMP\ccOccCG3.s:19     .text.rtc_gettime:00000000 $t
-  R:\TEMP\ccOccCG3.s:24     .text.rtc_gettime:00000000 rtc_gettime
-  R:\TEMP\ccOccCG3.s:84     .text.rtc_gettime:00000040 $d
-  R:\TEMP\ccOccCG3.s:89     .text.rtc_settime:00000000 $t
-  R:\TEMP\ccOccCG3.s:94     .text.rtc_settime:00000000 rtc_settime
-  R:\TEMP\ccOccCG3.s:149    .text.rtc_settime:0000003c $d
+  R:\TEMP\ccXylDp2.s:19     .text.rtc_gettime:00000000 $t
+  R:\TEMP\ccXylDp2.s:24     .text.rtc_gettime:00000000 rtc_gettime
+  R:\TEMP\ccXylDp2.s:84     .text.rtc_gettime:00000040 $d
+  R:\TEMP\ccXylDp2.s:89     .text.rtc_settime:00000000 $t
+  R:\TEMP\ccXylDp2.s:94     .text.rtc_settime:00000000 rtc_settime
+  R:\TEMP\ccXylDp2.s:149    .text.rtc_settime:0000003c $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

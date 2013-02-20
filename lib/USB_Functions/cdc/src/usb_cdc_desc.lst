@@ -237,12 +237,12 @@
  247              		.file 4 "lib/USB_Functions/cdc/src/usb_cdc_desc.c"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_cdc_desc.c
-  R:\TEMP\cc0TyLrQ.s:153    .data.Virtual_Com_Port_StringSerial:00000000 Virtual_Com_Port_StringSerial
-  R:\TEMP\cc0TyLrQ.s:99     .rodata.Virtual_Com_Port_StringProduct:00000000 Virtual_Com_Port_StringProduct
-  R:\TEMP\cc0TyLrQ.s:27     .rodata.Virtual_Com_Port_StringVendor:00000000 Virtual_Com_Port_StringVendor
-  R:\TEMP\cc0TyLrQ.s:91     .rodata.Virtual_Com_Port_StringLangID:00000000 Virtual_Com_Port_StringLangID
-  R:\TEMP\cc0TyLrQ.s:174    .rodata.Virtual_Com_Port_ConfigDescriptor:00000000 Virtual_Com_Port_ConfigDescriptor
-  R:\TEMP\cc0TyLrQ.s:69     .rodata.Virtual_Com_Port_DeviceDescriptor:00000000 Virtual_Com_Port_DeviceDescriptor
-  R:\TEMP\cc0TyLrQ.s:170    .data.Virtual_Com_Port_StringSerial:00000010 $d
+  R:\TEMP\cchiEOcO.s:153    .data.Virtual_Com_Port_StringSerial:00000000 Virtual_Com_Port_StringSerial
+  R:\TEMP\cchiEOcO.s:99     .rodata.Virtual_Com_Port_StringProduct:00000000 Virtual_Com_Port_StringProduct
+  R:\TEMP\cchiEOcO.s:27     .rodata.Virtual_Com_Port_StringVendor:00000000 Virtual_Com_Port_StringVendor
+  R:\TEMP\cchiEOcO.s:91     .rodata.Virtual_Com_Port_StringLangID:00000000 Virtual_Com_Port_StringLangID
+  R:\TEMP\cchiEOcO.s:174    .rodata.Virtual_Com_Port_ConfigDescriptor:00000000 Virtual_Com_Port_ConfigDescriptor
+  R:\TEMP\cchiEOcO.s:69     .rodata.Virtual_Com_Port_DeviceDescriptor:00000000 Virtual_Com_Port_DeviceDescriptor
+  R:\TEMP\cchiEOcO.s:170    .data.Virtual_Com_Port_StringSerial:00000010 $d
 
 NO UNDEFINED SYMBOLS

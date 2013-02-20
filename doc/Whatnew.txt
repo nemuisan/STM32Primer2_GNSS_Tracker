@@ -1,3 +1,7 @@
+20130220:
+V11.10 Added MT3339/MT3333 Commands (gps_support.c)
+	   Added UART-Tx/Rx Buffer control function. (uart_support_gps.c)
+
 20130130:
 V11.00 Adopted FatFs0.09b
 

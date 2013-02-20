@@ -681,27 +681,27 @@
  453              		.file 10 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 rtc_support.c
-  R:\TEMP\cc0Ib4IG.s:19     .text.Time_ConvUnixToCalendar:00000000 $t
-  R:\TEMP\cc0Ib4IG.s:24     .text.Time_ConvUnixToCalendar:00000000 Time_ConvUnixToCalendar
-  R:\TEMP\cc0Ib4IG.s:71     .text.Time_ConvCalendarToUnix:00000000 $t
-  R:\TEMP\cc0Ib4IG.s:76     .text.Time_ConvCalendarToUnix:00000000 Time_ConvCalendarToUnix
-  R:\TEMP\cc0Ib4IG.s:108    .text.Time_GetUnixTime:00000000 $t
-  R:\TEMP\cc0Ib4IG.s:113    .text.Time_GetUnixTime:00000000 Time_GetUnixTime
-  R:\TEMP\cc0Ib4IG.s:128    .text.Time_GetCalendarTime:00000000 $t
-  R:\TEMP\cc0Ib4IG.s:133    .text.Time_GetCalendarTime:00000000 Time_GetCalendarTime
-  R:\TEMP\cc0Ib4IG.s:163    .text.Time_SetUnixTime:00000000 $t
-  R:\TEMP\cc0Ib4IG.s:168    .text.Time_SetUnixTime:00000000 Time_SetUnixTime
-  R:\TEMP\cc0Ib4IG.s:207    .text.Time_SetCalendarTime:00000000 $t
-  R:\TEMP\cc0Ib4IG.s:212    .text.Time_SetCalendarTime:00000000 Time_SetCalendarTime
-  R:\TEMP\cc0Ib4IG.s:264    .text.RTC_Configuration:00000000 $t
-  R:\TEMP\cc0Ib4IG.s:269    .text.RTC_Configuration:00000000 RTC_Configuration
-  R:\TEMP\cc0Ib4IG.s:417    .text.RTC_Configuration:000000d4 $d
-  R:\TEMP\cc0Ib4IG.s:435    .bss.rtc:00000000 rtc
-  R:\TEMP\cc0Ib4IG.s:428    .bss.current_time:00000000 current_time
-  R:\TEMP\cc0Ib4IG.s:441    .bss.TimeDisplay:00000000 TimeDisplay
-  R:\TEMP\cc0Ib4IG.s:425    .bss.current_time:00000000 $d
-  R:\TEMP\cc0Ib4IG.s:431    .bss.rtc:00000000 $d
-  R:\TEMP\cc0Ib4IG.s:438    .bss.TimeDisplay:00000000 $d
+  R:\TEMP\cc5oYwDK.s:19     .text.Time_ConvUnixToCalendar:00000000 $t
+  R:\TEMP\cc5oYwDK.s:24     .text.Time_ConvUnixToCalendar:00000000 Time_ConvUnixToCalendar
+  R:\TEMP\cc5oYwDK.s:71     .text.Time_ConvCalendarToUnix:00000000 $t
+  R:\TEMP\cc5oYwDK.s:76     .text.Time_ConvCalendarToUnix:00000000 Time_ConvCalendarToUnix
+  R:\TEMP\cc5oYwDK.s:108    .text.Time_GetUnixTime:00000000 $t
+  R:\TEMP\cc5oYwDK.s:113    .text.Time_GetUnixTime:00000000 Time_GetUnixTime
+  R:\TEMP\cc5oYwDK.s:128    .text.Time_GetCalendarTime:00000000 $t
+  R:\TEMP\cc5oYwDK.s:133    .text.Time_GetCalendarTime:00000000 Time_GetCalendarTime
+  R:\TEMP\cc5oYwDK.s:163    .text.Time_SetUnixTime:00000000 $t
+  R:\TEMP\cc5oYwDK.s:168    .text.Time_SetUnixTime:00000000 Time_SetUnixTime
+  R:\TEMP\cc5oYwDK.s:207    .text.Time_SetCalendarTime:00000000 $t
+  R:\TEMP\cc5oYwDK.s:212    .text.Time_SetCalendarTime:00000000 Time_SetCalendarTime
+  R:\TEMP\cc5oYwDK.s:264    .text.RTC_Configuration:00000000 $t
+  R:\TEMP\cc5oYwDK.s:269    .text.RTC_Configuration:00000000 RTC_Configuration
+  R:\TEMP\cc5oYwDK.s:417    .text.RTC_Configuration:000000d4 $d
+  R:\TEMP\cc5oYwDK.s:435    .bss.rtc:00000000 rtc
+  R:\TEMP\cc5oYwDK.s:428    .bss.current_time:00000000 current_time
+  R:\TEMP\cc5oYwDK.s:441    .bss.TimeDisplay:00000000 TimeDisplay
+  R:\TEMP\cc5oYwDK.s:425    .bss.current_time:00000000 $d
+  R:\TEMP\cc5oYwDK.s:431    .bss.rtc:00000000 $d
+  R:\TEMP\cc5oYwDK.s:438    .bss.TimeDisplay:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

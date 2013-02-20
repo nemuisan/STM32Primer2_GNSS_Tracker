@@ -384,31 +384,30 @@
  201              	.L15:
  202              	.LBE5:
  203              	.LBE4:
- 160:src/stm32f10x_it.c **** 	static int gpslog_acklimit =0;
- 161:src/stm32f10x_it.c **** 	
- 162:src/stm32f10x_it.c **** 	/* used for delay routine */
- 163:src/stm32f10x_it.c **** 	TimingDelay_Decrement();
- 164:src/stm32f10x_it.c **** 	/* used for power managements */
- 165:src/stm32f10x_it.c **** 	PWR_Mgn();
- 204              		.loc 1 165 0
+ 160:src/stm32f10x_it.c **** 
+ 161:src/stm32f10x_it.c **** 	/* used for delay routine */
+ 162:src/stm32f10x_it.c **** 	TimingDelay_Decrement();
+ 163:src/stm32f10x_it.c **** 	/* used for power managements */
+ 164:src/stm32f10x_it.c **** 	PWR_Mgn();
+ 204              		.loc 1 164 0
  205 000e FFF7FEFF 		bl	PWR_Mgn
  206              	.LVL2:
- 166:src/stm32f10x_it.c **** 	/* GPS Logger Mode Special */
- 167:src/stm32f10x_it.c **** 	if(TaskStat == GPS_LOGGING) ChkAckLimit();
- 207              		.loc 1 167 0
+ 165:src/stm32f10x_it.c **** 	/* GPS Logger Mode Special */
+ 166:src/stm32f10x_it.c **** 	if(TaskStat == GPS_LOGGING) ChkAckLimit();
+ 207              		.loc 1 166 0
  208 0012 054B     		ldr	r3, .L20+4
  209 0014 1A68     		ldr	r2, [r3, #0]
  210 0016 1AB9     		cbnz	r2, .L14
- 168:src/stm32f10x_it.c **** 	
- 169:src/stm32f10x_it.c **** 	/* key inputs */
- 170:src/stm32f10x_it.c **** 	/* JoyInp_Chk(); */
- 171:src/stm32f10x_it.c **** 	/* FatFs ralation inputs */
- 172:src/stm32f10x_it.c **** 	/*ff_support_timerproc();*/
- 173:src/stm32f10x_it.c **** }
- 211              		.loc 1 173 0 discriminator 1
+ 167:src/stm32f10x_it.c **** 	
+ 168:src/stm32f10x_it.c **** 	/* key inputs */
+ 169:src/stm32f10x_it.c **** 	/* JoyInp_Chk(); */
+ 170:src/stm32f10x_it.c **** 	/* FatFs ralation inputs */
+ 171:src/stm32f10x_it.c **** 	/*ff_support_timerproc();*/
+ 172:src/stm32f10x_it.c **** }
+ 211              		.loc 1 172 0 discriminator 1
  212 0018 BDE80840 		pop	{r3, lr}
- 167:src/stm32f10x_it.c **** 	if(TaskStat == GPS_LOGGING) ChkAckLimit();
- 213              		.loc 1 167 0 discriminator 1
+ 166:src/stm32f10x_it.c **** 	if(TaskStat == GPS_LOGGING) ChkAckLimit();
+ 213              		.loc 1 166 0 discriminator 1
  214 001c FFF7FEBF 		b	ChkAckLimit
  215              	.LVL3:
  216              	.L14:
@@ -427,35 +426,35 @@
  230              		.thumb_func
  232              	USB_HP_CAN1_TX_IRQHandler:
  233              	.LFB66:
+ 173:src/stm32f10x_it.c **** 
  174:src/stm32f10x_it.c **** 
  175:src/stm32f10x_it.c **** 
- 176:src/stm32f10x_it.c **** 
- 177:src/stm32f10x_it.c **** /******************************************************************************/
- 178:src/stm32f10x_it.c **** /*                 STM32F10x Peripherals Interrupt Handlers                   */
- 179:src/stm32f10x_it.c **** /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
- 180:src/stm32f10x_it.c **** /*  available peripheral interrupt handler's name please refer to the startup */
- 181:src/stm32f10x_it.c **** /*  file (startup_stm32f10x_xx.s).                                            */
- 182:src/stm32f10x_it.c **** /******************************************************************************/
- 183:src/stm32f10x_it.c **** 
- 184:src/stm32f10x_it.c **** /**************************************************************************/
- 185:src/stm32f10x_it.c **** /*! 
- 186:src/stm32f10x_it.c ****     @brief	Handles USB High Priority or CAN TX interrupts requests.
- 187:src/stm32f10x_it.c **** 	@param	None.
- 188:src/stm32f10x_it.c ****     @retval	None.
- 189:src/stm32f10x_it.c **** */
- 190:src/stm32f10x_it.c **** /**************************************************************************/
- 191:src/stm32f10x_it.c **** void USB_HP_CAN1_TX_IRQHandler(void)
- 192:src/stm32f10x_it.c **** {
- 234              		.loc 1 192 0
+ 176:src/stm32f10x_it.c **** /******************************************************************************/
+ 177:src/stm32f10x_it.c **** /*                 STM32F10x Peripherals Interrupt Handlers                   */
+ 178:src/stm32f10x_it.c **** /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+ 179:src/stm32f10x_it.c **** /*  available peripheral interrupt handler's name please refer to the startup */
+ 180:src/stm32f10x_it.c **** /*  file (startup_stm32f10x_xx.s).                                            */
+ 181:src/stm32f10x_it.c **** /******************************************************************************/
+ 182:src/stm32f10x_it.c **** 
+ 183:src/stm32f10x_it.c **** /**************************************************************************/
+ 184:src/stm32f10x_it.c **** /*! 
+ 185:src/stm32f10x_it.c ****     @brief	Handles USB High Priority or CAN TX interrupts requests.
+ 186:src/stm32f10x_it.c **** 	@param	None.
+ 187:src/stm32f10x_it.c ****     @retval	None.
+ 188:src/stm32f10x_it.c **** */
+ 189:src/stm32f10x_it.c **** /**************************************************************************/
+ 190:src/stm32f10x_it.c **** void USB_HP_CAN1_TX_IRQHandler(void)
+ 191:src/stm32f10x_it.c **** {
+ 234              		.loc 1 191 0
  235              		.cfi_startproc
  236              		@ args = 0, pretend = 0, frame = 0
  237              		@ frame_needed = 0, uses_anonymous_args = 0
  238              		@ link register save eliminated.
- 193:src/stm32f10x_it.c **** 	CTR_HP();
- 194:src/stm32f10x_it.c **** }
- 239              		.loc 1 194 0
- 193:src/stm32f10x_it.c **** 	CTR_HP();
- 240              		.loc 1 193 0
+ 192:src/stm32f10x_it.c **** 	CTR_HP();
+ 193:src/stm32f10x_it.c **** }
+ 239              		.loc 1 193 0
+ 192:src/stm32f10x_it.c **** 	CTR_HP();
+ 240              		.loc 1 192 0
  241 0000 FFF7FEBF 		b	CTR_HP
  242              	.LVL4:
  243              		.cfi_endproc
@@ -467,27 +466,27 @@
  250              		.thumb_func
  252              	USB_LP_CAN1_RX0_IRQHandler:
  253              	.LFB67:
+ 194:src/stm32f10x_it.c **** 
  195:src/stm32f10x_it.c **** 
- 196:src/stm32f10x_it.c **** 
- 197:src/stm32f10x_it.c **** /**************************************************************************/
- 198:src/stm32f10x_it.c **** /*! 
- 199:src/stm32f10x_it.c ****     @brief	Handles USB Low Priority or CAN TX interrupts requests.
- 200:src/stm32f10x_it.c **** 	@param	None.
- 201:src/stm32f10x_it.c ****     @retval	None.
- 202:src/stm32f10x_it.c **** */
- 203:src/stm32f10x_it.c **** /**************************************************************************/
- 204:src/stm32f10x_it.c **** void USB_LP_CAN1_RX0_IRQHandler(void)
- 205:src/stm32f10x_it.c **** {
- 254              		.loc 1 205 0
+ 196:src/stm32f10x_it.c **** /**************************************************************************/
+ 197:src/stm32f10x_it.c **** /*! 
+ 198:src/stm32f10x_it.c ****     @brief	Handles USB Low Priority or CAN TX interrupts requests.
+ 199:src/stm32f10x_it.c **** 	@param	None.
+ 200:src/stm32f10x_it.c ****     @retval	None.
+ 201:src/stm32f10x_it.c **** */
+ 202:src/stm32f10x_it.c **** /**************************************************************************/
+ 203:src/stm32f10x_it.c **** void USB_LP_CAN1_RX0_IRQHandler(void)
+ 204:src/stm32f10x_it.c **** {
+ 254              		.loc 1 204 0
  255              		.cfi_startproc
  256              		@ args = 0, pretend = 0, frame = 0
  257              		@ frame_needed = 0, uses_anonymous_args = 0
  258              		@ link register save eliminated.
- 206:src/stm32f10x_it.c **** 	USB_Istr();
- 207:src/stm32f10x_it.c **** }
- 259              		.loc 1 207 0
- 206:src/stm32f10x_it.c **** 	USB_Istr();
- 260              		.loc 1 206 0
+ 205:src/stm32f10x_it.c **** 	USB_Istr();
+ 206:src/stm32f10x_it.c **** }
+ 259              		.loc 1 206 0
+ 205:src/stm32f10x_it.c **** 	USB_Istr();
+ 260              		.loc 1 205 0
  261 0000 FFF7FEBF 		b	USB_Istr
  262              	.LVL5:
  263              		.cfi_endproc
@@ -499,18 +498,18 @@
  270              		.thumb_func
  272              	RTC_IRQHandler:
  273              	.LFB68:
+ 207:src/stm32f10x_it.c **** 
  208:src/stm32f10x_it.c **** 
- 209:src/stm32f10x_it.c **** 
- 210:src/stm32f10x_it.c **** /**************************************************************************/
- 211:src/stm32f10x_it.c **** /*! 
- 212:src/stm32f10x_it.c ****     @brief	Handles RealTimeClock interrupts requests.
- 213:src/stm32f10x_it.c **** 	@param	None.
- 214:src/stm32f10x_it.c ****     @retval	None.
- 215:src/stm32f10x_it.c **** */
- 216:src/stm32f10x_it.c **** /**************************************************************************/
- 217:src/stm32f10x_it.c **** void RTC_IRQHandler(void)
- 218:src/stm32f10x_it.c **** {
- 274              		.loc 1 218 0
+ 209:src/stm32f10x_it.c **** /**************************************************************************/
+ 210:src/stm32f10x_it.c **** /*! 
+ 211:src/stm32f10x_it.c ****     @brief	Handles RealTimeClock interrupts requests.
+ 212:src/stm32f10x_it.c **** 	@param	None.
+ 213:src/stm32f10x_it.c ****     @retval	None.
+ 214:src/stm32f10x_it.c **** */
+ 215:src/stm32f10x_it.c **** /**************************************************************************/
+ 216:src/stm32f10x_it.c **** void RTC_IRQHandler(void)
+ 217:src/stm32f10x_it.c **** {
+ 274              		.loc 1 217 0
  275              		.cfi_startproc
  276              		@ args = 0, pretend = 0, frame = 0
  277              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -529,31 +528,31 @@
  291              		.file 9 "./lib/USB_Functions/usb_istr.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_it.c
-  R:\TEMP\cc8vwKq5.s:19     .text.NMI_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:24     .text.NMI_Handler:00000000 NMI_Handler
-  R:\TEMP\cc8vwKq5.s:37     .text.HardFault_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:42     .text.HardFault_Handler:00000000 HardFault_Handler
-  R:\TEMP\cc8vwKq5.s:57     .text.MemManage_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:62     .text.MemManage_Handler:00000000 MemManage_Handler
-  R:\TEMP\cc8vwKq5.s:77     .text.BusFault_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:82     .text.BusFault_Handler:00000000 BusFault_Handler
-  R:\TEMP\cc8vwKq5.s:97     .text.UsageFault_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:102    .text.UsageFault_Handler:00000000 UsageFault_Handler
-  R:\TEMP\cc8vwKq5.s:117    .text.SVC_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:122    .text.SVC_Handler:00000000 SVC_Handler
-  R:\TEMP\cc8vwKq5.s:135    .text.DebugMon_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:140    .text.DebugMon_Handler:00000000 DebugMon_Handler
-  R:\TEMP\cc8vwKq5.s:153    .text.PendSV_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:158    .text.PendSV_Handler:00000000 PendSV_Handler
-  R:\TEMP\cc8vwKq5.s:171    .text.SysTick_Handler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:176    .text.SysTick_Handler:00000000 SysTick_Handler
-  R:\TEMP\cc8vwKq5.s:221    .text.SysTick_Handler:00000024 $d
-  R:\TEMP\cc8vwKq5.s:227    .text.USB_HP_CAN1_TX_IRQHandler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:232    .text.USB_HP_CAN1_TX_IRQHandler:00000000 USB_HP_CAN1_TX_IRQHandler
-  R:\TEMP\cc8vwKq5.s:247    .text.USB_LP_CAN1_RX0_IRQHandler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:252    .text.USB_LP_CAN1_RX0_IRQHandler:00000000 USB_LP_CAN1_RX0_IRQHandler
-  R:\TEMP\cc8vwKq5.s:267    .text.RTC_IRQHandler:00000000 $t
-  R:\TEMP\cc8vwKq5.s:272    .text.RTC_IRQHandler:00000000 RTC_IRQHandler
+  R:\TEMP\ccFYhNxg.s:19     .text.NMI_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:24     .text.NMI_Handler:00000000 NMI_Handler
+  R:\TEMP\ccFYhNxg.s:37     .text.HardFault_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:42     .text.HardFault_Handler:00000000 HardFault_Handler
+  R:\TEMP\ccFYhNxg.s:57     .text.MemManage_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:62     .text.MemManage_Handler:00000000 MemManage_Handler
+  R:\TEMP\ccFYhNxg.s:77     .text.BusFault_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:82     .text.BusFault_Handler:00000000 BusFault_Handler
+  R:\TEMP\ccFYhNxg.s:97     .text.UsageFault_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:102    .text.UsageFault_Handler:00000000 UsageFault_Handler
+  R:\TEMP\ccFYhNxg.s:117    .text.SVC_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:122    .text.SVC_Handler:00000000 SVC_Handler
+  R:\TEMP\ccFYhNxg.s:135    .text.DebugMon_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:140    .text.DebugMon_Handler:00000000 DebugMon_Handler
+  R:\TEMP\ccFYhNxg.s:153    .text.PendSV_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:158    .text.PendSV_Handler:00000000 PendSV_Handler
+  R:\TEMP\ccFYhNxg.s:171    .text.SysTick_Handler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:176    .text.SysTick_Handler:00000000 SysTick_Handler
+  R:\TEMP\ccFYhNxg.s:221    .text.SysTick_Handler:00000024 $d
+  R:\TEMP\ccFYhNxg.s:227    .text.USB_HP_CAN1_TX_IRQHandler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:232    .text.USB_HP_CAN1_TX_IRQHandler:00000000 USB_HP_CAN1_TX_IRQHandler
+  R:\TEMP\ccFYhNxg.s:247    .text.USB_LP_CAN1_RX0_IRQHandler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:252    .text.USB_LP_CAN1_RX0_IRQHandler:00000000 USB_LP_CAN1_RX0_IRQHandler
+  R:\TEMP\ccFYhNxg.s:267    .text.RTC_IRQHandler:00000000 $t
+  R:\TEMP\ccFYhNxg.s:272    .text.RTC_IRQHandler:00000000 RTC_IRQHandler
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

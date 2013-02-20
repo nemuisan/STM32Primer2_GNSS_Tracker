@@ -558,16 +558,16 @@
  379              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_core.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_int.c
-  R:\TEMP\ccKaVcv3.s:19     .text.CTR_LP:00000000 $t
-  R:\TEMP\ccKaVcv3.s:24     .text.CTR_LP:00000000 CTR_LP
-  R:\TEMP\ccKaVcv3.s:256    .text.CTR_LP:00000170 $d
-  R:\TEMP\ccKaVcv3.s:268    .text.CTR_HP:00000000 $t
-  R:\TEMP\ccKaVcv3.s:273    .text.CTR_HP:00000000 CTR_HP
-  R:\TEMP\ccKaVcv3.s:348    .text.CTR_HP:00000060 $d
-  R:\TEMP\ccKaVcv3.s:370    .bss.SaveTState:00000000 SaveTState
-  R:\TEMP\ccKaVcv3.s:363    .bss.SaveRState:00000000 SaveRState
-  R:\TEMP\ccKaVcv3.s:359    .bss.SaveRState:00000000 $d
-  R:\TEMP\ccKaVcv3.s:366    .bss.SaveTState:00000000 $d
+  R:\TEMP\cc7JUU1G.s:19     .text.CTR_LP:00000000 $t
+  R:\TEMP\cc7JUU1G.s:24     .text.CTR_LP:00000000 CTR_LP
+  R:\TEMP\cc7JUU1G.s:256    .text.CTR_LP:00000170 $d
+  R:\TEMP\cc7JUU1G.s:268    .text.CTR_HP:00000000 $t
+  R:\TEMP\cc7JUU1G.s:273    .text.CTR_HP:00000000 CTR_HP
+  R:\TEMP\cc7JUU1G.s:348    .text.CTR_HP:00000060 $d
+  R:\TEMP\cc7JUU1G.s:370    .bss.SaveTState:00000000 SaveTState
+  R:\TEMP\cc7JUU1G.s:363    .bss.SaveRState:00000000 SaveRState
+  R:\TEMP\cc7JUU1G.s:359    .bss.SaveRState:00000000 $d
+  R:\TEMP\cc7JUU1G.s:366    .bss.SaveTState:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

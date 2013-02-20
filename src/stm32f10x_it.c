@@ -157,8 +157,7 @@ void PendSV_Handler(void)
 /**************************************************************************/
 void SysTick_Handler(void)
 {
-	static int gpslog_acklimit =0;
-	
+
 	/* used for delay routine */
 	TimingDelay_Decrement();
 	/* used for power managements */

@@ -293,11 +293,11 @@
  127              		.file 6 "./inc/uart_support_gps.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 term_io.c
-  R:\TEMP\ccA0kFEX.s:19     .text.xgetc_n:00000000 $t
-  R:\TEMP\ccA0kFEX.s:24     .text.xgetc_n:00000000 xgetc_n
-  R:\TEMP\ccA0kFEX.s:86     .text.xgetc_n:00000038 $d
-  R:\TEMP\ccA0kFEX.s:91     .text.xgetc:00000000 $t
-  R:\TEMP\ccA0kFEX.s:96     .text.xgetc:00000000 xgetc
+  R:\TEMP\ccFQRYk3.s:19     .text.xgetc_n:00000000 $t
+  R:\TEMP\ccFQRYk3.s:24     .text.xgetc_n:00000000 xgetc_n
+  R:\TEMP\ccFQRYk3.s:86     .text.xgetc_n:00000038 $d
+  R:\TEMP\ccFQRYk3.s:91     .text.xgetc:00000000 $t
+  R:\TEMP\ccFQRYk3.s:96     .text.xgetc:00000000 xgetc
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

@@ -3,7 +3,7 @@
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
     @version        7.00
-    @date           2013.01.07
+    @date           2013.02.20
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -17,7 +17,7 @@
 		                     (Anti Interference & force 9600bps for 38400bps Firmware).
 		2012.12.24  V6.00   Add Gms-g6a Support.
 							Imploved Error Handlings.
-		2013.01.07  V6.01   Fixed Minor bug.
+		2013.02.20  V7.00   Added Some MT3339/MT3333 Commands
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -32,7 +32,7 @@
 #endif
 
 /* Defines -------------------------------------------------------------------*/
-/* GT-723F,UP-501,PA6C default baud is 9600,8,n,1*/
+/* GT-723F,UP-501,PA6C and Gms-g6a default baud is 9600,8,n,1 */
 #define GPS_UART_PORT	2
 #define GPS_UART_BAUD	9600
 /* GPS Sentences */
@@ -56,6 +56,18 @@
 /* Acklowledge Limit in Second */
 #define ACK_LIMIT		5
 
+/* MTK Commands */
+#define PMTK_TEST							"$PMTK000"
+#define PMTK_CMD_AIC_MODE					"$PMTK286"
+#define PMTK_CMD_EASY_ENABLE				"$PMTK869"
+#define PMTK_CMD_PERIODIC_MODE				"$PMTK225"
+#define PMTK_SET_NMEA_BAUDRATE				"$PMTK251"
+#define PMTK_API_SET_SBAS_ENABLED			"$PMTK313"
+#define PMTK_API_SET_SBAS_MODE				"$PMTK319"
+#define PMTK_API_SET_DGPS_MODE				"$PMTK301"
+#define PMTK_API_SET_SUPPORT_QZSS_NMEA		"$PMTK351"
+#define PMTK_API_SET_STOP_QZSS				"$PMTK352"
+
 /* Variables -----------------------------------------------------------------*/
 FF_RTC ff_rtc;						/* See ff_rtc_if.h */
 FATFS Fatfs[_VOLUMES];				/* File system object for each logical drive */
@@ -69,6 +81,7 @@ volatile UINT ack_limit;			/* Acklowledge Limit */
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
+static void xSend_MTKCmd(const char* cmdstr,const char* datastr);
 
 /* Functions -----------------------------------------------------------------*/
 
@@ -111,13 +124,11 @@ void ChkAckLimit(void)
 
 	if(ack_limit++ > ACK_LIMIT*1000){
 		/* Wakeup(For MT333x) */
-		cputs("$PMTK000*32\r\n");
-		_delay_us(10000);
+		xSend_MTKCmd(PMTK_TEST,"");
 		ack_limit =0;
 	}
 
 }
-
 
 /**************************************************************************/
 /*! 
@@ -132,6 +143,46 @@ shutstat:
 	if(f_close(&File1)) {goto shutstat;}
 }
 
+
+/**************************************************************************/
+/*! 
+	Calculate XOR Checksum.
+*/
+/**************************************************************************/
+static uint8_t get_Checksum(char* cmdstr,int bytes)	
+{
+	uint8_t chksum = 0;
+	char* pstr;
+
+	if(*cmdstr != '$'){
+		return chksum;
+	}
+	else{
+		pstr = cmdstr+1;
+		for(;;){
+			if(((*pstr)=='*')|| !(--bytes)) break;
+			chksum = chksum^(*pstr++);
+		}
+	}
+	return chksum;
+}
+
+/**************************************************************************/
+/*! 
+	Send MTK Command with Checksum Calculation.
+*/
+/**************************************************************************/
+static void xSend_MTKCmd(const char* cmdstr,const char* datastr)	
+{
+	char strcmd[128];
+
+	if(*datastr==0)
+		xsprintf(strcmd,"%s*",cmdstr);
+	else
+		xsprintf(strcmd,"%s,%s*",cmdstr,datastr);
+	xprintf("%s%X\r\n",strcmd,get_Checksum(strcmd,sizeof(strcmd)));
+	while(!(WaitTxBuffer()));
+}
 
 /**************************************************************************/
 /*! 
@@ -226,25 +277,43 @@ void gps_task(void)
 	volatile uint16_t c_sync=0;
 	time_t utc;
 
-	/* If MTK chip baud is 38400bps,then... */
-	conio_init(GPS_UART_PORT,38400);
-	/* Set to 9600 bps forcely */
-	cputs("$PMTK251,9600*17\r\n");
-	/* Wait Send String(instead of USART_TXBuffer_FreeSpace()*/
-	_delay_ms(200);
-
-	/* Enable Anti Interference Control(for MT333x Only!) */
-	cputs("$PMTK286,1*23\r\n");
-	/* Wait Send String(instead of USART_TXBuffer_FreeSpace()*/
-	_delay_ms(200);
-
-	/* Set UART and redirect to stdio */
-	conio_init(GPS_UART_PORT,GPS_UART_BAUD);
+	/* Retarget xprintf() */
 	xfunc_out = putch;
 	xfunc_in  = xgetc;
 
+	/* If MTK chip baud is 38400bps or 115200bps,then... */
+	conio_init(GPS_UART_PORT,38400);
+	/* Set to 9600 bps forcely in 38400bps */
+	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
+	_delay_ms(100);		/* Need Some Wait */
+	
+	conio_init(GPS_UART_PORT,115200);
+	/* Set to 9600 bps forcely in 115200bps */
+	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
+	_delay_ms(100);		/* Need Some Wait */
+
+	/* Set UART to 9600bps and redirect to stdio */
+	conio_init(GPS_UART_PORT,GPS_UART_BAUD);
+
+
+	/* Enable WAAS/SBAS */
+	xSend_MTKCmd(PMTK_API_SET_SBAS_ENABLED,"1");
+	xSend_MTKCmd(PMTK_API_SET_SBAS_MODE,"1");
+	xSend_MTKCmd(PMTK_API_SET_DGPS_MODE,"2");
+
+	/*----- For MT3339/MT3333 Only Commands -----*/
+	/* Disable AlwaysLocate & Periodic Power Mode */
+	xSend_MTKCmd(PMTK_CMD_PERIODIC_MODE,"0");
+	/* Enable Anti Interference Control */
+	xSend_MTKCmd(PMTK_CMD_AIC_MODE,"1");
+	/* Enable EASY */
+	xSend_MTKCmd(PMTK_CMD_EASY_ENABLE,"1,1");
+
 	/* Mount FatFs */
 	f_mount(0, &Fatfs[0]);
+
+	/* Flush UART RxBuffer for Safe */
+	Flush_RXBuffer();
 
 	for (;;) {
 startstat:
@@ -297,7 +366,7 @@ startstat:
 
 		/* Get a FileName */
 		rtc = Time_GetCalendarTime();
-		sprintf((char*)Buff,"%02u%02u%02u.log",
+		xsprintf((char*)Buff,"%02u%02u%02u.log",
 						rtc.tm_year % 100,
 						rtc.tm_mon+1,
 						rtc.tm_mday);

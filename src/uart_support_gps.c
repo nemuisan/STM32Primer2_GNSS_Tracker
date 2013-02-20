@@ -2,12 +2,13 @@
 /*!
 	@file			uart_support_gps.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.31
+    @version        2.00
+    @date           2013.02.20
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
 		2012.01.31	V1.00	Start Here.
+		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -383,6 +384,35 @@ void USART2_IRQHandler(void)
 	xUART_IRQ();
 }
 
+/**************************************************************************/
+/*! 
+    @brief	Flush USART RX Buffers.
+	@param	None.
+    @retval	None.
+*/
+/**************************************************************************/
+void Flush_RXBuffer(void)
+{
+	/* Init Ring Buffer */
+	pUSART_Buf->RX_Tail = 0;
+	pUSART_Buf->RX_Head = 0;
 
+	/* Re-Enable USART2 Receive interrupts */
+	USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
+}
+
+/**************************************************************************/
+/*! 
+    @brief	Wait to Empty USART TX Buffers.
+	@param	None.
+    @retval	None.
+*/
+/**************************************************************************/
+uint8_t WaitTxBuffer(void)
+{
+	/* Return 1 If All Character send */
+	uint16_t tempTX_Tail = pUSART_Buf->TX_Tail;
+	return (pUSART_Buf->TX_Head == tempTX_Tail);
+}
 
 /* End Of File ---------------------------------------------------------------*/

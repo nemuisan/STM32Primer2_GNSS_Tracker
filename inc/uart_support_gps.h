@@ -2,12 +2,13 @@
 /*!
 	@file			uart_support_gps.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.31
+    @version        2.00
+    @date           2013.02.20
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
 		2012.01.31	V1.00	Start Here.
+		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -53,6 +54,8 @@ extern void cputs(char *s);
 extern void cgets(char *s, int bufsize);
 extern void conio_IRQ(void);
 extern void (*xUART_IRQ)(void);
+extern void Flush_RXBuffer(void);
+extern uint8_t WaitTxBuffer(void);
 
 /* Structs of UART(This is From AVRX uC Sample!!!) */
 /* @brief USART transmit and receive ring buffer. */

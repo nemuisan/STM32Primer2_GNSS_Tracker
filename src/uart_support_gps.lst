@@ -27,45 +27,46 @@
    2:src/uart_support_gps.c **** /*!
    3:src/uart_support_gps.c **** 	@file			uart_support_gps.c
    4:src/uart_support_gps.c **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-   5:src/uart_support_gps.c ****     @version        1.00
-   6:src/uart_support_gps.c ****     @date           2012.01.31
+   5:src/uart_support_gps.c ****     @version        2.00
+   6:src/uart_support_gps.c ****     @date           2013.02.20
    7:src/uart_support_gps.c **** 	@brief          For STM32 Primer2(USART2).
    8:src/uart_support_gps.c **** 
    9:src/uart_support_gps.c ****     @section HISTORY
   10:src/uart_support_gps.c **** 		2012.01.31	V1.00	Start Here.
-  11:src/uart_support_gps.c **** 
-  12:src/uart_support_gps.c ****     @section LICENSE
-  13:src/uart_support_gps.c **** 		BSD License. See Copyright.txt
-  14:src/uart_support_gps.c **** */
-  15:src/uart_support_gps.c **** /********************************************************************************/
-  16:src/uart_support_gps.c **** 
-  17:src/uart_support_gps.c **** /* Includes ------------------------------------------------------------------*/
-  18:src/uart_support_gps.c **** #include "uart_support_gps.h"
-  19:src/uart_support_gps.c **** 
-  20:src/uart_support_gps.c **** /* Defines -------------------------------------------------------------------*/
-  21:src/uart_support_gps.c **** 
-  22:src/uart_support_gps.c **** /* Variables -----------------------------------------------------------------*/
-  23:src/uart_support_gps.c **** USART_InitTypeDef USART_InitStructure;
-  24:src/uart_support_gps.c **** static USART_TypeDef* UART;
-  25:src/uart_support_gps.c **** static USART_Buffer_t* pUSART_Buf;
-  26:src/uart_support_gps.c **** USART_Buffer_t USART2_Buf;
-  27:src/uart_support_gps.c **** 
-  28:src/uart_support_gps.c **** /* Constants -----------------------------------------------------------------*/
-  29:src/uart_support_gps.c **** 
-  30:src/uart_support_gps.c **** /* Function prototypes -------------------------------------------------------*/
-  31:src/uart_support_gps.c **** void (*xUART_IRQ)(void);
-  32:src/uart_support_gps.c **** 
-  33:src/uart_support_gps.c **** /* Functions -----------------------------------------------------------------*/
-  34:src/uart_support_gps.c **** 
-  35:src/uart_support_gps.c **** /**************************************************************************/
-  36:src/uart_support_gps.c **** /*! 
-  37:src/uart_support_gps.c ****     Initialize UART.
-  38:src/uart_support_gps.c **** */
-  39:src/uart_support_gps.c **** /**************************************************************************/
-  40:src/uart_support_gps.c **** /* Initialize serial console */
-  41:src/uart_support_gps.c **** void conio_init(uint32_t port, uint32_t baudrate)
-  42:src/uart_support_gps.c **** {
-  27              		.loc 1 42 0
+  11:src/uart_support_gps.c **** 		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
+  12:src/uart_support_gps.c **** 
+  13:src/uart_support_gps.c ****     @section LICENSE
+  14:src/uart_support_gps.c **** 		BSD License. See Copyright.txt
+  15:src/uart_support_gps.c **** */
+  16:src/uart_support_gps.c **** /********************************************************************************/
+  17:src/uart_support_gps.c **** 
+  18:src/uart_support_gps.c **** /* Includes ------------------------------------------------------------------*/
+  19:src/uart_support_gps.c **** #include "uart_support_gps.h"
+  20:src/uart_support_gps.c **** 
+  21:src/uart_support_gps.c **** /* Defines -------------------------------------------------------------------*/
+  22:src/uart_support_gps.c **** 
+  23:src/uart_support_gps.c **** /* Variables -----------------------------------------------------------------*/
+  24:src/uart_support_gps.c **** USART_InitTypeDef USART_InitStructure;
+  25:src/uart_support_gps.c **** static USART_TypeDef* UART;
+  26:src/uart_support_gps.c **** static USART_Buffer_t* pUSART_Buf;
+  27:src/uart_support_gps.c **** USART_Buffer_t USART2_Buf;
+  28:src/uart_support_gps.c **** 
+  29:src/uart_support_gps.c **** /* Constants -----------------------------------------------------------------*/
+  30:src/uart_support_gps.c **** 
+  31:src/uart_support_gps.c **** /* Function prototypes -------------------------------------------------------*/
+  32:src/uart_support_gps.c **** void (*xUART_IRQ)(void);
+  33:src/uart_support_gps.c **** 
+  34:src/uart_support_gps.c **** /* Functions -----------------------------------------------------------------*/
+  35:src/uart_support_gps.c **** 
+  36:src/uart_support_gps.c **** /**************************************************************************/
+  37:src/uart_support_gps.c **** /*! 
+  38:src/uart_support_gps.c ****     Initialize UART.
+  39:src/uart_support_gps.c **** */
+  40:src/uart_support_gps.c **** /**************************************************************************/
+  41:src/uart_support_gps.c **** /* Initialize serial console */
+  42:src/uart_support_gps.c **** void conio_init(uint32_t port, uint32_t baudrate)
+  43:src/uart_support_gps.c **** {
+  27              		.loc 1 43 0
   28              		.cfi_startproc
   29              		@ args = 0, pretend = 0, frame = 8
   30              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -83,196 +84,196 @@
   42              		.cfi_offset 14, -4
   43 0004 0446     		mov	r4, r0
   44 0006 8846     		mov	r8, r1
-  43:src/uart_support_gps.c **** 	GPIO_InitTypeDef GPIO_InitStructure;
-  44:src/uart_support_gps.c **** 	NVIC_InitTypeDef NVIC_InitStructure;
-  45:src/uart_support_gps.c ****   
-  46:src/uart_support_gps.c **** 	/* Turn on USART*/
-  47:src/uart_support_gps.c **** 	switch (port)
-  45              		.loc 1 47 0
+  44:src/uart_support_gps.c **** 	GPIO_InitTypeDef GPIO_InitStructure;
+  45:src/uart_support_gps.c **** 	NVIC_InitTypeDef NVIC_InitStructure;
+  46:src/uart_support_gps.c ****   
+  47:src/uart_support_gps.c **** 	/* Turn on USART*/
+  48:src/uart_support_gps.c **** 	switch (port)
+  45              		.loc 1 48 0
   46 0008 0228     		cmp	r0, #2
   47 000a 55D1     		bne	.L1
-  48:src/uart_support_gps.c **** 	{
-  49:src/uart_support_gps.c **** 		case 1 :
-  50:src/uart_support_gps.c **** 		break;
-  51:src/uart_support_gps.c ****  
-  52:src/uart_support_gps.c **** 		case 2 :
-  53:src/uart_support_gps.c **** 			UART = (USART_TypeDef *) USART2_BASE;
-  48              		.loc 1 53 0
+  49:src/uart_support_gps.c **** 	{
+  50:src/uart_support_gps.c **** 		case 1 :
+  51:src/uart_support_gps.c **** 		break;
+  52:src/uart_support_gps.c ****  
+  53:src/uart_support_gps.c **** 		case 2 :
+  54:src/uart_support_gps.c **** 			UART = (USART_TypeDef *) USART2_BASE;
+  48              		.loc 1 54 0
   49 000c 2B4D     		ldr	r5, .L5
   50 000e 2C4B     		ldr	r3, .L5+4
   51 0010 2B60     		str	r3, [r5, #0]
-  54:src/uart_support_gps.c **** 
-  55:src/uart_support_gps.c **** #if defined (USE_STM3210B_EVAL) || defined (USE_STM3210C_EVAL) || \
-  56:src/uart_support_gps.c **** 	defined (USE_GOLDBULL)      || defined (USE_CQ_STARM_COMP) || defined (USE_ETHERPOD)
-  57:src/uart_support_gps.c **** 			/* Turn on peripheral clocks */
-  58:src/uart_support_gps.c **** 			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD|RCC_APB2Periph_AFIO, ENABLE);
-  59:src/uart_support_gps.c **** 			RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
-  60:src/uart_support_gps.c **** 
-  61:src/uart_support_gps.c **** 			/* Enable the USART2 Pins Software Remapping */
-  62:src/uart_support_gps.c **** 			GPIO_PinRemapConfig(GPIO_Remap_USART2, ENABLE);
-  63:src/uart_support_gps.c **** 	
-  64:src/uart_support_gps.c **** 			/* Configure USART2 TX as alternate function push-pull */
-  65:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_5;
-  66:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-  67:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
-  68:src/uart_support_gps.c **** 			GPIO_Init(GPIOD, &GPIO_InitStructure);
-  69:src/uart_support_gps.c **** 
-  70:src/uart_support_gps.c **** 			/* Configure USART2 RX as input floating */
-  71:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_6;
-  72:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-  73:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
-  74:src/uart_support_gps.c **** 			GPIO_Init(GPIOD, &GPIO_InitStructure);
-  75:src/uart_support_gps.c **** 
-  76:src/uart_support_gps.c **** #else	/* defined (USE_STM32PRIMER2) */
-  77:src/uart_support_gps.c **** 
-  78:src/uart_support_gps.c **** 			/* Turn on peripheral clocks */
-  79:src/uart_support_gps.c **** 			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO, ENABLE);
-  52              		.loc 1 79 0
+  55:src/uart_support_gps.c **** 
+  56:src/uart_support_gps.c **** #if defined (USE_STM3210B_EVAL) || defined (USE_STM3210C_EVAL) || \
+  57:src/uart_support_gps.c **** 	defined (USE_GOLDBULL)      || defined (USE_CQ_STARM_COMP) || defined (USE_ETHERPOD)
+  58:src/uart_support_gps.c **** 			/* Turn on peripheral clocks */
+  59:src/uart_support_gps.c **** 			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD|RCC_APB2Periph_AFIO, ENABLE);
+  60:src/uart_support_gps.c **** 			RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+  61:src/uart_support_gps.c **** 
+  62:src/uart_support_gps.c **** 			/* Enable the USART2 Pins Software Remapping */
+  63:src/uart_support_gps.c **** 			GPIO_PinRemapConfig(GPIO_Remap_USART2, ENABLE);
+  64:src/uart_support_gps.c **** 	
+  65:src/uart_support_gps.c **** 			/* Configure USART2 TX as alternate function push-pull */
+  66:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_5;
+  67:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+  68:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
+  69:src/uart_support_gps.c **** 			GPIO_Init(GPIOD, &GPIO_InitStructure);
+  70:src/uart_support_gps.c **** 
+  71:src/uart_support_gps.c **** 			/* Configure USART2 RX as input floating */
+  72:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_6;
+  73:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+  74:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+  75:src/uart_support_gps.c **** 			GPIO_Init(GPIOD, &GPIO_InitStructure);
+  76:src/uart_support_gps.c **** 
+  77:src/uart_support_gps.c **** #else	/* defined (USE_STM32PRIMER2) */
+  78:src/uart_support_gps.c **** 
+  79:src/uart_support_gps.c **** 			/* Turn on peripheral clocks */
+  80:src/uart_support_gps.c **** 			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO, ENABLE);
+  52              		.loc 1 80 0
   53 0012 0520     		movs	r0, #5
   54              	.LVL1:
   55 0014 0121     		movs	r1, #1
   56              	.LVL2:
   57 0016 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
   58              	.LVL3:
-  80:src/uart_support_gps.c **** 			RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
-  59              		.loc 1 80 0
+  81:src/uart_support_gps.c **** 			RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+  59              		.loc 1 81 0
   60 001a 4FF40030 		mov	r0, #131072
   61 001e 0121     		movs	r1, #1
   62 0020 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
   63              	.LVL4:
-  81:src/uart_support_gps.c **** 
-  82:src/uart_support_gps.c **** 			/* Configure USART2 TX as alternate function push-pull */
-  83:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_2;
-  64              		.loc 1 83 0
+  82:src/uart_support_gps.c **** 
+  83:src/uart_support_gps.c **** 			/* Configure USART2 TX as alternate function push-pull */
+  84:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_2;
+  64              		.loc 1 84 0
   65 0024 0420     		movs	r0, #4
   66 0026 0746     		mov	r7, r0	@ movhi
   67 0028 ADF80000 		strh	r0, [sp, #0]	@ movhi
-  84:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-  68              		.loc 1 84 0
+  85:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+  68              		.loc 1 85 0
   69 002c 0326     		movs	r6, #3
   70 002e 8DF80260 		strb	r6, [sp, #2]
-  85:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
-  71              		.loc 1 85 0
+  86:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
+  71              		.loc 1 86 0
   72 0032 1821     		movs	r1, #24
   73 0034 8DF80310 		strb	r1, [sp, #3]
-  86:src/uart_support_gps.c **** 			GPIO_Init(GPIOA, &GPIO_InitStructure);
-  74              		.loc 1 86 0
+  87:src/uart_support_gps.c **** 			GPIO_Init(GPIOA, &GPIO_InitStructure);
+  74              		.loc 1 87 0
   75 0038 2248     		ldr	r0, .L5+8
   76 003a 6946     		mov	r1, sp
   77 003c FFF7FEFF 		bl	GPIO_Init
   78              	.LVL5:
-  87:src/uart_support_gps.c **** 
-  88:src/uart_support_gps.c **** 			/* Configure USART2 RX as input floating */
-  89:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_3;
-  79              		.loc 1 89 0
+  88:src/uart_support_gps.c **** 
+  89:src/uart_support_gps.c **** 			/* Configure USART2 RX as input floating */
+  90:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_3;
+  79              		.loc 1 90 0
   80 0040 0822     		movs	r2, #8
   81 0042 ADF80020 		strh	r2, [sp, #0]	@ movhi
-  90:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-  82              		.loc 1 90 0
+  91:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+  82              		.loc 1 91 0
   83 0046 8DF80260 		strb	r6, [sp, #2]
-  91:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
-  84              		.loc 1 91 0
+  92:src/uart_support_gps.c **** 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+  84              		.loc 1 92 0
   85 004a 8DF80370 		strb	r7, [sp, #3]
-  92:src/uart_support_gps.c **** 			GPIO_Init(GPIOA, &GPIO_InitStructure);
-  86              		.loc 1 92 0
+  93:src/uart_support_gps.c **** 			GPIO_Init(GPIOA, &GPIO_InitStructure);
+  86              		.loc 1 93 0
   87 004e 1D48     		ldr	r0, .L5+8
   88 0050 6946     		mov	r1, sp
   89 0052 FFF7FEFF 		bl	GPIO_Init
   90              	.LVL6:
-  93:src/uart_support_gps.c **** #endif
-  94:src/uart_support_gps.c **** 
-  95:src/uart_support_gps.c **** #if (UART_HANDLING == UART_INTERRUPT_MODE)
-  96:src/uart_support_gps.c **** 			/* Configure one bit for preemption priority */
-  97:src/uart_support_gps.c **** 			NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-  91              		.loc 1 97 0
+  94:src/uart_support_gps.c **** #endif
+  95:src/uart_support_gps.c **** 
+  96:src/uart_support_gps.c **** #if (UART_HANDLING == UART_INTERRUPT_MODE)
+  97:src/uart_support_gps.c **** 			/* Configure one bit for preemption priority */
+  98:src/uart_support_gps.c **** 			NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+  91              		.loc 1 98 0
   92 0056 4FF4C060 		mov	r0, #1536
   93 005a FFF7FEFF 		bl	NVIC_PriorityGroupConfig
   94              	.LVL7:
-  98:src/uart_support_gps.c **** 
-  99:src/uart_support_gps.c **** 			/* Enable the USART2 Interrupt */
- 100:src/uart_support_gps.c **** 			NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-  95              		.loc 1 100 0
+  99:src/uart_support_gps.c **** 
+ 100:src/uart_support_gps.c **** 			/* Enable the USART2 Interrupt */
+ 101:src/uart_support_gps.c **** 			NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+  95              		.loc 1 101 0
   96 005e 2623     		movs	r3, #38
   97 0060 8DF80430 		strb	r3, [sp, #4]
- 101:src/uart_support_gps.c **** 			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-  98              		.loc 1 101 0
+ 102:src/uart_support_gps.c **** 			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+  98              		.loc 1 102 0
   99 0064 8DF80540 		strb	r4, [sp, #5]
- 102:src/uart_support_gps.c **** 			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
- 100              		.loc 1 102 0
+ 103:src/uart_support_gps.c **** 			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+ 100              		.loc 1 103 0
  101 0068 0024     		movs	r4, #0
  102              	.LVL8:
  103 006a 8DF80640 		strb	r4, [sp, #6]
- 103:src/uart_support_gps.c **** 			NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
- 104              		.loc 1 103 0
+ 104:src/uart_support_gps.c **** 			NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+ 104              		.loc 1 104 0
  105 006e 0126     		movs	r6, #1
  106 0070 8DF80760 		strb	r6, [sp, #7]
- 104:src/uart_support_gps.c **** 			NVIC_Init(&NVIC_InitStructure);
- 107              		.loc 1 104 0
+ 105:src/uart_support_gps.c **** 			NVIC_Init(&NVIC_InitStructure);
+ 107              		.loc 1 105 0
  108 0074 01A8     		add	r0, sp, #4
  109 0076 FFF7FEFF 		bl	NVIC_Init
  110              	.LVL9:
- 105:src/uart_support_gps.c **** 
- 106:src/uart_support_gps.c **** 			USART_StructInit(&USART_InitStructure);
- 111              		.loc 1 106 0
+ 106:src/uart_support_gps.c **** 
+ 107:src/uart_support_gps.c **** 			USART_StructInit(&USART_InitStructure);
+ 111              		.loc 1 107 0
  112 007a 134F     		ldr	r7, .L5+12
  113 007c 3846     		mov	r0, r7
  114 007e FFF7FEFF 		bl	USART_StructInit
  115              	.LVL10:
- 107:src/uart_support_gps.c **** 			USART_InitStructure.USART_BaudRate = baudrate;
- 116              		.loc 1 107 0
+ 108:src/uart_support_gps.c **** 			USART_InitStructure.USART_BaudRate = baudrate;
+ 116              		.loc 1 108 0
  117 0082 C7F80080 		str	r8, [r7, #0]
- 108:src/uart_support_gps.c **** 			USART_Init(UART, &USART_InitStructure);
- 118              		.loc 1 108 0
+ 109:src/uart_support_gps.c **** 			USART_Init(UART, &USART_InitStructure);
+ 118              		.loc 1 109 0
  119 0086 2868     		ldr	r0, [r5, #0]
  120 0088 3946     		mov	r1, r7
  121 008a FFF7FEFF 		bl	USART_Init
  122              	.LVL11:
- 109:src/uart_support_gps.c **** 
- 110:src/uart_support_gps.c **** 			/* Init Ring Buffer */
- 111:src/uart_support_gps.c **** 			pUSART_Buf = &USART2_Buf;
- 123              		.loc 1 111 0
+ 110:src/uart_support_gps.c **** 
+ 111:src/uart_support_gps.c **** 			/* Init Ring Buffer */
+ 112:src/uart_support_gps.c **** 			pUSART_Buf = &USART2_Buf;
+ 123              		.loc 1 112 0
  124 008e 0F48     		ldr	r0, .L5+16
  125 0090 0F49     		ldr	r1, .L5+20
  126 0092 0860     		str	r0, [r1, #0]
- 112:src/uart_support_gps.c **** 			USART2_Buf.RX_Tail = 0;
- 127              		.loc 1 112 0
+ 113:src/uart_support_gps.c **** 			USART2_Buf.RX_Tail = 0;
+ 127              		.loc 1 113 0
  128 0094 A0F80242 		strh	r4, [r0, #514]	@ movhi
- 113:src/uart_support_gps.c **** 			USART2_Buf.RX_Head = 0;
- 129              		.loc 1 113 0
+ 114:src/uart_support_gps.c **** 			USART2_Buf.RX_Head = 0;
+ 129              		.loc 1 114 0
  130 0098 A0F80042 		strh	r4, [r0, #512]	@ movhi
- 114:src/uart_support_gps.c **** 			USART2_Buf.TX_Tail = 0;
- 131              		.loc 1 114 0
+ 115:src/uart_support_gps.c **** 			USART2_Buf.TX_Tail = 0;
+ 131              		.loc 1 115 0
  132 009c A0F80642 		strh	r4, [r0, #518]	@ movhi
- 115:src/uart_support_gps.c **** 			USART2_Buf.TX_Head = 0;
- 133              		.loc 1 115 0
+ 116:src/uart_support_gps.c **** 			USART2_Buf.TX_Head = 0;
+ 133              		.loc 1 116 0
  134 00a0 A0F80442 		strh	r4, [r0, #516]	@ movhi
- 116:src/uart_support_gps.c **** 
- 117:src/uart_support_gps.c **** 			/* Enable USART2 Receive interrupts */
- 118:src/uart_support_gps.c **** 			USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
- 135              		.loc 1 118 0
+ 117:src/uart_support_gps.c **** 
+ 118:src/uart_support_gps.c **** 			/* Enable USART2 Receive interrupts */
+ 119:src/uart_support_gps.c **** 			USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
+ 135              		.loc 1 119 0
  136 00a4 2868     		ldr	r0, [r5, #0]
  137 00a6 40F22551 		movw	r1, #1317
  138 00aa 3246     		mov	r2, r6
  139 00ac FFF7FEFF 		bl	USART_ITConfig
  140              	.LVL12:
- 119:src/uart_support_gps.c **** #endif
- 120:src/uart_support_gps.c **** 			/* Enable UART */
- 121:src/uart_support_gps.c **** 			USART_Cmd(UART, ENABLE);
- 141              		.loc 1 121 0
+ 120:src/uart_support_gps.c **** #endif
+ 121:src/uart_support_gps.c **** 			/* Enable UART */
+ 122:src/uart_support_gps.c **** 			USART_Cmd(UART, ENABLE);
+ 141              		.loc 1 122 0
  142 00b0 2868     		ldr	r0, [r5, #0]
  143 00b2 3146     		mov	r1, r6
  144 00b4 FFF7FEFF 		bl	USART_Cmd
  145              	.LVL13:
  146              	.L1:
- 122:src/uart_support_gps.c **** 		break;
- 123:src/uart_support_gps.c ****  
- 124:src/uart_support_gps.c **** 		case 3 : /* NOT Supported yet */
- 125:src/uart_support_gps.c **** 		break;
- 126:src/uart_support_gps.c **** 
- 127:src/uart_support_gps.c **** 	}
- 128:src/uart_support_gps.c **** 
- 129:src/uart_support_gps.c **** }
- 147              		.loc 1 129 0
+ 123:src/uart_support_gps.c **** 		break;
+ 124:src/uart_support_gps.c ****  
+ 125:src/uart_support_gps.c **** 		case 3 : /* NOT Supported yet */
+ 126:src/uart_support_gps.c **** 		break;
+ 127:src/uart_support_gps.c **** 
+ 128:src/uart_support_gps.c **** 	}
+ 129:src/uart_support_gps.c **** 
+ 130:src/uart_support_gps.c **** }
+ 147              		.loc 1 130 0
  148 00b8 BDE8FC81 		pop	{r2, r3, r4, r5, r6, r7, r8, pc}
  149              	.L6:
  150              		.align	2
@@ -292,42 +293,42 @@
  165              		.thumb_func
  167              	USART_TXBuffer_FreeSpace:
  168              	.LFB57:
- 130:src/uart_support_gps.c **** 
- 131:src/uart_support_gps.c **** /**************************************************************************/
- 132:src/uart_support_gps.c **** /*! 
- 133:src/uart_support_gps.c ****     Check UART TX Buffer Empty.
- 134:src/uart_support_gps.c **** */
- 135:src/uart_support_gps.c **** /**************************************************************************/
- 136:src/uart_support_gps.c **** bool USART_TXBuffer_FreeSpace(USART_Buffer_t* USART_buf)
- 137:src/uart_support_gps.c **** {
- 169              		.loc 1 137 0
+ 131:src/uart_support_gps.c **** 
+ 132:src/uart_support_gps.c **** /**************************************************************************/
+ 133:src/uart_support_gps.c **** /*! 
+ 134:src/uart_support_gps.c ****     Check UART TX Buffer Empty.
+ 135:src/uart_support_gps.c **** */
+ 136:src/uart_support_gps.c **** /**************************************************************************/
+ 137:src/uart_support_gps.c **** bool USART_TXBuffer_FreeSpace(USART_Buffer_t* USART_buf)
+ 138:src/uart_support_gps.c **** {
+ 169              		.loc 1 138 0
  170              		.cfi_startproc
  171              		@ args = 0, pretend = 0, frame = 0
  172              		@ frame_needed = 0, uses_anonymous_args = 0
  173              		@ link register save eliminated.
  174              	.LVL14:
- 138:src/uart_support_gps.c **** 	/* Make copies to make sure that volatile access is specified. */
- 139:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
- 175              		.loc 1 139 0
+ 139:src/uart_support_gps.c **** 	/* Make copies to make sure that volatile access is specified. */
+ 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 175              		.loc 1 140 0
  176 0000 B0F80422 		ldrh	r2, [r0, #516]
  177              	.LVL15:
- 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
- 178              		.loc 1 140 0
+ 141:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
+ 178              		.loc 1 141 0
  179 0004 B0F80632 		ldrh	r3, [r0, #518]
  180              	.LVL16:
- 139:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
- 181              		.loc 1 139 0
+ 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 181              		.loc 1 140 0
  182 0008 501C     		adds	r0, r2, #1
  183              	.LVL17:
- 141:src/uart_support_gps.c **** 
- 142:src/uart_support_gps.c **** 	/* There are data left in the buffer unless Head and Tail are equal. */
- 143:src/uart_support_gps.c **** 	return (tempHead != tempTail);
- 184              		.loc 1 143 0
+ 142:src/uart_support_gps.c **** 
+ 143:src/uart_support_gps.c **** 	/* There are data left in the buffer unless Head and Tail are equal. */
+ 144:src/uart_support_gps.c **** 	return (tempHead != tempTail);
+ 184              		.loc 1 144 0
  185 000a 00F0FF01 		and	r1, r0, #255
  186 000e DAB2     		uxtb	r2, r3
  187              	.LVL18:
- 144:src/uart_support_gps.c **** }
- 188              		.loc 1 144 0
+ 145:src/uart_support_gps.c **** }
+ 188              		.loc 1 145 0
  189 0010 881A     		subs	r0, r1, r2
  190 0012 18BF     		it	ne
  191 0014 0120     		movne	r0, #1
@@ -341,15 +342,15 @@
  200              		.thumb_func
  202              	USART_TXBuffer_PutByte:
  203              	.LFB58:
- 145:src/uart_support_gps.c **** 
- 146:src/uart_support_gps.c **** /**************************************************************************/
- 147:src/uart_support_gps.c **** /*! 
- 148:src/uart_support_gps.c ****     Put Bytedata with Buffering.
- 149:src/uart_support_gps.c **** */
- 150:src/uart_support_gps.c **** /**************************************************************************/
- 151:src/uart_support_gps.c **** bool USART_TXBuffer_PutByte(USART_Buffer_t* USART_buf, uint8_t data)
- 152:src/uart_support_gps.c **** {
- 204              		.loc 1 152 0
+ 146:src/uart_support_gps.c **** 
+ 147:src/uart_support_gps.c **** /**************************************************************************/
+ 148:src/uart_support_gps.c **** /*! 
+ 149:src/uart_support_gps.c ****     Put Bytedata with Buffering.
+ 150:src/uart_support_gps.c **** */
+ 151:src/uart_support_gps.c **** /**************************************************************************/
+ 152:src/uart_support_gps.c **** bool USART_TXBuffer_PutByte(USART_Buffer_t* USART_buf, uint8_t data)
+ 153:src/uart_support_gps.c **** {
+ 204              		.loc 1 153 0
  205              		.cfi_startproc
  206              		@ args = 0, pretend = 0, frame = 0
  207              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -363,20 +364,20 @@
  215              	.LVL20:
  216              	.LBB18:
  217              	.LBB19:
- 139:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
- 218              		.loc 1 139 0
+ 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 218              		.loc 1 140 0
  219 0004 B0F80442 		ldrh	r4, [r0, #516]
  220              	.LVL21:
- 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
- 221              		.loc 1 140 0
+ 141:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
+ 221              		.loc 1 141 0
  222 0008 B0F80622 		ldrh	r2, [r0, #518]
  223              	.LVL22:
- 139:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
- 224              		.loc 1 139 0
+ 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 224              		.loc 1 140 0
  225 000c 601C     		adds	r0, r4, #1
  226              	.LVL23:
- 143:src/uart_support_gps.c **** 	return (tempHead != tempTail);
- 227              		.loc 1 143 0
+ 144:src/uart_support_gps.c **** 	return (tempHead != tempTail);
+ 227              		.loc 1 144 0
  228 000e 00F0FF04 		and	r4, r0, #255
  229              	.LVL24:
  230 0012 D2B2     		uxtb	r2, r2
@@ -386,19 +387,19 @@
  234 0018 0124     		movne	r4, #1
  235              	.LBE19:
  236              	.LBE18:
- 153:src/uart_support_gps.c **** 
- 154:src/uart_support_gps.c **** 	uint8_t tempTX_Head;
- 155:src/uart_support_gps.c **** 	bool TXBuffer_FreeSpace;
- 156:src/uart_support_gps.c **** 
- 157:src/uart_support_gps.c **** 	TXBuffer_FreeSpace = USART_TXBuffer_FreeSpace(USART_buf);
- 158:src/uart_support_gps.c **** 
+ 154:src/uart_support_gps.c **** 
+ 155:src/uart_support_gps.c **** 	uint8_t tempTX_Head;
+ 156:src/uart_support_gps.c **** 	bool TXBuffer_FreeSpace;
+ 157:src/uart_support_gps.c **** 
+ 158:src/uart_support_gps.c **** 	TXBuffer_FreeSpace = USART_TXBuffer_FreeSpace(USART_buf);
  159:src/uart_support_gps.c **** 
- 160:src/uart_support_gps.c **** 	if(TXBuffer_FreeSpace)
- 237              		.loc 1 160 0
+ 160:src/uart_support_gps.c **** 
+ 161:src/uart_support_gps.c **** 	if(TXBuffer_FreeSpace)
+ 237              		.loc 1 161 0
  238 001a 9CB1     		cbz	r4, .L9
- 161:src/uart_support_gps.c **** 	{
- 162:src/uart_support_gps.c **** 	  	tempTX_Head = USART_buf->TX_Head;
- 239              		.loc 1 162 0
+ 162:src/uart_support_gps.c **** 	{
+ 163:src/uart_support_gps.c **** 	  	tempTX_Head = USART_buf->TX_Head;
+ 239              		.loc 1 163 0
  240 001c B3F80402 		ldrh	r0, [r3, #516]
  241 0020 82B2     		uxth	r2, r0
  242              	.LVL26:
@@ -740,18 +741,18 @@
  250              		.thumb
  251              	.LBE21:
  252              	.LBE20:
- 163:src/uart_support_gps.c **** 		
- 164:src/uart_support_gps.c **** 		__disable_irq();
- 165:src/uart_support_gps.c **** 	  	USART_buf->TX[tempTX_Head]= data;
- 253              		.loc 1 165 0
+ 164:src/uart_support_gps.c **** 		
+ 165:src/uart_support_gps.c **** 		__disable_irq();
+ 166:src/uart_support_gps.c **** 	  	USART_buf->TX[tempTX_Head]= data;
+ 253              		.loc 1 166 0
  254 0024 D2B2     		uxtb	r2, r2
  255              	.LVL27:
  256 0026 9818     		adds	r0, r3, r2
  257              	.LVL28:
  258 0028 80F80011 		strb	r1, [r0, #256]
- 166:src/uart_support_gps.c **** 		/* Advance buffer head. */
- 167:src/uart_support_gps.c **** 		USART_buf->TX_Head = (tempTX_Head + 1) & (UART_BUFSIZE-1);
- 259              		.loc 1 167 0
+ 167:src/uart_support_gps.c **** 		/* Advance buffer head. */
+ 168:src/uart_support_gps.c **** 		USART_buf->TX_Head = (tempTX_Head + 1) & (UART_BUFSIZE-1);
+ 259              		.loc 1 168 0
  260 002c 511C     		adds	r1, r2, #1
  261              	.LVL29:
  262 002e CAB2     		uxtb	r2, r1
@@ -766,11 +767,11 @@
  270              		.thumb
  271              	.LBE23:
  272              	.LBE22:
- 168:src/uart_support_gps.c **** 		__enable_irq();
- 169:src/uart_support_gps.c **** 
- 170:src/uart_support_gps.c **** 		/* Enable TXE interrupt. */
- 171:src/uart_support_gps.c **** 		USART_ITConfig(UART, USART_IT_TXE, ENABLE);
- 273              		.loc 1 171 0
+ 169:src/uart_support_gps.c **** 		__enable_irq();
+ 170:src/uart_support_gps.c **** 
+ 171:src/uart_support_gps.c **** 		/* Enable TXE interrupt. */
+ 172:src/uart_support_gps.c **** 		USART_ITConfig(UART, USART_IT_TXE, ENABLE);
+ 273              		.loc 1 172 0
  274 0036 044B     		ldr	r3, .L13
  275              	.LVL30:
  276 0038 1868     		ldr	r0, [r3, #0]
@@ -781,10 +782,10 @@
  281 0040 FFF7FEFF 		bl	USART_ITConfig
  282              	.LVL33:
  283              	.L9:
- 172:src/uart_support_gps.c **** 	}
- 173:src/uart_support_gps.c **** 	return TXBuffer_FreeSpace;
- 174:src/uart_support_gps.c **** }
- 284              		.loc 1 174 0
+ 173:src/uart_support_gps.c **** 	}
+ 174:src/uart_support_gps.c **** 	return TXBuffer_FreeSpace;
+ 175:src/uart_support_gps.c **** }
+ 284              		.loc 1 175 0
  285 0044 2046     		mov	r0, r4
  286 0046 10BD     		pop	{r4, pc}
  287              	.L14:
@@ -800,38 +801,38 @@
  298              		.thumb_func
  300              	USART_RXBufferData_Available:
  301              	.LFB59:
- 175:src/uart_support_gps.c **** 
- 176:src/uart_support_gps.c **** /**************************************************************************/
- 177:src/uart_support_gps.c **** /*! 
- 178:src/uart_support_gps.c ****     Check UART RX Buffer Empty.
- 179:src/uart_support_gps.c **** */
- 180:src/uart_support_gps.c **** /**************************************************************************/
- 181:src/uart_support_gps.c **** bool USART_RXBufferData_Available(USART_Buffer_t* USART_buf)
- 182:src/uart_support_gps.c **** {
- 302              		.loc 1 182 0
+ 176:src/uart_support_gps.c **** 
+ 177:src/uart_support_gps.c **** /**************************************************************************/
+ 178:src/uart_support_gps.c **** /*! 
+ 179:src/uart_support_gps.c ****     Check UART RX Buffer Empty.
+ 180:src/uart_support_gps.c **** */
+ 181:src/uart_support_gps.c **** /**************************************************************************/
+ 182:src/uart_support_gps.c **** bool USART_RXBufferData_Available(USART_Buffer_t* USART_buf)
+ 183:src/uart_support_gps.c **** {
+ 302              		.loc 1 183 0
  303              		.cfi_startproc
  304              		@ args = 0, pretend = 0, frame = 0
  305              		@ frame_needed = 0, uses_anonymous_args = 0
  306              		@ link register save eliminated.
  307              	.LVL34:
- 183:src/uart_support_gps.c **** 	/* Make copies to make sure that volatile access is specified. */
- 184:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
- 308              		.loc 1 184 0
+ 184:src/uart_support_gps.c **** 	/* Make copies to make sure that volatile access is specified. */
+ 185:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
+ 308              		.loc 1 185 0
  309 0000 B0F80022 		ldrh	r2, [r0, #512]
  310              	.LVL35:
- 185:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
- 311              		.loc 1 185 0
+ 186:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
+ 311              		.loc 1 186 0
  312 0004 B0F80232 		ldrh	r3, [r0, #514]
  313              	.LVL36:
- 186:src/uart_support_gps.c **** 
- 187:src/uart_support_gps.c **** 	/* There are data left in the buffer unless Head and Tail are equal. */
- 188:src/uart_support_gps.c **** 	return (tempHead != tempTail);
- 314              		.loc 1 188 0
+ 187:src/uart_support_gps.c **** 
+ 188:src/uart_support_gps.c **** 	/* There are data left in the buffer unless Head and Tail are equal. */
+ 189:src/uart_support_gps.c **** 	return (tempHead != tempTail);
+ 314              		.loc 1 189 0
  315 0008 D0B2     		uxtb	r0, r2
  316              	.LVL37:
  317 000a D9B2     		uxtb	r1, r3
- 189:src/uart_support_gps.c **** }
- 318              		.loc 1 189 0
+ 190:src/uart_support_gps.c **** }
+ 318              		.loc 1 190 0
  319 000c 401A     		subs	r0, r0, r1
  320 000e 18BF     		it	ne
  321 0010 0120     		movne	r0, #1
@@ -845,15 +846,15 @@
  330              		.thumb_func
  332              	USART_RXBuffer_GetByte:
  333              	.LFB60:
- 190:src/uart_support_gps.c **** 
- 191:src/uart_support_gps.c **** /**************************************************************************/
- 192:src/uart_support_gps.c **** /*! 
- 193:src/uart_support_gps.c ****     Get Bytedata with Buffering.
- 194:src/uart_support_gps.c **** */
- 195:src/uart_support_gps.c **** /**************************************************************************/
- 196:src/uart_support_gps.c **** uint8_t USART_RXBuffer_GetByte(USART_Buffer_t* USART_buf)
- 197:src/uart_support_gps.c **** {
- 334              		.loc 1 197 0
+ 191:src/uart_support_gps.c **** 
+ 192:src/uart_support_gps.c **** /**************************************************************************/
+ 193:src/uart_support_gps.c **** /*! 
+ 194:src/uart_support_gps.c ****     Get Bytedata with Buffering.
+ 195:src/uart_support_gps.c **** */
+ 196:src/uart_support_gps.c **** /**************************************************************************/
+ 197:src/uart_support_gps.c **** uint8_t USART_RXBuffer_GetByte(USART_Buffer_t* USART_buf)
+ 198:src/uart_support_gps.c **** {
+ 334              		.loc 1 198 0
  335              		.cfi_startproc
  336              		@ args = 0, pretend = 0, frame = 0
  337              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -869,20 +870,20 @@
  347              		.thumb
  348              	.LBE25:
  349              	.LBE24:
- 198:src/uart_support_gps.c **** 	uint8_t ans;
- 199:src/uart_support_gps.c **** 
- 200:src/uart_support_gps.c **** 	__disable_irq();
- 201:src/uart_support_gps.c **** 	ans = (USART_buf->RX[USART_buf->RX_Tail]);
- 350              		.loc 1 201 0
+ 199:src/uart_support_gps.c **** 	uint8_t ans;
+ 200:src/uart_support_gps.c **** 
+ 201:src/uart_support_gps.c **** 	__disable_irq();
+ 202:src/uart_support_gps.c **** 	ans = (USART_buf->RX[USART_buf->RX_Tail]);
+ 350              		.loc 1 202 0
  351 0004 B0F80222 		ldrh	r2, [r0, #514]
  352 0008 90B2     		uxth	r0, r2
  353              	.LVL39:
  354 000a 185C     		ldrb	r0, [r3, r0]	@ zero_extendqisi2
  355              	.LVL40:
- 202:src/uart_support_gps.c **** 
- 203:src/uart_support_gps.c **** 	/* Advance buffer tail. */
- 204:src/uart_support_gps.c **** 	USART_buf->RX_Tail = (USART_buf->RX_Tail + 1) & (UART_BUFSIZE-1);
- 356              		.loc 1 204 0
+ 203:src/uart_support_gps.c **** 
+ 204:src/uart_support_gps.c **** 	/* Advance buffer tail. */
+ 205:src/uart_support_gps.c **** 	USART_buf->RX_Tail = (USART_buf->RX_Tail + 1) & (UART_BUFSIZE-1);
+ 356              		.loc 1 205 0
  357 000c B3F80212 		ldrh	r1, [r3, #514]
  358 0010 4A1C     		adds	r2, r1, #1
  359 0012 D1B2     		uxtb	r1, r2
@@ -897,12 +898,12 @@
  367              		.thumb
  368              	.LBE27:
  369              	.LBE26:
- 205:src/uart_support_gps.c **** 	
- 206:src/uart_support_gps.c **** 	__enable_irq();
- 207:src/uart_support_gps.c **** 
- 208:src/uart_support_gps.c **** 	return ans;
- 209:src/uart_support_gps.c **** }
- 370              		.loc 1 209 0
+ 206:src/uart_support_gps.c **** 	
+ 207:src/uart_support_gps.c **** 	__enable_irq();
+ 208:src/uart_support_gps.c **** 
+ 209:src/uart_support_gps.c **** 	return ans;
+ 210:src/uart_support_gps.c **** }
+ 370              		.loc 1 210 0
  371 001a 7047     		bx	lr
  372              		.cfi_endproc
  373              	.LFE60:
@@ -913,64 +914,64 @@
  379              		.thumb_func
  381              	putch:
  382              	.LFB61:
- 210:src/uart_support_gps.c **** 
- 211:src/uart_support_gps.c **** /**************************************************************************/
- 212:src/uart_support_gps.c **** /*! 
- 213:src/uart_support_gps.c ****     High Level function.
- 214:src/uart_support_gps.c **** */
- 215:src/uart_support_gps.c **** /**************************************************************************/
- 216:src/uart_support_gps.c **** /* Send 1 character */
- 217:src/uart_support_gps.c **** inline void putch(uint8_t data)
- 218:src/uart_support_gps.c **** {
- 383              		.loc 1 218 0
+ 211:src/uart_support_gps.c **** 
+ 212:src/uart_support_gps.c **** /**************************************************************************/
+ 213:src/uart_support_gps.c **** /*! 
+ 214:src/uart_support_gps.c ****     High Level function.
+ 215:src/uart_support_gps.c **** */
+ 216:src/uart_support_gps.c **** /**************************************************************************/
+ 217:src/uart_support_gps.c **** /* Send 1 character */
+ 218:src/uart_support_gps.c **** inline void putch(uint8_t data)
+ 219:src/uart_support_gps.c **** {
+ 383              		.loc 1 219 0
  384              		.cfi_startproc
  385              		@ args = 0, pretend = 0, frame = 0
  386              		@ frame_needed = 0, uses_anonymous_args = 0
  387              		@ link register save eliminated.
  388              	.LVL41:
  389 0000 0146     		mov	r1, r0
- 219:src/uart_support_gps.c **** #if (UART_HANDLING == UART_INTERRUPT_MODE)
- 220:src/uart_support_gps.c **** 	/* Interrupt Version */
- 221:src/uart_support_gps.c **** 	while(!USART_TXBuffer_FreeSpace(pUSART_Buf));
- 390              		.loc 1 221 0
+ 220:src/uart_support_gps.c **** #if (UART_HANDLING == UART_INTERRUPT_MODE)
+ 221:src/uart_support_gps.c **** 	/* Interrupt Version */
+ 222:src/uart_support_gps.c **** 	while(!USART_TXBuffer_FreeSpace(pUSART_Buf));
+ 390              		.loc 1 222 0
  391 0002 074B     		ldr	r3, .L20
  392 0004 1B68     		ldr	r3, [r3, #0]
  393              	.LVL42:
  394              	.L18:
  395              	.LBB28:
  396              	.LBB29:
- 139:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
- 397              		.loc 1 139 0 discriminator 1
+ 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 397              		.loc 1 140 0 discriminator 1
  398 0006 B3F80402 		ldrh	r0, [r3, #516]
  399              	.LVL43:
- 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
- 400              		.loc 1 140 0 discriminator 1
+ 141:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
+ 400              		.loc 1 141 0 discriminator 1
  401 000a B3F80622 		ldrh	r2, [r3, #518]
  402              	.LVL44:
- 139:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
- 403              		.loc 1 139 0 discriminator 1
+ 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 403              		.loc 1 140 0 discriminator 1
  404 000e 0130     		adds	r0, r0, #1
  405              	.LVL45:
  406              	.LBE29:
  407              	.LBE28:
- 408              		.loc 1 221 0 discriminator 1
+ 408              		.loc 1 222 0 discriminator 1
  409 0010 00F0FF00 		and	r0, r0, #255
  410 0014 D2B2     		uxtb	r2, r2
  411              	.LVL46:
  412 0016 9042     		cmp	r0, r2
  413 0018 F5D0     		beq	.L18
- 222:src/uart_support_gps.c **** 	USART_TXBuffer_PutByte(pUSART_Buf,data);
- 414              		.loc 1 222 0
+ 223:src/uart_support_gps.c **** 	USART_TXBuffer_PutByte(pUSART_Buf,data);
+ 414              		.loc 1 223 0
  415 001a 1846     		mov	r0, r3
- 223:src/uart_support_gps.c **** #else 
- 224:src/uart_support_gps.c **** 	/* Polling version */
- 225:src/uart_support_gps.c **** 	while (!(UART->SR & USART_FLAG_TXE));
- 226:src/uart_support_gps.c **** 	UART->DR = data;
- 227:src/uart_support_gps.c **** #endif
- 228:src/uart_support_gps.c **** }
- 416              		.loc 1 228 0
- 222:src/uart_support_gps.c **** 	USART_TXBuffer_PutByte(pUSART_Buf,data);
- 417              		.loc 1 222 0
+ 224:src/uart_support_gps.c **** #else 
+ 225:src/uart_support_gps.c **** 	/* Polling version */
+ 226:src/uart_support_gps.c **** 	while (!(UART->SR & USART_FLAG_TXE));
+ 227:src/uart_support_gps.c **** 	UART->DR = data;
+ 228:src/uart_support_gps.c **** #endif
+ 229:src/uart_support_gps.c **** }
+ 416              		.loc 1 229 0
+ 223:src/uart_support_gps.c **** 	USART_TXBuffer_PutByte(pUSART_Buf,data);
+ 417              		.loc 1 223 0
  418 001c FFF7FEBF 		b	USART_TXBuffer_PutByte
  419              	.LVL47:
  420              	.L21:
@@ -986,58 +987,58 @@
  431              		.thumb_func
  433              	getch:
  434              	.LFB62:
- 229:src/uart_support_gps.c **** 
- 230:src/uart_support_gps.c **** /**************************************************************************/
- 231:src/uart_support_gps.c **** /*! 
- 232:src/uart_support_gps.c ****     High Level function.
- 233:src/uart_support_gps.c **** */
- 234:src/uart_support_gps.c **** /**************************************************************************/
- 235:src/uart_support_gps.c **** /* Receive 1 character */
- 236:src/uart_support_gps.c **** uint8_t getch(void)
- 237:src/uart_support_gps.c **** {
- 435              		.loc 1 237 0
+ 230:src/uart_support_gps.c **** 
+ 231:src/uart_support_gps.c **** /**************************************************************************/
+ 232:src/uart_support_gps.c **** /*! 
+ 233:src/uart_support_gps.c ****     High Level function.
+ 234:src/uart_support_gps.c **** */
+ 235:src/uart_support_gps.c **** /**************************************************************************/
+ 236:src/uart_support_gps.c **** /* Receive 1 character */
+ 237:src/uart_support_gps.c **** uint8_t getch(void)
+ 238:src/uart_support_gps.c **** {
+ 435              		.loc 1 238 0
  436              		.cfi_startproc
  437              		@ args = 0, pretend = 0, frame = 0
  438              		@ frame_needed = 0, uses_anonymous_args = 0
  439              		@ link register save eliminated.
- 238:src/uart_support_gps.c **** #if (UART_HANDLING == UART_INTERRUPT_MODE)
- 239:src/uart_support_gps.c **** 	if (USART_RXBufferData_Available(pUSART_Buf))  return USART_RXBuffer_GetByte(pUSART_Buf);
- 440              		.loc 1 239 0
+ 239:src/uart_support_gps.c **** #if (UART_HANDLING == UART_INTERRUPT_MODE)
+ 240:src/uart_support_gps.c **** 	if (USART_RXBufferData_Available(pUSART_Buf))  return USART_RXBuffer_GetByte(pUSART_Buf);
+ 440              		.loc 1 240 0
  441 0000 064B     		ldr	r3, .L24
  442 0002 1868     		ldr	r0, [r3, #0]
  443              	.LVL48:
  444              	.LBB30:
  445              	.LBB31:
- 184:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
- 446              		.loc 1 184 0
+ 185:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
+ 446              		.loc 1 185 0
  447 0004 B0F80022 		ldrh	r2, [r0, #512]
  448              	.LVL49:
- 185:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
- 449              		.loc 1 185 0
+ 186:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
+ 449              		.loc 1 186 0
  450 0008 B0F80212 		ldrh	r1, [r0, #514]
  451              	.LVL50:
  452              	.LBE31:
  453              	.LBE30:
- 454              		.loc 1 239 0
+ 454              		.loc 1 240 0
  455 000c D2B2     		uxtb	r2, r2
  456              	.LVL51:
  457 000e CBB2     		uxtb	r3, r1
  458 0010 9A42     		cmp	r2, r3
  459 0012 01D0     		beq	.L23
- 240:src/uart_support_gps.c **** 	else										   return false;
- 241:src/uart_support_gps.c **** #else
- 242:src/uart_support_gps.c **** 	/* Polling version */
- 243:src/uart_support_gps.c **** 	while (!(UART->SR & USART_FLAG_RXNE));
- 244:src/uart_support_gps.c **** 	return (uint8_t)(USART->DR);
- 245:src/uart_support_gps.c **** #endif
- 246:src/uart_support_gps.c **** }
- 460              		.loc 1 246 0 discriminator 1
- 239:src/uart_support_gps.c **** 	if (USART_RXBufferData_Available(pUSART_Buf))  return USART_RXBuffer_GetByte(pUSART_Buf);
- 461              		.loc 1 239 0 discriminator 1
+ 241:src/uart_support_gps.c **** 	else										   return false;
+ 242:src/uart_support_gps.c **** #else
+ 243:src/uart_support_gps.c **** 	/* Polling version */
+ 244:src/uart_support_gps.c **** 	while (!(UART->SR & USART_FLAG_RXNE));
+ 245:src/uart_support_gps.c **** 	return (uint8_t)(USART->DR);
+ 246:src/uart_support_gps.c **** #endif
+ 247:src/uart_support_gps.c **** }
+ 460              		.loc 1 247 0 discriminator 1
+ 240:src/uart_support_gps.c **** 	if (USART_RXBufferData_Available(pUSART_Buf))  return USART_RXBuffer_GetByte(pUSART_Buf);
+ 461              		.loc 1 240 0 discriminator 1
  462 0014 FFF7FEBF 		b	USART_RXBuffer_GetByte
  463              	.LVL52:
  464              	.L23:
- 465              		.loc 1 246 0
+ 465              		.loc 1 247 0
  466 0018 0020     		movs	r0, #0
  467              	.LVL53:
  468 001a 7047     		bx	lr
@@ -1054,48 +1055,48 @@
  480              		.thumb_func
  482              	keypressed:
  483              	.LFB63:
- 247:src/uart_support_gps.c **** 
- 248:src/uart_support_gps.c **** /**************************************************************************/
- 249:src/uart_support_gps.c **** /*! 
- 250:src/uart_support_gps.c ****     High Level function.
- 251:src/uart_support_gps.c **** */
- 252:src/uart_support_gps.c **** /**************************************************************************/
- 253:src/uart_support_gps.c **** /* Return 1 if key pressed */
- 254:src/uart_support_gps.c **** uint8_t keypressed(void)
- 255:src/uart_support_gps.c **** {
- 484              		.loc 1 255 0
+ 248:src/uart_support_gps.c **** 
+ 249:src/uart_support_gps.c **** /**************************************************************************/
+ 250:src/uart_support_gps.c **** /*! 
+ 251:src/uart_support_gps.c ****     High Level function.
+ 252:src/uart_support_gps.c **** */
+ 253:src/uart_support_gps.c **** /**************************************************************************/
+ 254:src/uart_support_gps.c **** /* Return 1 if key pressed */
+ 255:src/uart_support_gps.c **** uint8_t keypressed(void)
+ 256:src/uart_support_gps.c **** {
+ 484              		.loc 1 256 0
  485              		.cfi_startproc
  486              		@ args = 0, pretend = 0, frame = 0
  487              		@ frame_needed = 0, uses_anonymous_args = 0
  488              		@ link register save eliminated.
- 256:src/uart_support_gps.c **** #if (UART_HANDLING == UART_INTERRUPT_MODE)
- 257:src/uart_support_gps.c ****   return (USART_RXBufferData_Available(pUSART_Buf));
- 489              		.loc 1 257 0
+ 257:src/uart_support_gps.c **** #if (UART_HANDLING == UART_INTERRUPT_MODE)
+ 258:src/uart_support_gps.c ****   return (USART_RXBufferData_Available(pUSART_Buf));
+ 489              		.loc 1 258 0
  490 0000 054B     		ldr	r3, .L27
  491 0002 1968     		ldr	r1, [r3, #0]
  492              	.LVL54:
  493              	.LBB32:
  494              	.LBB33:
- 184:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
- 495              		.loc 1 184 0
+ 185:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
+ 495              		.loc 1 185 0
  496 0004 B1F80002 		ldrh	r0, [r1, #512]
  497              	.LVL55:
- 185:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
- 498              		.loc 1 185 0
+ 186:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
+ 498              		.loc 1 186 0
  499 0008 B1F80222 		ldrh	r2, [r1, #514]
  500              	.LVL56:
- 188:src/uart_support_gps.c **** 	return (tempHead != tempTail);
- 501              		.loc 1 188 0
+ 189:src/uart_support_gps.c **** 	return (tempHead != tempTail);
+ 501              		.loc 1 189 0
  502 000c C1B2     		uxtb	r1, r0
  503              	.LVL57:
  504 000e D3B2     		uxtb	r3, r2
  505              	.LBE33:
  506              	.LBE32:
- 258:src/uart_support_gps.c **** #else
- 259:src/uart_support_gps.c ****   return (UART->SR & USART_FLAG_RXNE);
- 260:src/uart_support_gps.c **** #endif
- 261:src/uart_support_gps.c **** }
- 507              		.loc 1 261 0
+ 259:src/uart_support_gps.c **** #else
+ 260:src/uart_support_gps.c ****   return (UART->SR & USART_FLAG_RXNE);
+ 261:src/uart_support_gps.c **** #endif
+ 262:src/uart_support_gps.c **** }
+ 507              		.loc 1 262 0
  508 0010 C81A     		subs	r0, r1, r3
  509              	.LVL58:
  510 0012 18BF     		it	ne
@@ -1114,16 +1115,16 @@
  524              		.thumb_func
  526              	cputs:
  527              	.LFB64:
- 262:src/uart_support_gps.c **** 
- 263:src/uart_support_gps.c **** /**************************************************************************/
- 264:src/uart_support_gps.c **** /*! 
- 265:src/uart_support_gps.c ****     High Level function.
- 266:src/uart_support_gps.c **** */
- 267:src/uart_support_gps.c **** /**************************************************************************/
- 268:src/uart_support_gps.c **** /* Send a string */
- 269:src/uart_support_gps.c **** void cputs(char *s)
- 270:src/uart_support_gps.c **** {
- 528              		.loc 1 270 0
+ 263:src/uart_support_gps.c **** 
+ 264:src/uart_support_gps.c **** /**************************************************************************/
+ 265:src/uart_support_gps.c **** /*! 
+ 266:src/uart_support_gps.c ****     High Level function.
+ 267:src/uart_support_gps.c **** */
+ 268:src/uart_support_gps.c **** /**************************************************************************/
+ 269:src/uart_support_gps.c **** /* Send a string */
+ 270:src/uart_support_gps.c **** void cputs(char *s)
+ 271:src/uart_support_gps.c **** {
+ 528              		.loc 1 271 0
  529              		.cfi_startproc
  530              		@ args = 0, pretend = 0, frame = 0
  531              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1133,24 +1134,24 @@
  535              		.cfi_def_cfa_offset 8
  536              		.cfi_offset 4, -8
  537              		.cfi_offset 14, -4
- 269:src/uart_support_gps.c **** void cputs(char *s)
- 538              		.loc 1 269 0
+ 270:src/uart_support_gps.c **** void cputs(char *s)
+ 538              		.loc 1 270 0
  539 0002 441E     		subs	r4, r0, #1
  540              	.LVL60:
  541              	.L30:
- 271:src/uart_support_gps.c ****   while (*s)
- 542              		.loc 1 271 0 discriminator 1
+ 272:src/uart_support_gps.c ****   while (*s)
+ 542              		.loc 1 272 0 discriminator 1
  543 0004 14F8010F 		ldrb	r0, [r4, #1]!	@ zero_extendqisi2
  544 0008 10B1     		cbz	r0, .L32
  545              	.L31:
- 272:src/uart_support_gps.c ****     putch(*s++);
- 546              		.loc 1 272 0
+ 273:src/uart_support_gps.c ****     putch(*s++);
+ 546              		.loc 1 273 0
  547 000a FFF7FEFF 		bl	putch
  548              	.LVL61:
  549 000e F9E7     		b	.L30
  550              	.L32:
- 273:src/uart_support_gps.c **** }
- 551              		.loc 1 273 0
+ 274:src/uart_support_gps.c **** }
+ 551              		.loc 1 274 0
  552 0010 10BD     		pop	{r4, pc}
  553              		.cfi_endproc
  554              	.LFE64:
@@ -1161,16 +1162,16 @@
  560              		.thumb_func
  562              	cgets:
  563              	.LFB65:
- 274:src/uart_support_gps.c **** 
- 275:src/uart_support_gps.c **** /**************************************************************************/
- 276:src/uart_support_gps.c **** /*! 
- 277:src/uart_support_gps.c ****     High Level function.
- 278:src/uart_support_gps.c **** */
- 279:src/uart_support_gps.c **** /**************************************************************************/
- 280:src/uart_support_gps.c **** /* Receive a string, with rudimentary line editing */
- 281:src/uart_support_gps.c **** void cgets(char *s, int bufsize)
- 282:src/uart_support_gps.c **** {
- 564              		.loc 1 282 0
+ 275:src/uart_support_gps.c **** 
+ 276:src/uart_support_gps.c **** /**************************************************************************/
+ 277:src/uart_support_gps.c **** /*! 
+ 278:src/uart_support_gps.c ****     High Level function.
+ 279:src/uart_support_gps.c **** */
+ 280:src/uart_support_gps.c **** /**************************************************************************/
+ 281:src/uart_support_gps.c **** /* Receive a string, with rudimentary line editing */
+ 282:src/uart_support_gps.c **** void cgets(char *s, int bufsize)
+ 283:src/uart_support_gps.c **** {
+ 564              		.loc 1 283 0
  565              		.cfi_startproc
  566              		@ args = 0, pretend = 0, frame = 0
  567              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1186,45 +1187,45 @@
  577              		.cfi_offset 14, -4
  578 0002 0646     		mov	r6, r0
  579 0004 0F46     		mov	r7, r1
- 283:src/uart_support_gps.c ****   char *p;
- 284:src/uart_support_gps.c ****   int c;
- 285:src/uart_support_gps.c **** 
- 286:src/uart_support_gps.c ****   memset(s, 0, bufsize);
- 580              		.loc 1 286 0
+ 284:src/uart_support_gps.c ****   char *p;
+ 285:src/uart_support_gps.c ****   int c;
+ 286:src/uart_support_gps.c **** 
+ 287:src/uart_support_gps.c ****   memset(s, 0, bufsize);
+ 580              		.loc 1 287 0
  581 0006 0021     		movs	r1, #0
  582              	.LVL63:
  583 0008 3A46     		mov	r2, r7
  584 000a FFF7FEFF 		bl	memset
  585              	.LVL64:
- 287:src/uart_support_gps.c **** 
- 288:src/uart_support_gps.c ****   p = s;
- 289:src/uart_support_gps.c **** 
- 290:src/uart_support_gps.c ****   for (p = s; p < s + bufsize-1;)
- 586              		.loc 1 290 0
+ 288:src/uart_support_gps.c **** 
+ 289:src/uart_support_gps.c ****   p = s;
+ 290:src/uart_support_gps.c **** 
+ 291:src/uart_support_gps.c ****   for (p = s; p < s + bufsize-1;)
+ 586              		.loc 1 291 0
  587 000e 3446     		mov	r4, r6
  588              	.LVL65:
  589              	.L54:
- 590              		.loc 1 290 0 is_stmt 0 discriminator 1
+ 590              		.loc 1 291 0 is_stmt 0 discriminator 1
  591 0010 7B1E     		subs	r3, r7, #1
  592 0012 F018     		adds	r0, r6, r3
  593 0014 8442     		cmp	r4, r0
  594 0016 27D2     		bcs	.L56
  595              	.L48:
- 291:src/uart_support_gps.c ****   {
- 292:src/uart_support_gps.c ****     /* 20090521Nemui */
- 293:src/uart_support_gps.c **** 	do{		
- 294:src/uart_support_gps.c **** 		c = getch();
- 596              		.loc 1 294 0 is_stmt 1
+ 292:src/uart_support_gps.c ****   {
+ 293:src/uart_support_gps.c ****     /* 20090521Nemui */
+ 294:src/uart_support_gps.c **** 	do{		
+ 295:src/uart_support_gps.c **** 		c = getch();
+ 596              		.loc 1 295 0 is_stmt 1
  597 0018 FFF7FEFF 		bl	getch
  598              	.LVL66:
- 295:src/uart_support_gps.c **** 	}while(c == false);
- 599              		.loc 1 295 0
+ 296:src/uart_support_gps.c **** 	}while(c == false);
+ 599              		.loc 1 296 0
  600 001c 0546     		mov	r5, r0
  601 001e 0028     		cmp	r0, #0
  602 0020 FAD0     		beq	.L48
- 296:src/uart_support_gps.c **** 	/* 20090521Nemui */
- 297:src/uart_support_gps.c ****     switch (c)
- 603              		.loc 1 297 0
+ 297:src/uart_support_gps.c **** 	/* 20090521Nemui */
+ 298:src/uart_support_gps.c ****     switch (c)
+ 603              		.loc 1 298 0
  604 0022 0A28     		cmp	r0, #10
  605 0024 04D0     		beq	.L38
  606 0026 0D28     		cmp	r0, #13
@@ -1233,72 +1234,72 @@
  609 002c 17D1     		bne	.L55
  610 002e 08E0     		b	.L57
  611              	.L38:
- 298:src/uart_support_gps.c ****     {
- 299:src/uart_support_gps.c ****       case '\r' :
- 300:src/uart_support_gps.c ****       case '\n' :
- 301:src/uart_support_gps.c ****         putch('\r');
- 612              		.loc 1 301 0
+ 299:src/uart_support_gps.c ****     {
+ 300:src/uart_support_gps.c ****       case '\r' :
+ 301:src/uart_support_gps.c ****       case '\n' :
+ 302:src/uart_support_gps.c ****         putch('\r');
+ 612              		.loc 1 302 0
  613 0030 0D20     		movs	r0, #13
  614              	.LVL67:
  615 0032 FFF7FEFF 		bl	putch
  616              	.LVL68:
- 302:src/uart_support_gps.c ****         putch('\n');
- 617              		.loc 1 302 0
+ 303:src/uart_support_gps.c ****         putch('\n');
+ 617              		.loc 1 303 0
  618 0036 0A20     		movs	r0, #10
  619 0038 FFF7FEFF 		bl	putch
  620              	.LVL69:
- 303:src/uart_support_gps.c ****         *p = '\n';
- 621              		.loc 1 303 0
+ 304:src/uart_support_gps.c ****         *p = '\n';
+ 621              		.loc 1 304 0
  622 003c 0A22     		movs	r2, #10
  623 003e 2270     		strb	r2, [r4, #0]
- 304:src/uart_support_gps.c ****         return;
- 624              		.loc 1 304 0
+ 305:src/uart_support_gps.c ****         return;
+ 624              		.loc 1 305 0
  625 0040 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
  626              	.LVL70:
  627              	.L57:
- 305:src/uart_support_gps.c **** 
- 306:src/uart_support_gps.c ****       case '\b' :
- 307:src/uart_support_gps.c ****         if (p > s)
- 628              		.loc 1 307 0
+ 306:src/uart_support_gps.c **** 
+ 307:src/uart_support_gps.c ****       case '\b' :
+ 308:src/uart_support_gps.c ****         if (p > s)
+ 628              		.loc 1 308 0
  629 0042 B442     		cmp	r4, r6
  630 0044 E4D9     		bls	.L54
- 308:src/uart_support_gps.c ****         {
- 309:src/uart_support_gps.c ****           *p-- = 0;
- 631              		.loc 1 309 0
+ 309:src/uart_support_gps.c ****         {
+ 310:src/uart_support_gps.c ****           *p-- = 0;
+ 631              		.loc 1 310 0
  632 0046 0021     		movs	r1, #0
  633 0048 04F80119 		strb	r1, [r4], #-1
  634              	.LVL71:
- 310:src/uart_support_gps.c ****           putch('\b');
- 635              		.loc 1 310 0
+ 311:src/uart_support_gps.c ****           putch('\b');
+ 635              		.loc 1 311 0
  636 004c FFF7FEFF 		bl	putch
  637              	.LVL72:
- 311:src/uart_support_gps.c ****           putch(' ');
- 638              		.loc 1 311 0
+ 312:src/uart_support_gps.c ****           putch(' ');
+ 638              		.loc 1 312 0
  639 0050 2020     		movs	r0, #32
  640 0052 FFF7FEFF 		bl	putch
  641              	.LVL73:
- 312:src/uart_support_gps.c ****           putch('\b');
- 642              		.loc 1 312 0
+ 313:src/uart_support_gps.c ****           putch('\b');
+ 642              		.loc 1 313 0
  643 0056 2846     		mov	r0, r5
  644 0058 FFF7FEFF 		bl	putch
  645              	.LVL74:
  646 005c D8E7     		b	.L54
  647              	.LVL75:
  648              	.L55:
- 313:src/uart_support_gps.c ****         }
- 314:src/uart_support_gps.c ****         break;
- 315:src/uart_support_gps.c **** 
- 316:src/uart_support_gps.c ****       default :
- 317:src/uart_support_gps.c ****         putch(c);
- 649              		.loc 1 317 0
+ 314:src/uart_support_gps.c ****         }
+ 315:src/uart_support_gps.c ****         break;
+ 316:src/uart_support_gps.c **** 
+ 317:src/uart_support_gps.c ****       default :
+ 318:src/uart_support_gps.c ****         putch(c);
+ 649              		.loc 1 318 0
  650 005e FFF7FEFF 		bl	putch
  651              	.LVL76:
- 318:src/uart_support_gps.c ****         *p++ = c;
- 652              		.loc 1 318 0
+ 319:src/uart_support_gps.c ****         *p++ = c;
+ 652              		.loc 1 319 0
  653 0062 04F8015B 		strb	r5, [r4], #1
  654              	.LVL77:
- 319:src/uart_support_gps.c ****         break;
- 655              		.loc 1 319 0
+ 320:src/uart_support_gps.c ****         break;
+ 655              		.loc 1 320 0
  656 0066 D3E7     		b	.L54
  657              	.L56:
  658 0068 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
@@ -1311,21 +1312,21 @@
  666              		.thumb_func
  668              	conio_IRQ:
  669              	.LFB66:
- 320:src/uart_support_gps.c ****     }
- 321:src/uart_support_gps.c ****   }
- 322:src/uart_support_gps.c **** 
- 323:src/uart_support_gps.c ****   return;
- 324:src/uart_support_gps.c **** }
- 325:src/uart_support_gps.c **** 
+ 321:src/uart_support_gps.c ****     }
+ 322:src/uart_support_gps.c ****   }
+ 323:src/uart_support_gps.c **** 
+ 324:src/uart_support_gps.c ****   return;
+ 325:src/uart_support_gps.c **** }
  326:src/uart_support_gps.c **** 
- 327:src/uart_support_gps.c **** /**************************************************************************/
- 328:src/uart_support_gps.c **** /*! 
- 329:src/uart_support_gps.c ****     Interrupt handlers.
- 330:src/uart_support_gps.c **** */
- 331:src/uart_support_gps.c **** /**************************************************************************/
- 332:src/uart_support_gps.c **** void conio_IRQ(void)
- 333:src/uart_support_gps.c **** {
- 670              		.loc 1 333 0
+ 327:src/uart_support_gps.c **** 
+ 328:src/uart_support_gps.c **** /**************************************************************************/
+ 329:src/uart_support_gps.c **** /*! 
+ 330:src/uart_support_gps.c ****     Interrupt handlers.
+ 331:src/uart_support_gps.c **** */
+ 332:src/uart_support_gps.c **** /**************************************************************************/
+ 333:src/uart_support_gps.c **** void conio_IRQ(void)
+ 334:src/uart_support_gps.c **** {
+ 670              		.loc 1 334 0
  671              		.cfi_startproc
  672              		@ args = 0, pretend = 0, frame = 0
  673              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1336,45 +1337,45 @@
  678              		.cfi_offset 5, -12
  679              		.cfi_offset 6, -8
  680              		.cfi_offset 14, -4
- 334:src/uart_support_gps.c **** 	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
- 681              		.loc 1 334 0
+ 335:src/uart_support_gps.c **** 	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
+ 681              		.loc 1 335 0
  682 0002 2348     		ldr	r0, .L69
  683 0004 40F22551 		movw	r1, #1317
  684 0008 FFF7FEFF 		bl	USART_GetITStatus
  685              	.LVL78:
  686 000c D0B1     		cbz	r0, .L59
  687              	.LBB34:
- 335:src/uart_support_gps.c **** 	{
- 336:src/uart_support_gps.c **** 		/* Advance buffer head. */
- 337:src/uart_support_gps.c **** 		uint16_t tempRX_Head = ((&USART2_Buf)->RX_Head + 1) & (UART_BUFSIZE-1);
- 688              		.loc 1 337 0
+ 336:src/uart_support_gps.c **** 	{
+ 337:src/uart_support_gps.c **** 		/* Advance buffer head. */
+ 338:src/uart_support_gps.c **** 		uint16_t tempRX_Head = ((&USART2_Buf)->RX_Head + 1) & (UART_BUFSIZE-1);
+ 688              		.loc 1 338 0
  689 000e 214C     		ldr	r4, .L69+4
  690 0010 B4F80052 		ldrh	r5, [r4, #512]
  691 0014 681C     		adds	r0, r5, #1
  692 0016 C5B2     		uxtb	r5, r0
  693              	.LVL79:
- 338:src/uart_support_gps.c **** 
- 339:src/uart_support_gps.c **** 		/* Check for overflow. */
- 340:src/uart_support_gps.c **** 		uint16_t tempRX_Tail = (&USART2_Buf)->RX_Tail;
- 694              		.loc 1 340 0
+ 339:src/uart_support_gps.c **** 
+ 340:src/uart_support_gps.c **** 		/* Check for overflow. */
+ 341:src/uart_support_gps.c **** 		uint16_t tempRX_Tail = (&USART2_Buf)->RX_Tail;
+ 694              		.loc 1 341 0
  695 0018 B4F80262 		ldrh	r6, [r4, #514]
  696 001c B6B2     		uxth	r6, r6
  697              	.LVL80:
- 341:src/uart_support_gps.c **** 		uint8_t data =  USART_ReceiveData(USART2);
- 698              		.loc 1 341 0
+ 342:src/uart_support_gps.c **** 		uint8_t data =  USART_ReceiveData(USART2);
+ 698              		.loc 1 342 0
  699 001e 1C48     		ldr	r0, .L69
  700 0020 FFF7FEFF 		bl	USART_ReceiveData
  701              	.LVL81:
  702 0024 C1B2     		uxtb	r1, r0
  703              	.LVL82:
- 342:src/uart_support_gps.c **** 
- 343:src/uart_support_gps.c **** 		if (tempRX_Head == tempRX_Tail) {
- 704              		.loc 1 343 0
+ 343:src/uart_support_gps.c **** 
+ 344:src/uart_support_gps.c **** 		if (tempRX_Head == tempRX_Tail) {
+ 704              		.loc 1 344 0
  705 0026 B542     		cmp	r5, r6
  706 0028 06D1     		bne	.L60
- 344:src/uart_support_gps.c **** 			/* Disable the USART2 Receive interrupt */
- 345:src/uart_support_gps.c **** 			USART_ITConfig(USART2, USART_IT_RXNE, DISABLE);
- 707              		.loc 1 345 0
+ 345:src/uart_support_gps.c **** 			/* Disable the USART2 Receive interrupt */
+ 346:src/uart_support_gps.c **** 			USART_ITConfig(USART2, USART_IT_RXNE, DISABLE);
+ 707              		.loc 1 346 0
  708 002a 1948     		ldr	r0, .L69
  709              	.LVL83:
  710 002c 40F22551 		movw	r1, #1317
@@ -1385,23 +1386,23 @@
  715 0036 05E0     		b	.L59
  716              	.LVL86:
  717              	.L60:
- 346:src/uart_support_gps.c **** 		}else{
- 347:src/uart_support_gps.c **** 			(&USART2_Buf)->RX[(&USART2_Buf)->RX_Head] = data;
- 718              		.loc 1 347 0
+ 347:src/uart_support_gps.c **** 		}else{
+ 348:src/uart_support_gps.c **** 			(&USART2_Buf)->RX[(&USART2_Buf)->RX_Head] = data;
+ 718              		.loc 1 348 0
  719 0038 B4F80032 		ldrh	r3, [r4, #512]
  720 003c 9AB2     		uxth	r2, r3
  721 003e A154     		strb	r1, [r4, r2]
- 348:src/uart_support_gps.c **** 			(&USART2_Buf)->RX_Head = tempRX_Head;
- 722              		.loc 1 348 0
+ 349:src/uart_support_gps.c **** 			(&USART2_Buf)->RX_Head = tempRX_Head;
+ 722              		.loc 1 349 0
  723 0040 A4F80052 		strh	r5, [r4, #512]	@ movhi
  724              	.LVL87:
  725              	.L59:
  726              	.LBE34:
- 349:src/uart_support_gps.c **** 		}
- 350:src/uart_support_gps.c **** 	}
- 351:src/uart_support_gps.c **** 
- 352:src/uart_support_gps.c **** 	if(USART_GetITStatus(USART2, USART_IT_TXE) != RESET)
- 727              		.loc 1 352 0
+ 350:src/uart_support_gps.c **** 		}
+ 351:src/uart_support_gps.c **** 	}
+ 352:src/uart_support_gps.c **** 
+ 353:src/uart_support_gps.c **** 	if(USART_GetITStatus(USART2, USART_IT_TXE) != RESET)
+ 727              		.loc 1 353 0
  728 0044 124C     		ldr	r4, .L69
  729 0046 2046     		mov	r0, r4
  730 0048 40F22771 		movw	r1, #1831
@@ -1409,63 +1410,63 @@
  732              	.LVL88:
  733 0050 E8B1     		cbz	r0, .L58
  734              	.LBB35:
- 353:src/uart_support_gps.c **** 	{   
- 354:src/uart_support_gps.c **** 
- 355:src/uart_support_gps.c **** 		/* Check if all data is transmitted. */
- 356:src/uart_support_gps.c **** 		uint16_t tempTX_Tail = (&USART2_Buf)->TX_Tail;
- 735              		.loc 1 356 0
+ 354:src/uart_support_gps.c **** 	{   
+ 355:src/uart_support_gps.c **** 
+ 356:src/uart_support_gps.c **** 		/* Check if all data is transmitted. */
+ 357:src/uart_support_gps.c **** 		uint16_t tempTX_Tail = (&USART2_Buf)->TX_Tail;
+ 735              		.loc 1 357 0
  736 0052 1048     		ldr	r0, .L69+4
  737 0054 B0F80612 		ldrh	r1, [r0, #518]
  738 0058 8BB2     		uxth	r3, r1
  739              	.LVL89:
- 357:src/uart_support_gps.c **** 		if ((&USART2_Buf)->TX_Head == tempTX_Tail){
- 740              		.loc 1 357 0
+ 358:src/uart_support_gps.c **** 		if ((&USART2_Buf)->TX_Head == tempTX_Tail){
+ 740              		.loc 1 358 0
  741 005a B0F80422 		ldrh	r2, [r0, #516]
  742 005e 91B2     		uxth	r1, r2
  743              	.LVL90:
  744 0060 9942     		cmp	r1, r3
  745 0062 07D1     		bne	.L62
- 358:src/uart_support_gps.c **** 			/* Overflow MAX size Situation */
- 359:src/uart_support_gps.c **** 			/* Disable the USART2 Transmit interrupt */
- 360:src/uart_support_gps.c **** 			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
- 746              		.loc 1 360 0
+ 359:src/uart_support_gps.c **** 			/* Overflow MAX size Situation */
+ 360:src/uart_support_gps.c **** 			/* Disable the USART2 Transmit interrupt */
+ 361:src/uart_support_gps.c **** 			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
+ 746              		.loc 1 361 0
  747 0064 2046     		mov	r0, r4
  748 0066 40F22771 		movw	r1, #1831
  749 006a 0022     		movs	r2, #0
  750              	.LBE35:
- 361:src/uart_support_gps.c **** 		}else{
- 362:src/uart_support_gps.c **** 			/* Start transmitting. */
- 363:src/uart_support_gps.c **** 			uint8_t data = (&USART2_Buf)->TX[(&USART2_Buf)->TX_Tail];
- 364:src/uart_support_gps.c **** 			USART2->DR = data;
- 365:src/uart_support_gps.c **** 
- 366:src/uart_support_gps.c **** 			/* Advance buffer tail. */
- 367:src/uart_support_gps.c **** 			(&USART2_Buf)->TX_Tail = ((&USART2_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
- 368:src/uart_support_gps.c **** 		}
- 369:src/uart_support_gps.c **** 
- 370:src/uart_support_gps.c **** 	}
- 371:src/uart_support_gps.c **** }
- 751              		.loc 1 371 0
+ 362:src/uart_support_gps.c **** 		}else{
+ 363:src/uart_support_gps.c **** 			/* Start transmitting. */
+ 364:src/uart_support_gps.c **** 			uint8_t data = (&USART2_Buf)->TX[(&USART2_Buf)->TX_Tail];
+ 365:src/uart_support_gps.c **** 			USART2->DR = data;
+ 366:src/uart_support_gps.c **** 
+ 367:src/uart_support_gps.c **** 			/* Advance buffer tail. */
+ 368:src/uart_support_gps.c **** 			(&USART2_Buf)->TX_Tail = ((&USART2_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
+ 369:src/uart_support_gps.c **** 		}
+ 370:src/uart_support_gps.c **** 
+ 371:src/uart_support_gps.c **** 	}
+ 372:src/uart_support_gps.c **** }
+ 751              		.loc 1 372 0
  752 006c BDE87040 		pop	{r4, r5, r6, lr}
  753              	.LBB37:
- 360:src/uart_support_gps.c **** 			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
- 754              		.loc 1 360 0
+ 361:src/uart_support_gps.c **** 			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
+ 754              		.loc 1 361 0
  755 0070 FFF7FEBF 		b	USART_ITConfig
  756              	.LVL91:
  757              	.L62:
  758              	.LBB36:
- 363:src/uart_support_gps.c **** 			uint8_t data = (&USART2_Buf)->TX[(&USART2_Buf)->TX_Tail];
- 759              		.loc 1 363 0
+ 364:src/uart_support_gps.c **** 			uint8_t data = (&USART2_Buf)->TX[(&USART2_Buf)->TX_Tail];
+ 759              		.loc 1 364 0
  760 0074 B0F80632 		ldrh	r3, [r0, #518]
  761              	.LVL92:
  762 0078 9AB2     		uxth	r2, r3
  763 007a 8118     		adds	r1, r0, r2
  764 007c 91F80031 		ldrb	r3, [r1, #256]	@ zero_extendqisi2
  765              	.LVL93:
- 364:src/uart_support_gps.c **** 			USART2->DR = data;
- 766              		.loc 1 364 0
+ 365:src/uart_support_gps.c **** 			USART2->DR = data;
+ 766              		.loc 1 365 0
  767 0080 A380     		strh	r3, [r4, #4]	@ movhi
- 367:src/uart_support_gps.c **** 			(&USART2_Buf)->TX_Tail = ((&USART2_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
- 768              		.loc 1 367 0
+ 368:src/uart_support_gps.c **** 			(&USART2_Buf)->TX_Tail = ((&USART2_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
+ 768              		.loc 1 368 0
  769 0082 B0F80622 		ldrh	r2, [r0, #518]
  770 0086 511C     		adds	r1, r2, #1
  771 0088 CBB2     		uxtb	r3, r1
@@ -1490,18 +1491,18 @@
  791              		.thumb_func
  793              	USART2_IRQHandler:
  794              	.LFB67:
- 372:src/uart_support_gps.c **** 
  373:src/uart_support_gps.c **** 
- 374:src/uart_support_gps.c **** /**************************************************************************/
- 375:src/uart_support_gps.c **** /*! 
- 376:src/uart_support_gps.c ****     @brief	Handles USART2 global interrupt wrapper.
- 377:src/uart_support_gps.c **** 	@param	None.
- 378:src/uart_support_gps.c ****     @retval	None.
- 379:src/uart_support_gps.c **** */
- 380:src/uart_support_gps.c **** /**************************************************************************/
- 381:src/uart_support_gps.c **** void USART2_IRQHandler(void)
- 382:src/uart_support_gps.c **** {
- 795              		.loc 1 382 0
+ 374:src/uart_support_gps.c **** 
+ 375:src/uart_support_gps.c **** /**************************************************************************/
+ 376:src/uart_support_gps.c **** /*! 
+ 377:src/uart_support_gps.c ****     @brief	Handles USART2 global interrupt wrapper.
+ 378:src/uart_support_gps.c **** 	@param	None.
+ 379:src/uart_support_gps.c ****     @retval	None.
+ 380:src/uart_support_gps.c **** */
+ 381:src/uart_support_gps.c **** /**************************************************************************/
+ 382:src/uart_support_gps.c **** void USART2_IRQHandler(void)
+ 383:src/uart_support_gps.c **** {
+ 795              		.loc 1 383 0
  796              		.cfi_startproc
  797              		@ args = 0, pretend = 0, frame = 0
  798              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1510,8 +1511,8 @@
  801              		.cfi_def_cfa_offset 8
  802              		.cfi_offset 3, -8
  803              		.cfi_offset 14, -4
- 383:src/uart_support_gps.c **** 	xUART_IRQ();
- 804              		.loc 1 383 0
+ 384:src/uart_support_gps.c **** 	xUART_IRQ();
+ 804              		.loc 1 384 0
  805 0002 024B     		ldr	r3, .L72
  806 0004 1868     		ldr	r0, [r3, #0]
  807 0006 8047     		blx	r0
@@ -1523,96 +1524,204 @@
  813 000c 00000000 		.word	.LANCHOR4
  814              		.cfi_endproc
  815              	.LFE67:
- 817              		.global	xUART_IRQ
- 818              		.global	USART2_Buf
- 819              		.global	USART_InitStructure
- 820              		.section	.bss.pUSART_Buf,"aw",%nobits
- 821              		.align	2
- 822              		.set	.LANCHOR2,. + 0
- 825              	pUSART_Buf:
- 826 0000 00000000 		.space	4
- 827              		.section	.bss.UART,"aw",%nobits
- 828              		.align	2
- 829              		.set	.LANCHOR0,. + 0
- 832              	UART:
- 833 0000 00000000 		.space	4
- 834              		.section	.bss.xUART_IRQ,"aw",%nobits
- 835              		.align	2
- 836              		.set	.LANCHOR4,. + 0
- 839              	xUART_IRQ:
- 840 0000 00000000 		.space	4
- 841              		.section	.bss.USART2_Buf,"aw",%nobits
- 842              		.align	1
- 843              		.set	.LANCHOR3,. + 0
- 846              	USART2_Buf:
- 847 0000 00000000 		.space	520
- 847      00000000 
- 847      00000000 
- 847      00000000 
- 847      00000000 
- 848              		.section	.bss.USART_InitStructure,"aw",%nobits
- 849              		.align	2
- 850              		.set	.LANCHOR1,. + 0
- 853              	USART_InitStructure:
- 854 0000 00000000 		.space	16
- 854      00000000 
- 854      00000000 
- 854      00000000 
- 855              		.text
- 856              	.Letext0:
- 857              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
- 858              		.file 4 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
- 859              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
- 860              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
- 861              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
- 862              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
- 863              		.file 9 "./inc/uart_support_gps.h"
- 864              		.file 10 "./lib/CMSIS/Include/core_cm3.h"
- 865              		.file 11 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
- 866              		.file 12 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/
+ 817              		.section	.text.Flush_RXBuffer,"ax",%progbits
+ 818              		.align	1
+ 819              		.global	Flush_RXBuffer
+ 820              		.thumb
+ 821              		.thumb_func
+ 823              	Flush_RXBuffer:
+ 824              	.LFB68:
+ 385:src/uart_support_gps.c **** }
+ 386:src/uart_support_gps.c **** 
+ 387:src/uart_support_gps.c **** /**************************************************************************/
+ 388:src/uart_support_gps.c **** /*! 
+ 389:src/uart_support_gps.c ****     @brief	Flush USART RX Buffers.
+ 390:src/uart_support_gps.c **** 	@param	None.
+ 391:src/uart_support_gps.c ****     @retval	None.
+ 392:src/uart_support_gps.c **** */
+ 393:src/uart_support_gps.c **** /**************************************************************************/
+ 394:src/uart_support_gps.c **** void Flush_RXBuffer(void)
+ 395:src/uart_support_gps.c **** {
+ 825              		.loc 1 395 0
+ 826              		.cfi_startproc
+ 827              		@ args = 0, pretend = 0, frame = 0
+ 828              		@ frame_needed = 0, uses_anonymous_args = 0
+ 829              		@ link register save eliminated.
+ 396:src/uart_support_gps.c **** 	/* Init Ring Buffer */
+ 397:src/uart_support_gps.c **** 	pUSART_Buf->RX_Tail = 0;
+ 830              		.loc 1 397 0
+ 831 0000 064B     		ldr	r3, .L75
+ 832 0002 1868     		ldr	r0, [r3, #0]
+ 833 0004 0022     		movs	r2, #0
+ 834 0006 A0F80222 		strh	r2, [r0, #514]	@ movhi
+ 398:src/uart_support_gps.c **** 	pUSART_Buf->RX_Head = 0;
+ 835              		.loc 1 398 0
+ 836 000a A0F80022 		strh	r2, [r0, #512]	@ movhi
+ 399:src/uart_support_gps.c **** 
+ 400:src/uart_support_gps.c **** 	/* Re-Enable USART2 Receive interrupts */
+ 401:src/uart_support_gps.c **** 	USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
+ 837              		.loc 1 401 0
+ 838 000e 0449     		ldr	r1, .L75+4
+ 839 0010 0868     		ldr	r0, [r1, #0]
+ 840 0012 40F22551 		movw	r1, #1317
+ 841 0016 0122     		movs	r2, #1
+ 402:src/uart_support_gps.c **** }
+ 842              		.loc 1 402 0
+ 401:src/uart_support_gps.c **** 	USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
+ 843              		.loc 1 401 0
+ 844 0018 FFF7FEBF 		b	USART_ITConfig
+ 845              	.LVL97:
+ 846              	.L76:
+ 847              		.align	2
+ 848              	.L75:
+ 849 001c 00000000 		.word	.LANCHOR2
+ 850 0020 00000000 		.word	.LANCHOR0
+ 851              		.cfi_endproc
+ 852              	.LFE68:
+ 854              		.section	.text.WaitTxBuffer,"ax",%progbits
+ 855              		.align	1
+ 856              		.global	WaitTxBuffer
+ 857              		.thumb
+ 858              		.thumb_func
+ 860              	WaitTxBuffer:
+ 861              	.LFB69:
+ 403:src/uart_support_gps.c **** 
+ 404:src/uart_support_gps.c **** /**************************************************************************/
+ 405:src/uart_support_gps.c **** /*! 
+ 406:src/uart_support_gps.c ****     @brief	Wait to Empty USART TX Buffers.
+ 407:src/uart_support_gps.c **** 	@param	None.
+ 408:src/uart_support_gps.c ****     @retval	None.
+ 409:src/uart_support_gps.c **** */
+ 410:src/uart_support_gps.c **** /**************************************************************************/
+ 411:src/uart_support_gps.c **** uint8_t WaitTxBuffer(void)
+ 412:src/uart_support_gps.c **** {
+ 862              		.loc 1 412 0
+ 863              		.cfi_startproc
+ 864              		@ args = 0, pretend = 0, frame = 0
+ 865              		@ frame_needed = 0, uses_anonymous_args = 0
+ 866              		@ link register save eliminated.
+ 413:src/uart_support_gps.c **** 	/* Return 1 If All Character send */
+ 414:src/uart_support_gps.c **** 	uint16_t tempTX_Tail = pUSART_Buf->TX_Tail;
+ 867              		.loc 1 414 0
+ 868 0000 064B     		ldr	r3, .L78
+ 869 0002 1868     		ldr	r0, [r3, #0]
+ 870 0004 B0F80622 		ldrh	r2, [r0, #518]
+ 871 0008 91B2     		uxth	r1, r2
+ 872              	.LVL98:
+ 415:src/uart_support_gps.c **** 	return (pUSART_Buf->TX_Head == tempTX_Tail);
+ 873              		.loc 1 415 0
+ 874 000a B0F80432 		ldrh	r3, [r0, #516]
+ 875 000e 98B2     		uxth	r0, r3
+ 416:src/uart_support_gps.c **** }
+ 876              		.loc 1 416 0
+ 877 0010 421A     		subs	r2, r0, r1
+ 878              	.LVL99:
+ 879 0012 5142     		rsbs	r1, r2, #0
+ 880              	.LVL100:
+ 881 0014 51EB0200 		adcs	r0, r1, r2
+ 882 0018 7047     		bx	lr
+ 883              	.L79:
+ 884 001a 00BF     		.align	2
+ 885              	.L78:
+ 886 001c 00000000 		.word	.LANCHOR2
+ 887              		.cfi_endproc
+ 888              	.LFE69:
+ 890              		.global	xUART_IRQ
+ 891              		.global	USART2_Buf
+ 892              		.global	USART_InitStructure
+ 893              		.section	.bss.pUSART_Buf,"aw",%nobits
+ 894              		.align	2
+ 895              		.set	.LANCHOR2,. + 0
+ 898              	pUSART_Buf:
+ 899 0000 00000000 		.space	4
+ 900              		.section	.bss.UART,"aw",%nobits
+ 901              		.align	2
+ 902              		.set	.LANCHOR0,. + 0
+ 905              	UART:
+ 906 0000 00000000 		.space	4
+ 907              		.section	.bss.xUART_IRQ,"aw",%nobits
+ 908              		.align	2
+ 909              		.set	.LANCHOR4,. + 0
+ 912              	xUART_IRQ:
+ 913 0000 00000000 		.space	4
+ 914              		.section	.bss.USART2_Buf,"aw",%nobits
+ 915              		.align	1
+ 916              		.set	.LANCHOR3,. + 0
+ 919              	USART2_Buf:
+ 920 0000 00000000 		.space	520
+ 920      00000000 
+ 920      00000000 
+ 920      00000000 
+ 920      00000000 
+ 921              		.section	.bss.USART_InitStructure,"aw",%nobits
+ 922              		.align	2
+ 923              		.set	.LANCHOR1,. + 0
+ 926              	USART_InitStructure:
+ 927 0000 00000000 		.space	16
+ 927      00000000 
+ 927      00000000 
+ 927      00000000 
+ 928              		.text
+ 929              	.Letext0:
+ 930              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
+ 931              		.file 4 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 932              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
+ 933              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 934              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
+ 935              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
+ 936              		.file 9 "./inc/uart_support_gps.h"
+ 937              		.file 10 "./lib/CMSIS/Include/core_cm3.h"
+ 938              		.file 11 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
+ 939              		.file 12 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/
 DEFINED SYMBOLS
                             *ABS*:00000000 uart_support_gps.c
-  R:\TEMP\cckY3Wwo.s:19     .text.conio_init:00000000 $t
-  R:\TEMP\cckY3Wwo.s:24     .text.conio_init:00000000 conio_init
-  R:\TEMP\cckY3Wwo.s:152    .text.conio_init:000000bc $d
-  R:\TEMP\cckY3Wwo.s:162    .text.USART_TXBuffer_FreeSpace:00000000 $t
-  R:\TEMP\cckY3Wwo.s:167    .text.USART_TXBuffer_FreeSpace:00000000 USART_TXBuffer_FreeSpace
-  R:\TEMP\cckY3Wwo.s:197    .text.USART_TXBuffer_PutByte:00000000 $t
-  R:\TEMP\cckY3Wwo.s:202    .text.USART_TXBuffer_PutByte:00000000 USART_TXBuffer_PutByte
-  R:\TEMP\cckY3Wwo.s:290    .text.USART_TXBuffer_PutByte:00000048 $d
-  R:\TEMP\cckY3Wwo.s:295    .text.USART_RXBufferData_Available:00000000 $t
-  R:\TEMP\cckY3Wwo.s:300    .text.USART_RXBufferData_Available:00000000 USART_RXBufferData_Available
-  R:\TEMP\cckY3Wwo.s:327    .text.USART_RXBuffer_GetByte:00000000 $t
-  R:\TEMP\cckY3Wwo.s:332    .text.USART_RXBuffer_GetByte:00000000 USART_RXBuffer_GetByte
-  R:\TEMP\cckY3Wwo.s:376    .text.putch:00000000 $t
-  R:\TEMP\cckY3Wwo.s:381    .text.putch:00000000 putch
-  R:\TEMP\cckY3Wwo.s:423    .text.putch:00000020 $d
-  R:\TEMP\cckY3Wwo.s:428    .text.getch:00000000 $t
-  R:\TEMP\cckY3Wwo.s:433    .text.getch:00000000 getch
-  R:\TEMP\cckY3Wwo.s:472    .text.getch:0000001c $d
-  R:\TEMP\cckY3Wwo.s:477    .text.keypressed:00000000 $t
-  R:\TEMP\cckY3Wwo.s:482    .text.keypressed:00000000 keypressed
-  R:\TEMP\cckY3Wwo.s:516    .text.keypressed:00000018 $d
-  R:\TEMP\cckY3Wwo.s:521    .text.cputs:00000000 $t
-  R:\TEMP\cckY3Wwo.s:526    .text.cputs:00000000 cputs
-  R:\TEMP\cckY3Wwo.s:557    .text.cgets:00000000 $t
-  R:\TEMP\cckY3Wwo.s:562    .text.cgets:00000000 cgets
-  R:\TEMP\cckY3Wwo.s:663    .text.conio_IRQ:00000000 $t
-  R:\TEMP\cckY3Wwo.s:668    .text.conio_IRQ:00000000 conio_IRQ
-  R:\TEMP\cckY3Wwo.s:780    .text.conio_IRQ:00000090 $d
-  R:\TEMP\cckY3Wwo.s:788    .text.USART2_IRQHandler:00000000 $t
-  R:\TEMP\cckY3Wwo.s:793    .text.USART2_IRQHandler:00000000 USART2_IRQHandler
-  R:\TEMP\cckY3Wwo.s:813    .text.USART2_IRQHandler:0000000c $d
-  R:\TEMP\cckY3Wwo.s:839    .bss.xUART_IRQ:00000000 xUART_IRQ
-  R:\TEMP\cckY3Wwo.s:846    .bss.USART2_Buf:00000000 USART2_Buf
-  R:\TEMP\cckY3Wwo.s:853    .bss.USART_InitStructure:00000000 USART_InitStructure
-  R:\TEMP\cckY3Wwo.s:821    .bss.pUSART_Buf:00000000 $d
-  R:\TEMP\cckY3Wwo.s:825    .bss.pUSART_Buf:00000000 pUSART_Buf
-  R:\TEMP\cckY3Wwo.s:828    .bss.UART:00000000 $d
-  R:\TEMP\cckY3Wwo.s:832    .bss.UART:00000000 UART
-  R:\TEMP\cckY3Wwo.s:835    .bss.xUART_IRQ:00000000 $d
-  R:\TEMP\cckY3Wwo.s:842    .bss.USART2_Buf:00000000 $d
-  R:\TEMP\cckY3Wwo.s:849    .bss.USART_InitStructure:00000000 $d
+  R:\TEMP\ccla5pMu.s:19     .text.conio_init:00000000 $t
+  R:\TEMP\ccla5pMu.s:24     .text.conio_init:00000000 conio_init
+  R:\TEMP\ccla5pMu.s:152    .text.conio_init:000000bc $d
+  R:\TEMP\ccla5pMu.s:162    .text.USART_TXBuffer_FreeSpace:00000000 $t
+  R:\TEMP\ccla5pMu.s:167    .text.USART_TXBuffer_FreeSpace:00000000 USART_TXBuffer_FreeSpace
+  R:\TEMP\ccla5pMu.s:197    .text.USART_TXBuffer_PutByte:00000000 $t
+  R:\TEMP\ccla5pMu.s:202    .text.USART_TXBuffer_PutByte:00000000 USART_TXBuffer_PutByte
+  R:\TEMP\ccla5pMu.s:290    .text.USART_TXBuffer_PutByte:00000048 $d
+  R:\TEMP\ccla5pMu.s:295    .text.USART_RXBufferData_Available:00000000 $t
+  R:\TEMP\ccla5pMu.s:300    .text.USART_RXBufferData_Available:00000000 USART_RXBufferData_Available
+  R:\TEMP\ccla5pMu.s:327    .text.USART_RXBuffer_GetByte:00000000 $t
+  R:\TEMP\ccla5pMu.s:332    .text.USART_RXBuffer_GetByte:00000000 USART_RXBuffer_GetByte
+  R:\TEMP\ccla5pMu.s:376    .text.putch:00000000 $t
+  R:\TEMP\ccla5pMu.s:381    .text.putch:00000000 putch
+  R:\TEMP\ccla5pMu.s:423    .text.putch:00000020 $d
+  R:\TEMP\ccla5pMu.s:428    .text.getch:00000000 $t
+  R:\TEMP\ccla5pMu.s:433    .text.getch:00000000 getch
+  R:\TEMP\ccla5pMu.s:472    .text.getch:0000001c $d
+  R:\TEMP\ccla5pMu.s:477    .text.keypressed:00000000 $t
+  R:\TEMP\ccla5pMu.s:482    .text.keypressed:00000000 keypressed
+  R:\TEMP\ccla5pMu.s:516    .text.keypressed:00000018 $d
+  R:\TEMP\ccla5pMu.s:521    .text.cputs:00000000 $t
+  R:\TEMP\ccla5pMu.s:526    .text.cputs:00000000 cputs
+  R:\TEMP\ccla5pMu.s:557    .text.cgets:00000000 $t
+  R:\TEMP\ccla5pMu.s:562    .text.cgets:00000000 cgets
+  R:\TEMP\ccla5pMu.s:663    .text.conio_IRQ:00000000 $t
+  R:\TEMP\ccla5pMu.s:668    .text.conio_IRQ:00000000 conio_IRQ
+  R:\TEMP\ccla5pMu.s:780    .text.conio_IRQ:00000090 $d
+  R:\TEMP\ccla5pMu.s:788    .text.USART2_IRQHandler:00000000 $t
+  R:\TEMP\ccla5pMu.s:793    .text.USART2_IRQHandler:00000000 USART2_IRQHandler
+  R:\TEMP\ccla5pMu.s:813    .text.USART2_IRQHandler:0000000c $d
+  R:\TEMP\ccla5pMu.s:818    .text.Flush_RXBuffer:00000000 $t
+  R:\TEMP\ccla5pMu.s:823    .text.Flush_RXBuffer:00000000 Flush_RXBuffer
+  R:\TEMP\ccla5pMu.s:849    .text.Flush_RXBuffer:0000001c $d
+  R:\TEMP\ccla5pMu.s:855    .text.WaitTxBuffer:00000000 $t
+  R:\TEMP\ccla5pMu.s:860    .text.WaitTxBuffer:00000000 WaitTxBuffer
+  R:\TEMP\ccla5pMu.s:886    .text.WaitTxBuffer:0000001c $d
+  R:\TEMP\ccla5pMu.s:912    .bss.xUART_IRQ:00000000 xUART_IRQ
+  R:\TEMP\ccla5pMu.s:919    .bss.USART2_Buf:00000000 USART2_Buf
+  R:\TEMP\ccla5pMu.s:926    .bss.USART_InitStructure:00000000 USART_InitStructure
+  R:\TEMP\ccla5pMu.s:894    .bss.pUSART_Buf:00000000 $d
+  R:\TEMP\ccla5pMu.s:898    .bss.pUSART_Buf:00000000 pUSART_Buf
+  R:\TEMP\ccla5pMu.s:901    .bss.UART:00000000 $d
+  R:\TEMP\ccla5pMu.s:905    .bss.UART:00000000 UART
+  R:\TEMP\ccla5pMu.s:908    .bss.xUART_IRQ:00000000 $d
+  R:\TEMP\ccla5pMu.s:915    .bss.USART2_Buf:00000000 $d
+  R:\TEMP\ccla5pMu.s:922    .bss.USART_InitStructure:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
