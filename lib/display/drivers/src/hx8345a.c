@@ -5,7 +5,7 @@
     @version        1.00
     @date           2012.03.31
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive CM2111 TFT module(16bit-bus only).
+					It can drive CM2111 TFT module(16bit mode only).
 
     @section HISTORY
 		2012.03.31	V1.00	Stable Release.

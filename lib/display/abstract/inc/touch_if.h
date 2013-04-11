@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2011.05.30
+    @version        5.00
+    @date           2013.04.04
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -12,13 +12,14 @@
 		2010.12.31	V2.00	Fixed Bit Definitions.
 		2011.03.10	V3.00	C++ Ready.
 		2011.05.30	V4.00	Separate from Device Depend Section.
+		2013.04.04	V5.00	Added STMPE811 Device Handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TOUCH_IF_H
-#define __TOUCH_IF_H	0x0400
+#define __TOUCH_IF_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -100,8 +101,6 @@ extern void TC_CalibScreen_If(void);
 extern uint8_t TC_PenDown(void);
 extern void TC_ReadRaw(void);
 extern void TC_ScanPen(void);
-extern long cal_posx(uint16_t x);
-extern long cal_posy(uint16_t y);
 
 #ifdef __cplusplus
 }

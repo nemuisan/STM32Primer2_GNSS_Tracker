@@ -5,7 +5,7 @@
     @version        3.00
     @date           2011.10.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive WSTTN03-S220A TFT module(16bit-bus only).
+					It can drive WSTTN03-S220A TFT module(16bit mode only).
 
     @section HISTORY
 		2010.12.31	V1.00	Stable Release.

@@ -5,7 +5,7 @@
     @version        5.00
     @date           2012.02.15
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive ALO-095BWNN-J9 OLED module via SPI.
+					It can drive ALO-095BWNN-J9 OLED module(8bit,spi mode).
 
     @section HISTORY
 		2010.06.01	V1.00	Unstable Release.

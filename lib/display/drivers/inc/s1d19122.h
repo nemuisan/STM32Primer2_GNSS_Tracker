@@ -5,7 +5,7 @@
     @version        7.00
     @date           2012.01.15
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive STM025QVT-001 TFT module(8/16bit).
+					It can drive STM025QVT-001 TFT module(8/16bit mode).
 
     @section HISTORY
 		2010.10.01	V1.00	Stable Release

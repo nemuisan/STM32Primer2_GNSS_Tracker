@@ -1225,7 +1225,8 @@ FRESULT dir_alloc (
 			res = dir_next(dj, 1);		/* Next entry with table stretch enabled */
 		} while (res == FR_OK);
 	}
-	return res;
+    if (res == FR_NO_FILE) res = FR_DENIED;
+    return res;
 }
 #endif
 

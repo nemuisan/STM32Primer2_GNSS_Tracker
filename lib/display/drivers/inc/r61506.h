@@ -5,7 +5,7 @@
     @version        1.00
     @date           2012.11.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive T-51991GD015-MLW-AIN	TFT module(8bit bus).	@n
+					It can drive T-51991GD015-MLW-AIN	TFT module(8bit mode).
 
     @section HISTORY
 		2011.11.30	V1.00	Stable Release.

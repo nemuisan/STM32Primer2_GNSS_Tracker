@@ -6,8 +6,8 @@
     @date           2011.12.23
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available OLED Modules are listed below.					@n
-					 -BL024ACRNB$				(S6E63D6)	8/16bit/4wire-SPI	@n
-					 -C0283QGLH-T				(S6E63D6)	8/16bit/4wire-SPI	@n
+					 -BL024ACRNB$				(S6E63D6)	8/16bit,spi mode.	@n
+					 -C0283QGLH-T				(S6E63D6)	8/16bit,spi mode.	@n
 
     @section HISTORY
 		2011.05.22	V1.00	Stable Release.

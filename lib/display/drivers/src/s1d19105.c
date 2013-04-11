@@ -5,7 +5,7 @@
     @version        2.00
     @date           2011.10.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive FPC-SH9516-11A TFT module  8bit mode only.
+					It can drive FPC-SH9516-11A TFT module(8bit mode only).
 
     @section HISTORY
 		2011.06.08	V1.00	Stable Release.

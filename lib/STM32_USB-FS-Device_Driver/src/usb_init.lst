@@ -186,23 +186,23 @@
  125              		.file 5 "./inc/systick.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_init.c
-  R:\TEMP\ccD8xJ5m.s:19     .text.USB_Init:00000000 $t
-  R:\TEMP\ccD8xJ5m.s:24     .text.USB_Init:00000000 USB_Init
-  R:\TEMP\ccD8xJ5m.s:59     .text.USB_Init:00000020 $d
-  R:\TEMP\ccD8xJ5m.s:99     .bss.pUser_Standard_Requests:00000000 pUser_Standard_Requests
-  R:\TEMP\ccD8xJ5m.s:80     .bss.Device_Info:00000000 Device_Info
-  R:\TEMP\ccD8xJ5m.s:105    .bss.wInterrupt_Mask:00000000 wInterrupt_Mask
-  R:\TEMP\ccD8xJ5m.s:118    .bss.SaveState:00000000 SaveState
-  R:\TEMP\ccD8xJ5m.s:112    .bss.pProperty:00000000 pProperty
-  R:\TEMP\ccD8xJ5m.s:92     .bss.pInformation:00000000 pInformation
-  R:\TEMP\ccD8xJ5m.s:85     .bss.EPindex:00000000 EPindex
-  R:\TEMP\ccD8xJ5m.s:76     .bss.Device_Info:00000000 $d
-  R:\TEMP\ccD8xJ5m.s:86     .bss.EPindex:00000000 $d
-  R:\TEMP\ccD8xJ5m.s:88     .bss.pInformation:00000000 $d
-  R:\TEMP\ccD8xJ5m.s:95     .bss.pUser_Standard_Requests:00000000 $d
-  R:\TEMP\ccD8xJ5m.s:102    .bss.wInterrupt_Mask:00000000 $d
-  R:\TEMP\ccD8xJ5m.s:108    .bss.pProperty:00000000 $d
-  R:\TEMP\ccD8xJ5m.s:115    .bss.SaveState:00000000 $d
+  R:\TEMP\cc3gHvIW.s:19     .text.USB_Init:00000000 $t
+  R:\TEMP\cc3gHvIW.s:24     .text.USB_Init:00000000 USB_Init
+  R:\TEMP\cc3gHvIW.s:59     .text.USB_Init:00000020 $d
+  R:\TEMP\cc3gHvIW.s:99     .bss.pUser_Standard_Requests:00000000 pUser_Standard_Requests
+  R:\TEMP\cc3gHvIW.s:80     .bss.Device_Info:00000000 Device_Info
+  R:\TEMP\cc3gHvIW.s:105    .bss.wInterrupt_Mask:00000000 wInterrupt_Mask
+  R:\TEMP\cc3gHvIW.s:118    .bss.SaveState:00000000 SaveState
+  R:\TEMP\cc3gHvIW.s:112    .bss.pProperty:00000000 pProperty
+  R:\TEMP\cc3gHvIW.s:92     .bss.pInformation:00000000 pInformation
+  R:\TEMP\cc3gHvIW.s:85     .bss.EPindex:00000000 EPindex
+  R:\TEMP\cc3gHvIW.s:76     .bss.Device_Info:00000000 $d
+  R:\TEMP\cc3gHvIW.s:86     .bss.EPindex:00000000 $d
+  R:\TEMP\cc3gHvIW.s:88     .bss.pInformation:00000000 $d
+  R:\TEMP\cc3gHvIW.s:95     .bss.pUser_Standard_Requests:00000000 $d
+  R:\TEMP\cc3gHvIW.s:102    .bss.wInterrupt_Mask:00000000 $d
+  R:\TEMP\cc3gHvIW.s:108    .bss.pProperty:00000000 $d
+  R:\TEMP\cc3gHvIW.s:115    .bss.SaveState:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

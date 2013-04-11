@@ -2,8 +2,8 @@
 /*!
 	@file			ili9481.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2013.01.02
+    @version        9.00
+    @date           2013.04.06
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
 					 -S95517-AAA				(ILI9481)	16bit mode.			@n
@@ -13,7 +13,8 @@
 					 -FTN35P02N-01				(ILI9481)	8/16bit mode &		@n
 					                                        3,4Wire-SPI mode.   @n
 					 -CNKT0350T37-11001A		(R61581B0)	8/16bit mode.		@n
-					 -WK35039V0					(RM68042)	8/16bit mode.
+					 -WK35039V0					(RM68042)	8/16bit mode.		@n
+					 -TM035PDZ48				(ILI9486L)	8/16bit mode
 
     @section HISTORY
 		2010.10.01	V1.00	Stable Release.
@@ -25,6 +26,7 @@
 		2012.11.30  V7.00	Added Serial Handling.
 		2013.01.02  V8.00	Added R61581/B0 Devices Support.
 							Added RM68042 Devices Support.
+		2013.04.06  V9.00	Added ILI9486L Devices Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -34,7 +36,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ili9481.h"
 /* check header file version for fool proof */
-#if __ILI9481_H != 0x0800
+#if __ILI9481_H != 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -73,12 +75,10 @@ inline void ILI9481_reset(void)
 	ILI9481_RES_SET();							/* RES=H, RD=H, WR=H   		*/
 	ILI9481_RD_SET();
 	ILI9481_WR_SET();
-	_delay_ms(1);								/* wait 1ms     			*/
+	_delay_ms(10);								/* wait 10ms     			*/
 
 	ILI9481_RES_CLR();							/* RES=L, CS=L   			*/
 	ILI9481_CS_CLR();
-	_delay_ms(10);								/* wait 10ms     			*/
-	
 #elif  USE_ILI9481_SPI_TFT
 	ILI9481_RES_SET();							/* RES=H, CS=H				*/
 	ILI9481_CS_SET();
@@ -88,6 +88,7 @@ inline void ILI9481_reset(void)
 	ILI9481_RES_CLR();							/* RES=L		   			*/
 #endif
 
+	_delay_ms(10);								/* wait 10ms     			*/
 	ILI9481_RES_SET();						  	/* RES=H					*/
 	_delay_ms(100);				    			/* wait 100ms     			*/
 }
@@ -190,6 +191,32 @@ inline uint16_t ILI9481_rd_cmd(uint8_t cmd)
 	return val;
 }
 
+/**************************************************************************/
+/*! 
+    Read LCD Register.
+*/
+/**************************************************************************/
+static uint16_t ILI9486_rd_id(uint8_t cmd)
+{
+	uint8_t temp,i;
+	uint16_t val;
+
+
+	ILI9481_wr_cmd(cmd);
+	ILI9481_WR_SET();
+
+	for(i=0;i<3;i++){
+		ReadLCDData(temp);
+	}
+
+    ReadLCDData(val);
+
+	val &= 0x00FF;
+	val |= temp<<8;
+
+	return val;
+}
+
 #elif USE_ILI9481_SPI_TFT
 /**************************************************************************/
 /*! 
@@ -276,6 +303,89 @@ inline void ILI9481_wr_block(uint8_t *p,unsigned int cnt)
 /**************************************************************************/
 inline uint16_t ILI9481_rd_cmd(uint8_t cmd)
 {
+	uint16_t val;
+	uint32_t idtemp;
+	
+	ILI9481_DC_CLR();							/* DC=L		     */
+	DISPLAY_ASSART_CS();						/* CS=L		     */
+
+	SendSPI(cmd);
+
+	ILI9481_DC_SET();							/* DC=H		     */
+	
+	for(int i=0;i<3;i++){
+		idtemp = RecvSPI();
+	}
+
+	idtemp <<=8;
+	idtemp  |= RecvSPI();
+	idtemp <<=8;
+	idtemp  |= RecvSPI();
+    
+	val = 0xFFFF & (idtemp >>7);
+
+	DISPLAY_NEGATE_CS();						/* CS=H		     */
+
+	return val;
+}
+
+/**************************************************************************/
+/*! 
+    Read LCD Register.
+*/
+/**************************************************************************/
+static uint16_t ILI9481_rd_reg(uint8_t cmd)
+{
+	uint16_t val;
+
+	DISPLAY_ASSART_CS();						/* CS=L		    */
+	ILI9481_DC_CLR();							/* DC=L			*/
+
+	SendSPI(cmd);
+
+	ILI9481_DC_SET();							/* DC=H			*/
+	val = RecvSPI();							/* Dummy Read 	*/
+
+	DISPLAY_NEGATE_CS();						/* CS=H		    */
+
+	return val;
+}
+
+/**************************************************************************/
+/*! 
+    Read ID ILI9486.
+*/
+/**************************************************************************/
+static uint16_t ILI9486_rd_id(uint8_t cmd)
+{
+	uint16_t val;
+	uint16_t temp;
+
+	ILI9481_wr_cmd(0xFB);						/* SPI Register Read Command */
+	ILI9481_wr_dat(0x11);    					/* Read Mode Enable,1st Byte */
+	temp = ILI9481_rd_reg(cmd);					/* Dummy Read 	*/
+	
+	ILI9481_wr_cmd(0xFB);						/* SPI Register Read Command */
+	ILI9481_wr_dat(0x12);    					/* Read Mode Enable,2nd Byte */
+	temp = ILI9481_rd_reg(cmd);					/* Upper Read 	*/
+	
+	ILI9481_wr_cmd(0xFB);						/* SPI Register Read Command */
+	ILI9481_wr_dat(0x13);    					/* Read Mode Enable,3rd Byte */
+	val  = ILI9481_rd_reg(cmd);					/* Lower Read	*/
+		   ILI9481_rd_reg(cmd);					/* Dummy Read 	*/
+
+	val &= 0x00FF;
+	val |= (uint16_t)temp<<8;
+
+	return val;
+}
+/**************************************************************************/
+/*! 
+    Read ID R61581/B.
+*/
+/**************************************************************************/
+static uint16_t R61581_rd_id(uint8_t cmd)
+{
 	uint16_t val,temp;
 
 	ILI9481_DC_CLR();							/* DC=L		     */
@@ -285,7 +395,7 @@ inline uint16_t ILI9481_rd_cmd(uint8_t cmd)
 
 	ILI9481_DC_SET();							/* DC=H		     */
 	
-	for(int i=0;i<3;i++){
+	for(int i=0;i<4;i++){
 		temp = RecvSPI();
 	}
 
@@ -293,14 +403,12 @@ inline uint16_t ILI9481_rd_cmd(uint8_t cmd)
 
 	val &= 0x00FF;
 	val |= temp<<8;
-	val <<=1;
 
 	DISPLAY_NEGATE_CS();						/* CS=H		     */
 
 	return val;
 }
 #endif
-
 
 
 /**************************************************************************/
@@ -353,21 +461,29 @@ inline void ILI9481_clear(void)
 /**************************************************************************/
 void ILI9481_init(void)
 {
-	volatile uint16_t devicetype;
-	
+	volatile uint16_t devicetype,id9486l;
+#if   defined(USE_ILI9481_SPI_TFT)
+	volatile uint16_t id61581;
+#endif
+
 	Display_IoInit_If();
 
 	ILI9481_reset();
 
-	/* Enable Manufactutre Command */
+	/* Enable ALL Manufactutre Command For R61581xx */
 	ILI9481_wr_cmd(0xB0);
 	ILI9481_wr_dat(0x00);
-	_delay_ms(5);
-	
+
 	/* Check Device Code */
 	devicetype = ILI9481_rd_cmd(0xBF);  	/* Confirm Vaild LCD Controller */
+#if   defined(USE_ILI9481_TFT)
+	id9486l = ILI9486_rd_id(0xD3);  		/* Confirm Vaild LCD Controller for ILI9486L */
+#elif defined(USE_ILI9481_SPI_TFT)
+	id61581 = R61581_rd_id(0xBF);  			/* Confirm Vaild LCD Controller for R61581/B Serial Interface */
+	id9486l = ILI9486_rd_id(0xD3);  		/* Confirm Vaild LCD Controller for ILI9486L Serial Interface */
+#endif
 
-	if((devicetype == 0x9481) ||(devicetype == 0x9480)) /* 0x9480 is SPI WorkAround */
+	if(devicetype == 0x9481)
 	{
 		/* Initialize ILI9481 */
 		ILI9481_wr_cmd(0x11);				/* Exit Sleep Mode */
@@ -540,23 +656,30 @@ void ILI9481_init(void)
 
 	}
 
+#if   defined(USE_ILI9481_TFT)
 	else if(devicetype == 0x1581)
+#elif defined(USE_ILI9481_SPI_TFT)
+	else if(id61581 == 0x1581)
+#endif
 	{
 		/* Initialize R61581xx */
-		ILI9481_wr_cmd(0xB0);
-		ILI9481_wr_dat(0x00);
-		
 		ILI9481_wr_cmd(0x11);		/* Sleep Out */
 		_delay_ms(150);
 
 		ILI9481_wr_cmd(0xB4);		/* Set RM, DM */
 		ILI9481_wr_dat(0x00);		/* MPU Mode */
 
+		ILI9481_wr_cmd(0x38);		/* exit idle mode */
+		
 		ILI9481_wr_cmd(0x36);		/* Set_address_mode */
 		ILI9481_wr_dat(0x00);		
 
 		ILI9481_wr_cmd(0x3A);		/* Set_pixel_format */
+#if   defined(USE_ILI9481_TFT)
 		ILI9481_wr_dat(0x55);		/* RGB565(16dpp) */
+#elif defined(USE_ILI9481_SPI_TFT)
+		ILI9481_wr_dat(0x66);		/* RGB565(16dpp) */
+#endif
 
 		ILI9481_wr_cmd(0xB3);
 		ILI9481_wr_dat(0x02);
@@ -568,7 +691,11 @@ void ILI9481_init(void)
 		ILI9481_wr_dat(0x00);
 		
 		ILI9481_wr_cmd(0xC0);
+#ifndef USE_TFT1P7134_E
 		ILI9481_wr_dat((1<<4)|(0<<3)|(0<<2)|(1<<1)|(1<<0)); /* BGR-order,Holizontal-Flip */
+#else
+		ILI9481_wr_dat((0<<4)|(0<<3)|(0<<2)|(1<<1)|(1<<0)); /* RGB-order,Holizontal-Flip */
+#endif
 		ILI9481_wr_dat(0x3B);
 		ILI9481_wr_dat(0x00);
 		ILI9481_wr_dat(0x02);
@@ -653,21 +780,21 @@ void ILI9481_init(void)
 		ILI9481_wr_dat(0x1a);
 		ILI9481_wr_dat(0x09);
 		
-		ILI9481_wr_cmd(0xD2);		 /* Operational Amplifier Circuit Constant Current Adjust , charge pump frequency setting */
+		ILI9481_wr_cmd(0xD2);		/* Operational Amplifier Circuit Constant Current Adjust , charge pump frequency setting */
 		ILI9481_wr_dat(0x01);
 		ILI9481_wr_dat(0x22);
 
-		ILI9481_wr_cmd(0xC0);		 /* REV SM GS */
-		ILI9481_wr_dat(0x10);
+		ILI9481_wr_cmd(0xC0);		/* REV SM GS */
+		ILI9481_wr_dat((1<<4)|(0<<3)|(0<<2));
 		ILI9481_wr_dat(0x3B);
 		ILI9481_wr_dat(0x00);
 		ILI9481_wr_dat(0x02);
 		ILI9481_wr_dat(0x11);
 		
-		ILI9481_wr_cmd(0xC5);		 /* Frame rate setting = 72HZ  when setting 0x03 */
+		ILI9481_wr_cmd(0xC5);		/* Frame rate setting = 72HZ  when setting 0x03 */
 		ILI9481_wr_dat(0x03);
 		
-		ILI9481_wr_cmd(0xC8);		 /* Gamma setting */
+		ILI9481_wr_cmd(0xC8);		/* Gamma setting */
 		ILI9481_wr_dat(0x00);
 		ILI9481_wr_dat(0x25);
 		ILI9481_wr_dat(0x21);
@@ -688,26 +815,126 @@ void ILI9481_init(void)
  		ILI9481_wr_dat(0x00);
  		ILI9481_wr_dat(0x02);
 
-		ILI9481_wr_cmd(0x20);		 /* Exit invert mode */
+		ILI9481_wr_cmd(0x20);		/* Exit invert mode */
 
-		ILI9481_wr_cmd(0x36);
-		ILI9481_wr_dat(0x08);
+		ILI9481_wr_cmd(0x36);		/* Set_address_mode */
+		ILI9481_wr_dat((0<<7)|(0<<6)|(0<<5)|(0<<4)|(1<<3)|(1<<1)|(0<<0));	
 		
 		ILI9481_wr_cmd(0x3A);		/* Set_pixel_format */
 		ILI9481_wr_dat(0x55);		/* RGB565(16dpp) */
-
-		ILI9481_wr_cmd(0x2B);
-		ILI9481_wr_dat(0x00);
-		ILI9481_wr_dat(0x00);
-		ILI9481_wr_dat(0x01);
-		ILI9481_wr_dat(0x3F);
 		
-		ILI9481_wr_cmd(0x2A);
-		ILI9481_wr_dat(0x00);
-		ILI9481_wr_dat(0x00);
-		ILI9481_wr_dat(0x01);
-		ILI9481_wr_dat(0xDF);
+		ILI9481_wr_cmd(0x29);		/* Display On */
 		_delay_ms(120);
+	}
+
+	else if(id9486l == 0x9486)
+	{
+		/* Initialize ILI9486L */
+		ILI9481_wr_cmd(0x01);		/* Soft Reset */
+		_delay_ms(10);				/* 5 +@ mSec */
+	
+		ILI9481_wr_cmd(0x11);		/* Sleep Out */
+		_delay_ms(130);				/* 120 + 5 +@ mSec */
+	
+		ILI9481_wr_cmd(0xC0);		/* Power Control1 */
+		ILI9481_wr_dat(0x10);
+		ILI9481_wr_dat(0x0D);
+
+		ILI9481_wr_cmd(0xC1);		/* Power Control2 */
+		ILI9481_wr_dat(0x41);
+		ILI9481_wr_dat(0x00);
+
+		ILI9481_wr_cmd(0xC2);		/* Pwoer Control3 */
+		ILI9481_wr_dat(0x00);
+
+		ILI9481_wr_cmd(0xC5);		/* Set VCOM */
+		ILI9481_wr_dat(0x00);
+		ILI9481_wr_dat(0x5A);
+		ILI9481_wr_dat(0x80);
+
+		ILI9481_wr_cmd(0xB1);		/* Frame Rate */
+		ILI9481_wr_dat(0xB0);		/* 81Hz */
+		ILI9481_wr_dat(0x11);
+
+		ILI9481_wr_cmd(0xB4);		/* Display Colour Invertion */
+		ILI9481_wr_dat(0x02);
+
+		ILI9481_wr_cmd(0xB6);		/* Display Function Control */
+		ILI9481_wr_dat(0x00);		/* System Interface */
+		ILI9481_wr_dat((1<<6)|(0<<5)|(0<<4)|0x02);		
+		ILI9481_wr_dat(0x3B);
+
+		ILI9481_wr_cmd(0xE0);		/* Positive GANMMA */
+		ILI9481_wr_dat(0x0F);
+		ILI9481_wr_dat(0x21);
+		ILI9481_wr_dat(0x20);
+		ILI9481_wr_dat(0x0B);
+		ILI9481_wr_dat(0x0F);
+		ILI9481_wr_dat(0x08);
+		ILI9481_wr_dat(0x4F);
+		ILI9481_wr_dat(0xF1);
+		ILI9481_wr_dat(0x3F);
+		ILI9481_wr_dat(0x08);
+		ILI9481_wr_dat(0x0D);
+		ILI9481_wr_dat(0x00);
+		ILI9481_wr_dat(0x00);
+		ILI9481_wr_dat(0x00);
+		ILI9481_wr_dat(0x00);
+
+		ILI9481_wr_cmd(0xE1);		/* Negative GANMMA */
+		ILI9481_wr_dat(0x0F);
+		ILI9481_wr_dat(0x3F);
+		ILI9481_wr_dat(0x3F);
+		ILI9481_wr_dat(0x0F);
+		ILI9481_wr_dat(0x12);
+		ILI9481_wr_dat(0x07);
+		ILI9481_wr_dat(0x40);
+		ILI9481_wr_dat(0x0E);
+		ILI9481_wr_dat(0x30);
+		ILI9481_wr_dat(0x07);
+		ILI9481_wr_dat(0x10);
+		ILI9481_wr_dat(0x04);
+		ILI9481_wr_dat(0x20);
+		ILI9481_wr_dat(0x1E);
+		ILI9481_wr_dat(0x00);
+
+		ILI9481_wr_cmd(0xF2);		/* ??? */
+		ILI9481_wr_dat(0x18);
+		ILI9481_wr_dat(0xA3);
+		ILI9481_wr_dat(0x12);
+		ILI9481_wr_dat(0x02);
+		ILI9481_wr_dat(0xB2);
+		ILI9481_wr_dat(0x12);
+		ILI9481_wr_dat(0xFF);
+		ILI9481_wr_dat(0x10);
+		ILI9481_wr_dat(0x00);
+
+		ILI9481_wr_cmd(0xF8);		/* ??? */
+		ILI9481_wr_dat(0x21);
+		ILI9481_wr_dat(0x04);
+
+		ILI9481_wr_cmd(0xF9);		/* ??? */
+		ILI9481_wr_dat(0x00);
+		ILI9481_wr_dat(0x08);
+
+		ILI9481_wr_cmd(0x20);		/* Display Invertion OFF */
+
+		ILI9481_wr_cmd(0x13);		/* Enter Nomal Mode */
+
+		ILI9481_wr_cmd(0x38);		/* Idle mode OFF */
+
+		ILI9481_wr_cmd(0x3A);		/* Set_pixel_format */
+#if   defined(USE_ILI9481_TFT)
+		ILI9481_wr_dat(0x55);		/* RGB565(16dpp) */
+#elif defined(USE_ILI9481_SPI_TFT)
+		ILI9481_wr_dat(0x66);		/* RGB565(16dpp) */
+#endif
+
+		ILI9481_wr_cmd(0x36);		/* Set_address_mode */
+		ILI9481_wr_dat((1<<7)|(1<<6)|(0<<5)|(0<<4)|(1<<3)|(0<<2)|(0<<0));	
+
+		ILI9481_wr_cmd(0x29);		/* Display On */
+		_delay_ms(10);
 	}
 
 	else { for(;;);} /* Invalid Device Code!! */
@@ -741,8 +968,9 @@ int ILI9481_draw_bmp(const uint8_t* ptr){
 	uint32_t n, m, biofs, bw, iw, bh, w;
 	uint32_t xs, xe, ys, ye, i;
 	uint8_t *p;
+#ifdef USE_ILI9481_TFT
 	uint16_t d;
-
+#endif
 	/* Load BitStream Address Offset  */
 	biofs = LD_UINT32(ptr+10);
 	/* Check Plane Count "1" */

@@ -5,7 +5,7 @@
     @version        1.00
     @date           2012.09.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive EP-T022QCW1R1-T03	TFT module(8/16bit).		@n
+					It can drive EP-T022QCW1R1-T03	TFT module(8/16bit mode).
 
     @section HISTORY
 		2012.09.30	V1.00	Stable Release.

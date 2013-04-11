@@ -46,7 +46,7 @@
 	#define MAX_X			128
 	#define MAX_Y			160
 	#define MADVAL 			0xC8
-#elif defined(USE_ADS7843)			/* For HD177P2501 (with TouchPanel model) module */
+#elif defined(USE_TOUCH_CTRL)	/* For HD177P2501 (with TouchPanel model) module */
 	#define OFS_COL			0
 	#define OFS_RAW			0
 	#define MAX_X			128

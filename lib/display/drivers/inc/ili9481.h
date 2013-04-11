@@ -2,8 +2,8 @@
 /*!
 	@file			ili9481.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2013.01.02
+    @version        9.00
+    @date           2013.04.06
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
 					 -S95517-AAA				(ILI9481)	16bit mode.			@n
@@ -13,7 +13,8 @@
 					 -FTN35P02N-01				(ILI9481)	8/16bit mode &		@n
 					                                        3,4Wire-SPI mode.   @n
 					 -CNKT0350T37-11001A		(R61581B0)	8/16bit mode.		@n
-					 -WK35039V0					(RM68042)	8/16bit mode.
+					 -WK35039V0					(RM68042)	8/16bit mode.		@n
+					 -TM035PDZ48				(ILI9486L)	8/16bit mode
 
     @section HISTORY
 		2010.10.01	V1.00	Stable Release.
@@ -25,13 +26,14 @@
 		2012.11.30  V7.00	Added Serial Handling.
 		2013.01.02  V8.00	Added R61581/B0 Devices Support.
 							Added RM68042 Devices Support.
+		2013.04.06  V9.00	Added ILI9486L Devices Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __ILI9481_H
-#define __ILI9481_H	0x0800
+#define __ILI9481_H	0x0900
 
 #ifdef __cplusplus
  extern "C" {
@@ -51,9 +53,13 @@
 #define MAX_X				320
 #define MAX_Y				480
 
+/* For TFT1P2797-E (with TouchPanel model ILI9481) module Force  */
+/*#define USE_TFT1P2797_E*/
+/* For TFT1P7134-E (with TouchPanel model R61581) module */
+/*#define USE_TFT1P7134_E*/
 #if !defined(USE_ILI9481_SPI_TFT)
- #if defined(USE_ADS7843)				/* For TFT1P2797 (with TouchPanel model) module */
-	#define USE_TFT1P2797_E
+ #if	defined(USE_TOUCH_CTRL)
+	#define USE_TFT1P2797_E				/* For TFT1P2797 (with TouchPanel model) module */
  #else 									/* For S95517 ( NO TouchPanel & Normally Black)module */
  #endif
 #endif
@@ -62,6 +68,8 @@
 #define ILI9481SPI_4WIREMODE
 /*#define ILI9481SPI_3WIREMODE*/
 
+/* Don't Touch This!! */
+#if defined(USE_ILI9481_SPI_TFT)
 #ifdef ILI9481SPI_3WIREMODE
 #if defined(USE_HARDWARE_SPI)
  #if defined(SUPPORT_HARDWARE_9BIT_SPI)
@@ -85,6 +93,7 @@
  #endif
  #define DNC_CMD()	
  #define DNC_DAT()	
+#endif
 #endif
 
 /* Display Contol Macros */

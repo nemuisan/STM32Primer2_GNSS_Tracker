@@ -5,7 +5,7 @@
     @version        1.00
     @date           2013.01.02
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive TFT1P2181-E TFT module(8/16bit).
+					It can drive TFT1P2181-E TFT module(8/16bit mode).
 
     @section HISTORY
 		2013.01.02	V1.00	Stable Release.

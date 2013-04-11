@@ -359,66 +359,64 @@ void SSD1289_init (void)
 		SSD1289_wr_cmd(0xE5);
 		SSD1289_wr_dat(0x8000);   
 		SSD1289_wr_cmd(0x28);
-		SSD1289_wr_dat(0x0006); // enable test command   
+		SSD1289_wr_dat(0x0006);		/* enable test command */  
 		SSD1289_wr_cmd(0x07);
 		SSD1289_wr_dat(0x0021);  
 		SSD1289_wr_cmd(0x00);
-		SSD1289_wr_dat(0x0001); // Start internal OSC   
+		SSD1289_wr_dat(0x0001);		/* Start internal OSC */   
 		_delay_ms(5);  
   
 		SSD1289_wr_cmd(0x07);
 		SSD1289_wr_dat(0x0023);  
 		SSD1289_wr_cmd(0x10);
-		SSD1289_wr_dat(0x0000); // Sleep mode off   
+		SSD1289_wr_dat(0x0000);		/* Sleep mode off */ 
 		_delay_ms(5);  
   
 		SSD1289_wr_cmd(0x07);
-		SSD1289_wr_dat(0x0033); // Display on   
+		SSD1289_wr_dat(0x0033);		/* Display on */   
 		SSD1289_wr_cmd(0x01);
-		SSD1289_wr_dat(0x2b3f); // Driver output control      
+		SSD1289_wr_dat(0x2b3f);		/* Driver output control */       
   
 		SSD1289_wr_cmd(0x02);
-		SSD1289_wr_dat(0x0600); // Set to line inversion    
+		SSD1289_wr_dat(0x0600);		/* Set to line inversion */    
   
 		SSD1289_wr_cmd(0x11);
 	#if defined(GPIO_ACCESS_8BIT) | defined(BUS_ACCESS_8BIT)
-		SSD1289_wr_dat(0x4030); // Entry mode setup
+		SSD1289_wr_dat(0x4030);		/* Entry mode setup */ 
 	#else
-		SSD1289_wr_dat(0x6030); // Entry mode setup
+		SSD1289_wr_dat(0x6030);		/* Entry mode setup */ 
 	#endif
 	
 		SSD1289_wr_cmd(0x03);
-		SSD1289_wr_dat(0xa6a8); // Step-up factor/cycle setting   
+		SSD1289_wr_dat(0xa6a8);		/* Step-up factor/cycle setting */   
 		SSD1289_wr_cmd(0x0f);
-		SSD1289_wr_dat(0x0000); // Gate scan position start at G0   
+		SSD1289_wr_dat(0x0000);		/* Gate scan position start at G0 */    
   
 		SSD1289_wr_cmd(0x0e);
-		SSD1289_wr_dat(0x3100); // Set alternating amplitude of VCOM    
+		SSD1289_wr_dat(0x3100);		/* Set alternating amplitude of VCOM */    
 		SSD1289_wr_cmd(0x1e);
-		SSD1289_wr_dat(0x009f); // Set VcomH voltage      
+		SSD1289_wr_dat(0x009f);		/* Set VcomH voltage */      
   
 		SSD1289_wr_cmd(0x0C);
-		SSD1289_wr_dat(0x0005); // Adjust VCIX2 output voltage   
+		SSD1289_wr_dat(0x0005);		/* Adjust VCIX2 output voltage */   
   
 		SSD1289_wr_cmd(0x0D);
-		SSD1289_wr_dat(0x0005); // Set amplitude magnification of VLCD63   
+		SSD1289_wr_dat(0x0005);		/* Set amplitude magnification of VLCD63 */   
   
 		SSD1289_wr_cmd(0x0b);
-		SSD1289_wr_dat(0x5308); // Frame cycle control   
+		SSD1289_wr_dat(0x5308);		/* Frame cycle control */   
   
-// ----------- Special command ----------   
-  
+		/* Special command */   
 		SSD1289_wr_cmd(0x25);
-		SSD1289_wr_dat(0xe000); // Frame freq control     
+		SSD1289_wr_dat(0xe000);		/* Frame freq control */    
 		SSD1289_wr_cmd(0x3f);
-		SSD1289_wr_dat(0xbb84); // System setting   
+		SSD1289_wr_dat(0xbb84);		/* System setting */    
 		SSD1289_wr_cmd(0x27);
-		SSD1289_wr_dat(0x0567); // Internal Vcomh/Vcoml timing     
+		SSD1289_wr_dat(0x0567);		/* Internal Vcomh/Vcoml timing */      
 		SSD1289_wr_cmd(0x20);
-		SSD1289_wr_dat(0x316c); // Internal VCOM strength     
+		SSD1289_wr_dat(0x316c);		/* Internal VCOM strength */      
   
-// ----------- Adjust the Gamma Curve ----------   
-  
+		/* Adjust the Gamma Curve */   
 		SSD1289_wr_cmd(0x3a);
 		SSD1289_wr_dat(0x1000);   
 		SSD1289_wr_cmd(0x3b);
@@ -444,18 +442,6 @@ void SSD1289_init (void)
 		SSD1289_wr_cmd(0x3b);
 		SSD1289_wr_dat(0x0008);   
    
-//------------------ Set GRAM area ---------------   
-  
-		SSD1289_wr_cmd(0x44);
-		SSD1289_wr_dat(0xef00); // Horizontal RAM Address   
-		SSD1289_wr_cmd(0x45);
-		SSD1289_wr_dat(0x0000); // Vertical RAM Start Address   
-		SSD1289_wr_cmd(0x46);
-		SSD1289_wr_dat(0x013f); // Vertical GRAM end Address   
-		SSD1289_wr_cmd(0x4e);
-		SSD1289_wr_dat(0x0000);   
-		SSD1289_wr_cmd(0x4f);
-		SSD1289_wr_dat(0x0000);  
 		SSD1289_wr_cmd(0x48);
 		SSD1289_wr_dat(0x0000);  
 		SSD1289_wr_cmd(0x49);
@@ -474,15 +460,15 @@ void SSD1289_init (void)
 	else if(devicetype == 0x8999)
 	{
 		/* Initialize SSD1298 */
-		/*** Start Initial Sequence ***/
+		/* Start Initial Sequence */
 		SSD1289_wr_cmd(0x00);
 		SSD1289_wr_dat(0x0001);			/* Start internal OSC. */
 		SSD1289_wr_cmd(0x01);
-		SSD1289_wr_dat(0x333F);			/* Driver output control, RL=0;REV=1;GD=1;BGR=0;SM=0;TB=1 */ 
+		SSD1289_wr_dat(0x3B3F);			/* Driver output control, RL=0;REV=1;GD=1;BGR=1;SM=0;TB=1 */ 
 		SSD1289_wr_cmd(0x02);
 		SSD1289_wr_dat(0x0600);			/* set 1 line inversion */ 
 
-		/*** Power control setup ***/
+		/* Power control setup */
 		SSD1289_wr_cmd(0x0C);
 		SSD1289_wr_dat(0x0007);			/* Adjust VCIX2 output voltage */ 
 		SSD1289_wr_cmd(0x0D);
@@ -494,22 +480,22 @@ void SSD1289_init (void)
 		SSD1289_wr_cmd(0x03);
 		SSD1289_wr_dat(0x6A64);			/* Step-up factor/cycle setting */ 
 
-		/*** Turn On display ***/
+		/* Turn On display */
 		SSD1289_wr_cmd(0x10);
 		SSD1289_wr_dat(0x0000);			/* Sleep mode off. */ 
 		_delay_ms(30);					/* Wait 30mS */  
 		SSD1289_wr_cmd(0x11);
-		SSD1289_wr_dat(0x4870);			/* Entry mode setup. 262K type B, take care on the data bus with 16it only */ 
+		SSD1289_wr_dat(0x6030);			/* Entry mode setup */ 
 		SSD1289_wr_cmd(0x07);
 		SSD1289_wr_dat(0x0033);			/* Display ON */
 
-		/*** LCD driver AC setting ***/
+		/* LCD driver AC setting */
 		SSD1289_wr_cmd(0x25);
 		SSD1289_wr_dat(0xE000);			/* Frame freq control, 65Hz */ 
 		SSD1289_wr_cmd(0x0B);
 		SSD1289_wr_dat(0x5308);			/* Frame cycle control, POR setting */
  
-		/*** RAM position control ***/
+		/* RAM position control */
 		SSD1289_wr_cmd(0x0F);
 		SSD1289_wr_dat(0x0000);			/* Gate scan position start at G0. */ 
 		SSD1289_wr_cmd(0x44);
@@ -519,7 +505,7 @@ void SSD1289_init (void)
 		SSD1289_wr_cmd(0x46);
 		SSD1289_wr_dat(0x013F);			/* Vertical RAM address end position */ 
 
-		/*** Adjust the Gamma Curve ***/
+		/* Adjust the Gamma Curve */
 		SSD1289_wr_cmd(0x30);
 		SSD1289_wr_dat(0x0000); 
 		SSD1289_wr_cmd(0x31);
@@ -541,7 +527,7 @@ void SSD1289_init (void)
 		SSD1289_wr_cmd(0x3B);
 		SSD1289_wr_dat(0x0F0D); 
 	
-		/*** Special command ***/
+		/* Special command */
 		SSD1289_wr_cmd(0x28);
 		SSD1289_wr_dat(0x0006);			/* Enable test command */ 
 		SSD1289_wr_cmd(0x2F);

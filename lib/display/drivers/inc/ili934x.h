@@ -2,14 +2,14 @@
 /*!
 	@file			ili934x.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2012.11.30
+    @version        6.00
+    @date           2013.03.20
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				 	 	 @n
 					Available TFT-LCM are listed below.							 	 	 @n
 					 -SDT028ATFT				(ILI9341)	8/16bit & 4-Wire,8bitSerial. @n
 					 -SDT022ATFT				(ILI9340)	8/16bit & 4-Wire,8bitSerial. @n
-					 -NHD-2.4-240320SF-CTXI#-T1 (ILI9340)	8/16bit.					 @n
-					 -DJN 15-12378-18251		(ILI9338B)	8/16bit.
+					 -NHD-2.4-240320SF-CTXI#-T1 (ILI9340)	8/16bit mode.				 @n
+					 -DJN 15-12378-18251		(ILI9338B)	8/16bit mode.
 
     @section HISTORY
 		2011.11.10	V1.00	First Release.
@@ -18,13 +18,14 @@
 						    Added NHD-2.4-240320SF-CTXI#-T1 support.
 		2012.08.01	V4.00	Improved Register Read Function in Serial Interface.
 		2012.11.30	V5.00	Added DJN 15-12378-18251(ILI9338B) support.
-
+		2013.03.20  V6.00	Fixed ILI934x DeviceID Read Commands.
+	
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __ILI934X_H
-#define __ILI934X_H	0x0500
+#define __ILI934X_H	0x0600
 
 #ifdef __cplusplus
  extern "C" {

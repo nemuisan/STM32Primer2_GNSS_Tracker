@@ -6,8 +6,8 @@
     @date           2012.05.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
-					 -H179IT01-V1			(3-wire & 9-bit serial only!)		@n
-					 -Nokia Modules			(3-wire & 9-bit serial only!)		@n
+					 -H179IT01-V1			(3-wire & 9-bit serial only)		@n
+					 -Nokia Modules			(3-wire & 9-bit serial only)		@n
 					  C1-01,166x,1610,1800,5030									@n
 					  610x,5200,6060,6070,6080,6125,7360
 
@@ -30,9 +30,9 @@
 
 /* Defines -------------------------------------------------------------------*/
 #if defined(USE_NOKIA_C101_166x_1610_1800_5030)
- #warning "You Select NOKIA_C1-01_166x_1610_1800_5030 Module(SPDF54124_128x160)!"
+ #warning "You Select NOKIA_C1-01_166x_1610_1800_5030 Module(SPFD54124_128x160)!"
 #elif  defined(USE_NOKIA_160x_5200_6060_6080_6125_7360)
- #warning "You Select NOKIA_160x_5200_6060_6080_6125_7360 Module(SPDF54124_132x162)!"
+ #warning "You Select NOKIA_160x_5200_6060_6080_6125_7360 Module(SPFD54124_132x162)!"
 #else
  #error "U MUST select LCD Molule Model at first!."
 #endif

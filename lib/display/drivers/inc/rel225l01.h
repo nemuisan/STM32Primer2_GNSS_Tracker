@@ -9,7 +9,7 @@
 					http://mbed.org/users/y_notsu/programs/QVGA_TFT_test/lldy66 @n
 						Available TFT-LCM are listed below.						@n
 					 -REL225L01						(REL225L01)	8/16bit mode.	@n
-					 -FPC192GC00					(REL225L01) 8/16bit mode.   @n
+					 -FPC192GC00					(REL225L01) 8/16bit mode.
 
     @section HISTORY
 		2011.09.30	V1.00	Stable Release.

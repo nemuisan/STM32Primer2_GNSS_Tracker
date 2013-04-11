@@ -57,6 +57,7 @@
 #define USB_DISCONNECT                    (GPIOD)  
 #define USB_DISCONNECT_PIN                (GPIO_Pin_3)
 #define RCC_APB2Periph_GPIO_DISCONNECT    (RCC_APB2Periph_GPIOD)
+
 /* Exported constants --------------------------------------------------------*/
 
 /* Exported macro ------------------------------------------------------------*/

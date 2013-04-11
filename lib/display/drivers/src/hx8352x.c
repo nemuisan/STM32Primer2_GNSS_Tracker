@@ -5,8 +5,8 @@
     @date           2012.08.27
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
-					 -QD-ET3207ABT				(HX8352A)	16bit mode.			@n
-					 -S95461C					(HX8352B)	16bit mode.
+					 -QD-ET3207ABT				(HX8352A)	16bit mode only.	@n
+					 -S95461C					(HX8352B)	16bit mode only.
 
     @section HISTORY
 		2012.08.27	V1.00	Revised From hx8352a.c

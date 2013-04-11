@@ -565,29 +565,29 @@
  366              		.file 3 "./lib/FONTX2/inc/font_if.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 font_if.c
-  R:\TEMP\ccq3qzJM.s:19     .text.SearchKanjiBlock:00000000 $t
-  R:\TEMP\ccq3qzJM.s:23     .text.SearchKanjiBlock:00000000 SearchKanjiBlock
-  R:\TEMP\ccq3qzJM.s:79     .text.SearchKanjiBlock:00000030 $d
-  R:\TEMP\ccq3qzJM.s:84     .text.InitFont_Ank:00000000 $t
-  R:\TEMP\ccq3qzJM.s:89     .text.InitFont_Ank:00000000 InitFont_Ank
-  R:\TEMP\ccq3qzJM.s:125    .text.ChangeCurrentAnk:00000000 $t
-  R:\TEMP\ccq3qzJM.s:130    .text.ChangeCurrentAnk:00000000 ChangeCurrentAnk
-  R:\TEMP\ccq3qzJM.s:145    .text.ChangeCurrentAnk:00000008 $d
-  R:\TEMP\ccq3qzJM.s:150    .text.GetPtr_Ank:00000000 $t
-  R:\TEMP\ccq3qzJM.s:155    .text.GetPtr_Ank:00000000 GetPtr_Ank
-  R:\TEMP\ccq3qzJM.s:177    .text.GetPtr_Ank:00000014 $d
-  R:\TEMP\ccq3qzJM.s:182    .text.InitFont_Kanji:00000000 $t
-  R:\TEMP\ccq3qzJM.s:187    .text.InitFont_Kanji:00000000 InitFont_Kanji
-  R:\TEMP\ccq3qzJM.s:260    .text.ChangeCurrentKanji:00000000 $t
-  R:\TEMP\ccq3qzJM.s:265    .text.ChangeCurrentKanji:00000000 ChangeCurrentKanji
-  R:\TEMP\ccq3qzJM.s:280    .text.ChangeCurrentKanji:00000008 $d
-  R:\TEMP\ccq3qzJM.s:285    .text.GetPtr_Kanji:00000000 $t
-  R:\TEMP\ccq3qzJM.s:290    .text.GetPtr_Kanji:00000000 GetPtr_Kanji
-  R:\TEMP\ccq3qzJM.s:343    .text.GetPtr_Kanji:00000038 $d
-  R:\TEMP\ccq3qzJM.s:361    .bss.CurrentKanjiDat:00000000 CurrentKanjiDat
-  R:\TEMP\ccq3qzJM.s:354    .bss.CurrentAnkDat:00000000 CurrentAnkDat
-  R:\TEMP\ccq3qzJM.s:350    .bss.CurrentAnkDat:00000000 $d
-  R:\TEMP\ccq3qzJM.s:357    .bss.CurrentKanjiDat:00000000 $d
+  R:\TEMP\ccam8g86.s:19     .text.SearchKanjiBlock:00000000 $t
+  R:\TEMP\ccam8g86.s:23     .text.SearchKanjiBlock:00000000 SearchKanjiBlock
+  R:\TEMP\ccam8g86.s:79     .text.SearchKanjiBlock:00000030 $d
+  R:\TEMP\ccam8g86.s:84     .text.InitFont_Ank:00000000 $t
+  R:\TEMP\ccam8g86.s:89     .text.InitFont_Ank:00000000 InitFont_Ank
+  R:\TEMP\ccam8g86.s:125    .text.ChangeCurrentAnk:00000000 $t
+  R:\TEMP\ccam8g86.s:130    .text.ChangeCurrentAnk:00000000 ChangeCurrentAnk
+  R:\TEMP\ccam8g86.s:145    .text.ChangeCurrentAnk:00000008 $d
+  R:\TEMP\ccam8g86.s:150    .text.GetPtr_Ank:00000000 $t
+  R:\TEMP\ccam8g86.s:155    .text.GetPtr_Ank:00000000 GetPtr_Ank
+  R:\TEMP\ccam8g86.s:177    .text.GetPtr_Ank:00000014 $d
+  R:\TEMP\ccam8g86.s:182    .text.InitFont_Kanji:00000000 $t
+  R:\TEMP\ccam8g86.s:187    .text.InitFont_Kanji:00000000 InitFont_Kanji
+  R:\TEMP\ccam8g86.s:260    .text.ChangeCurrentKanji:00000000 $t
+  R:\TEMP\ccam8g86.s:265    .text.ChangeCurrentKanji:00000000 ChangeCurrentKanji
+  R:\TEMP\ccam8g86.s:280    .text.ChangeCurrentKanji:00000008 $d
+  R:\TEMP\ccam8g86.s:285    .text.GetPtr_Kanji:00000000 $t
+  R:\TEMP\ccam8g86.s:290    .text.GetPtr_Kanji:00000000 GetPtr_Kanji
+  R:\TEMP\ccam8g86.s:343    .text.GetPtr_Kanji:00000038 $d
+  R:\TEMP\ccam8g86.s:361    .bss.CurrentKanjiDat:00000000 CurrentKanjiDat
+  R:\TEMP\ccam8g86.s:354    .bss.CurrentAnkDat:00000000 CurrentAnkDat
+  R:\TEMP\ccam8g86.s:350    .bss.CurrentAnkDat:00000000 $d
+  R:\TEMP\ccam8g86.s:357    .bss.CurrentKanjiDat:00000000 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

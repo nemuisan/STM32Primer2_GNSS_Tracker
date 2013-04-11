@@ -6,7 +6,7 @@
     @date           2012.07.15
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					It can drive LTM022A69B TFT module.							@n
-					 8/16bit-i8080,4wire8bit Serial Support!
+							(8/16bit,4wire8bit Serial)
 
     @section HISTORY
 		2012.07.15	V1.00	Stable Release.

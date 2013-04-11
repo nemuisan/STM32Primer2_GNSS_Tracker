@@ -5,7 +5,7 @@
     @version        2.00
     @date           2012.05.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive BTL221722-276L TFT module.(9-bit serial only).
+					It can drive BTL221722-276L TFT module(3-Wire,9bitSerial only).
 
     @section HISTORY
 		2011.12.01	V1.00	Stable Release.

@@ -7,7 +7,7 @@
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
 					 -T18DES10					(S6D0144)	8/16bit mode.		@n
-					 -TFT2P0327-E               (S6D0151)   8/16bit&SPI mode.
+					 -TFT2P0327-E               (S6D0151)   8/16bit,spi mode.
 
     @section HISTORY
 		2011.12.23	V1.00	Stable Release.

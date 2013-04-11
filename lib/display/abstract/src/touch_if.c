@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2011.05.30
+    @version        5.00
+    @date           2013.04.04
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -12,6 +12,7 @@
 		2010.12.31	V2.00	Fixed Bit Definitions.
 		2011.03.10	V3.00	C++ Ready.
 		2011.05.30	V4.00	Separate from Device Depend Section.
+		2013.04.04	V5.00	Added STMPE811 Device Handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,7 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if.h"
 /* check header file version for fool proof */
-#if __TOUCH_IF_H != 0x0400
+#if __TOUCH_IF_H != 0x0500
 #error "header file version is not correspond!"
 #endif
 
@@ -61,10 +62,10 @@ const int tc_tpy[TC_TP_NUM] = {TC_TPY(0),TC_TPY(1),TC_TPY(2),TC_TPY(3),TC_TPY(4)
 /* Function prototypes -------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
-
+#if	defined(USE_TOUCH_CTRL)
 /**************************************************************************/
 /*! 
-	Initalize TouchScreen I/O.
+	Milliseconds wait routine.
 */
 /**************************************************************************/
 #ifndef __SYSTICK_H
@@ -74,16 +75,51 @@ inline static void _delay_ms (uint32_t ms)
 	while (ticktime < ms);
 }
 #endif
+/**************************************************************************/
+/*! 
+	Calculate Relative Position X.
+*/
+/**************************************************************************/
+static uint16_t cal_posx(uint16_t x)
+{
+	long buf;
+	buf = x - ccx;
+	buf = buf*cm1x;
+	buf = buf/cm2x;
+	buf = buf + chalfx;
+	if(buf<0) buf =0;
+	return (buf);
+}
 
 /**************************************************************************/
 /*! 
-	TouchScreen Low Level.
-	Downed:PEN_PRESSED Released:PEN_RELEASED 
+	Calculate Relative Position Y.
 */
 /**************************************************************************/
+static uint16_t cal_posy(uint16_t y)
+{
+	long buf;
+	buf = y - ccy;
+	buf = buf*cm1y;
+	buf = buf/cm2y;
+	buf = buf + chalfy;
+	if(buf<0) buf =0;
+	return (buf);
+}
+#endif
+
+#if defined(USE_ADS7843)
+/**************************************************************************/
+/*! 
+	TouchScreen Low Level.
+	Downed  :	return not 0.
+	Released:	return 0.
+*/
+/**************************************************************************/
+#define TC_PenINT TC_PenDown
 inline uint8_t TC_PenDown(void) 
 {
-	return (!(PENIRQ_CHK())); 
+	return (!PENIRQ_CHK()); 
 }
 
 /**************************************************************************/
@@ -125,7 +161,7 @@ inline void TC_ScanPen(void)
 	uint16_t tc_x_min,tc_y_min;
 
 
-	if (TC_PenDown())
+	if (TC_PenDown())	/* Downed Pen */
 	{
 		TC_ReadRaw();
 		tc_x_buf = pTouch->X_Axis;
@@ -183,7 +219,7 @@ inline void TC_ScanPen(void)
 		tc_x_buf = tc_x_buf >> 1;
 		tc_y_buf = tc_y_buf >> 1;
 
-		if (TC_PenDown())
+		if (TC_PenDown())	/* Downed Pen */
 		{
 			pPos->X_Axis = cal_posx(tc_x_buf);
 			pPos->Y_Axis = cal_posy(tc_y_buf);
@@ -256,8 +292,10 @@ void TC_CalibScreen_If(void)
 
 	char unkbuf[16];
 	
+	/* Read Thru at first */
+	TC_ReadRaw();
 	
-	if (CHK_CALIBED()) /* check for valid touch screen calibration data */
+	if(CHK_CALIBED()) /* check for valid touch screen calibration data */
 	{
 
 		Display_FillRect_If(0,MAX_X-1,0,MAX_Y-1,COL_WHITE);
@@ -272,7 +310,7 @@ void TC_CalibScreen_If(void)
 
 			for (j=0;j<10;j++)
 			{
-				if (PENIRQ_CHK()==PEN_PRESSED)
+				if (TC_PenDown())
 				{
 					k = 1;
 					break;
@@ -301,51 +339,36 @@ void TC_CalibScreen_If(void)
 	{
 		for (j=0; j<TC_TP_NUM; j++)
 		{
-			_delay_ms(100);	
-			Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_BLUE);
+			_delay_ms(100);
 			
-			if (i < 3)
-			{
-				Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"Touch Blue Square",TRANSPARENT,COL_RED,COL_WHITE);
-				Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"   Three Times   ",TRANSPARENT,COL_RED,COL_WHITE);
-			}
-			else
-			{
-				Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"Touch Blue Square",TRANSPARENT,COL_RED,COL_WHITE);
-				Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"   Three Times   ",TRANSPARENT,COL_RED,COL_WHITE);
-			}
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"Touch Blue Square",TRANSPARENT,COL_RED,COL_WHITE);
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"      Twice      ",TRANSPARENT,COL_RED,COL_WHITE);
 
 			for (k=0; k<CALIB_TEST_TIME; k++)
 			{
+				Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_BLUE);
 				good_press = 0;
 				while (!good_press)
 				{
-					while (PENIRQ_CHK()==PEN_RELEASED);
+					while (!TC_PenDown());
 					TC_ReadRaw();
-					_delay_ms(50);
-					if (PENIRQ_CHK()==PEN_PRESSED)
+					_delay_ms(40);
+					if (TC_PenDown())
 					{
 						TC_ReadRaw();
+						Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_YELLOW);
 						/* _delay_ms(50); */ /* <- Debug only */
-						while (PENIRQ_CHK()==PEN_PRESSED);
+						while (TC_PenDown());
 						good_press = 1;
 					}
 				}
 				fx[i*5+j][k] = pTouch->X_Axis;
 				fy[i*5+j][k] = pTouch->Y_Axis;
-				_delay_ms(300);
+				_delay_ms(200);
 			}
-			if (i < 3)
-			{
-				Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
-				Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
-			}
-			else
-			{
-				Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
-				Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
-			}
-			
+
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
 			Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_WHITE);
 			_delay_ms(100);
 			
@@ -358,20 +381,26 @@ void TC_CalibScreen_If(void)
         y[i] = tc_tpy[i%5] - chalfy;
         xx[i] = x[i] * x[i];
         yy[i] = y[i] * y[i];
-        fxx[i][0] = fx[i][0] * x[i];
-        fxx[i][1] = fx[i][1] * x[i];
-        fyy[i][0] = fy[i][0] * y[i];
-        fyy[i][1] = fy[i][1] * y[i];
+		
+		for (j=0;j<CALIB_TEST_TIME;j++)
+		{
+			fxx[i][j] = fx[i][j] * x[i];
+			fyy[i][j] = fy[i][j] * y[i];
+		}
 	}
 
     for (i = 0; i < TC_TP_NUM*TC_TP_NUM; i++)
     {
         sum_xx += (xx[i] + xx[i]);
         sum_yy += (yy[i] + yy[i]);
-        sum_fx += (fx[i][0] + fx[i][1]);
-        sum_fy += (fy[i][0] + fy[i][1]);
-        sum_fxx += (fxx[i][0] + fxx[i][1]);
-        sum_fyy += (fyy[i][0] + fyy[i][1]);
+		
+		for (j=0;j<CALIB_TEST_TIME;j++)
+		{
+		    sum_fx += fx[i][j];
+			sum_fy += fy[i][j];
+			sum_fxx += fxx[i][j];
+			sum_fyy += fyy[i][j];
+		}
     }
 
     cx = ((float)sum_fx)  / ((float)(TC_TP_NUM * TC_TP_NUM * CALIB_TEST_TIME));
@@ -426,36 +455,301 @@ void TC_CalibScreen_If(void)
 }
 
 
+
+#elif defined(USE_STMPE811_I2C)
 /**************************************************************************/
 /*! 
-	Calculate Relative Position X.
+	TouchScreen Low Level.
+	Downed  :	return 1.
+	Released:	return 0.
 */
 /**************************************************************************/
-inline long cal_posx(uint16_t x)
+uint8_t TC_PenINT(void) 
 {
-	long buf;
-	buf = x - ccx;
-	buf = buf*cm1x;
-	buf = buf/cm2x;
-	buf = buf + chalfx;
-	if(buf<0) buf =0;
-	return (buf);
+	return (!PENIRQ_CHK()); 
+/*
+	if(!PENIRQ_CHK()){
+		int tmp = STMPE811_ReadByte(STMPE811_TSC_CTRL) & STMPE811_TSC_STA;
+		if(tmp==0)	return 0;
+		else 	 	return 1;
+	}
+	else{
+		return 0;
+	}
+*/
 }
 
 /**************************************************************************/
 /*! 
-	Calculate Relative Position Y.
+	TouchScreen Low Level.
+	Downed  :	return 1.
+	Released:	return 0.
 */
 /**************************************************************************/
-inline long cal_posy(uint16_t y)
+uint8_t TC_PenDown(void)
 {
-	long buf;
-	buf = y - ccy;
-	buf = buf*cm1y;
-	buf = buf/cm2y;
-	buf = buf + chalfy;
-	if(buf<0) buf =0;
-	return (buf);
+	int tmp = STMPE811_ReadByte(STMPE811_TSC_CTRL) & STMPE811_TSC_STA;
+	if(tmp==0)	return 0;
+	else 	 	return 1;
 }
+
+
+/**************************************************************************/
+/*! 
+	TouchScreen Low Level.
+*/
+/**************************************************************************/
+inline void TC_ReadRaw(void) 
+{	
+	/* If FIFO overflow, read all samples except the last one */
+	uint8_t num = STMPE811_ReadByte(STMPE811_FIFO_SIZE);
+	while (--num) (STMPE811_ReadFIFO(STMPE811_READFIFO_XY,STMPE811_DATA_XYZ));
+
+	/* Retreive last taken sample */
+	pTouch->X_Axis = (uint16_t)STMPE811_ReadWord(STMPE811_DATA_X);
+	pTouch->Y_Axis = (uint16_t)STMPE811_ReadWord(STMPE811_DATA_Y);
+
+    /* Clear interrupt flags */
+	STMPE811_WriteByte(STMPE811_INT_STA, 0x02);
+}
+
+/**************************************************************************/
+/*! 
+	TouchScreen Low Level.
+*/
+/**************************************************************************/
+inline void TC_ScanPen(void)
+{
+	if (TC_PenDown())	/* Downed Pen */
+	{
+		TC_ReadRaw();
+		pPos->X_Axis = cal_posx(pTouch->X_Axis);
+		pPos->Y_Axis = cal_posy(pTouch->Y_Axis);
+		
+		if (last_pen)  /* last_pen:1->1 */
+		{
+			tc_stat = TC_STAT_HOLD;
+		}
+		else		   /* last_pen:0->1 */
+		{
+			tc_stat = TC_STAT_DOWN;
+		}
+		last_pen = 1;
+	
+	}
+	else
+	{
+		if (last_pen)  /* last_pen:1->0 */
+		{
+			tc_stat = TC_STAT_UP;
+		}
+		else		   /* last_pen:0->0 */
+		{
+			tc_stat = TC_STAT_NONE;
+		}
+		last_pen = 0;
+	}
+}
+
+/**************************************************************************/
+/*! 
+	Calibrate and Init TouchScreen.
+*/
+/**************************************************************************/
+void TC_CalibScreen_If(void)
+{
+	int buf;
+
+	int x[TC_TP_NUM*TC_TP_NUM];
+	int y[TC_TP_NUM*TC_TP_NUM];
+
+    long sum_xx = 0;
+    long sum_yy = 0;
+    long sum_fx = 0;
+    long sum_fy = 0;
+    long sum_fxx = 0;
+    long sum_fyy = 0;
+
+	float cx;
+	float mx;
+	float cy;
+	float my;
+
+    float mx_new;
+    float my_new;
+
+	float buf_mod1;
+
+	long fx[TC_TP_NUM*TC_TP_NUM][CALIB_TEST_TIME];
+	long fy[TC_TP_NUM*TC_TP_NUM][CALIB_TEST_TIME];
+	long xx[TC_TP_NUM*TC_TP_NUM];
+	long yy[TC_TP_NUM*TC_TP_NUM];
+	long fxx[TC_TP_NUM*TC_TP_NUM][CALIB_TEST_TIME];
+	long fyy[TC_TP_NUM*TC_TP_NUM][CALIB_TEST_TIME];
+
+	uint8_t i,j,k;
+
+	char unkbuf[16];
+
+	/* Device Life Sign Check */
+	if(!STMPE811_Init())
+	{
+		Display_FillRect_If(0,MAX_X-1,0,MAX_Y-1,COL_WHITE);
+		for(;;){
+			Display_Puts_If_Ex(5,5,(uint8_t*)"STMPE811 is NOT Init!",OPAQUE,COL_RED,COL_WHITE);
+			_delay_ms(300);
+			Display_Puts_If_Ex(5,5,(uint8_t*)"                     ",OPAQUE,COL_RED,COL_WHITE);
+			_delay_ms(300);
+		}
+	}
+	
+	if(CHK_CALIBED()) /* check for valid touch screen calibration data */
+	{
+
+		Display_FillRect_If(0,MAX_X-1,0,MAX_Y-1,COL_WHITE);
+		Display_Puts_If_Ex(5,5,(uint8_t*)"Touch The Screen To Calibrate",OPAQUE,COL_RED,COL_WHITE);
+
+		k = 0;
+
+		for (i=0;i<3;i++)
+		{
+			sprintf(unkbuf,"With in %c Sec",'3' - i);
+			Display_Puts_If_Ex(5,5+(1*CurrentAnkDat->Y_Size),(uint8_t*)unkbuf,OPAQUE,COL_RED,COL_WHITE);
+
+			for (j=0;j<10;j++)
+			{
+				if (TC_PenDown())
+				{
+					k = 1;
+					break;
+				}
+				_delay_ms(100);
+			}
+			if (k)
+				break;
+		}
+
+		if (k == 0) /* use old data */
+		{
+			TC_Restore_Calivalue();
+			return;
+		}
+	}
+
+	Display_FillRect_If(0,MAX_X-1,0,MAX_Y-1,COL_WHITE);
+
+	Display_Puts_If_Ex(5,5,(uint8_t*)"Enter Calibration Mode!",OPAQUE,COL_RED,COL_WHITE);
+	_delay_ms(500);
+
+	Display_FillRect_If(0,MAX_X-1,0,MAX_Y-1,COL_WHITE);
+
+	for (i=0; i<TC_TP_NUM; i++)
+	{
+		for (j=0; j<TC_TP_NUM; j++)
+		{
+			_delay_ms(100);	
+			
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"Touch Blue Square",TRANSPARENT,COL_RED,COL_WHITE);
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"      Twice      ",TRANSPARENT,COL_RED,COL_WHITE);
+
+			for (k=0; k<CALIB_TEST_TIME; k++)
+			{
+				Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_BLUE);
+				while (!TC_PenDown());
+					TC_ReadRaw();
+					fx[i*5+j][k] = pTouch->X_Axis;
+					fy[i*5+j][k] = pTouch->Y_Axis;
+					Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_YELLOW);
+					_delay_ms(300);
+				while (TC_PenDown());
+			}
+
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
+			Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_WHITE);
+			_delay_ms(100);
+			
+		}
+	}
+
+	for (i=0;i<TC_TP_NUM*TC_TP_NUM;i++)
+	{
+        x[i] = tc_tpx[i/5] - chalfx;
+        y[i] = tc_tpy[i%5] - chalfy;
+        xx[i] = x[i] * x[i];
+        yy[i] = y[i] * y[i];
+		
+		for (j=0;j<CALIB_TEST_TIME;j++)
+		{
+			fxx[i][j] = fx[i][j] * x[i];
+			fyy[i][j] = fy[i][j] * y[i];
+		}
+	}
+
+    for (i = 0; i < TC_TP_NUM*TC_TP_NUM; i++)
+    {
+        sum_xx += (xx[i] + xx[i]);
+        sum_yy += (yy[i] + yy[i]);
+		
+		for (j=0;j<CALIB_TEST_TIME;j++)
+		{
+		    sum_fx += fx[i][j];
+			sum_fy += fy[i][j];
+			sum_fxx += fxx[i][j];
+			sum_fyy += fyy[i][j];
+		}
+    }
+
+    cx = ((float)sum_fx)  / ((float)(TC_TP_NUM * TC_TP_NUM * CALIB_TEST_TIME));
+    mx = ((float)sum_fxx) / ((float)sum_xx);
+    cy = ((float)sum_fy)  / ((float)(TC_TP_NUM * TC_TP_NUM * CALIB_TEST_TIME));
+    my = ((float)sum_fyy) / ((float)sum_yy);
+
+	ccx = (long)cx;
+	ccy = (long)cy;
+
+    mx_new = mx;
+    my_new = my;
+
+	buf_mod1 = mx_new - (long)mx_new;
+	if (buf_mod1 < 0)
+		buf_mod1 = -buf_mod1;
+	buf = 1;
+
+    while ((buf_mod1 > 0.05) && (buf_mod1 < 0.95))
+    {
+        buf++;
+        mx_new = mx*((float) buf);
+		buf_mod1 = mx_new - (long)mx_new;
+		if (buf_mod1 < 0)
+			buf_mod1 = -buf_mod1;
+    }
+
+	cm1x = buf;
+    cm2x = (long)(mx * buf);
+
+	buf_mod1 = my_new - (long)my_new;
+	if (buf_mod1 < 0)
+		buf_mod1 = -buf_mod1;
+    buf = 1;
+
+    while ((buf_mod1 > 0.05) && (buf_mod1 < 0.95))
+    {
+        buf++;
+        my_new = my*((float)buf);
+		buf_mod1 = my_new - (long)my_new;
+		if (buf_mod1 < 0)
+			buf_mod1 = -buf_mod1;
+    }
+
+    cm1y = buf;
+    cm2y = (long)(my * buf);
+
+	TC_Store_Calivalue();
+
+	Display_Puts_If_Ex(CENTER_X2,CENTER_Y1,(uint8_t*)"Calibration Completed!!",OPAQUE,COL_RED,COL_WHITE);
+	_delay_ms(400);
+}
+#endif
 
 /* End Of File ---------------------------------------------------------------*/

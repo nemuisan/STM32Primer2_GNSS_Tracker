@@ -27,12 +27,12 @@
    2:src/main.c    **** /*!
    3:src/main.c    **** 	@file			main.c
    4:src/main.c    **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-   5:src/main.c    ****     @version        11.00
-   6:src/main.c    ****     @date           20130.01.30
+   5:src/main.c    ****     @version        12.00
+   6:src/main.c    ****     @date           2013.04.10
    7:src/main.c    **** 	@brief          STM32 Primer2 GPS Tr@cker.
    8:src/main.c    **** 
    9:src/main.c    ****     @section HISTORY
-  10:src/main.c    **** 		2013.01.30	V11.00	See Whatnew.txt
+  10:src/main.c    **** 		2013.04.10	V12.00	See Whatnew.txt
   11:src/main.c    **** 
   12:src/main.c    ****     @section LICENSE
   13:src/main.c    **** 		BSD License. See Copyright.txt
@@ -348,13 +348,13 @@
  255              		.file 12 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-  R:\TEMP\cc6WVWKN.s:19     .text.startup.main:00000000 $t
-  R:\TEMP\cc6WVWKN.s:24     .text.startup.main:00000000 main
-  R:\TEMP\cc6WVWKN.s:202    .text.startup.main:000000e4 $d
-  R:\TEMP\cc6WVWKN.s:234    .bss.xTask:00000000 xTask
-  R:\TEMP\cc6WVWKN.s:241    .bss.TaskStat:00000000 TaskStat
-  R:\TEMP\cc6WVWKN.s:230    .bss.xTask:00000000 $d
-  R:\TEMP\cc6WVWKN.s:237    .bss.TaskStat:00000000 $d
+  R:\TEMP\cceC8gy4.s:19     .text.startup.main:00000000 $t
+  R:\TEMP\cceC8gy4.s:24     .text.startup.main:00000000 main
+  R:\TEMP\cceC8gy4.s:202    .text.startup.main:000000e4 $d
+  R:\TEMP\cceC8gy4.s:234    .bss.xTask:00000000 xTask
+  R:\TEMP\cceC8gy4.s:241    .bss.TaskStat:00000000 TaskStat
+  R:\TEMP\cceC8gy4.s:230    .bss.xTask:00000000 $d
+  R:\TEMP\cceC8gy4.s:237    .bss.TaskStat:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

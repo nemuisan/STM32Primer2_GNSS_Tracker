@@ -2,8 +2,8 @@
 /*!
 	@file			hx8347x.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2012.09.30
+    @version        4.00
+    @date           2013.02.28
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
 					 -S95300					(HX8347A)	8/16bit mode.		@n
@@ -17,6 +17,7 @@
 		2011.12.23	V1.00	Renewed From HX8347A driver.
 		2012.03.31	V2.00	Added HX8347G(T) driver.
 		2012.09.30	V3.00	Revised HX8346A driver.
+		2013.02.28  V4.00	Optimized Some Codes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -26,18 +27,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hx8347x.h"
 /* check header file version for fool proof */
-#if __HX8347X_H != 0x0300
+#if __HX8347X_H != 0x0400
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
-#ifdef STM32F4XX
-#ifndef USE_HX8347x_SPI_TFT
- #warning "U Might Need for FASTESTBUS_WORKAROUND in use of STM32F4xx-FSMC for HX8347A ,but HX8347D/G DOES NOT needed... "
- #define HX8347A_FASTESTBUS_WORKAROUND
+#if defined(LCD_FASTESTBUS_WORKAROUND) && !defined(USE_HX8347x_SPI_TFT)
+ #warning "U Might Need for FASTESTBUS_WORKAROUND in use of STM32F4xx-FSMC for HX8347A ,but HX8347D/G does NOT needed... "
  /* You should insert stupid delay and can change delay value */
  #define DELAY_WHEEL	27
-#endif
 #endif
 
 /* Variables -----------------------------------------------------------------*/
@@ -45,6 +43,10 @@
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
+#if defined(LCD_FASTESTBUS_WORKAROUND) && !defined(USE_HX8347x_SPI_TFT)
+ /* Pointer to the Bus Sleep */
+ void(*Bus_Sleep)(volatile int ms);
+#endif
 
 /* Functions -----------------------------------------------------------------*/
 
@@ -61,15 +63,6 @@ static inline void _delay_ms(uint32_t ms)
 	while (ticktime < ms);
 }
 #endif
-/**************************************************************************/
-/*! 
-    Stupid Delay Routine for Fastest Bus (like STM32F4xx FSMC).
-*/
-/**************************************************************************/
-static inline void _delay_nop(volatile uint32_t ms)
-{
-	while (ms--);
-}
 
 /**************************************************************************/
 /*! 
@@ -104,6 +97,21 @@ inline void HX8347x_reset(void)
 
 /* Select SPI or Parallel in MAKEFILE */
 #ifdef USE_HX8347x_TFT
+#ifdef LCD_FASTESTBUS_WORKAROUND
+/**************************************************************************/
+/*! 
+    Stupid Delay Routine for Fastest Bus (like STM32F4xx FSMC).
+*/
+/**************************************************************************/
+void Bus_Sleep_hx8347a(volatile int ms)
+{
+	while (ms--);
+}
+void Bus_Sleep_hx8347dgi(volatile int ms)
+{
+}
+#endif
+
 /**************************************************************************/
 /*! 
     Write LCD Command.
@@ -116,9 +124,8 @@ inline void HX8347x_wr_cmd(uint8_t cmd)
 	HX8347x_CMD = cmd;							/* cmd						*/
 	HX8347x_WR();								/* WR=L->H					*/
 	
-#ifdef HX8347A_FASTESTBUS_WORKAROUND
-	/* Might Need for HX8347A on Fastest bus,HX8347D DOES NOT needed... */
-	_delay_nop(DELAY_WHEEL);
+#ifdef LCD_FASTESTBUS_WORKAROUND
+	Bus_Sleep(DELAY_WHEEL);						/* Need for HX8347A			*/
 #endif
 
 	HX8347x_DC_SET();							/* DC=H						*/
@@ -291,7 +298,7 @@ inline uint8_t HX8347x_rd_cmd(uint8_t cmd)
 {
 #ifdef HX8347xSPI_4WIREMODE
  #warning "SPI4Wire Mode Supports ONLY HX8347D/G Chips!"
- #warning "HX8347D USES SDA(Input&Output) Line!"
+ #warning "HX8347D USES SDA(Input&Output Multiplexed) Line!"
 #endif
 
 	uint8_t val;
@@ -377,6 +384,10 @@ void HX8347x_init(void)
 {
 	uint8_t id8347d,id834xA;
 	
+	#ifdef LCD_FASTESTBUS_WORKAROUND
+	 Bus_Sleep = Bus_Sleep_hx8347dgi;
+	#endif
+
 	Display_IoInit_If();
 
 	HX8347x_reset();
@@ -648,6 +659,9 @@ void HX8347x_init(void)
 	else if(id834xA == 0x47)
 	{
 		/* Initialize HX8347A*/
+	#ifdef LCD_FASTESTBUS_WORKAROUND
+		Bus_Sleep = Bus_Sleep_hx8347a;
+	#endif
 		/* Gamma for CMO 3.2ÅP */
 		HX8347x_wr_cmd(0x46);
 		HX8347x_wr_dat(0x91);

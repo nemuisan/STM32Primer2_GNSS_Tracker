@@ -5,7 +5,7 @@
     @version        1.00
     @date           2012.09.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive MF_LCM2.0_V3 TFT module(8/16bit).
+					It can drive MF_LCM2.0_V3 TFT module(8/16bit mode).
 
     @section HISTORY
 		2012.09.30	V1.00	Stable Release.

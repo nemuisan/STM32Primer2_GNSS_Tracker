@@ -2,16 +2,17 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2012.09.22
+    @version        5.00
+    @date           2012.10.05
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.				@n
 
     @section HISTORY
 		2011.01.20	V1.00 Start Here.
 		2011.03.10	V2.00 C++ Ready.
-		2012.04.17	V2.00 Added SD_GetCardStatus().
-		2012.09.22  V3.00 Updated Support grater than 32GB Cards.
+		2012.04.17	V3.00 Added SD_GetCardStatus().
+		2012.09.22  V4.00 Updated Support grater than 32GB Cards.
+		2012.10.05  V5.00 Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
 
     @section LICENSE
 		BSD License. See Copyright.txt

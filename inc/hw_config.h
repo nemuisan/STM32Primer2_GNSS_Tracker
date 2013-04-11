@@ -38,11 +38,11 @@
 #include "rtc_support.h"
 #include "uart_support_gps.h"
 #include "sdio_stm32f1.h"
+#include "xprintf.h"
 
 /* High Level Function */
 #include "ff.h"
 #include "diskio.h"
-#include "term_io.h"
 #include "gps_support.h"
 #include "cdc_support.h"
 #include "msc_support.h"

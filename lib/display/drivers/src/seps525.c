@@ -5,7 +5,7 @@
     @version        2.00
     @date           2011.10.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive UG-6028GDEAF01 OLED module(8bit/4wire-spi).
+					It can drive UG-6028GDEAF01 OLED module(8bit,spi mode).
 
     @section HISTORY
 		2011.04.01	V1.00	Stable Release.

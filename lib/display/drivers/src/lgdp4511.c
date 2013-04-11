@@ -5,7 +5,7 @@
     @version        2.00
     @date           2011.10.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive KTFT4605FPC-B3-E TFT module(16bit bus).
+					It can drive KTFT4605FPC-B3-E TFT module(16bit mode).
 
     @section HISTORY
 		2011.06.04	V1.00	Stable Release

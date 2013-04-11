@@ -5,11 +5,11 @@
     @version        1.00
     @date           2012.06.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive TFT1N3277-E TFT module.
+					It can drive TFT1N3277-E TFT module(8/16bit mode).
 
     @section HISTORY
 		2012.06.30	V1.00	Stable Release.
-		
+
     @section LICENSE
 		BSD License. See Copyright.txt
 */

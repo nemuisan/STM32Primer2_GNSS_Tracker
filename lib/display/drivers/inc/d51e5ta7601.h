@@ -5,7 +5,7 @@
     @version        1.00
     @date           2012.07.28
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive TFT1P4705-E TFT module.(8/16bit)
+					It can drive TFT1P4705-E TFT module(8/16bit mode).
 
     @section HISTORY
 		2012.07.28	V1.00	Stable Release.

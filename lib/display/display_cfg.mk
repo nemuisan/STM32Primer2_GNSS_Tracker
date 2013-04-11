@@ -45,8 +45,6 @@ ifeq ($(USE_JPEG_LIB),USE_IJG_LIB)
  JPEGLIB = $(DISPLAY_LIB)/jpeg/libjpeg
  LIBINCDIRS += $(JPEGLIB)
  include $(DISPLAY_LIB)/jpeg/jpeglib.mk
- CFILES +=\
-  $(JPEGLIB)/jidctflt.c
 endif
 
 # Chan's TINY JPEG Library
@@ -73,8 +71,20 @@ include $(GIFLIB)/giflib.mk
 endif
 
 # Display Driver Touch Sence
-ifeq ($(USE_TOUCH_SENCE),USE_ADS7843)
+ # USE_TOUCH_CTRL is defined in display_drv.mk
+ifeq ($(USE_TOUCH_CTRL),NO_TOUCH_CTRL)
+ # If select NO_TOUCH_CTRL,Doing nothing
+ 
+else ifeq ($(USE_TOUCH_SENCE),USE_ADS7843)
+SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
 CFILES += \
  $(DISPLAY_MCU_SRC)/touch_if_basis.c	\
  $(DISPLAY_SRC)/touch_if.c
+else ifeq ($(USE_TOUCH_SENCE),USE_STMPE811_I2C)
+SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
+CFILES += \
+ $(DISPLAY_MCU_SRC)/touch_if_basis.c	\
+ $(DISPLAY_SRC)/touch_if.c				\
+ $(DISPLAY_SRC)/stmpe811.c
 endif
+

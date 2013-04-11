@@ -5,7 +5,7 @@
     @version        1.00
     @date           2012.01.21
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive CS1802		TFT module(8bit bus only).			@n
+					It can drive CS1802		TFT module(8bit mode only).			@n
 
     @section HISTORY
 		2012.01.21	V1.00	Stable Release.

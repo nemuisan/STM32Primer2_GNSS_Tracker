@@ -6,7 +6,7 @@
     @date           2011.10.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
-					 -JD-T18003-T01				(4-wire serial)					@n
+					 -JD-T18003-T01				(8bit4wire serial only)			@n
 
     @section HISTORY
 		2010.06.03	V1.00	Stable Release.

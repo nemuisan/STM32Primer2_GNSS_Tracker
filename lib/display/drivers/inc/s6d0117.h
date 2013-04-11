@@ -5,7 +5,7 @@
     @version        1.00
     @date           2012.08.31
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive H016IN01 V3 TFT module(8/16bit).
+					It can drive H016IN01 V3 TFT module(8/16bit mode).
 
     @section HISTORY
 		2012.08.31	V1.00	Stable Release.

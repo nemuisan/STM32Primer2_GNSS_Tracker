@@ -5,7 +5,7 @@
     @version        3.00
     @date           2011.12.23
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive AS021350D TFT module(8/16bit).
+					It can drive AS021350D TFT module(8/16bit mode).
 
     @section HISTORY
 		2011.04.30	V1.00	Stable Release

@@ -2,16 +2,17 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2012.09.22
+    @version        5.00
+    @date           2012.10.05
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.				@n
 
     @section HISTORY
 		2011.01.20	V1.00 Start Here.
 		2011.03.10	V2.00 C++ Ready.
-		2012.04.17	V2.00 Added SD_GetCardStatus().
-		2012.09.22  V3.00 Updated Support grater than 32GB Cards.
+		2012.04.17	V3.00 Added SD_GetCardStatus().
+		2012.09.22  V4.00 Updated Support grater than 32GB Cards.
+		2012.10.05  V5.00 Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -61,6 +62,8 @@
 #define SD_R6_COM_CRC_FAILED            ((uint32_t)0x00008000)
 
 #define SD_VOLTAGE_WINDOW_SD            ((uint32_t)0x80100000)
+#define SD_SDXC_XPC_FULLPOWER         	((uint32_t)0x10000000)	/* Nemui added SDXC MAXIMUM Power   */
+#define SD_SDXC_S18R_REGULAR_VOLT       ((uint32_t)0x00000000)	/* Nemui added SDXC "NO-1.8V" Drive */
 #define SD_HIGH_CAPACITY                ((uint32_t)0x40000000)
 #define SD_STD_CAPACITY                 ((uint32_t)0x00000000)
 #define SD_CHECK_PATTERN                ((uint32_t)0x000001AA)
@@ -463,7 +466,10 @@ SD_Error SD_PowerON(void)
       {
         return(errorstatus);
       }
-      SDIO_CmdInitStructure.SDIO_Argument = SD_VOLTAGE_WINDOW_SD | SDType;
+      SDIO_CmdInitStructure.SDIO_Argument = SD_VOLTAGE_WINDOW_SD  		| \
+											SD_SDXC_XPC_FULLPOWER 		| \
+											SD_SDXC_S18R_REGULAR_VOLT	| \
+											SDType;
       SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SD_APP_OP_COND;
       SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
       SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;

@@ -6,7 +6,7 @@
     @date           2012.11.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
-					 -NHD-1.8-128160TF-CTXI#	(HX8353D)		8bit mode only.
+					 -NHD-1.8-128160TF-CTXI#	(HX8353D)	8bit mode only.
 
     @section HISTORY
 		2012.11.30	V1.00	Stable Release.

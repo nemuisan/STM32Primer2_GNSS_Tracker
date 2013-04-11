@@ -5,7 +5,7 @@
     @version        1.00
     @date           2011.10.31
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive UG-2828GFEFF01 OLED module.
+					It can drive UG-2828GFEFF01 OLED module(8bit,spi mode).
 
     @section HISTORY
 		2011.10.31	V1.00	Renewal from SED1339.

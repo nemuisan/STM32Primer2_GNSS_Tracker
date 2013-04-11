@@ -6,7 +6,7 @@
     @date           2012.02.10
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					It can drive UG12D245A CSTN module.							@n
-					8/16bit-i8080,4wire8bit/3wire9bit Serial Support!
+							(8/16bit,4wire8bit/3wire9bit Serial)
 
     @section HISTORY
 		2012.02.10	V1.00	Start Here.

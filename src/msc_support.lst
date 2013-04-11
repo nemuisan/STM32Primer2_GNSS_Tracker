@@ -269,9 +269,9 @@
  159              		.file 15 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 msc_support.c
-  R:\TEMP\cc0Tx2ue.s:19     .text.msc_task:00000000 $t
-  R:\TEMP\cc0Tx2ue.s:24     .text.msc_task:00000000 msc_task
-  R:\TEMP\cc0Tx2ue.s:134    .text.msc_task:00000090 $d
+  R:\TEMP\ccDeVvWE.s:19     .text.msc_task:00000000 $t
+  R:\TEMP\ccDeVvWE.s:24     .text.msc_task:00000000 msc_task
+  R:\TEMP\ccDeVvWE.s:134    .text.msc_task:00000090 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

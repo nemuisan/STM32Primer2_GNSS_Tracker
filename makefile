@@ -64,7 +64,7 @@ ALIGNED_ACCESS	= -mno-unaligned-access
 
 
 # Apprication Version
-APP_VER = Version11.10
+APP_VER = Version12.00
 
 # Basic definition
 SUBMODEL		= STM32F103VET6
@@ -163,7 +163,6 @@ CFILES = \
  $(SOURCE)/cdc_support.c 			\
  $(SOURCE)/msc_support.c 			\
  $(SOURCE)/uart_support_gps.c		\
- $(SOURCE)/term_io.c				\
  $(SOURCE)/xprintf.c
 
 #/*----- Display library PATH -----*/	
@@ -226,29 +225,12 @@ CFILES += \
 
 #/*----- STARTUP code PATH -----*/
 STARTUP_DIR = $(CMSIS_DEVICE)/Source/Templates/gcc_ride7
-ifeq ($(OS_SUPPORT),USE_FREERTOS)
-SFILES += \
-	$(SOURCE)/startup_stm32f10x_cl_rtos.s
-else
-ifeq ($(MPU_DENSITY),STM32F10X_MD)
-SFILES += \
-	$(STARTUP_DIR)/startup_stm32f10x_md.s
-else
-ifeq ($(MPU_DENSITY),STM32F10X_LD)
-SFILES += \
-	$(STARTUP_DIR)/startup_stm32f10x_ld.s
-else
 ifeq ($(MPU_DENSITY),STM32F10X_HD)
 SFILES += \
 	$(STARTUP_DIR)/startup_stm32f10x_hd.s
 else
-SFILES += \
-	$(STARTUP_DIR)/startup_stm32f10x_cl.s
+    $(error U MUST SELECT STM32F1_HD Device!!)
 endif
-endif
-endif
-endif
-
 
 #/*----- STM32 library PATH -----*/
 LIBCFILES = \

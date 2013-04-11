@@ -2,8 +2,8 @@
 /*!
 	@file			ili932x.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2013.01.03
+    @version        10.00
+    @date           2013.04.01
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
 					 -YHY024006A				(ILI9325)	8/16bit mode.		@n
@@ -15,14 +15,17 @@
 					 -MR028-9325-51P-TP-A  		(ILI9328)	8/16bit,spi mode.	@n
 					 -MR024-9325-51P-TP-B  		(ILI9325C)	8/16bit,spi mode.	@n
 					 -OPFPCT0634-V0				(ILI9320)	8/16bit mode.		@n
-					 -TS8026Y					(ST7781)	8bit mode.			@n
+					 -TS8026Y					(ST7781)	8bit mode only.		@n
 					 -TFT1P3204-E				(R61505W)	8/16bit mode.		@n
 					 -KD032C-2-TP 				(ILI9325C)	8/16bit,spi mode.   @n
-					 -TFT1P2477-E				(R61505V)	8bit mode.			@n
-					 -VS3026A					(RM65080)	8/16bit mode.		@n
+					 -TFT1P2477-E				(R61505V)	8bit mode only.		@n
+					 -VS3026A					(RM68050)	8/16bit mode.		@n
 					 -KFM529B21-1A				(SPFD5408B)	8/16bit mode.		@n
 					 -CH24Q304-LCM-A			(LGDP4535)  8/16bit mode.		@n
-					 -JLX320-002				(RM68090)   8/16bit mode.
+					 -KXM280H-T09				(ILI9331)   8/16bit mode.		@n
+					 -DST2401PH					(R61580)   	8/16bit mode.		@n
+					 -JLX320-002				(RM68090)   8bit mode only.		@n
+					 -AT32Q02					(FT1505C)   8/16bit mode.
 
     @section HISTORY
 		2010.03.01	V1.00	Stable Release.
@@ -34,9 +37,11 @@
 							Added DMA Transaction Support.
 		2012.01.18	V6.00	Added ST7781 device.
 		2012.04.20	V7.00	Added R61505W & R61505V device.
-		2012.09.30	V8.00	Added SPDF5408A/B device.
+		2012.09.30	V8.00	Added SPDF5408A/B,RM68050 device.
 						    Added LGDP4535 device.
-		2013.01.03	V9.00   Added RM68090 device.
+		2013.01.03	V9.00   Added ILI9331,R61580,RM68090 device.
+		2013.04.01 V10.00   Added FT1505C device.
+							Fixed GGRAM Addressing.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -46,7 +51,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ili932x.h"
 /* check header file version for fool proof */
-#if __ILI932X_H != 0x0900
+#if __ILI932X_H != 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -316,11 +321,11 @@ inline void ILI932x_rect(uint32_t x, uint32_t width, uint32_t y, uint32_t height
 	ILI932x_wr_dat(OFS_RAW + height);
 
 	ILI932x_wr_cmd(0x20);				/* GRAM Vertical/Horizontal ADDR Set(AD0~AD7) */
-	ILI932x_wr_dat(OFS_RAW + y);
-	ILI932x_wr_cmd(0x21);				/* GRAM Vertical/Horizontal ADDR Set(AD8~AD16) */
 	ILI932x_wr_dat(OFS_COL + x);
+	ILI932x_wr_cmd(0x21);				/* GRAM Vertical/Horizontal ADDR Set(AD8~AD16) */
+	ILI932x_wr_dat(OFS_RAW + y);
 
-	ILI932x_wr_cmd(0x22);			/* Write Data to GRAM */
+	ILI932x_wr_cmd(0x22);				/* Write Data to GRAM */
 
 }
 
@@ -359,9 +364,9 @@ void ILI932x_init(void)
 	/* Check Device Code */
 	devicetype = ILI932x_rd_cmd(0x0000);  			/* Confirm Vaild LCD Controller */
 
-	if((devicetype == 0x9325) || (devicetype == 0x5408))
+	if((devicetype == 0x9325) || (devicetype == 0x5408) || (devicetype == 0x6809) || (devicetype == 0x6807))
 	{
-		/* Initialize ILI9325 & ILI9325C & RM65080 & SPFD5408A/B */
+		/* Initialize ILI9325 & ILI9325C & RM68050 & RM68090 & SPFD5408A/B */
 		ILI932x_wr_cmd(0xE3);						/* Set the internal vcore voltage */ 
 		ILI932x_wr_dat(0x3008);
 		ILI932x_wr_cmd(0xE7);						/* Set the internal vcore voltage */ 
@@ -376,7 +381,7 @@ void ILI932x_init(void)
 		ILI932x_wr_dat(0x0700);
 
 		ILI932x_wr_cmd(0x03);						/* Set GRAM write direction and BGR=1 */ 
-		ILI932x_wr_dat((1<<12)|(1<<9)|(1<<7)|(1<<5)|(1<<4));
+		ILI932x_wr_dat((1<<12)|(1<<9)|(0<<7)|(1<<5)|(1<<4));
 
 		ILI932x_wr_cmd(0x04);						/* Scalling Control */ 
 		ILI932x_wr_dat(0x0000);
@@ -652,7 +657,7 @@ void ILI932x_init(void)
 		ILI932x_wr_dat((1<<8)|(1<<5)|(1<<4)|(1<<1)|(1<<0));
 	}
 
-	else if(devicetype == 0x1505)
+	else if(devicetype == 0x1505 || devicetype == 0x0505)
 	{
 		/* Initialize R61505 & R61505U */
 		ILI932x_wr_cmd(0x00);
@@ -797,8 +802,6 @@ void ILI932x_init(void)
 		*/
 		ILI932x_wr_cmd(0x00);
 		ILI932x_wr_dat(0x0001);
-		_delay_ms(50);
-		
 		ILI932x_wr_cmd(0x10);
 		ILI932x_wr_dat(0x0628);
 		ILI932x_wr_cmd(0x12);
@@ -811,11 +814,11 @@ void ILI932x_init(void)
 		ILI932x_wr_dat(0x0050);
 		ILI932x_wr_cmd(0x12);
 		ILI932x_wr_dat(0x0016);
-		_delay_ms(15);
+		_delay_ms(50);
 		
 		ILI932x_wr_cmd(0x10);
 		ILI932x_wr_dat(0x5660);
-		_delay_ms(15);
+		_delay_ms(50);
 
 		ILI932x_wr_cmd(0x13); 
 		ILI932x_wr_dat(0x2A4E);
@@ -849,7 +852,7 @@ void ILI932x_init(void)
 		ILI932x_wr_dat(0x0208);
 		ILI932x_wr_cmd(0x39); 
 		ILI932x_wr_dat(0x0F0B);
-		_delay_ms(15);
+		_delay_ms(50);
 	
 		ILI932x_wr_cmd(0x41); 
 		ILI932x_wr_dat(0x0002);
@@ -865,29 +868,12 @@ void ILI932x_init(void)
 		ILI932x_wr_dat(0x0004);
 		ILI932x_wr_cmd(0xA0); 
 		ILI932x_wr_dat(0x0100);
-		ILI932x_wr_cmd(0x07); 
-		ILI932x_wr_dat(0x0001);
-		_delay_ms(15);
-
-		ILI932x_wr_cmd(0x07); 
-		ILI932x_wr_dat(0x0021);
-		_delay_ms(15);
-
-		ILI932x_wr_cmd(0x07); 
-		ILI932x_wr_dat(0x0023);
-		_delay_ms(15);
-	
-		ILI932x_wr_cmd(0x07); 
-		ILI932x_wr_dat(0x0033);
-		_delay_ms(15);
-
+		_delay_ms(50);
 		ILI932x_wr_cmd(0x07); 
 		ILI932x_wr_dat(0x0133);
-		_delay_ms(15);
-
+		_delay_ms(50);
 		ILI932x_wr_cmd(0xA0); 
 		ILI932x_wr_dat(0x0000);
-		_delay_ms(20);
 
 	}
 
@@ -1275,14 +1261,14 @@ void ILI932x_init(void)
 		ILI932x_wr_dat(0x0200);		/* set 1 line inversion */
 		ILI932x_wr_cmd(0x03);		/* Set GRAM write direction and BGR=1 */ 
 		ILI932x_wr_dat((1<<12)|(1<<7)|(1<<5)|(1<<4));
-		ILI932x_wr_cmd(0x08);		/* display control2?置前后porch 2line */ 
+		ILI932x_wr_cmd(0x08);		/* display control2 porch 2line */ 
 		ILI932x_wr_dat(0x0202);
 		ILI932x_wr_cmd(0x09);
 		ILI932x_wr_dat(0x0000);		/* display control3 (set nodisplay area cycle) */ 
 		ILI932x_wr_cmd(0x0A);
 		ILI932x_wr_dat(0x0000);		/* display control4 FMARK function */ 
 		ILI932x_wr_cmd(0x0C);
-		ILI932x_wr_dat(0x0001);		/* RGB interface 16bit 静?的?片，??的需要?置?dm和rm */ 
+		ILI932x_wr_dat(0x0001);		/* RGB interface 16bit */ 
 		ILI932x_wr_cmd(0x0D);
 		ILI932x_wr_dat(0x0000);		/* Frame marker */ 
 		ILI932x_wr_cmd(0x0F);
@@ -1456,99 +1442,95 @@ void ILI932x_init(void)
 		ILI932x_wr_dat(0x0100);
 	}
 
-	else if(devicetype == 0x6807)
+	else if(devicetype == 0x0001)
 	{
-		/* Initialize RM68090 */
-		ILI932x_wr_cmd(0x01); 
-		ILI932x_wr_dat(0x0100);		 /* Set SS and SM bit */
-		ILI932x_wr_cmd(0x02);
-		ILI932x_wr_dat(0x0700);		 /* Set line inversion */
-		ILI932x_wr_cmd(0x03);
-		ILI932x_wr_dat(0x1030);		 /* Set Write direction */
-		ILI932x_wr_cmd(0x04);
-		ILI932x_wr_dat(0x0000);		 /* Set Scaling function off */
-		ILI932x_wr_cmd(0x08); 
-		ILI932x_wr_dat(0x0207);		 /* Set BP and FP */
-		ILI932x_wr_cmd(0x09); 
-		ILI932x_wr_dat(0x0000);		 /* Set non-display area */
-		ILI932x_wr_cmd(0x0A); 
-		ILI932x_wr_dat(0x0000);		 /* Frame marker control */
-		ILI932x_wr_cmd(0x0C); 
-		ILI932x_wr_dat(0x0000);		 /* Set interface control */
-		ILI932x_wr_cmd(0x0D); 
-		ILI932x_wr_dat(0x0000);		 /* Frame marker Position */
-		ILI932x_wr_cmd(0x0F); 
-		ILI932x_wr_dat(0x0000);		 /* Set RGB interface  */
-	
-		/* Power On Sequence */
-		ILI932x_wr_cmd(0x10); 
-		ILI932x_wr_dat(0x0000);		 /* Set SAP);BT[3:0]);AP);SLP);STB */
-		ILI932x_wr_cmd(0x11); 
-		ILI932x_wr_dat(0x0007);		 /* Set DC1[2:0]);DC0[2:0]);VC */
-		ILI932x_wr_cmd(0x12); 
-		ILI932x_wr_dat(0x0000);		 /* Set VREG1OUT voltage */
-		ILI932x_wr_cmd(0x13); 
-		ILI932x_wr_dat(0x0000);		 /* Set VCOM AMP voltage */
-		ILI932x_wr_cmd(0x07); 
-		ILI932x_wr_dat(0x0001);		 /* Set VCOM AMP voltage */
-		ILI932x_wr_cmd(0x07); 
-		ILI932x_wr_dat(0x0020);		 /* Set VCOM AMP voltage */
-		_delay_ms(200);
-		ILI932x_wr_cmd(0x10); 
-		ILI932x_wr_dat(0x1290);		 /* Set SAP);BT[3:0]);AP);SLP);STB */
-		ILI932x_wr_cmd(0x11); 
-		ILI932x_wr_dat(0x0221);		 /* Set DC1[2:0]);DC0[2:0]);VC[2:0] */
-		_delay_ms(50);
-		ILI932x_wr_cmd(0x12); 
-		ILI932x_wr_dat(0x0081);		 /* Set VREG1OUT voltaged */
-		_delay_ms(50);
-
-		ILI932x_wr_cmd(0x13); 
-		ILI932x_wr_dat(0x1500);		 /* Set VCOM AMP voltage */
-		ILI932x_wr_cmd(0x29); 
-		ILI932x_wr_dat(0x000c);		 /* Set VCOMH voltage */
-		ILI932x_wr_cmd(0x2B); 
-		ILI932x_wr_dat(0x000D);		 /* Set Frame rate. */
-		_delay_ms(50);
-
-		ILI932x_wr_cmd(0x30); 
-		ILI932x_wr_dat(0x0303);
-		ILI932x_wr_cmd(0x31); 
-		ILI932x_wr_dat(0x0006);
-		ILI932x_wr_cmd(0x32); 
+		/* Initialize FT1505C */
+		/* Start intial Sequence */  	
+		ILI932x_wr_cmd(0x2B);
+		ILI932x_wr_dat(0x0003);
+		ILI932x_wr_cmd(0x00);
 		ILI932x_wr_dat(0x0001);
-		ILI932x_wr_cmd(0x35); 
-		ILI932x_wr_dat(0x0204);
-		ILI932x_wr_cmd(0x36); 
-		ILI932x_wr_dat(0x0004);
-		ILI932x_wr_cmd(0x37); 
-		ILI932x_wr_dat(0x0407);
-		ILI932x_wr_cmd(0x38); 
+		_delay_ms(50);
+		ILI932x_wr_cmd(0x07);
 		ILI932x_wr_dat(0x0000);
-		ILI932x_wr_cmd(0x39); 
-		ILI932x_wr_dat(0x0404);
-		ILI932x_wr_cmd(0x3C); 
-		ILI932x_wr_dat(0x0402);
-		ILI932x_wr_cmd(0x3D); 
-		ILI932x_wr_dat(0x0004);
-		
-		/* Panel Image Control */
-		ILI932x_wr_cmd(0x60); 
-		ILI932x_wr_dat(0xA700);		 /* Set Gate Scan line */
-		ILI932x_wr_cmd(0x61); 
-		ILI932x_wr_dat(0x0001);		 /* Set NDL); VLE); REV */
-		ILI932x_wr_cmd(0x6A); 
-		ILI932x_wr_dat(0x0000);		 /* Set Scrolling line */
-		
-		/* Panel Interface Control */
-		ILI932x_wr_cmd(0x90); 
-		ILI932x_wr_dat(0x0010);
-		ILI932x_wr_cmd(0x92); 
+		_delay_ms(50);
+		ILI932x_wr_cmd(0x12);
+		ILI932x_wr_dat(0x0000);
+		_delay_ms(50);
+		ILI932x_wr_cmd(0x60);
+		ILI932x_wr_dat(0xA700);
+		ILI932x_wr_cmd(0x08);
+		ILI932x_wr_dat(0x0405);
+
+		/* Set gamma */
+		ILI932x_wr_cmd(0x30);
+		ILI932x_wr_dat(0x0001);
+		ILI932x_wr_cmd(0x31);
+		ILI932x_wr_dat(0x0303);
+		ILI932x_wr_cmd(0x32);
+		ILI932x_wr_dat(0x0000);
+		ILI932x_wr_cmd(0x35);
+		ILI932x_wr_dat(0x0700);
+		ILI932x_wr_cmd(0x36);
+		ILI932x_wr_dat(0x1006);
+		ILI932x_wr_cmd(0x37);
+		ILI932x_wr_dat(0x0107);
+		ILI932x_wr_cmd(0x38);
+		ILI932x_wr_dat(0x0703);
+		ILI932x_wr_cmd(0x39);
+		ILI932x_wr_dat(0x0707);
+		ILI932x_wr_cmd(0x3c);
+		ILI932x_wr_dat(0x0005);
+		ILI932x_wr_cmd(0x3d);
+		ILI932x_wr_dat(0x0A1F);
+
+		ILI932x_wr_cmd(0x10);
+		ILI932x_wr_dat(0x02C0);
+		ILI932x_wr_cmd(0x11);
+		ILI932x_wr_dat(0x0247);
+		_delay_ms(100);
+		ILI932x_wr_cmd(0x12);
+		ILI932x_wr_dat(0x0118);
+		_delay_ms(30);
+		ILI932x_wr_cmd(0x13);
+		ILI932x_wr_dat(0x0700);
+		ILI932x_wr_cmd(0x29);
+		ILI932x_wr_dat(0x0000);
+		_delay_ms(30);
+
+		ILI932x_wr_cmd(0x01);
+		ILI932x_wr_dat(0x0100);
+		ILI932x_wr_cmd(0x02);
+		ILI932x_wr_dat(0x0700);
+		ILI932x_wr_cmd(0x03);		/* Set GRAM write direction and BGR=1 */ 
+		ILI932x_wr_dat((1<<12)|(0<<9)|(0<<7)|(1<<5)|(1<<4)|(0<<3));
+		ILI932x_wr_cmd(0x61);
+		ILI932x_wr_dat(0x0007);
+		ILI932x_wr_cmd(0x90);
+		ILI932x_wr_dat(0x0110);
+		ILI932x_wr_cmd(0x92);
 		ILI932x_wr_dat(0x0000);
 
-		/* Display On */
-		ILI932x_wr_cmd(0x07); 
-		ILI932x_wr_dat(0x0133);		 /* Display on */
+		ILI932x_wr_cmd(0x80);
+		ILI932x_wr_dat(0x0000);
+		ILI932x_wr_cmd(0x81);
+		ILI932x_wr_dat(0x0000);
+		ILI932x_wr_cmd(0x82);
+		ILI932x_wr_dat(0x013f);
+		ILI932x_wr_cmd(0x83);
+		ILI932x_wr_dat(0x0000);
+		ILI932x_wr_cmd(0x84);
+		ILI932x_wr_dat(0x0000);
+		ILI932x_wr_cmd(0x85);
+		ILI932x_wr_dat(0x013f);
+
+		ILI932x_wr_cmd(0x10);
+		ILI932x_wr_dat(0x12f0);
+		_delay_ms(20);
+
+		/* Plan Control */
+		ILI932x_wr_cmd(0x07);
+		ILI932x_wr_dat(0x0133);
 	}
 
 	else { for(;;);} /* Invalid Device Code!! */

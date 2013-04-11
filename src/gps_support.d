@@ -56,11 +56,8 @@ src/gps_support.o: src/gps_support.c inc/gps_support.h \
  c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/time.h \
  c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/time.h \
  inc/rtc_support.h inc/uart_support_gps.h lib/ff/sdio_stm32f1.h \
- lib/ff/ff.h lib/ff/integer.h lib/ff/ffconf.h lib/ff/diskio.h \
- inc/term_io.h inc/xprintf.h lib/display/abstract/inc/display_if.h \
- lib/display/drivers/inc/st7732.h \
- lib/display/mcu_depend/inc/display_if_basis.h inc/systick.h \
- inc/gps_support.h inc/cdc_support.h \
+ inc/xprintf.h lib/ff/ff.h lib/ff/integer.h lib/ff/ffconf.h \
+ lib/ff/diskio.h inc/gps_support.h inc/cdc_support.h \
  lib/STM32_USB-FS-Device_Driver/inc/usb_lib.h inc/hw_config.h \
  lib/STM32_USB-FS-Device_Driver/inc/usb_type.h \
  lib/USB_Functions/usb_conf.h inc/stm32f10x_it.h inc/platform_config.h \

@@ -5,7 +5,7 @@
     @version        3.00
     @date           2011.10.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive DST5012B-NH		TFT module(8bit bus).		@n
+					It can drive DST5012B-NH		TFT module(8bit mode only).
 
     @section HISTORY
 		2010.12.31	V1.00	Stable Release.

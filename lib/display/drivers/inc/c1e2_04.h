@@ -5,7 +5,7 @@
     @version        1.00
     @date           2012.06.23
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive TM176220CNFWG1	TFT module(8bit bus only).		@n
+					It can drive TM176220CNFWG1	TFT module(8bit mode only).
 
     @section HISTORY
 		2012.06.23	V1.00	Stable Release.

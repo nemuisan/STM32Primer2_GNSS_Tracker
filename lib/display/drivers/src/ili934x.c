@@ -2,14 +2,14 @@
 /*!
 	@file			ili934x.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2012.11.30
+    @version        6.00
+    @date           2013.03.20
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				 	 	 @n
 					Available TFT-LCM are listed below.							 	 	 @n
 					 -SDT028ATFT				(ILI9341)	8/16bit & 4-Wire,8bitSerial. @n
 					 -SDT022ATFT				(ILI9340)	8/16bit & 4-Wire,8bitSerial. @n
-					 -NHD-2.4-240320SF-CTXI#-T1 (ILI9340)	8/16bit.					 @n
-					 -DJN 15-12378-18251		(ILI9338B)	8/16bit.
+					 -NHD-2.4-240320SF-CTXI#-T1 (ILI9340)	8/16bit mode.				 @n
+					 -DJN 15-12378-18251		(ILI9338B)	8/16bit mode.
 
     @section HISTORY
 		2011.11.10	V1.00	First Release.
@@ -18,7 +18,8 @@
 						    Added NHD-2.4-240320SF-CTXI#-T1 support.
 		2012.08.01	V4.00	Improved Register Read Function in Serial Interface.
 		2012.11.30	V5.00	Added DJN 15-12378-18251(ILI9338B) support.
-
+		2013.03.20  V6.00	Fixed ILI934x DeviceID Read Commands.
+	
     @section LICENSE
 		BSD License. See Copyright.txt
 */
@@ -27,7 +28,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ili934x.h"
 /* check header file version for fool proof */
-#if __ILI934X_H != 0x0500
+#if __ILI934X_H != 0x0600
 #error "header file version is not correspond!"
 #endif
 
@@ -66,7 +67,7 @@ inline void ILI934x_reset(void)
 	ILI934x_RES_SET();							/* RES=H, RD=H, WR=H   		*/
 	ILI934x_RD_SET();
 	ILI934x_WR_SET();
-	_delay_ms(1);								/* wait 1ms     			*/
+	_delay_ms(10);								/* wait 10ms     			*/
 
 	ILI934x_RES_CLR();							/* RES=L, CS=L   			*/
 	ILI934x_CS_CLR();
@@ -75,7 +76,7 @@ inline void ILI934x_reset(void)
 	ILI934x_RES_SET();							/* RES=H, CS=H				*/
 	ILI934x_CS_SET();
 	ILI934x_SCK_SET();							/* SPI MODE3     			*/
-	_delay_ms(1);								/* wait 1ms     			*/
+	_delay_ms(10);								/* wait 10ms     			*/
 
 	ILI934x_RES_CLR();							/* RES=L		   			*/
 
@@ -261,7 +262,6 @@ inline void ILI934x_wr_block(uint8_t *p,unsigned int cnt)
 inline uint16_t ILI934x_rd_cmd(uint8_t cmd)
 {
 	uint16_t val;
-	uint8_t temp;
 
 	DISPLAY_ASSART_CS();						/* CS=L		    */
 	ILI934x_DC_CLR();							/* DC=L			*/
@@ -269,16 +269,38 @@ inline uint16_t ILI934x_rd_cmd(uint8_t cmd)
 	SendSPI(cmd);
 
 	ILI934x_DC_SET();							/* DC=H			*/
-	temp = RecvSPI();							/* Dummy Read 	*/
-	temp = RecvSPI();							/* Upper Read 	*/
-	val  = RecvSPI();							/* Lower Read	*/
-		   RecvSPI();							/* Dummy Read 	*/
+	val = RecvSPI();							/* Dummy Read 	*/
+
+	DISPLAY_NEGATE_CS();						/* CS=H		    */
+
+	return val;
+}
+
+/**************************************************************************/
+/*! 
+    Read ID ILI934x.
+*/
+/**************************************************************************/
+static uint16_t ILI934x_rd_id(uint8_t cmd)
+{
+	uint16_t val;
+	uint16_t temp;
+
+	ILI934x_wr_cmd(0xD9);						/* SPI Register Read Command */
+	ILI934x_wr_dat(0x11);    					/* Read Mode Enable,1st Byte */
+	temp = ILI934x_rd_cmd(cmd);					/* Dummy Read 	*/
+	
+	ILI934x_wr_cmd(0xD9);						/* SPI Register Read Command */
+	ILI934x_wr_dat(0x12);    					/* Read Mode Enable,2nd Byte */
+	temp = ILI934x_rd_cmd(cmd);					/* Upper Read 	*/
+	
+	ILI934x_wr_cmd(0xD9);						/* SPI Register Read Command */
+	ILI934x_wr_dat(0x13);    					/* Read Mode Enable,3rd Byte */
+	val  = ILI934x_rd_cmd(cmd);					/* Lower Read	*/
+		   ILI934x_rd_cmd(cmd);					/* Dummy Read 	*/
 
 	val &= 0x00FF;
 	val |= (uint16_t)temp<<8;
-	val <<= 1;									/* Shift 1bit(see datasheet) */
-
-	DISPLAY_NEGATE_CS();						/* CS=H		    */
 
 	return val;
 }
@@ -335,22 +357,22 @@ inline void ILI934x_clear(void)
 /**************************************************************************/
 void ILI934x_init(void)
 {
-	uint16_t devicetype,rest;
-	
+	uint16_t devicetype;
+
 	Display_IoInit_If();
 
 	ILI934x_reset();
 
 	/* Check Device Code */
-	/* ILI9340 & ILI9341 CANNOT READ DeviceID(04h,DAh,DBh,DCh,D3h)
-        via ANY serial interface... too S**K! */
-	/* But we can read "Display Read Status(09h)" as "0x6100" */
-	devicetype = ILI934x_rd_cmd(0xD3);  		/* Confirm Vaild LCD Controller */
-	rest       = ILI934x_rd_cmd(0x09);  		/* Confirm Vaild LCD Controller Serial Interface */
+#ifdef USE_ILI934x_TFT
+	devicetype = ILI934x_rd_cmd(0xD3);  	/* Confirm Vaild LCD Controller */
+#elif USE_ILI934x_SPI_TFT
+	devicetype = ILI934x_rd_id(0xD3);  		/* Confirm Vaild LCD Controller Serial Interface */
+#endif
 
-	if((devicetype == 0x9340) || (devicetype == 0x9341) || (rest == 0x6100)) 
+	if(devicetype == 0x9341)
 	{
-		/* Initialize ILI934x */
+		/* Initialize ILI9341 */
 		ILI934x_wr_cmd(0x11);					/* Sleep out */
 		_delay_ms(120); 
 
@@ -474,7 +496,131 @@ void ILI934x_init(void)
 		ILI934x_wr_cmd(0x29);					/* Display on */
 	}
 
-	if((devicetype & 0x00FF) == 0x38)
+	else if(devicetype == 0x9340)
+	{
+		/* Initialize ILI9340 */
+		ILI934x_wr_cmd(0x11);					/* Sleep out */
+		_delay_ms(60); 
+
+		ILI934x_wr_cmd(0xEF);
+		ILI934x_wr_dat(0x03);
+		ILI934x_wr_dat(0x80);
+		ILI934x_wr_dat(0x02);
+		
+		ILI934x_wr_cmd(0xCF);
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0xAA);
+		ILI934x_wr_dat(0xB0);
+
+		ILI934x_wr_cmd(0xED);
+		ILI934x_wr_dat(0x67);
+		ILI934x_wr_dat(0x03);
+		ILI934x_wr_dat(0x12);
+		ILI934x_wr_dat(0x81);
+
+		ILI934x_wr_cmd(0xE8);
+		ILI934x_wr_dat(0x85); 
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0x7A);
+
+		ILI934x_wr_cmd(0x3A); 					/* RGB & CPU 18bit 0x66 / 16bit 0x55 */
+        ILI934x_wr_dat(0x55);
+		
+		ILI934x_wr_cmd(0xF6);					/* Interface control */
+        ILI934x_wr_dat(0x01);
+        ILI934x_wr_dat(0x30);
+        ILI934x_wr_dat(0x00);
+
+		ILI934x_wr_cmd(0xCB);
+		ILI934x_wr_dat(0x39);
+		ILI934x_wr_dat(0x2C);
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0x34);
+		ILI934x_wr_dat(0x02);
+
+		ILI934x_wr_cmd(0xF7);
+		ILI934x_wr_dat(0x20);
+
+		ILI934x_wr_cmd(0xEA);
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0x00);
+
+		ILI934x_wr_cmd(0xC0);					/* Power control */
+		ILI934x_wr_dat(0x23);					/* VRH[5:0] */
+		ILI934x_wr_dat(0x08);
+
+		ILI934x_wr_cmd(0xC1);					/* Power control */
+		ILI934x_wr_dat(0x11);					/* SAP[2:0];BT[3:0] */
+
+		ILI934x_wr_cmd(0xC5);					/* Vcomh & Vcoml control */
+		ILI934x_wr_dat(0x25);
+		ILI934x_wr_dat(0x2B);
+
+		ILI934x_wr_cmd(0xC7);					/* vcom adjust control */
+		ILI934x_wr_dat(0xC1);
+
+		ILI934x_wr_cmd(0x3A);
+		ILI934x_wr_dat(0x55);
+
+		ILI934x_wr_cmd(0x36);					/* Memory Access Control */
+		ILI934x_wr_dat(0x48);   
+
+		ILI934x_wr_cmd(0xB1);           
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0x12);
+		ILI934x_wr_cmd(0xB4);           
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_cmd(0xB6);           
+		ILI934x_wr_dat(0x0A);
+		ILI934x_wr_dat(0x82);					/* 0x02 background black,0x82 background white */
+		ILI934x_wr_dat(0x27);
+		ILI934x_wr_dat(0x00);
+
+		ILI934x_wr_cmd(0xF2);					/* 3Gamma Function Disable */ 
+        ILI934x_wr_dat(0x00);
+
+		ILI934x_wr_cmd(0x26); 					/* Gamma select G2.2 */
+		ILI934x_wr_dat(0x01);
+
+		ILI934x_wr_cmd(0xE0);					/* Positive  gamma */
+		ILI934x_wr_dat(0x0F);
+		ILI934x_wr_dat(0x17);
+		ILI934x_wr_dat(0x16);
+		ILI934x_wr_dat(0x0C);
+		ILI934x_wr_dat(0x10);
+		ILI934x_wr_dat(0x09);
+		ILI934x_wr_dat(0x45);
+		ILI934x_wr_dat(0xA9);
+		ILI934x_wr_dat(0x33);
+		ILI934x_wr_dat(0x08);
+		ILI934x_wr_dat(0x0D);
+		ILI934x_wr_dat(0x03);
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0x00);
+		
+		ILI934x_wr_cmd(0xE1);					/* Negative  gamma */
+		ILI934x_wr_dat(0x00);
+		ILI934x_wr_dat(0x28);
+		ILI934x_wr_dat(0x29);
+		ILI934x_wr_dat(0x03);
+		ILI934x_wr_dat(0x0F);
+		ILI934x_wr_dat(0x06);
+		ILI934x_wr_dat(0x3A);
+		ILI934x_wr_dat(0x56);
+		ILI934x_wr_dat(0x4C);
+		ILI934x_wr_dat(0x07);
+		ILI934x_wr_dat(0x12);
+		ILI934x_wr_dat(0x0C);
+		ILI934x_wr_dat(0x3F);
+		ILI934x_wr_dat(0x3F);
+		ILI934x_wr_dat(0x0F);
+
+		ILI934x_wr_cmd(0x29);					/* Display on */
+	}
+
+	else if((devicetype & 0x00FF) == 0x0038)
 	{
 		/* Initialize ILI9338 */
 		/* Start Initial Sequence */

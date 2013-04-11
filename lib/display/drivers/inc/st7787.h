@@ -2,20 +2,23 @@
 /*!
 	@file			ST7787.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.08.27
+    @version        2.00
+    @date           2013.04.01
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive S95417	TFT module.
+					Available TFT-LCM are listed below.							@n
+					 -S95417				(ST7787)	8/16bit mode.			@n
+					 -AR240320A7NFWUG2		(ST7785)	8/16bit mode.			
 
     @section HISTORY
 		2012.08.27	V1.00	Stable Release.
+		2013.04.01  V2.00   Added ST7785 Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __ST7787_H
-#define __ST7787_H	0x0100
+#define __ST7787_H	0x0200
 
 #ifdef __cplusplus
  extern "C" {

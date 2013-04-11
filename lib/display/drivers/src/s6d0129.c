@@ -6,8 +6,8 @@
     @date           2012.11.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
-					 -S95591-AAA				(S6D0128)	8/16bit mode.		@n
-					 -TFT1P0913-E				(S6D1121)	8/16bit,Serial mode.
+					 -S95591-AAA			(S6D0128)	8/16bit mode.			@n
+					 -TFT1P0913-E			(S6D1121)	8/16bit,spi mode.
 
     @section HISTORY
 		2012.01.02	V1.00	Stable Release.

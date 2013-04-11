@@ -5,8 +5,7 @@
     @version        1.00
     @date           2012.11.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					Available TFT-LCM are listed below.							@n
-					 -MT240TMA7B-04			(HX8310A)		16bit mode only.		
+					It can drive MT240TMA7B-04 TFT module(16bit mode only).	
 
     @section HISTORY
 		2012.11.30	V1.00	Start Here.

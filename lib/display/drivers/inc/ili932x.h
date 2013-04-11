@@ -2,8 +2,8 @@
 /*!
 	@file			ili932x.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2013.01.03
+    @version        10.00
+    @date           2013.04.01
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
 					 -YHY024006A				(ILI9325)	8/16bit mode.		@n
@@ -15,14 +15,17 @@
 					 -MR028-9325-51P-TP-A  		(ILI9328)	8/16bit,spi mode.	@n
 					 -MR024-9325-51P-TP-B  		(ILI9325C)	8/16bit,spi mode.	@n
 					 -OPFPCT0634-V0				(ILI9320)	8/16bit mode.		@n
-					 -TS8026Y					(ST7781)	8bit mode.			@n
+					 -TS8026Y					(ST7781)	8bit mode only.		@n
 					 -TFT1P3204-E				(R61505W)	8/16bit mode.		@n
 					 -KD032C-2-TP 				(ILI9325C)	8/16bit,spi mode.   @n
-					 -TFT1P2477-E				(R61505V)	8bit mode.			@n
-					 -VS3026A					(RM65080)	8/16bit mode.		@n
+					 -TFT1P2477-E				(R61505V)	8bit mode only.		@n
+					 -VS3026A					(RM68050)	8/16bit mode.		@n
 					 -KFM529B21-1A				(SPFD5408B)	8/16bit mode.		@n
 					 -CH24Q304-LCM-A			(LGDP4535)  8/16bit mode.		@n
-					 -JLX320-002				(RM68090)   8/16bit mode.
+					 -KXM280H-T09				(ILI9331)   8/16bit mode.		@n
+					 -DST2401PH					(R61580)   	8/16bit mode.		@n
+					 -JLX320-002				(RM68090)   8bit mode only.		@n
+					 -AT32Q02					(FT1505C)   8/16bit mode.
 
     @section HISTORY
 		2010.03.01	V1.00	Stable Release.
@@ -34,16 +37,18 @@
 							Added DMA Transaction Support.
 		2012.01.18	V6.00	Added ST7781 device.
 		2012.04.20	V7.00	Added R61505W & R61505V device.
-		2012.09.30	V8.00	Added SPDF5408A/B device.
+		2012.09.30	V8.00	Added SPDF5408A/B,RM68050 device.
 						    Added LGDP4535 device.
-		2013.01.03	V9.00   Added RM68090 device.
+		2013.01.03	V9.00   Added ILI9331,R61580,RM68090 device.
+		2013.04.01 V10.00   Added FT1505C device.
+							Fixed GGRAM Addressing.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __ILI932X_H
-#define __ILI932X_H	0x0900
+#define __ILI932X_H	0x1000
 
 #ifdef __cplusplus
  extern "C" {

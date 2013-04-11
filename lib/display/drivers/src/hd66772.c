@@ -5,7 +5,7 @@
     @version        1.00
     @date           2011.10.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive TX05D99VM1AAA TFT module.
+					It can drive TX05D99VM1AAA TFT module(8/16bit mode).
 
     @section HISTORY
 		2011.10.30	V1.00	Stable Release.

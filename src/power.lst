@@ -615,40 +615,40 @@
  376              		.cfi_endproc
  377              	.LFE62:
  379              		.global	BatState
- 380              		.section	.data.vbatbabyflag.8846,"aw",%progbits
+ 380              		.section	.bss.vbatcounts.8814,"aw",%nobits
  381              		.align	2
- 382              		.set	.LANCHOR2,. + 0
- 385              	vbatbabyflag.8846:
- 386 0000 0F000000 		.word	15
- 387              		.section	.bss.shutcounts.8839,"aw",%nobits
- 388              		.align	2
- 389              		.set	.LANCHOR1,. + 0
- 392              	shutcounts.8839:
- 393 0000 00000000 		.space	4
- 394              		.section	.data.BatState,"aw",%progbits
+ 382              		.set	.LANCHOR4,. + 0
+ 385              	vbatcounts.8814:
+ 386 0000 00000000 		.space	4
+ 387              		.section	.bss.VBat.8822,"aw",%nobits
+ 388              		.align	1
+ 389              		.set	.LANCHOR0,. + 0
+ 392              	VBat.8822:
+ 393 0000 0000     		.space	2
+ 394              		.section	.bss.CurrentVbat.8817,"aw",%nobits
  395              		.align	2
- 396              		.set	.LANCHOR5,. + 0
- 399              	BatState:
- 400 0000 01000000 		.word	1
- 401              		.section	.bss.vbatlow.8845,"aw",%nobits
+ 396              		.set	.LANCHOR3,. + 0
+ 399              	CurrentVbat.8817:
+ 400 0000 00000000 		.space	4
+ 401              		.section	.data.BatState,"aw",%progbits
  402              		.align	2
- 403              		.set	.LANCHOR6,. + 0
- 406              	vbatlow.8845:
- 407 0000 00000000 		.space	4
- 408              		.section	.bss.vbatcounts.8844,"aw",%nobits
+ 403              		.set	.LANCHOR5,. + 0
+ 406              	BatState:
+ 407 0000 01000000 		.word	1
+ 408              		.section	.bss.vbatlow.8815,"aw",%nobits
  409              		.align	2
- 410              		.set	.LANCHOR4,. + 0
- 413              	vbatcounts.8844:
+ 410              		.set	.LANCHOR6,. + 0
+ 413              	vbatlow.8815:
  414 0000 00000000 		.space	4
- 415              		.section	.bss.VBat.8852,"aw",%nobits
- 416              		.align	1
- 417              		.set	.LANCHOR0,. + 0
- 420              	VBat.8852:
- 421 0000 0000     		.space	2
- 422              		.section	.bss.CurrentVbat.8847,"aw",%nobits
+ 415              		.section	.data.vbatbabyflag.8816,"aw",%progbits
+ 416              		.align	2
+ 417              		.set	.LANCHOR2,. + 0
+ 420              	vbatbabyflag.8816:
+ 421 0000 0F000000 		.word	15
+ 422              		.section	.bss.shutcounts.8809,"aw",%nobits
  423              		.align	2
- 424              		.set	.LANCHOR3,. + 0
- 427              	CurrentVbat.8847:
+ 424              		.set	.LANCHOR1,. + 0
+ 427              	shutcounts.8809:
  428 0000 00000000 		.space	4
  429              		.text
  430              	.Letext0:
@@ -663,32 +663,32 @@
  439              		.file 10 "./inc/gps_support.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 power.c
-  R:\TEMP\ccqegLG4.s:19     .text.GetVbat:00000000 $t
-  R:\TEMP\ccqegLG4.s:24     .text.GetVbat:00000000 GetVbat
-  R:\TEMP\ccqegLG4.s:83     .text.GetVbat:00000044 $d
-  R:\TEMP\ccqegLG4.s:89     .text.PWR_Mgn:00000000 $t
-  R:\TEMP\ccqegLG4.s:94     .text.PWR_Mgn:00000000 PWR_Mgn
-  R:\TEMP\ccqegLG4.s:227    .text.PWR_Mgn:000000b4 $d
-  R:\TEMP\ccqegLG4.s:243    .text.GetTemp:00000000 $t
-  R:\TEMP\ccqegLG4.s:248    .text.GetTemp:00000000 GetTemp
-  R:\TEMP\ccqegLG4.s:325    .text.GetTemp:00000058 $d
-  R:\TEMP\ccqegLG4.s:333    .text.PWR_Configuration:00000000 $t
-  R:\TEMP\ccqegLG4.s:338    .text.PWR_Configuration:00000000 PWR_Configuration
-  R:\TEMP\ccqegLG4.s:375    .text.PWR_Configuration:00000028 $d
-  R:\TEMP\ccqegLG4.s:399    .data.BatState:00000000 BatState
-  R:\TEMP\ccqegLG4.s:381    .data.vbatbabyflag.8846:00000000 $d
-  R:\TEMP\ccqegLG4.s:385    .data.vbatbabyflag.8846:00000000 vbatbabyflag.8846
-  R:\TEMP\ccqegLG4.s:388    .bss.shutcounts.8839:00000000 $d
-  R:\TEMP\ccqegLG4.s:392    .bss.shutcounts.8839:00000000 shutcounts.8839
-  R:\TEMP\ccqegLG4.s:395    .data.BatState:00000000 $d
-  R:\TEMP\ccqegLG4.s:402    .bss.vbatlow.8845:00000000 $d
-  R:\TEMP\ccqegLG4.s:406    .bss.vbatlow.8845:00000000 vbatlow.8845
-  R:\TEMP\ccqegLG4.s:409    .bss.vbatcounts.8844:00000000 $d
-  R:\TEMP\ccqegLG4.s:413    .bss.vbatcounts.8844:00000000 vbatcounts.8844
-  R:\TEMP\ccqegLG4.s:416    .bss.VBat.8852:00000000 $d
-  R:\TEMP\ccqegLG4.s:420    .bss.VBat.8852:00000000 VBat.8852
-  R:\TEMP\ccqegLG4.s:423    .bss.CurrentVbat.8847:00000000 $d
-  R:\TEMP\ccqegLG4.s:427    .bss.CurrentVbat.8847:00000000 CurrentVbat.8847
+  R:\TEMP\ccZ0OEom.s:19     .text.GetVbat:00000000 $t
+  R:\TEMP\ccZ0OEom.s:24     .text.GetVbat:00000000 GetVbat
+  R:\TEMP\ccZ0OEom.s:83     .text.GetVbat:00000044 $d
+  R:\TEMP\ccZ0OEom.s:89     .text.PWR_Mgn:00000000 $t
+  R:\TEMP\ccZ0OEom.s:94     .text.PWR_Mgn:00000000 PWR_Mgn
+  R:\TEMP\ccZ0OEom.s:227    .text.PWR_Mgn:000000b4 $d
+  R:\TEMP\ccZ0OEom.s:243    .text.GetTemp:00000000 $t
+  R:\TEMP\ccZ0OEom.s:248    .text.GetTemp:00000000 GetTemp
+  R:\TEMP\ccZ0OEom.s:325    .text.GetTemp:00000058 $d
+  R:\TEMP\ccZ0OEom.s:333    .text.PWR_Configuration:00000000 $t
+  R:\TEMP\ccZ0OEom.s:338    .text.PWR_Configuration:00000000 PWR_Configuration
+  R:\TEMP\ccZ0OEom.s:375    .text.PWR_Configuration:00000028 $d
+  R:\TEMP\ccZ0OEom.s:406    .data.BatState:00000000 BatState
+  R:\TEMP\ccZ0OEom.s:381    .bss.vbatcounts.8814:00000000 $d
+  R:\TEMP\ccZ0OEom.s:385    .bss.vbatcounts.8814:00000000 vbatcounts.8814
+  R:\TEMP\ccZ0OEom.s:388    .bss.VBat.8822:00000000 $d
+  R:\TEMP\ccZ0OEom.s:392    .bss.VBat.8822:00000000 VBat.8822
+  R:\TEMP\ccZ0OEom.s:395    .bss.CurrentVbat.8817:00000000 $d
+  R:\TEMP\ccZ0OEom.s:399    .bss.CurrentVbat.8817:00000000 CurrentVbat.8817
+  R:\TEMP\ccZ0OEom.s:402    .data.BatState:00000000 $d
+  R:\TEMP\ccZ0OEom.s:409    .bss.vbatlow.8815:00000000 $d
+  R:\TEMP\ccZ0OEom.s:413    .bss.vbatlow.8815:00000000 vbatlow.8815
+  R:\TEMP\ccZ0OEom.s:416    .data.vbatbabyflag.8816:00000000 $d
+  R:\TEMP\ccZ0OEom.s:420    .data.vbatbabyflag.8816:00000000 vbatbabyflag.8816
+  R:\TEMP\ccZ0OEom.s:423    .bss.shutcounts.8809:00000000 $d
+  R:\TEMP\ccZ0OEom.s:427    .bss.shutcounts.8809:00000000 shutcounts.8809
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

@@ -2,22 +2,23 @@
 /*!
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2013.02.20
+    @version        8.00
+    @date           2013.04.10
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
     @section HISTORY
 		2011.03.10	V1.00	Start Here.
-		2011.09.07	V2.00	Add RTC Synchronization from GPRMC.
+		2011.09.07	V2.00	Added RTC Synchronization from GPRMC.
 		                    Fixed More Stability.
-		2011.12.26	V3.00	Add PA6C Support.
+		2011.12.26	V3.00	Added PA6C Support.
 		2012.08.31  V4.00   Imploved FatFs Support Function's Portability.
 		2012.09.08	V5.00	Imploved PA6C Support.
 		                     (Anti Interference & force 9600bps for 38400bps Firmware).
-		2012.12.24  V6.00   Add Gms-g6a Support.
+		2012.12.24  V6.00   Added Gms-g6a(MT3333 GLONASS MODE) Support.
 							Imploved Error Handlings.
-		2013.02.20  V7.00   Added Some MT3339/MT3333 Commands
+		2013.02.20  V7.00   Added Some MT3339/MT3333 Commands.
+		2013.04.10  V8.00   Changed UART-Retarget Method.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -27,7 +28,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gps_support.h"
 /* check header file version for fool proof */
-#if __GPS_SUPPORT_H!= 0x0700
+#if __GPS_SUPPORT_H!= 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -278,8 +279,8 @@ void gps_task(void)
 	time_t utc;
 
 	/* Retarget xprintf() */
-	xfunc_out = putch;
-	xfunc_in  = xgetc;
+	xdev_out(putch);
+	xdev_in(getch);
 
 	/* If MTK chip baud is 38400bps or 115200bps,then... */
 	conio_init(GPS_UART_PORT,38400);
@@ -301,7 +302,7 @@ void gps_task(void)
 	xSend_MTKCmd(PMTK_API_SET_SBAS_MODE,"1");
 	xSend_MTKCmd(PMTK_API_SET_DGPS_MODE,"2");
 
-	/*----- For MT3339/MT3333 Only Commands -----*/
+	/*----- For MT3339/MT3333 Specific Commands -----*/
 	/* Disable AlwaysLocate & Periodic Power Mode */
 	xSend_MTKCmd(PMTK_CMD_PERIODIC_MODE,"0");
 	/* Enable Anti Interference Control */

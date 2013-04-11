@@ -2,8 +2,8 @@
 /*!
 	@file			hx8347x.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2012.09.30
+    @version        4.00
+    @date           2013.02.28
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Available TFT-LCM are listed below.							@n
 					 -S95300					(HX8347A)	8/16bit mode.		@n
@@ -17,13 +17,14 @@
 		2011.12.23	V1.00	Renewed From HX8347A driver.
 		2012.03.31	V2.00	Added HX8347G(T) driver.
 		2012.09.30	V3.00	Revised HX8346A driver.
+		2013.02.28  V4.00	Optimized Some Codes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __HX8347X_H
-#define __HX8347X_H	0x0300
+#define __HX8347X_H	0x0400
 
 #ifdef __cplusplus
  extern "C" {
@@ -46,7 +47,7 @@
 /*#define HX8347xSPI_4WIREMODE*/
 #define HX8347xSPI_3WIREMODE
 
-/* HX8347D&G SPI_3WIREMODE Settings */
+/* HX8347D&G SPI 8Bit 3-Wire mode Settings */
 #define HX8347x_ID			(0x70)	/* 01110*** */
 #define ID_IM0				(0<<2)
 #define RS_CMD				(0<<1)

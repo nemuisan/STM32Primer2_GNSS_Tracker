@@ -126,14 +126,14 @@
  138              		.file 4 "./inc/systick.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_msc_scsi_data.c
-  R:\TEMP\ccDUU9RH.s:75     .data.ReadFormatCapacity_Data:00000000 ReadFormatCapacity_Data
-  R:\TEMP\ccDUU9RH.s:40     .bss.ReadCapacity10_Data:00000000 ReadCapacity10_Data
-  R:\TEMP\ccDUU9RH.s:45     .data.Scsi_Sense_Data:00000000 Scsi_Sense_Data
-  R:\TEMP\ccDUU9RH.s:28     .data.Mode_Sense10_data:00000000 Mode_Sense10_data
-  R:\TEMP\ccDUU9RH.s:67     .data.Mode_Sense6_data:00000000 Mode_Sense6_data
-  R:\TEMP\ccDUU9RH.s:96     .data.Standard_Inquiry_Data:00000000 Standard_Inquiry_Data
-  R:\TEMP\ccDUU9RH.s:91     .bss.Page00_Inquiry_Data:00000000 Page00_Inquiry_Data
-  R:\TEMP\ccDUU9RH.s:41     .bss.ReadCapacity10_Data:00000000 $d
-  R:\TEMP\ccDUU9RH.s:92     .bss.Page00_Inquiry_Data:00000000 $d
+  R:\TEMP\cc5xp4vk.s:75     .data.ReadFormatCapacity_Data:00000000 ReadFormatCapacity_Data
+  R:\TEMP\cc5xp4vk.s:40     .bss.ReadCapacity10_Data:00000000 ReadCapacity10_Data
+  R:\TEMP\cc5xp4vk.s:45     .data.Scsi_Sense_Data:00000000 Scsi_Sense_Data
+  R:\TEMP\cc5xp4vk.s:28     .data.Mode_Sense10_data:00000000 Mode_Sense10_data
+  R:\TEMP\cc5xp4vk.s:67     .data.Mode_Sense6_data:00000000 Mode_Sense6_data
+  R:\TEMP\cc5xp4vk.s:96     .data.Standard_Inquiry_Data:00000000 Standard_Inquiry_Data
+  R:\TEMP\cc5xp4vk.s:91     .bss.Page00_Inquiry_Data:00000000 Page00_Inquiry_Data
+  R:\TEMP\cc5xp4vk.s:41     .bss.ReadCapacity10_Data:00000000 $d
+  R:\TEMP\cc5xp4vk.s:92     .bss.Page00_Inquiry_Data:00000000 $d
 
 NO UNDEFINED SYMBOLS

@@ -5,7 +5,7 @@
     @version        2.00
     @date           2011.10.25
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive CMI-35 TFT module.
+					It can drive CMI-35 TFT module(16bit mode only).
 
     @section HISTORY
 		2011.09.14	V1.00	Stable Release.

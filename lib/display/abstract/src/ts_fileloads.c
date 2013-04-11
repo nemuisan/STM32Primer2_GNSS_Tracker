@@ -874,7 +874,7 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
     */
    if (setjmp(png_jmpbuf(read_ptr)))
    {
-		if(!row_buffer){
+		if( row_buffer != NULL ) {
 			/* Diacard Allocated Row Stride */
 			png_free(read_ptr,row_buffer);
 		}
@@ -1092,7 +1092,7 @@ static int load_gif(FIL *fil)
 		ts_locate(0, 0 ,0);
 		xprintf("\33\x87\fOOPS Screen Size Over!\n");
 		xprintf("press any key\n");
-		goto gif_exit;
+		goto gif_end;
 	}
 
 	/* Centering */
@@ -1347,9 +1347,10 @@ static int load_gif(FIL *fil)
     while (RecordType != TERMINATE_RECORD_TYPE);
 
 gif_end:
-	free(RowBuffer);
-
-gif_exit:
+	if( RowBuffer != NULL ) {
+		free(RowBuffer);
+		RowBuffer = NULL;
+	}
 	DGifCloseFile(GifFile);
 	/* Exit Routine */
 	/* To Rerturn to Push Any Key  */
@@ -1358,7 +1359,10 @@ gif_exit:
 
 	/* Case of escape from on loading AnimationGIF */
 gif_esc:
-	free(RowBuffer);
+	if( RowBuffer != NULL ) {
+		free(RowBuffer);
+		RowBuffer = NULL;
+	}
 	DGifCloseFile(GifFile);
    return 1;
  

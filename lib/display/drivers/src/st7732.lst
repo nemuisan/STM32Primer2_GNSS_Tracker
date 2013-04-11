@@ -1674,31 +1674,31 @@
  1240              		.file 6 "./lib/display/mcu_depend/inc/display_if_basis.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 st7732.c
-  R:\TEMP\ccJlqah0.s:19     .text.ST7732_reset:00000000 $t
-  R:\TEMP\ccJlqah0.s:24     .text.ST7732_reset:00000000 ST7732_reset
-  R:\TEMP\ccJlqah0.s:67     .text.ST7732_reset:00000028 $d
-  R:\TEMP\ccJlqah0.s:72     .text.ST7732_wr_cmd:00000000 $t
-  R:\TEMP\ccJlqah0.s:77     .text.ST7732_wr_cmd:00000000 ST7732_wr_cmd
-  R:\TEMP\ccJlqah0.s:95     .text.ST7732_wr_dat:00000000 $t
-  R:\TEMP\ccJlqah0.s:100    .text.ST7732_wr_dat:00000000 ST7732_wr_dat
-  R:\TEMP\ccJlqah0.s:117    .text.ST7732_wr_dat:00000008 $d
-  R:\TEMP\ccJlqah0.s:122    .text.ST7732_wr_gram:00000000 $t
-  R:\TEMP\ccJlqah0.s:127    .text.ST7732_wr_gram:00000000 ST7732_wr_gram
-  R:\TEMP\ccJlqah0.s:148    .text.ST7732_wr_gram:00000010 $d
-  R:\TEMP\ccJlqah0.s:153    .text.ST7732_wr_block:00000000 $t
-  R:\TEMP\ccJlqah0.s:158    .text.ST7732_wr_block:00000000 ST7732_wr_block
-  R:\TEMP\ccJlqah0.s:258    .text.ST7732_wr_block:00000048 $d
-  R:\TEMP\ccJlqah0.s:263    .text.ST7732_rect:00000000 $t
-  R:\TEMP\ccJlqah0.s:268    .text.ST7732_rect:00000000 ST7732_rect
-  R:\TEMP\ccJlqah0.s:376    .text.ST7732_rect:00000040 $d
-  R:\TEMP\ccJlqah0.s:383    .text.ST7732_clear:00000000 $t
-  R:\TEMP\ccJlqah0.s:388    .text.ST7732_clear:00000000 ST7732_clear
-  R:\TEMP\ccJlqah0.s:435    .text.ST7732_clear:00000030 $d
-  R:\TEMP\ccJlqah0.s:440    .text.ST7732_init:00000000 $t
-  R:\TEMP\ccJlqah0.s:445    .text.ST7732_init:00000000 ST7732_init
-  R:\TEMP\ccJlqah0.s:1005   .text.ST7732_init:00000178 $d
-  R:\TEMP\ccJlqah0.s:1010   .text.ST7732_draw_bmp:00000000 $t
-  R:\TEMP\ccJlqah0.s:1015   .text.ST7732_draw_bmp:00000000 ST7732_draw_bmp
+  R:\TEMP\ccMd7Agb.s:19     .text.ST7732_reset:00000000 $t
+  R:\TEMP\ccMd7Agb.s:24     .text.ST7732_reset:00000000 ST7732_reset
+  R:\TEMP\ccMd7Agb.s:67     .text.ST7732_reset:00000028 $d
+  R:\TEMP\ccMd7Agb.s:72     .text.ST7732_wr_cmd:00000000 $t
+  R:\TEMP\ccMd7Agb.s:77     .text.ST7732_wr_cmd:00000000 ST7732_wr_cmd
+  R:\TEMP\ccMd7Agb.s:95     .text.ST7732_wr_dat:00000000 $t
+  R:\TEMP\ccMd7Agb.s:100    .text.ST7732_wr_dat:00000000 ST7732_wr_dat
+  R:\TEMP\ccMd7Agb.s:117    .text.ST7732_wr_dat:00000008 $d
+  R:\TEMP\ccMd7Agb.s:122    .text.ST7732_wr_gram:00000000 $t
+  R:\TEMP\ccMd7Agb.s:127    .text.ST7732_wr_gram:00000000 ST7732_wr_gram
+  R:\TEMP\ccMd7Agb.s:148    .text.ST7732_wr_gram:00000010 $d
+  R:\TEMP\ccMd7Agb.s:153    .text.ST7732_wr_block:00000000 $t
+  R:\TEMP\ccMd7Agb.s:158    .text.ST7732_wr_block:00000000 ST7732_wr_block
+  R:\TEMP\ccMd7Agb.s:258    .text.ST7732_wr_block:00000048 $d
+  R:\TEMP\ccMd7Agb.s:263    .text.ST7732_rect:00000000 $t
+  R:\TEMP\ccMd7Agb.s:268    .text.ST7732_rect:00000000 ST7732_rect
+  R:\TEMP\ccMd7Agb.s:376    .text.ST7732_rect:00000040 $d
+  R:\TEMP\ccMd7Agb.s:383    .text.ST7732_clear:00000000 $t
+  R:\TEMP\ccMd7Agb.s:388    .text.ST7732_clear:00000000 ST7732_clear
+  R:\TEMP\ccMd7Agb.s:435    .text.ST7732_clear:00000030 $d
+  R:\TEMP\ccMd7Agb.s:440    .text.ST7732_init:00000000 $t
+  R:\TEMP\ccMd7Agb.s:445    .text.ST7732_init:00000000 ST7732_init
+  R:\TEMP\ccMd7Agb.s:1005   .text.ST7732_init:00000178 $d
+  R:\TEMP\ccMd7Agb.s:1010   .text.ST7732_draw_bmp:00000000 $t
+  R:\TEMP\ccMd7Agb.s:1015   .text.ST7732_draw_bmp:00000000 ST7732_draw_bmp
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

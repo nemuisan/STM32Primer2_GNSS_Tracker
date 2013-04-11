@@ -5,8 +5,9 @@
     @version        5.00
     @date           2011.11.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive S95215A-1 TFT module(8bit-bus only).
-					It can drive S95328-AAA TFT module.
+					Available TFT-LCM are listed below.							@n
+					 -S95215A-1				(HX8340B)		8bit mode only.		@n
+					 -S95328-AAA			(HX8340B)		8/16bit mode.
 
     @section HISTORY
 		2010.09.03	V1.00	Stable Release.

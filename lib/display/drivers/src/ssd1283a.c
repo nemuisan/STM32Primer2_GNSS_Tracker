@@ -5,7 +5,7 @@
     @version        4.00
     @date           2011.03.10
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive H016IT01 TFT module.
+					It can drive H016IT01 TFT module(4-wire,8-bit serial only)
 
     @section HISTORY
 		2010.03.01	V1.00	Stable Release.

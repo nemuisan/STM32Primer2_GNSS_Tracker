@@ -2,13 +2,14 @@
 /*!
 	@file			hx5051.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2011.11.30
+    @version        2.00
+    @date           2013.01.03
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					It can drive C0200QILC-C OLED module.
+					It can drive C0200QILC-C OLED module(8/16bit mode).
 
     @section HISTORY
 		2011.11.30	V1.00	Stable Release.
+		2013.01.03  V2.00	Removed SPI Handling(not need anymore...).
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -53,7 +54,6 @@ static inline void _delay_ms(uint32_t ms)
 /**************************************************************************/
 inline void HX5051_reset(void)
 {
-#ifdef USE_HX5051_OLED
 	HX5051_RES_SET();							/* RES=H, RD=H, WR=H   		*/
 	HX5051_RD_SET();
 	HX5051_WR_SET();
@@ -62,23 +62,11 @@ inline void HX5051_reset(void)
 	HX5051_RES_CLR();							/* RES=L, CS=L   			*/
 	HX5051_CS_CLR();
 
-#elif  USE_HX5051_SPI_OLED
-	HX5051_RES_SET();							/* RES=H, CS=H				*/
-	HX5051_CS_SET();
-	HX5051_SCK_SET();							/* SPI MODE3     			*/
-	_delay_ms(100);								/* wait 100ms     			*/
-
-	HX5051_RES_CLR();							/* RES=L		   			*/
-
-#endif
-
 	_delay_ms(10);								/* wait 10ms     			*/
 	HX5051_RES_SET();						  	/* RES=H					*/
 	_delay_ms(50);				    			/* wait 50ms     			*/
 }
 
-/* Select SPI or Parallel in MAKEFILE */
-#ifdef USE_HX5051_OLED
 /**************************************************************************/
 /*! 
     Write LCD Command.
@@ -147,124 +135,10 @@ inline void HX5051_wr_block(uint8_t *p, unsigned int cnt)
 /**************************************************************************/
 inline uint16_t HX5051_rd_cmd(uint16_t cmd)
 {
-#if 0
-	uint16_t val;
-
-#if defined(GPIO_ACCESS_8BIT) | defined(BUS_ACCESS_8BIT)
-	uint16_t temp;
-#endif
-
-	HX5051_wr_cmd(cmd);
-	HX5051_WR_SET();
-
-#if defined(GPIO_ACCESS_8BIT) | defined(BUS_ACCESS_8BIT)
-    ReadLCDData(temp);
-#endif
-
-    ReadLCDData(val);
-
-#if defined(GPIO_ACCESS_8BIT) | defined(BUS_ACCESS_8BIT)
-	val &= 0x00FF;
-	val |= temp<<8;
-#endif
-#endif
-	/* C0200QILC-C OLED module DON'T HAVE RD Pin!! ,So CANNOT USE read function.*/
+	/* C0200QILC-C OLED module DON'T HAVE RD Pin!! 
+	   So CANNOT USE ANY read function.*/
 	return  0x8319;
 }
-
-
-#elif USE_HX5051_SPI_OLED
-/**************************************************************************/
-/*! 
-    Write LCD Command.
-*/
-/**************************************************************************/
-inline void HX5051_wr_cmd(uint16_t cmd)
-{
-	DISPLAY_ASSART_CS();						/* CS=L		     */
-	
-	SendSPI(START_WR_CMD);
-	SendSPI16(cmd);
-
-	DISPLAY_NEGATE_CS();						/* CS=H		     */
-}
-
-/**************************************************************************/
-/*! 
-    Write LCD Data.
-*/
-/**************************************************************************/
-inline void HX5051_wr_dat(uint16_t dat)
-{	
-	DISPLAY_ASSART_CS();						/* CS=L		     */
-	
-	SendSPI(START_WR_DATA);
-	SendSPI16(dat);
-
-	DISPLAY_NEGATE_CS();						/* CS=H		     */
-}
-
-/**************************************************************************/
-/*! 
-    Write LCD Block Data.
-*/
-/**************************************************************************/
-inline void HX5051_wr_block(uint8_t *p,unsigned int cnt)
-{
-
-	DISPLAY_ASSART_CS();						/* CS=L		     */
-	SendSPI(START_WR_DATA);
-
-#ifdef  USE_DISPLAY_DMA_TRANSFER
-   DMA_TRANSACTION(p, cnt );
-#else
-
-	cnt /= 4;
-
-	while (cnt--) {
-		/* avoid -Wsequence-point's warning */
-		SendSPI16(((*(p+1))|(*(p)<<8)));
-		p++;p++;
-		SendSPI16(((*(p+1))|(*(p)<<8)));
-		p++;p++;
-	}
-#endif
-
-	DISPLAY_NEGATE_CS();						/* CS=H		     */
-}
-
-/**************************************************************************/
-/*! 
-    Read LCD Register.
-*/
-/**************************************************************************/
-inline  uint16_t HX5051_rd_cmd(uint16_t cmd)
-{
-	uint16_t val;
-	uint8_t temp;
-
-	DISPLAY_ASSART_CS();						/* CS=L		     */
-	
-	SendSPI(START_WR_CMD);
-	SendSPI16(cmd);
-	
-	DISPLAY_NEGATE_CS();						/* CS=H		     */
-	
-
-	DISPLAY_ASSART_CS();						/* CS=L		     */
-	
-	SendSPI(START_RD_DATA);
-	temp = RecvSPI();							/* Upper Read */
-	val  = RecvSPI();							/* Lower Read */
-
-	val &= 0x00FF;
-	val |= (uint16_t)temp<<8;
-	
-	DISPLAY_NEGATE_CS();						/* CS=H		     */
-
-	return val;
-}
-#endif
 
 
 /**************************************************************************/
@@ -274,17 +148,6 @@ inline  uint16_t HX5051_rd_cmd(uint16_t cmd)
 /**************************************************************************/
 inline void HX5051_rect(uint32_t x, uint32_t width, uint32_t y, uint32_t height)
 {
-#if defined(FLIP_SCREEN_C0200QILC)
-	HX5051_wr_cmd(0x23);				/* Horizontal Start,End ADDR */
-	HX5051_wr_dat(((OFS_COL + width)<<8)|(OFS_COL + x));
-
-	HX5051_wr_cmd(0x24);				/* Vertical Start,End ADDR */
-	HX5051_wr_dat(((OFS_RAW - y)<<8)|(OFS_RAW - height));
-
-	HX5051_wr_cmd(0x21);				/* GRAM Vertical/Horizontal ADDR Set(AD0~AD15) */
-	HX5051_wr_dat(((OFS_RAW - y)<<8)|(OFS_COL + x));
-
-#else
 	HX5051_wr_cmd(0x23);				/* Horizontal Start,End ADDR */
 	HX5051_wr_dat(((OFS_COL + width)<<8)|(OFS_COL + x));
 
@@ -293,7 +156,6 @@ inline void HX5051_rect(uint32_t x, uint32_t width, uint32_t y, uint32_t height)
 
 	HX5051_wr_cmd(0x21);				/* GRAM Vertical/Horizontal ADDR Set(AD0~AD15) */
 	HX5051_wr_dat(((OFS_RAW + y)<<8)|(OFS_COL + x));
-#endif
 
 	HX5051_wr_cmd(0x22);				/* Write Data to GRAM */
 
@@ -338,12 +200,7 @@ void HX5051_init(void)
 	{
 		/* Initialize HX5051 */
 		HX5051_wr_cmd(0x07);
-	#if defined(FLIP_SCREEN_C0200QILC)
-		HX5051_wr_dat((1<<11)|(1<<9)|(0<<8)|(1<<2)|(0<<1));
-	#else
-		HX5051_wr_dat((1<<11)|(0<<9)|(0<<8)|(1<<2)|(0<<1));
-	#endif
-		/*HX5051_wr_dat(0x0804);*/
+		HX5051_wr_dat((1<<11)|(1<<10)|(1<<9)|(0<<8)|(1<<2)|(0<<1));
 	
 		HX5051_wr_cmd(0x03);
 		HX5051_wr_dat(0x0015);
@@ -354,12 +211,8 @@ void HX5051_init(void)
 		HX5051_wr_cmd(0x21);
 		HX5051_wr_dat(0x00AF);
 		
-		HX5051_wr_cmd(0x05);
-	#if defined(FLIP_SCREEN_C0200QILC)
-		HX5051_wr_dat((0<<5)|(1<<4)|(0<<3)|(0<<2)|(0<<1)|(0<<0));
-	#else                                      
+		HX5051_wr_cmd(0x05);     
 		HX5051_wr_dat((1<<5)|(1<<4)|(0<<3)|(0<<2)|(0<<1)|(0<<0));
-	#endif
 
 		HX5051_wr_cmd(0x1C);
 		HX5051_wr_dat((1<<15));
