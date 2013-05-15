@@ -41,6 +41,9 @@
 Nemuisan uses following INTELLECTUAL PROPERTIES under each licence.
 Those sourcecode are included in this project.
 
+* ARM Ltd. CMSIS Standard.
+  See ./lib/CMSIS/CMSIS END USER LICENCE AGREEMENT.pdf.
+
 * STMicroelectronics CMSIS Libraries
   STM32F10x standard peripheral library
   STM32F10x and STM32L1xx USB full-speed device library

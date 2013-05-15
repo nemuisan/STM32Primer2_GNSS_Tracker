@@ -507,24 +507,24 @@
  333              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_msc_mass_mal.c
-  R:\TEMP\cc7EOqSw.s:19     .text.MAL_Init:00000000 $t
-  R:\TEMP\cc7EOqSw.s:24     .text.MAL_Init:00000000 MAL_Init
-  R:\TEMP\cc7EOqSw.s:59     .text.MAL_Init:00000018 $d
-  R:\TEMP\cc7EOqSw.s:64     .text.MAL_Write:00000000 $t
-  R:\TEMP\cc7EOqSw.s:69     .text.MAL_Write:00000000 MAL_Write
-  R:\TEMP\cc7EOqSw.s:109    .text.MAL_Write:00000020 $d
-  R:\TEMP\cc7EOqSw.s:114    .text.MAL_Read:00000000 $t
-  R:\TEMP\cc7EOqSw.s:119    .text.MAL_Read:00000000 MAL_Read
-  R:\TEMP\cc7EOqSw.s:159    .text.MAL_Read:00000020 $d
-  R:\TEMP\cc7EOqSw.s:164    .text.MAL_GetStatus:00000000 $t
-  R:\TEMP\cc7EOqSw.s:169    .text.MAL_GetStatus:00000000 MAL_GetStatus
-  R:\TEMP\cc7EOqSw.s:297    .text.MAL_GetStatus:000000b4 $d
-  R:\TEMP\cc7EOqSw.s:327    .bss.Mass_Block_Count:00000000 Mass_Block_Count
-  R:\TEMP\cc7EOqSw.s:313    .bss.Mass_Block_Size:00000000 Mass_Block_Size
-  R:\TEMP\cc7EOqSw.s:320    .bss.Mass_Memory_Size:00000000 Mass_Memory_Size
-  R:\TEMP\cc7EOqSw.s:309    .bss.Mass_Block_Size:00000000 $d
-  R:\TEMP\cc7EOqSw.s:316    .bss.Mass_Memory_Size:00000000 $d
-  R:\TEMP\cc7EOqSw.s:323    .bss.Mass_Block_Count:00000000 $d
+  R:\TEMP\cchzMoSa.s:19     .text.MAL_Init:00000000 $t
+  R:\TEMP\cchzMoSa.s:24     .text.MAL_Init:00000000 MAL_Init
+  R:\TEMP\cchzMoSa.s:59     .text.MAL_Init:00000018 $d
+  R:\TEMP\cchzMoSa.s:64     .text.MAL_Write:00000000 $t
+  R:\TEMP\cchzMoSa.s:69     .text.MAL_Write:00000000 MAL_Write
+  R:\TEMP\cchzMoSa.s:109    .text.MAL_Write:00000020 $d
+  R:\TEMP\cchzMoSa.s:114    .text.MAL_Read:00000000 $t
+  R:\TEMP\cchzMoSa.s:119    .text.MAL_Read:00000000 MAL_Read
+  R:\TEMP\cchzMoSa.s:159    .text.MAL_Read:00000020 $d
+  R:\TEMP\cchzMoSa.s:164    .text.MAL_GetStatus:00000000 $t
+  R:\TEMP\cchzMoSa.s:169    .text.MAL_GetStatus:00000000 MAL_GetStatus
+  R:\TEMP\cchzMoSa.s:297    .text.MAL_GetStatus:000000b4 $d
+  R:\TEMP\cchzMoSa.s:327    .bss.Mass_Block_Count:00000000 Mass_Block_Count
+  R:\TEMP\cchzMoSa.s:313    .bss.Mass_Block_Size:00000000 Mass_Block_Size
+  R:\TEMP\cchzMoSa.s:320    .bss.Mass_Memory_Size:00000000 Mass_Memory_Size
+  R:\TEMP\cchzMoSa.s:309    .bss.Mass_Block_Size:00000000 $d
+  R:\TEMP\cchzMoSa.s:316    .bss.Mass_Memory_Size:00000000 $d
+  R:\TEMP\cchzMoSa.s:323    .bss.Mass_Block_Count:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

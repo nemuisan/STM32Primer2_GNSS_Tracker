@@ -600,15 +600,15 @@
  324              		.file 4 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 sysinit_primer2.c
-  R:\TEMP\ccjoZlAj.s:19     .text.SystemInit:00000000 $t
-  R:\TEMP\ccjoZlAj.s:24     .text.SystemInit:00000000 SystemInit
-  R:\TEMP\ccjoZlAj.s:182    .text.SystemInit:000000e4 $d
-  R:\TEMP\ccjoZlAj.s:193    .text.SystemCoreClockUpdate:00000000 $t
-  R:\TEMP\ccjoZlAj.s:198    .text.SystemCoreClockUpdate:00000000 SystemCoreClockUpdate
-  R:\TEMP\ccjoZlAj.s:280    .text.SystemCoreClockUpdate:00000054 $d
-  R:\TEMP\ccjoZlAj.s:296    .data.AHBPrescTable:00000000 AHBPrescTable
-  R:\TEMP\ccjoZlAj.s:318    .data.SystemCoreClock:00000000 SystemCoreClock
-  R:\TEMP\ccjoZlAj.s:314    .data.SystemCoreClock:00000000 $d
+  R:\TEMP\ccsn3IXV.s:19     .text.SystemInit:00000000 $t
+  R:\TEMP\ccsn3IXV.s:24     .text.SystemInit:00000000 SystemInit
+  R:\TEMP\ccsn3IXV.s:182    .text.SystemInit:000000e4 $d
+  R:\TEMP\ccsn3IXV.s:193    .text.SystemCoreClockUpdate:00000000 $t
+  R:\TEMP\ccsn3IXV.s:198    .text.SystemCoreClockUpdate:00000000 SystemCoreClockUpdate
+  R:\TEMP\ccsn3IXV.s:280    .text.SystemCoreClockUpdate:00000054 $d
+  R:\TEMP\ccsn3IXV.s:296    .data.AHBPrescTable:00000000 AHBPrescTable
+  R:\TEMP\ccsn3IXV.s:318    .data.SystemCoreClock:00000000 SystemCoreClock
+  R:\TEMP\ccsn3IXV.s:314    .data.SystemCoreClock:00000000 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

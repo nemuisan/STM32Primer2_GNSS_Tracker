@@ -1,3 +1,6 @@
+20130510 : 
+V13.00 Adopted CMSIS3.20.
+
 20130410:
 V12.00 Updated Display Libraries
 

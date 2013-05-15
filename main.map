@@ -133,11 +133,11 @@ Discarded input sections
                 0x00000000        0xc src/hw_config.o
  .text.Leave_LowPowerMode
                 0x00000000       0x1c src/hw_config.o
- .bss.now.8818  0x00000000        0x4 src/hw_config.o
- .bss.keycounts.8816
+ .bss.now.8817  0x00000000        0x4 src/hw_config.o
+ .bss.keycounts.8815
                 0x00000000        0x4 src/hw_config.o
  .bss.CmdKey    0x00000000        0x2 src/hw_config.o
- .bss.prev.8817
+ .bss.prev.8816
                 0x00000000        0x4 src/hw_config.o
  .text          0x00000000        0x0 src/power.o
  .data          0x00000000        0x0 src/power.o
@@ -2305,7 +2305,7 @@ END GROUP
  .data.BatState
                 0x20000014        0x4 src/power.o
                 0x20000014                BatState
- .data.vbatbabyflag.8816
+ .data.vbatbabyflag.8815
                 0x20000018        0x4 src/power.o
  .data.pScrCol  0x2000001c        0x4 lib/display/abstract/src/display_if_support.o
                 0x2000001c                pScrCol
@@ -2412,16 +2412,16 @@ END GROUP
                 0x20000278        0x4 src/systick.o
                 0x20000278                TimingDelay
  .bss.heap_ptr  0x2000027c        0x4 src/syscalls.o
- .bss.vbatcounts.8814
+ .bss.vbatcounts.8813
                 0x20000280        0x4 src/power.o
- .bss.VBat.8822
+ .bss.VBat.8821
                 0x20000284        0x2 src/power.o
  *fill*         0x20000286        0x2 00
- .bss.CurrentVbat.8817
+ .bss.CurrentVbat.8816
                 0x20000288        0x4 src/power.o
- .bss.vbatlow.8815
+ .bss.vbatlow.8814
                 0x2000028c        0x4 src/power.o
- .bss.shutcounts.8809
+ .bss.shutcounts.8808
                 0x20000290        0x4 src/power.o
  .bss.ADC_InitStructure
                 0x20000294       0x14 src/adc_support.o
@@ -2622,7 +2622,7 @@ END GROUP
                 0x2000138d       0x40 lib/USB_Functions/cdc/src/usb_cdc_endp.o
                 0x2000138d                USB_Rx_Buffer
  *fill*         0x200013cd        0x3 00
- .bss.FrameCount.8826
+ .bss.FrameCount.8825
                 0x200013d0        0x4 lib/USB_Functions/cdc/src/usb_cdc_endp.o
  .bss.Mass_Block_Size
                 0x200013d4        0x8 lib/USB_Functions/msc/src/usb_msc_mass_mal.o
@@ -2641,18 +2641,18 @@ END GROUP
                 0x200013f0                Block_Read_count
  .bss.Counter   0x200013f4        0x4 lib/USB_Functions/msc/src/usb_msc_memory.o
                 0x200013f4                Counter
- .bss.Length.8902
+ .bss.Length.8901
                 0x200013f8        0x4 lib/USB_Functions/msc/src/usb_msc_memory.o
  .bss.Data_Buffer
                 0x200013fc      0x200 lib/USB_Functions/msc/src/usb_msc_memory.o
                 0x200013fc                Data_Buffer
- .bss.Offset.8901
+ .bss.Offset.8900
                 0x200015fc        0x4 lib/USB_Functions/msc/src/usb_msc_memory.o
  .bss.Idx       0x20001600        0x4 lib/USB_Functions/msc/src/usb_msc_memory.o
                 0x20001600                Idx
- .bss.W_Length.8909
+ .bss.W_Length.8908
                 0x20001604        0x4 lib/USB_Functions/msc/src/usb_msc_memory.o
- .bss.W_Offset.8908
+ .bss.W_Offset.8907
                 0x20001608        0x4 lib/USB_Functions/msc/src/usb_msc_memory.o
  .bss.TransferState
                 0x2000160c        0x1 lib/USB_Functions/msc/src/usb_msc_memory.o
@@ -3098,7 +3098,7 @@ END GROUP
  .debug_abbrev  0x00006c7b      0x136 STM32F103VET6_lib.a(usb_sil.o)
  .debug_abbrev  0x00006db1       0x12 STM32F103VET6_lib.a(startup_stm32f10x_hd.o)
 
-.debug_line     0x00000000     0xa2c2
+.debug_line     0x00000000     0xa2c3
  *(.debug_line)
  .debug_line    0x00000000      0x20a src/main.o
  .debug_line    0x0000020a      0x137 src/sysinit_primer2.o
@@ -3149,14 +3149,14 @@ END GROUP
  .debug_line    0x00008646      0x37b STM32F103VET6_lib.a(stm32f10x_sdio.o)
  .debug_line    0x000089c1      0x3d7 STM32F103VET6_lib.a(stm32f10x_usart.o)
  .debug_line    0x00008d98      0x214 STM32F103VET6_lib.a(stm32f10x_bkp.o)
- .debug_line    0x00008fac      0x204 STM32F103VET6_lib.a(stm32f10x_pwr.o)
- .debug_line    0x000091b0      0x408 STM32F103VET6_lib.a(usb_core.o)
- .debug_line    0x000095b8      0x11c STM32F103VET6_lib.a(usb_init.o)
- .debug_line    0x000096d4      0x19f STM32F103VET6_lib.a(usb_int.o)
- .debug_line    0x00009873      0x121 STM32F103VET6_lib.a(usb_mem.o)
- .debug_line    0x00009994      0x729 STM32F103VET6_lib.a(usb_regs.o)
- .debug_line    0x0000a0bd      0x15a STM32F103VET6_lib.a(usb_sil.o)
- .debug_line    0x0000a217       0xab STM32F103VET6_lib.a(startup_stm32f10x_hd.o)
+ .debug_line    0x00008fac      0x205 STM32F103VET6_lib.a(stm32f10x_pwr.o)
+ .debug_line    0x000091b1      0x408 STM32F103VET6_lib.a(usb_core.o)
+ .debug_line    0x000095b9      0x11c STM32F103VET6_lib.a(usb_init.o)
+ .debug_line    0x000096d5      0x19f STM32F103VET6_lib.a(usb_int.o)
+ .debug_line    0x00009874      0x121 STM32F103VET6_lib.a(usb_mem.o)
+ .debug_line    0x00009995      0x729 STM32F103VET6_lib.a(usb_regs.o)
+ .debug_line    0x0000a0be      0x15a STM32F103VET6_lib.a(usb_sil.o)
+ .debug_line    0x0000a218       0xab STM32F103VET6_lib.a(startup_stm32f10x_hd.o)
 
 .debug_frame    0x00000000     0x463c
  *(.debug_frame)
@@ -3340,59 +3340,59 @@ END GROUP
  .debug_str     0x000075ff       0x5d STM32F103VET6_lib.a(usb_sil.o)
                                 0x22e (size before relaxing)
 
-.debug_loc      0x00000000    0x13fd0
+.debug_loc      0x00000000    0x13fe7
  *(.debug_loc)
  .debug_loc     0x00000000       0x4b src/main.o
  .debug_loc     0x0000004b      0x131 src/sysinit_primer2.o
- .debug_loc     0x0000017c      0x16f src/systick.o
- .debug_loc     0x000002eb      0x738 src/syscalls.o
- .debug_loc     0x00000a23       0x20 src/stm32f10x_it.o
- .debug_loc     0x00000a43      0x270 src/hw_config.o
- .debug_loc     0x00000cb3      0x141 src/power.o
- .debug_loc     0x00000df4       0x20 src/adc_support.o
- .debug_loc     0x00000e14      0x1a4 src/rtc_support.o
- .debug_loc     0x00000fb8      0x4ac src/gps_support.o
- .debug_loc     0x00001464      0x187 src/cdc_support.o
- .debug_loc     0x000015eb       0x20 src/msc_support.o
- .debug_loc     0x0000160b      0x4ae src/uart_support_gps.o
- .debug_loc     0x00001ab9      0xa4f src/xprintf.o
- .debug_loc     0x00002508       0x2d lib/display/mcu_depend/src/display_if_basis.o
- .debug_loc     0x00002535     0x12e7 lib/display/abstract/src/display_if_support.o
- .debug_loc     0x0000381c      0x721 lib/display/drivers/src/st7732.o
- .debug_loc     0x00003f3d      0x206 lib/FONTX2/src/font_if.o
- .debug_loc     0x00004143     0x493b lib/ff/ff.o
- .debug_loc     0x00008a7e     0x224f lib/ff/sdio_stm32f1.o
- .debug_loc     0x0000accd      0x534 lib/ff/diskio_sdio.o
- .debug_loc     0x0000b201       0x98 lib/ff/ff_rtc_if.o
- .debug_loc     0x0000b299      0x1a8 lib/USB_Functions/usb_pwr.o
- .debug_loc     0x0000b441       0x60 lib/USB_Functions/usb_istr.o
- .debug_loc     0x0000b4a1       0x80 lib/USB_Functions/usb_conf.o
- .debug_loc     0x0000b521      0x347 lib/USB_Functions/usb_prop.o
- .debug_loc     0x0000b868      0x243 lib/USB_Functions/cdc/src/usb_cdc_prop.o
- .debug_loc     0x0000baab      0x10d lib/USB_Functions/cdc/src/usb_cdc_endp.o
- .debug_loc     0x0000bbb8      0x312 lib/USB_Functions/msc/src/usb_msc_mass_mal.o
- .debug_loc     0x0000beca      0x127 lib/USB_Functions/msc/src/usb_msc_memory.o
- .debug_loc     0x0000bff1      0x72e lib/USB_Functions/msc/src/usb_msc_scsi.o
- .debug_loc     0x0000c71f      0x1fa lib/USB_Functions/msc/src/usb_msc_bot.o
- .debug_loc     0x0000c919      0x1ef lib/USB_Functions/msc/src/usb_msc_prop.o
- .debug_loc     0x0000cb08      0x1f2 STM32F103VET6_lib.a(misc.o)
- .debug_loc     0x0000ccfa      0x60b STM32F103VET6_lib.a(stm32f10x_gpio.o)
- .debug_loc     0x0000d305      0x63c STM32F103VET6_lib.a(stm32f10x_fsmc.o)
- .debug_loc     0x0000d941      0x7a9 STM32F103VET6_lib.a(stm32f10x_rcc.o)
- .debug_loc     0x0000e0ea      0xe4e STM32F103VET6_lib.a(stm32f10x_adc.o)
- .debug_loc     0x0000ef38      0x275 STM32F103VET6_lib.a(stm32f10x_dma.o)
- .debug_loc     0x0000f1ad     0x219e STM32F103VET6_lib.a(stm32f10x_tim.o)
- .debug_loc     0x0001134b      0x2e3 STM32F103VET6_lib.a(stm32f10x_rtc.o)
- .debug_loc     0x0001162e      0x2d9 STM32F103VET6_lib.a(stm32f10x_sdio.o)
- .debug_loc     0x00011907      0x95d STM32F103VET6_lib.a(stm32f10x_usart.o)
- .debug_loc     0x00012264      0x198 STM32F103VET6_lib.a(stm32f10x_bkp.o)
- .debug_loc     0x000123fc      0x178 STM32F103VET6_lib.a(stm32f10x_pwr.o)
- .debug_loc     0x00012574      0x98c STM32F103VET6_lib.a(usb_core.o)
- .debug_loc     0x00012f00       0x20 STM32F103VET6_lib.a(usb_init.o)
- .debug_loc     0x00012f20      0x120 STM32F103VET6_lib.a(usb_int.o)
- .debug_loc     0x00013040      0x19c STM32F103VET6_lib.a(usb_mem.o)
- .debug_loc     0x000131dc      0xcd4 STM32F103VET6_lib.a(usb_regs.o)
- .debug_loc     0x00013eb0      0x120 STM32F103VET6_lib.a(usb_sil.o)
+ .debug_loc     0x0000017c      0x186 src/systick.o
+ .debug_loc     0x00000302      0x738 src/syscalls.o
+ .debug_loc     0x00000a3a       0x20 src/stm32f10x_it.o
+ .debug_loc     0x00000a5a      0x270 src/hw_config.o
+ .debug_loc     0x00000cca      0x141 src/power.o
+ .debug_loc     0x00000e0b       0x20 src/adc_support.o
+ .debug_loc     0x00000e2b      0x1a4 src/rtc_support.o
+ .debug_loc     0x00000fcf      0x4ac src/gps_support.o
+ .debug_loc     0x0000147b      0x187 src/cdc_support.o
+ .debug_loc     0x00001602       0x20 src/msc_support.o
+ .debug_loc     0x00001622      0x4ae src/uart_support_gps.o
+ .debug_loc     0x00001ad0      0xa4f src/xprintf.o
+ .debug_loc     0x0000251f       0x2d lib/display/mcu_depend/src/display_if_basis.o
+ .debug_loc     0x0000254c     0x12e7 lib/display/abstract/src/display_if_support.o
+ .debug_loc     0x00003833      0x721 lib/display/drivers/src/st7732.o
+ .debug_loc     0x00003f54      0x206 lib/FONTX2/src/font_if.o
+ .debug_loc     0x0000415a     0x493b lib/ff/ff.o
+ .debug_loc     0x00008a95     0x224f lib/ff/sdio_stm32f1.o
+ .debug_loc     0x0000ace4      0x534 lib/ff/diskio_sdio.o
+ .debug_loc     0x0000b218       0x98 lib/ff/ff_rtc_if.o
+ .debug_loc     0x0000b2b0      0x1a8 lib/USB_Functions/usb_pwr.o
+ .debug_loc     0x0000b458       0x60 lib/USB_Functions/usb_istr.o
+ .debug_loc     0x0000b4b8       0x80 lib/USB_Functions/usb_conf.o
+ .debug_loc     0x0000b538      0x347 lib/USB_Functions/usb_prop.o
+ .debug_loc     0x0000b87f      0x243 lib/USB_Functions/cdc/src/usb_cdc_prop.o
+ .debug_loc     0x0000bac2      0x10d lib/USB_Functions/cdc/src/usb_cdc_endp.o
+ .debug_loc     0x0000bbcf      0x312 lib/USB_Functions/msc/src/usb_msc_mass_mal.o
+ .debug_loc     0x0000bee1      0x127 lib/USB_Functions/msc/src/usb_msc_memory.o
+ .debug_loc     0x0000c008      0x72e lib/USB_Functions/msc/src/usb_msc_scsi.o
+ .debug_loc     0x0000c736      0x1fa lib/USB_Functions/msc/src/usb_msc_bot.o
+ .debug_loc     0x0000c930      0x1ef lib/USB_Functions/msc/src/usb_msc_prop.o
+ .debug_loc     0x0000cb1f      0x1f2 STM32F103VET6_lib.a(misc.o)
+ .debug_loc     0x0000cd11      0x60b STM32F103VET6_lib.a(stm32f10x_gpio.o)
+ .debug_loc     0x0000d31c      0x63c STM32F103VET6_lib.a(stm32f10x_fsmc.o)
+ .debug_loc     0x0000d958      0x7a9 STM32F103VET6_lib.a(stm32f10x_rcc.o)
+ .debug_loc     0x0000e101      0xe4e STM32F103VET6_lib.a(stm32f10x_adc.o)
+ .debug_loc     0x0000ef4f      0x275 STM32F103VET6_lib.a(stm32f10x_dma.o)
+ .debug_loc     0x0000f1c4     0x219e STM32F103VET6_lib.a(stm32f10x_tim.o)
+ .debug_loc     0x00011362      0x2e3 STM32F103VET6_lib.a(stm32f10x_rtc.o)
+ .debug_loc     0x00011645      0x2d9 STM32F103VET6_lib.a(stm32f10x_sdio.o)
+ .debug_loc     0x0001191e      0x95d STM32F103VET6_lib.a(stm32f10x_usart.o)
+ .debug_loc     0x0001227b      0x198 STM32F103VET6_lib.a(stm32f10x_bkp.o)
+ .debug_loc     0x00012413      0x178 STM32F103VET6_lib.a(stm32f10x_pwr.o)
+ .debug_loc     0x0001258b      0x98c STM32F103VET6_lib.a(usb_core.o)
+ .debug_loc     0x00012f17       0x20 STM32F103VET6_lib.a(usb_init.o)
+ .debug_loc     0x00012f37      0x120 STM32F103VET6_lib.a(usb_int.o)
+ .debug_loc     0x00013057      0x19c STM32F103VET6_lib.a(usb_mem.o)
+ .debug_loc     0x000131f3      0xcd4 STM32F103VET6_lib.a(usb_regs.o)
+ .debug_loc     0x00013ec7      0x120 STM32F103VET6_lib.a(usb_sil.o)
 
 .debug_macinfo
  *(.debug_macinfo)

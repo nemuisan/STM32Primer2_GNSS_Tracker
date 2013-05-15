@@ -17,17 +17,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   6 .debug_abbrev 00006dc3  00000000  00000000  0003c4ef  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000a2c2  00000000  00000000  000432b2  2**0
+  7 .debug_line   0000a2c3  00000000  00000000  000432b2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  0000463c  00000000  00000000  0004d574  2**2
+  8 .debug_frame  0000463c  00000000  00000000  0004d578  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000765c  00000000  00000000  00051bb0  2**0
+  9 .debug_str    0000765c  00000000  00000000  00051bb4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00013fd0  00000000  00000000  0005920c  2**0
+ 10 .debug_loc    00013fe7  00000000  00000000  00059210  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .ARM.attributes 00000031  00000000  00000000  0006d1dc  2**0
+ 11 .ARM.attributes 00000031  00000000  00000000  0006d1f7  2**0
                   CONTENTS, READONLY
- 12 .debug_ranges 00001b70  00000000  00000000  0006d210  2**3
+ 12 .debug_ranges 00001b70  00000000  00000000  0006d228  2**3
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -570,12 +570,12 @@ void SysTickInit(__IO uint32_t interval)
  */
 __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 {
-  if (ticks > SysTick_LOAD_RELOAD_Msk)  return (1);            /* Reload value impossible */
- 800049a:	f1b0 7f80 	cmp.w	r0, #16777216	; 0x1000000
- 800049e:	d22a      	bcs.n	80004f6 <SysTickInit+0x72>
+  if ((ticks - 1) > SysTick_LOAD_RELOAD_Msk)  return (1);      /* Reload value impossible */
+ 800049a:	1e41      	subs	r1, r0, #1
+ 800049c:	f1b1 7f80 	cmp.w	r1, #16777216	; 0x1000000
+ 80004a0:	d229      	bcs.n	80004f6 <SysTickInit+0x72>
 
-  SysTick->LOAD  = (ticks & SysTick_LOAD_RELOAD_Msk) - 1;      /* set reload register */
- 80004a0:	1e41      	subs	r1, r0, #1
+  SysTick->LOAD  = ticks - 1;                                  /* set reload register */
  80004a2:	4b16      	ldr	r3, [pc, #88]	; (80004fc <SysTickInit+0x78>)
  80004a4:	6059      	str	r1, [r3, #4]
     \param [in]  priority  Priority to set.
@@ -588,9 +588,9 @@ __STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
  80004a8:	4a15      	ldr	r2, [pc, #84]	; (8000500 <SysTickInit+0x7c>)
  80004aa:	f882 4023 	strb.w	r4, [r2, #35]	; 0x23
 {
-  if (ticks > SysTick_LOAD_RELOAD_Msk)  return (1);            /* Reload value impossible */
+  if ((ticks - 1) > SysTick_LOAD_RELOAD_Msk)  return (1);      /* Reload value impossible */
 
-  SysTick->LOAD  = (ticks & SysTick_LOAD_RELOAD_Msk) - 1;      /* set reload register */
+  SysTick->LOAD  = ticks - 1;                                  /* set reload register */
   NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Systick Interrupt */
   SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */
  80004ae:	2400      	movs	r4, #0
@@ -4015,7 +4015,7 @@ bool USART_TXBuffer_FreeSpace(USART_Buffer_t* USART_buf)
  */
 __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
 {
-  __ASM volatile ("cpsid i");
+  __ASM volatile ("cpsid i" : : : "memory");
  8001536:	b672      	cpsid	i
 		
 		__disable_irq();
@@ -4033,7 +4033,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
  */
 __attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
 {
-  __ASM volatile ("cpsie i");
+  __ASM volatile ("cpsie i" : : : "memory");
  8001548:	b662      	cpsie	i
 		__enable_irq();
 
@@ -4064,7 +4064,7 @@ uint8_t USART_RXBuffer_GetByte(USART_Buffer_t* USART_buf)
  */
 __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
 {
-  __ASM volatile ("cpsid i");
+  __ASM volatile ("cpsid i" : : : "memory");
  8001562:	b672      	cpsid	i
 	uint8_t ans;
 
@@ -4085,7 +4085,7 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
  */
 __attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
 {
-  __ASM volatile ("cpsie i");
+  __ASM volatile ("cpsie i" : : : "memory");
  8001578:	b662      	cpsie	i
 	
 	__enable_irq();
