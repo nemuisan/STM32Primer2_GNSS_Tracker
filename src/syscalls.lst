@@ -1331,6 +1331,7 @@
  808              		.file 12 "./inc/uart_support_gps.h"
  809              		.file 13 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-e
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 syscalls.c
   R:\TEMP\ccp3M1Vm.s:19     .text._read_r:0000000000000000 $t
   R:\TEMP\ccp3M1Vm.s:24     .text._read_r:0000000000000000 _read_r
@@ -1387,6 +1388,64 @@ DEFINED SYMBOLS
   R:\TEMP\ccp3M1Vm.s:791    .bss.heap_ptr:0000000000000000 $d
   R:\TEMP\ccp3M1Vm.s:795    .bss.heap_ptr:0000000000000000 heap_ptr
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 syscalls.c
+  R:\TEMP\ccdJvG89.s:19     .text._read_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:24     .text._read_r:00000000 _read_r
+  R:\TEMP\ccdJvG89.s:89     .text._write_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:94     .text._write_r:00000000 _write_r
+  R:\TEMP\ccdJvG89.s:142    .text._fini:00000000 $t
+  R:\TEMP\ccdJvG89.s:147    .text._fini:00000000 _fini
+  R:\TEMP\ccdJvG89.s:159    .text._close_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:164    .text._close_r:00000000 _close_r
+  R:\TEMP\ccdJvG89.s:181    .text._lseek_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:186    .text._lseek_r:00000000 _lseek_r
+  R:\TEMP\ccdJvG89.s:202    .text._fstat_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:207    .text._fstat_r:00000000 _fstat_r
+  R:\TEMP\ccdJvG89.s:226    .text._sbrk_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:231    .text._sbrk_r:00000000 _sbrk_r
+  R:\TEMP\ccdJvG89.s:279    .text._sbrk_r:0000002c $d
+  R:\TEMP\ccdJvG89.s:285    .text.isatty:00000000 $t
+  R:\TEMP\ccdJvG89.s:290    .text.isatty:00000000 isatty
+  R:\TEMP\ccdJvG89.s:306    .text._exit:00000000 $t
+  R:\TEMP\ccdJvG89.s:311    .text._exit:00000000 _exit
+  R:\TEMP\ccdJvG89.s:327    .text._getpid:00000000 $t
+  R:\TEMP\ccdJvG89.s:332    .text._getpid:00000000 _getpid
+  R:\TEMP\ccdJvG89.s:349    .text._sbrk:00000000 $t
+  R:\TEMP\ccdJvG89.s:354    .text._sbrk:00000000 _sbrk
+  R:\TEMP\ccdJvG89.s:404    .text._sbrk:0000002c $d
+  R:\TEMP\ccdJvG89.s:410    .text._open:00000000 $t
+  R:\TEMP\ccdJvG89.s:415    .text._open:00000000 _open
+  R:\TEMP\ccdJvG89.s:438    .text._close:00000000 $t
+  R:\TEMP\ccdJvG89.s:443    .text._close:00000000 _close
+  R:\TEMP\ccdJvG89.s:459    .text._fstat:00000000 $t
+  R:\TEMP\ccdJvG89.s:464    .text._fstat:00000000 _fstat
+  R:\TEMP\ccdJvG89.s:483    .text._isatty:00000000 $t
+  R:\TEMP\ccdJvG89.s:488    .text._isatty:00000000 _isatty
+  R:\TEMP\ccdJvG89.s:504    .text._lseek:00000000 $t
+  R:\TEMP\ccdJvG89.s:509    .text._lseek:00000000 _lseek
+  R:\TEMP\ccdJvG89.s:525    .text._read:00000000 $t
+  R:\TEMP\ccdJvG89.s:530    .text._read:00000000 _read
+  R:\TEMP\ccdJvG89.s:554    .text._write:00000000 $t
+  R:\TEMP\ccdJvG89.s:559    .text._write:00000000 _write
+  R:\TEMP\ccdJvG89.s:597    .text._times:00000000 $t
+  R:\TEMP\ccdJvG89.s:602    .text._times:00000000 _times
+  R:\TEMP\ccdJvG89.s:618    .text._link:00000000 $t
+  R:\TEMP\ccdJvG89.s:623    .text._link:00000000 _link
+  R:\TEMP\ccdJvG89.s:647    .text._unlink:00000000 $t
+  R:\TEMP\ccdJvG89.s:652    .text._unlink:00000000 _unlink
+  R:\TEMP\ccdJvG89.s:676    .text._wait:00000000 $t
+  R:\TEMP\ccdJvG89.s:681    .text._wait:00000000 _wait
+  R:\TEMP\ccdJvG89.s:705    .text._execve:00000000 $t
+  R:\TEMP\ccdJvG89.s:710    .text._execve:00000000 _execve
+  R:\TEMP\ccdJvG89.s:734    .text._fork:00000000 $t
+  R:\TEMP\ccdJvG89.s:739    .text._fork:00000000 _fork
+  R:\TEMP\ccdJvG89.s:762    .text._kill:00000000 $t
+  R:\TEMP\ccdJvG89.s:767    .text._kill:00000000 _kill
+  R:\TEMP\ccdJvG89.s:791    .bss.heap_ptr:00000000 $d
+  R:\TEMP\ccdJvG89.s:795    .bss.heap_ptr:00000000 heap_ptr
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 getch

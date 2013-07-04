@@ -268,11 +268,19 @@
  158              		.file 14 "./lib/USB_Functions/msc/inc/usb_msc_mass_mal.h"
  159              		.file 15 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 msc_support.c
   R:\TEMP\cctqe0hE.s:19     .text.msc_task:0000000000000000 $t
   R:\TEMP\cctqe0hE.s:24     .text.msc_task:0000000000000000 msc_task
   R:\TEMP\cctqe0hE.s:134    .text.msc_task:0000000000000090 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 msc_support.c
+  R:\TEMP\ccJ0w9j1.s:19     .text.msc_task:00000000 $t
+  R:\TEMP\ccJ0w9j1.s:24     .text.msc_task:00000000 msc_task
+  R:\TEMP\ccJ0w9j1.s:134    .text.msc_task:00000090 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 Set72

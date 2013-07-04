@@ -592,6 +592,7 @@
  450              		.file 9 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
  451              		.file 10 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 usb_msc_memory.c
   R:\TEMP\ccqwBvqG.s:19     .text.Read_Memory:0000000000000000 $t
   R:\TEMP\ccqwBvqG.s:24     .text.Read_Memory:0000000000000000 Read_Memory
@@ -620,6 +621,36 @@ DEFINED SYMBOLS
   R:\TEMP\ccqwBvqG.s:433    .bss.W_Offset.8930:0000000000000000 W_Offset.8930
   R:\TEMP\ccqwBvqG.s:440    .bss.TransferState:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 usb_msc_memory.c
+  R:\TEMP\ccG66jby.s:19     .text.Read_Memory:00000000 $t
+  R:\TEMP\ccG66jby.s:24     .text.Read_Memory:00000000 Read_Memory
+  R:\TEMP\ccG66jby.s:178    .text.Read_Memory:000000d0 $d
+  R:\TEMP\ccG66jby.s:192    .text.Write_Memory:00000000 $t
+  R:\TEMP\ccG66jby.s:197    .text.Write_Memory:00000000 Write_Memory
+  R:\TEMP\ccG66jby.s:351    .text.Write_Memory:000000d0 $d
+  R:\TEMP\ccG66jby.s:439    .bss.TransferState:00000000 TransferState
+  R:\TEMP\ccG66jby.s:405    .bss.Data_Buffer:00000000 Data_Buffer
+  R:\TEMP\ccG66jby.s:412    .bss.Idx:00000000 Idx
+  R:\TEMP\ccG66jby.s:398    .bss.Counter:00000000 Counter
+  R:\TEMP\ccG66jby.s:384    .bss.Block_offset:00000000 Block_offset
+  R:\TEMP\ccG66jby.s:391    .bss.Block_Read_count:00000000 Block_Read_count
+  R:\TEMP\ccG66jby.s:373    .bss.W_Length.8931:00000000 $d
+  R:\TEMP\ccG66jby.s:377    .bss.W_Length.8931:00000000 W_Length.8931
+  R:\TEMP\ccG66jby.s:380    .bss.Block_offset:00000000 $d
+  R:\TEMP\ccG66jby.s:387    .bss.Block_Read_count:00000000 $d
+  R:\TEMP\ccG66jby.s:394    .bss.Counter:00000000 $d
+  R:\TEMP\ccG66jby.s:401    .bss.Data_Buffer:00000000 $d
+  R:\TEMP\ccG66jby.s:408    .bss.Idx:00000000 $d
+  R:\TEMP\ccG66jby.s:415    .bss.Length.8924:00000000 $d
+  R:\TEMP\ccG66jby.s:419    .bss.Length.8924:00000000 Length.8924
+  R:\TEMP\ccG66jby.s:422    .bss.Offset.8923:00000000 $d
+  R:\TEMP\ccG66jby.s:426    .bss.Offset.8923:00000000 Offset.8923
+  R:\TEMP\ccG66jby.s:429    .bss.W_Offset.8930:00000000 $d
+  R:\TEMP\ccG66jby.s:433    .bss.W_Offset.8930:00000000 W_Offset.8930
+  R:\TEMP\ccG66jby.s:440    .bss.TransferState:00000000 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 MAL_Read

@@ -207,6 +207,7 @@
  219              		.file 2 "./lib/CMSIS/Include/core_cm3.h"
  220              		.file 3 "lib/USB_Functions/msc/src/usb_msc_desc.c"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 usb_msc_desc.c
   R:\TEMP\ccz00D9K.s:28     .rodata.Mass_StringInterface:0000000000000000 Mass_StringInterface
   R:\TEMP\ccz00D9K.s:70     .data.Mass_StringSerial:0000000000000000 Mass_StringSerial
@@ -216,5 +217,16 @@ DEFINED SYMBOLS
   R:\TEMP\ccz00D9K.s:183    .rodata.Mass_ConfigDescriptor:0000000000000000 Mass_ConfigDescriptor
   R:\TEMP\ccz00D9K.s:48     .rodata.Mass_DeviceDescriptor:0000000000000000 Mass_DeviceDescriptor
   R:\TEMP\ccz00D9K.s:87     .data.Mass_StringSerial:0000000000000010 $d
+=======
+                            *ABS*:00000000 usb_msc_desc.c
+  R:\TEMP\ccNFoQFs.s:28     .rodata.Mass_StringInterface:00000000 Mass_StringInterface
+  R:\TEMP\ccNFoQFs.s:70     .data.Mass_StringSerial:00000000 Mass_StringSerial
+  R:\TEMP\ccNFoQFs.s:133    .rodata.Mass_StringProduct:00000000 Mass_StringProduct
+  R:\TEMP\ccNFoQFs.s:91     .rodata.Mass_StringVendor:00000000 Mass_StringVendor
+  R:\TEMP\ccNFoQFs.s:175    .rodata.Mass_StringLangID:00000000 Mass_StringLangID
+  R:\TEMP\ccNFoQFs.s:183    .rodata.Mass_ConfigDescriptor:00000000 Mass_ConfigDescriptor
+  R:\TEMP\ccNFoQFs.s:48     .rodata.Mass_DeviceDescriptor:00000000 Mass_DeviceDescriptor
+  R:\TEMP\ccNFoQFs.s:87     .data.Mass_StringSerial:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 NO UNDEFINED SYMBOLS

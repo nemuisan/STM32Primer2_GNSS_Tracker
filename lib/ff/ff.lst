@@ -13943,6 +13943,7 @@
  8286              		.file 5 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdarg.h"
  8287              		.file 6 "<built-in>"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 ff.c
   R:\TEMP\cchDn2wG.s:19     .text.mem_cpy:0000000000000000 $t
   R:\TEMP\cchDn2wG.s:23     .text.mem_cpy:0000000000000000 mem_cpy
@@ -14068,6 +14069,133 @@ DEFINED SYMBOLS
   R:\TEMP\cchDn2wG.s:8275   .bss.FatFs:0000000000000000 $d
   R:\TEMP\cchDn2wG.s:8279   .bss.FatFs:0000000000000000 FatFs
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 ff.c
+  R:\TEMP\ccbStiSI.s:19     .text.mem_cpy:00000000 $t
+  R:\TEMP\ccbStiSI.s:23     .text.mem_cpy:00000000 mem_cpy
+  R:\TEMP\ccbStiSI.s:77     .text.mem_set:00000000 $t
+  R:\TEMP\ccbStiSI.s:81     .text.mem_set:00000000 mem_set
+  R:\TEMP\ccbStiSI.s:109    .text.clmt_clust:00000000 $t
+  R:\TEMP\ccbStiSI.s:113    .text.clmt_clust:00000000 clmt_clust
+  R:\TEMP\ccbStiSI.s:164    .text.get_fileinfo:00000000 $t
+  R:\TEMP\ccbStiSI.s:168    .text.get_fileinfo:00000000 get_fileinfo
+  R:\TEMP\ccbStiSI.s:275    .text.validate:00000000 $t
+  R:\TEMP\ccbStiSI.s:279    .text.validate:00000000 validate
+  R:\TEMP\ccbStiSI.s:323    .text.sync_window:00000000 $t
+  R:\TEMP\ccbStiSI.s:327    .text.sync_window:00000000 sync_window
+  R:\TEMP\ccbStiSI.s:415    .text.sync_fs:00000000 $t
+  R:\TEMP\ccbStiSI.s:419    .text.sync_fs:00000000 sync_fs
+  R:\TEMP\ccbStiSI.s:499    .text.sync_fs:00000068 $d
+  R:\TEMP\ccbStiSI.s:505    .text.move_window:00000000 $t
+  R:\TEMP\ccbStiSI.s:509    .text.move_window:00000000 move_window
+  R:\TEMP\ccbStiSI.s:565    .text.check_fs:00000000 $t
+  R:\TEMP\ccbStiSI.s:569    .text.check_fs:00000000 check_fs
+  R:\TEMP\ccbStiSI.s:630    .text.check_fs:00000048 $d
+  R:\TEMP\ccbStiSI.s:635    .text.chk_mounted:00000000 $t
+  R:\TEMP\ccbStiSI.s:639    .text.chk_mounted:00000000 chk_mounted
+  R:\TEMP\ccbStiSI.s:1035   .text.chk_mounted:00000204 $d
+  R:\TEMP\ccbStiSI.s:1044   .text.clust2sect:00000000 $t
+  R:\TEMP\ccbStiSI.s:1049   .text.clust2sect:00000000 clust2sect
+  R:\TEMP\ccbStiSI.s:1082   .text.get_fat:00000000 $t
+  R:\TEMP\ccbStiSI.s:1087   .text.get_fat:00000000 get_fat
+  R:\TEMP\ccbStiSI.s:1223   .text.dir_sdi:00000000 $t
+  R:\TEMP\ccbStiSI.s:1227   .text.dir_sdi:00000000 dir_sdi
+  R:\TEMP\ccbStiSI.s:1356   .text.dir_remove:00000000 $t
+  R:\TEMP\ccbStiSI.s:1360   .text.dir_remove:00000000 dir_remove
+  R:\TEMP\ccbStiSI.s:1408   .text.put_fat:00000000 $t
+  R:\TEMP\ccbStiSI.s:1413   .text.put_fat:00000000 put_fat
+  R:\TEMP\ccbStiSI.s:1588   .text.create_chain:00000000 $t
+  R:\TEMP\ccbStiSI.s:1592   .text.create_chain:00000000 create_chain
+  R:\TEMP\ccbStiSI.s:1755   .text.dir_next:00000000 $t
+  R:\TEMP\ccbStiSI.s:1759   .text.dir_next:00000000 dir_next
+  R:\TEMP\ccbStiSI.s:1963   .text.dir_read:00000000 $t
+  R:\TEMP\ccbStiSI.s:1967   .text.dir_read:00000000 dir_read
+  R:\TEMP\ccbStiSI.s:2067   .text.follow_path:00000000 $t
+  R:\TEMP\ccbStiSI.s:2071   .text.follow_path:00000000 follow_path
+  R:\TEMP\ccbStiSI.s:2566   .text.follow_path:00000254 $d
+  R:\TEMP\ccbStiSI.s:2571   .text.dir_alloc.constprop.9:00000000 $t
+  R:\TEMP\ccbStiSI.s:2575   .text.dir_alloc.constprop.9:00000000 dir_alloc.constprop.9
+  R:\TEMP\ccbStiSI.s:2632   .text.dir_register:00000000 $t
+  R:\TEMP\ccbStiSI.s:2636   .text.dir_register:00000000 dir_register
+  R:\TEMP\ccbStiSI.s:2697   .text.remove_chain:00000000 $t
+  R:\TEMP\ccbStiSI.s:2701   .text.remove_chain:00000000 remove_chain
+  R:\TEMP\ccbStiSI.s:2834   .text.f_mount:00000000 $t
+  R:\TEMP\ccbStiSI.s:2839   .text.f_mount:00000000 f_mount
+  R:\TEMP\ccbStiSI.s:2880   .text.f_mount:0000001c $d
+  R:\TEMP\ccbStiSI.s:2885   .text.f_open:00000000 $t
+  R:\TEMP\ccbStiSI.s:2890   .text.f_open:00000000 f_open
+  R:\TEMP\ccbStiSI.s:3170   .text.f_read:00000000 $t
+  R:\TEMP\ccbStiSI.s:3175   .text.f_read:00000000 f_read
+  R:\TEMP\ccbStiSI.s:3422   .text.f_write:00000000 $t
+  R:\TEMP\ccbStiSI.s:3427   .text.f_write:00000000 f_write
+  R:\TEMP\ccbStiSI.s:3736   .text.f_sync:00000000 $t
+  R:\TEMP\ccbStiSI.s:3741   .text.f_sync:00000000 f_sync
+  R:\TEMP\ccbStiSI.s:3831   .text.f_close:00000000 $t
+  R:\TEMP\ccbStiSI.s:3836   .text.f_close:00000000 f_close
+  R:\TEMP\ccbStiSI.s:3863   .text.f_chdrive:00000000 $t
+  R:\TEMP\ccbStiSI.s:3868   .text.f_chdrive:00000000 f_chdrive
+  R:\TEMP\ccbStiSI.s:3892   .text.f_chdrive:0000000c $d
+  R:\TEMP\ccbStiSI.s:3897   .text.f_chdir:00000000 $t
+  R:\TEMP\ccbStiSI.s:3902   .text.f_chdir:00000000 f_chdir
+  R:\TEMP\ccbStiSI.s:3997   .text.f_getcwd:00000000 $t
+  R:\TEMP\ccbStiSI.s:4002   .text.f_getcwd:00000000 f_getcwd
+  R:\TEMP\ccbStiSI.s:4282   .text.f_getcwd:00000124 $d
+  R:\TEMP\ccbStiSI.s:4287   .text.f_lseek:00000000 $t
+  R:\TEMP\ccbStiSI.s:4292   .text.f_lseek:00000000 f_lseek
+  R:\TEMP\ccbStiSI.s:4687   .text.f_opendir:00000000 $t
+  R:\TEMP\ccbStiSI.s:4692   .text.f_opendir:00000000 f_opendir
+  R:\TEMP\ccbStiSI.s:4802   .text.f_readdir:00000000 $t
+  R:\TEMP\ccbStiSI.s:4807   .text.f_readdir:00000000 f_readdir
+  R:\TEMP\ccbStiSI.s:4899   .text.f_stat:00000000 $t
+  R:\TEMP\ccbStiSI.s:4904   .text.f_stat:00000000 f_stat
+  R:\TEMP\ccbStiSI.s:4971   .text.f_getfree:00000000 $t
+  R:\TEMP\ccbStiSI.s:4976   .text.f_getfree:00000000 f_getfree
+  R:\TEMP\ccbStiSI.s:5163   .text.f_truncate:00000000 $t
+  R:\TEMP\ccbStiSI.s:5168   .text.f_truncate:00000000 f_truncate
+  R:\TEMP\ccbStiSI.s:5300   .text.f_unlink:00000000 $t
+  R:\TEMP\ccbStiSI.s:5305   .text.f_unlink:00000000 f_unlink
+  R:\TEMP\ccbStiSI.s:5498   .text.f_mkdir:00000000 $t
+  R:\TEMP\ccbStiSI.s:5503   .text.f_mkdir:00000000 f_mkdir
+  R:\TEMP\ccbStiSI.s:5779   .text.f_chmod:00000000 $t
+  R:\TEMP\ccbStiSI.s:5784   .text.f_chmod:00000000 f_chmod
+  R:\TEMP\ccbStiSI.s:5872   .text.f_utime:00000000 $t
+  R:\TEMP\ccbStiSI.s:5877   .text.f_utime:00000000 f_utime
+  R:\TEMP\ccbStiSI.s:5959   .text.f_rename:00000000 $t
+  R:\TEMP\ccbStiSI.s:5964   .text.f_rename:00000000 f_rename
+  R:\TEMP\ccbStiSI.s:6192   .text.f_getlabel:00000000 $t
+  R:\TEMP\ccbStiSI.s:6197   .text.f_getlabel:00000000 f_getlabel
+  R:\TEMP\ccbStiSI.s:6319   .text.f_setlabel:00000000 $t
+  R:\TEMP\ccbStiSI.s:6324   .text.f_setlabel:00000000 f_setlabel
+  R:\TEMP\ccbStiSI.s:6627   .text.f_setlabel:0000016c $d
+  R:\TEMP\ccbStiSI.s:6632   .text.f_forward:00000000 $t
+  R:\TEMP\ccbStiSI.s:6637   .text.f_forward:00000000 f_forward
+  R:\TEMP\ccbStiSI.s:6823   .text.f_mkfs:00000000 $t
+  R:\TEMP\ccbStiSI.s:6828   .text.f_mkfs:00000000 f_mkfs
+  R:\TEMP\ccbStiSI.s:7309   .text.f_mkfs:000002e8 $d
+  R:\TEMP\ccbStiSI.s:7319   .text.f_mkfs:00000304 $t
+  R:\TEMP\ccbStiSI.s:7540   .text.f_mkfs:00000458 $d
+  R:\TEMP\ccbStiSI.s:7546   .text.f_gets:00000000 $t
+  R:\TEMP\ccbStiSI.s:7551   .text.f_gets:00000000 f_gets
+  R:\TEMP\ccbStiSI.s:7622   .text.f_putc:00000000 $t
+  R:\TEMP\ccbStiSI.s:7627   .text.f_putc:00000000 f_putc
+  R:\TEMP\ccbStiSI.s:7666   .text.f_puts:00000000 $t
+  R:\TEMP\ccbStiSI.s:7671   .text.f_puts:00000000 f_puts
+  R:\TEMP\ccbStiSI.s:7719   .text.f_printf:00000000 $t
+  R:\TEMP\ccbStiSI.s:7724   .text.f_printf:00000000 f_printf
+  R:\TEMP\ccbStiSI.s:8217   .rodata.cst.4341:00000000 $d
+  R:\TEMP\ccbStiSI.s:8221   .rodata.cst.4341:00000000 cst.4341
+  R:\TEMP\ccbStiSI.s:8237   .bss.CurrVol:00000000 CurrVol
+  R:\TEMP\ccbStiSI.s:8238   .bss.CurrVol:00000000 $d
+  R:\TEMP\ccbStiSI.s:8240   .rodata.str1.1:00000000 .LC0
+  R:\TEMP\ccbStiSI.s:8242   .rodata.str1.1:0000000f .LC1
+  R:\TEMP\ccbStiSI.s:8251   .bss.Fsid:00000000 $d
+  R:\TEMP\ccbStiSI.s:8255   .bss.Fsid:00000000 Fsid
+  R:\TEMP\ccbStiSI.s:8258   .rodata.vst.4340:00000000 $d
+  R:\TEMP\ccbStiSI.s:8262   .rodata.vst.4340:00000000 vst.4340
+  R:\TEMP\ccbStiSI.s:8275   .bss.FatFs:00000000 $d
+  R:\TEMP\ccbStiSI.s:8279   .bss.FatFs:00000000 FatFs
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 disk_status

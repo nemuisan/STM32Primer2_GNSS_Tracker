@@ -1278,6 +1278,7 @@
  821              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_sil.h"
  822              		.file 9 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 usb_msc_bot.c
   R:\TEMP\ccHKeYBp.s:19     .text.Bot_Abort.part.1:0000000000000000 $t
   R:\TEMP\ccHKeYBp.s:23     .text.Bot_Abort.part.1:0000000000000000 Bot_Abort.part.1
@@ -1317,6 +1318,47 @@ DEFINED SYMBOLS
   R:\TEMP\ccHKeYBp.s:800    .bss.SCSI_LBA:0000000000000000 $d
   R:\TEMP\ccHKeYBp.s:807    .bss.CSW:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 usb_msc_bot.c
+  R:\TEMP\ccgZvCKj.s:19     .text.Bot_Abort.part.1:00000000 $t
+  R:\TEMP\ccgZvCKj.s:23     .text.Bot_Abort.part.1:00000000 Bot_Abort.part.1
+  R:\TEMP\ccgZvCKj.s:52     .text.Transfer_Data_Request:00000000 $t
+  R:\TEMP\ccgZvCKj.s:57     .text.Transfer_Data_Request:00000000 Transfer_Data_Request
+  R:\TEMP\ccgZvCKj.s:100    .text.Transfer_Data_Request:0000002c $d
+  R:\TEMP\ccgZvCKj.s:106    .text.Set_CSW:00000000 $t
+  R:\TEMP\ccgZvCKj.s:111    .text.Set_CSW:00000000 Set_CSW
+  R:\TEMP\ccgZvCKj.s:165    .text.Set_CSW:00000030 $d
+  R:\TEMP\ccgZvCKj.s:174    .text.Mass_Storage_In:00000000 $t
+  R:\TEMP\ccgZvCKj.s:179    .text.Mass_Storage_In:00000000 Mass_Storage_In
+  R:\TEMP\ccgZvCKj.s:198    .text.Mass_Storage_In:00000010 $d
+  R:\TEMP\ccgZvCKj.s:202    .text.Mass_Storage_In:00000014 $t
+  R:\TEMP\ccgZvCKj.s:245    .text.Mass_Storage_In:0000004c $d
+  R:\TEMP\ccgZvCKj.s:253    .text.CBW_Decode:00000000 $t
+  R:\TEMP\ccgZvCKj.s:258    .text.CBW_Decode:00000000 CBW_Decode
+  R:\TEMP\ccgZvCKj.s:523    .text.CBW_Decode:00000178 $d
+  R:\TEMP\ccgZvCKj.s:533    .text.CBW_Decode:00000198 $t
+  R:\TEMP\ccgZvCKj.s:575    .text.CBW_Decode:000001cc $d
+  R:\TEMP\ccgZvCKj.s:580    .text.Bot_Abort:00000000 $t
+  R:\TEMP\ccgZvCKj.s:585    .text.Bot_Abort:00000000 Bot_Abort
+  R:\TEMP\ccgZvCKj.s:626    .text.Mass_Storage_Out:00000000 $t
+  R:\TEMP\ccgZvCKj.s:631    .text.Mass_Storage_Out:00000000 Mass_Storage_Out
+  R:\TEMP\ccgZvCKj.s:750    .text.Mass_Storage_Out:000000a0 $d
+  R:\TEMP\ccgZvCKj.s:791    .bss.SCSI_BlkLen:00000000 SCSI_BlkLen
+  R:\TEMP\ccgZvCKj.s:804    .bss.SCSI_LBA:00000000 SCSI_LBA
+  R:\TEMP\ccgZvCKj.s:811    .bss.CSW:00000000 CSW
+  R:\TEMP\ccgZvCKj.s:778    .bss.CBW:00000000 CBW
+  R:\TEMP\ccgZvCKj.s:771    .bss.Data_Len:00000000 Data_Len
+  R:\TEMP\ccgZvCKj.s:797    .bss.Bulk_Data_Buff:00000000 Bulk_Data_Buff
+  R:\TEMP\ccgZvCKj.s:784    .bss.Bot_State:00000000 Bot_State
+  R:\TEMP\ccgZvCKj.s:767    .bss.Data_Len:00000000 $d
+  R:\TEMP\ccgZvCKj.s:774    .bss.CBW:00000000 $d
+  R:\TEMP\ccgZvCKj.s:785    .bss.Bot_State:00000000 $d
+  R:\TEMP\ccgZvCKj.s:787    .bss.SCSI_BlkLen:00000000 $d
+  R:\TEMP\ccgZvCKj.s:798    .bss.Bulk_Data_Buff:00000000 $d
+  R:\TEMP\ccgZvCKj.s:800    .bss.SCSI_LBA:00000000 $d
+  R:\TEMP\ccgZvCKj.s:807    .bss.CSW:00000000 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 SetEPTxStatus

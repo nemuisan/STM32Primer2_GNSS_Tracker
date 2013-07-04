@@ -1344,6 +1344,7 @@
  872              		.file 12 "./lib/USB_Functions/usb_prop.h"
  873              		.file 13 "./lib/STM32_USB-FS-Device_Driver/inc/usb_sil.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 usb_msc_prop.c
   R:\TEMP\ccLWLvKT.s:19     .text.Mass_SetDeviceAddress:0000000000000000 $t
   R:\TEMP\ccLWLvKT.s:24     .text.Mass_SetDeviceAddress:0000000000000000 Mass_SetDeviceAddress
@@ -1396,6 +1397,60 @@ DEFINED SYMBOLS
   R:\TEMP\ccLWLvKT.s:845    .data.MSC_Config_Descriptor:0000000000000000 $d
   R:\TEMP\ccLWLvKT.s:854    .bss.Max_Lun:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 usb_msc_prop.c
+  R:\TEMP\ccXs8jby.s:19     .text.Mass_SetDeviceAddress:00000000 $t
+  R:\TEMP\ccXs8jby.s:24     .text.Mass_SetDeviceAddress:00000000 Mass_SetDeviceAddress
+  R:\TEMP\ccXs8jby.s:40     .text.Mass_SetDeviceAddress:00000008 $d
+  R:\TEMP\ccXs8jby.s:45     .text.Mass_Status_In:00000000 $t
+  R:\TEMP\ccXs8jby.s:50     .text.Mass_Status_In:00000000 Mass_Status_In
+  R:\TEMP\ccXs8jby.s:62     .text.Mass_Status_Out:00000000 $t
+  R:\TEMP\ccXs8jby.s:67     .text.Mass_Status_Out:00000000 Mass_Status_Out
+  R:\TEMP\ccXs8jby.s:80     .text.Mass_Get_Interface_Setting:00000000 $t
+  R:\TEMP\ccXs8jby.s:85     .text.Mass_Get_Interface_Setting:00000000 Mass_Get_Interface_Setting
+  R:\TEMP\ccXs8jby.s:112    .text.Get_Max_Lun:00000000 $t
+  R:\TEMP\ccXs8jby.s:117    .text.Get_Max_Lun:00000000 Get_Max_Lun
+  R:\TEMP\ccXs8jby.s:143    .text.Get_Max_Lun:00000010 $d
+  R:\TEMP\ccXs8jby.s:149    .text.Mass_GetStringDescriptor:00000000 $t
+  R:\TEMP\ccXs8jby.s:154    .text.Mass_GetStringDescriptor:00000000 Mass_GetStringDescriptor
+  R:\TEMP\ccXs8jby.s:186    .text.Mass_GetStringDescriptor:00000018 $d
+  R:\TEMP\ccXs8jby.s:192    .text.Mass_GetConfigDescriptor:00000000 $t
+  R:\TEMP\ccXs8jby.s:197    .text.Mass_GetConfigDescriptor:00000000 Mass_GetConfigDescriptor
+  R:\TEMP\ccXs8jby.s:214    .text.Mass_GetConfigDescriptor:00000008 $d
+  R:\TEMP\ccXs8jby.s:219    .text.Mass_GetDeviceDescriptor:00000000 $t
+  R:\TEMP\ccXs8jby.s:224    .text.Mass_GetDeviceDescriptor:00000000 Mass_GetDeviceDescriptor
+  R:\TEMP\ccXs8jby.s:241    .text.Mass_GetDeviceDescriptor:00000008 $d
+  R:\TEMP\ccXs8jby.s:246    .text.Mass_ClearFeature:00000000 $t
+  R:\TEMP\ccXs8jby.s:251    .text.Mass_ClearFeature:00000000 Mass_ClearFeature
+  R:\TEMP\ccXs8jby.s:275    .text.Mass_ClearFeature:00000014 $d
+  R:\TEMP\ccXs8jby.s:281    .text.Mass_Reset:00000000 $t
+  R:\TEMP\ccXs8jby.s:286    .text.Mass_Reset:00000000 Mass_Reset
+  R:\TEMP\ccXs8jby.s:438    .text.Mass_Reset:000000e4 $d
+  R:\TEMP\ccXs8jby.s:450    .text.Mass_init:00000000 $t
+  R:\TEMP\ccXs8jby.s:455    .text.Mass_init:00000000 Mass_init
+  R:\TEMP\ccXs8jby.s:489    .text.Mass_init:00000024 $d
+  R:\TEMP\ccXs8jby.s:496    .text.Mass_NoData_Setup:00000000 $t
+  R:\TEMP\ccXs8jby.s:501    .text.Mass_NoData_Setup:00000000 Mass_NoData_Setup
+  R:\TEMP\ccXs8jby.s:559    .text.Mass_NoData_Setup:0000003c $d
+  R:\TEMP\ccXs8jby.s:567    .text.Mass_SetConfiguration:00000000 $t
+  R:\TEMP\ccXs8jby.s:572    .text.Mass_SetConfiguration:00000000 Mass_SetConfiguration
+  R:\TEMP\ccXs8jby.s:611    .text.Mass_SetConfiguration:00000024 $d
+  R:\TEMP\ccXs8jby.s:620    .text.Mass_Data_Setup:00000000 $t
+  R:\TEMP\ccXs8jby.s:625    .text.Mass_Data_Setup:00000000 Mass_Data_Setup
+  R:\TEMP\ccXs8jby.s:676    .text.Mass_Data_Setup:00000030 $d
+  R:\TEMP\ccXs8jby.s:682    .text.MSC_SetStructure:00000000 $t
+  R:\TEMP\ccXs8jby.s:687    .text.MSC_SetStructure:00000000 MSC_SetStructure
+  R:\TEMP\ccXs8jby.s:773    .text.MSC_SetStructure:00000070 $d
+  R:\TEMP\ccXs8jby.s:828    .data.MSC_String_Descriptor:00000000 MSC_String_Descriptor
+  R:\TEMP\ccXs8jby.s:849    .data.MSC_Config_Descriptor:00000000 MSC_Config_Descriptor
+  R:\TEMP\ccXs8jby.s:819    .data.MSC_Device_Descriptor:00000000 MSC_Device_Descriptor
+  R:\TEMP\ccXs8jby.s:858    .bss.Max_Lun:00000000 Max_Lun
+  R:\TEMP\ccXs8jby.s:815    .data.MSC_Device_Descriptor:00000000 $d
+  R:\TEMP\ccXs8jby.s:824    .data.MSC_String_Descriptor:00000000 $d
+  R:\TEMP\ccXs8jby.s:845    .data.MSC_Config_Descriptor:00000000 $d
+  R:\TEMP\ccXs8jby.s:854    .bss.Max_Lun:00000000 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 bDeviceState

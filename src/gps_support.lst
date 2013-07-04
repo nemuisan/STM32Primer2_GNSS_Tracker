@@ -2018,6 +2018,7 @@
  1110              		.file 14 "./inc/uart_support_gps.h"
  1111              		.file 15 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 gps_support.c
   R:\TEMP\cc4jsCTZ.s:19     .text.get_line_GPS:0000000000000000 $t
   R:\TEMP\cc4jsCTZ.s:23     .text.get_line_GPS:0000000000000000 get_line_GPS
@@ -2065,6 +2066,55 @@ DEFINED SYMBOLS
   R:\TEMP\cc4jsCTZ.s:1084   .bss.l_stat:0000000000000000 $d
   R:\TEMP\cc4jsCTZ.s:1091   .bss.Timer:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 gps_support.c
+  R:\TEMP\ccnfcddo.s:19     .text.get_line_GPS:00000000 $t
+  R:\TEMP\ccnfcddo.s:23     .text.get_line_GPS:00000000 get_line_GPS
+  R:\TEMP\ccnfcddo.s:77     .text.get_line_GPS:0000002c $d
+  R:\TEMP\ccnfcddo.s:83     .text.gp_val:00000000 $t
+  R:\TEMP\ccnfcddo.s:87     .text.gp_val:00000000 gp_val
+  R:\TEMP\ccnfcddo.s:129    .text.gp_comp.constprop.0:00000000 $t
+  R:\TEMP\ccnfcddo.s:133    .text.gp_comp.constprop.0:00000000 gp_comp.constprop.0
+  R:\TEMP\ccnfcddo.s:165    .text.gp_comp.constprop.0:00000014 $d
+  R:\TEMP\ccnfcddo.s:170    .text.gp_col.constprop.1:00000000 $t
+  R:\TEMP\ccnfcddo.s:174    .text.gp_col.constprop.1:00000000 gp_col.constprop.1
+  R:\TEMP\ccnfcddo.s:221    .text.gp_col.constprop.1:00000020 $d
+  R:\TEMP\ccnfcddo.s:226    .text.xSend_MTKCmd:00000000 $t
+  R:\TEMP\ccnfcddo.s:230    .text.xSend_MTKCmd:00000000 xSend_MTKCmd
+  R:\TEMP\ccnfcddo.s:318    .text.xSend_MTKCmd:00000054 $d
+  R:\TEMP\ccnfcddo.s:325    .text.ff_support_timerproc:00000000 $t
+  R:\TEMP\ccnfcddo.s:330    .text.ff_support_timerproc:00000000 ff_support_timerproc
+  R:\TEMP\ccnfcddo.s:346    .text.ff_support_timerproc:0000000c $d
+  R:\TEMP\ccnfcddo.s:351    .text.get_fattime:00000000 $t
+  R:\TEMP\ccnfcddo.s:356    .text.get_fattime:00000000 get_fattime
+  R:\TEMP\ccnfcddo.s:399    .text.get_fattime:00000034 $d
+  R:\TEMP\ccnfcddo.s:404    .text.ChkAckLimit:00000000 $t
+  R:\TEMP\ccnfcddo.s:409    .text.ChkAckLimit:00000000 ChkAckLimit
+  R:\TEMP\ccnfcddo.s:441    .text.ChkAckLimit:00000020 $d
+  R:\TEMP\ccnfcddo.s:448    .text.ShutFileClose:00000000 $t
+  R:\TEMP\ccnfcddo.s:453    .text.ShutFileClose:00000000 ShutFileClose
+  R:\TEMP\ccnfcddo.s:480    .text.ShutFileClose:00000014 $d
+  R:\TEMP\ccnfcddo.s:486    .text.gps_task:00000000 $t
+  R:\TEMP\ccnfcddo.s:491    .text.gps_task:00000000 gps_task
+  R:\TEMP\ccnfcddo.s:959    .text.gps_task:0000028c $d
+  R:\TEMP\ccnfcddo.s:1024   .bss.ack_limit:00000000 ack_limit
+  R:\TEMP\ccnfcddo.s:1088   .bss.l_stat:00000000 l_stat
+  R:\TEMP\ccnfcddo.s:1095   .bss.Timer:00000000 Timer
+  R:\TEMP\ccnfcddo.s:1075   .bss.Buff:00000000 Buff
+  R:\TEMP\ccnfcddo.s:1081   .bss.Dir:00000000 Dir
+  R:\TEMP\ccnfcddo.s:1003   .bss.File1:00000000 File1
+  R:\TEMP\ccnfcddo.s:1010   .bss.Fatfs:00000000 Fatfs
+  R:\TEMP\ccnfcddo.s:1017   .bss.ff_rtc:00000000 ff_rtc
+  R:\TEMP\ccnfcddo.s:999    .bss.File1:00000000 $d
+  R:\TEMP\ccnfcddo.s:1006   .bss.Fatfs:00000000 $d
+  R:\TEMP\ccnfcddo.s:1013   .bss.ff_rtc:00000000 $d
+  R:\TEMP\ccnfcddo.s:1020   .bss.ack_limit:00000000 $d
+  R:\TEMP\ccnfcddo.s:1076   .bss.Buff:00000000 $d
+  R:\TEMP\ccnfcddo.s:1078   .bss.Dir:00000000 $d
+  R:\TEMP\ccnfcddo.s:1084   .bss.l_stat:00000000 $d
+  R:\TEMP\ccnfcddo.s:1091   .bss.Timer:00000000 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 xfunc_in

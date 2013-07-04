@@ -564,6 +564,7 @@
  365              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  366              		.file 3 "./lib/FONTX2/inc/font_if.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 font_if.c
   R:\TEMP\ccBdYdUu.s:19     .text.SearchKanjiBlock:0000000000000000 $t
   R:\TEMP\ccBdYdUu.s:23     .text.SearchKanjiBlock:0000000000000000 SearchKanjiBlock
@@ -589,5 +590,32 @@ DEFINED SYMBOLS
   R:\TEMP\ccBdYdUu.s:350    .bss.CurrentAnkDat:0000000000000000 $d
   R:\TEMP\ccBdYdUu.s:357    .bss.CurrentKanjiDat:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 font_if.c
+  R:\TEMP\ccne7jby.s:19     .text.SearchKanjiBlock:00000000 $t
+  R:\TEMP\ccne7jby.s:23     .text.SearchKanjiBlock:00000000 SearchKanjiBlock
+  R:\TEMP\ccne7jby.s:79     .text.SearchKanjiBlock:00000030 $d
+  R:\TEMP\ccne7jby.s:84     .text.InitFont_Ank:00000000 $t
+  R:\TEMP\ccne7jby.s:89     .text.InitFont_Ank:00000000 InitFont_Ank
+  R:\TEMP\ccne7jby.s:125    .text.ChangeCurrentAnk:00000000 $t
+  R:\TEMP\ccne7jby.s:130    .text.ChangeCurrentAnk:00000000 ChangeCurrentAnk
+  R:\TEMP\ccne7jby.s:145    .text.ChangeCurrentAnk:00000008 $d
+  R:\TEMP\ccne7jby.s:150    .text.GetPtr_Ank:00000000 $t
+  R:\TEMP\ccne7jby.s:155    .text.GetPtr_Ank:00000000 GetPtr_Ank
+  R:\TEMP\ccne7jby.s:177    .text.GetPtr_Ank:00000014 $d
+  R:\TEMP\ccne7jby.s:182    .text.InitFont_Kanji:00000000 $t
+  R:\TEMP\ccne7jby.s:187    .text.InitFont_Kanji:00000000 InitFont_Kanji
+  R:\TEMP\ccne7jby.s:260    .text.ChangeCurrentKanji:00000000 $t
+  R:\TEMP\ccne7jby.s:265    .text.ChangeCurrentKanji:00000000 ChangeCurrentKanji
+  R:\TEMP\ccne7jby.s:280    .text.ChangeCurrentKanji:00000008 $d
+  R:\TEMP\ccne7jby.s:285    .text.GetPtr_Kanji:00000000 $t
+  R:\TEMP\ccne7jby.s:290    .text.GetPtr_Kanji:00000000 GetPtr_Kanji
+  R:\TEMP\ccne7jby.s:343    .text.GetPtr_Kanji:00000038 $d
+  R:\TEMP\ccne7jby.s:361    .bss.CurrentKanjiDat:00000000 CurrentKanjiDat
+  R:\TEMP\ccne7jby.s:354    .bss.CurrentAnkDat:00000000 CurrentAnkDat
+  R:\TEMP\ccne7jby.s:350    .bss.CurrentAnkDat:00000000 $d
+  R:\TEMP\ccne7jby.s:357    .bss.CurrentKanjiDat:00000000 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 NO UNDEFINED SYMBOLS

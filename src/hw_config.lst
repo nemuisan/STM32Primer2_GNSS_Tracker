@@ -1251,6 +1251,7 @@
  772              		.file 13 "./inc/rtc_support.h"
  773              		.file 14 "./inc/adc_support.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 hw_config.c
   R:\TEMP\ccd1dKQ1.s:19     .text.IntToUnicode:0000000000000000 $t
   R:\TEMP\ccd1dKQ1.s:23     .text.IntToUnicode:0000000000000000 IntToUnicode
@@ -1296,6 +1297,53 @@ DEFINED SYMBOLS
   R:\TEMP\ccd1dKQ1.s:753    .bss.now.8840:0000000000000000 $d
   R:\TEMP\ccd1dKQ1.s:757    .bss.now.8840:0000000000000000 now.8840
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 hw_config.c
+  R:\TEMP\cckGLhyw.s:19     .text.IntToUnicode:00000000 $t
+  R:\TEMP\cckGLhyw.s:23     .text.IntToUnicode:00000000 IntToUnicode
+  R:\TEMP\cckGLhyw.s:79     .text.LED_Configuration:00000000 $t
+  R:\TEMP\cckGLhyw.s:84     .text.LED_Configuration:00000000 LED_Configuration
+  R:\TEMP\cckGLhyw.s:192    .text.LED_Configuration:0000009c $d
+  R:\TEMP\cckGLhyw.s:201    .text.KEY_Configuration:00000000 $t
+  R:\TEMP\cckGLhyw.s:206    .text.KEY_Configuration:00000000 KEY_Configuration
+  R:\TEMP\cckGLhyw.s:261    .text.KEY_Configuration:0000004c $d
+  R:\TEMP\cckGLhyw.s:267    .text.NVIC_Configuration:00000000 $t
+  R:\TEMP\cckGLhyw.s:272    .text.NVIC_Configuration:00000000 NVIC_Configuration
+  R:\TEMP\cckGLhyw.s:290    .text.Set_System:00000000 $t
+  R:\TEMP\cckGLhyw.s:295    .text.Set_System:00000000 Set_System
+  R:\TEMP\cckGLhyw.s:333    .text.JoyInp_Chk:00000000 $t
+  R:\TEMP\cckGLhyw.s:338    .text.JoyInp_Chk:00000000 JoyInp_Chk
+  R:\TEMP\cckGLhyw.s:394    .text.JoyInp_Chk:00000048 $d
+  R:\TEMP\cckGLhyw.s:404    .text.Set72:00000000 $t
+  R:\TEMP\cckGLhyw.s:409    .text.Set72:00000000 Set72
+  R:\TEMP\cckGLhyw.s:483    .text.Set72:0000005c $d
+  R:\TEMP\cckGLhyw.s:488    .text.USB_Disconnect_Config:00000000 $t
+  R:\TEMP\cckGLhyw.s:493    .text.USB_Disconnect_Config:00000000 USB_Disconnect_Config
+  R:\TEMP\cckGLhyw.s:530    .text.USB_Disconnect_Config:00000028 $d
+  R:\TEMP\cckGLhyw.s:535    .text.Set_USBClock:00000000 $t
+  R:\TEMP\cckGLhyw.s:540    .text.Set_USBClock:00000000 Set_USBClock
+  R:\TEMP\cckGLhyw.s:567    .text.USB_Cable_Config:00000000 $t
+  R:\TEMP\cckGLhyw.s:572    .text.USB_Cable_Config:00000000 USB_Cable_Config
+  R:\TEMP\cckGLhyw.s:602    .text.USB_Cable_Config:00000014 $d
+  R:\TEMP\cckGLhyw.s:607    .text.Enter_LowPowerMode:00000000 $t
+  R:\TEMP\cckGLhyw.s:612    .text.Enter_LowPowerMode:00000000 Enter_LowPowerMode
+  R:\TEMP\cckGLhyw.s:627    .text.Enter_LowPowerMode:00000008 $d
+  R:\TEMP\cckGLhyw.s:632    .text.Leave_LowPowerMode:00000000 $t
+  R:\TEMP\cckGLhyw.s:637    .text.Leave_LowPowerMode:00000000 Leave_LowPowerMode
+  R:\TEMP\cckGLhyw.s:662    .text.Leave_LowPowerMode:00000014 $d
+  R:\TEMP\cckGLhyw.s:668    .text.Get_SerialNum:00000000 $t
+  R:\TEMP\cckGLhyw.s:673    .text.Get_SerialNum:00000000 Get_SerialNum
+  R:\TEMP\cckGLhyw.s:725    .text.Get_SerialNum:00000030 $d
+  R:\TEMP\cckGLhyw.s:750    .bss.CmdKey:00000000 CmdKey
+  R:\TEMP\cckGLhyw.s:732    .bss.keycounts.8838:00000000 $d
+  R:\TEMP\cckGLhyw.s:736    .bss.keycounts.8838:00000000 keycounts.8838
+  R:\TEMP\cckGLhyw.s:739    .bss.prev.8839:00000000 $d
+  R:\TEMP\cckGLhyw.s:743    .bss.prev.8839:00000000 prev.8839
+  R:\TEMP\cckGLhyw.s:746    .bss.CmdKey:00000000 $d
+  R:\TEMP\cckGLhyw.s:753    .bss.now.8840:00000000 $d
+  R:\TEMP\cckGLhyw.s:757    .bss.now.8840:00000000 now.8840
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphClockCmd

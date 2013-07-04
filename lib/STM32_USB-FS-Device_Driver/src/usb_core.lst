@@ -3178,6 +3178,7 @@
  1914              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
  1915              		.file 9 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 usb_core.c
   R:\TEMP\cckG1eAB.s:19     .text.Standard_GetConfiguration:0000000000000000 $t
   R:\TEMP\cckG1eAB.s:24     .text.Standard_GetConfiguration:0000000000000000 Standard_GetConfiguration
@@ -3233,6 +3234,63 @@ DEFINED SYMBOLS
   R:\TEMP\cckG1eAB.s:1898   .bss.Data_Mul_MaxPacketSize:0000000000000000 $d
   R:\TEMP\cckG1eAB.s:1900   .bss.StatusInfo:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 usb_core.c
+  R:\TEMP\ccpdxqnc.s:19     .text.Standard_GetConfiguration:00000000 $t
+  R:\TEMP\ccpdxqnc.s:24     .text.Standard_GetConfiguration:00000000 Standard_GetConfiguration
+  R:\TEMP\ccpdxqnc.s:62     .text.Standard_GetConfiguration:0000001c $d
+  R:\TEMP\ccpdxqnc.s:68     .text.Standard_GetInterface:00000000 $t
+  R:\TEMP\ccpdxqnc.s:73     .text.Standard_GetInterface:00000000 Standard_GetInterface
+  R:\TEMP\ccpdxqnc.s:110    .text.Standard_GetInterface:0000001c $d
+  R:\TEMP\ccpdxqnc.s:116    .text.Standard_GetStatus:00000000 $t
+  R:\TEMP\ccpdxqnc.s:121    .text.Standard_GetStatus:00000000 Standard_GetStatus
+  R:\TEMP\ccpdxqnc.s:241    .text.Standard_GetStatus:00000090 $d
+  R:\TEMP\ccpdxqnc.s:248    .text.DataStageIn:00000000 $t
+  R:\TEMP\ccpdxqnc.s:252    .text.DataStageIn:00000000 DataStageIn
+  R:\TEMP\ccpdxqnc.s:376    .text.DataStageIn:00000088 $d
+  R:\TEMP\ccpdxqnc.s:386    .text.Standard_SetConfiguration:00000000 $t
+  R:\TEMP\ccpdxqnc.s:391    .text.Standard_SetConfiguration:00000000 Standard_SetConfiguration
+  R:\TEMP\ccpdxqnc.s:437    .text.Standard_SetConfiguration:0000002c $d
+  R:\TEMP\ccpdxqnc.s:444    .text.Standard_SetInterface:00000000 $t
+  R:\TEMP\ccpdxqnc.s:449    .text.Standard_SetInterface:00000000 Standard_SetInterface
+  R:\TEMP\ccpdxqnc.s:509    .text.Standard_SetInterface:0000003c $d
+  R:\TEMP\ccpdxqnc.s:516    .text.Standard_ClearFeature:00000000 $t
+  R:\TEMP\ccpdxqnc.s:521    .text.Standard_ClearFeature:00000000 Standard_ClearFeature
+  R:\TEMP\ccpdxqnc.s:674    .text.Standard_ClearFeature:000000cc $d
+  R:\TEMP\ccpdxqnc.s:682    .text.Standard_SetEndPointFeature:00000000 $t
+  R:\TEMP\ccpdxqnc.s:687    .text.Standard_SetEndPointFeature:00000000 Standard_SetEndPointFeature
+  R:\TEMP\ccpdxqnc.s:787    .text.Standard_SetEndPointFeature:00000080 $d
+  R:\TEMP\ccpdxqnc.s:794    .text.Standard_SetDeviceFeature:00000000 $t
+  R:\TEMP\ccpdxqnc.s:799    .text.Standard_SetDeviceFeature:00000000 Standard_SetDeviceFeature
+  R:\TEMP\ccpdxqnc.s:828    .text.Standard_SetDeviceFeature:0000001c $d
+  R:\TEMP\ccpdxqnc.s:834    .text.Standard_GetDescriptorData:00000000 $t
+  R:\TEMP\ccpdxqnc.s:839    .text.Standard_GetDescriptorData:00000000 Standard_GetDescriptorData
+  R:\TEMP\ccpdxqnc.s:873    .text.Standard_GetDescriptorData:00000018 $d
+  R:\TEMP\ccpdxqnc.s:878    .text.Post0_Process:00000000 $t
+  R:\TEMP\ccpdxqnc.s:883    .text.Post0_Process:00000000 Post0_Process
+  R:\TEMP\ccpdxqnc.s:923    .text.Post0_Process:00000030 $d
+  R:\TEMP\ccpdxqnc.s:931    .text.Out0_Process:00000000 $t
+  R:\TEMP\ccpdxqnc.s:936    .text.Out0_Process:00000000 Out0_Process
+  R:\TEMP\ccpdxqnc.s:1105   .text.Out0_Process:000000bc $d
+  R:\TEMP\ccpdxqnc.s:1115   .text.Setup0_Process:00000000 $t
+  R:\TEMP\ccpdxqnc.s:1120   .text.Setup0_Process:00000000 Setup0_Process
+  R:\TEMP\ccpdxqnc.s:1608   .text.Setup0_Process:00000258 $d
+  R:\TEMP\ccpdxqnc.s:1618   .text.Setup0_Process:00000274 $t
+  R:\TEMP\ccpdxqnc.s:1708   .text.Setup0_Process:000002e0 $d
+  R:\TEMP\ccpdxqnc.s:1720   .text.SetDeviceAddress:00000000 $t
+  R:\TEMP\ccpdxqnc.s:1725   .text.SetDeviceAddress:00000000 SetDeviceAddress
+  R:\TEMP\ccpdxqnc.s:1777   .text.SetDeviceAddress:00000038 $d
+  R:\TEMP\ccpdxqnc.s:1783   .text.In0_Process:00000000 $t
+  R:\TEMP\ccpdxqnc.s:1788   .text.In0_Process:00000000 In0_Process
+  R:\TEMP\ccpdxqnc.s:1868   .text.In0_Process:00000054 $d
+  R:\TEMP\ccpdxqnc.s:1875   .text.NOP_Process:00000000 $t
+  R:\TEMP\ccpdxqnc.s:1880   .text.NOP_Process:00000000 NOP_Process
+  R:\TEMP\ccpdxqnc.s:1897   .bss.Data_Mul_MaxPacketSize:00000000 Data_Mul_MaxPacketSize
+  R:\TEMP\ccpdxqnc.s:1904   .bss.StatusInfo:00000000 StatusInfo
+  R:\TEMP\ccpdxqnc.s:1898   .bss.Data_Mul_MaxPacketSize:00000000 $d
+  R:\TEMP\ccpdxqnc.s:1900   .bss.StatusInfo:00000000 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 pInformation

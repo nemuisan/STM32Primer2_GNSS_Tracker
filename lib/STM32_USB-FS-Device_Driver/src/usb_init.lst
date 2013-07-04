@@ -185,6 +185,7 @@
  124              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  125              		.file 5 "./inc/systick.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 usb_init.c
   R:\TEMP\ccm7PaO9.s:19     .text.USB_Init:0000000000000000 $t
   R:\TEMP\ccm7PaO9.s:24     .text.USB_Init:0000000000000000 USB_Init
@@ -204,6 +205,27 @@ DEFINED SYMBOLS
   R:\TEMP\ccm7PaO9.s:108    .bss.pProperty:0000000000000000 $d
   R:\TEMP\ccm7PaO9.s:115    .bss.SaveState:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 usb_init.c
+  R:\TEMP\cc47bhQD.s:19     .text.USB_Init:00000000 $t
+  R:\TEMP\cc47bhQD.s:24     .text.USB_Init:00000000 USB_Init
+  R:\TEMP\cc47bhQD.s:59     .text.USB_Init:00000020 $d
+  R:\TEMP\cc47bhQD.s:99     .bss.pUser_Standard_Requests:00000000 pUser_Standard_Requests
+  R:\TEMP\cc47bhQD.s:80     .bss.Device_Info:00000000 Device_Info
+  R:\TEMP\cc47bhQD.s:105    .bss.wInterrupt_Mask:00000000 wInterrupt_Mask
+  R:\TEMP\cc47bhQD.s:118    .bss.SaveState:00000000 SaveState
+  R:\TEMP\cc47bhQD.s:112    .bss.pProperty:00000000 pProperty
+  R:\TEMP\cc47bhQD.s:92     .bss.pInformation:00000000 pInformation
+  R:\TEMP\cc47bhQD.s:85     .bss.EPindex:00000000 EPindex
+  R:\TEMP\cc47bhQD.s:76     .bss.Device_Info:00000000 $d
+  R:\TEMP\cc47bhQD.s:86     .bss.EPindex:00000000 $d
+  R:\TEMP\cc47bhQD.s:88     .bss.pInformation:00000000 $d
+  R:\TEMP\cc47bhQD.s:95     .bss.pUser_Standard_Requests:00000000 $d
+  R:\TEMP\cc47bhQD.s:102    .bss.wInterrupt_Mask:00000000 $d
+  R:\TEMP\cc47bhQD.s:108    .bss.pProperty:00000000 $d
+  R:\TEMP\cc47bhQD.s:115    .bss.SaveState:00000000 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 Device_Property

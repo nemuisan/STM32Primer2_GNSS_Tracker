@@ -247,6 +247,7 @@
  152              		.file 6 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
  153              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 usb_sil.c
   R:\TEMP\ccn9Cokk.s:19     .text.USB_SIL_Init:0000000000000000 $t
   R:\TEMP\ccn9Cokk.s:24     .text.USB_SIL_Init:0000000000000000 USB_SIL_Init
@@ -256,6 +257,17 @@ DEFINED SYMBOLS
   R:\TEMP\ccn9Cokk.s:101    .text.USB_SIL_Read:0000000000000000 $t
   R:\TEMP\ccn9Cokk.s:106    .text.USB_SIL_Read:0000000000000000 USB_SIL_Read
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 usb_sil.c
+  R:\TEMP\ccjt85DC.s:19     .text.USB_SIL_Init:00000000 $t
+  R:\TEMP\ccjt85DC.s:24     .text.USB_SIL_Init:00000000 USB_SIL_Init
+  R:\TEMP\ccjt85DC.s:48     .text.USB_SIL_Init:00000014 $d
+  R:\TEMP\ccjt85DC.s:55     .text.USB_SIL_Write:00000000 $t
+  R:\TEMP\ccjt85DC.s:60     .text.USB_SIL_Write:00000000 USB_SIL_Write
+  R:\TEMP\ccjt85DC.s:101    .text.USB_SIL_Read:00000000 $t
+  R:\TEMP\ccjt85DC.s:106    .text.USB_SIL_Read:00000000 USB_SIL_Read
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 wInterrupt_Mask

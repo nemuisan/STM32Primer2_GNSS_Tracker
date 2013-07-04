@@ -557,6 +557,7 @@
  378              		.file 6 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
  379              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_core.h"
 DEFINED SYMBOLS
+<<<<<<< HEAD
                             *ABS*:0000000000000000 usb_int.c
   R:\TEMP\ccBIyxUe.s:19     .text.CTR_LP:0000000000000000 $t
   R:\TEMP\ccBIyxUe.s:24     .text.CTR_LP:0000000000000000 CTR_LP
@@ -569,6 +570,20 @@ DEFINED SYMBOLS
   R:\TEMP\ccBIyxUe.s:359    .bss.SaveRState:0000000000000000 $d
   R:\TEMP\ccBIyxUe.s:366    .bss.SaveTState:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
+=======
+                            *ABS*:00000000 usb_int.c
+  R:\TEMP\cceDJI9P.s:19     .text.CTR_LP:00000000 $t
+  R:\TEMP\cceDJI9P.s:24     .text.CTR_LP:00000000 CTR_LP
+  R:\TEMP\cceDJI9P.s:256    .text.CTR_LP:00000170 $d
+  R:\TEMP\cceDJI9P.s:268    .text.CTR_HP:00000000 $t
+  R:\TEMP\cceDJI9P.s:273    .text.CTR_HP:00000000 CTR_HP
+  R:\TEMP\cceDJI9P.s:348    .text.CTR_HP:00000060 $d
+  R:\TEMP\cceDJI9P.s:370    .bss.SaveTState:00000000 SaveTState
+  R:\TEMP\cceDJI9P.s:363    .bss.SaveRState:00000000 SaveRState
+  R:\TEMP\cceDJI9P.s:359    .bss.SaveRState:00000000 $d
+  R:\TEMP\cceDJI9P.s:366    .bss.SaveTState:00000000 $d
+                     .debug_frame:00000010 $d
+>>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 In0_Process
