@@ -120,20 +120,20 @@
  132 0023 20       		.byte	32
  133              		.text
  134              	.Letext0:
- 135              		.file 1 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 135              		.file 1 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  136              		.file 2 "./lib/CMSIS/Include/core_cm3.h"
  137              		.file 3 "lib/USB_Functions/msc/src/usb_msc_scsi_data.c"
  138              		.file 4 "./inc/systick.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_msc_scsi_data.c
-  R:\TEMP\ccipSU5M.s:75     .data.ReadFormatCapacity_Data:00000000 ReadFormatCapacity_Data
-  R:\TEMP\ccipSU5M.s:40     .bss.ReadCapacity10_Data:00000000 ReadCapacity10_Data
-  R:\TEMP\ccipSU5M.s:45     .data.Scsi_Sense_Data:00000000 Scsi_Sense_Data
-  R:\TEMP\ccipSU5M.s:28     .data.Mode_Sense10_data:00000000 Mode_Sense10_data
-  R:\TEMP\ccipSU5M.s:67     .data.Mode_Sense6_data:00000000 Mode_Sense6_data
-  R:\TEMP\ccipSU5M.s:96     .data.Standard_Inquiry_Data:00000000 Standard_Inquiry_Data
-  R:\TEMP\ccipSU5M.s:91     .bss.Page00_Inquiry_Data:00000000 Page00_Inquiry_Data
-  R:\TEMP\ccipSU5M.s:41     .bss.ReadCapacity10_Data:00000000 $d
-  R:\TEMP\ccipSU5M.s:92     .bss.Page00_Inquiry_Data:00000000 $d
+  R:\TEMP\ccuUaOEM.s:75     .data.ReadFormatCapacity_Data:00000000 ReadFormatCapacity_Data
+  R:\TEMP\ccuUaOEM.s:40     .bss.ReadCapacity10_Data:00000000 ReadCapacity10_Data
+  R:\TEMP\ccuUaOEM.s:45     .data.Scsi_Sense_Data:00000000 Scsi_Sense_Data
+  R:\TEMP\ccuUaOEM.s:28     .data.Mode_Sense10_data:00000000 Mode_Sense10_data
+  R:\TEMP\ccuUaOEM.s:67     .data.Mode_Sense6_data:00000000 Mode_Sense6_data
+  R:\TEMP\ccuUaOEM.s:96     .data.Standard_Inquiry_Data:00000000 Standard_Inquiry_Data
+  R:\TEMP\ccuUaOEM.s:91     .bss.Page00_Inquiry_Data:00000000 Page00_Inquiry_Data
+  R:\TEMP\ccuUaOEM.s:41     .bss.ReadCapacity10_Data:00000000 $d
+  R:\TEMP\ccuUaOEM.s:92     .bss.Page00_Inquiry_Data:00000000 $d
 
 NO UNDEFINED SYMBOLS

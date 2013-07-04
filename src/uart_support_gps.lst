@@ -316,7 +316,7 @@
  178              		.loc 1 141 0
  179 0004 B0F80632 		ldrh	r3, [r0, #518]
  180              	.LVL16:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  181              		.loc 1 140 0
  182 0008 501C     		adds	r0, r2, #1
  183              	.LVL17:
@@ -364,19 +364,19 @@
  215              	.LVL20:
  216              	.LBB18:
  217              	.LBB19:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  218              		.loc 1 140 0
  219 0004 B0F80442 		ldrh	r4, [r0, #516]
  220              	.LVL21:
- 141:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
+ 141:src/uart_support_gps.c **** 
  221              		.loc 1 141 0
  222 0008 B0F80622 		ldrh	r2, [r0, #518]
  223              	.LVL22:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  224              		.loc 1 140 0
  225 000c 601C     		adds	r0, r4, #1
  226              	.LVL23:
- 144:src/uart_support_gps.c **** 	return (tempHead != tempTail);
+ 144:src/uart_support_gps.c **** }
  227              		.loc 1 144 0
  228 000e 00F0FF04 		and	r4, r0, #255
  229              	.LVL24:
@@ -773,7 +773,7 @@
  263 0030 A3F80422 		strh	r2, [r3, #516]	@ movhi
  264              	.LBB22:
  265              	.LBB23:
- 331:./lib/CMSIS/Include/core_cmFunc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 331:./lib/CMSIS/Include/core_cmFunc.h **** }
  266              		.loc 2 331 0
  267              	@ 331 "./lib/CMSIS/Include/core_cmFunc.h" 1
  268 0034 62B6     		cpsie i
@@ -904,7 +904,7 @@
  360 0014 A3F80212 		strh	r1, [r3, #514]	@ movhi
  361              	.LBB26:
  362              	.LBB27:
- 331:./lib/CMSIS/Include/core_cmFunc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 331:./lib/CMSIS/Include/core_cmFunc.h **** }
  363              		.loc 2 331 0
  364              	@ 331 "./lib/CMSIS/Include/core_cmFunc.h" 1
  365 0018 62B6     		cpsie i
@@ -954,15 +954,15 @@
  394              	.L18:
  395              	.LBB28:
  396              	.LBB29:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  397              		.loc 1 140 0 discriminator 1
  398 0006 B3F80402 		ldrh	r0, [r3, #516]
  399              	.LVL43:
- 141:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
+ 141:src/uart_support_gps.c **** 
  400              		.loc 1 141 0 discriminator 1
  401 000a B3F80622 		ldrh	r2, [r3, #518]
  402              	.LVL44:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  403              		.loc 1 140 0 discriminator 1
  404 000e 0130     		adds	r0, r0, #1
  405              	.LVL45:
@@ -1023,11 +1023,11 @@
  443              	.LVL48:
  444              	.LBB30:
  445              	.LBB31:
- 185:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
+ 185:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
  446              		.loc 1 185 0
  447 0004 B0F80022 		ldrh	r2, [r0, #512]
  448              	.LVL49:
- 186:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
+ 186:src/uart_support_gps.c **** 
  449              		.loc 1 186 0
  450 0008 B0F80212 		ldrh	r1, [r0, #514]
  451              	.LVL50:
@@ -1047,7 +1047,7 @@
  246:src/uart_support_gps.c **** #endif
  247:src/uart_support_gps.c **** }
  460              		.loc 1 247 0 discriminator 1
- 240:src/uart_support_gps.c **** 	if (USART_RXBufferData_Available(pUSART_Buf))  return USART_RXBuffer_GetByte(pUSART_Buf);
+ 240:src/uart_support_gps.c **** 	else										   return false;
  461              		.loc 1 240 0 discriminator 1
  462 0014 FFF7FEBF 		b	USART_RXBuffer_GetByte
  463              	.LVL52:
@@ -1091,15 +1091,15 @@
  492              	.LVL54:
  493              	.LBB32:
  494              	.LBB33:
- 185:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
+ 185:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
  495              		.loc 1 185 0
  496 0004 B1F80002 		ldrh	r0, [r1, #512]
  497              	.LVL55:
- 186:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
+ 186:src/uart_support_gps.c **** 
  498              		.loc 1 186 0
  499 0008 B1F80222 		ldrh	r2, [r1, #514]
  500              	.LVL56:
- 189:src/uart_support_gps.c **** 	return (tempHead != tempTail);
+ 189:src/uart_support_gps.c **** }
  501              		.loc 1 189 0
  502 000c C1B2     		uxtb	r1, r0
  503              	.LVL57:
@@ -1148,7 +1148,7 @@
  535              		.cfi_def_cfa_offset 8
  536              		.cfi_offset 4, -8
  537              		.cfi_offset 14, -4
- 270:src/uart_support_gps.c **** void cputs(char *s)
+ 270:src/uart_support_gps.c **** {
  538              		.loc 1 270 0
  539 0002 441E     		subs	r4, r0, #1
  540              	.LVL60:
@@ -1462,13 +1462,13 @@
  751              		.loc 1 372 0
  752 006c BDE87040 		pop	{r4, r5, r6, lr}
  753              	.LBB37:
- 361:src/uart_support_gps.c **** 			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
+ 361:src/uart_support_gps.c **** 		}else{
  754              		.loc 1 361 0
  755 0070 FFF7FEBF 		b	USART_ITConfig
  756              	.LVL91:
  757              	.L62:
  758              	.LBB36:
- 364:src/uart_support_gps.c **** 			uint8_t data = (&USART2_Buf)->TX[(&USART2_Buf)->TX_Tail];
+ 364:src/uart_support_gps.c **** 			USART2->DR = data;
  759              		.loc 1 364 0
  760 0074 B0F80632 		ldrh	r3, [r0, #518]
  761              	.LVL92:
@@ -1476,10 +1476,10 @@
  763 007a 8118     		adds	r1, r0, r2
  764 007c 91F80031 		ldrb	r3, [r1, #256]	@ zero_extendqisi2
  765              	.LVL93:
- 365:src/uart_support_gps.c **** 			USART2->DR = data;
+ 365:src/uart_support_gps.c **** 
  766              		.loc 1 365 0
  767 0080 A380     		strh	r3, [r4, #4]	@ movhi
- 368:src/uart_support_gps.c **** 			(&USART2_Buf)->TX_Tail = ((&USART2_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
+ 368:src/uart_support_gps.c **** 		}
  768              		.loc 1 368 0
  769 0082 B0F80622 		ldrh	r2, [r0, #518]
  770 0086 511C     		adds	r1, r2, #1
@@ -1581,7 +1581,7 @@
  841 0016 0122     		movs	r2, #1
  402:src/uart_support_gps.c **** }
  842              		.loc 1 402 0
- 401:src/uart_support_gps.c **** 	USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
+ 401:src/uart_support_gps.c **** }
  843              		.loc 1 401 0
  844 0018 FFF7FEBF 		b	USART_ITConfig
  845              	.LVL97:
@@ -1677,8 +1677,8 @@
  927      00000000 
  928              		.text
  929              	.Letext0:
- 930              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
- 931              		.file 4 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 930              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
+ 931              		.file 4 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  932              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  933              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  934              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
@@ -1686,56 +1686,56 @@
  936              		.file 9 "./inc/uart_support_gps.h"
  937              		.file 10 "./lib/CMSIS/Include/core_cm3.h"
  938              		.file 11 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
- 939              		.file 12 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/
+ 939              		.file 12 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-e
 DEFINED SYMBOLS
                             *ABS*:00000000 uart_support_gps.c
-  R:\TEMP\cclf6JVl.s:19     .text.conio_init:00000000 $t
-  R:\TEMP\cclf6JVl.s:24     .text.conio_init:00000000 conio_init
-  R:\TEMP\cclf6JVl.s:152    .text.conio_init:000000bc $d
-  R:\TEMP\cclf6JVl.s:162    .text.USART_TXBuffer_FreeSpace:00000000 $t
-  R:\TEMP\cclf6JVl.s:167    .text.USART_TXBuffer_FreeSpace:00000000 USART_TXBuffer_FreeSpace
-  R:\TEMP\cclf6JVl.s:197    .text.USART_TXBuffer_PutByte:00000000 $t
-  R:\TEMP\cclf6JVl.s:202    .text.USART_TXBuffer_PutByte:00000000 USART_TXBuffer_PutByte
-  R:\TEMP\cclf6JVl.s:290    .text.USART_TXBuffer_PutByte:00000048 $d
-  R:\TEMP\cclf6JVl.s:295    .text.USART_RXBufferData_Available:00000000 $t
-  R:\TEMP\cclf6JVl.s:300    .text.USART_RXBufferData_Available:00000000 USART_RXBufferData_Available
-  R:\TEMP\cclf6JVl.s:327    .text.USART_RXBuffer_GetByte:00000000 $t
-  R:\TEMP\cclf6JVl.s:332    .text.USART_RXBuffer_GetByte:00000000 USART_RXBuffer_GetByte
-  R:\TEMP\cclf6JVl.s:376    .text.putch:00000000 $t
-  R:\TEMP\cclf6JVl.s:381    .text.putch:00000000 putch
-  R:\TEMP\cclf6JVl.s:423    .text.putch:00000020 $d
-  R:\TEMP\cclf6JVl.s:428    .text.getch:00000000 $t
-  R:\TEMP\cclf6JVl.s:433    .text.getch:00000000 getch
-  R:\TEMP\cclf6JVl.s:472    .text.getch:0000001c $d
-  R:\TEMP\cclf6JVl.s:477    .text.keypressed:00000000 $t
-  R:\TEMP\cclf6JVl.s:482    .text.keypressed:00000000 keypressed
-  R:\TEMP\cclf6JVl.s:516    .text.keypressed:00000018 $d
-  R:\TEMP\cclf6JVl.s:521    .text.cputs:00000000 $t
-  R:\TEMP\cclf6JVl.s:526    .text.cputs:00000000 cputs
-  R:\TEMP\cclf6JVl.s:557    .text.cgets:00000000 $t
-  R:\TEMP\cclf6JVl.s:562    .text.cgets:00000000 cgets
-  R:\TEMP\cclf6JVl.s:663    .text.conio_IRQ:00000000 $t
-  R:\TEMP\cclf6JVl.s:668    .text.conio_IRQ:00000000 conio_IRQ
-  R:\TEMP\cclf6JVl.s:780    .text.conio_IRQ:00000090 $d
-  R:\TEMP\cclf6JVl.s:788    .text.USART2_IRQHandler:00000000 $t
-  R:\TEMP\cclf6JVl.s:793    .text.USART2_IRQHandler:00000000 USART2_IRQHandler
-  R:\TEMP\cclf6JVl.s:813    .text.USART2_IRQHandler:0000000c $d
-  R:\TEMP\cclf6JVl.s:818    .text.Flush_RXBuffer:00000000 $t
-  R:\TEMP\cclf6JVl.s:823    .text.Flush_RXBuffer:00000000 Flush_RXBuffer
-  R:\TEMP\cclf6JVl.s:849    .text.Flush_RXBuffer:0000001c $d
-  R:\TEMP\cclf6JVl.s:855    .text.WaitTxBuffer:00000000 $t
-  R:\TEMP\cclf6JVl.s:860    .text.WaitTxBuffer:00000000 WaitTxBuffer
-  R:\TEMP\cclf6JVl.s:886    .text.WaitTxBuffer:0000001c $d
-  R:\TEMP\cclf6JVl.s:912    .bss.xUART_IRQ:00000000 xUART_IRQ
-  R:\TEMP\cclf6JVl.s:919    .bss.USART2_Buf:00000000 USART2_Buf
-  R:\TEMP\cclf6JVl.s:926    .bss.USART_InitStructure:00000000 USART_InitStructure
-  R:\TEMP\cclf6JVl.s:894    .bss.pUSART_Buf:00000000 $d
-  R:\TEMP\cclf6JVl.s:898    .bss.pUSART_Buf:00000000 pUSART_Buf
-  R:\TEMP\cclf6JVl.s:901    .bss.UART:00000000 $d
-  R:\TEMP\cclf6JVl.s:905    .bss.UART:00000000 UART
-  R:\TEMP\cclf6JVl.s:908    .bss.xUART_IRQ:00000000 $d
-  R:\TEMP\cclf6JVl.s:915    .bss.USART2_Buf:00000000 $d
-  R:\TEMP\cclf6JVl.s:922    .bss.USART_InitStructure:00000000 $d
+  R:\TEMP\ccXjxqnc.s:19     .text.conio_init:00000000 $t
+  R:\TEMP\ccXjxqnc.s:24     .text.conio_init:00000000 conio_init
+  R:\TEMP\ccXjxqnc.s:152    .text.conio_init:000000bc $d
+  R:\TEMP\ccXjxqnc.s:162    .text.USART_TXBuffer_FreeSpace:00000000 $t
+  R:\TEMP\ccXjxqnc.s:167    .text.USART_TXBuffer_FreeSpace:00000000 USART_TXBuffer_FreeSpace
+  R:\TEMP\ccXjxqnc.s:197    .text.USART_TXBuffer_PutByte:00000000 $t
+  R:\TEMP\ccXjxqnc.s:202    .text.USART_TXBuffer_PutByte:00000000 USART_TXBuffer_PutByte
+  R:\TEMP\ccXjxqnc.s:290    .text.USART_TXBuffer_PutByte:00000048 $d
+  R:\TEMP\ccXjxqnc.s:295    .text.USART_RXBufferData_Available:00000000 $t
+  R:\TEMP\ccXjxqnc.s:300    .text.USART_RXBufferData_Available:00000000 USART_RXBufferData_Available
+  R:\TEMP\ccXjxqnc.s:327    .text.USART_RXBuffer_GetByte:00000000 $t
+  R:\TEMP\ccXjxqnc.s:332    .text.USART_RXBuffer_GetByte:00000000 USART_RXBuffer_GetByte
+  R:\TEMP\ccXjxqnc.s:376    .text.putch:00000000 $t
+  R:\TEMP\ccXjxqnc.s:381    .text.putch:00000000 putch
+  R:\TEMP\ccXjxqnc.s:423    .text.putch:00000020 $d
+  R:\TEMP\ccXjxqnc.s:428    .text.getch:00000000 $t
+  R:\TEMP\ccXjxqnc.s:433    .text.getch:00000000 getch
+  R:\TEMP\ccXjxqnc.s:472    .text.getch:0000001c $d
+  R:\TEMP\ccXjxqnc.s:477    .text.keypressed:00000000 $t
+  R:\TEMP\ccXjxqnc.s:482    .text.keypressed:00000000 keypressed
+  R:\TEMP\ccXjxqnc.s:516    .text.keypressed:00000018 $d
+  R:\TEMP\ccXjxqnc.s:521    .text.cputs:00000000 $t
+  R:\TEMP\ccXjxqnc.s:526    .text.cputs:00000000 cputs
+  R:\TEMP\ccXjxqnc.s:557    .text.cgets:00000000 $t
+  R:\TEMP\ccXjxqnc.s:562    .text.cgets:00000000 cgets
+  R:\TEMP\ccXjxqnc.s:663    .text.conio_IRQ:00000000 $t
+  R:\TEMP\ccXjxqnc.s:668    .text.conio_IRQ:00000000 conio_IRQ
+  R:\TEMP\ccXjxqnc.s:780    .text.conio_IRQ:00000090 $d
+  R:\TEMP\ccXjxqnc.s:788    .text.USART2_IRQHandler:00000000 $t
+  R:\TEMP\ccXjxqnc.s:793    .text.USART2_IRQHandler:00000000 USART2_IRQHandler
+  R:\TEMP\ccXjxqnc.s:813    .text.USART2_IRQHandler:0000000c $d
+  R:\TEMP\ccXjxqnc.s:818    .text.Flush_RXBuffer:00000000 $t
+  R:\TEMP\ccXjxqnc.s:823    .text.Flush_RXBuffer:00000000 Flush_RXBuffer
+  R:\TEMP\ccXjxqnc.s:849    .text.Flush_RXBuffer:0000001c $d
+  R:\TEMP\ccXjxqnc.s:855    .text.WaitTxBuffer:00000000 $t
+  R:\TEMP\ccXjxqnc.s:860    .text.WaitTxBuffer:00000000 WaitTxBuffer
+  R:\TEMP\ccXjxqnc.s:886    .text.WaitTxBuffer:0000001c $d
+  R:\TEMP\ccXjxqnc.s:912    .bss.xUART_IRQ:00000000 xUART_IRQ
+  R:\TEMP\ccXjxqnc.s:919    .bss.USART2_Buf:00000000 USART2_Buf
+  R:\TEMP\ccXjxqnc.s:926    .bss.USART_InitStructure:00000000 USART_InitStructure
+  R:\TEMP\ccXjxqnc.s:894    .bss.pUSART_Buf:00000000 $d
+  R:\TEMP\ccXjxqnc.s:898    .bss.pUSART_Buf:00000000 pUSART_Buf
+  R:\TEMP\ccXjxqnc.s:901    .bss.UART:00000000 $d
+  R:\TEMP\ccXjxqnc.s:905    .bss.UART:00000000 UART
+  R:\TEMP\ccXjxqnc.s:908    .bss.xUART_IRQ:00000000 $d
+  R:\TEMP\ccXjxqnc.s:915    .bss.USART2_Buf:00000000 $d
+  R:\TEMP\ccXjxqnc.s:922    .bss.USART_InitStructure:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

@@ -399,17 +399,17 @@
  128 0016 10BD     		pop	{r4, pc}
  129              	.LVL5:
  130              	.L14:
- 267:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   else if (RequestNo == SET_LINE_CODING)
+ 267:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   {
  131              		.loc 1 267 0
  132 0018 2028     		cmp	r0, #32
  133 001a FBD1     		bne	.L17
- 269:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     if (Type_Recipient == (CLASS_REQUEST | INTERFACE_RECIPIENT))
+ 269:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     {
  134              		.loc 1 269 0
  135 001c 0B4B     		ldr	r3, .L24
  136 001e 1968     		ldr	r1, [r3, #0]
  137 0020 0A78     		ldrb	r2, [r1, #0]	@ zero_extendqisi2
  138 0022 02F07F03 		and	r3, r2, #127
- 258:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   CopyRoutine = NULL;
+ 258:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  139              		.loc 1 258 0
  140 0026 0A49     		ldr	r1, .L24+4
  141 0028 212B     		cmp	r3, #33
@@ -417,17 +417,17 @@
  143 002c 0B46     		moveq	r3, r1
  144 002e 0023     		movne	r3, #0
  145              	.LVL6:
- 273:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     Request = SET_LINE_CODING;
+ 273:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   }
  146              		.loc 1 273 0
  147 0030 084A     		ldr	r2, .L24+8
  148 0032 1070     		strb	r0, [r2, #0]
- 276:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   if (CopyRoutine == NULL)
+ 276:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   {
  149              		.loc 1 276 0
  150 0034 0BB9     		cbnz	r3, .L15
  151 0036 EDE7     		b	.L17
  152              	.LVL7:
  153              	.L19:
- 264:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****       CopyRoutine = Virtual_Com_Port_GetLineCoding;
+ 264:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     }
  154              		.loc 1 264 0
  155 0038 074B     		ldr	r3, .L24+12
  156              	.LVL8:
@@ -727,36 +727,36 @@
  342              		.thumb_func
  344              	Virtual_Com_Port_GetStringDescriptor:
  345              	.LFB68:
- 336:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** {
+ 336:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   uint8_t wValue0 = pInformation->USBwValue0;
  346              		.loc 1 336 0
  347              		.cfi_startproc
  348              		@ args = 0, pretend = 0, frame = 0
  349              		@ frame_needed = 0, uses_anonymous_args = 0
  350              		@ link register save eliminated.
  351              	.LVL22:
- 337:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   uint8_t wValue0 = pInformation->USBwValue0;
+ 337:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   if (wValue0 > 4)
  352              		.loc 1 337 0
  353 0000 054B     		ldr	r3, .L52
  354 0002 1968     		ldr	r1, [r3, #0]
  355 0004 CA78     		ldrb	r2, [r1, #3]	@ zero_extendqisi2
  356              	.LVL23:
- 338:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   if (wValue0 > 4)
+ 338:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   {
  357              		.loc 1 338 0
  358 0006 042A     		cmp	r2, #4
  359 0008 04D8     		bhi	.L51
- 344:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     return Standard_GetDescriptorData(Length, &CDC_String_Descriptor[wValue0]);
+ 344:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   }
  360              		.loc 1 344 0
  361 000a 044B     		ldr	r3, .L52+4
  362 000c 03EBC201 		add	r1, r3, r2, lsl #3
  363              	.LVL24:
- 346:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
+ 346:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  364              		.loc 1 346 0
- 344:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     return Standard_GetDescriptorData(Length, &CDC_String_Descriptor[wValue0]);
+ 344:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   }
  365              		.loc 1 344 0
  366 0010 FFF7FEBF 		b	Standard_GetDescriptorData
  367              	.LVL25:
  368              	.L51:
- 346:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
+ 346:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  369              		.loc 1 346 0
  370 0014 0020     		movs	r0, #0
  371              	.LVL26:
@@ -775,19 +775,19 @@
  385              		.thumb_func
  387              	Virtual_Com_Port_GetConfigDescriptor:
  388              	.LFB67:
- 326:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** {
+ 326:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   return Standard_GetDescriptorData(Length, &CDC_Config_Descriptor);
  389              		.loc 1 326 0
  390              		.cfi_startproc
  391              		@ args = 0, pretend = 0, frame = 0
  392              		@ frame_needed = 0, uses_anonymous_args = 0
  393              		@ link register save eliminated.
  394              	.LVL27:
- 327:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   return Standard_GetDescriptorData(Length, &CDC_Config_Descriptor);
+ 327:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
  395              		.loc 1 327 0
  396 0000 0149     		ldr	r1, .L55
- 328:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
+ 328:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  397              		.loc 1 328 0
- 327:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   return Standard_GetDescriptorData(Length, &CDC_Config_Descriptor);
+ 327:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
  398              		.loc 1 327 0
  399 0002 FFF7FEBF 		b	Standard_GetDescriptorData
  400              	.LVL28:
@@ -804,19 +804,19 @@
  412              		.thumb_func
  414              	Virtual_Com_Port_GetDeviceDescriptor:
  415              	.LFB66:
- 316:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** {
+ 316:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   return Standard_GetDescriptorData(Length, &CDC_Device_Descriptor);
  416              		.loc 1 316 0
  417              		.cfi_startproc
  418              		@ args = 0, pretend = 0, frame = 0
  419              		@ frame_needed = 0, uses_anonymous_args = 0
  420              		@ link register save eliminated.
  421              	.LVL29:
- 317:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   return Standard_GetDescriptorData(Length, &CDC_Device_Descriptor);
+ 317:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
  422              		.loc 1 317 0
  423 0000 0149     		ldr	r1, .L58
- 318:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
+ 318:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  424              		.loc 1 318 0
- 317:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   return Standard_GetDescriptorData(Length, &CDC_Device_Descriptor);
+ 317:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
  425              		.loc 1 317 0
  426 0002 FFF7FEBF 		b	Standard_GetDescriptorData
  427              	.LVL30:
@@ -833,7 +833,7 @@
  439              		.thumb_func
  441              	Virtual_Com_Port_Status_In:
  442              	.LFB62:
- 233:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** {
+ 233:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   if (Request == SET_LINE_CODING)
  443              		.loc 1 233 0
  444              		.cfi_startproc
  445              		@ args = 0, pretend = 0, frame = 0
@@ -843,17 +843,17 @@
  449              		.cfi_def_cfa_offset 8
  450              		.cfi_offset 4, -8
  451              		.cfi_offset 14, -4
- 234:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   if (Request == SET_LINE_CODING)
+ 234:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   {
  452              		.loc 1 234 0
  453 0002 044C     		ldr	r4, .L62
  454 0004 2378     		ldrb	r3, [r4, #0]	@ zero_extendqisi2
  455 0006 202B     		cmp	r3, #32
  456 0008 03D1     		bne	.L60
- 236:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     USART_Config();
+ 236:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     Request = 0;
  457              		.loc 1 236 0
  458 000a FFF7FEFF 		bl	USART_Config
  459              	.LVL31:
- 237:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     Request = 0;
+ 237:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   }
  460              		.loc 1 237 0
  461 000e 0020     		movs	r0, #0
  462 0010 2070     		strb	r0, [r4, #0]
@@ -872,7 +872,7 @@
  476              		.thumb_func
  478              	Virtual_Com_Port_Reset:
  479              	.LFB59:
- 130:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** {
+ 130:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   /* Set Virtual_Com_Port DEVICE as not configured */
  480              		.loc 1 130 0
  481              		.cfi_startproc
  482              		@ args = 0, pretend = 0, frame = 0
@@ -882,172 +882,172 @@
  486              		.cfi_def_cfa_offset 8
  487              		.cfi_offset 4, -8
  488              		.cfi_offset 14, -4
- 132:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   pInformation->Current_Configuration = 0;
+ 132:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  489              		.loc 1 132 0
  490 0002 3B4B     		ldr	r3, .L65
  491 0004 1868     		ldr	r0, [r3, #0]
  492 0006 0024     		movs	r4, #0
  493 0008 8472     		strb	r4, [r0, #10]
- 135:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   pInformation->Current_Feature = Virtual_Com_Port_ConfigDescriptor[7];
+ 135:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  494              		.loc 1 135 0
  495 000a 3A4A     		ldr	r2, .L65+4
  496 000c D179     		ldrb	r1, [r2, #7]	@ zero_extendqisi2
  497 000e 4172     		strb	r1, [r0, #9]
- 138:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   pInformation->Current_Interface = 0;
+ 138:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  498              		.loc 1 138 0
  499 0010 C472     		strb	r4, [r0, #11]
- 153:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetBTABLE(BTABLE_ADDRESS);
+ 153:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  500              		.loc 1 153 0
  501 0012 2046     		mov	r0, r4
  502 0014 FFF7FEFF 		bl	SetBTABLE
  503              	.LVL32:
- 156:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPType(ENDP0, EP_CONTROL);
+ 156:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxStatus(ENDP0, EP_TX_STALL);
  504              		.loc 1 156 0
  505 0018 2046     		mov	r0, r4
  506 001a 4FF40071 		mov	r1, #512
  507 001e FFF7FEFF 		bl	SetEPType
  508              	.LVL33:
- 157:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxStatus(ENDP0, EP_TX_STALL);
+ 157:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxAddr(ENDP0, CDC_ENDP0_RXADDR);
  509              		.loc 1 157 0
  510 0022 2046     		mov	r0, r4
  511 0024 1021     		movs	r1, #16
  512 0026 FFF7FEFF 		bl	SetEPTxStatus
  513              	.LVL34:
- 158:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxAddr(ENDP0, CDC_ENDP0_RXADDR);
+ 158:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxAddr(ENDP0, CDC_ENDP0_TXADDR);
  514              		.loc 1 158 0
  515 002a 2046     		mov	r0, r4
  516 002c 4021     		movs	r1, #64
  517 002e FFF7FEFF 		bl	SetEPRxAddr
  518              	.LVL35:
- 159:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxAddr(ENDP0, CDC_ENDP0_TXADDR);
+ 159:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   Clear_Status_Out(ENDP0);
  519              		.loc 1 159 0
  520 0032 2046     		mov	r0, r4
  521 0034 8021     		movs	r1, #128
  522 0036 FFF7FEFF 		bl	SetEPTxAddr
  523              	.LVL36:
- 160:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   Clear_Status_Out(ENDP0);
+ 160:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
  524              		.loc 1 160 0
  525 003a 2046     		mov	r0, r4
  526 003c FFF7FEFF 		bl	Clear_Status_Out
  527              	.LVL37:
- 161:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
+ 161:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxValid(ENDP0);
  528              		.loc 1 161 0
  529 0040 2046     		mov	r0, r4
  530 0042 2D4B     		ldr	r3, .L65+8
  531 0044 93F82C10 		ldrb	r1, [r3, #44]	@ zero_extendqisi2
  532 0048 FFF7FEFF 		bl	SetEPRxCount
  533              	.LVL38:
- 162:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxValid(ENDP0);
+ 162:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  534              		.loc 1 162 0
  535 004c 2046     		mov	r0, r4
  536 004e FFF7FEFF 		bl	SetEPRxValid
  537              	.LVL39:
- 165:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPType(ENDP1, EP_BULK);
+ 165:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxAddr(ENDP1, CDC_ENDP1_TXADDR);
  538              		.loc 1 165 0
  539 0052 0120     		movs	r0, #1
  540 0054 2146     		mov	r1, r4
  541 0056 FFF7FEFF 		bl	SetEPType
  542              	.LVL40:
- 166:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxAddr(ENDP1, CDC_ENDP1_TXADDR);
+ 166:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxStatus(ENDP1, EP_TX_NAK);
  543              		.loc 1 166 0
  544 005a 0120     		movs	r0, #1
  545 005c C021     		movs	r1, #192
  546 005e FFF7FEFF 		bl	SetEPTxAddr
  547              	.LVL41:
- 167:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxStatus(ENDP1, EP_TX_NAK);
+ 167:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxStatus(ENDP1, EP_RX_DIS);
  548              		.loc 1 167 0
  549 0062 0120     		movs	r0, #1
  550 0064 2021     		movs	r1, #32
  551 0066 FFF7FEFF 		bl	SetEPTxStatus
  552              	.LVL42:
- 168:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxStatus(ENDP1, EP_RX_DIS);
+ 168:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  553              		.loc 1 168 0
  554 006a 0120     		movs	r0, #1
  555 006c 2146     		mov	r1, r4
  556 006e FFF7FEFF 		bl	SetEPRxStatus
  557              	.LVL43:
- 171:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPType(ENDP2, EP_INTERRUPT);
+ 171:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxAddr(ENDP2, CDC_ENDP2_TXADDR);
  558              		.loc 1 171 0
  559 0072 0220     		movs	r0, #2
  560 0074 4FF4C061 		mov	r1, #1536
  561 0078 FFF7FEFF 		bl	SetEPType
  562              	.LVL44:
- 172:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxAddr(ENDP2, CDC_ENDP2_TXADDR);
+ 172:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxStatus(ENDP2, EP_RX_DIS);
  563              		.loc 1 172 0
  564 007c 0220     		movs	r0, #2
  565 007e 4FF48071 		mov	r1, #256
  566 0082 FFF7FEFF 		bl	SetEPTxAddr
  567              	.LVL45:
- 173:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxStatus(ENDP2, EP_RX_DIS);
+ 173:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxStatus(ENDP2, EP_TX_NAK);
  568              		.loc 1 173 0
  569 0086 0220     		movs	r0, #2
  570 0088 2146     		mov	r1, r4
  571 008a FFF7FEFF 		bl	SetEPRxStatus
  572              	.LVL46:
- 174:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxStatus(ENDP2, EP_TX_NAK);
+ 174:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  573              		.loc 1 174 0
  574 008e 0220     		movs	r0, #2
  575 0090 2021     		movs	r1, #32
  576 0092 FFF7FEFF 		bl	SetEPTxStatus
  577              	.LVL47:
- 184:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPType(ENDP3, EP_BULK);
+ 184:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPDoubleBuff(ENDP3);
  578              		.loc 1 184 0
  579 0096 0320     		movs	r0, #3
  580 0098 2146     		mov	r1, r4
  581 009a FFF7FEFF 		bl	SetEPType
  582              	.LVL48:
- 185:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPDoubleBuff(ENDP3);
+ 185:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPDblBuffAddr(ENDP3, CDC_ENDP3_BUF0Addr, CDC_ENDP3_BUF1Addr);
  583              		.loc 1 185 0
  584 009e 0320     		movs	r0, #3
  585 00a0 FFF7FEFF 		bl	SetEPDoubleBuff
  586              	.LVL49:
- 186:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPDblBuffAddr(ENDP3, CDC_ENDP3_BUF0Addr, CDC_ENDP3_BUF1Addr);
+ 186:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPDblBuffCount(ENDP3, EP_DBUF_OUT, VIRTUAL_COM_PORT_DATA_SIZE);
  587              		.loc 1 186 0
  588 00a4 0320     		movs	r0, #3
  589 00a6 4FF48871 		mov	r1, #272
  590 00aa 4FF4B072 		mov	r2, #352
  591 00ae FFF7FEFF 		bl	SetEPDblBuffAddr
  592              	.LVL50:
- 187:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPDblBuffCount(ENDP3, EP_DBUF_OUT, VIRTUAL_COM_PORT_DATA_SIZE);
+ 187:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   ClearDTOG_RX(ENDP3);
  593              		.loc 1 187 0
  594 00b2 0320     		movs	r0, #3
  595 00b4 0121     		movs	r1, #1
  596 00b6 4022     		movs	r2, #64
  597 00b8 FFF7FEFF 		bl	SetEPDblBuffCount
  598              	.LVL51:
- 188:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   ClearDTOG_RX(ENDP3);
+ 188:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   ClearDTOG_TX(ENDP3);
  599              		.loc 1 188 0
  600 00bc 0320     		movs	r0, #3
  601 00be FFF7FEFF 		bl	ClearDTOG_RX
  602              	.LVL52:
- 189:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   ClearDTOG_TX(ENDP3);
+ 189:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   ToggleDTOG_TX(ENDP3);
  603              		.loc 1 189 0
  604 00c2 0320     		movs	r0, #3
  605 00c4 FFF7FEFF 		bl	ClearDTOG_TX
  606              	.LVL53:
- 190:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   ToggleDTOG_TX(ENDP3);
+ 190:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxStatus(ENDP3, EP_RX_VALID);
  607              		.loc 1 190 0
  608 00c8 0320     		movs	r0, #3
  609 00ca FFF7FEFF 		bl	ToggleDTOG_TX
  610              	.LVL54:
- 191:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPRxStatus(ENDP3, EP_RX_VALID);
+ 191:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxStatus(ENDP3, EP_TX_DIS); 
  611              		.loc 1 191 0
  612 00ce 0320     		movs	r0, #3
  613 00d0 4FF44051 		mov	r1, #12288
  614 00d4 FFF7FEFF 		bl	SetEPRxStatus
  615              	.LVL55:
- 192:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetEPTxStatus(ENDP3, EP_TX_DIS); 
+ 192:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  616              		.loc 1 192 0
  617 00d8 0320     		movs	r0, #3
  618 00da 2146     		mov	r1, r4
  619 00dc FFF7FEFF 		bl	SetEPTxStatus
  620              	.LVL56:
- 195:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   SetDeviceAddress(0);
+ 195:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** #endif /* STM32F10X_CL */
  621              		.loc 1 195 0
  622 00e0 2046     		mov	r0, r4
  623 00e2 FFF7FEFF 		bl	SetDeviceAddress
  624              	.LVL57:
- 198:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   bDeviceState = ATTACHED;
+ 198:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
  625              		.loc 1 198 0
  626 00e6 0120     		movs	r0, #1
  627 00e8 044A     		ldr	r2, .L65+12
@@ -1069,7 +1069,7 @@
  644              		.thumb_func
  646              	Virtual_Com_Port_init:
  647              	.LFB58:
- 104:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** {
+ 104:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  648              		.loc 1 104 0
  649              		.cfi_startproc
  650              		@ args = 0, pretend = 0, frame = 0
@@ -1079,31 +1079,31 @@
  654              		.cfi_def_cfa_offset 8
  655              		.cfi_offset 4, -8
  656              		.cfi_offset 14, -4
- 108:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   Get_SerialNum(&Virtual_Com_Port_StringSerial[2],&Virtual_Com_Port_StringSerial[18]);
+ 108:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  657              		.loc 1 108 0
  658 0002 0948     		ldr	r0, .L68
  659 0004 00F11001 		add	r1, r0, #16
  660 0008 FFF7FEFF 		bl	Get_SerialNum
  661              	.LVL58:
- 110:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   pInformation->Current_Configuration = 0;
+ 110:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  662              		.loc 1 110 0
  663 000c 074B     		ldr	r3, .L68+4
  664 000e 1868     		ldr	r0, [r3, #0]
  665 0010 0024     		movs	r4, #0
  666 0012 8472     		strb	r4, [r0, #10]
- 113:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   PowerOn();
+ 113:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  667              		.loc 1 113 0
  668 0014 FFF7FEFF 		bl	PowerOn
  669              	.LVL59:
- 116:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   USB_SIL_Init();
+ 116:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  670              		.loc 1 116 0
  671 0018 FFF7FEFF 		bl	USB_SIL_Init
  672              	.LVL60:
- 119:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   USART_Config_Default();
+ 119:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 
  673              		.loc 1 119 0
  674 001c FFF7FEFF 		bl	USART_Config_Default
  675              	.LVL61:
- 121:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****   bDeviceState = UNCONNECTED;
+ 121:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
  676              		.loc 1 121 0
  677 0020 0349     		ldr	r1, .L68+8
  678 0022 0C60     		str	r4, [r1, #0]
@@ -1123,102 +1123,102 @@
  693              		.thumb_func
  695              	CDC_SetStructure:
  696              	.LFB57:
-  74:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** {
+  74:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 	Device_Table.Total_Endpoint	= CDC_EP_NUM;
  697              		.loc 1 74 0
  698              		.cfi_startproc
  699              		@ args = 0, pretend = 0, frame = 0
  700              		@ frame_needed = 0, uses_anonymous_args = 0
  701              		@ link register save eliminated.
-  75:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 	Device_Table.Total_Endpoint	= CDC_EP_NUM;
+  75:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 	xinit						= Virtual_Com_Port_init;
  702              		.loc 1 75 0
  703 0000 0422     		movs	r2, #4
  704 0002 1B4B     		ldr	r3, .L71
  705 0004 1A70     		strb	r2, [r3, #0]
-  76:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 	xinit						= Virtual_Com_Port_init;
+  76:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xReset 						= Virtual_Com_Port_Reset;
  706              		.loc 1 76 0
  707 0006 1B48     		ldr	r0, .L71+4
  708 0008 1B49     		ldr	r1, .L71+8
  709 000a 0860     		str	r0, [r1, #0]
-  77:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xReset 						= Virtual_Com_Port_Reset;
+  77:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xStatus_In					= Virtual_Com_Port_Status_In;
  710              		.loc 1 77 0
  711 000c 1B4A     		ldr	r2, .L71+12
  712 000e 1C4B     		ldr	r3, .L71+16
  713 0010 1A60     		str	r2, [r3, #0]
-  78:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xStatus_In					= Virtual_Com_Port_Status_In;
+  78:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xStatus_Out					= Virtual_Com_Port_Status_Out;
  714              		.loc 1 78 0
  715 0012 1C48     		ldr	r0, .L71+20
  716 0014 1C49     		ldr	r1, .L71+24
  717 0016 0860     		str	r0, [r1, #0]
-  79:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xStatus_Out					= Virtual_Com_Port_Status_Out;
+  79:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xData_Setup					= Virtual_Com_Port_Data_Setup;
  718              		.loc 1 79 0
  719 0018 1C4A     		ldr	r2, .L71+28
  720 001a 1D4B     		ldr	r3, .L71+32
  721 001c 1A60     		str	r2, [r3, #0]
-  80:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xData_Setup					= Virtual_Com_Port_Data_Setup;
+  80:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xNoData_Setup				= Virtual_Com_Port_NoData_Setup;
  722              		.loc 1 80 0
  723 001e 1D48     		ldr	r0, .L71+36
  724 0020 1D49     		ldr	r1, .L71+40
  725 0022 0860     		str	r0, [r1, #0]
-  81:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xNoData_Setup				= Virtual_Com_Port_NoData_Setup;
+  81:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGet_Interface_Setting		= Virtual_Com_Port_Get_Interface_Setting;
  726              		.loc 1 81 0
  727 0024 1D4A     		ldr	r2, .L71+44
  728 0026 1E4B     		ldr	r3, .L71+48
  729 0028 1A60     		str	r2, [r3, #0]
-  82:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGet_Interface_Setting		= Virtual_Com_Port_Get_Interface_Setting;
+  82:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetDeviceDescriptor		= Virtual_Com_Port_GetDeviceDescriptor;
  730              		.loc 1 82 0
  731 002a 1E48     		ldr	r0, .L71+52
  732 002c 1E49     		ldr	r1, .L71+56
  733 002e 0860     		str	r0, [r1, #0]
-  83:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetDeviceDescriptor		= Virtual_Com_Port_GetDeviceDescriptor;
+  83:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetConfigDescriptor		= Virtual_Com_Port_GetConfigDescriptor;
  734              		.loc 1 83 0
  735 0030 1E4A     		ldr	r2, .L71+60
  736 0032 1F4B     		ldr	r3, .L71+64
  737 0034 1A60     		str	r2, [r3, #0]
-  84:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetConfigDescriptor		= Virtual_Com_Port_GetConfigDescriptor;
+  84:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetStringDescriptor		= Virtual_Com_Port_GetStringDescriptor;
  738              		.loc 1 84 0
  739 0036 1F48     		ldr	r0, .L71+68
  740 0038 1F49     		ldr	r1, .L71+72
  741 003a 0860     		str	r0, [r1, #0]
-  85:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetStringDescriptor		= Virtual_Com_Port_GetStringDescriptor;
+  85:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 	
  742              		.loc 1 85 0
  743 003c 1F4A     		ldr	r2, .L71+76
  744 003e 204B     		ldr	r3, .L71+80
  745 0040 1A60     		str	r2, [r3, #0]
-  87:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** 	xGetConfiguration			= Virtual_Com_Port_GetConfiguration;
+  87:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetConfiguration			= Virtual_Com_Port_SetConfiguration;
  746              		.loc 1 87 0
  747 0042 2048     		ldr	r0, .L71+84
  748 0044 2049     		ldr	r1, .L71+88
  749 0046 0860     		str	r0, [r1, #0]
-  88:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetConfiguration			= Virtual_Com_Port_SetConfiguration;
+  88:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetInterface				= Virtual_Com_Port_GetInterface;
  750              		.loc 1 88 0
  751 0048 204B     		ldr	r3, .L71+92
  752 004a 214A     		ldr	r2, .L71+96
  753 004c 1360     		str	r3, [r2, #0]
-  89:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetInterface				= Virtual_Com_Port_GetInterface;
+  89:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetInterface				= Virtual_Com_Port_SetInterface;
  754              		.loc 1 89 0
  755 004e 2149     		ldr	r1, .L71+100
  756 0050 0860     		str	r0, [r1, #0]
-  90:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetInterface				= Virtual_Com_Port_SetInterface;
+  90:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetStatus					= Virtual_Com_Port_GetStatus;
  757              		.loc 1 90 0
  758 0052 214B     		ldr	r3, .L71+104
  759 0054 1860     		str	r0, [r3, #0]
-  91:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xGetStatus					= Virtual_Com_Port_GetStatus;
+  91:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xClearFeature				= Virtual_Com_Port_ClearFeature;
  760              		.loc 1 91 0
  761 0056 214A     		ldr	r2, .L71+108
  762 0058 1060     		str	r0, [r2, #0]
-  92:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xClearFeature				= Virtual_Com_Port_ClearFeature;
+  92:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetEndPointFeature			= Virtual_Com_Port_SetEndPointFeature;
  763              		.loc 1 92 0
  764 005a 2149     		ldr	r1, .L71+112
  765 005c 0860     		str	r0, [r1, #0]
-  93:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetEndPointFeature			= Virtual_Com_Port_SetEndPointFeature;
+  93:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetDeviceFeature			= Virtual_Com_Port_SetDeviceFeature;
  766              		.loc 1 93 0
  767 005e 214B     		ldr	r3, .L71+116
  768 0060 1860     		str	r0, [r3, #0]
-  94:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetDeviceFeature			= Virtual_Com_Port_SetDeviceFeature;
+  94:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetDeviceAddress			= Virtual_Com_Port_SetDeviceAddress;
  769              		.loc 1 94 0
  770 0062 214A     		ldr	r2, .L71+120
  771 0064 1060     		str	r0, [r2, #0]
-  95:lib/USB_Functions/cdc/src/usb_cdc_prop.c ****     xSetDeviceAddress			= Virtual_Com_Port_SetDeviceAddress;
+  95:lib/USB_Functions/cdc/src/usb_cdc_prop.c **** }
  772              		.loc 1 95 0
  773 0066 2148     		ldr	r0, .L71+124
  774 0068 2149     		ldr	r1, .L71+128
@@ -1312,7 +1312,7 @@
  873 0007 00       		.space	1
  874              		.text
  875              	.Letext0:
- 876              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 876              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  877              		.file 3 "./lib/STM32_USB-FS-Device_Driver/inc/usb_core.h"
  878              		.file 4 "./lib/USB_Functions/cdc/inc/usb_cdc_prop.h"
  879              		.file 5 "./lib/USB_Functions/usb_pwr.h"
@@ -1326,59 +1326,59 @@
  887              		.file 13 "./lib/STM32_USB-FS-Device_Driver/inc/usb_sil.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_cdc_prop.c
-  R:\TEMP\ccrOVTRa.s:19     .text.Virtual_Com_Port_SetConfiguration:00000000 $t
-  R:\TEMP\ccrOVTRa.s:24     .text.Virtual_Com_Port_SetConfiguration:00000000 Virtual_Com_Port_SetConfiguration
-  R:\TEMP\ccrOVTRa.s:46     .text.Virtual_Com_Port_SetConfiguration:00000010 $d
-  R:\TEMP\ccrOVTRa.s:52     .text.Virtual_Com_Port_SetDeviceAddress:00000000 $t
-  R:\TEMP\ccrOVTRa.s:57     .text.Virtual_Com_Port_SetDeviceAddress:00000000 Virtual_Com_Port_SetDeviceAddress
-  R:\TEMP\ccrOVTRa.s:72     .text.Virtual_Com_Port_SetDeviceAddress:00000008 $d
-  R:\TEMP\ccrOVTRa.s:77     .text.Virtual_Com_Port_Status_Out:00000000 $t
-  R:\TEMP\ccrOVTRa.s:82     .text.Virtual_Com_Port_Status_Out:00000000 Virtual_Com_Port_Status_Out
-  R:\TEMP\ccrOVTRa.s:94     .text.Virtual_Com_Port_Data_Setup:00000000 $t
-  R:\TEMP\ccrOVTRa.s:99     .text.Virtual_Com_Port_Data_Setup:00000000 Virtual_Com_Port_Data_Setup
-  R:\TEMP\ccrOVTRa.s:176    .text.Virtual_Com_Port_Data_Setup:0000004c $d
-  R:\TEMP\ccrOVTRa.s:307    .text.Virtual_Com_Port_SetLineCoding:00000000 Virtual_Com_Port_SetLineCoding
-  R:\TEMP\ccrOVTRa.s:270    .text.Virtual_Com_Port_GetLineCoding:00000000 Virtual_Com_Port_GetLineCoding
-  R:\TEMP\ccrOVTRa.s:184    .text.Virtual_Com_Port_NoData_Setup:00000000 $t
-  R:\TEMP\ccrOVTRa.s:189    .text.Virtual_Com_Port_NoData_Setup:00000000 Virtual_Com_Port_NoData_Setup
-  R:\TEMP\ccrOVTRa.s:226    .text.Virtual_Com_Port_NoData_Setup:00000020 $d
-  R:\TEMP\ccrOVTRa.s:231    .text.Virtual_Com_Port_Get_Interface_Setting:00000000 $t
-  R:\TEMP\ccrOVTRa.s:236    .text.Virtual_Com_Port_Get_Interface_Setting:00000000 Virtual_Com_Port_Get_Interface_Setting
-  R:\TEMP\ccrOVTRa.s:265    .text.Virtual_Com_Port_GetLineCoding:00000000 $t
-  R:\TEMP\ccrOVTRa.s:296    .text.Virtual_Com_Port_GetLineCoding:00000010 $d
-  R:\TEMP\ccrOVTRa.s:302    .text.Virtual_Com_Port_SetLineCoding:00000000 $t
-  R:\TEMP\ccrOVTRa.s:333    .text.Virtual_Com_Port_SetLineCoding:00000010 $d
-  R:\TEMP\ccrOVTRa.s:339    .text.Virtual_Com_Port_GetStringDescriptor:00000000 $t
-  R:\TEMP\ccrOVTRa.s:344    .text.Virtual_Com_Port_GetStringDescriptor:00000000 Virtual_Com_Port_GetStringDescriptor
-  R:\TEMP\ccrOVTRa.s:376    .text.Virtual_Com_Port_GetStringDescriptor:00000018 $d
-  R:\TEMP\ccrOVTRa.s:382    .text.Virtual_Com_Port_GetConfigDescriptor:00000000 $t
-  R:\TEMP\ccrOVTRa.s:387    .text.Virtual_Com_Port_GetConfigDescriptor:00000000 Virtual_Com_Port_GetConfigDescriptor
-  R:\TEMP\ccrOVTRa.s:404    .text.Virtual_Com_Port_GetConfigDescriptor:00000008 $d
-  R:\TEMP\ccrOVTRa.s:409    .text.Virtual_Com_Port_GetDeviceDescriptor:00000000 $t
-  R:\TEMP\ccrOVTRa.s:414    .text.Virtual_Com_Port_GetDeviceDescriptor:00000000 Virtual_Com_Port_GetDeviceDescriptor
-  R:\TEMP\ccrOVTRa.s:431    .text.Virtual_Com_Port_GetDeviceDescriptor:00000008 $d
-  R:\TEMP\ccrOVTRa.s:436    .text.Virtual_Com_Port_Status_In:00000000 $t
-  R:\TEMP\ccrOVTRa.s:441    .text.Virtual_Com_Port_Status_In:00000000 Virtual_Com_Port_Status_In
-  R:\TEMP\ccrOVTRa.s:468    .text.Virtual_Com_Port_Status_In:00000014 $d
-  R:\TEMP\ccrOVTRa.s:473    .text.Virtual_Com_Port_Reset:00000000 $t
-  R:\TEMP\ccrOVTRa.s:478    .text.Virtual_Com_Port_Reset:00000000 Virtual_Com_Port_Reset
-  R:\TEMP\ccrOVTRa.s:633    .text.Virtual_Com_Port_Reset:000000f0 $d
-  R:\TEMP\ccrOVTRa.s:641    .text.Virtual_Com_Port_init:00000000 $t
-  R:\TEMP\ccrOVTRa.s:646    .text.Virtual_Com_Port_init:00000000 Virtual_Com_Port_init
-  R:\TEMP\ccrOVTRa.s:683    .text.Virtual_Com_Port_init:00000028 $d
-  R:\TEMP\ccrOVTRa.s:690    .text.CDC_SetStructure:00000000 $t
-  R:\TEMP\ccrOVTRa.s:695    .text.CDC_SetStructure:00000000 CDC_SetStructure
-  R:\TEMP\ccrOVTRa.s:780    .text.CDC_SetStructure:00000070 $d
-  R:\TEMP\ccrOVTRa.s:835    .data.CDC_String_Descriptor:00000000 CDC_String_Descriptor
-  R:\TEMP\ccrOVTRa.s:853    .data.CDC_Config_Descriptor:00000000 CDC_Config_Descriptor
-  R:\TEMP\ccrOVTRa.s:826    .data.CDC_Device_Descriptor:00000000 CDC_Device_Descriptor
-  R:\TEMP\ccrOVTRa.s:868    .data.linecoding:00000000 linecoding
-  R:\TEMP\ccrOVTRa.s:861    .bss.Request:00000000 Request
-  R:\TEMP\ccrOVTRa.s:822    .data.CDC_Device_Descriptor:00000000 $d
-  R:\TEMP\ccrOVTRa.s:831    .data.CDC_String_Descriptor:00000000 $d
-  R:\TEMP\ccrOVTRa.s:849    .data.CDC_Config_Descriptor:00000000 $d
-  R:\TEMP\ccrOVTRa.s:862    .bss.Request:00000000 $d
-  R:\TEMP\ccrOVTRa.s:864    .data.linecoding:00000000 $d
+  R:\TEMP\cc3SLn8Z.s:19     .text.Virtual_Com_Port_SetConfiguration:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:24     .text.Virtual_Com_Port_SetConfiguration:00000000 Virtual_Com_Port_SetConfiguration
+  R:\TEMP\cc3SLn8Z.s:46     .text.Virtual_Com_Port_SetConfiguration:00000010 $d
+  R:\TEMP\cc3SLn8Z.s:52     .text.Virtual_Com_Port_SetDeviceAddress:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:57     .text.Virtual_Com_Port_SetDeviceAddress:00000000 Virtual_Com_Port_SetDeviceAddress
+  R:\TEMP\cc3SLn8Z.s:72     .text.Virtual_Com_Port_SetDeviceAddress:00000008 $d
+  R:\TEMP\cc3SLn8Z.s:77     .text.Virtual_Com_Port_Status_Out:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:82     .text.Virtual_Com_Port_Status_Out:00000000 Virtual_Com_Port_Status_Out
+  R:\TEMP\cc3SLn8Z.s:94     .text.Virtual_Com_Port_Data_Setup:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:99     .text.Virtual_Com_Port_Data_Setup:00000000 Virtual_Com_Port_Data_Setup
+  R:\TEMP\cc3SLn8Z.s:176    .text.Virtual_Com_Port_Data_Setup:0000004c $d
+  R:\TEMP\cc3SLn8Z.s:307    .text.Virtual_Com_Port_SetLineCoding:00000000 Virtual_Com_Port_SetLineCoding
+  R:\TEMP\cc3SLn8Z.s:270    .text.Virtual_Com_Port_GetLineCoding:00000000 Virtual_Com_Port_GetLineCoding
+  R:\TEMP\cc3SLn8Z.s:184    .text.Virtual_Com_Port_NoData_Setup:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:189    .text.Virtual_Com_Port_NoData_Setup:00000000 Virtual_Com_Port_NoData_Setup
+  R:\TEMP\cc3SLn8Z.s:226    .text.Virtual_Com_Port_NoData_Setup:00000020 $d
+  R:\TEMP\cc3SLn8Z.s:231    .text.Virtual_Com_Port_Get_Interface_Setting:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:236    .text.Virtual_Com_Port_Get_Interface_Setting:00000000 Virtual_Com_Port_Get_Interface_Setting
+  R:\TEMP\cc3SLn8Z.s:265    .text.Virtual_Com_Port_GetLineCoding:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:296    .text.Virtual_Com_Port_GetLineCoding:00000010 $d
+  R:\TEMP\cc3SLn8Z.s:302    .text.Virtual_Com_Port_SetLineCoding:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:333    .text.Virtual_Com_Port_SetLineCoding:00000010 $d
+  R:\TEMP\cc3SLn8Z.s:339    .text.Virtual_Com_Port_GetStringDescriptor:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:344    .text.Virtual_Com_Port_GetStringDescriptor:00000000 Virtual_Com_Port_GetStringDescriptor
+  R:\TEMP\cc3SLn8Z.s:376    .text.Virtual_Com_Port_GetStringDescriptor:00000018 $d
+  R:\TEMP\cc3SLn8Z.s:382    .text.Virtual_Com_Port_GetConfigDescriptor:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:387    .text.Virtual_Com_Port_GetConfigDescriptor:00000000 Virtual_Com_Port_GetConfigDescriptor
+  R:\TEMP\cc3SLn8Z.s:404    .text.Virtual_Com_Port_GetConfigDescriptor:00000008 $d
+  R:\TEMP\cc3SLn8Z.s:409    .text.Virtual_Com_Port_GetDeviceDescriptor:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:414    .text.Virtual_Com_Port_GetDeviceDescriptor:00000000 Virtual_Com_Port_GetDeviceDescriptor
+  R:\TEMP\cc3SLn8Z.s:431    .text.Virtual_Com_Port_GetDeviceDescriptor:00000008 $d
+  R:\TEMP\cc3SLn8Z.s:436    .text.Virtual_Com_Port_Status_In:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:441    .text.Virtual_Com_Port_Status_In:00000000 Virtual_Com_Port_Status_In
+  R:\TEMP\cc3SLn8Z.s:468    .text.Virtual_Com_Port_Status_In:00000014 $d
+  R:\TEMP\cc3SLn8Z.s:473    .text.Virtual_Com_Port_Reset:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:478    .text.Virtual_Com_Port_Reset:00000000 Virtual_Com_Port_Reset
+  R:\TEMP\cc3SLn8Z.s:633    .text.Virtual_Com_Port_Reset:000000f0 $d
+  R:\TEMP\cc3SLn8Z.s:641    .text.Virtual_Com_Port_init:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:646    .text.Virtual_Com_Port_init:00000000 Virtual_Com_Port_init
+  R:\TEMP\cc3SLn8Z.s:683    .text.Virtual_Com_Port_init:00000028 $d
+  R:\TEMP\cc3SLn8Z.s:690    .text.CDC_SetStructure:00000000 $t
+  R:\TEMP\cc3SLn8Z.s:695    .text.CDC_SetStructure:00000000 CDC_SetStructure
+  R:\TEMP\cc3SLn8Z.s:780    .text.CDC_SetStructure:00000070 $d
+  R:\TEMP\cc3SLn8Z.s:835    .data.CDC_String_Descriptor:00000000 CDC_String_Descriptor
+  R:\TEMP\cc3SLn8Z.s:853    .data.CDC_Config_Descriptor:00000000 CDC_Config_Descriptor
+  R:\TEMP\cc3SLn8Z.s:826    .data.CDC_Device_Descriptor:00000000 CDC_Device_Descriptor
+  R:\TEMP\cc3SLn8Z.s:868    .data.linecoding:00000000 linecoding
+  R:\TEMP\cc3SLn8Z.s:861    .bss.Request:00000000 Request
+  R:\TEMP\cc3SLn8Z.s:822    .data.CDC_Device_Descriptor:00000000 $d
+  R:\TEMP\cc3SLn8Z.s:831    .data.CDC_String_Descriptor:00000000 $d
+  R:\TEMP\cc3SLn8Z.s:849    .data.CDC_Config_Descriptor:00000000 $d
+  R:\TEMP\cc3SLn8Z.s:862    .bss.Request:00000000 $d
+  R:\TEMP\cc3SLn8Z.s:864    .data.linecoding:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

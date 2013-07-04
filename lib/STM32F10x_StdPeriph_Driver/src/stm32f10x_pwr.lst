@@ -847,7 +847,7 @@
  261 001a 1961     		str	r1, [r3, #16]
  262              	.LBB12:
  263              	.LBB13:
- 338:./lib/CMSIS/Include/core_cmInstr.h ****   __ASM volatile ("wfi");
+ 338:./lib/CMSIS/Include/core_cmInstr.h **** }
  264              		.loc 2 338 0
  265              	@ 338 "./lib/CMSIS/Include/core_cmInstr.h" 1
  266 001c 30BF     		wfi
@@ -971,38 +971,38 @@
  339              	.LFE64:
  341              		.text
  342              	.Letext0:
- 343              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 343              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  344              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  345              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  346              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_pwr.c
-  R:\TEMP\cceUtUiS.s:19     .text.PWR_DeInit:00000000 $t
-  R:\TEMP\cceUtUiS.s:24     .text.PWR_DeInit:00000000 PWR_DeInit
-  R:\TEMP\cceUtUiS.s:53     .text.PWR_BackupAccessCmd:00000000 $t
-  R:\TEMP\cceUtUiS.s:58     .text.PWR_BackupAccessCmd:00000000 PWR_BackupAccessCmd
-  R:\TEMP\cceUtUiS.s:73     .text.PWR_BackupAccessCmd:00000008 $d
-  R:\TEMP\cceUtUiS.s:78     .text.PWR_PVDCmd:00000000 $t
-  R:\TEMP\cceUtUiS.s:83     .text.PWR_PVDCmd:00000000 PWR_PVDCmd
-  R:\TEMP\cceUtUiS.s:98     .text.PWR_PVDCmd:00000008 $d
-  R:\TEMP\cceUtUiS.s:103    .text.PWR_PVDLevelConfig:00000000 $t
-  R:\TEMP\cceUtUiS.s:108    .text.PWR_PVDLevelConfig:00000000 PWR_PVDLevelConfig
-  R:\TEMP\cceUtUiS.s:133    .text.PWR_PVDLevelConfig:00000010 $d
-  R:\TEMP\cceUtUiS.s:138    .text.PWR_WakeUpPinCmd:00000000 $t
-  R:\TEMP\cceUtUiS.s:143    .text.PWR_WakeUpPinCmd:00000000 PWR_WakeUpPinCmd
-  R:\TEMP\cceUtUiS.s:158    .text.PWR_WakeUpPinCmd:00000008 $d
-  R:\TEMP\cceUtUiS.s:163    .text.PWR_EnterSTOPMode:00000000 $t
-  R:\TEMP\cceUtUiS.s:168    .text.PWR_EnterSTOPMode:00000000 PWR_EnterSTOPMode
-  R:\TEMP\cceUtUiS.s:230    .text.PWR_EnterSTOPMode:0000002c $d
-  R:\TEMP\cceUtUiS.s:236    .text.PWR_EnterSTANDBYMode:00000000 $t
-  R:\TEMP\cceUtUiS.s:241    .text.PWR_EnterSTANDBYMode:00000000 PWR_EnterSTANDBYMode
-  R:\TEMP\cceUtUiS.s:273    .text.PWR_EnterSTANDBYMode:00000020 $d
-  R:\TEMP\cceUtUiS.s:281    .text.PWR_GetFlagStatus:00000000 $t
-  R:\TEMP\cceUtUiS.s:286    .text.PWR_GetFlagStatus:00000000 PWR_GetFlagStatus
-  R:\TEMP\cceUtUiS.s:309    .text.PWR_GetFlagStatus:00000010 $d
-  R:\TEMP\cceUtUiS.s:314    .text.PWR_ClearFlag:00000000 $t
-  R:\TEMP\cceUtUiS.s:319    .text.PWR_ClearFlag:00000000 PWR_ClearFlag
-  R:\TEMP\cceUtUiS.s:337    .text.PWR_ClearFlag:0000000c $d
+  R:\TEMP\ccvYkky3.s:19     .text.PWR_DeInit:00000000 $t
+  R:\TEMP\ccvYkky3.s:24     .text.PWR_DeInit:00000000 PWR_DeInit
+  R:\TEMP\ccvYkky3.s:53     .text.PWR_BackupAccessCmd:00000000 $t
+  R:\TEMP\ccvYkky3.s:58     .text.PWR_BackupAccessCmd:00000000 PWR_BackupAccessCmd
+  R:\TEMP\ccvYkky3.s:73     .text.PWR_BackupAccessCmd:00000008 $d
+  R:\TEMP\ccvYkky3.s:78     .text.PWR_PVDCmd:00000000 $t
+  R:\TEMP\ccvYkky3.s:83     .text.PWR_PVDCmd:00000000 PWR_PVDCmd
+  R:\TEMP\ccvYkky3.s:98     .text.PWR_PVDCmd:00000008 $d
+  R:\TEMP\ccvYkky3.s:103    .text.PWR_PVDLevelConfig:00000000 $t
+  R:\TEMP\ccvYkky3.s:108    .text.PWR_PVDLevelConfig:00000000 PWR_PVDLevelConfig
+  R:\TEMP\ccvYkky3.s:133    .text.PWR_PVDLevelConfig:00000010 $d
+  R:\TEMP\ccvYkky3.s:138    .text.PWR_WakeUpPinCmd:00000000 $t
+  R:\TEMP\ccvYkky3.s:143    .text.PWR_WakeUpPinCmd:00000000 PWR_WakeUpPinCmd
+  R:\TEMP\ccvYkky3.s:158    .text.PWR_WakeUpPinCmd:00000008 $d
+  R:\TEMP\ccvYkky3.s:163    .text.PWR_EnterSTOPMode:00000000 $t
+  R:\TEMP\ccvYkky3.s:168    .text.PWR_EnterSTOPMode:00000000 PWR_EnterSTOPMode
+  R:\TEMP\ccvYkky3.s:230    .text.PWR_EnterSTOPMode:0000002c $d
+  R:\TEMP\ccvYkky3.s:236    .text.PWR_EnterSTANDBYMode:00000000 $t
+  R:\TEMP\ccvYkky3.s:241    .text.PWR_EnterSTANDBYMode:00000000 PWR_EnterSTANDBYMode
+  R:\TEMP\ccvYkky3.s:273    .text.PWR_EnterSTANDBYMode:00000020 $d
+  R:\TEMP\ccvYkky3.s:281    .text.PWR_GetFlagStatus:00000000 $t
+  R:\TEMP\ccvYkky3.s:286    .text.PWR_GetFlagStatus:00000000 PWR_GetFlagStatus
+  R:\TEMP\ccvYkky3.s:309    .text.PWR_GetFlagStatus:00000010 $d
+  R:\TEMP\ccvYkky3.s:314    .text.PWR_ClearFlag:00000000 $t
+  R:\TEMP\ccvYkky3.s:319    .text.PWR_ClearFlag:00000000 PWR_ClearFlag
+  R:\TEMP\ccvYkky3.s:337    .text.PWR_ClearFlag:0000000c $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

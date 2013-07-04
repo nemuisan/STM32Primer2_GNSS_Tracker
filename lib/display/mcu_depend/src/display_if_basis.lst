@@ -169,102 +169,102 @@
   40              		.cfi_def_cfa_offset 104
   41              	.LBB6:
   42              	.LBB7:
-  87:lib/display/mcu_depend/src/display_if_basis.c **** 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);
+  87:lib/display/mcu_depend/src/display_if_basis.c **** 
   43              		.loc 1 87 0
   44 0004 4FF48070 		mov	r0, #256
   45 0008 0121     		movs	r1, #1
   46 000a FFF7FEFF 		bl	RCC_AHBPeriphClockCmd
   47              	.LVL0:
-  89:lib/display/mcu_depend/src/display_if_basis.c **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE |
+  89:lib/display/mcu_depend/src/display_if_basis.c **** 						   RCC_APB2Periph_GPIOF | RCC_APB2Periph_GPIOG |
   48              		.loc 1 89 0
   49 000e 40F2E110 		movw	r0, #481
   50 0012 0121     		movs	r1, #1
   51 0014 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
   52              	.LVL1:
-  98:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin = DATA_PINS;
+  98:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
   53              		.loc 1 98 0
   54 0018 4FF4FF43 		mov	r3, #32640
   55 001c ADF81C30 		strh	r3, [sp, #28]	@ movhi
-  99:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  99:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   56              		.loc 1 99 0
   57 0020 1820     		movs	r0, #24
   58 0022 8DF81F00 		strb	r0, [sp, #31]
- 100:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 100:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_DATA, &GPIO_InitStructure); 
   59              		.loc 1 100 0
   60 0026 0321     		movs	r1, #3
   61 0028 8DF81E10 		strb	r1, [sp, #30]
- 101:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_DATA, &GPIO_InitStructure); 
+ 101:lib/display/mcu_depend/src/display_if_basis.c **** 
   62              		.loc 1 101 0
   63 002c 2F48     		ldr	r0, .L2
   64 002e 07A9     		add	r1, sp, #28
   65 0030 FFF7FEFF 		bl	GPIO_Init
   66              	.LVL2:
- 104:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= CTRL_RD;
+ 104:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_RD, &GPIO_InitStructure);
   67              		.loc 1 104 0
   68 0034 1025     		movs	r5, #16
   69 0036 ADF81C50 		strh	r5, [sp, #28]	@ movhi
- 105:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_RD, &GPIO_InitStructure);
+ 105:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= CTRL_WR;
   70              		.loc 1 105 0
   71 003a 2D4C     		ldr	r4, .L2+4
   72 003c 2046     		mov	r0, r4
   73 003e 07A9     		add	r1, sp, #28
   74 0040 FFF7FEFF 		bl	GPIO_Init
   75              	.LVL3:
- 106:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= CTRL_WR;
+ 106:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_WR, &GPIO_InitStructure);
   76              		.loc 1 106 0
   77 0044 2022     		movs	r2, #32
   78 0046 ADF81C20 		strh	r2, [sp, #28]	@ movhi
- 107:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_WR, &GPIO_InitStructure);
+ 107:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= CTRL_DC;
   79              		.loc 1 107 0
   80 004a 2046     		mov	r0, r4
   81 004c 07A9     		add	r1, sp, #28
   82 004e FFF7FEFF 		bl	GPIO_Init
   83              	.LVL4:
- 108:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= CTRL_DC;
+ 108:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_DC, &GPIO_InitStructure);
   84              		.loc 1 108 0
   85 0052 4FF40063 		mov	r3, #2048
   86 0056 ADF81C30 		strh	r3, [sp, #28]	@ movhi
- 109:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_DC, &GPIO_InitStructure);
+ 109:lib/display/mcu_depend/src/display_if_basis.c **** 
   87              		.loc 1 109 0
   88 005a 2046     		mov	r0, r4
   89 005c 07A9     		add	r1, sp, #28
   90 005e FFF7FEFF 		bl	GPIO_Init
   91              	.LVL5:
- 112:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= CTRL_RES;
+ 112:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_Out_PP;
   92              		.loc 1 112 0
   93 0062 4020     		movs	r0, #64
   94 0064 ADF81C00 		strh	r0, [sp, #28]	@ movhi
- 113:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_Out_PP;
+ 113:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_RES, &GPIO_InitStructure);
   95              		.loc 1 113 0
   96 0068 8DF81F50 		strb	r5, [sp, #31]
- 114:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_RES, &GPIO_InitStructure);
+ 114:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= CTRL_CS;
   97              		.loc 1 114 0
   98 006c 2046     		mov	r0, r4
   99 006e 07A9     		add	r1, sp, #28
  100 0070 FFF7FEFF 		bl	GPIO_Init
  101              	.LVL6:
- 115:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= CTRL_CS;
+ 115:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_CS, &GPIO_InitStructure);
  102              		.loc 1 115 0
  103 0074 8021     		movs	r1, #128
  104 0076 ADF81C10 		strh	r1, [sp, #28]	@ movhi
- 116:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(DISPLAY_PORT_CS, &GPIO_InitStructure);
+ 116:lib/display/mcu_depend/src/display_if_basis.c **** 	
  105              		.loc 1 116 0
  106 007a 2046     		mov	r0, r4
  107 007c 07A9     		add	r1, sp, #28
  108 007e FFF7FEFF 		bl	GPIO_Init
  109              	.LVL7:
- 119:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_8;
+ 119:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
  110              		.loc 1 119 0
  111 0082 4FF48074 		mov	r4, #256
  112 0086 ADF81C40 		strh	r4, [sp, #28]	@ movhi
- 120:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 120:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_SetBits(GPIOB,GPIO_Pin_8);	/* LED Backlight is Always ON in MSC/CDC mode */
  113              		.loc 1 120 0
  114 008a 1A4E     		ldr	r6, .L2+8
  115 008c 3046     		mov	r0, r6
  116 008e 07A9     		add	r1, sp, #28
  117 0090 FFF7FEFF 		bl	GPIO_Init
  118              	.LVL8:
- 121:lib/display/mcu_depend/src/display_if_basis.c **** 	GPIO_SetBits(GPIOB,GPIO_Pin_8);	/* LED Backlight is Always ON in MSC/CDC mode */
+ 121:lib/display/mcu_depend/src/display_if_basis.c **** }
  119              		.loc 1 121 0
  120 0094 3046     		mov	r0, r6
  121 0096 2146     		mov	r1, r4
@@ -274,84 +274,84 @@
  125              	.LBE6:
  126              	.LBB8:
  127              	.LBB9:
-  45:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_AddressSetupTime 		= 2;
+  45:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_AddressHoldTime 			= 2;
  128              		.loc 1 45 0
  129 009c 0222     		movs	r2, #2
  130 009e 0092     		str	r2, [sp, #0]
-  46:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_AddressHoldTime 			= 2;
+  46:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_DataSetupTime 			= 2;
  131              		.loc 1 46 0
  132 00a0 0192     		str	r2, [sp, #4]
-  47:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_DataSetupTime 			= 2;
+  47:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_BusTurnAroundDuration 	= 5;
  133              		.loc 1 47 0
  134 00a2 0292     		str	r2, [sp, #8]
-  48:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_BusTurnAroundDuration 	= 5;
+  48:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_CLKDivision 				= 5;
  135              		.loc 1 48 0
  136 00a4 0523     		movs	r3, #5
  137 00a6 0393     		str	r3, [sp, #12]
-  49:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_CLKDivision 				= 5;
+  49:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_DataLatency 				= 5;
  138              		.loc 1 49 0
  139 00a8 0493     		str	r3, [sp, #16]
-  50:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_DataLatency 				= 5;
+  50:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_AccessMode 				= FSMC_AccessMode_A;
  140              		.loc 1 50 0
  141 00aa 0593     		str	r3, [sp, #20]
-  51:lib/display/mcu_depend/src/display_if_basis.c **** 	p.FSMC_AccessMode 				= FSMC_AccessMode_A;
+  51:lib/display/mcu_depend/src/display_if_basis.c **** 
  142              		.loc 1 51 0
  143 00ac 0020     		movs	r0, #0
  144 00ae 0690     		str	r0, [sp, #24]
-  53:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM3;
+  53:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable;
  145              		.loc 1 53 0
  146 00b0 0424     		movs	r4, #4
  147 00b2 0794     		str	r4, [sp, #28]
-  54:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable;
+  54:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;
  148              		.loc 1 54 0
  149 00b4 0890     		str	r0, [sp, #32]
-  55:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;
+  55:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;        /* MUST be 16b*/
  150              		.loc 1 55 0
  151 00b6 0990     		str	r0, [sp, #36]
-  56:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;        /* MUST be 16b*/
+  56:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
  152              		.loc 1 56 0
  153 00b8 0A95     		str	r5, [sp, #40]
-  57:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
+  57:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait= FSMC_AsynchronousWait_Disable;
  154              		.loc 1 57 0
  155 00ba 0B90     		str	r0, [sp, #44]
-  58:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait= FSMC_AsynchronousWait_Disable;
+  58:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;  /* cf RM p363 + 
  156              		.loc 1 58 0
  157 00bc 0C90     		str	r0, [sp, #48]
-  59:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;  /* cf RM p363 + 
+  59:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;
  158              		.loc 1 59 0
  159 00be 0D90     		str	r0, [sp, #52]
-  60:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;
+  60:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
  160              		.loc 1 60 0
  161 00c0 0E90     		str	r0, [sp, #56]
-  61:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
+  61:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;
  162              		.loc 1 61 0
  163 00c2 0F90     		str	r0, [sp, #60]
-  62:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;
+  62:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WaitSignal = FSMC_WaitSignal_Disable;
  164              		.loc 1 62 0
  165 00c4 4FF48051 		mov	r1, #4096
  166 00c8 1091     		str	r1, [sp, #64]
-  63:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WaitSignal = FSMC_WaitSignal_Disable;
+  63:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Disable;
  167              		.loc 1 63 0
  168 00ca 1190     		str	r0, [sp, #68]
-  64:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Disable;
+  64:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WriteBurst = FSMC_WriteBurst_Disable;
  169              		.loc 1 64 0
  170 00cc 1290     		str	r0, [sp, #72]
-  65:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WriteBurst = FSMC_WriteBurst_Disable;
+  65:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &p;
  171              		.loc 1 65 0
  172 00ce 1390     		str	r0, [sp, #76]
-  66:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &p;
+  66:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &p;
  173              		.loc 1 66 0
  174 00d0 0DEB0002 		add	r2, sp, r0
  175 00d4 1492     		str	r2, [sp, #80]
-  67:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &p;
+  67:lib/display/mcu_depend/src/display_if_basis.c **** 
  176              		.loc 1 67 0
  177 00d6 1592     		str	r2, [sp, #84]
-  69:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure); 
+  69:lib/display/mcu_depend/src/display_if_basis.c **** 
  178              		.loc 1 69 0
  179 00d8 07A8     		add	r0, sp, #28
  180 00da FFF7FEFF 		bl	FSMC_NORSRAMInit
  181              	.LVL10:
-  72:lib/display/mcu_depend/src/display_if_basis.c **** 	FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM3, ENABLE);
+  72:lib/display/mcu_depend/src/display_if_basis.c **** 
  182              		.loc 1 72 0
  183 00de 2046     		mov	r0, r4
  184 00e0 0121     		movs	r1, #1
@@ -375,7 +375,7 @@
  199              	.LFE59:
  201              		.text
  202              	.Letext0:
- 203              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 203              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  204              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  205              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_fsmc.h"
  206              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
@@ -384,9 +384,9 @@
  209              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 display_if_basis.c
-  R:\TEMP\cc0VVUnf.s:19     .text.Display_IoInit_If:00000000 $t
-  R:\TEMP\cc0VVUnf.s:24     .text.Display_IoInit_If:00000000 Display_IoInit_If
-  R:\TEMP\cc0VVUnf.s:195    .text.Display_IoInit_If:000000ec $d
+  R:\TEMP\ccIDjVpA.s:19     .text.Display_IoInit_If:00000000 $t
+  R:\TEMP\ccIDjVpA.s:24     .text.Display_IoInit_If:00000000 Display_IoInit_If
+  R:\TEMP\ccIDjVpA.s:195    .text.Display_IoInit_If:000000ec $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

@@ -231,18 +231,18 @@
  241 0042 00       		.byte	0
  242              		.text
  243              	.Letext0:
- 244              		.file 1 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 244              		.file 1 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  245              		.file 2 "./lib/CMSIS/Include/core_cm3.h"
  246              		.file 3 "./inc/systick.h"
  247              		.file 4 "lib/USB_Functions/cdc/src/usb_cdc_desc.c"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_cdc_desc.c
-  R:\TEMP\ccYZIKvX.s:153    .data.Virtual_Com_Port_StringSerial:00000000 Virtual_Com_Port_StringSerial
-  R:\TEMP\ccYZIKvX.s:99     .rodata.Virtual_Com_Port_StringProduct:00000000 Virtual_Com_Port_StringProduct
-  R:\TEMP\ccYZIKvX.s:27     .rodata.Virtual_Com_Port_StringVendor:00000000 Virtual_Com_Port_StringVendor
-  R:\TEMP\ccYZIKvX.s:91     .rodata.Virtual_Com_Port_StringLangID:00000000 Virtual_Com_Port_StringLangID
-  R:\TEMP\ccYZIKvX.s:174    .rodata.Virtual_Com_Port_ConfigDescriptor:00000000 Virtual_Com_Port_ConfigDescriptor
-  R:\TEMP\ccYZIKvX.s:69     .rodata.Virtual_Com_Port_DeviceDescriptor:00000000 Virtual_Com_Port_DeviceDescriptor
-  R:\TEMP\ccYZIKvX.s:170    .data.Virtual_Com_Port_StringSerial:00000010 $d
+  R:\TEMP\cc7sayTO.s:153    .data.Virtual_Com_Port_StringSerial:00000000 Virtual_Com_Port_StringSerial
+  R:\TEMP\cc7sayTO.s:99     .rodata.Virtual_Com_Port_StringProduct:00000000 Virtual_Com_Port_StringProduct
+  R:\TEMP\cc7sayTO.s:27     .rodata.Virtual_Com_Port_StringVendor:00000000 Virtual_Com_Port_StringVendor
+  R:\TEMP\cc7sayTO.s:91     .rodata.Virtual_Com_Port_StringLangID:00000000 Virtual_Com_Port_StringLangID
+  R:\TEMP\cc7sayTO.s:174    .rodata.Virtual_Com_Port_ConfigDescriptor:00000000 Virtual_Com_Port_ConfigDescriptor
+  R:\TEMP\cc7sayTO.s:69     .rodata.Virtual_Com_Port_DeviceDescriptor:00000000 Virtual_Com_Port_DeviceDescriptor
+  R:\TEMP\cc7sayTO.s:170    .data.Virtual_Com_Port_StringSerial:00000010 $d
 
 NO UNDEFINED SYMBOLS

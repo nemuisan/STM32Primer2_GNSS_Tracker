@@ -1,32 +1,33 @@
 lib/STM32_USB-FS-Device_Driver/src/usb_int.o: \
  lib/STM32_USB-FS-Device_Driver/src/usb_int.c \
  lib/STM32_USB-FS-Device_Driver/inc/usb_lib.h inc/hw_config.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdio.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/newlib.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/config.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/ieeefp.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/features.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdarg.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/reent.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/_types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/_types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/_default_types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/lock.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/stdio.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdlib.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/stdlib.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/alloca.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/string.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/string.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/inttypes.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdbool.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdio.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/newlib.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/config.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/ieeefp.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/features.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdarg.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/reent.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/_types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/_types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/_default_types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/lock.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/stdio.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdlib.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/stdlib.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/alloca.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/string.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include-fixed/sys/cdefs.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/string.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/inttypes.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdbool.h \
  inc/stm32f10x_it.h lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h \
  lib/CMSIS/Include/core_cm3.h lib/CMSIS/Include/core_cmInstr.h \
  lib/CMSIS/Include/core_cmFunc.h \
@@ -55,8 +56,8 @@ lib/STM32_USB-FS-Device_Driver/src/usb_int.o: \
  lib/STM32F10x_StdPeriph_Driver/inc/misc.h inc/stm32f10x_conf.h \
  inc/platform_config.h inc/systick.h inc/power.h inc/hw_config.h \
  inc/adc_support.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/time.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/time.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/time.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/time.h \
  inc/rtc_support.h inc/uart_support_gps.h lib/ff/sdio_stm32f1.h \
  inc/xprintf.h lib/ff/ff.h lib/ff/integer.h lib/ff/ffconf.h \
  lib/ff/diskio.h inc/gps_support.h lib/ff/ff_rtc_if.h inc/rtc_support.h \

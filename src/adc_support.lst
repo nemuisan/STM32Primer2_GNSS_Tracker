@@ -343,7 +343,7 @@
  132:src/adc_support.c **** }
  213              		.loc 1 132 0
  214 0110 BDE87040 		pop	{r4, r5, r6, lr}
- 130:src/adc_support.c ****     ADC_SoftwareStartConvCmd( ADC1, ENABLE );
+ 130:src/adc_support.c ****   
  215              		.loc 1 130 0
  216 0114 FFF7FEBF 		b	ADC_SoftwareStartConvCmd
  217              	.LVL22:
@@ -398,7 +398,7 @@
  263 0000 00000000 		.space	4
  264              		.text
  265              	.Letext0:
- 266              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 266              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  267              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  268              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h"
  269              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_dma.h"
@@ -407,17 +407,17 @@
  272              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 adc_support.c
-  R:\TEMP\ccbBcDMc.s:19     .text.ADC_DMA_Configuration:00000000 $t
-  R:\TEMP\ccbBcDMc.s:24     .text.ADC_DMA_Configuration:00000000 ADC_DMA_Configuration
-  R:\TEMP\ccbBcDMc.s:221    .text.ADC_DMA_Configuration:00000118 $d
-  R:\TEMP\ccbBcDMc.s:255    .bss.ADC_RegularConvertedValueTab:00000000 ADC_RegularConvertedValueTab
-  R:\TEMP\ccbBcDMc.s:262    .bss.GPIO_InitStructure:00000000 GPIO_InitStructure
-  R:\TEMP\ccbBcDMc.s:248    .bss.DMA_InitStructure:00000000 DMA_InitStructure
-  R:\TEMP\ccbBcDMc.s:241    .bss.ADC_InitStructure:00000000 ADC_InitStructure
-  R:\TEMP\ccbBcDMc.s:237    .bss.ADC_InitStructure:00000000 $d
-  R:\TEMP\ccbBcDMc.s:244    .bss.DMA_InitStructure:00000000 $d
-  R:\TEMP\ccbBcDMc.s:251    .bss.ADC_RegularConvertedValueTab:00000000 $d
-  R:\TEMP\ccbBcDMc.s:258    .bss.GPIO_InitStructure:00000000 $d
+  R:\TEMP\ccYMt7Q2.s:19     .text.ADC_DMA_Configuration:00000000 $t
+  R:\TEMP\ccYMt7Q2.s:24     .text.ADC_DMA_Configuration:00000000 ADC_DMA_Configuration
+  R:\TEMP\ccYMt7Q2.s:221    .text.ADC_DMA_Configuration:00000118 $d
+  R:\TEMP\ccYMt7Q2.s:255    .bss.ADC_RegularConvertedValueTab:00000000 ADC_RegularConvertedValueTab
+  R:\TEMP\ccYMt7Q2.s:262    .bss.GPIO_InitStructure:00000000 GPIO_InitStructure
+  R:\TEMP\ccYMt7Q2.s:248    .bss.DMA_InitStructure:00000000 DMA_InitStructure
+  R:\TEMP\ccYMt7Q2.s:241    .bss.ADC_InitStructure:00000000 ADC_InitStructure
+  R:\TEMP\ccYMt7Q2.s:237    .bss.ADC_InitStructure:00000000 $d
+  R:\TEMP\ccYMt7Q2.s:244    .bss.DMA_InitStructure:00000000 $d
+  R:\TEMP\ccYMt7Q2.s:251    .bss.ADC_RegularConvertedValueTab:00000000 $d
+  R:\TEMP\ccYMt7Q2.s:258    .bss.GPIO_InitStructure:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

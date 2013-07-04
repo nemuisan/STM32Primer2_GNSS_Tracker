@@ -240,19 +240,19 @@
  151              	.LFE57:
  153              		.text
  154              	.Letext0:
- 155              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
- 156              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
+ 155              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 156              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
  157              		.file 4 "lib/ff/ff_rtc_if.h"
  158              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
  159              		.file 6 "./inc/rtc_support.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 ff_rtc_if.c
-  R:\TEMP\ccs0UFGe.s:19     .text.rtc_gettime:00000000 $t
-  R:\TEMP\ccs0UFGe.s:24     .text.rtc_gettime:00000000 rtc_gettime
-  R:\TEMP\ccs0UFGe.s:84     .text.rtc_gettime:00000040 $d
-  R:\TEMP\ccs0UFGe.s:89     .text.rtc_settime:00000000 $t
-  R:\TEMP\ccs0UFGe.s:94     .text.rtc_settime:00000000 rtc_settime
-  R:\TEMP\ccs0UFGe.s:149    .text.rtc_settime:0000003c $d
+  R:\TEMP\ccy5byTO.s:19     .text.rtc_gettime:00000000 $t
+  R:\TEMP\ccy5byTO.s:24     .text.rtc_gettime:00000000 rtc_gettime
+  R:\TEMP\ccy5byTO.s:84     .text.rtc_gettime:00000040 $d
+  R:\TEMP\ccy5byTO.s:89     .text.rtc_settime:00000000 $t
+  R:\TEMP\ccy5byTO.s:94     .text.rtc_settime:00000000 rtc_settime
+  R:\TEMP\ccy5byTO.s:149    .text.rtc_settime:0000003c $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

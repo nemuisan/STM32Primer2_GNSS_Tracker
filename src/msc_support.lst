@@ -171,45 +171,45 @@
   79              	.LVL10:
   80              	.LBB4:
   81              	.LBB5:
-  52:src/msc_support.c ****   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+  52:src/msc_support.c **** 
   82              		.loc 1 52 0
   83 0040 4FF4C060 		mov	r0, #1536
   84 0044 FFF7FEFF 		bl	NVIC_PriorityGroupConfig
   85              	.LVL11:
-  54:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+  54:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
   86              		.loc 1 54 0
   87 0048 1423     		movs	r3, #20
   88 004a 8DF80430 		strb	r3, [sp, #4]
-  55:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  55:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
   89              		.loc 1 55 0
   90 004e 0124     		movs	r4, #1
   91 0050 8DF80540 		strb	r4, [sp, #5]
-  56:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  56:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   92              		.loc 1 56 0
   93 0054 8DF80640 		strb	r4, [sp, #6]
-  57:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  57:src/msc_support.c ****   NVIC_Init(&NVIC_InitStructure);
   94              		.loc 1 57 0
   95 0058 8DF80740 		strb	r4, [sp, #7]
-  58:src/msc_support.c ****   NVIC_Init(&NVIC_InitStructure);
+  58:src/msc_support.c **** 
   96              		.loc 1 58 0
   97 005c 01A8     		add	r0, sp, #4
   98 005e FFF7FEFF 		bl	NVIC_Init
   99              	.LVL12:
-  60:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn;
+  60:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
  100              		.loc 1 60 0
  101 0062 1320     		movs	r0, #19
  102 0064 8DF80400 		strb	r0, [sp, #4]
-  61:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  61:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
  103              		.loc 1 61 0
  104 0068 8DF80540 		strb	r4, [sp, #5]
-  62:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  62:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
  105              		.loc 1 62 0
  106 006c 0021     		movs	r1, #0
  107 006e 8DF80610 		strb	r1, [sp, #6]
-  63:src/msc_support.c ****   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  63:src/msc_support.c ****   NVIC_Init(&NVIC_InitStructure);
  108              		.loc 1 63 0
  109 0072 8DF80740 		strb	r4, [sp, #7]
-  64:src/msc_support.c ****   NVIC_Init(&NVIC_InitStructure);
+  64:src/msc_support.c ****   
  110              		.loc 1 64 0
  111 0076 01A8     		add	r0, sp, #4
  112 0078 FFF7FEFF 		bl	NVIC_Init
@@ -253,7 +253,7 @@
  143      676500
  144              		.text
  145              	.Letext0:
- 146              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 146              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  147              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  148              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
  149              		.file 5 "./lib/USB_Functions/usb_pwr.h"
@@ -269,9 +269,9 @@
  159              		.file 15 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 msc_support.c
-  R:\TEMP\ccEJPMna.s:19     .text.msc_task:00000000 $t
-  R:\TEMP\ccEJPMna.s:24     .text.msc_task:00000000 msc_task
-  R:\TEMP\ccEJPMna.s:134    .text.msc_task:00000090 $d
+  R:\TEMP\ccJ0w9j1.s:19     .text.msc_task:00000000 $t
+  R:\TEMP\ccJ0w9j1.s:24     .text.msc_task:00000000 msc_task
+  R:\TEMP\ccJ0w9j1.s:134    .text.msc_task:00000090 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

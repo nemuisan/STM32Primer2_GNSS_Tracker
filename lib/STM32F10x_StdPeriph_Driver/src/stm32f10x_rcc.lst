@@ -391,7 +391,7 @@
   99 0024 02E0     		b	.L8
  100              	.LVL2:
  101              	.L6:
- 290:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****       RCC->CR |= CR_HSEON_Set;
+ 290:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****       break;
  102              		.loc 1 290 0
  103 0026 1968     		ldr	r1, [r3, #0]
  104 0028 41F48032 		orr	r2, r1, #65536
@@ -1112,7 +1112,7 @@
  714:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     *(__IO uint8_t *) CIR_BYTE2_ADDRESS |= RCC_IT;
  421              		.loc 1 714 0
  422 0002 1A78     		ldrb	r2, [r3, #0]	@ zero_extendqisi2
- 711:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   if (NewState != DISABLE)
+ 711:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   {
  423              		.loc 1 711 0
  424 0004 09B1     		cbz	r1, .L40
  425              		.loc 1 714 0
@@ -1362,10 +1362,10 @@
  534 0014 01E0     		b	.L51
  535              	.LVL49:
  536              	.L53:
- 849:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****       *(__IO uint8_t *) BDCR_ADDRESS = RCC_LSE_ON;
+ 849:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****       break;
  537              		.loc 1 849 0
  538 0016 1870     		strb	r0, [r3, #0]
- 850:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****       break;
+ 850:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****       
  539              		.loc 1 850 0
  540 0018 7047     		bx	lr
  541              	.LVL50:
@@ -1828,7 +1828,7 @@
 1078:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     RCC->AHBENR |= RCC_AHBPeriph;
  786              		.loc 1 1078 0
  787 0002 5A69     		ldr	r2, [r3, #20]
-1076:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   if (NewState != DISABLE)
+1076:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   {
  788              		.loc 1 1076 0
  789 0004 09B1     		cbz	r1, .L79
  790              		.loc 1 1078 0
@@ -1895,7 +1895,7 @@
 1108:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     RCC->APB2ENR |= RCC_APB2Periph;
  824              		.loc 1 1108 0
  825 0002 9A69     		ldr	r2, [r3, #24]
-1106:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   if (NewState != DISABLE)
+1106:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   {
  826              		.loc 1 1106 0
  827 0004 09B1     		cbz	r1, .L85
  828              		.loc 1 1108 0
@@ -1963,7 +1963,7 @@
 1139:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     RCC->APB1ENR |= RCC_APB1Periph;
  862              		.loc 1 1139 0
  863 0002 DA69     		ldr	r2, [r3, #28]
-1137:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   if (NewState != DISABLE)
+1137:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   {
  864              		.loc 1 1137 0
  865 0004 09B1     		cbz	r1, .L91
  866              		.loc 1 1139 0
@@ -2059,7 +2059,7 @@
 1198:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     RCC->APB2RSTR |= RCC_APB2Periph;
  900              		.loc 1 1198 0
  901 0002 DA68     		ldr	r2, [r3, #12]
-1196:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   if (NewState != DISABLE)
+1196:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   {
  902              		.loc 1 1196 0
  903 0004 09B1     		cbz	r1, .L97
  904              		.loc 1 1198 0
@@ -2127,7 +2127,7 @@
 1229:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     RCC->APB1RSTR |= RCC_APB1Periph;
  938              		.loc 1 1229 0
  939 0002 1A69     		ldr	r2, [r3, #16]
-1227:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   if (NewState != DISABLE)
+1227:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   {
  940              		.loc 1 1227 0
  941 0004 09B1     		cbz	r1, .L103
  942              		.loc 1 1229 0
@@ -2413,7 +2413,7 @@
  1092              		.thumb_func
  1094              	RCC_WaitForHSEStartUp:
  1095              	.LFB58:
- 311:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c **** {
+ 311:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   __IO uint32_t StartUpCounter = 0;
  1096              		.loc 1 311 0
  1097              		.cfi_startproc
  1098              		@ args = 0, pretend = 0, frame = 8
@@ -2425,25 +2425,25 @@
  1104              		.cfi_offset 1, -12
  1105              		.cfi_offset 2, -8
  1106              		.cfi_offset 14, -4
- 312:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   __IO uint32_t StartUpCounter = 0;
+ 312:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   ErrorStatus status = ERROR;
  1107              		.loc 1 312 0
  1108 0002 0023     		movs	r3, #0
  1109 0004 0193     		str	r3, [sp, #4]
  1110              	.LVL112:
  1111              	.L125:
- 319:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     HSEStatus = RCC_GetFlagStatus(RCC_FLAG_HSERDY);
+ 319:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     StartUpCounter++;  
  1112              		.loc 1 319 0 discriminator 1
  1113 0006 3120     		movs	r0, #49
  1114 0008 FFF7FEFF 		bl	RCC_GetFlagStatus
  1115              	.LVL113:
- 320:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****     StartUpCounter++;  
+ 320:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   } while((StartUpCounter != HSE_STARTUP_TIMEOUT) && (HSEStatus == RESET));
  1116              		.loc 1 320 0 discriminator 1
  1117 000c 0199     		ldr	r1, [sp, #4]
  1118 000e 4A1C     		adds	r2, r1, #1
  1119              	.LVL114:
  1120 0010 0192     		str	r2, [sp, #4]
  1121              	.LVL115:
- 321:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   } while((StartUpCounter != HSE_STARTUP_TIMEOUT) && (HSEStatus == RESET));
+ 321:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   
  1122              		.loc 1 321 0 discriminator 1
  1123 0012 019B     		ldr	r3, [sp, #4]
  1124 0014 B3F5A06F 		cmp	r3, #1280
@@ -2451,13 +2451,13 @@
  1126 001a 0028     		cmp	r0, #0
  1127 001c F3D0     		beq	.L125
  1128              	.L124:
- 323:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   if (RCC_GetFlagStatus(RCC_FLAG_HSERDY) != RESET)
+ 323:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ****   {
  1129              		.loc 1 323 0
  1130 001e 3120     		movs	r0, #49
  1131              	.LVL116:
  1132 0020 FFF7FEFF 		bl	RCC_GetFlagStatus
  1133              	.LVL117:
- 332:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c **** }
+ 332:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c **** 
  1134              		.loc 1 332 0
  1135 0024 0030     		adds	r0, r0, #0
  1136              	.LVL118:
@@ -2665,109 +2665,109 @@
  1256 000f 09       		.byte	9
  1257              		.text
  1258              	.Letext0:
- 1259              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 1259              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  1260              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  1261              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
  1262              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_rcc.c
-  R:\TEMP\ccM8OtyX.s:19     .text.RCC_DeInit:00000000 $t
-  R:\TEMP\ccM8OtyX.s:24     .text.RCC_DeInit:00000000 RCC_DeInit
-  R:\TEMP\ccM8OtyX.s:62     .text.RCC_DeInit:00000038 $d
-  R:\TEMP\ccM8OtyX.s:68     .text.RCC_HSEConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:73     .text.RCC_HSEConfig:00000000 RCC_HSEConfig
-  R:\TEMP\ccM8OtyX.s:114    .text.RCC_HSEConfig:00000030 $d
-  R:\TEMP\ccM8OtyX.s:119    .text.RCC_AdjustHSICalibrationValue:00000000 $t
-  R:\TEMP\ccM8OtyX.s:124    .text.RCC_AdjustHSICalibrationValue:00000000 RCC_AdjustHSICalibrationValue
-  R:\TEMP\ccM8OtyX.s:149    .text.RCC_AdjustHSICalibrationValue:00000010 $d
-  R:\TEMP\ccM8OtyX.s:154    .text.RCC_HSICmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:159    .text.RCC_HSICmd:00000000 RCC_HSICmd
-  R:\TEMP\ccM8OtyX.s:174    .text.RCC_HSICmd:00000008 $d
-  R:\TEMP\ccM8OtyX.s:179    .text.RCC_PLLConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:184    .text.RCC_PLLConfig:00000000 RCC_PLLConfig
-  R:\TEMP\ccM8OtyX.s:211    .text.RCC_PLLConfig:00000010 $d
-  R:\TEMP\ccM8OtyX.s:216    .text.RCC_PLLCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:221    .text.RCC_PLLCmd:00000000 RCC_PLLCmd
-  R:\TEMP\ccM8OtyX.s:236    .text.RCC_PLLCmd:00000008 $d
-  R:\TEMP\ccM8OtyX.s:241    .text.RCC_SYSCLKConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:246    .text.RCC_SYSCLKConfig:00000000 RCC_SYSCLKConfig
-  R:\TEMP\ccM8OtyX.s:271    .text.RCC_SYSCLKConfig:00000010 $d
-  R:\TEMP\ccM8OtyX.s:276    .text.RCC_GetSYSCLKSource:00000000 $t
-  R:\TEMP\ccM8OtyX.s:281    .text.RCC_GetSYSCLKSource:00000000 RCC_GetSYSCLKSource
-  R:\TEMP\ccM8OtyX.s:297    .text.RCC_GetSYSCLKSource:0000000c $d
-  R:\TEMP\ccM8OtyX.s:302    .text.RCC_HCLKConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:307    .text.RCC_HCLKConfig:00000000 RCC_HCLKConfig
-  R:\TEMP\ccM8OtyX.s:332    .text.RCC_HCLKConfig:00000010 $d
-  R:\TEMP\ccM8OtyX.s:337    .text.RCC_PCLK1Config:00000000 $t
-  R:\TEMP\ccM8OtyX.s:342    .text.RCC_PCLK1Config:00000000 RCC_PCLK1Config
-  R:\TEMP\ccM8OtyX.s:367    .text.RCC_PCLK1Config:00000010 $d
-  R:\TEMP\ccM8OtyX.s:372    .text.RCC_PCLK2Config:00000000 $t
-  R:\TEMP\ccM8OtyX.s:377    .text.RCC_PCLK2Config:00000000 RCC_PCLK2Config
-  R:\TEMP\ccM8OtyX.s:402    .text.RCC_PCLK2Config:00000010 $d
-  R:\TEMP\ccM8OtyX.s:407    .text.RCC_ITConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:412    .text.RCC_ITConfig:00000000 RCC_ITConfig
-  R:\TEMP\ccM8OtyX.s:440    .text.RCC_ITConfig:00000014 $d
-  R:\TEMP\ccM8OtyX.s:445    .text.RCC_USBCLKConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:450    .text.RCC_USBCLKConfig:00000000 RCC_USBCLKConfig
-  R:\TEMP\ccM8OtyX.s:465    .text.RCC_USBCLKConfig:00000008 $d
-  R:\TEMP\ccM8OtyX.s:470    .text.RCC_ADCCLKConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:475    .text.RCC_ADCCLKConfig:00000000 RCC_ADCCLKConfig
-  R:\TEMP\ccM8OtyX.s:500    .text.RCC_ADCCLKConfig:00000010 $d
-  R:\TEMP\ccM8OtyX.s:505    .text.RCC_LSEConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:510    .text.RCC_LSEConfig:00000000 RCC_LSEConfig
-  R:\TEMP\ccM8OtyX.s:547    .text.RCC_LSEConfig:0000001c $d
-  R:\TEMP\ccM8OtyX.s:552    .text.RCC_LSICmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:557    .text.RCC_LSICmd:00000000 RCC_LSICmd
-  R:\TEMP\ccM8OtyX.s:572    .text.RCC_LSICmd:00000008 $d
-  R:\TEMP\ccM8OtyX.s:577    .text.RCC_RTCCLKConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:582    .text.RCC_RTCCLKConfig:00000000 RCC_RTCCLKConfig
-  R:\TEMP\ccM8OtyX.s:600    .text.RCC_RTCCLKConfig:0000000c $d
-  R:\TEMP\ccM8OtyX.s:605    .text.RCC_RTCCLKCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:610    .text.RCC_RTCCLKCmd:00000000 RCC_RTCCLKCmd
-  R:\TEMP\ccM8OtyX.s:625    .text.RCC_RTCCLKCmd:00000008 $d
-  R:\TEMP\ccM8OtyX.s:630    .text.RCC_GetClocksFreq:00000000 $t
-  R:\TEMP\ccM8OtyX.s:635    .text.RCC_GetClocksFreq:00000000 RCC_GetClocksFreq
-  R:\TEMP\ccM8OtyX.s:761    .text.RCC_GetClocksFreq:00000080 $d
-  R:\TEMP\ccM8OtyX.s:772    .text.RCC_AHBPeriphClockCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:777    .text.RCC_AHBPeriphClockCmd:00000000 RCC_AHBPeriphClockCmd
-  R:\TEMP\ccM8OtyX.s:805    .text.RCC_AHBPeriphClockCmd:00000014 $d
-  R:\TEMP\ccM8OtyX.s:810    .text.RCC_APB2PeriphClockCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:815    .text.RCC_APB2PeriphClockCmd:00000000 RCC_APB2PeriphClockCmd
-  R:\TEMP\ccM8OtyX.s:843    .text.RCC_APB2PeriphClockCmd:00000014 $d
-  R:\TEMP\ccM8OtyX.s:848    .text.RCC_APB1PeriphClockCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:853    .text.RCC_APB1PeriphClockCmd:00000000 RCC_APB1PeriphClockCmd
-  R:\TEMP\ccM8OtyX.s:881    .text.RCC_APB1PeriphClockCmd:00000014 $d
-  R:\TEMP\ccM8OtyX.s:886    .text.RCC_APB2PeriphResetCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:891    .text.RCC_APB2PeriphResetCmd:00000000 RCC_APB2PeriphResetCmd
-  R:\TEMP\ccM8OtyX.s:919    .text.RCC_APB2PeriphResetCmd:00000014 $d
-  R:\TEMP\ccM8OtyX.s:924    .text.RCC_APB1PeriphResetCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:929    .text.RCC_APB1PeriphResetCmd:00000000 RCC_APB1PeriphResetCmd
-  R:\TEMP\ccM8OtyX.s:957    .text.RCC_APB1PeriphResetCmd:00000014 $d
-  R:\TEMP\ccM8OtyX.s:962    .text.RCC_BackupResetCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:967    .text.RCC_BackupResetCmd:00000000 RCC_BackupResetCmd
-  R:\TEMP\ccM8OtyX.s:982    .text.RCC_BackupResetCmd:00000008 $d
-  R:\TEMP\ccM8OtyX.s:987    .text.RCC_ClockSecuritySystemCmd:00000000 $t
-  R:\TEMP\ccM8OtyX.s:992    .text.RCC_ClockSecuritySystemCmd:00000000 RCC_ClockSecuritySystemCmd
-  R:\TEMP\ccM8OtyX.s:1007   .text.RCC_ClockSecuritySystemCmd:00000008 $d
-  R:\TEMP\ccM8OtyX.s:1012   .text.RCC_MCOConfig:00000000 $t
-  R:\TEMP\ccM8OtyX.s:1017   .text.RCC_MCOConfig:00000000 RCC_MCOConfig
-  R:\TEMP\ccM8OtyX.s:1032   .text.RCC_MCOConfig:00000008 $d
-  R:\TEMP\ccM8OtyX.s:1037   .text.RCC_GetFlagStatus:00000000 $t
-  R:\TEMP\ccM8OtyX.s:1042   .text.RCC_GetFlagStatus:00000000 RCC_GetFlagStatus
-  R:\TEMP\ccM8OtyX.s:1084   .text.RCC_GetFlagStatus:00000024 $d
-  R:\TEMP\ccM8OtyX.s:1089   .text.RCC_WaitForHSEStartUp:00000000 $t
-  R:\TEMP\ccM8OtyX.s:1094   .text.RCC_WaitForHSEStartUp:00000000 RCC_WaitForHSEStartUp
-  R:\TEMP\ccM8OtyX.s:1144   .text.RCC_ClearFlag:00000000 $t
-  R:\TEMP\ccM8OtyX.s:1149   .text.RCC_ClearFlag:00000000 RCC_ClearFlag
-  R:\TEMP\ccM8OtyX.s:1165   .text.RCC_ClearFlag:0000000c $d
-  R:\TEMP\ccM8OtyX.s:1170   .text.RCC_GetITStatus:00000000 $t
-  R:\TEMP\ccM8OtyX.s:1175   .text.RCC_GetITStatus:00000000 RCC_GetITStatus
-  R:\TEMP\ccM8OtyX.s:1198   .text.RCC_GetITStatus:00000010 $d
-  R:\TEMP\ccM8OtyX.s:1203   .text.RCC_ClearITPendingBit:00000000 $t
-  R:\TEMP\ccM8OtyX.s:1208   .text.RCC_ClearITPendingBit:00000000 RCC_ClearITPendingBit
-  R:\TEMP\ccM8OtyX.s:1223   .text.RCC_ClearITPendingBit:00000008 $d
-  R:\TEMP\ccM8OtyX.s:1231   .data.ADCPrescTable:00000000 ADCPrescTable
-  R:\TEMP\ccM8OtyX.s:1240   .data.APBAHBPrescTable:00000000 APBAHBPrescTable
+  R:\TEMP\ccaFIp73.s:19     .text.RCC_DeInit:00000000 $t
+  R:\TEMP\ccaFIp73.s:24     .text.RCC_DeInit:00000000 RCC_DeInit
+  R:\TEMP\ccaFIp73.s:62     .text.RCC_DeInit:00000038 $d
+  R:\TEMP\ccaFIp73.s:68     .text.RCC_HSEConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:73     .text.RCC_HSEConfig:00000000 RCC_HSEConfig
+  R:\TEMP\ccaFIp73.s:114    .text.RCC_HSEConfig:00000030 $d
+  R:\TEMP\ccaFIp73.s:119    .text.RCC_AdjustHSICalibrationValue:00000000 $t
+  R:\TEMP\ccaFIp73.s:124    .text.RCC_AdjustHSICalibrationValue:00000000 RCC_AdjustHSICalibrationValue
+  R:\TEMP\ccaFIp73.s:149    .text.RCC_AdjustHSICalibrationValue:00000010 $d
+  R:\TEMP\ccaFIp73.s:154    .text.RCC_HSICmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:159    .text.RCC_HSICmd:00000000 RCC_HSICmd
+  R:\TEMP\ccaFIp73.s:174    .text.RCC_HSICmd:00000008 $d
+  R:\TEMP\ccaFIp73.s:179    .text.RCC_PLLConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:184    .text.RCC_PLLConfig:00000000 RCC_PLLConfig
+  R:\TEMP\ccaFIp73.s:211    .text.RCC_PLLConfig:00000010 $d
+  R:\TEMP\ccaFIp73.s:216    .text.RCC_PLLCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:221    .text.RCC_PLLCmd:00000000 RCC_PLLCmd
+  R:\TEMP\ccaFIp73.s:236    .text.RCC_PLLCmd:00000008 $d
+  R:\TEMP\ccaFIp73.s:241    .text.RCC_SYSCLKConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:246    .text.RCC_SYSCLKConfig:00000000 RCC_SYSCLKConfig
+  R:\TEMP\ccaFIp73.s:271    .text.RCC_SYSCLKConfig:00000010 $d
+  R:\TEMP\ccaFIp73.s:276    .text.RCC_GetSYSCLKSource:00000000 $t
+  R:\TEMP\ccaFIp73.s:281    .text.RCC_GetSYSCLKSource:00000000 RCC_GetSYSCLKSource
+  R:\TEMP\ccaFIp73.s:297    .text.RCC_GetSYSCLKSource:0000000c $d
+  R:\TEMP\ccaFIp73.s:302    .text.RCC_HCLKConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:307    .text.RCC_HCLKConfig:00000000 RCC_HCLKConfig
+  R:\TEMP\ccaFIp73.s:332    .text.RCC_HCLKConfig:00000010 $d
+  R:\TEMP\ccaFIp73.s:337    .text.RCC_PCLK1Config:00000000 $t
+  R:\TEMP\ccaFIp73.s:342    .text.RCC_PCLK1Config:00000000 RCC_PCLK1Config
+  R:\TEMP\ccaFIp73.s:367    .text.RCC_PCLK1Config:00000010 $d
+  R:\TEMP\ccaFIp73.s:372    .text.RCC_PCLK2Config:00000000 $t
+  R:\TEMP\ccaFIp73.s:377    .text.RCC_PCLK2Config:00000000 RCC_PCLK2Config
+  R:\TEMP\ccaFIp73.s:402    .text.RCC_PCLK2Config:00000010 $d
+  R:\TEMP\ccaFIp73.s:407    .text.RCC_ITConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:412    .text.RCC_ITConfig:00000000 RCC_ITConfig
+  R:\TEMP\ccaFIp73.s:440    .text.RCC_ITConfig:00000014 $d
+  R:\TEMP\ccaFIp73.s:445    .text.RCC_USBCLKConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:450    .text.RCC_USBCLKConfig:00000000 RCC_USBCLKConfig
+  R:\TEMP\ccaFIp73.s:465    .text.RCC_USBCLKConfig:00000008 $d
+  R:\TEMP\ccaFIp73.s:470    .text.RCC_ADCCLKConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:475    .text.RCC_ADCCLKConfig:00000000 RCC_ADCCLKConfig
+  R:\TEMP\ccaFIp73.s:500    .text.RCC_ADCCLKConfig:00000010 $d
+  R:\TEMP\ccaFIp73.s:505    .text.RCC_LSEConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:510    .text.RCC_LSEConfig:00000000 RCC_LSEConfig
+  R:\TEMP\ccaFIp73.s:547    .text.RCC_LSEConfig:0000001c $d
+  R:\TEMP\ccaFIp73.s:552    .text.RCC_LSICmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:557    .text.RCC_LSICmd:00000000 RCC_LSICmd
+  R:\TEMP\ccaFIp73.s:572    .text.RCC_LSICmd:00000008 $d
+  R:\TEMP\ccaFIp73.s:577    .text.RCC_RTCCLKConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:582    .text.RCC_RTCCLKConfig:00000000 RCC_RTCCLKConfig
+  R:\TEMP\ccaFIp73.s:600    .text.RCC_RTCCLKConfig:0000000c $d
+  R:\TEMP\ccaFIp73.s:605    .text.RCC_RTCCLKCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:610    .text.RCC_RTCCLKCmd:00000000 RCC_RTCCLKCmd
+  R:\TEMP\ccaFIp73.s:625    .text.RCC_RTCCLKCmd:00000008 $d
+  R:\TEMP\ccaFIp73.s:630    .text.RCC_GetClocksFreq:00000000 $t
+  R:\TEMP\ccaFIp73.s:635    .text.RCC_GetClocksFreq:00000000 RCC_GetClocksFreq
+  R:\TEMP\ccaFIp73.s:761    .text.RCC_GetClocksFreq:00000080 $d
+  R:\TEMP\ccaFIp73.s:772    .text.RCC_AHBPeriphClockCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:777    .text.RCC_AHBPeriphClockCmd:00000000 RCC_AHBPeriphClockCmd
+  R:\TEMP\ccaFIp73.s:805    .text.RCC_AHBPeriphClockCmd:00000014 $d
+  R:\TEMP\ccaFIp73.s:810    .text.RCC_APB2PeriphClockCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:815    .text.RCC_APB2PeriphClockCmd:00000000 RCC_APB2PeriphClockCmd
+  R:\TEMP\ccaFIp73.s:843    .text.RCC_APB2PeriphClockCmd:00000014 $d
+  R:\TEMP\ccaFIp73.s:848    .text.RCC_APB1PeriphClockCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:853    .text.RCC_APB1PeriphClockCmd:00000000 RCC_APB1PeriphClockCmd
+  R:\TEMP\ccaFIp73.s:881    .text.RCC_APB1PeriphClockCmd:00000014 $d
+  R:\TEMP\ccaFIp73.s:886    .text.RCC_APB2PeriphResetCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:891    .text.RCC_APB2PeriphResetCmd:00000000 RCC_APB2PeriphResetCmd
+  R:\TEMP\ccaFIp73.s:919    .text.RCC_APB2PeriphResetCmd:00000014 $d
+  R:\TEMP\ccaFIp73.s:924    .text.RCC_APB1PeriphResetCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:929    .text.RCC_APB1PeriphResetCmd:00000000 RCC_APB1PeriphResetCmd
+  R:\TEMP\ccaFIp73.s:957    .text.RCC_APB1PeriphResetCmd:00000014 $d
+  R:\TEMP\ccaFIp73.s:962    .text.RCC_BackupResetCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:967    .text.RCC_BackupResetCmd:00000000 RCC_BackupResetCmd
+  R:\TEMP\ccaFIp73.s:982    .text.RCC_BackupResetCmd:00000008 $d
+  R:\TEMP\ccaFIp73.s:987    .text.RCC_ClockSecuritySystemCmd:00000000 $t
+  R:\TEMP\ccaFIp73.s:992    .text.RCC_ClockSecuritySystemCmd:00000000 RCC_ClockSecuritySystemCmd
+  R:\TEMP\ccaFIp73.s:1007   .text.RCC_ClockSecuritySystemCmd:00000008 $d
+  R:\TEMP\ccaFIp73.s:1012   .text.RCC_MCOConfig:00000000 $t
+  R:\TEMP\ccaFIp73.s:1017   .text.RCC_MCOConfig:00000000 RCC_MCOConfig
+  R:\TEMP\ccaFIp73.s:1032   .text.RCC_MCOConfig:00000008 $d
+  R:\TEMP\ccaFIp73.s:1037   .text.RCC_GetFlagStatus:00000000 $t
+  R:\TEMP\ccaFIp73.s:1042   .text.RCC_GetFlagStatus:00000000 RCC_GetFlagStatus
+  R:\TEMP\ccaFIp73.s:1084   .text.RCC_GetFlagStatus:00000024 $d
+  R:\TEMP\ccaFIp73.s:1089   .text.RCC_WaitForHSEStartUp:00000000 $t
+  R:\TEMP\ccaFIp73.s:1094   .text.RCC_WaitForHSEStartUp:00000000 RCC_WaitForHSEStartUp
+  R:\TEMP\ccaFIp73.s:1144   .text.RCC_ClearFlag:00000000 $t
+  R:\TEMP\ccaFIp73.s:1149   .text.RCC_ClearFlag:00000000 RCC_ClearFlag
+  R:\TEMP\ccaFIp73.s:1165   .text.RCC_ClearFlag:0000000c $d
+  R:\TEMP\ccaFIp73.s:1170   .text.RCC_GetITStatus:00000000 $t
+  R:\TEMP\ccaFIp73.s:1175   .text.RCC_GetITStatus:00000000 RCC_GetITStatus
+  R:\TEMP\ccaFIp73.s:1198   .text.RCC_GetITStatus:00000010 $d
+  R:\TEMP\ccaFIp73.s:1203   .text.RCC_ClearITPendingBit:00000000 $t
+  R:\TEMP\ccaFIp73.s:1208   .text.RCC_ClearITPendingBit:00000000 RCC_ClearITPendingBit
+  R:\TEMP\ccaFIp73.s:1223   .text.RCC_ClearITPendingBit:00000008 $d
+  R:\TEMP\ccaFIp73.s:1231   .data.ADCPrescTable:00000000 ADCPrescTable
+  R:\TEMP\ccaFIp73.s:1240   .data.APBAHBPrescTable:00000000 APBAHBPrescTable
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

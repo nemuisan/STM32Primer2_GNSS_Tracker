@@ -1,33 +1,34 @@
 src/rtc_support.o: src/rtc_support.c inc/rtc_support.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdio.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/newlib.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/config.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/ieeefp.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/features.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdarg.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/reent.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/_types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/_types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/_default_types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/lock.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/types.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/stdio.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdlib.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/stdlib.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/alloca.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/string.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/string.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/time.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/time.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdio.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/newlib.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/config.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/ieeefp.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/features.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdarg.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/reent.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/_types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/_types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/_default_types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/lock.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/types.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/stdio.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdlib.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/stdlib.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/alloca.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/string.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include-fixed/sys/cdefs.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/string.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/time.h \
+ c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/time.h \
  lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h \
- lib/CMSIS/Include/core_cm3.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint.h \
- c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h \
- lib/CMSIS/Include/core_cmInstr.h lib/CMSIS/Include/core_cmFunc.h \
+ lib/CMSIS/Include/core_cm3.h lib/CMSIS/Include/core_cmInstr.h \
+ lib/CMSIS/Include/core_cmFunc.h \
  lib/CMSIS/Device/ST/STM32F10x/Include/system_stm32f10x.h \
  inc/stm32f10x_conf.h lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h \
  lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_bkp.h \

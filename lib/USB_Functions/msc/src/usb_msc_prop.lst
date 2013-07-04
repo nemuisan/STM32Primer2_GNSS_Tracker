@@ -548,36 +548,36 @@
  152              		.thumb_func
  154              	Mass_GetStringDescriptor:
  155              	.LFB70:
- 377:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 377:lib/USB_Functions/msc/src/usb_msc_prop.c ****   uint8_t wValue0 = pInformation->USBwValue0;
  156              		.loc 1 377 0
  157              		.cfi_startproc
  158              		@ args = 0, pretend = 0, frame = 0
  159              		@ frame_needed = 0, uses_anonymous_args = 0
  160              		@ link register save eliminated.
  161              	.LVL5:
- 378:lib/USB_Functions/msc/src/usb_msc_prop.c ****   uint8_t wValue0 = pInformation->USBwValue0;
+ 378:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  162              		.loc 1 378 0
  163 0000 054B     		ldr	r3, .L18
  164 0002 1968     		ldr	r1, [r3, #0]
  165 0004 CA78     		ldrb	r2, [r1, #3]	@ zero_extendqisi2
  166              	.LVL6:
- 380:lib/USB_Functions/msc/src/usb_msc_prop.c ****   if (wValue0 > 5)
+ 380:lib/USB_Functions/msc/src/usb_msc_prop.c ****   {
  167              		.loc 1 380 0
  168 0006 052A     		cmp	r2, #5
  169 0008 04D8     		bhi	.L17
- 386:lib/USB_Functions/msc/src/usb_msc_prop.c ****     return Standard_GetDescriptorData(Length, &MSC_String_Descriptor[wValue0]);
+ 386:lib/USB_Functions/msc/src/usb_msc_prop.c ****   }
  170              		.loc 1 386 0
  171 000a 044B     		ldr	r3, .L18+4
  172 000c 03EBC201 		add	r1, r3, r2, lsl #3
  173              	.LVL7:
- 388:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
+ 388:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  174              		.loc 1 388 0
- 386:lib/USB_Functions/msc/src/usb_msc_prop.c ****     return Standard_GetDescriptorData(Length, &MSC_String_Descriptor[wValue0]);
+ 386:lib/USB_Functions/msc/src/usb_msc_prop.c ****   }
  175              		.loc 1 386 0
  176 0010 FFF7FEBF 		b	Standard_GetDescriptorData
  177              	.LVL8:
  178              	.L17:
- 388:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
+ 388:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  179              		.loc 1 388 0
  180 0014 0020     		movs	r0, #0
  181              	.LVL9:
@@ -596,19 +596,19 @@
  195              		.thumb_func
  197              	Mass_GetConfigDescriptor:
  198              	.LFB69:
- 367:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 367:lib/USB_Functions/msc/src/usb_msc_prop.c ****   return Standard_GetDescriptorData(Length, &MSC_Config_Descriptor );
  199              		.loc 1 367 0
  200              		.cfi_startproc
  201              		@ args = 0, pretend = 0, frame = 0
  202              		@ frame_needed = 0, uses_anonymous_args = 0
  203              		@ link register save eliminated.
  204              	.LVL10:
- 368:lib/USB_Functions/msc/src/usb_msc_prop.c ****   return Standard_GetDescriptorData(Length, &MSC_Config_Descriptor );
+ 368:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  205              		.loc 1 368 0
  206 0000 0149     		ldr	r1, .L21
- 369:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
+ 369:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  207              		.loc 1 369 0
- 368:lib/USB_Functions/msc/src/usb_msc_prop.c ****   return Standard_GetDescriptorData(Length, &MSC_Config_Descriptor );
+ 368:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  208              		.loc 1 368 0
  209 0002 FFF7FEBF 		b	Standard_GetDescriptorData
  210              	.LVL11:
@@ -625,19 +625,19 @@
  222              		.thumb_func
  224              	Mass_GetDeviceDescriptor:
  225              	.LFB68:
- 357:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 357:lib/USB_Functions/msc/src/usb_msc_prop.c ****   return Standard_GetDescriptorData(Length, &MSC_Device_Descriptor );
  226              		.loc 1 357 0
  227              		.cfi_startproc
  228              		@ args = 0, pretend = 0, frame = 0
  229              		@ frame_needed = 0, uses_anonymous_args = 0
  230              		@ link register save eliminated.
  231              	.LVL12:
- 358:lib/USB_Functions/msc/src/usb_msc_prop.c ****   return Standard_GetDescriptorData(Length, &MSC_Device_Descriptor );
+ 358:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  232              		.loc 1 358 0
  233 0000 0149     		ldr	r1, .L24
- 359:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
+ 359:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  234              		.loc 1 359 0
- 358:lib/USB_Functions/msc/src/usb_msc_prop.c ****   return Standard_GetDescriptorData(Length, &MSC_Device_Descriptor );
+ 358:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  235              		.loc 1 358 0
  236 0002 FFF7FEBF 		b	Standard_GetDescriptorData
  237              	.LVL13:
@@ -654,25 +654,25 @@
  249              		.thumb_func
  251              	Mass_ClearFeature:
  252              	.LFB61:
- 227:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 227:lib/USB_Functions/msc/src/usb_msc_prop.c ****   /* when the host send a CBW with invalid signature or invalid length the two
  253              		.loc 1 227 0
  254              		.cfi_startproc
  255              		@ args = 0, pretend = 0, frame = 0
  256              		@ frame_needed = 0, uses_anonymous_args = 0
  257              		@ link register save eliminated.
- 230:lib/USB_Functions/msc/src/usb_msc_prop.c ****   if (CBW.dSignature != BOT_CBW_SIGNATURE)
+ 230:lib/USB_Functions/msc/src/usb_msc_prop.c ****     Bot_Abort(BOTH_DIR);
  258              		.loc 1 230 0
  259 0000 044B     		ldr	r3, .L28
  260 0002 1A68     		ldr	r2, [r3, #0]
  261 0004 0448     		ldr	r0, .L28+4
  262 0006 8242     		cmp	r2, r0
  263 0008 02D0     		beq	.L26
- 231:lib/USB_Functions/msc/src/usb_msc_prop.c ****     Bot_Abort(BOTH_DIR);
+ 231:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  264              		.loc 1 231 0
  265 000a 0220     		movs	r0, #2
- 232:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
+ 232:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  266              		.loc 1 232 0
- 231:lib/USB_Functions/msc/src/usb_msc_prop.c ****     Bot_Abort(BOTH_DIR);
+ 231:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  267              		.loc 1 231 0
  268 000c FFF7FEBF 		b	Bot_Abort
  269              	.LVL14:
@@ -692,7 +692,7 @@
  284              		.thumb_func
  286              	Mass_Reset:
  287              	.LFB59:
- 124:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 124:lib/USB_Functions/msc/src/usb_msc_prop.c ****   /* Set the device as not configured */
  288              		.loc 1 124 0
  289              		.cfi_startproc
  290              		@ args = 0, pretend = 0, frame = 0
@@ -704,167 +704,167 @@
  296              		.cfi_offset 4, -12
  297              		.cfi_offset 5, -8
  298              		.cfi_offset 14, -4
- 126:lib/USB_Functions/msc/src/usb_msc_prop.c ****   Device_Info.Current_Configuration = 0;
+ 126:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  299              		.loc 1 126 0
  300 0002 0024     		movs	r4, #0
  301 0004 374B     		ldr	r3, .L31
  302 0006 9C72     		strb	r4, [r3, #10]
- 129:lib/USB_Functions/msc/src/usb_msc_prop.c ****   pInformation->Current_Feature = Mass_ConfigDescriptor[7];
+ 129:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  303              		.loc 1 129 0
  304 0008 3748     		ldr	r0, .L31+4
  305 000a 0168     		ldr	r1, [r0, #0]
  306 000c 374A     		ldr	r2, .L31+8
  307 000e D579     		ldrb	r5, [r2, #7]	@ zero_extendqisi2
  308 0010 4D72     		strb	r5, [r1, #9]
- 143:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetBTABLE(BTABLE_ADDRESS);
+ 143:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  309              		.loc 1 143 0
  310 0012 2046     		mov	r0, r4
  311 0014 FFF7FEFF 		bl	SetBTABLE
  312              	.LVL15:
- 146:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPType(ENDP0, EP_CONTROL);
+ 146:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxStatus(ENDP0, EP_TX_NAK);
  313              		.loc 1 146 0
  314 0018 2046     		mov	r0, r4
  315 001a 4FF40071 		mov	r1, #512
  316 001e FFF7FEFF 		bl	SetEPType
  317              	.LVL16:
- 147:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxStatus(ENDP0, EP_TX_NAK);
+ 147:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxAddr(ENDP0, MSC_ENDP0_RXADDR);
  318              		.loc 1 147 0
  319 0022 2046     		mov	r0, r4
  320 0024 2021     		movs	r1, #32
  321 0026 FFF7FEFF 		bl	SetEPTxStatus
  322              	.LVL17:
- 148:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxAddr(ENDP0, MSC_ENDP0_RXADDR);
+ 148:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
  323              		.loc 1 148 0
  324 002a 2046     		mov	r0, r4
  325 002c 1821     		movs	r1, #24
  326 002e FFF7FEFF 		bl	SetEPRxAddr
  327              	.LVL18:
- 149:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
+ 149:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxAddr(ENDP0, MSC_ENDP0_TXADDR);
  328              		.loc 1 149 0
  329 0032 2F4D     		ldr	r5, .L31+12
  330 0034 2046     		mov	r0, r4
  331 0036 95F82C10 		ldrb	r1, [r5, #44]	@ zero_extendqisi2
  332 003a FFF7FEFF 		bl	SetEPRxCount
  333              	.LVL19:
- 150:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxAddr(ENDP0, MSC_ENDP0_TXADDR);
+ 150:lib/USB_Functions/msc/src/usb_msc_prop.c ****   Clear_Status_Out(ENDP0);
  334              		.loc 1 150 0
  335 003e 2046     		mov	r0, r4
  336 0040 5821     		movs	r1, #88
  337 0042 FFF7FEFF 		bl	SetEPTxAddr
  338              	.LVL20:
- 151:lib/USB_Functions/msc/src/usb_msc_prop.c ****   Clear_Status_Out(ENDP0);
+ 151:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxValid(ENDP0);
  339              		.loc 1 151 0
  340 0046 2046     		mov	r0, r4
  341 0048 FFF7FEFF 		bl	Clear_Status_Out
  342              	.LVL21:
- 152:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxValid(ENDP0);
+ 152:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  343              		.loc 1 152 0
  344 004c 2046     		mov	r0, r4
  345 004e FFF7FEFF 		bl	SetEPRxValid
  346              	.LVL22:
- 155:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPType(ENDP1, EP_BULK);
+ 155:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxAddr(ENDP1, MSC_ENDP1_TXADDR);
  347              		.loc 1 155 0
  348 0052 0120     		movs	r0, #1
  349 0054 2146     		mov	r1, r4
  350 0056 FFF7FEFF 		bl	SetEPType
  351              	.LVL23:
- 156:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxAddr(ENDP1, MSC_ENDP1_TXADDR);
+ 156:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxStatus(ENDP1, EP_TX_NAK);
  352              		.loc 1 156 0
  353 005a 0120     		movs	r0, #1
  354 005c 9821     		movs	r1, #152
  355 005e FFF7FEFF 		bl	SetEPTxAddr
  356              	.LVL24:
- 157:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxStatus(ENDP1, EP_TX_NAK);
+ 157:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxStatus(ENDP1, EP_RX_DIS);
  357              		.loc 1 157 0
  358 0062 0120     		movs	r0, #1
  359 0064 2021     		movs	r1, #32
  360 0066 FFF7FEFF 		bl	SetEPTxStatus
  361              	.LVL25:
- 158:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxStatus(ENDP1, EP_RX_DIS);
+ 158:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  362              		.loc 1 158 0
  363 006a 0120     		movs	r0, #1
  364 006c 2146     		mov	r1, r4
  365 006e FFF7FEFF 		bl	SetEPRxStatus
  366              	.LVL26:
- 170:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPType(ENDP2, EP_BULK); 
+ 170:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPDoubleBuff(ENDP2); 
  367              		.loc 1 170 0
  368 0072 0220     		movs	r0, #2
  369 0074 2146     		mov	r1, r4
  370 0076 FFF7FEFF 		bl	SetEPType
  371              	.LVL27:
- 171:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPDoubleBuff(ENDP2); 
+ 171:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPDblBuffAddr(ENDP2, MSC_ENDP2_BUF0Addr, MSC_ENDP2_BUF1Addr); 
  372              		.loc 1 171 0
  373 007a 0220     		movs	r0, #2
  374 007c FFF7FEFF 		bl	SetEPDoubleBuff
  375              	.LVL28:
- 172:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPDblBuffAddr(ENDP2, MSC_ENDP2_BUF0Addr, MSC_ENDP2_BUF1Addr); 
+ 172:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPDblBuffCount(ENDP2, EP_DBUF_OUT, Device_Property.MaxPacketSize); 
  376              		.loc 1 172 0
  377 0080 0220     		movs	r0, #2
  378 0082 D821     		movs	r1, #216
  379 0084 4FF48C72 		mov	r2, #280
  380 0088 FFF7FEFF 		bl	SetEPDblBuffAddr
  381              	.LVL29:
- 173:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPDblBuffCount(ENDP2, EP_DBUF_OUT, Device_Property.MaxPacketSize); 
+ 173:lib/USB_Functions/msc/src/usb_msc_prop.c ****   ClearDTOG_RX(ENDP2); 
  382              		.loc 1 173 0
  383 008c 0220     		movs	r0, #2
  384 008e 0121     		movs	r1, #1
  385 0090 95F82C20 		ldrb	r2, [r5, #44]	@ zero_extendqisi2
  386 0094 FFF7FEFF 		bl	SetEPDblBuffCount
  387              	.LVL30:
- 174:lib/USB_Functions/msc/src/usb_msc_prop.c ****   ClearDTOG_RX(ENDP2); 
+ 174:lib/USB_Functions/msc/src/usb_msc_prop.c ****   ClearDTOG_TX(ENDP2); 
  388              		.loc 1 174 0
  389 0098 0220     		movs	r0, #2
  390 009a FFF7FEFF 		bl	ClearDTOG_RX
  391              	.LVL31:
- 175:lib/USB_Functions/msc/src/usb_msc_prop.c ****   ClearDTOG_TX(ENDP2); 
+ 175:lib/USB_Functions/msc/src/usb_msc_prop.c ****   ToggleDTOG_TX(ENDP2); 
  392              		.loc 1 175 0
  393 009e 0220     		movs	r0, #2
  394 00a0 FFF7FEFF 		bl	ClearDTOG_TX
  395              	.LVL32:
- 176:lib/USB_Functions/msc/src/usb_msc_prop.c ****   ToggleDTOG_TX(ENDP2); 
+ 176:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxStatus(ENDP2, EP_RX_VALID); 
  396              		.loc 1 176 0
  397 00a4 0220     		movs	r0, #2
  398 00a6 FFF7FEFF 		bl	ToggleDTOG_TX
  399              	.LVL33:
- 177:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxStatus(ENDP2, EP_RX_VALID); 
+ 177:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxStatus(ENDP2, EP_TX_DIS);  
  400              		.loc 1 177 0
  401 00aa 0220     		movs	r0, #2
  402 00ac 4FF44051 		mov	r1, #12288
  403 00b0 FFF7FEFF 		bl	SetEPRxStatus
  404              	.LVL34:
- 178:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPTxStatus(ENDP2, EP_TX_DIS);  
+ 178:lib/USB_Functions/msc/src/usb_msc_prop.c ****  /* Nemui added */
  405              		.loc 1 178 0
  406 00b4 0220     		movs	r0, #2
  407 00b6 2146     		mov	r1, r4
  408 00b8 FFF7FEFF 		bl	SetEPTxStatus
  409              	.LVL35:
- 181:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
+ 181:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxValid(ENDP0);
  410              		.loc 1 181 0
  411 00bc 2046     		mov	r0, r4
  412 00be 95F82C10 		ldrb	r1, [r5, #44]	@ zero_extendqisi2
  413 00c2 FFF7FEFF 		bl	SetEPRxCount
  414              	.LVL36:
- 182:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetEPRxValid(ENDP0);
+ 182:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  415              		.loc 1 182 0
  416 00c6 2046     		mov	r0, r4
  417 00c8 FFF7FEFF 		bl	SetEPRxValid
  418              	.LVL37:
- 185:lib/USB_Functions/msc/src/usb_msc_prop.c ****   SetDeviceAddress(0);
+ 185:lib/USB_Functions/msc/src/usb_msc_prop.c **** #endif /* STM32F10X_CL */
  419              		.loc 1 185 0
  420 00cc 2046     		mov	r0, r4
  421 00ce FFF7FEFF 		bl	SetDeviceAddress
  422              	.LVL38:
- 188:lib/USB_Functions/msc/src/usb_msc_prop.c ****   bDeviceState = ATTACHED;
+ 188:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  423              		.loc 1 188 0
  424 00d2 0120     		movs	r0, #1
  425 00d4 074B     		ldr	r3, .L31+16
  426 00d6 1860     		str	r0, [r3, #0]
- 190:lib/USB_Functions/msc/src/usb_msc_prop.c ****   CBW.dSignature = BOT_CBW_SIGNATURE;
+ 190:lib/USB_Functions/msc/src/usb_msc_prop.c ****   Bot_State = BOT_IDLE;
  427              		.loc 1 190 0
  428 00d8 0749     		ldr	r1, .L31+20
  429 00da 084A     		ldr	r2, .L31+24
  430 00dc 1160     		str	r1, [r2, #0]
- 191:lib/USB_Functions/msc/src/usb_msc_prop.c ****   Bot_State = BOT_IDLE;
+ 191:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  431              		.loc 1 191 0
  432 00de 0848     		ldr	r0, .L31+28
  433 00e0 0470     		strb	r4, [r0, #0]
@@ -889,7 +889,7 @@
  453              		.thumb_func
  455              	Mass_init:
  456              	.LFB58:
- 100:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 100:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  457              		.loc 1 100 0
  458              		.cfi_startproc
  459              		@ args = 0, pretend = 0, frame = 0
@@ -899,27 +899,27 @@
  463              		.cfi_def_cfa_offset 8
  464              		.cfi_offset 4, -8
  465              		.cfi_offset 14, -4
- 104:lib/USB_Functions/msc/src/usb_msc_prop.c ****   Get_SerialNum(&Mass_StringSerial[2],&Mass_StringSerial[18]);
+ 104:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  466              		.loc 1 104 0
  467 0002 0848     		ldr	r0, .L34
  468 0004 00F11001 		add	r1, r0, #16
  469 0008 FFF7FEFF 		bl	Get_SerialNum
  470              	.LVL39:
- 107:lib/USB_Functions/msc/src/usb_msc_prop.c ****   pInformation->Current_Configuration = 0;
+ 107:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  471              		.loc 1 107 0
  472 000c 064B     		ldr	r3, .L34+4
  473 000e 1868     		ldr	r0, [r3, #0]
  474 0010 0024     		movs	r4, #0
  475 0012 8472     		strb	r4, [r0, #10]
- 110:lib/USB_Functions/msc/src/usb_msc_prop.c ****   PowerOn();
+ 110:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  476              		.loc 1 110 0
  477 0014 FFF7FEFF 		bl	PowerOn
  478              	.LVL40:
- 113:lib/USB_Functions/msc/src/usb_msc_prop.c ****   USB_SIL_Init();
+ 113:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  479              		.loc 1 113 0
  480 0018 FFF7FEFF 		bl	USB_SIL_Init
  481              	.LVL41:
- 115:lib/USB_Functions/msc/src/usb_msc_prop.c ****   bDeviceState = UNCONNECTED;
+ 115:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  482              		.loc 1 115 0
  483 001c 0349     		ldr	r1, .L34+8
  484 001e 0C60     		str	r4, [r1, #0]
@@ -939,7 +939,7 @@
  499              		.thumb_func
  501              	Mass_NoData_Setup:
  502              	.LFB66:
- 304:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 304:lib/USB_Functions/msc/src/usb_msc_prop.c ****   if ((Type_Recipient == (CLASS_REQUEST | INTERFACE_RECIPIENT))
  503              		.loc 1 304 0
  504              		.cfi_startproc
  505              		@ args = 0, pretend = 0, frame = 0
@@ -950,7 +950,7 @@
  510              		.cfi_def_cfa_offset 8
  511              		.cfi_offset 4, -8
  512              		.cfi_offset 14, -4
- 305:lib/USB_Functions/msc/src/usb_msc_prop.c ****   if ((Type_Recipient == (CLASS_REQUEST | INTERFACE_RECIPIENT))
+ 305:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (RequestNo == MASS_STORAGE_RESET) && (pInformation->USBwValue == 0)
  513              		.loc 1 305 0
  514 0002 0E4B     		ldr	r3, .L42
  515 0004 1968     		ldr	r1, [r3, #0]
@@ -958,37 +958,37 @@
  517 0008 02F07F03 		and	r3, r2, #127
  518 000c 212B     		cmp	r3, #33
  519 000e 12D1     		bne	.L41
- 306:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (RequestNo == MASS_STORAGE_RESET) && (pInformation->USBwValue == 0)
+ 306:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (pInformation->USBwIndex == 0) && (pInformation->USBwLength == 0x00))
  520              		.loc 1 306 0
  521 0010 FF28     		cmp	r0, #255
  522 0012 10D1     		bne	.L41
- 306:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (RequestNo == MASS_STORAGE_RESET) && (pInformation->USBwValue == 0)
+ 306:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (pInformation->USBwIndex == 0) && (pInformation->USBwLength == 0x00))
  523              		.loc 1 306 0 is_stmt 0 discriminator 1
  524 0014 4888     		ldrh	r0, [r1, #2]
  525              	.LVL43:
  526 0016 70B9     		cbnz	r0, .L41
- 307:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (pInformation->USBwIndex == 0) && (pInformation->USBwLength == 0x00))
+ 307:lib/USB_Functions/msc/src/usb_msc_prop.c ****   {
  527              		.loc 1 307 0 is_stmt 1
  528 0018 4C68     		ldr	r4, [r1, #4]
  529 001a 64B9     		cbnz	r4, .L41
  530              	.LBB4:
  531              	.LBB5:
- 317:lib/USB_Functions/msc/src/usb_msc_prop.c ****     ClearDTOG_TX(ENDP1);
+ 317:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  532              		.loc 1 317 0
  533 001c 0120     		movs	r0, #1
  534 001e FFF7FEFF 		bl	ClearDTOG_TX
  535              	.LVL44:
- 320:lib/USB_Functions/msc/src/usb_msc_prop.c ****     ClearDTOG_RX(ENDP2);
+ 320:lib/USB_Functions/msc/src/usb_msc_prop.c ****    #endif /* STM32F10X_CL */
  536              		.loc 1 320 0
  537 0022 0220     		movs	r0, #2
  538 0024 FFF7FEFF 		bl	ClearDTOG_RX
  539              	.LVL45:
- 324:lib/USB_Functions/msc/src/usb_msc_prop.c ****     CBW.dSignature = BOT_CBW_SIGNATURE;
+ 324:lib/USB_Functions/msc/src/usb_msc_prop.c ****     Bot_State = BOT_IDLE;
  540              		.loc 1 324 0
  541 0028 0549     		ldr	r1, .L42+4
  542 002a 064A     		ldr	r2, .L42+8
  543 002c 1160     		str	r1, [r2, #0]
- 325:lib/USB_Functions/msc/src/usb_msc_prop.c ****     Bot_State = BOT_IDLE;
+ 325:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  544              		.loc 1 325 0
  545 002e 064B     		ldr	r3, .L42+12
  546 0030 1C70     		strb	r4, [r3, #0]
@@ -997,10 +997,10 @@
  549              	.L41:
  550              	.LBE5:
  551              	.LBE4:
- 329:lib/USB_Functions/msc/src/usb_msc_prop.c ****   return USB_UNSUPPORT;
+ 329:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  552              		.loc 1 329 0
  553 0036 0220     		movs	r0, #2
- 330:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
+ 330:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  554              		.loc 1 330 0
  555 0038 10BD     		pop	{r4, pc}
  556              	.L43:
@@ -1019,7 +1019,7 @@
  570              		.thumb_func
  572              	Mass_SetConfiguration:
  573              	.LFB60:
- 200:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 200:lib/USB_Functions/msc/src/usb_msc_prop.c ****   if (pInformation->Current_Configuration != 0)
  574              		.loc 1 200 0
  575              		.cfi_startproc
  576              		@ args = 0, pretend = 0, frame = 0
@@ -1029,7 +1029,7 @@
  580              		.cfi_def_cfa_offset 8
  581              		.cfi_offset 3, -8
  582              		.cfi_offset 14, -4
- 201:lib/USB_Functions/msc/src/usb_msc_prop.c ****   if (pInformation->Current_Configuration != 0)
+ 201:lib/USB_Functions/msc/src/usb_msc_prop.c ****   {
  583              		.loc 1 201 0
  584 0002 084B     		ldr	r3, .L49
  585 0004 1868     		ldr	r0, [r3, #0]
@@ -1037,22 +1037,22 @@
  587 0008 59B1     		cbz	r1, .L44
  588              	.LBB8:
  589              	.LBB9:
- 204:lib/USB_Functions/msc/src/usb_msc_prop.c ****     bDeviceState = CONFIGURED;
+ 204:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  590              		.loc 1 204 0
  591 000a 0522     		movs	r2, #5
  592 000c 064B     		ldr	r3, .L49+4
  593 000e 1A60     		str	r2, [r3, #0]
- 213:lib/USB_Functions/msc/src/usb_msc_prop.c ****     ClearDTOG_TX(ENDP1);
+ 213:lib/USB_Functions/msc/src/usb_msc_prop.c ****     ClearDTOG_RX(ENDP2);
  594              		.loc 1 213 0
  595 0010 0120     		movs	r0, #1
  596 0012 FFF7FEFF 		bl	ClearDTOG_TX
  597              	.LVL46:
- 214:lib/USB_Functions/msc/src/usb_msc_prop.c ****     ClearDTOG_RX(ENDP2);
+ 214:lib/USB_Functions/msc/src/usb_msc_prop.c **** #endif /* STM32F10X_CL */
  598              		.loc 1 214 0
  599 0016 0220     		movs	r0, #2
  600 0018 FFF7FEFF 		bl	ClearDTOG_RX
  601              	.LVL47:
- 217:lib/USB_Functions/msc/src/usb_msc_prop.c ****     Bot_State = BOT_IDLE; /* set the Bot state machine to the IDLE state */
+ 217:lib/USB_Functions/msc/src/usb_msc_prop.c ****   }
  602              		.loc 1 217 0
  603 001c 0020     		movs	r0, #0
  604 001e 0349     		ldr	r1, .L49+8
@@ -1076,7 +1076,7 @@
  623              		.thumb_func
  625              	Mass_Data_Setup:
  626              	.LFB65:
- 270:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+ 270:lib/USB_Functions/msc/src/usb_msc_prop.c ****   uint8_t    *(*CopyRoutine)(uint16_t);
  627              		.loc 1 270 0
  628              		.cfi_startproc
  629              		@ args = 0, pretend = 0, frame = 0
@@ -1084,7 +1084,7 @@
  631              		@ link register save eliminated.
  632              	.LVL48:
  633              	.LVL49:
- 274:lib/USB_Functions/msc/src/usb_msc_prop.c ****   if ((Type_Recipient == (CLASS_REQUEST | INTERFACE_RECIPIENT))
+ 274:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (RequestNo == GET_MAX_LUN) && (pInformation->USBwValue == 0)
  634              		.loc 1 274 0
  635 0000 0B4B     		ldr	r3, .L57
  636 0002 1968     		ldr	r1, [r3, #0]
@@ -1092,32 +1092,32 @@
  638 0006 02F07F03 		and	r3, r2, #127
  639 000a 212B     		cmp	r3, #33
  640 000c 0DD1     		bne	.L56
- 275:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (RequestNo == GET_MAX_LUN) && (pInformation->USBwValue == 0)
+ 275:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (pInformation->USBwIndex == 0) && (pInformation->USBwLength == 0x01))
  641              		.loc 1 275 0
  642 000e FE28     		cmp	r0, #254
  643 0010 0BD1     		bne	.L56
- 275:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (RequestNo == GET_MAX_LUN) && (pInformation->USBwValue == 0)
+ 275:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (pInformation->USBwIndex == 0) && (pInformation->USBwLength == 0x01))
  644              		.loc 1 275 0 is_stmt 0 discriminator 1
  645 0012 4888     		ldrh	r0, [r1, #2]
  646              	.LVL50:
  647 0014 48B9     		cbnz	r0, .L56
- 276:lib/USB_Functions/msc/src/usb_msc_prop.c ****       && (pInformation->USBwIndex == 0) && (pInformation->USBwLength == 0x01))
+ 276:lib/USB_Functions/msc/src/usb_msc_prop.c ****   {
  648              		.loc 1 276 0 is_stmt 1
  649 0016 4A68     		ldr	r2, [r1, #4]
  650 0018 B2F5803F 		cmp	r2, #65536
  651 001c 05D1     		bne	.L56
  652              	.LVL51:
- 290:lib/USB_Functions/msc/src/usb_msc_prop.c ****   pInformation->Ctrl_Info.CopyData = CopyRoutine;
+ 290:lib/USB_Functions/msc/src/usb_msc_prop.c ****   pInformation->Ctrl_Info.Usb_wOffset = 0;
  653              		.loc 1 290 0
  654 001e 054B     		ldr	r3, .L57+4
  655 0020 8B61     		str	r3, [r1, #24]
- 291:lib/USB_Functions/msc/src/usb_msc_prop.c ****   pInformation->Ctrl_Info.Usb_wOffset = 0;
+ 291:lib/USB_Functions/msc/src/usb_msc_prop.c ****   (*CopyRoutine)(0);
  656              		.loc 1 291 0
  657 0022 4882     		strh	r0, [r1, #18]	@ movhi
  658              	.LVL52:
  659              	.LBB12:
  660              	.LBB13:
- 399:lib/USB_Functions/msc/src/usb_msc_prop.c ****     pInformation->Ctrl_Info.Usb_wLength = LUN_DATA_LENGTH;
+ 399:lib/USB_Functions/msc/src/usb_msc_prop.c ****     return 0;
  661              		.loc 1 399 0
  662 0024 0122     		movs	r2, #1
  663 0026 0A82     		strh	r2, [r1, #16]	@ movhi
@@ -1126,10 +1126,10 @@
  666              	.L56:
  667              	.LBE13:
  668              	.LBE12:
- 282:lib/USB_Functions/msc/src/usb_msc_prop.c ****     return USB_UNSUPPORT;
+ 282:lib/USB_Functions/msc/src/usb_msc_prop.c ****   }
  669              		.loc 1 282 0
  670 002a 0220     		movs	r0, #2
- 296:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
+ 296:lib/USB_Functions/msc/src/usb_msc_prop.c **** 
  671              		.loc 1 296 0
  672 002c 7047     		bx	lr
  673              	.L58:
@@ -1146,103 +1146,103 @@
  685              		.thumb_func
  687              	MSC_SetStructure:
  688              	.LFB57:
-  70:lib/USB_Functions/msc/src/usb_msc_prop.c **** {
+  70:lib/USB_Functions/msc/src/usb_msc_prop.c **** 	Device_Table.Total_Endpoint	= MSC_EP_NUM;
  689              		.loc 1 70 0
  690              		.cfi_startproc
  691              		@ args = 0, pretend = 0, frame = 0
  692              		@ frame_needed = 0, uses_anonymous_args = 0
  693              		@ link register save eliminated.
-  71:lib/USB_Functions/msc/src/usb_msc_prop.c **** 	Device_Table.Total_Endpoint	= MSC_EP_NUM;
+  71:lib/USB_Functions/msc/src/usb_msc_prop.c **** 	xinit						= Mass_init;
  694              		.loc 1 71 0
  695 0000 0322     		movs	r2, #3
  696 0002 1B4B     		ldr	r3, .L60
  697 0004 1A70     		strb	r2, [r3, #0]
-  72:lib/USB_Functions/msc/src/usb_msc_prop.c **** 	xinit						= Mass_init;
+  72:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xReset 						= Mass_Reset;
  698              		.loc 1 72 0
  699 0006 1B48     		ldr	r0, .L60+4
  700 0008 1B49     		ldr	r1, .L60+8
  701 000a 0860     		str	r0, [r1, #0]
-  73:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xReset 						= Mass_Reset;
+  73:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xStatus_In					= Mass_Status_In;
  702              		.loc 1 73 0
  703 000c 1B4A     		ldr	r2, .L60+12
  704 000e 1C4B     		ldr	r3, .L60+16
  705 0010 1A60     		str	r2, [r3, #0]
-  74:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xStatus_In					= Mass_Status_In;
+  74:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xStatus_Out					= Mass_Status_Out;
  706              		.loc 1 74 0
  707 0012 1C48     		ldr	r0, .L60+20
  708 0014 1C49     		ldr	r1, .L60+24
  709 0016 0860     		str	r0, [r1, #0]
-  75:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xStatus_Out					= Mass_Status_Out;
+  75:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xData_Setup					= Mass_Data_Setup;
  710              		.loc 1 75 0
  711 0018 1C4A     		ldr	r2, .L60+28
  712 001a 1D4B     		ldr	r3, .L60+32
  713 001c 1A60     		str	r2, [r3, #0]
-  76:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xData_Setup					= Mass_Data_Setup;
+  76:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xNoData_Setup				= Mass_NoData_Setup;
  714              		.loc 1 76 0
  715 001e 1D48     		ldr	r0, .L60+36
  716 0020 1D49     		ldr	r1, .L60+40
  717 0022 0860     		str	r0, [r1, #0]
-  77:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xNoData_Setup				= Mass_NoData_Setup;
+  77:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGet_Interface_Setting		= Mass_Get_Interface_Setting;
  718              		.loc 1 77 0
  719 0024 1D4A     		ldr	r2, .L60+44
  720 0026 1E4B     		ldr	r3, .L60+48
  721 0028 1A60     		str	r2, [r3, #0]
-  78:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGet_Interface_Setting		= Mass_Get_Interface_Setting;
+  78:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetDeviceDescriptor		= Mass_GetDeviceDescriptor;
  722              		.loc 1 78 0
  723 002a 1E48     		ldr	r0, .L60+52
  724 002c 1E49     		ldr	r1, .L60+56
  725 002e 0860     		str	r0, [r1, #0]
-  79:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetDeviceDescriptor		= Mass_GetDeviceDescriptor;
+  79:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetConfigDescriptor		= Mass_GetConfigDescriptor;
  726              		.loc 1 79 0
  727 0030 1E4A     		ldr	r2, .L60+60
  728 0032 1F4B     		ldr	r3, .L60+64
  729 0034 1A60     		str	r2, [r3, #0]
-  80:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetConfigDescriptor		= Mass_GetConfigDescriptor;
+  80:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetStringDescriptor		= Mass_GetStringDescriptor;
  730              		.loc 1 80 0
  731 0036 1F48     		ldr	r0, .L60+68
  732 0038 1F49     		ldr	r1, .L60+72
  733 003a 0860     		str	r0, [r1, #0]
-  81:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetStringDescriptor		= Mass_GetStringDescriptor;
+  81:lib/USB_Functions/msc/src/usb_msc_prop.c **** 	
  734              		.loc 1 81 0
  735 003c 1F4A     		ldr	r2, .L60+76
  736 003e 204B     		ldr	r3, .L60+80
  737 0040 1A60     		str	r2, [r3, #0]
-  83:lib/USB_Functions/msc/src/usb_msc_prop.c **** 	xGetConfiguration			= Mass_GetConfiguration;
+  83:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetConfiguration			= Mass_SetConfiguration;
  738              		.loc 1 83 0
  739 0042 2048     		ldr	r0, .L60+84
  740 0044 2049     		ldr	r1, .L60+88
  741 0046 0860     		str	r0, [r1, #0]
-  84:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetConfiguration			= Mass_SetConfiguration;
+  84:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetInterface				= Mass_GetInterface;
  742              		.loc 1 84 0
  743 0048 204B     		ldr	r3, .L60+92
  744 004a 214A     		ldr	r2, .L60+96
  745 004c 1360     		str	r3, [r2, #0]
-  85:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetInterface				= Mass_GetInterface;
+  85:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetInterface				= Mass_SetInterface;
  746              		.loc 1 85 0
  747 004e 2149     		ldr	r1, .L60+100
  748 0050 0860     		str	r0, [r1, #0]
-  86:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetInterface				= Mass_SetInterface;
+  86:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetStatus					= Mass_GetStatus;
  749              		.loc 1 86 0
  750 0052 214B     		ldr	r3, .L60+104
  751 0054 1860     		str	r0, [r3, #0]
-  87:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xGetStatus					= Mass_GetStatus;
+  87:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xClearFeature				= Mass_ClearFeature;
  752              		.loc 1 87 0
  753 0056 214A     		ldr	r2, .L60+108
  754 0058 1060     		str	r0, [r2, #0]
-  88:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xClearFeature				= Mass_ClearFeature;
+  88:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetEndPointFeature			= Mass_SetEndPointFeature;
  755              		.loc 1 88 0
  756 005a 2149     		ldr	r1, .L60+112
  757 005c 214B     		ldr	r3, .L60+116
  758 005e 1960     		str	r1, [r3, #0]
-  89:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetEndPointFeature			= Mass_SetEndPointFeature;
+  89:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetDeviceFeature			= Mass_SetDeviceFeature;
  759              		.loc 1 89 0
  760 0060 214A     		ldr	r2, .L60+120
  761 0062 1060     		str	r0, [r2, #0]
-  90:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetDeviceFeature			= Mass_SetDeviceFeature;
+  90:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetDeviceAddress           = Mass_SetDeviceAddress;
  762              		.loc 1 90 0
  763 0064 2149     		ldr	r1, .L60+124
  764 0066 0860     		str	r0, [r1, #0]
-  91:lib/USB_Functions/msc/src/usb_msc_prop.c ****     xSetDeviceAddress           = Mass_SetDeviceAddress;
+  91:lib/USB_Functions/msc/src/usb_msc_prop.c **** }
  765              		.loc 1 91 0
  766 0068 2148     		ldr	r0, .L60+128
  767 006a 224B     		ldr	r3, .L60+132
@@ -1331,7 +1331,7 @@
  859 0000 00000000 		.space	4
  860              		.text
  861              	.Letext0:
- 862              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 862              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  863              		.file 3 "./lib/STM32_USB-FS-Device_Driver/inc/usb_core.h"
  864              		.file 4 "./lib/USB_Functions/usb_pwr.h"
  865              		.file 5 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
@@ -1345,56 +1345,56 @@
  873              		.file 13 "./lib/STM32_USB-FS-Device_Driver/inc/usb_sil.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_msc_prop.c
-  R:\TEMP\cc6BDbtd.s:19     .text.Mass_SetDeviceAddress:00000000 $t
-  R:\TEMP\cc6BDbtd.s:24     .text.Mass_SetDeviceAddress:00000000 Mass_SetDeviceAddress
-  R:\TEMP\cc6BDbtd.s:40     .text.Mass_SetDeviceAddress:00000008 $d
-  R:\TEMP\cc6BDbtd.s:45     .text.Mass_Status_In:00000000 $t
-  R:\TEMP\cc6BDbtd.s:50     .text.Mass_Status_In:00000000 Mass_Status_In
-  R:\TEMP\cc6BDbtd.s:62     .text.Mass_Status_Out:00000000 $t
-  R:\TEMP\cc6BDbtd.s:67     .text.Mass_Status_Out:00000000 Mass_Status_Out
-  R:\TEMP\cc6BDbtd.s:80     .text.Mass_Get_Interface_Setting:00000000 $t
-  R:\TEMP\cc6BDbtd.s:85     .text.Mass_Get_Interface_Setting:00000000 Mass_Get_Interface_Setting
-  R:\TEMP\cc6BDbtd.s:112    .text.Get_Max_Lun:00000000 $t
-  R:\TEMP\cc6BDbtd.s:117    .text.Get_Max_Lun:00000000 Get_Max_Lun
-  R:\TEMP\cc6BDbtd.s:143    .text.Get_Max_Lun:00000010 $d
-  R:\TEMP\cc6BDbtd.s:149    .text.Mass_GetStringDescriptor:00000000 $t
-  R:\TEMP\cc6BDbtd.s:154    .text.Mass_GetStringDescriptor:00000000 Mass_GetStringDescriptor
-  R:\TEMP\cc6BDbtd.s:186    .text.Mass_GetStringDescriptor:00000018 $d
-  R:\TEMP\cc6BDbtd.s:192    .text.Mass_GetConfigDescriptor:00000000 $t
-  R:\TEMP\cc6BDbtd.s:197    .text.Mass_GetConfigDescriptor:00000000 Mass_GetConfigDescriptor
-  R:\TEMP\cc6BDbtd.s:214    .text.Mass_GetConfigDescriptor:00000008 $d
-  R:\TEMP\cc6BDbtd.s:219    .text.Mass_GetDeviceDescriptor:00000000 $t
-  R:\TEMP\cc6BDbtd.s:224    .text.Mass_GetDeviceDescriptor:00000000 Mass_GetDeviceDescriptor
-  R:\TEMP\cc6BDbtd.s:241    .text.Mass_GetDeviceDescriptor:00000008 $d
-  R:\TEMP\cc6BDbtd.s:246    .text.Mass_ClearFeature:00000000 $t
-  R:\TEMP\cc6BDbtd.s:251    .text.Mass_ClearFeature:00000000 Mass_ClearFeature
-  R:\TEMP\cc6BDbtd.s:275    .text.Mass_ClearFeature:00000014 $d
-  R:\TEMP\cc6BDbtd.s:281    .text.Mass_Reset:00000000 $t
-  R:\TEMP\cc6BDbtd.s:286    .text.Mass_Reset:00000000 Mass_Reset
-  R:\TEMP\cc6BDbtd.s:438    .text.Mass_Reset:000000e4 $d
-  R:\TEMP\cc6BDbtd.s:450    .text.Mass_init:00000000 $t
-  R:\TEMP\cc6BDbtd.s:455    .text.Mass_init:00000000 Mass_init
-  R:\TEMP\cc6BDbtd.s:489    .text.Mass_init:00000024 $d
-  R:\TEMP\cc6BDbtd.s:496    .text.Mass_NoData_Setup:00000000 $t
-  R:\TEMP\cc6BDbtd.s:501    .text.Mass_NoData_Setup:00000000 Mass_NoData_Setup
-  R:\TEMP\cc6BDbtd.s:559    .text.Mass_NoData_Setup:0000003c $d
-  R:\TEMP\cc6BDbtd.s:567    .text.Mass_SetConfiguration:00000000 $t
-  R:\TEMP\cc6BDbtd.s:572    .text.Mass_SetConfiguration:00000000 Mass_SetConfiguration
-  R:\TEMP\cc6BDbtd.s:611    .text.Mass_SetConfiguration:00000024 $d
-  R:\TEMP\cc6BDbtd.s:620    .text.Mass_Data_Setup:00000000 $t
-  R:\TEMP\cc6BDbtd.s:625    .text.Mass_Data_Setup:00000000 Mass_Data_Setup
-  R:\TEMP\cc6BDbtd.s:676    .text.Mass_Data_Setup:00000030 $d
-  R:\TEMP\cc6BDbtd.s:682    .text.MSC_SetStructure:00000000 $t
-  R:\TEMP\cc6BDbtd.s:687    .text.MSC_SetStructure:00000000 MSC_SetStructure
-  R:\TEMP\cc6BDbtd.s:773    .text.MSC_SetStructure:00000070 $d
-  R:\TEMP\cc6BDbtd.s:828    .data.MSC_String_Descriptor:00000000 MSC_String_Descriptor
-  R:\TEMP\cc6BDbtd.s:849    .data.MSC_Config_Descriptor:00000000 MSC_Config_Descriptor
-  R:\TEMP\cc6BDbtd.s:819    .data.MSC_Device_Descriptor:00000000 MSC_Device_Descriptor
-  R:\TEMP\cc6BDbtd.s:858    .bss.Max_Lun:00000000 Max_Lun
-  R:\TEMP\cc6BDbtd.s:815    .data.MSC_Device_Descriptor:00000000 $d
-  R:\TEMP\cc6BDbtd.s:824    .data.MSC_String_Descriptor:00000000 $d
-  R:\TEMP\cc6BDbtd.s:845    .data.MSC_Config_Descriptor:00000000 $d
-  R:\TEMP\cc6BDbtd.s:854    .bss.Max_Lun:00000000 $d
+  R:\TEMP\ccXs8jby.s:19     .text.Mass_SetDeviceAddress:00000000 $t
+  R:\TEMP\ccXs8jby.s:24     .text.Mass_SetDeviceAddress:00000000 Mass_SetDeviceAddress
+  R:\TEMP\ccXs8jby.s:40     .text.Mass_SetDeviceAddress:00000008 $d
+  R:\TEMP\ccXs8jby.s:45     .text.Mass_Status_In:00000000 $t
+  R:\TEMP\ccXs8jby.s:50     .text.Mass_Status_In:00000000 Mass_Status_In
+  R:\TEMP\ccXs8jby.s:62     .text.Mass_Status_Out:00000000 $t
+  R:\TEMP\ccXs8jby.s:67     .text.Mass_Status_Out:00000000 Mass_Status_Out
+  R:\TEMP\ccXs8jby.s:80     .text.Mass_Get_Interface_Setting:00000000 $t
+  R:\TEMP\ccXs8jby.s:85     .text.Mass_Get_Interface_Setting:00000000 Mass_Get_Interface_Setting
+  R:\TEMP\ccXs8jby.s:112    .text.Get_Max_Lun:00000000 $t
+  R:\TEMP\ccXs8jby.s:117    .text.Get_Max_Lun:00000000 Get_Max_Lun
+  R:\TEMP\ccXs8jby.s:143    .text.Get_Max_Lun:00000010 $d
+  R:\TEMP\ccXs8jby.s:149    .text.Mass_GetStringDescriptor:00000000 $t
+  R:\TEMP\ccXs8jby.s:154    .text.Mass_GetStringDescriptor:00000000 Mass_GetStringDescriptor
+  R:\TEMP\ccXs8jby.s:186    .text.Mass_GetStringDescriptor:00000018 $d
+  R:\TEMP\ccXs8jby.s:192    .text.Mass_GetConfigDescriptor:00000000 $t
+  R:\TEMP\ccXs8jby.s:197    .text.Mass_GetConfigDescriptor:00000000 Mass_GetConfigDescriptor
+  R:\TEMP\ccXs8jby.s:214    .text.Mass_GetConfigDescriptor:00000008 $d
+  R:\TEMP\ccXs8jby.s:219    .text.Mass_GetDeviceDescriptor:00000000 $t
+  R:\TEMP\ccXs8jby.s:224    .text.Mass_GetDeviceDescriptor:00000000 Mass_GetDeviceDescriptor
+  R:\TEMP\ccXs8jby.s:241    .text.Mass_GetDeviceDescriptor:00000008 $d
+  R:\TEMP\ccXs8jby.s:246    .text.Mass_ClearFeature:00000000 $t
+  R:\TEMP\ccXs8jby.s:251    .text.Mass_ClearFeature:00000000 Mass_ClearFeature
+  R:\TEMP\ccXs8jby.s:275    .text.Mass_ClearFeature:00000014 $d
+  R:\TEMP\ccXs8jby.s:281    .text.Mass_Reset:00000000 $t
+  R:\TEMP\ccXs8jby.s:286    .text.Mass_Reset:00000000 Mass_Reset
+  R:\TEMP\ccXs8jby.s:438    .text.Mass_Reset:000000e4 $d
+  R:\TEMP\ccXs8jby.s:450    .text.Mass_init:00000000 $t
+  R:\TEMP\ccXs8jby.s:455    .text.Mass_init:00000000 Mass_init
+  R:\TEMP\ccXs8jby.s:489    .text.Mass_init:00000024 $d
+  R:\TEMP\ccXs8jby.s:496    .text.Mass_NoData_Setup:00000000 $t
+  R:\TEMP\ccXs8jby.s:501    .text.Mass_NoData_Setup:00000000 Mass_NoData_Setup
+  R:\TEMP\ccXs8jby.s:559    .text.Mass_NoData_Setup:0000003c $d
+  R:\TEMP\ccXs8jby.s:567    .text.Mass_SetConfiguration:00000000 $t
+  R:\TEMP\ccXs8jby.s:572    .text.Mass_SetConfiguration:00000000 Mass_SetConfiguration
+  R:\TEMP\ccXs8jby.s:611    .text.Mass_SetConfiguration:00000024 $d
+  R:\TEMP\ccXs8jby.s:620    .text.Mass_Data_Setup:00000000 $t
+  R:\TEMP\ccXs8jby.s:625    .text.Mass_Data_Setup:00000000 Mass_Data_Setup
+  R:\TEMP\ccXs8jby.s:676    .text.Mass_Data_Setup:00000030 $d
+  R:\TEMP\ccXs8jby.s:682    .text.MSC_SetStructure:00000000 $t
+  R:\TEMP\ccXs8jby.s:687    .text.MSC_SetStructure:00000000 MSC_SetStructure
+  R:\TEMP\ccXs8jby.s:773    .text.MSC_SetStructure:00000070 $d
+  R:\TEMP\ccXs8jby.s:828    .data.MSC_String_Descriptor:00000000 MSC_String_Descriptor
+  R:\TEMP\ccXs8jby.s:849    .data.MSC_Config_Descriptor:00000000 MSC_Config_Descriptor
+  R:\TEMP\ccXs8jby.s:819    .data.MSC_Device_Descriptor:00000000 MSC_Device_Descriptor
+  R:\TEMP\ccXs8jby.s:858    .bss.Max_Lun:00000000 Max_Lun
+  R:\TEMP\ccXs8jby.s:815    .data.MSC_Device_Descriptor:00000000 $d
+  R:\TEMP\ccXs8jby.s:824    .data.MSC_String_Descriptor:00000000 $d
+  R:\TEMP\ccXs8jby.s:845    .data.MSC_Config_Descriptor:00000000 $d
+  R:\TEMP\ccXs8jby.s:854    .bss.Max_Lun:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

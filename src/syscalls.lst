@@ -151,7 +151,7 @@
   73 002a 01E0     		b	.L5
   74              	.LVL7:
   75              	.L4:
-  60:src/syscalls.c **** 	for (i = 0; i < len; i++)
+  60:src/syscalls.c **** 	{
   76              		.loc 1 60 0
   77 002c 0134     		adds	r4, r4, #1
   78              	.LVL8:
@@ -203,166 +203,166 @@
  108 0002 1D46     		mov	r5, r3
  109              	.LVL11:
  110 0004 1446     		mov	r4, r2
- 111              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
-   1:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* This header file provides the reentrancy.  */
-   2:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-   3:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* The reentrant system calls here serve two purposes:
-   4:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-   5:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    1) Provide reentrant versions of the system calls the ANSI C library
-   6:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       requires.
-   7:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    2) Provide these system calls in a namespace clean way.
-   8:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-   9:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    It is intended that *all* system calls that the ANSI C library needs
-  10:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    be declared here.  It documents them all in one place.  All library access
-  11:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    to the system is via some form of these functions.
-  12:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  13:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    The target may provide the needed syscalls by any of the following:
-  14:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  15:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    1) Define the reentrant versions of the syscalls directly.
-  16:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       (eg: _open_r, _close_r, etc.).  Please keep the namespace clean.
-  17:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       When you do this, set "syscall_dir" to "syscalls" and add
-  18:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       -DREENTRANT_SYSCALLS_PROVIDED to newlib_cflags in configure.host.
-  19:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  20:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    2) Define namespace clean versions of the system calls by prefixing
-  21:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       them with '_' (eg: _open, _close, etc.).  Technically, there won't be
-  22:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       true reentrancy at the syscall level, but the library will be namespace
-  23:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       clean.
-  24:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       When you do this, set "syscall_dir" to "syscalls" in configure.host.
-  25:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  26:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    3) Define or otherwise provide the regular versions of the syscalls
-  27:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       (eg: open, close, etc.).  The library won't be reentrant nor namespace
-  28:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       clean, but at least it will work.
-  29:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       When you do this, add -DMISSING_SYSCALL_NAMES to newlib_cflags in
-  30:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       configure.host.
-  31:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  32:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    4) Define or otherwise provide the regular versions of the syscalls,
-  33:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       and do not supply functional interfaces for any of the reentrant
-  34:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       calls. With this method, the reentrant syscalls are redefined to
-  35:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       directly call the regular system call without the reentrancy argument.
-  36:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       When you do this, specify both -DREENTRANT_SYSCALLS_PROVIDED and 
-  37:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       -DMISSING_SYSCALL_NAMES via newlib_cflags in configure.host and do
-  38:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       not specify "syscall_dir".
-  39:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  40:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    Stubs of the reentrant versions of the syscalls exist in the libc/reent
-  41:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    source directory and are provided if REENTRANT_SYSCALLS_PROVIDED isn't 
-  42:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    defined.  These stubs call the native system calls: _open, _close, etc. 
-  43:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    if MISSING_SYSCALL_NAMES is *not* defined, otherwise they call the
-  44:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    non-underscored versions: open, close, etc. when MISSING_SYSCALL_NAMES
-  45:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    *is* defined.
-  46:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  47:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    By default, newlib functions call the reentrant syscalls internally,
-  48:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    passing a reentrancy structure as an argument.  This reentrancy structure
-  49:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    contains data that is thread-specific.  For example, the errno value is
-  50:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    kept in the reentrancy structure.  If multiple threads exist, each will
-  51:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    keep a separate errno value which is intuitive since the application flow
-  52:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    cannot check for failure reliably otherwise.
-  53:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  54:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    The reentrant syscalls are either provided by the platform, by the 
-  55:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    libc/reent stubs, or in the case of both MISSING_SYSCALL_NAMES and 
-  56:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    REENTRANT_SYSCALLS_PROVIDED being defined, the calls are redefined to
-  57:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    simply call the regular syscalls with no reentrancy struct argument.
-  58:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  59:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    A single-threaded application does not need to worry about the reentrancy
-  60:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    structure.  It is used internally.  
-  61:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  62:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    A multi-threaded application needs either to manually manage reentrancy 
-  63:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    structures or use dynamic reentrancy.
-  64:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    
-  65:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    Manually managing reentrancy structures entails calling special reentrant
-  66:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    versions of newlib functions that have an additional reentrancy argument.
-  67:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    For example, _printf_r.  By convention, the first argument is the
-  68:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    reentrancy structure.  By default, the normal version of the function
-  69:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    uses the default reentrancy structure: _REENT.  The reentrancy structure
-  70:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    is passed internally, eventually to the reentrant syscalls themselves.
-  71:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    How the structures are stored and accessed in this model is up to the
-  72:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    application.
-  73:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  74:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    Dynamic reentrancy is specified by the __DYNAMIC_REENT__ flag.  This
-  75:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    flag denotes setting up a macro to replace _REENT with a function call
-  76:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    to __getreent().  This function needs to be implemented by the platform
-  77:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    and it is meant to return the reentrancy structure for the current
-  78:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    thread.  When the regular C functions (e.g. printf) go to call internal
-  79:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    routines with the default _REENT structure, they end up calling with 
-  80:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    the reentrancy structure for the thread.  Thus, application code does not
-  81:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    need to call the _r routines nor worry about reentrancy structures.  */
-  82:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  83:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* WARNING: All identifiers here must begin with an underscore.  This file is
-  84:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    included by stdio.h and others and we therefore must only use identifiers
-  85:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    in the namespace allotted to us.  */
-  86:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  87:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #ifndef _REENT_H_
-  88:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #ifdef __cplusplus
-  89:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern "C" {
-  90:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #endif
-  91:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _REENT_H_
-  92:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  93:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #include <sys/reent.h>
-  94:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #include <sys/_types.h>
-  95:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #include <machine/types.h>
-  96:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
-  97:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define __need_size_t
-  98:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define __need_ptrdiff_t
-  99:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #include <stddef.h>
- 100:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
- 101:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* FIXME: not namespace clean */
- 102:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** struct stat;
- 103:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** struct tms;
- 104:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** struct timeval;
- 105:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** struct timezone;
- 106:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
- 107:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #if defined(REENTRANT_SYSCALLS_PROVIDED) && defined(MISSING_SYSCALL_NAMES)
- 108:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
- 109:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _close_r(__reent, __fd)                   close(__fd)
- 110:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _execve_r(__reent, __f, __arg, __env)     execve(__f, __arg, __env)
- 111:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _fcntl_r(__reent, __fd, __cmd, __arg)     fcntl(__fd, __cmd, __arg)
- 112:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _fork_r(__reent)                          fork()
- 113:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _fstat_r(__reent, __fdes, __stat)         fstat(__fdes, __stat)
- 114:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _getpid_r(__reent)                        getpid()
- 115:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _isatty_r(__reent, __desc)                isatty(__desc)
- 116:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _kill_r(__reent, __pid, __signal)         kill(__pid, __signal)
- 117:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _link_r(__reent, __oldpath, __newpath)    link(__oldpath, __newpath)
- 118:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _lseek_r(__reent, __fdes, __off, __w)     lseek(__fdes, __off, __w)
- 119:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _mkdir_r(__reent, __path, __m)		  mkdir(__path, __m)
- 120:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _open_r(__reent, __path, __flag, __m)     open(__path, __flag, __m)
- 121:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _read_r(__reent, __fd, __buff, __cnt)     read(__fd, __buff, __cnt)
- 122:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _rename_r(__reent, __old, __new)	  rename(__old, __new)
- 123:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _sbrk_r(__reent, __incr)                  sbrk(__incr)
- 124:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _stat_r(__reent, __path, __buff)          stat(__path, __buff)
- 125:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _times_r(__reent, __time)                 times(__time)
- 126:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _unlink_r(__reent, __path)                unlink(__path)
- 127:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _wait_r(__reent, __status)                wait(__status)
- 128:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _write_r(__reent, __fd, __buff, __cnt)    write(__fd, __buff, __cnt)
- 129:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _gettimeofday_r(__reent, __tp, __tzp)     gettimeofday(__tp, __tzp)
- 130:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
- 131:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #ifdef __LARGE64_FILES
- 132:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _lseek64_r(__reent, __fd, __off, __w)     lseek64(__fd, __off, __w)
- 133:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _fstat64_r(__reent, __fd, __buff)         fstat64(__fd, __buff)
- 134:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _open64_r(__reent, __path, __flag, __m)   open64(__path, __flag, __m)
- 135:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #endif
- 136:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
- 137:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #else
- 138:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* Reentrant versions of system calls.  */
- 139:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
- 140:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _close_r _PARAMS ((struct _reent *, int));
- 141:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _execve_r _PARAMS ((struct _reent *, const char *, char *const *, char *const *));
- 142:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _fcntl_r _PARAMS ((struct _reent *, int, int, int));
- 143:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _fork_r _PARAMS ((struct _reent *));
- 144:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _fstat_r _PARAMS ((struct _reent *, int, struct stat *));
- 145:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _getpid_r _PARAMS ((struct _reent *));
- 146:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _isatty_r _PARAMS ((struct _reent *, int));
- 147:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _kill_r _PARAMS ((struct _reent *, int, int));
- 148:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _link_r _PARAMS ((struct _reent *, const char *, const char *));
- 149:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern _off_t _lseek_r _PARAMS ((struct _reent *, int, _off_t, int));
- 150:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _mkdir_r _PARAMS ((struct _reent *, const char *, int));
- 151:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _open_r _PARAMS ((struct _reent *, const char *, int, int));
- 152:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern _ssize_t _read_r _PARAMS ((struct _reent *, int, void *, size_t));
- 153:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _rename_r _PARAMS ((struct _reent *, const char *, const char *));
- 154:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern void *_sbrk_r _PARAMS ((struct _reent *, ptrdiff_t));
- 155:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _stat_r _PARAMS ((struct _reent *, const char *, struct stat *));
- 156:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern _CLOCK_T_ _times_r _PARAMS ((struct _reent *, struct tms *));
- 157:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _unlink_r _PARAMS ((struct _reent *, const char *));
- 158:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _wait_r _PARAMS ((struct _reent *, int *));
- 159:c:\devz\arm\launchpad\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern _ssize_t _write_r _PARAMS ((struct _reent *, int, const void *, size_t));
+ 111              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
+   1:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* This header file provides the reentrancy.  */
+   2:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+   3:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* The reentrant system calls here serve two purposes:
+   4:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+   5:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    1) Provide reentrant versions of the system calls the ANSI C library
+   6:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       requires.
+   7:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    2) Provide these system calls in a namespace clean way.
+   8:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+   9:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    It is intended that *all* system calls that the ANSI C library needs
+  10:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    be declared here.  It documents them all in one place.  All library access
+  11:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    to the system is via some form of these functions.
+  12:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  13:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    The target may provide the needed syscalls by any of the following:
+  14:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  15:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    1) Define the reentrant versions of the syscalls directly.
+  16:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       (eg: _open_r, _close_r, etc.).  Please keep the namespace clean.
+  17:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       When you do this, set "syscall_dir" to "syscalls" and add
+  18:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       -DREENTRANT_SYSCALLS_PROVIDED to newlib_cflags in configure.host.
+  19:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  20:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    2) Define namespace clean versions of the system calls by prefixing
+  21:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       them with '_' (eg: _open, _close, etc.).  Technically, there won't be
+  22:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       true reentrancy at the syscall level, but the library will be namespace
+  23:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       clean.
+  24:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       When you do this, set "syscall_dir" to "syscalls" in configure.host.
+  25:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  26:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    3) Define or otherwise provide the regular versions of the syscalls
+  27:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       (eg: open, close, etc.).  The library won't be reentrant nor namespace
+  28:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       clean, but at least it will work.
+  29:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       When you do this, add -DMISSING_SYSCALL_NAMES to newlib_cflags in
+  30:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       configure.host.
+  31:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  32:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    4) Define or otherwise provide the regular versions of the syscalls,
+  33:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       and do not supply functional interfaces for any of the reentrant
+  34:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       calls. With this method, the reentrant syscalls are redefined to
+  35:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       directly call the regular system call without the reentrancy argument.
+  36:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       When you do this, specify both -DREENTRANT_SYSCALLS_PROVIDED and 
+  37:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       -DMISSING_SYSCALL_NAMES via newlib_cflags in configure.host and do
+  38:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****       not specify "syscall_dir".
+  39:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  40:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    Stubs of the reentrant versions of the syscalls exist in the libc/reent
+  41:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    source directory and are provided if REENTRANT_SYSCALLS_PROVIDED isn't 
+  42:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    defined.  These stubs call the native system calls: _open, _close, etc. 
+  43:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    if MISSING_SYSCALL_NAMES is *not* defined, otherwise they call the
+  44:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    non-underscored versions: open, close, etc. when MISSING_SYSCALL_NAMES
+  45:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    *is* defined.
+  46:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  47:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    By default, newlib functions call the reentrant syscalls internally,
+  48:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    passing a reentrancy structure as an argument.  This reentrancy structure
+  49:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    contains data that is thread-specific.  For example, the errno value is
+  50:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    kept in the reentrancy structure.  If multiple threads exist, each will
+  51:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    keep a separate errno value which is intuitive since the application flow
+  52:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    cannot check for failure reliably otherwise.
+  53:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  54:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    The reentrant syscalls are either provided by the platform, by the 
+  55:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    libc/reent stubs, or in the case of both MISSING_SYSCALL_NAMES and 
+  56:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    REENTRANT_SYSCALLS_PROVIDED being defined, the calls are redefined to
+  57:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    simply call the regular syscalls with no reentrancy struct argument.
+  58:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  59:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    A single-threaded application does not need to worry about the reentrancy
+  60:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    structure.  It is used internally.  
+  61:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  62:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    A multi-threaded application needs either to manually manage reentrancy 
+  63:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    structures or use dynamic reentrancy.
+  64:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    
+  65:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    Manually managing reentrancy structures entails calling special reentrant
+  66:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    versions of newlib functions that have an additional reentrancy argument.
+  67:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    For example, _printf_r.  By convention, the first argument is the
+  68:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    reentrancy structure.  By default, the normal version of the function
+  69:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    uses the default reentrancy structure: _REENT.  The reentrancy structure
+  70:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    is passed internally, eventually to the reentrant syscalls themselves.
+  71:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    How the structures are stored and accessed in this model is up to the
+  72:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    application.
+  73:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  74:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    Dynamic reentrancy is specified by the __DYNAMIC_REENT__ flag.  This
+  75:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    flag denotes setting up a macro to replace _REENT with a function call
+  76:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    to __getreent().  This function needs to be implemented by the platform
+  77:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    and it is meant to return the reentrancy structure for the current
+  78:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    thread.  When the regular C functions (e.g. printf) go to call internal
+  79:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    routines with the default _REENT structure, they end up calling with 
+  80:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    the reentrancy structure for the thread.  Thus, application code does not
+  81:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    need to call the _r routines nor worry about reentrancy structures.  */
+  82:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  83:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* WARNING: All identifiers here must begin with an underscore.  This file is
+  84:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    included by stdio.h and others and we therefore must only use identifiers
+  85:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h ****    in the namespace allotted to us.  */
+  86:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  87:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #ifndef _REENT_H_
+  88:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #ifdef __cplusplus
+  89:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern "C" {
+  90:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #endif
+  91:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _REENT_H_
+  92:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  93:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #include <sys/reent.h>
+  94:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #include <sys/_types.h>
+  95:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #include <machine/types.h>
+  96:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+  97:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define __need_size_t
+  98:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define __need_ptrdiff_t
+  99:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #include <stddef.h>
+ 100:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+ 101:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* FIXME: not namespace clean */
+ 102:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** struct stat;
+ 103:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** struct tms;
+ 104:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** struct timeval;
+ 105:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** struct timezone;
+ 106:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+ 107:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #if defined(REENTRANT_SYSCALLS_PROVIDED) && defined(MISSING_SYSCALL_NAMES)
+ 108:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+ 109:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _close_r(__reent, __fd)                   close(__fd)
+ 110:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _execve_r(__reent, __f, __arg, __env)     execve(__f, __arg, __env)
+ 111:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _fcntl_r(__reent, __fd, __cmd, __arg)     fcntl(__fd, __cmd, __arg)
+ 112:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _fork_r(__reent)                          fork()
+ 113:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _fstat_r(__reent, __fdes, __stat)         fstat(__fdes, __stat)
+ 114:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _getpid_r(__reent)                        getpid()
+ 115:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _isatty_r(__reent, __desc)                isatty(__desc)
+ 116:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _kill_r(__reent, __pid, __signal)         kill(__pid, __signal)
+ 117:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _link_r(__reent, __oldpath, __newpath)    link(__oldpath, __newpath)
+ 118:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _lseek_r(__reent, __fdes, __off, __w)     lseek(__fdes, __off, __w)
+ 119:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _mkdir_r(__reent, __path, __m)		  mkdir(__path, __m)
+ 120:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _open_r(__reent, __path, __flag, __m)     open(__path, __flag, __m)
+ 121:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _read_r(__reent, __fd, __buff, __cnt)     read(__fd, __buff, __cnt)
+ 122:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _rename_r(__reent, __old, __new)	  rename(__old, __new)
+ 123:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _sbrk_r(__reent, __incr)                  sbrk(__incr)
+ 124:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _stat_r(__reent, __path, __buff)          stat(__path, __buff)
+ 125:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _times_r(__reent, __time)                 times(__time)
+ 126:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _unlink_r(__reent, __path)                unlink(__path)
+ 127:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _wait_r(__reent, __status)                wait(__status)
+ 128:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _write_r(__reent, __fd, __buff, __cnt)    write(__fd, __buff, __cnt)
+ 129:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _gettimeofday_r(__reent, __tp, __tzp)     gettimeofday(__tp, __tzp)
+ 130:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+ 131:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #ifdef __LARGE64_FILES
+ 132:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _lseek64_r(__reent, __fd, __off, __w)     lseek64(__fd, __off, __w)
+ 133:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _fstat64_r(__reent, __fd, __buff)         fstat64(__fd, __buff)
+ 134:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #define _open64_r(__reent, __path, __flag, __m)   open64(__path, __flag, __m)
+ 135:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #endif
+ 136:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+ 137:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** #else
+ 138:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** /* Reentrant versions of system calls.  */
+ 139:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** 
+ 140:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _close_r _PARAMS ((struct _reent *, int));
+ 141:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _execve_r _PARAMS ((struct _reent *, const char *, char *const *, char *const *));
+ 142:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _fcntl_r _PARAMS ((struct _reent *, int, int, int));
+ 143:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _fork_r _PARAMS ((struct _reent *));
+ 144:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _fstat_r _PARAMS ((struct _reent *, int, struct stat *));
+ 145:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _getpid_r _PARAMS ((struct _reent *));
+ 146:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _isatty_r _PARAMS ((struct _reent *, int));
+ 147:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _kill_r _PARAMS ((struct _reent *, int, int));
+ 148:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _link_r _PARAMS ((struct _reent *, const char *, const char *));
+ 149:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern _off_t _lseek_r _PARAMS ((struct _reent *, int, _off_t, int));
+ 150:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _mkdir_r _PARAMS ((struct _reent *, const char *, int));
+ 151:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _open_r _PARAMS ((struct _reent *, const char *, int, int));
+ 152:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern _ssize_t _read_r _PARAMS ((struct _reent *, int, void *, size_t));
+ 153:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _rename_r _PARAMS ((struct _reent *, const char *, const char *));
+ 154:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern void *_sbrk_r _PARAMS ((struct _reent *, ptrdiff_t));
+ 155:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _stat_r _PARAMS ((struct _reent *, const char *, struct stat *));
+ 156:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern _CLOCK_T_ _times_r _PARAMS ((struct _reent *, struct tms *));
+ 157:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _unlink_r _PARAMS ((struct _reent *, const char *));
+ 158:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern int _wait_r _PARAMS ((struct _reent *, int *));
+ 159:c:\devz\arm\bleeding-edge\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include\reent.h **** extern _ssize_t _write_r _PARAMS ((struct _reent *, int, const void *, size_t));
  112              		.loc 2 159 0
  113 0006 D618     		adds	r6, r2, r3
  114              	.LVL12:
@@ -1036,7 +1036,7 @@
  573 0002 1546     		mov	r5, r2
  574              	.LVL51:
  575 0004 0C46     		mov	r4, r1
- 337:src/syscalls.c **** int _write(int fd, const char *buf, size_t cnt)
+ 337:src/syscalls.c **** {
  576              		.loc 1 337 0
  577 0006 8E18     		adds	r6, r1, r2
  578              	.LVL52:
@@ -1319,73 +1319,73 @@
  796 0000 00000000 		.space	4
  797              		.text
  798              	.Letext0:
- 799              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
- 800              		.file 4 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
- 801              		.file 5 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
- 802              		.file 6 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
- 803              		.file 7 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
- 804              		.file 8 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
- 805              		.file 9 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 799              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
+ 800              		.file 4 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
+ 801              		.file 5 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
+ 802              		.file 6 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
+ 803              		.file 7 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 804              		.file 8 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
+ 805              		.file 9 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
  806              		.file 10 "./lib/CMSIS/Include/core_cm3.h"
  807              		.file 11 "./inc/systick.h"
  808              		.file 12 "./inc/uart_support_gps.h"
- 809              		.file 13 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/
+ 809              		.file 13 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-e
 DEFINED SYMBOLS
                             *ABS*:00000000 syscalls.c
-  R:\TEMP\ccfmhkRv.s:19     .text._read_r:00000000 $t
-  R:\TEMP\ccfmhkRv.s:24     .text._read_r:00000000 _read_r
-  R:\TEMP\ccfmhkRv.s:89     .text._write_r:00000000 $t
-  R:\TEMP\ccfmhkRv.s:94     .text._write_r:00000000 _write_r
-  R:\TEMP\ccfmhkRv.s:142    .text._fini:00000000 $t
-  R:\TEMP\ccfmhkRv.s:147    .text._fini:00000000 _fini
-  R:\TEMP\ccfmhkRv.s:159    .text._close_r:00000000 $t
-  R:\TEMP\ccfmhkRv.s:164    .text._close_r:00000000 _close_r
-  R:\TEMP\ccfmhkRv.s:181    .text._lseek_r:00000000 $t
-  R:\TEMP\ccfmhkRv.s:186    .text._lseek_r:00000000 _lseek_r
-  R:\TEMP\ccfmhkRv.s:202    .text._fstat_r:00000000 $t
-  R:\TEMP\ccfmhkRv.s:207    .text._fstat_r:00000000 _fstat_r
-  R:\TEMP\ccfmhkRv.s:226    .text._sbrk_r:00000000 $t
-  R:\TEMP\ccfmhkRv.s:231    .text._sbrk_r:00000000 _sbrk_r
-  R:\TEMP\ccfmhkRv.s:279    .text._sbrk_r:0000002c $d
-  R:\TEMP\ccfmhkRv.s:285    .text.isatty:00000000 $t
-  R:\TEMP\ccfmhkRv.s:290    .text.isatty:00000000 isatty
-  R:\TEMP\ccfmhkRv.s:306    .text._exit:00000000 $t
-  R:\TEMP\ccfmhkRv.s:311    .text._exit:00000000 _exit
-  R:\TEMP\ccfmhkRv.s:327    .text._getpid:00000000 $t
-  R:\TEMP\ccfmhkRv.s:332    .text._getpid:00000000 _getpid
-  R:\TEMP\ccfmhkRv.s:349    .text._sbrk:00000000 $t
-  R:\TEMP\ccfmhkRv.s:354    .text._sbrk:00000000 _sbrk
-  R:\TEMP\ccfmhkRv.s:404    .text._sbrk:0000002c $d
-  R:\TEMP\ccfmhkRv.s:410    .text._open:00000000 $t
-  R:\TEMP\ccfmhkRv.s:415    .text._open:00000000 _open
-  R:\TEMP\ccfmhkRv.s:438    .text._close:00000000 $t
-  R:\TEMP\ccfmhkRv.s:443    .text._close:00000000 _close
-  R:\TEMP\ccfmhkRv.s:459    .text._fstat:00000000 $t
-  R:\TEMP\ccfmhkRv.s:464    .text._fstat:00000000 _fstat
-  R:\TEMP\ccfmhkRv.s:483    .text._isatty:00000000 $t
-  R:\TEMP\ccfmhkRv.s:488    .text._isatty:00000000 _isatty
-  R:\TEMP\ccfmhkRv.s:504    .text._lseek:00000000 $t
-  R:\TEMP\ccfmhkRv.s:509    .text._lseek:00000000 _lseek
-  R:\TEMP\ccfmhkRv.s:525    .text._read:00000000 $t
-  R:\TEMP\ccfmhkRv.s:530    .text._read:00000000 _read
-  R:\TEMP\ccfmhkRv.s:554    .text._write:00000000 $t
-  R:\TEMP\ccfmhkRv.s:559    .text._write:00000000 _write
-  R:\TEMP\ccfmhkRv.s:597    .text._times:00000000 $t
-  R:\TEMP\ccfmhkRv.s:602    .text._times:00000000 _times
-  R:\TEMP\ccfmhkRv.s:618    .text._link:00000000 $t
-  R:\TEMP\ccfmhkRv.s:623    .text._link:00000000 _link
-  R:\TEMP\ccfmhkRv.s:647    .text._unlink:00000000 $t
-  R:\TEMP\ccfmhkRv.s:652    .text._unlink:00000000 _unlink
-  R:\TEMP\ccfmhkRv.s:676    .text._wait:00000000 $t
-  R:\TEMP\ccfmhkRv.s:681    .text._wait:00000000 _wait
-  R:\TEMP\ccfmhkRv.s:705    .text._execve:00000000 $t
-  R:\TEMP\ccfmhkRv.s:710    .text._execve:00000000 _execve
-  R:\TEMP\ccfmhkRv.s:734    .text._fork:00000000 $t
-  R:\TEMP\ccfmhkRv.s:739    .text._fork:00000000 _fork
-  R:\TEMP\ccfmhkRv.s:762    .text._kill:00000000 $t
-  R:\TEMP\ccfmhkRv.s:767    .text._kill:00000000 _kill
-  R:\TEMP\ccfmhkRv.s:791    .bss.heap_ptr:00000000 $d
-  R:\TEMP\ccfmhkRv.s:795    .bss.heap_ptr:00000000 heap_ptr
+  R:\TEMP\ccdJvG89.s:19     .text._read_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:24     .text._read_r:00000000 _read_r
+  R:\TEMP\ccdJvG89.s:89     .text._write_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:94     .text._write_r:00000000 _write_r
+  R:\TEMP\ccdJvG89.s:142    .text._fini:00000000 $t
+  R:\TEMP\ccdJvG89.s:147    .text._fini:00000000 _fini
+  R:\TEMP\ccdJvG89.s:159    .text._close_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:164    .text._close_r:00000000 _close_r
+  R:\TEMP\ccdJvG89.s:181    .text._lseek_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:186    .text._lseek_r:00000000 _lseek_r
+  R:\TEMP\ccdJvG89.s:202    .text._fstat_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:207    .text._fstat_r:00000000 _fstat_r
+  R:\TEMP\ccdJvG89.s:226    .text._sbrk_r:00000000 $t
+  R:\TEMP\ccdJvG89.s:231    .text._sbrk_r:00000000 _sbrk_r
+  R:\TEMP\ccdJvG89.s:279    .text._sbrk_r:0000002c $d
+  R:\TEMP\ccdJvG89.s:285    .text.isatty:00000000 $t
+  R:\TEMP\ccdJvG89.s:290    .text.isatty:00000000 isatty
+  R:\TEMP\ccdJvG89.s:306    .text._exit:00000000 $t
+  R:\TEMP\ccdJvG89.s:311    .text._exit:00000000 _exit
+  R:\TEMP\ccdJvG89.s:327    .text._getpid:00000000 $t
+  R:\TEMP\ccdJvG89.s:332    .text._getpid:00000000 _getpid
+  R:\TEMP\ccdJvG89.s:349    .text._sbrk:00000000 $t
+  R:\TEMP\ccdJvG89.s:354    .text._sbrk:00000000 _sbrk
+  R:\TEMP\ccdJvG89.s:404    .text._sbrk:0000002c $d
+  R:\TEMP\ccdJvG89.s:410    .text._open:00000000 $t
+  R:\TEMP\ccdJvG89.s:415    .text._open:00000000 _open
+  R:\TEMP\ccdJvG89.s:438    .text._close:00000000 $t
+  R:\TEMP\ccdJvG89.s:443    .text._close:00000000 _close
+  R:\TEMP\ccdJvG89.s:459    .text._fstat:00000000 $t
+  R:\TEMP\ccdJvG89.s:464    .text._fstat:00000000 _fstat
+  R:\TEMP\ccdJvG89.s:483    .text._isatty:00000000 $t
+  R:\TEMP\ccdJvG89.s:488    .text._isatty:00000000 _isatty
+  R:\TEMP\ccdJvG89.s:504    .text._lseek:00000000 $t
+  R:\TEMP\ccdJvG89.s:509    .text._lseek:00000000 _lseek
+  R:\TEMP\ccdJvG89.s:525    .text._read:00000000 $t
+  R:\TEMP\ccdJvG89.s:530    .text._read:00000000 _read
+  R:\TEMP\ccdJvG89.s:554    .text._write:00000000 $t
+  R:\TEMP\ccdJvG89.s:559    .text._write:00000000 _write
+  R:\TEMP\ccdJvG89.s:597    .text._times:00000000 $t
+  R:\TEMP\ccdJvG89.s:602    .text._times:00000000 _times
+  R:\TEMP\ccdJvG89.s:618    .text._link:00000000 $t
+  R:\TEMP\ccdJvG89.s:623    .text._link:00000000 _link
+  R:\TEMP\ccdJvG89.s:647    .text._unlink:00000000 $t
+  R:\TEMP\ccdJvG89.s:652    .text._unlink:00000000 _unlink
+  R:\TEMP\ccdJvG89.s:676    .text._wait:00000000 $t
+  R:\TEMP\ccdJvG89.s:681    .text._wait:00000000 _wait
+  R:\TEMP\ccdJvG89.s:705    .text._execve:00000000 $t
+  R:\TEMP\ccdJvG89.s:710    .text._execve:00000000 _execve
+  R:\TEMP\ccdJvG89.s:734    .text._fork:00000000 $t
+  R:\TEMP\ccdJvG89.s:739    .text._fork:00000000 _fork
+  R:\TEMP\ccdJvG89.s:762    .text._kill:00000000 $t
+  R:\TEMP\ccdJvG89.s:767    .text._kill:00000000 _kill
+  R:\TEMP\ccdJvG89.s:791    .bss.heap_ptr:00000000 $d
+  R:\TEMP\ccdJvG89.s:795    .bss.heap_ptr:00000000 heap_ptr
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

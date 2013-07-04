@@ -270,7 +270,7 @@
  135:lib/USB_Functions/usb_pwr.c ****   Enter_LowPowerMode();
  136:lib/USB_Functions/usb_pwr.c **** }
  141              		.loc 1 136 0
- 135:lib/USB_Functions/usb_pwr.c ****   Enter_LowPowerMode();
+ 135:lib/USB_Functions/usb_pwr.c **** }
  142              		.loc 1 135 0
  143 0016 FFF7FEBF 		b	Enter_LowPowerMode
  144              	.LVL4:
@@ -581,7 +581,7 @@
  354 0000 00000000 		.space	4
  355              		.text
  356              	.Letext0:
- 357              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 357              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  358              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  359              		.file 4 "./lib/STM32_USB-FS-Device_Driver/inc/usb_core.h"
  360              		.file 5 "./lib/USB_Functions/usb_pwr.h"
@@ -591,28 +591,28 @@
  364              		.file 9 "./inc/hw_config.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 usb_pwr.c
-  R:\TEMP\ccDZMHED.s:19     .text.PowerOn:00000000 $t
-  R:\TEMP\ccDZMHED.s:24     .text.PowerOn:00000000 PowerOn
-  R:\TEMP\ccDZMHED.s:62     .text.PowerOn:00000024 $d
-  R:\TEMP\ccDZMHED.s:69     .text.PowerOff:00000000 $t
-  R:\TEMP\ccDZMHED.s:74     .text.PowerOff:00000000 PowerOff
-  R:\TEMP\ccDZMHED.s:108    .text.PowerOff:0000001c $d
-  R:\TEMP\ccDZMHED.s:114    .text.Suspend:00000000 $t
-  R:\TEMP\ccDZMHED.s:119    .text.Suspend:00000000 Suspend
-  R:\TEMP\ccDZMHED.s:148    .text.Suspend:0000001c $d
-  R:\TEMP\ccDZMHED.s:153    .text.Resume_Init:00000000 $t
-  R:\TEMP\ccDZMHED.s:158    .text.Resume_Init:00000000 Resume_Init
-  R:\TEMP\ccDZMHED.s:189    .text.Resume_Init:0000001c $d
-  R:\TEMP\ccDZMHED.s:194    .text.Resume:00000000 $t
-  R:\TEMP\ccDZMHED.s:199    .text.Resume:00000000 Resume
-  R:\TEMP\ccDZMHED.s:224    .text.Resume:00000016 $d
-  R:\TEMP\ccDZMHED.s:230    .text.Resume:0000001c $t
-  R:\TEMP\ccDZMHED.s:330    .text.Resume:00000080 $d
-  R:\TEMP\ccDZMHED.s:342    .bss.ResumeS:00000000 ResumeS
-  R:\TEMP\ccDZMHED.s:347    .data.fSuspendEnabled:00000000 fSuspendEnabled
-  R:\TEMP\ccDZMHED.s:353    .bss.bDeviceState:00000000 bDeviceState
-  R:\TEMP\ccDZMHED.s:343    .bss.ResumeS:00000000 $d
-  R:\TEMP\ccDZMHED.s:350    .bss.bDeviceState:00000000 $d
+  R:\TEMP\ccsa7BA8.s:19     .text.PowerOn:00000000 $t
+  R:\TEMP\ccsa7BA8.s:24     .text.PowerOn:00000000 PowerOn
+  R:\TEMP\ccsa7BA8.s:62     .text.PowerOn:00000024 $d
+  R:\TEMP\ccsa7BA8.s:69     .text.PowerOff:00000000 $t
+  R:\TEMP\ccsa7BA8.s:74     .text.PowerOff:00000000 PowerOff
+  R:\TEMP\ccsa7BA8.s:108    .text.PowerOff:0000001c $d
+  R:\TEMP\ccsa7BA8.s:114    .text.Suspend:00000000 $t
+  R:\TEMP\ccsa7BA8.s:119    .text.Suspend:00000000 Suspend
+  R:\TEMP\ccsa7BA8.s:148    .text.Suspend:0000001c $d
+  R:\TEMP\ccsa7BA8.s:153    .text.Resume_Init:00000000 $t
+  R:\TEMP\ccsa7BA8.s:158    .text.Resume_Init:00000000 Resume_Init
+  R:\TEMP\ccsa7BA8.s:189    .text.Resume_Init:0000001c $d
+  R:\TEMP\ccsa7BA8.s:194    .text.Resume:00000000 $t
+  R:\TEMP\ccsa7BA8.s:199    .text.Resume:00000000 Resume
+  R:\TEMP\ccsa7BA8.s:224    .text.Resume:00000016 $d
+  R:\TEMP\ccsa7BA8.s:230    .text.Resume:0000001c $t
+  R:\TEMP\ccsa7BA8.s:330    .text.Resume:00000080 $d
+  R:\TEMP\ccsa7BA8.s:342    .bss.ResumeS:00000000 ResumeS
+  R:\TEMP\ccsa7BA8.s:347    .data.fSuspendEnabled:00000000 fSuspendEnabled
+  R:\TEMP\ccsa7BA8.s:353    .bss.bDeviceState:00000000 bDeviceState
+  R:\TEMP\ccsa7BA8.s:343    .bss.ResumeS:00000000 $d
+  R:\TEMP\ccsa7BA8.s:350    .bss.bDeviceState:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

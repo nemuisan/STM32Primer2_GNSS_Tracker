@@ -13,6 +13,8 @@ http://nemuisan.blog.bai.ne.jp/?eid=188402
 
 ========== Support Modules ==========
 appricable GPS modules, you can use...
+Gms-g9 (GlobalTOP CO., LTD.)
+ Supports MP3333,9600bps,38400bps,AIC Setting,AGPS With PC-Software.
 Gms-g6a (GlobalTOP CO., LTD.)
  Supports MP3333,9600bps,38400bps,AIC Setting,AGPS With PC-Software.
 PA6C    (GlobalTOP CO., LTD.)

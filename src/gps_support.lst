@@ -362,7 +362,7 @@
  117 001c 7047     		bx	lr
  118              	.LVL11:
  119              	.L23:
- 244:src/gps_support.c **** 	if (n >= 10) return 0;
+ 244:src/gps_support.c **** 	m = *db - '0';
  120              		.loc 1 244 0
  121 001e 0020     		movs	r0, #0
  122              	.LVL12:
@@ -433,7 +433,7 @@
  172              		.thumb_func
  174              	gp_col.constprop.1:
  175              	.LFB69:
- 213:src/gps_support.c **** static uint8_t* gp_col(	/* Returns pointer to the item (returns a NULL when not found) */
+ 213:src/gps_support.c **** 	const uint8_t* buf,	/* Pointer to the sentence */
  176              		.loc 1 213 0
  177              		.cfi_startproc
  178              		@ args = 0, pretend = 0, frame = 0
@@ -593,27 +593,27 @@
  184 0000 074B     		ldr	r3, .L42
  185              	.LVL21:
  186              	.L34:
- 221:src/gps_support.c **** 	while (col) {
+ 221:src/gps_support.c **** 		do {
  187              		.loc 1 221 0
  188 0002 58B1     		cbz	r0, .L35
  189 0004 1A46     		mov	r2, r3
  190              	.LVL22:
  191              	.L36:
- 223:src/gps_support.c **** 			c = *buf++;
+ 223:src/gps_support.c **** 			if (c <= ' ') return NULL;
  192              		.loc 1 223 0
  193 0006 12F8011B 		ldrb	r1, [r2], #1	@ zero_extendqisi2
  194              	.LVL23:
  195 000a 1346     		mov	r3, r2
  196              	.LVL24:
- 224:src/gps_support.c **** 			if (c <= ' ') return NULL;
+ 224:src/gps_support.c **** 		} while (c != ',');
  197              		.loc 1 224 0
  198 000c 2029     		cmp	r1, #32
  199 000e 04D9     		bls	.L37
- 225:src/gps_support.c **** 		} while (c != ',');
+ 225:src/gps_support.c **** 		col--;
  200              		.loc 1 225 0
  201 0010 2C29     		cmp	r1, #44
  202 0012 F8D1     		bne	.L36
- 226:src/gps_support.c **** 		col--;
+ 226:src/gps_support.c **** 	}
  203              		.loc 1 226 0
  204 0014 0138     		subs	r0, r0, #1
  205              	.LVL25:
@@ -621,12 +621,12 @@
  207              	.LVL26:
  208 0018 F3E7     		b	.L34
  209              	.L37:
- 224:src/gps_support.c **** 			if (c <= ' ') return NULL;
+ 224:src/gps_support.c **** 		} while (c != ',');
  210              		.loc 1 224 0
  211 001a 0023     		movs	r3, #0
  212              	.LVL27:
  213              	.L35:
- 229:src/gps_support.c **** }
+ 229:src/gps_support.c **** 
  214              		.loc 1 229 0
  215 001c 1846     		mov	r0, r3
  216              	.LVL28:
@@ -643,7 +643,7 @@
  228              		.thumb_func
  230              	xSend_MTKCmd:
  231              	.LFB62:
- 177:src/gps_support.c **** {
+ 177:src/gps_support.c **** 	char strcmd[128];
  232              		.loc 1 177 0
  233              		.cfi_startproc
  234              		@ args = 0, pretend = 0, frame = 128
@@ -658,18 +658,18 @@
  243              		.cfi_def_cfa_offset 136
  244 0004 0246     		mov	r2, r0
  245 0006 0B46     		mov	r3, r1
- 180:src/gps_support.c **** 	if(*datastr==0)
+ 180:src/gps_support.c **** 		xsprintf(strcmd,"%s*",cmdstr);
  246              		.loc 1 180 0
  247 0008 91F90010 		ldrsb	r1, [r1, #0]
  248              	.LVL30:
- 181:src/gps_support.c **** 		xsprintf(strcmd,"%s*",cmdstr);
+ 181:src/gps_support.c **** 	else
  249              		.loc 1 181 0
  250 000c 6846     		mov	r0, sp
  251              	.LVL31:
- 180:src/gps_support.c **** 	if(*datastr==0)
+ 180:src/gps_support.c **** 		xsprintf(strcmd,"%s*",cmdstr);
  252              		.loc 1 180 0
  253 000e 19B9     		cbnz	r1, .L45
- 181:src/gps_support.c **** 		xsprintf(strcmd,"%s*",cmdstr);
+ 181:src/gps_support.c **** 	else
  254              		.loc 1 181 0
  255 0010 1049     		ldr	r1, .L59
  256 0012 FFF7FEFF 		bl	xsprintf
@@ -677,7 +677,7 @@
  258 0016 02E0     		b	.L46
  259              	.LVL33:
  260              	.L45:
- 183:src/gps_support.c **** 		xsprintf(strcmd,"%s,%s*",cmdstr,datastr);
+ 183:src/gps_support.c **** 	xprintf("%s%X\r\n",strcmd,get_Checksum(strcmd,sizeof(strcmd)));
  261              		.loc 1 183 0
  262 0018 0F49     		ldr	r1, .L59+4
  263 001a FFF7FEFF 		bl	xsprintf
@@ -685,15 +685,15 @@
  265              	.L46:
  266              	.LBB8:
  267              	.LBB9:
- 158:src/gps_support.c **** 	if(*cmdstr != '$'){
+ 158:src/gps_support.c **** 		return chksum;
  268              		.loc 1 158 0
  269 001e 9DF90030 		ldrsb	r3, [sp, #0]
  270 0022 242B     		cmp	r3, #36
  271 0024 0AD1     		bne	.L50
- 184:src/gps_support.c **** 	xprintf("%s%X\r\n",strcmd,get_Checksum(strcmd,sizeof(strcmd)));
+ 184:src/gps_support.c **** 	while(!(WaitTxBuffer()));
  272              		.loc 1 184 0
  273 0026 6B46     		mov	r3, sp
- 176:src/gps_support.c **** static void xSend_MTKCmd(const char* cmdstr,const char* datastr)	
+ 176:src/gps_support.c **** {
  274              		.loc 1 176 0
  275 0028 20A8     		add	r0, sp, #128
  276              	.LBE9:
@@ -703,41 +703,41 @@
  280              	.L48:
  281              	.LBB11:
  282              	.LBB10:
- 164:src/gps_support.c **** 			if(((*pstr)=='*')|| !(--bytes)) break;
+ 164:src/gps_support.c **** 			chksum = chksum^(*pstr++);
  283              		.loc 1 164 0
  284 002c 13F8011F 		ldrb	r1, [r3, #1]!	@ zero_extendqisi2
  285 0030 2A29     		cmp	r1, #42
  286 0032 04D0     		beq	.L47
  287 0034 8342     		cmp	r3, r0
  288 0036 02D0     		beq	.L47
- 165:src/gps_support.c **** 			chksum = chksum^(*pstr++);
+ 165:src/gps_support.c **** 		}
  289              		.loc 1 165 0
  290 0038 4A40     		eors	r2, r2, r1
  291              	.LVL36:
  292 003a F7E7     		b	.L48
  293              	.LVL37:
  294              	.L50:
- 159:src/gps_support.c **** 		return chksum;
+ 159:src/gps_support.c **** 	}
  295              		.loc 1 159 0
  296 003c 0022     		movs	r2, #0
  297              	.LVL38:
  298              	.L47:
  299              	.LBE10:
  300              	.LBE11:
- 184:src/gps_support.c **** 	xprintf("%s%X\r\n",strcmd,get_Checksum(strcmd,sizeof(strcmd)));
+ 184:src/gps_support.c **** 	while(!(WaitTxBuffer()));
  301              		.loc 1 184 0
  302 003e 0748     		ldr	r0, .L59+8
  303 0040 6946     		mov	r1, sp
  304 0042 FFF7FEFF 		bl	xprintf
  305              	.LVL39:
  306              	.L49:
- 185:src/gps_support.c **** 	while(!(WaitTxBuffer()));
+ 185:src/gps_support.c **** }
  307              		.loc 1 185 0 discriminator 1
  308 0046 FFF7FEFF 		bl	WaitTxBuffer
  309              	.LVL40:
  310 004a 0028     		cmp	r0, #0
  311 004c FBD0     		beq	.L49
- 186:src/gps_support.c **** }
+ 186:src/gps_support.c **** 
  312              		.loc 1 186 0
  313 004e 21B0     		add	sp, sp, #132
  314 0050 00BD     		pop	{pc}
@@ -756,13 +756,13 @@
  328              		.thumb_func
  330              	ff_support_timerproc:
  331              	.LFB57:
-  95:src/gps_support.c **** {
+  95:src/gps_support.c **** 	Timer++;
  332              		.loc 1 95 0
  333              		.cfi_startproc
  334              		@ args = 0, pretend = 0, frame = 0
  335              		@ frame_needed = 0, uses_anonymous_args = 0
  336              		@ link register save eliminated.
-  96:src/gps_support.c **** 	Timer++;
+  96:src/gps_support.c **** }
  337              		.loc 1 96 0
  338 0000 024B     		ldr	r3, .L62
  339 0002 1A68     		ldr	r2, [r3, #0]
@@ -782,7 +782,7 @@
  354              		.thumb_func
  356              	get_fattime:
  357              	.LFB58:
- 105:src/gps_support.c **** {
+ 105:src/gps_support.c **** 	/* Get local time */
  358              		.loc 1 105 0
  359              		.cfi_startproc
  360              		@ args = 0, pretend = 0, frame = 0
@@ -792,43 +792,43 @@
  364              		.cfi_def_cfa_offset 8
  365              		.cfi_offset 4, -8
  366              		.cfi_offset 14, -4
- 107:src/gps_support.c **** 	rtc_gettime(&ff_rtc);
+ 107:src/gps_support.c **** 
  367              		.loc 1 107 0
  368 0002 0C4C     		ldr	r4, .L65
  369 0004 2046     		mov	r0, r4
  370 0006 FFF7FEFF 		bl	rtc_gettime
  371              	.LVL41:
- 112:src/gps_support.c **** 			| ((DWORD)ff_rtc.mday << 16)
+ 112:src/gps_support.c **** 			| ((DWORD)ff_rtc.hour << 11)
  372              		.loc 1 112 0
  373 000a E278     		ldrb	r2, [r4, #3]	@ zero_extendqisi2
- 111:src/gps_support.c **** 			| ((DWORD)ff_rtc.month << 21)
+ 111:src/gps_support.c **** 			| ((DWORD)ff_rtc.mday << 16)
  374              		.loc 1 111 0
  375 000c A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
  376 000e 5805     		lsls	r0, r3, #21
  377 0010 40EA0241 		orr	r1, r0, r2, lsl #16
- 113:src/gps_support.c **** 			| ((DWORD)ff_rtc.hour << 11)
+ 113:src/gps_support.c **** 			| ((DWORD)ff_rtc.min << 5)
  378              		.loc 1 113 0
  379 0014 6279     		ldrb	r2, [r4, #5]	@ zero_extendqisi2
- 112:src/gps_support.c **** 			| ((DWORD)ff_rtc.mday << 16)
+ 112:src/gps_support.c **** 			| ((DWORD)ff_rtc.hour << 11)
  380              		.loc 1 112 0
  381 0016 41EAC223 		orr	r3, r1, r2, lsl #11
- 114:src/gps_support.c **** 			| ((DWORD)ff_rtc.min << 5)
+ 114:src/gps_support.c **** 			| ((DWORD)ff_rtc.sec >> 1);
  382              		.loc 1 114 0
  383 001a A079     		ldrb	r0, [r4, #6]	@ zero_extendqisi2
- 113:src/gps_support.c **** 			| ((DWORD)ff_rtc.hour << 11)
+ 113:src/gps_support.c **** 			| ((DWORD)ff_rtc.min << 5)
  384              		.loc 1 113 0
  385 001c 43EA4011 		orr	r1, r3, r0, lsl #5
- 115:src/gps_support.c **** 			| ((DWORD)ff_rtc.sec >> 1);
+ 115:src/gps_support.c **** }
  386              		.loc 1 115 0
  387 0020 E279     		ldrb	r2, [r4, #7]	@ zero_extendqisi2
- 114:src/gps_support.c **** 			| ((DWORD)ff_rtc.min << 5)
+ 114:src/gps_support.c **** 			| ((DWORD)ff_rtc.sec >> 1);
  388              		.loc 1 114 0
  389 0022 41EA5203 		orr	r3, r1, r2, lsr #1
- 110:src/gps_support.c **** 	return	  ((DWORD)(ff_rtc.year - 1980) << 25)
+ 110:src/gps_support.c **** 			| ((DWORD)ff_rtc.month << 21)
  390              		.loc 1 110 0
  391 0026 2088     		ldrh	r0, [r4, #0]
  392 0028 A0F2BC71 		subw	r1, r0, #1980
- 116:src/gps_support.c **** }
+ 116:src/gps_support.c **** 
  393              		.loc 1 116 0
  394 002c 43EA4160 		orr	r0, r3, r1, lsl #25
  395 0030 10BD     		pop	{r4, pc}
@@ -845,7 +845,7 @@
  407              		.thumb_func
  409              	ChkAckLimit:
  410              	.LFB59:
- 124:src/gps_support.c **** {
+ 124:src/gps_support.c **** 
  411              		.loc 1 124 0
  412              		.cfi_startproc
  413              		@ args = 0, pretend = 0, frame = 0
@@ -855,7 +855,7 @@
  417              		.cfi_def_cfa_offset 8
  418              		.cfi_offset 4, -8
  419              		.cfi_offset 14, -4
- 126:src/gps_support.c **** 	if(ack_limit++ > ACK_LIMIT*1000){
+ 126:src/gps_support.c **** 		/* Wakeup(For MT333x) */
  420              		.loc 1 126 0
  421 0002 074C     		ldr	r4, .L69
  422 0004 2368     		ldr	r3, [r4, #0]
@@ -864,13 +864,13 @@
  425 000a 41F28830 		movw	r0, #5000
  426 000e 8342     		cmp	r3, r0
  427 0010 05D9     		bls	.L67
- 128:src/gps_support.c **** 		xSend_MTKCmd(PMTK_TEST,"");
+ 128:src/gps_support.c **** 		ack_limit =0;
  428              		.loc 1 128 0
  429 0012 0448     		ldr	r0, .L69+4
  430 0014 0449     		ldr	r1, .L69+8
  431 0016 FFF7FEFF 		bl	xSend_MTKCmd
  432              	.LVL42:
- 129:src/gps_support.c **** 		ack_limit =0;
+ 129:src/gps_support.c **** 	}
  433              		.loc 1 129 0
  434 001a 0021     		movs	r1, #0
  435 001c 2160     		str	r1, [r4, #0]
@@ -891,7 +891,7 @@
  451              		.thumb_func
  453              	ShutFileClose:
  454              	.LFB60:
- 140:src/gps_support.c **** {
+ 140:src/gps_support.c **** 	if(l_stat==STBY_STATE) return;
  455              		.loc 1 140 0
  456              		.cfi_startproc
  457              		@ args = 0, pretend = 0, frame = 0
@@ -901,13 +901,13 @@
  461              		.cfi_def_cfa_offset 8
  462              		.cfi_offset 3, -8
  463              		.cfi_offset 14, -4
- 141:src/gps_support.c **** 	if(l_stat==STBY_STATE) return;
+ 141:src/gps_support.c **** 	
  464              		.loc 1 141 0
  465 0002 044B     		ldr	r3, .L76
  466 0004 1868     		ldr	r0, [r3, #0]
  467 0006 20B1     		cbz	r0, .L71
  468              	.L74:
- 144:src/gps_support.c **** 	if(f_close(&File1)) {goto shutstat;}
+ 144:src/gps_support.c **** }
  469              		.loc 1 144 0
  470 0008 0348     		ldr	r0, .L76+4
  471 000a FFF7FEFF 		bl	f_close
@@ -930,7 +930,7 @@
  489              		.thumb_func
  491              	gps_task:
  492              	.LFB67:
- 274:src/gps_support.c **** {
+ 274:src/gps_support.c **** 	uint8_t  *p = NULL;
  493              		.loc 1 274 0
  494              		.cfi_startproc
  495              		@ args = 0, pretend = 0, frame = 48
@@ -947,114 +947,114 @@
  506              	.LCFI7:
  507              		.cfi_def_cfa_offset 80
  508              	.LVL44:
- 278:src/gps_support.c **** 	volatile uint16_t c_sync=0;
+ 278:src/gps_support.c **** 	time_t utc;
  509              		.loc 1 278 0
  510 0004 0024     		movs	r4, #0
  511 0006 ADF83240 		strh	r4, [sp, #50]	@ movhi
  512              	.LVL45:
- 282:src/gps_support.c **** 	xdev_out(putch);
+ 282:src/gps_support.c **** 	xdev_in(getch);
  513              		.loc 1 282 0
  514 000a A04A     		ldr	r2, .L123
  515 000c A04B     		ldr	r3, .L123+4
  516 000e 1A60     		str	r2, [r3, #0]
- 283:src/gps_support.c **** 	xdev_in(getch);
+ 283:src/gps_support.c **** 
  517              		.loc 1 283 0
  518 0010 A048     		ldr	r0, .L123+8
  519 0012 A149     		ldr	r1, .L123+12
  520 0014 0860     		str	r0, [r1, #0]
- 286:src/gps_support.c **** 	conio_init(GPS_UART_PORT,38400);
+ 286:src/gps_support.c **** 	/* Set to 9600 bps forcely in 38400bps */
  521              		.loc 1 286 0
  522 0016 0220     		movs	r0, #2
  523 0018 4FF41641 		mov	r1, #38400
  524 001c FFF7FEFF 		bl	conio_init
  525              	.LVL46:
- 288:src/gps_support.c **** 	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
+ 288:src/gps_support.c **** 	_delay_ms(100);		/* Need Some Wait */
  526              		.loc 1 288 0
  527 0020 9E48     		ldr	r0, .L123+16
  528 0022 9F49     		ldr	r1, .L123+20
  529 0024 FFF7FEFF 		bl	xSend_MTKCmd
  530              	.LVL47:
- 289:src/gps_support.c **** 	_delay_ms(100);		/* Need Some Wait */
+ 289:src/gps_support.c **** 	
  531              		.loc 1 289 0
  532 0028 6420     		movs	r0, #100
  533 002a FFF7FEFF 		bl	_delay_ms
  534              	.LVL48:
- 291:src/gps_support.c **** 	conio_init(GPS_UART_PORT,115200);
+ 291:src/gps_support.c **** 	/* Set to 9600 bps forcely in 115200bps */
  535              		.loc 1 291 0
  536 002e 0220     		movs	r0, #2
  537 0030 4FF4E131 		mov	r1, #115200
  538 0034 FFF7FEFF 		bl	conio_init
  539              	.LVL49:
- 293:src/gps_support.c **** 	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
+ 293:src/gps_support.c **** 	_delay_ms(100);		/* Need Some Wait */
  540              		.loc 1 293 0
  541 0038 9848     		ldr	r0, .L123+16
  542 003a 9949     		ldr	r1, .L123+20
  543 003c FFF7FEFF 		bl	xSend_MTKCmd
  544              	.LVL50:
- 294:src/gps_support.c **** 	_delay_ms(100);		/* Need Some Wait */
+ 294:src/gps_support.c **** 
  545              		.loc 1 294 0
  546 0040 6420     		movs	r0, #100
  547 0042 FFF7FEFF 		bl	_delay_ms
  548              	.LVL51:
- 297:src/gps_support.c **** 	conio_init(GPS_UART_PORT,GPS_UART_BAUD);
+ 297:src/gps_support.c **** 
  549              		.loc 1 297 0
  550 0046 0220     		movs	r0, #2
  551 0048 4FF41651 		mov	r1, #9600
  552 004c FFF7FEFF 		bl	conio_init
  553              	.LVL52:
- 301:src/gps_support.c **** 	xSend_MTKCmd(PMTK_API_SET_SBAS_ENABLED,"1");
+ 301:src/gps_support.c **** 	xSend_MTKCmd(PMTK_API_SET_SBAS_MODE,"1");
  554              		.loc 1 301 0
  555 0050 9448     		ldr	r0, .L123+24
  556 0052 9549     		ldr	r1, .L123+28
  557 0054 FFF7FEFF 		bl	xSend_MTKCmd
  558              	.LVL53:
- 302:src/gps_support.c **** 	xSend_MTKCmd(PMTK_API_SET_SBAS_MODE,"1");
+ 302:src/gps_support.c **** 	xSend_MTKCmd(PMTK_API_SET_DGPS_MODE,"2");
  559              		.loc 1 302 0
  560 0058 9448     		ldr	r0, .L123+32
  561 005a 9349     		ldr	r1, .L123+28
  562 005c FFF7FEFF 		bl	xSend_MTKCmd
  563              	.LVL54:
- 303:src/gps_support.c **** 	xSend_MTKCmd(PMTK_API_SET_DGPS_MODE,"2");
+ 303:src/gps_support.c **** 
  564              		.loc 1 303 0
  565 0060 9348     		ldr	r0, .L123+36
  566 0062 9449     		ldr	r1, .L123+40
  567 0064 FFF7FEFF 		bl	xSend_MTKCmd
  568              	.LVL55:
- 307:src/gps_support.c **** 	xSend_MTKCmd(PMTK_CMD_PERIODIC_MODE,"0");
+ 307:src/gps_support.c **** 	/* Enable Anti Interference Control */
  569              		.loc 1 307 0
  570 0068 9348     		ldr	r0, .L123+44
  571 006a 9449     		ldr	r1, .L123+48
  572 006c FFF7FEFF 		bl	xSend_MTKCmd
  573              	.LVL56:
- 309:src/gps_support.c **** 	xSend_MTKCmd(PMTK_CMD_AIC_MODE,"1");
+ 309:src/gps_support.c **** 	/* Enable EASY */
  574              		.loc 1 309 0
  575 0070 9348     		ldr	r0, .L123+52
  576 0072 8D49     		ldr	r1, .L123+28
  577 0074 FFF7FEFF 		bl	xSend_MTKCmd
  578              	.LVL57:
- 311:src/gps_support.c **** 	xSend_MTKCmd(PMTK_CMD_EASY_ENABLE,"1,1");
+ 311:src/gps_support.c **** 
  579              		.loc 1 311 0
  580 0078 9248     		ldr	r0, .L123+56
  581 007a 9349     		ldr	r1, .L123+60
  582 007c FFF7FEFF 		bl	xSend_MTKCmd
  583              	.LVL58:
- 314:src/gps_support.c **** 	f_mount(0, &Fatfs[0]);
+ 314:src/gps_support.c **** 
  584              		.loc 1 314 0
  585 0080 2046     		mov	r0, r4
  586 0082 9249     		ldr	r1, .L123+64
  587 0084 FFF7FEFF 		bl	f_mount
  588              	.LVL59:
- 317:src/gps_support.c **** 	Flush_RXBuffer();
+ 317:src/gps_support.c **** 
  589              		.loc 1 317 0
  590 0088 FFF7FEFF 		bl	Flush_RXBuffer
  591              	.LVL60:
  592              	.L118:
- 322:src/gps_support.c **** 		l_stat = STBY_STATE;
+ 322:src/gps_support.c **** 		LED_RED_ON();
  593              		.loc 1 322 0
  594 008c 0025     		movs	r5, #0
  595 008e 904E     		ldr	r6, .L123+68
  596 0090 3560     		str	r5, [r6, #0]
- 323:src/gps_support.c **** 		LED_RED_ON();
+ 323:src/gps_support.c **** 		/* Wait for valid RMC sentence. */
  597              		.loc 1 323 0
  598 0092 9048     		ldr	r0, .L123+72
  599 0094 0221     		movs	r1, #2
@@ -1410,48 +1410,48 @@
  611              	.L81:
  612              	.LBE13:
  613              	.LBE12:
- 328:src/gps_support.c **** 				b = get_line_GPS();
+ 328:src/gps_support.c **** 				/* Got UART String ? */
  614              		.loc 1 328 0
  615 009c FFF7FEFF 		bl	get_line_GPS
  616              	.LVL62:
- 330:src/gps_support.c **** 				if (b) break;
+ 330:src/gps_support.c **** 			}while(1);
  617              		.loc 1 330 0
  618 00a0 0028     		cmp	r0, #0
  619 00a2 FBD0     		beq	.L81
- 334:src/gps_support.c **** 			LED_RED_OFF();
+ 334:src/gps_support.c **** 			LED_GRN_ON();
  620              		.loc 1 334 0
  621 00a4 8B48     		ldr	r0, .L123+72
  622              	.LVL63:
  623 00a6 0221     		movs	r1, #2
  624 00a8 FFF7FEFF 		bl	GPIO_ResetBits
  625              	.LVL64:
- 335:src/gps_support.c **** 			LED_GRN_ON();
+ 335:src/gps_support.c **** 	
  626              		.loc 1 335 0
  627 00ac 8948     		ldr	r0, .L123+72
  628 00ae 0121     		movs	r1, #1
  629 00b0 FFF7FEFF 		bl	GPIO_SetBits
  630              	.LVL65:
- 338:src/gps_support.c **** 			if (!gp_comp(Buff, "$GPRMC") || !gp_comp(Buff, "$GNRMC")){
+ 338:src/gps_support.c **** 				/* Skip this execution When not a GPRMC or GNRMC Sentence */
  631              		.loc 1 338 0
  632 00b4 8848     		ldr	r0, .L123+76
  633 00b6 FFF7FEFF 		bl	gp_comp.constprop.0
  634              	.LVL66:
  635 00ba 18B1     		cbz	r0, .L82
- 338:src/gps_support.c **** 			if (!gp_comp(Buff, "$GPRMC") || !gp_comp(Buff, "$GNRMC")){
+ 338:src/gps_support.c **** 				/* Skip this execution When not a GPRMC or GNRMC Sentence */
  636              		.loc 1 338 0 is_stmt 0 discriminator 1
  637 00bc 8748     		ldr	r0, .L123+80
  638 00be FFF7FEFF 		bl	gp_comp.constprop.0
  639              	.LVL67:
  640 00c2 38B9     		cbnz	r0, .L83
  641              	.L82:
- 340:src/gps_support.c **** 				p = gp_col(Buff,GPRMC_COL_VALID);
+ 340:src/gps_support.c **** 				LED_GRN_OFF();
  642              		.loc 1 340 0 is_stmt 1
  643 00c4 0220     		movs	r0, #2
  644 00c6 FFF7FEFF 		bl	gp_col.constprop.1
  645              	.LVL68:
  646 00ca 0446     		mov	r4, r0
  647              	.LVL69:
- 341:src/gps_support.c **** 				LED_GRN_OFF();
+ 341:src/gps_support.c **** 			}
  648              		.loc 1 341 0
  649 00cc 8148     		ldr	r0, .L123+72
  650              	.LVL70:
@@ -1459,105 +1459,105 @@
  652 00d0 FFF7FEFF 		bl	GPIO_ResetBits
  653              	.LVL71:
  654              	.L83:
- 343:src/gps_support.c **** 			ack_limit =0;
+ 343:src/gps_support.c **** 		} while (!p || *p != 'A'); /* Valid Flag ? */
  655              		.loc 1 343 0
  656 00d4 0027     		movs	r7, #0
  657 00d6 824A     		ldr	r2, .L123+84
  658 00d8 1760     		str	r7, [r2, #0]
- 344:src/gps_support.c **** 		} while (!p || *p != 'A'); /* Valid Flag ? */
+ 344:src/gps_support.c **** 
  659              		.loc 1 344 0
  660 00da 002C     		cmp	r4, #0
  661 00dc DDD0     		beq	.L116
- 344:src/gps_support.c **** 		} while (!p || *p != 'A'); /* Valid Flag ? */
+ 344:src/gps_support.c **** 
  662              		.loc 1 344 0 is_stmt 0 discriminator 1
  663 00de 2378     		ldrb	r3, [r4, #0]	@ zero_extendqisi2
  664 00e0 412B     		cmp	r3, #65
  665 00e2 DAD1     		bne	.L116
- 348:src/gps_support.c **** 		l_stat = LOGGING_STATE;
+ 348:src/gps_support.c **** 		LED_RED_OFF();
  666              		.loc 1 348 0 is_stmt 1
  667 00e4 0124     		movs	r4, #1
  668              	.LVL72:
  669 00e6 7A48     		ldr	r0, .L123+68
  670 00e8 0460     		str	r4, [r0, #0]
- 349:src/gps_support.c **** 		LED_RED_OFF();
+ 349:src/gps_support.c **** 		LED_GRN_OFF();
  671              		.loc 1 349 0
  672 00ea 7A48     		ldr	r0, .L123+72
  673 00ec 0221     		movs	r1, #2
  674 00ee FFF7FEFF 		bl	GPIO_ResetBits
  675              	.LVL73:
- 350:src/gps_support.c **** 		LED_GRN_OFF();
+ 350:src/gps_support.c **** 
  676              		.loc 1 350 0
  677 00f2 7848     		ldr	r0, .L123+72
  678 00f4 2146     		mov	r1, r4
  679 00f6 FFF7FEFF 		bl	GPIO_ResetBits
  680              	.LVL74:
- 353:src/gps_support.c **** 		p = gp_col(Buff,GPRMC_COL_HMS);
+ 353:src/gps_support.c **** 		/* if (!p) break; */
  681              		.loc 1 353 0
  682 00fa 2046     		mov	r0, r4
  683 00fc FFF7FEFF 		bl	gp_col.constprop.1
  684              	.LVL75:
  685 0100 0546     		mov	r5, r0
  686              	.LVL76:
- 355:src/gps_support.c **** 		rtc.tm_hour = gp_val(p);
+ 355:src/gps_support.c **** 		rtc.tm_min  = gp_val(p+2);
  687              		.loc 1 355 0
  688 0102 FFF7FEFF 		bl	gp_val
  689              	.LVL77:
  690 0106 774F     		ldr	r7, .L123+88
  691 0108 B860     		str	r0, [r7, #8]
- 356:src/gps_support.c **** 		rtc.tm_min  = gp_val(p+2);
+ 356:src/gps_support.c **** 		rtc.tm_sec  = gp_val(p+4);
  692              		.loc 1 356 0
  693 010a A81C     		adds	r0, r5, #2
  694 010c FFF7FEFF 		bl	gp_val
  695              	.LVL78:
  696 0110 7860     		str	r0, [r7, #4]
- 357:src/gps_support.c **** 		rtc.tm_sec  = gp_val(p+4);
+ 357:src/gps_support.c **** 		p = gp_col(Buff,GPRMC_COL_YMD);
  697              		.loc 1 357 0
  698 0112 281D     		adds	r0, r5, #4
  699 0114 FFF7FEFF 		bl	gp_val
  700              	.LVL79:
  701 0118 3860     		str	r0, [r7, #0]
- 358:src/gps_support.c **** 		p = gp_col(Buff,GPRMC_COL_YMD);
+ 358:src/gps_support.c **** 		/* if (!p) break; */
  702              		.loc 1 358 0
  703 011a 0920     		movs	r0, #9
  704 011c FFF7FEFF 		bl	gp_col.constprop.1
  705              	.LVL80:
  706 0120 0446     		mov	r4, r0
  707              	.LVL81:
- 360:src/gps_support.c **** 		rtc.tm_mday = gp_val(p);
+ 360:src/gps_support.c **** 		rtc.tm_mon  = gp_val(p+2) - 1;
  708              		.loc 1 360 0
  709 0122 FFF7FEFF 		bl	gp_val
  710              	.LVL82:
  711 0126 F860     		str	r0, [r7, #12]
- 361:src/gps_support.c **** 		rtc.tm_mon  = gp_val(p+2) - 1;
+ 361:src/gps_support.c **** 		rtc.tm_year = gp_val(p+4) + 100;
  712              		.loc 1 361 0
  713 0128 A01C     		adds	r0, r4, #2
  714 012a FFF7FEFF 		bl	gp_val
  715              	.LVL83:
  716 012e 411E     		subs	r1, r0, #1
  717 0130 3961     		str	r1, [r7, #16]
- 362:src/gps_support.c **** 		rtc.tm_year = gp_val(p+4) + 100;
+ 362:src/gps_support.c **** 
  718              		.loc 1 362 0
  719 0132 201D     		adds	r0, r4, #4
  720 0134 FFF7FEFF 		bl	gp_val
  721              	.LVL84:
  722 0138 6430     		adds	r0, r0, #100
  723 013a 7861     		str	r0, [r7, #20]
- 364:src/gps_support.c **** 		utc = mktime(&rtc);				/* Get UNIX epoch Time */
+ 364:src/gps_support.c **** 		utc += 3600 * 9;				/* Create Time in JST*/
  724              		.loc 1 364 0
  725 013c 3846     		mov	r0, r7
  726 013e FFF7FEFF 		bl	mktime
  727              	.LVL85:
- 365:src/gps_support.c **** 		utc += 3600 * 9;				/* Create Time in JST*/
+ 365:src/gps_support.c **** 		Time_SetUnixTime(utc);			/* Set UNIX epoch Time */
  728              		.loc 1 365 0
  729 0142 00F5FD40 		add	r0, r0, #32384
  730              	.LVL86:
- 366:src/gps_support.c **** 		Time_SetUnixTime(utc);			/* Set UNIX epoch Time */
+ 366:src/gps_support.c **** 
  731              		.loc 1 366 0
  732 0146 1030     		adds	r0, r0, #16
  733              	.LVL87:
  734 0148 FFF7FEFF 		bl	Time_SetUnixTime
  735              	.LVL88:
- 369:src/gps_support.c **** 		rtc = Time_GetCalendarTime();
+ 369:src/gps_support.c **** 		xsprintf((char*)Buff,"%02u%02u%02u.log",
  736              		.loc 1 369 0
  737 014c 02A8     		add	r0, sp, #8
  738 014e FFF7FEFF 		bl	Time_GetCalendarTime
@@ -1570,7 +1570,7 @@
  745 015c 0FC5     		stmia	r5!, {r0, r1, r2, r3}
  746 015e 3268     		ldr	r2, [r6, #0]
  747 0160 2A60     		str	r2, [r5, #0]
- 370:src/gps_support.c **** 		xsprintf((char*)Buff,"%02u%02u%02u.log",
+ 370:src/gps_support.c **** 						rtc.tm_year % 100,
  748              		.loc 1 370 0
  749 0162 7A69     		ldr	r2, [r7, #20]
  750 0164 6425     		movs	r5, #100
@@ -1584,7 +1584,7 @@
  758 0178 0133     		adds	r3, r3, #1
  759 017a FFF7FEFF 		bl	xsprintf
  760              	.LVL90:
- 376:src/gps_support.c **** 		if (f_open(&File1, (const char*)Buff, FA_OPEN_ALWAYS | FA_WRITE) ||
+ 376:src/gps_support.c **** 		    f_lseek(&File1, File1.fsize)) {goto errstat;}
  761              		.loc 1 376 0
  762 017e 5C4F     		ldr	r7, .L123+100
  763 0180 3846     		mov	r0, r7
@@ -1594,19 +1594,19 @@
  767              	.LVL91:
  768 018a 0028     		cmp	r0, #0
  769 018c 73D1     		bne	.L107
- 377:src/gps_support.c **** 		    f_lseek(&File1, File1.fsize)) {goto errstat;}
+ 377:src/gps_support.c **** 
  770              		.loc 1 377 0 discriminator 1
  771 018e 3846     		mov	r0, r7
  772 0190 F968     		ldr	r1, [r7, #12]
  773 0192 FFF7FEFF 		bl	f_lseek
  774              	.LVL92:
- 376:src/gps_support.c **** 		if (f_open(&File1, (const char*)Buff, FA_OPEN_ALWAYS | FA_WRITE) ||
+ 376:src/gps_support.c **** 		    f_lseek(&File1, File1.fsize)) {goto errstat;}
  775              		.loc 1 376 0 discriminator 1
  776 0196 0028     		cmp	r0, #0
  777 0198 6DD1     		bne	.L107
  778              	.LVL93:
  779              	.L117:
- 380:src/gps_support.c **** 		while ((b = get_line_GPS()) > 0)
+ 380:src/gps_support.c **** 		{
  780              		.loc 1 380 0 discriminator 1
  781 019a FFF7FEFF 		bl	get_line_GPS
  782              	.LVL94:
@@ -1614,21 +1614,21 @@
  784 01a0 0028     		cmp	r0, #0
  785 01a2 3FF473AF 		beq	.L118
  786              	.L93:
- 383:src/gps_support.c **** 			if (!gp_comp(Buff,"$GPGGA"))
+ 383:src/gps_support.c **** 			{
  787              		.loc 1 383 0
  788 01a6 5348     		ldr	r0, .L123+104
  789              	.LVL95:
  790 01a8 FFF7FEFF 		bl	gp_comp.constprop.0
  791              	.LVL96:
  792 01ac 38B9     		cbnz	r0, .L87
- 385:src/gps_support.c **** 				p = gp_col(Buff,GPGGA_POS_TYPE);
+ 385:src/gps_support.c **** 				if(*p != '0'){ /* 0 is invalid tracking data */
  793              		.loc 1 385 0
  794 01ae 0620     		movs	r0, #6
  795 01b0 FFF7FEFF 		bl	gp_col.constprop.1
  796              	.LVL97:
  797 01b4 0446     		mov	r4, r0
  798              	.LVL98:
- 386:src/gps_support.c **** 				if(*p != '0'){ /* 0 is invalid tracking data */
+ 386:src/gps_support.c **** 					LED_RED_ON();
  799              		.loc 1 386 0
  800 01b6 0278     		ldrb	r2, [r0, #0]	@ zero_extendqisi2
  801 01b8 302A     		cmp	r2, #48
@@ -1636,33 +1636,33 @@
  803 01bc 19E0     		b	.L88
  804              	.LVL99:
  805              	.L87:
- 392:src/gps_support.c **** 			else if (!gp_comp(Buff,"$GPRMC"))
+ 392:src/gps_support.c **** 			{
  806              		.loc 1 392 0
  807 01be 4648     		ldr	r0, .L123+76
  808 01c0 FFF7FEFF 		bl	gp_comp.constprop.0
  809              	.LVL100:
  810 01c4 A8B9     		cbnz	r0, .L88
- 394:src/gps_support.c **** 				p = gp_col(Buff,GPRMC_COL_VALID);
+ 394:src/gps_support.c **** 				if(*p == 'A'){
  811              		.loc 1 394 0
  812 01c6 0220     		movs	r0, #2
  813 01c8 FFF7FEFF 		bl	gp_col.constprop.1
  814              	.LVL101:
  815 01cc 0446     		mov	r4, r0
  816              	.LVL102:
- 395:src/gps_support.c **** 				if(*p == 'A'){
+ 395:src/gps_support.c **** 					LED_RED_ON();
  817              		.loc 1 395 0
  818 01ce 0178     		ldrb	r1, [r0, #0]	@ zero_extendqisi2
  819 01d0 4129     		cmp	r1, #65
  820 01d2 0ED1     		bne	.L88
  821              	.L121:
- 396:src/gps_support.c **** 					LED_RED_ON();
+ 396:src/gps_support.c **** 					if (f_write(&File1, Buff, b, &s) || b != s) {goto errstat;}
  822              		.loc 1 396 0
  823 01d4 3F48     		ldr	r0, .L123+72
  824              	.LVL103:
  825 01d6 0221     		movs	r1, #2
  826 01d8 FFF7FEFF 		bl	GPIO_SetBits
  827              	.LVL104:
- 397:src/gps_support.c **** 					if (f_write(&File1, Buff, b, &s) || b != s) {goto errstat;}
+ 397:src/gps_support.c **** 				}
  828              		.loc 1 397 0
  829 01dc 4448     		ldr	r0, .L123+100
  830 01de 4249     		ldr	r1, .L123+92
@@ -1672,27 +1672,27 @@
  834              	.LVL105:
  835 01e8 0028     		cmp	r0, #0
  836 01ea 44D1     		bne	.L107
- 397:src/gps_support.c **** 					if (f_write(&File1, Buff, b, &s) || b != s) {goto errstat;}
+ 397:src/gps_support.c **** 				}
  837              		.loc 1 397 0 is_stmt 0 discriminator 1
  838 01ec 0D9E     		ldr	r6, [sp, #52]
  839 01ee B542     		cmp	r5, r6
  840 01f0 41D1     		bne	.L107
  841              	.LVL106:
  842              	.L88:
- 402:src/gps_support.c **** 			if (!gp_comp(Buff,"$GNGGA"))
+ 402:src/gps_support.c **** 			{
  843              		.loc 1 402 0 is_stmt 1
  844 01f2 4148     		ldr	r0, .L123+108
  845 01f4 FFF7FEFF 		bl	gp_comp.constprop.0
  846              	.LVL107:
  847 01f8 38B9     		cbnz	r0, .L89
- 404:src/gps_support.c **** 				p = gp_col(Buff,GPGGA_POS_TYPE);
+ 404:src/gps_support.c **** 				if(*p != '0'){ /* 0 is invalid tracking data */
  848              		.loc 1 404 0
  849 01fa 0620     		movs	r0, #6
  850 01fc FFF7FEFF 		bl	gp_col.constprop.1
  851              	.LVL108:
  852 0200 0446     		mov	r4, r0
  853              	.LVL109:
- 405:src/gps_support.c **** 				if(*p != '0'){ /* 0 is invalid tracking data */
+ 405:src/gps_support.c **** 					LED_RED_ON();
  854              		.loc 1 405 0
  855 0202 0078     		ldrb	r0, [r0, #0]	@ zero_extendqisi2
  856              	.LVL110:
@@ -1701,7 +1701,7 @@
  859 0208 18E0     		b	.L90
  860              	.LVL111:
  861              	.L89:
- 412:src/gps_support.c **** 			else if (!gp_comp(Buff,"$GNRMC"))
+ 412:src/gps_support.c **** 			{
  862              		.loc 1 412 0
  863 020a 3448     		ldr	r0, .L123+80
  864 020c FFF7FEFF 		bl	gp_comp.constprop.0
@@ -1800,11 +1800,11 @@
  930 0260 0221     		movs	r1, #2
  931 0262 FFF7FEFF 		bl	GPIO_SetBits
  932              	.LVL122:
- 435:src/gps_support.c **** 				c_sync =0;
+ 435:src/gps_support.c **** 				if (f_sync(&File1)) {goto errstat;}
  933              		.loc 1 435 0
  934 0266 0026     		movs	r6, #0
  935 0268 ADF83260 		strh	r6, [sp, #50]	@ movhi
- 436:src/gps_support.c **** 				if (f_sync(&File1)) {goto errstat;}
+ 436:src/gps_support.c **** 			}
  936              		.loc 1 436 0
  937 026c 2048     		ldr	r0, .L123+100
  938 026e FFF7FEFF 		bl	f_sync
@@ -2004,10 +2004,10 @@
  1096 0000 00000000 		.space	4
  1097              		.text
  1098              	.Letext0:
- 1099              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
- 1100              		.file 4 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 1099              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 1100              		.file 4 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
  1101              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
- 1102              		.file 6 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
+ 1102              		.file 6 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
  1103              		.file 7 "./lib/ff/integer.h"
  1104              		.file 8 "./lib/ff/ff.h"
  1105              		.file 9 "./lib/ff/ff_rtc_if.h"
@@ -2019,51 +2019,51 @@
  1111              		.file 15 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 gps_support.c
-  R:\TEMP\ccX5lM03.s:19     .text.get_line_GPS:00000000 $t
-  R:\TEMP\ccX5lM03.s:23     .text.get_line_GPS:00000000 get_line_GPS
-  R:\TEMP\ccX5lM03.s:77     .text.get_line_GPS:0000002c $d
-  R:\TEMP\ccX5lM03.s:83     .text.gp_val:00000000 $t
-  R:\TEMP\ccX5lM03.s:87     .text.gp_val:00000000 gp_val
-  R:\TEMP\ccX5lM03.s:129    .text.gp_comp.constprop.0:00000000 $t
-  R:\TEMP\ccX5lM03.s:133    .text.gp_comp.constprop.0:00000000 gp_comp.constprop.0
-  R:\TEMP\ccX5lM03.s:165    .text.gp_comp.constprop.0:00000014 $d
-  R:\TEMP\ccX5lM03.s:170    .text.gp_col.constprop.1:00000000 $t
-  R:\TEMP\ccX5lM03.s:174    .text.gp_col.constprop.1:00000000 gp_col.constprop.1
-  R:\TEMP\ccX5lM03.s:221    .text.gp_col.constprop.1:00000020 $d
-  R:\TEMP\ccX5lM03.s:226    .text.xSend_MTKCmd:00000000 $t
-  R:\TEMP\ccX5lM03.s:230    .text.xSend_MTKCmd:00000000 xSend_MTKCmd
-  R:\TEMP\ccX5lM03.s:318    .text.xSend_MTKCmd:00000054 $d
-  R:\TEMP\ccX5lM03.s:325    .text.ff_support_timerproc:00000000 $t
-  R:\TEMP\ccX5lM03.s:330    .text.ff_support_timerproc:00000000 ff_support_timerproc
-  R:\TEMP\ccX5lM03.s:346    .text.ff_support_timerproc:0000000c $d
-  R:\TEMP\ccX5lM03.s:351    .text.get_fattime:00000000 $t
-  R:\TEMP\ccX5lM03.s:356    .text.get_fattime:00000000 get_fattime
-  R:\TEMP\ccX5lM03.s:399    .text.get_fattime:00000034 $d
-  R:\TEMP\ccX5lM03.s:404    .text.ChkAckLimit:00000000 $t
-  R:\TEMP\ccX5lM03.s:409    .text.ChkAckLimit:00000000 ChkAckLimit
-  R:\TEMP\ccX5lM03.s:441    .text.ChkAckLimit:00000020 $d
-  R:\TEMP\ccX5lM03.s:448    .text.ShutFileClose:00000000 $t
-  R:\TEMP\ccX5lM03.s:453    .text.ShutFileClose:00000000 ShutFileClose
-  R:\TEMP\ccX5lM03.s:480    .text.ShutFileClose:00000014 $d
-  R:\TEMP\ccX5lM03.s:486    .text.gps_task:00000000 $t
-  R:\TEMP\ccX5lM03.s:491    .text.gps_task:00000000 gps_task
-  R:\TEMP\ccX5lM03.s:959    .text.gps_task:0000028c $d
-  R:\TEMP\ccX5lM03.s:1024   .bss.ack_limit:00000000 ack_limit
-  R:\TEMP\ccX5lM03.s:1088   .bss.l_stat:00000000 l_stat
-  R:\TEMP\ccX5lM03.s:1095   .bss.Timer:00000000 Timer
-  R:\TEMP\ccX5lM03.s:1075   .bss.Buff:00000000 Buff
-  R:\TEMP\ccX5lM03.s:1081   .bss.Dir:00000000 Dir
-  R:\TEMP\ccX5lM03.s:1003   .bss.File1:00000000 File1
-  R:\TEMP\ccX5lM03.s:1010   .bss.Fatfs:00000000 Fatfs
-  R:\TEMP\ccX5lM03.s:1017   .bss.ff_rtc:00000000 ff_rtc
-  R:\TEMP\ccX5lM03.s:999    .bss.File1:00000000 $d
-  R:\TEMP\ccX5lM03.s:1006   .bss.Fatfs:00000000 $d
-  R:\TEMP\ccX5lM03.s:1013   .bss.ff_rtc:00000000 $d
-  R:\TEMP\ccX5lM03.s:1020   .bss.ack_limit:00000000 $d
-  R:\TEMP\ccX5lM03.s:1076   .bss.Buff:00000000 $d
-  R:\TEMP\ccX5lM03.s:1078   .bss.Dir:00000000 $d
-  R:\TEMP\ccX5lM03.s:1084   .bss.l_stat:00000000 $d
-  R:\TEMP\ccX5lM03.s:1091   .bss.Timer:00000000 $d
+  R:\TEMP\ccnfcddo.s:19     .text.get_line_GPS:00000000 $t
+  R:\TEMP\ccnfcddo.s:23     .text.get_line_GPS:00000000 get_line_GPS
+  R:\TEMP\ccnfcddo.s:77     .text.get_line_GPS:0000002c $d
+  R:\TEMP\ccnfcddo.s:83     .text.gp_val:00000000 $t
+  R:\TEMP\ccnfcddo.s:87     .text.gp_val:00000000 gp_val
+  R:\TEMP\ccnfcddo.s:129    .text.gp_comp.constprop.0:00000000 $t
+  R:\TEMP\ccnfcddo.s:133    .text.gp_comp.constprop.0:00000000 gp_comp.constprop.0
+  R:\TEMP\ccnfcddo.s:165    .text.gp_comp.constprop.0:00000014 $d
+  R:\TEMP\ccnfcddo.s:170    .text.gp_col.constprop.1:00000000 $t
+  R:\TEMP\ccnfcddo.s:174    .text.gp_col.constprop.1:00000000 gp_col.constprop.1
+  R:\TEMP\ccnfcddo.s:221    .text.gp_col.constprop.1:00000020 $d
+  R:\TEMP\ccnfcddo.s:226    .text.xSend_MTKCmd:00000000 $t
+  R:\TEMP\ccnfcddo.s:230    .text.xSend_MTKCmd:00000000 xSend_MTKCmd
+  R:\TEMP\ccnfcddo.s:318    .text.xSend_MTKCmd:00000054 $d
+  R:\TEMP\ccnfcddo.s:325    .text.ff_support_timerproc:00000000 $t
+  R:\TEMP\ccnfcddo.s:330    .text.ff_support_timerproc:00000000 ff_support_timerproc
+  R:\TEMP\ccnfcddo.s:346    .text.ff_support_timerproc:0000000c $d
+  R:\TEMP\ccnfcddo.s:351    .text.get_fattime:00000000 $t
+  R:\TEMP\ccnfcddo.s:356    .text.get_fattime:00000000 get_fattime
+  R:\TEMP\ccnfcddo.s:399    .text.get_fattime:00000034 $d
+  R:\TEMP\ccnfcddo.s:404    .text.ChkAckLimit:00000000 $t
+  R:\TEMP\ccnfcddo.s:409    .text.ChkAckLimit:00000000 ChkAckLimit
+  R:\TEMP\ccnfcddo.s:441    .text.ChkAckLimit:00000020 $d
+  R:\TEMP\ccnfcddo.s:448    .text.ShutFileClose:00000000 $t
+  R:\TEMP\ccnfcddo.s:453    .text.ShutFileClose:00000000 ShutFileClose
+  R:\TEMP\ccnfcddo.s:480    .text.ShutFileClose:00000014 $d
+  R:\TEMP\ccnfcddo.s:486    .text.gps_task:00000000 $t
+  R:\TEMP\ccnfcddo.s:491    .text.gps_task:00000000 gps_task
+  R:\TEMP\ccnfcddo.s:959    .text.gps_task:0000028c $d
+  R:\TEMP\ccnfcddo.s:1024   .bss.ack_limit:00000000 ack_limit
+  R:\TEMP\ccnfcddo.s:1088   .bss.l_stat:00000000 l_stat
+  R:\TEMP\ccnfcddo.s:1095   .bss.Timer:00000000 Timer
+  R:\TEMP\ccnfcddo.s:1075   .bss.Buff:00000000 Buff
+  R:\TEMP\ccnfcddo.s:1081   .bss.Dir:00000000 Dir
+  R:\TEMP\ccnfcddo.s:1003   .bss.File1:00000000 File1
+  R:\TEMP\ccnfcddo.s:1010   .bss.Fatfs:00000000 Fatfs
+  R:\TEMP\ccnfcddo.s:1017   .bss.ff_rtc:00000000 ff_rtc
+  R:\TEMP\ccnfcddo.s:999    .bss.File1:00000000 $d
+  R:\TEMP\ccnfcddo.s:1006   .bss.Fatfs:00000000 $d
+  R:\TEMP\ccnfcddo.s:1013   .bss.ff_rtc:00000000 $d
+  R:\TEMP\ccnfcddo.s:1020   .bss.ack_limit:00000000 $d
+  R:\TEMP\ccnfcddo.s:1076   .bss.Buff:00000000 $d
+  R:\TEMP\ccnfcddo.s:1078   .bss.Dir:00000000 $d
+  R:\TEMP\ccnfcddo.s:1084   .bss.l_stat:00000000 $d
+  R:\TEMP\ccnfcddo.s:1091   .bss.Timer:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

@@ -258,7 +258,7 @@
   92              		.thumb_func
   94              	PWR_Mgn:
   95              	.LFB57:
-  44:src/power.c   **** {
+  44:src/power.c   **** 	ShutKey_Chk();
   96              		.loc 1 44 0
   97              		.cfi_startproc
   98              		@ args = 0, pretend = 0, frame = 0
@@ -272,7 +272,7 @@
  106              		.cfi_offset 14, -4
  107              	.LBB6:
  108              	.LBB7:
-  62:src/power.c   **** 	if(GPIO_ReadInputDataBit(GPIOA, KEY_CT)==1)
+  62:src/power.c   **** 		{
  109              		.loc 1 62 0
  110 0002 2C48     		ldr	r0, .L26
  111 0004 4FF48071 		mov	r1, #256
@@ -281,7 +281,7 @@
  114 000c 0128     		cmp	r0, #1
  115 000e 2A4B     		ldr	r3, .L26+4
  116 0010 0ED1     		bne	.L11
-  65:src/power.c   **** 			if(++shutcounts > SHUT_TIME)
+  65:src/power.c   **** 				{
  117              		.loc 1 65 0
  118 0012 1868     		ldr	r0, [r3, #0]
  119 0014 411C     		adds	r1, r0, #1
@@ -289,11 +289,11 @@
  121 0018 40F6B834 		movw	r4, #3000
  122 001c A142     		cmp	r1, r4
  123 001e 09D9     		bls	.L12
-  67:src/power.c   **** 					ShutFileClose();
+  67:src/power.c   **** 					PWR_OFF();
  124              		.loc 1 67 0
  125 0020 FFF7FEFF 		bl	ShutFileClose
  126              	.LVL8:
-  68:src/power.c   **** 					PWR_OFF();
+  68:src/power.c   **** 					for(;;);
  127              		.loc 1 68 0
  128 0024 2548     		ldr	r0, .L26+8
  129 0026 4FF40051 		mov	r1, #8192
@@ -302,7 +302,7 @@
  132              	.L13:
  133 002e FEE7     		b	.L13
  134              	.L11:
-  74:src/power.c   **** 			shutcounts = 0;
+  74:src/power.c   **** 		}
  135              		.loc 1 74 0
  136 0030 0022     		movs	r2, #0
  137 0032 1A60     		str	r2, [r3, #0]
@@ -311,23 +311,23 @@
  140              	.LBE6:
  141              	.LBB8:
  142              	.LBB9:
-  94:src/power.c   **** 	if(vbatbabyflag)
+  94:src/power.c   **** 	{
  143              		.loc 1 94 0
  144 0034 224C     		ldr	r4, .L26+12
  145 0036 2568     		ldr	r5, [r4, #0]
  146 0038 2DB1     		cbz	r5, .L14
-  96:src/power.c   **** 		CurrentVbat = GetVbat();
+  96:src/power.c   **** 		vbatbabyflag--;
  147              		.loc 1 96 0
  148 003a FFF7FEFF 		bl	GetVbat
  149              	.LVL10:
  150 003e 214B     		ldr	r3, .L26+16
  151 0040 1860     		str	r0, [r3, #0]
-  97:src/power.c   **** 		vbatbabyflag--;
+  97:src/power.c   **** 	}
  152              		.loc 1 97 0
  153 0042 013D     		subs	r5, r5, #1
  154 0044 2560     		str	r5, [r4, #0]
  155              	.L14:
- 101:src/power.c   **** 	if(++vbatcounts > 1000 ){
+ 101:src/power.c   **** 		vbatcounts =0;
  156              		.loc 1 101 0
  157 0046 2048     		ldr	r0, .L26+20
  158 0048 0268     		ldr	r2, [r0, #0]
@@ -335,11 +335,11 @@
  160 004c 0160     		str	r1, [r0, #0]
  161 004e B1F57A7F 		cmp	r1, #1000
  162 0052 2ED9     		bls	.L10
- 102:src/power.c   **** 		vbatcounts =0;
+ 102:src/power.c   **** 		CurrentVbat =  ((CurrentVbat * 3) + (GetVbat()) ) / 4;
  163              		.loc 1 102 0
  164 0054 0024     		movs	r4, #0
  165 0056 0460     		str	r4, [r0, #0]
- 103:src/power.c   **** 		CurrentVbat =  ((CurrentVbat * 3) + (GetVbat()) ) / 4;
+ 103:src/power.c   **** 		
  166              		.loc 1 103 0
  167 0058 1A4D     		ldr	r5, .L26+16
  168 005a 2B68     		ldr	r3, [r5, #0]
@@ -350,44 +350,44 @@
  173 0064 8019     		adds	r0, r0, r6
  174 0066 8008     		lsrs	r0, r0, #2
  175 0068 2860     		str	r0, [r5, #0]
- 105:src/power.c   **** 		if(CurrentVbat > NO_BAT_VOLTAGE)
+ 105:src/power.c   **** 		{
  176              		.loc 1 105 0
  177 006a 40F6B832 		movw	r2, #3000
  178 006e 9042     		cmp	r0, r2
  179 0070 164B     		ldr	r3, .L26+24
  180 0072 1DD9     		bls	.L17
- 107:src/power.c   **** 			if(CurrentVbat < MID_BAT_VOLTAGE) 	{BatState = BAT_LOW;}
+ 107:src/power.c   **** 			else 								{BatState = BAT_MIDDLE;}
  181              		.loc 1 107 0
  182 0074 B0F5616F 		cmp	r0, #3600
  183 0078 154A     		ldr	r2, .L26+28
  184 007a 06D2     		bcs	.L18
  185 007c 0221     		movs	r1, #2
  186 007e 1160     		str	r1, [r2, #0]
- 110:src/power.c   **** 			if(CurrentVbat < LIPO_LOWER_VOLT)
+ 110:src/power.c   **** 			{
  187              		.loc 1 110 0
  188 0080 40F62E52 		movw	r2, #3374
  189 0084 9042     		cmp	r0, r2
  190 0086 03D9     		bls	.L19
  191 0088 0FE0     		b	.L20
  192              	.L18:
- 108:src/power.c   **** 			else 								{BatState = BAT_MIDDLE;}
+ 108:src/power.c   **** 			
  193              		.loc 1 108 0
  194 008a 0121     		movs	r1, #1
  195 008c 1160     		str	r1, [r2, #0]
  196 008e 0CE0     		b	.L20
  197              	.L19:
- 112:src/power.c   **** 				if(++vbatlow > LOWER_FILT) 
+ 112:src/power.c   **** 				{
  198              		.loc 1 112 0
  199 0090 1968     		ldr	r1, [r3, #0]
  200 0092 4A1C     		adds	r2, r1, #1
  201 0094 1A60     		str	r2, [r3, #0]
  202 0096 0C2A     		cmp	r2, #12
  203 0098 0BD9     		bls	.L10
- 114:src/power.c   **** 					ShutFileClose();
+ 114:src/power.c   **** 					PWR_OFF();
  204              		.loc 1 114 0
  205 009a FFF7FEFF 		bl	ShutFileClose
  206              	.LVL12:
- 115:src/power.c   **** 					PWR_OFF();
+ 115:src/power.c   **** 					for(;;);
  207              		.loc 1 115 0
  208 009e 0748     		ldr	r0, .L26+8
  209 00a0 4FF40051 		mov	r1, #8192
@@ -396,13 +396,13 @@
  212              	.L22:
  213 00a8 FEE7     		b	.L22
  214              	.L20:
- 121:src/power.c   **** 				vbatlow =0;
+ 121:src/power.c   **** 			}
  215              		.loc 1 121 0
  216 00aa 0020     		movs	r0, #0
  217 00ac 1860     		str	r0, [r3, #0]
  218 00ae 70BD     		pop	{r4, r5, r6, pc}
  219              	.L17:
- 126:src/power.c   **** 				vbatlow =0;
+ 126:src/power.c   **** 		}
  220              		.loc 1 126 0
  221 00b0 1C60     		str	r4, [r3, #0]
  222              	.L10:
@@ -485,7 +485,7 @@
  276 0014 81B2     		uxth	r1, r0
  277 0016 5B18     		adds	r3, r3, r1
  278              	.LVL16:
- 190:src/power.c   ****     for ( i = 0; i < ADC_NB_SAMPLES; i++)
+ 190:src/power.c   ****         {
  279              		.loc 1 190 0 discriminator 2
  280 0018 019A     		ldr	r2, [sp, #4]
  281 001a 501C     		adds	r0, r2, #1
@@ -615,44 +615,44 @@
  376              		.cfi_endproc
  377              	.LFE62:
  379              		.global	BatState
- 380              		.section	.bss.vbatcounts.8813,"aw",%nobits
+ 380              		.section	.data.vbatbabyflag.8838,"aw",%progbits
  381              		.align	2
- 382              		.set	.LANCHOR4,. + 0
- 385              	vbatcounts.8813:
- 386 0000 00000000 		.space	4
- 387              		.section	.bss.VBat.8821,"aw",%nobits
- 388              		.align	1
- 389              		.set	.LANCHOR0,. + 0
- 392              	VBat.8821:
- 393 0000 0000     		.space	2
- 394              		.section	.bss.CurrentVbat.8816,"aw",%nobits
+ 382              		.set	.LANCHOR2,. + 0
+ 385              	vbatbabyflag.8838:
+ 386 0000 0F000000 		.word	15
+ 387              		.section	.data.BatState,"aw",%progbits
+ 388              		.align	2
+ 389              		.set	.LANCHOR5,. + 0
+ 392              	BatState:
+ 393 0000 01000000 		.word	1
+ 394              		.section	.bss.shutcounts.8831,"aw",%nobits
  395              		.align	2
- 396              		.set	.LANCHOR3,. + 0
- 399              	CurrentVbat.8816:
+ 396              		.set	.LANCHOR1,. + 0
+ 399              	shutcounts.8831:
  400 0000 00000000 		.space	4
- 401              		.section	.bss.vbatlow.8814,"aw",%nobits
+ 401              		.section	.bss.vbatlow.8837,"aw",%nobits
  402              		.align	2
  403              		.set	.LANCHOR6,. + 0
- 406              	vbatlow.8814:
+ 406              	vbatlow.8837:
  407 0000 00000000 		.space	4
- 408              		.section	.data.BatState,"aw",%progbits
+ 408              		.section	.bss.vbatcounts.8836,"aw",%nobits
  409              		.align	2
- 410              		.set	.LANCHOR5,. + 0
- 413              	BatState:
- 414 0000 01000000 		.word	1
- 415              		.section	.data.vbatbabyflag.8815,"aw",%progbits
- 416              		.align	2
- 417              		.set	.LANCHOR2,. + 0
- 420              	vbatbabyflag.8815:
- 421 0000 0F000000 		.word	15
- 422              		.section	.bss.shutcounts.8808,"aw",%nobits
+ 410              		.set	.LANCHOR4,. + 0
+ 413              	vbatcounts.8836:
+ 414 0000 00000000 		.space	4
+ 415              		.section	.bss.VBat.8844,"aw",%nobits
+ 416              		.align	1
+ 417              		.set	.LANCHOR0,. + 0
+ 420              	VBat.8844:
+ 421 0000 0000     		.space	2
+ 422              		.section	.bss.CurrentVbat.8839,"aw",%nobits
  423              		.align	2
- 424              		.set	.LANCHOR1,. + 0
- 427              	shutcounts.8808:
+ 424              		.set	.LANCHOR3,. + 0
+ 427              	CurrentVbat.8839:
  428 0000 00000000 		.space	4
  429              		.text
  430              	.Letext0:
- 431              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 431              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  432              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  433              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  434              		.file 5 "./inc/power.h"
@@ -663,32 +663,32 @@
  439              		.file 10 "./inc/gps_support.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 power.c
-  R:\TEMP\ccS7ZHOW.s:19     .text.GetVbat:00000000 $t
-  R:\TEMP\ccS7ZHOW.s:24     .text.GetVbat:00000000 GetVbat
-  R:\TEMP\ccS7ZHOW.s:83     .text.GetVbat:00000044 $d
-  R:\TEMP\ccS7ZHOW.s:89     .text.PWR_Mgn:00000000 $t
-  R:\TEMP\ccS7ZHOW.s:94     .text.PWR_Mgn:00000000 PWR_Mgn
-  R:\TEMP\ccS7ZHOW.s:227    .text.PWR_Mgn:000000b4 $d
-  R:\TEMP\ccS7ZHOW.s:243    .text.GetTemp:00000000 $t
-  R:\TEMP\ccS7ZHOW.s:248    .text.GetTemp:00000000 GetTemp
-  R:\TEMP\ccS7ZHOW.s:325    .text.GetTemp:00000058 $d
-  R:\TEMP\ccS7ZHOW.s:333    .text.PWR_Configuration:00000000 $t
-  R:\TEMP\ccS7ZHOW.s:338    .text.PWR_Configuration:00000000 PWR_Configuration
-  R:\TEMP\ccS7ZHOW.s:375    .text.PWR_Configuration:00000028 $d
-  R:\TEMP\ccS7ZHOW.s:413    .data.BatState:00000000 BatState
-  R:\TEMP\ccS7ZHOW.s:381    .bss.vbatcounts.8813:00000000 $d
-  R:\TEMP\ccS7ZHOW.s:385    .bss.vbatcounts.8813:00000000 vbatcounts.8813
-  R:\TEMP\ccS7ZHOW.s:388    .bss.VBat.8821:00000000 $d
-  R:\TEMP\ccS7ZHOW.s:392    .bss.VBat.8821:00000000 VBat.8821
-  R:\TEMP\ccS7ZHOW.s:395    .bss.CurrentVbat.8816:00000000 $d
-  R:\TEMP\ccS7ZHOW.s:399    .bss.CurrentVbat.8816:00000000 CurrentVbat.8816
-  R:\TEMP\ccS7ZHOW.s:402    .bss.vbatlow.8814:00000000 $d
-  R:\TEMP\ccS7ZHOW.s:406    .bss.vbatlow.8814:00000000 vbatlow.8814
-  R:\TEMP\ccS7ZHOW.s:409    .data.BatState:00000000 $d
-  R:\TEMP\ccS7ZHOW.s:416    .data.vbatbabyflag.8815:00000000 $d
-  R:\TEMP\ccS7ZHOW.s:420    .data.vbatbabyflag.8815:00000000 vbatbabyflag.8815
-  R:\TEMP\ccS7ZHOW.s:423    .bss.shutcounts.8808:00000000 $d
-  R:\TEMP\ccS7ZHOW.s:427    .bss.shutcounts.8808:00000000 shutcounts.8808
+  R:\TEMP\ccelcyTO.s:19     .text.GetVbat:00000000 $t
+  R:\TEMP\ccelcyTO.s:24     .text.GetVbat:00000000 GetVbat
+  R:\TEMP\ccelcyTO.s:83     .text.GetVbat:00000044 $d
+  R:\TEMP\ccelcyTO.s:89     .text.PWR_Mgn:00000000 $t
+  R:\TEMP\ccelcyTO.s:94     .text.PWR_Mgn:00000000 PWR_Mgn
+  R:\TEMP\ccelcyTO.s:227    .text.PWR_Mgn:000000b4 $d
+  R:\TEMP\ccelcyTO.s:243    .text.GetTemp:00000000 $t
+  R:\TEMP\ccelcyTO.s:248    .text.GetTemp:00000000 GetTemp
+  R:\TEMP\ccelcyTO.s:325    .text.GetTemp:00000058 $d
+  R:\TEMP\ccelcyTO.s:333    .text.PWR_Configuration:00000000 $t
+  R:\TEMP\ccelcyTO.s:338    .text.PWR_Configuration:00000000 PWR_Configuration
+  R:\TEMP\ccelcyTO.s:375    .text.PWR_Configuration:00000028 $d
+  R:\TEMP\ccelcyTO.s:392    .data.BatState:00000000 BatState
+  R:\TEMP\ccelcyTO.s:381    .data.vbatbabyflag.8838:00000000 $d
+  R:\TEMP\ccelcyTO.s:385    .data.vbatbabyflag.8838:00000000 vbatbabyflag.8838
+  R:\TEMP\ccelcyTO.s:388    .data.BatState:00000000 $d
+  R:\TEMP\ccelcyTO.s:395    .bss.shutcounts.8831:00000000 $d
+  R:\TEMP\ccelcyTO.s:399    .bss.shutcounts.8831:00000000 shutcounts.8831
+  R:\TEMP\ccelcyTO.s:402    .bss.vbatlow.8837:00000000 $d
+  R:\TEMP\ccelcyTO.s:406    .bss.vbatlow.8837:00000000 vbatlow.8837
+  R:\TEMP\ccelcyTO.s:409    .bss.vbatcounts.8836:00000000 $d
+  R:\TEMP\ccelcyTO.s:413    .bss.vbatcounts.8836:00000000 vbatcounts.8836
+  R:\TEMP\ccelcyTO.s:416    .bss.VBat.8844:00000000 $d
+  R:\TEMP\ccelcyTO.s:420    .bss.VBat.8844:00000000 VBat.8844
+  R:\TEMP\ccelcyTO.s:423    .bss.CurrentVbat.8839:00000000 $d
+  R:\TEMP\ccelcyTO.s:427    .bss.CurrentVbat.8839:00000000 CurrentVbat.8839
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

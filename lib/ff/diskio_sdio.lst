@@ -250,7 +250,7 @@
  137              		.loc 1 118 0
  138 0006 2046     		mov	r0, r4
  139              	.LVL11:
- 116:lib/ff/diskio_sdio.c **** 	if(count==1)
+ 116:lib/ff/diskio_sdio.c ****     {
  140              		.loc 1 116 0
  141 0008 012B     		cmp	r3, #1
  142 000a 4FEA4221 		lsl	r1, r2, #9
@@ -258,7 +258,7 @@
  144              		.loc 1 118 0
  145 000e 4FF40072 		mov	r2, #512
  146              	.LVL13:
- 116:lib/ff/diskio_sdio.c **** 	if(count==1)
+ 116:lib/ff/diskio_sdio.c ****     {
  147              		.loc 1 116 0
  148 0012 02D1     		bne	.L19
  149              		.loc 1 118 0
@@ -356,7 +356,7 @@
  200              		.loc 1 161 0
  201 0006 2046     		mov	r0, r4
  202              	.LVL23:
- 159:lib/ff/diskio_sdio.c **** 	if(count==1)
+ 159:lib/ff/diskio_sdio.c ****     {
  203              		.loc 1 159 0
  204 0008 012B     		cmp	r3, #1
  205 000a 4FEA4221 		lsl	r1, r2, #9
@@ -364,7 +364,7 @@
  207              		.loc 1 161 0
  208 000e 4FF40072 		mov	r2, #512
  209              	.LVL25:
- 159:lib/ff/diskio_sdio.c **** 	if(count==1)
+ 159:lib/ff/diskio_sdio.c ****     {
  210              		.loc 1 159 0
  211 0012 02D1     		bne	.L26
  212              		.loc 1 161 0
@@ -593,7 +593,7 @@
  363 0070 10BD     		pop	{r4, pc}
  364              	.LVL57:
  365              	.L43:
- 202:lib/ff/diskio_sdio.c ****           return RES_OK;
+ 202:lib/ff/diskio_sdio.c ****         case GET_SECTOR_SIZE:
  366              		.loc 1 202 0
  367 0072 0020     		movs	r0, #0
  236:lib/ff/diskio_sdio.c **** }
@@ -634,38 +634,38 @@
  410 0000 01       		.byte	1
  411              		.text
  412              	.Letext0:
- 413              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
- 414              		.file 3 "lib/ff/integer.h"
- 415              		.file 4 "lib/ff/diskio.h"
- 416              		.file 5 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 413              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
+ 414              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 415              		.file 4 "lib/ff/integer.h"
+ 416              		.file 5 "lib/ff/diskio.h"
  417              		.file 6 "lib/ff/sdio_stm32f1.h"
  418              		.file 7 "./lib/CMSIS/Include/core_cm3.h"
- 419              		.file 8 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/i
+ 419              		.file 8 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
 DEFINED SYMBOLS
                             *ABS*:00000000 diskio_sdio.c
-  R:\TEMP\ccmPCjlM.s:19     .text.disk_initialize:00000000 $t
-  R:\TEMP\ccmPCjlM.s:24     .text.disk_initialize:00000000 disk_initialize
-  R:\TEMP\ccmPCjlM.s:61     .text.disk_initialize:0000001c $d
-  R:\TEMP\ccmPCjlM.s:66     .text.disk_status:00000000 $t
-  R:\TEMP\ccmPCjlM.s:71     .text.disk_status:00000000 disk_status
-  R:\TEMP\ccmPCjlM.s:109    .text.disk_status:0000001c $d
-  R:\TEMP\ccmPCjlM.s:115    .text.disk_read:00000000 $t
-  R:\TEMP\ccmPCjlM.s:120    .text.disk_read:00000000 disk_read
-  R:\TEMP\ccmPCjlM.s:178    .text.disk_write:00000000 $t
-  R:\TEMP\ccmPCjlM.s:183    .text.disk_write:00000000 disk_write
-  R:\TEMP\ccmPCjlM.s:241    .text.disk_ioctl:00000000 $t
-  R:\TEMP\ccmPCjlM.s:246    .text.disk_ioctl:00000000 disk_ioctl
-  R:\TEMP\ccmPCjlM.s:269    .text.disk_ioctl:00000012 $d
-  R:\TEMP\ccmPCjlM.s:283    .text.disk_ioctl:00000020 $t
-  R:\TEMP\ccmPCjlM.s:373    .text.disk_ioctl:00000078 $d
-  R:\TEMP\ccmPCjlM.s:398    .bss.SDCardStatus:00000000 SDCardStatus
-  R:\TEMP\ccmPCjlM.s:404    .data.Status:00000000 Status
-  R:\TEMP\ccmPCjlM.s:382    .bss.Timer1:00000000 $d
-  R:\TEMP\ccmPCjlM.s:385    .bss.Timer1:00000000 Timer1
-  R:\TEMP\ccmPCjlM.s:388    .bss.Timer2:00000000 $d
-  R:\TEMP\ccmPCjlM.s:391    .bss.Timer2:00000000 Timer2
-  R:\TEMP\ccmPCjlM.s:394    .bss.SDCardStatus:00000000 $d
-  R:\TEMP\ccmPCjlM.s:409    .data.Stat:00000000 Stat
+  R:\TEMP\cckUbhQD.s:19     .text.disk_initialize:00000000 $t
+  R:\TEMP\cckUbhQD.s:24     .text.disk_initialize:00000000 disk_initialize
+  R:\TEMP\cckUbhQD.s:61     .text.disk_initialize:0000001c $d
+  R:\TEMP\cckUbhQD.s:66     .text.disk_status:00000000 $t
+  R:\TEMP\cckUbhQD.s:71     .text.disk_status:00000000 disk_status
+  R:\TEMP\cckUbhQD.s:109    .text.disk_status:0000001c $d
+  R:\TEMP\cckUbhQD.s:115    .text.disk_read:00000000 $t
+  R:\TEMP\cckUbhQD.s:120    .text.disk_read:00000000 disk_read
+  R:\TEMP\cckUbhQD.s:178    .text.disk_write:00000000 $t
+  R:\TEMP\cckUbhQD.s:183    .text.disk_write:00000000 disk_write
+  R:\TEMP\cckUbhQD.s:241    .text.disk_ioctl:00000000 $t
+  R:\TEMP\cckUbhQD.s:246    .text.disk_ioctl:00000000 disk_ioctl
+  R:\TEMP\cckUbhQD.s:269    .text.disk_ioctl:00000012 $d
+  R:\TEMP\cckUbhQD.s:283    .text.disk_ioctl:00000020 $t
+  R:\TEMP\cckUbhQD.s:373    .text.disk_ioctl:00000078 $d
+  R:\TEMP\cckUbhQD.s:398    .bss.SDCardStatus:00000000 SDCardStatus
+  R:\TEMP\cckUbhQD.s:404    .data.Status:00000000 Status
+  R:\TEMP\cckUbhQD.s:382    .bss.Timer1:00000000 $d
+  R:\TEMP\cckUbhQD.s:385    .bss.Timer1:00000000 Timer1
+  R:\TEMP\cckUbhQD.s:388    .bss.Timer2:00000000 $d
+  R:\TEMP\cckUbhQD.s:391    .bss.Timer2:00000000 Timer2
+  R:\TEMP\cckUbhQD.s:394    .bss.SDCardStatus:00000000 $d
+  R:\TEMP\cckUbhQD.s:409    .data.Stat:00000000 Stat
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

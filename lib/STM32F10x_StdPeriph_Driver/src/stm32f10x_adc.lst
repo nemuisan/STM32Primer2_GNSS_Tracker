@@ -293,7 +293,7 @@
  214:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
   81              		.loc 1 214 0
   82 0044 BDE80840 		pop	{r3, lr}
- 211:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****       RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC3, DISABLE);
+ 211:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     }
   83              		.loc 1 211 0
   84 0048 FFF7FEBF 		b	RCC_APB2PeriphResetCmd
   85              	.LVL9:
@@ -391,7 +391,7 @@
  135 001c 8A68     		ldr	r2, [r1, #8]
  136 001e CB68     		ldr	r3, [r1, #12]
  137 0020 1A43     		orrs	r2, r2, r3
- 253:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 &= CR2_CLEAR_Mask;
+ 253:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Configure ADCx: external trigger event and continuous conversion mode */
  138              		.loc 1 253 0
  139 0022 084B     		ldr	r3, .L10
  140 0024 2340     		ands	r3, r3, r4
@@ -402,7 +402,7 @@
  259:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****             ((uint32_t)ADC_InitStruct->ADC_ContinuousConvMode << 1));
  145              		.loc 1 259 0
  146 0028 4A79     		ldrb	r2, [r1, #5]	@ zero_extendqisi2
- 258:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= (uint32_t)(ADC_InitStruct->ADC_DataAlign | ADC_InitStruct->ADC_ExternalTrigConv |
+ 258:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****             ((uint32_t)ADC_InitStruct->ADC_ContinuousConvMode << 1));
  147              		.loc 1 258 0
  148 002a 43EA4203 		orr	r3, r3, r2, lsl #1
  149              	.LVL18:
@@ -530,7 +530,7 @@
  313:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_ADON_Set;
  222              		.loc 1 313 0
  223 0000 8368     		ldr	r3, [r0, #8]
- 310:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 310:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  224              		.loc 1 310 0
  225 0002 11B1     		cbz	r1, .L14
  226              		.loc 1 313 0
@@ -587,7 +587,7 @@
  338:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_DMA_Set;
  255              		.loc 1 338 0
  256 0000 8368     		ldr	r3, [r0, #8]
- 335:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 335:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  257              		.loc 1 335 0
  258 0002 11B1     		cbz	r1, .L18
  259              		.loc 1 338 0
@@ -873,7 +873,7 @@
  472:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_EXTTRIG_SWSTART_Set;
  417              		.loc 1 472 0
  418 0000 8368     		ldr	r3, [r0, #8]
- 468:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 468:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  419              		.loc 1 468 0
  420 0002 11B1     		cbz	r1, .L30
  421              		.loc 1 472 0
@@ -1037,7 +1037,7 @@
  550:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 |= CR1_DISCEN_Set;
  508              		.loc 1 550 0
  509 0000 4368     		ldr	r3, [r0, #4]
- 547:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 547:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  510              		.loc 1 547 0
  511 0002 11B1     		cbz	r1, .L36
  512              		.loc 1 550 0
@@ -1371,7 +1371,7 @@
  700:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_EXTTRIG_Set;
  695              		.loc 1 700 0
  696 0000 8368     		ldr	r3, [r0, #8]
- 697:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 697:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  697              		.loc 1 697 0
  698 0002 11B1     		cbz	r1, .L46
  699              		.loc 1 700 0
@@ -1495,7 +1495,7 @@
  748:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 |= CR1_JAUTO_Set;
  776              		.loc 1 748 0
  777 0000 4368     		ldr	r3, [r0, #4]
- 745:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 745:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  778              		.loc 1 745 0
  779 0002 11B1     		cbz	r1, .L54
  780              		.loc 1 748 0
@@ -1553,7 +1553,7 @@
  774:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 |= CR1_JDISCEN_Set;
  809              		.loc 1 774 0
  810 0000 4368     		ldr	r3, [r0, #4]
- 771:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 771:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  811              		.loc 1 771 0
  812 0002 11B1     		cbz	r1, .L58
  813              		.loc 1 774 0
@@ -1677,7 +1677,7 @@
  838:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_JEXTTRIG_Set;
  872              		.loc 1 838 0
  873 0000 8368     		ldr	r3, [r0, #8]
- 835:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 835:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  874              		.loc 1 835 0
  875 0002 11B1     		cbz	r1, .L63
  876              		.loc 1 838 0
@@ -1735,7 +1735,7 @@
  864:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_JEXTTRIG_JSWSTART_Set;
  905              		.loc 1 864 0
  906 0000 8368     		ldr	r3, [r0, #8]
- 860:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+ 860:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  907              		.loc 1 860 0
  908 0002 11B1     		cbz	r1, .L67
  909              		.loc 1 864 0
@@ -2391,7 +2391,7 @@
 1180:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADC1->CR2 |= CR2_TSVREFE_Set;
  1262              		.loc 1 1180 0
  1263 0002 9A68     		ldr	r2, [r3, #8]
-1177:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
+1177:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  1264              		.loc 1 1177 0
  1265 0004 10B1     		cbz	r0, .L81
  1266              		.loc 1 1180 0
@@ -2565,7 +2565,7 @@
  1355              	.LVL197:
  1356 0004 10EA1120 		ands	r0, r0, r1, lsr #8
  1357 0008 04D0     		beq	.L89
-1263:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   enablestatus = (ADCx->CR1 & (uint8_t)ADC_IT) ;
+1263:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the status of the specified ADC interrupt */
  1358              		.loc 1 1263 0 discriminator 1
  1359 000a C9B2     		uxtb	r1, r1
  1360              	.LVL198:
@@ -2637,89 +2637,89 @@
  1395              	.LFE91:
  1397              		.text
  1398              	.Letext0:
- 1399              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 1399              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  1400              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  1401              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h"
  1402              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
  1403              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_adc.c
-  R:\TEMP\cc7uIsxq.s:19     .text.ADC_DeInit:00000000 $t
-  R:\TEMP\cc7uIsxq.s:24     .text.ADC_DeInit:00000000 ADC_DeInit
-  R:\TEMP\cc7uIsxq.s:91     .text.ADC_DeInit:00000050 $d
-  R:\TEMP\cc7uIsxq.s:98     .text.ADC_Init:00000000 $t
-  R:\TEMP\cc7uIsxq.s:103    .text.ADC_Init:00000000 ADC_Init
-  R:\TEMP\cc7uIsxq.s:172    .text.ADC_Init:00000044 $d
-  R:\TEMP\cc7uIsxq.s:177    .text.ADC_StructInit:00000000 $t
-  R:\TEMP\cc7uIsxq.s:182    .text.ADC_StructInit:00000000 ADC_StructInit
-  R:\TEMP\cc7uIsxq.s:209    .text.ADC_Cmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:214    .text.ADC_Cmd:00000000 ADC_Cmd
-  R:\TEMP\cc7uIsxq.s:242    .text.ADC_DMACmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:247    .text.ADC_DMACmd:00000000 ADC_DMACmd
-  R:\TEMP\cc7uIsxq.s:275    .text.ADC_ITConfig:00000000 $t
-  R:\TEMP\cc7uIsxq.s:280    .text.ADC_ITConfig:00000000 ADC_ITConfig
-  R:\TEMP\cc7uIsxq.s:310    .text.ADC_ResetCalibration:00000000 $t
-  R:\TEMP\cc7uIsxq.s:315    .text.ADC_ResetCalibration:00000000 ADC_ResetCalibration
-  R:\TEMP\cc7uIsxq.s:332    .text.ADC_GetResetCalibrationStatus:00000000 $t
-  R:\TEMP\cc7uIsxq.s:337    .text.ADC_GetResetCalibrationStatus:00000000 ADC_GetResetCalibrationStatus
-  R:\TEMP\cc7uIsxq.s:357    .text.ADC_StartCalibration:00000000 $t
-  R:\TEMP\cc7uIsxq.s:362    .text.ADC_StartCalibration:00000000 ADC_StartCalibration
-  R:\TEMP\cc7uIsxq.s:379    .text.ADC_GetCalibrationStatus:00000000 $t
-  R:\TEMP\cc7uIsxq.s:384    .text.ADC_GetCalibrationStatus:00000000 ADC_GetCalibrationStatus
-  R:\TEMP\cc7uIsxq.s:404    .text.ADC_SoftwareStartConvCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:409    .text.ADC_SoftwareStartConvCmd:00000000 ADC_SoftwareStartConvCmd
-  R:\TEMP\cc7uIsxq.s:437    .text.ADC_GetSoftwareStartConvStatus:00000000 $t
-  R:\TEMP\cc7uIsxq.s:442    .text.ADC_GetSoftwareStartConvStatus:00000000 ADC_GetSoftwareStartConvStatus
-  R:\TEMP\cc7uIsxq.s:462    .text.ADC_DiscModeChannelCountConfig:00000000 $t
-  R:\TEMP\cc7uIsxq.s:467    .text.ADC_DiscModeChannelCountConfig:00000000 ADC_DiscModeChannelCountConfig
-  R:\TEMP\cc7uIsxq.s:495    .text.ADC_DiscModeCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:500    .text.ADC_DiscModeCmd:00000000 ADC_DiscModeCmd
-  R:\TEMP\cc7uIsxq.s:528    .text.ADC_RegularChannelConfig:00000000 $t
-  R:\TEMP\cc7uIsxq.s:533    .text.ADC_RegularChannelConfig:00000000 ADC_RegularChannelConfig
-  R:\TEMP\cc7uIsxq.s:682    .text.ADC_ExternalTrigConvCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:687    .text.ADC_ExternalTrigConvCmd:00000000 ADC_ExternalTrigConvCmd
-  R:\TEMP\cc7uIsxq.s:715    .text.ADC_GetConversionValue:00000000 $t
-  R:\TEMP\cc7uIsxq.s:720    .text.ADC_GetConversionValue:00000000 ADC_GetConversionValue
-  R:\TEMP\cc7uIsxq.s:738    .text.ADC_GetDualModeConversionValue:00000000 $t
-  R:\TEMP\cc7uIsxq.s:743    .text.ADC_GetDualModeConversionValue:00000000 ADC_GetDualModeConversionValue
-  R:\TEMP\cc7uIsxq.s:758    .text.ADC_GetDualModeConversionValue:00000008 $d
-  R:\TEMP\cc7uIsxq.s:763    .text.ADC_AutoInjectedConvCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:768    .text.ADC_AutoInjectedConvCmd:00000000 ADC_AutoInjectedConvCmd
-  R:\TEMP\cc7uIsxq.s:796    .text.ADC_InjectedDiscModeCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:801    .text.ADC_InjectedDiscModeCmd:00000000 ADC_InjectedDiscModeCmd
-  R:\TEMP\cc7uIsxq.s:829    .text.ADC_ExternalTrigInjectedConvConfig:00000000 $t
-  R:\TEMP\cc7uIsxq.s:834    .text.ADC_ExternalTrigInjectedConvConfig:00000000 ADC_ExternalTrigInjectedConvConfig
-  R:\TEMP\cc7uIsxq.s:859    .text.ADC_ExternalTrigInjectedConvCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:864    .text.ADC_ExternalTrigInjectedConvCmd:00000000 ADC_ExternalTrigInjectedConvCmd
-  R:\TEMP\cc7uIsxq.s:892    .text.ADC_SoftwareStartInjectedConvCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:897    .text.ADC_SoftwareStartInjectedConvCmd:00000000 ADC_SoftwareStartInjectedConvCmd
-  R:\TEMP\cc7uIsxq.s:925    .text.ADC_GetSoftwareStartInjectedConvCmdStatus:00000000 $t
-  R:\TEMP\cc7uIsxq.s:930    .text.ADC_GetSoftwareStartInjectedConvCmdStatus:00000000 ADC_GetSoftwareStartInjectedConvCmdStatus
-  R:\TEMP\cc7uIsxq.s:950    .text.ADC_InjectedChannelConfig:00000000 $t
-  R:\TEMP\cc7uIsxq.s:955    .text.ADC_InjectedChannelConfig:00000000 ADC_InjectedChannelConfig
-  R:\TEMP\cc7uIsxq.s:1052   .text.ADC_InjectedSequencerLengthConfig:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1057   .text.ADC_InjectedSequencerLengthConfig:00000000 ADC_InjectedSequencerLengthConfig
-  R:\TEMP\cc7uIsxq.s:1085   .text.ADC_SetInjectedOffset:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1090   .text.ADC_SetInjectedOffset:00000000 ADC_SetInjectedOffset
-  R:\TEMP\cc7uIsxq.s:1124   .text.ADC_GetInjectedConversionValue:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1129   .text.ADC_GetInjectedConversionValue:00000000 ADC_GetInjectedConversionValue
-  R:\TEMP\cc7uIsxq.s:1165   .text.ADC_AnalogWatchdogCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1170   .text.ADC_AnalogWatchdogCmd:00000000 ADC_AnalogWatchdogCmd
-  R:\TEMP\cc7uIsxq.s:1196   .text.ADC_AnalogWatchdogThresholdsConfig:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1201   .text.ADC_AnalogWatchdogThresholdsConfig:00000000 ADC_AnalogWatchdogThresholdsConfig
-  R:\TEMP\cc7uIsxq.s:1218   .text.ADC_AnalogWatchdogSingleChannelConfig:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1223   .text.ADC_AnalogWatchdogSingleChannelConfig:00000000 ADC_AnalogWatchdogSingleChannelConfig
-  R:\TEMP\cc7uIsxq.s:1248   .text.ADC_TempSensorVrefintCmd:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1253   .text.ADC_TempSensorVrefintCmd:00000000 ADC_TempSensorVrefintCmd
-  R:\TEMP\cc7uIsxq.s:1281   .text.ADC_TempSensorVrefintCmd:00000014 $d
-  R:\TEMP\cc7uIsxq.s:1286   .text.ADC_GetFlagStatus:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1291   .text.ADC_GetFlagStatus:00000000 ADC_GetFlagStatus
-  R:\TEMP\cc7uIsxq.s:1314   .text.ADC_ClearFlag:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1319   .text.ADC_ClearFlag:00000000 ADC_ClearFlag
-  R:\TEMP\cc7uIsxq.s:1336   .text.ADC_GetITStatus:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1341   .text.ADC_GetITStatus:00000000 ADC_GetITStatus
-  R:\TEMP\cc7uIsxq.s:1375   .text.ADC_ClearITPendingBit:00000000 $t
-  R:\TEMP\cc7uIsxq.s:1380   .text.ADC_ClearITPendingBit:00000000 ADC_ClearITPendingBit
+  R:\TEMP\ccdIZ2Vc.s:19     .text.ADC_DeInit:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:24     .text.ADC_DeInit:00000000 ADC_DeInit
+  R:\TEMP\ccdIZ2Vc.s:91     .text.ADC_DeInit:00000050 $d
+  R:\TEMP\ccdIZ2Vc.s:98     .text.ADC_Init:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:103    .text.ADC_Init:00000000 ADC_Init
+  R:\TEMP\ccdIZ2Vc.s:172    .text.ADC_Init:00000044 $d
+  R:\TEMP\ccdIZ2Vc.s:177    .text.ADC_StructInit:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:182    .text.ADC_StructInit:00000000 ADC_StructInit
+  R:\TEMP\ccdIZ2Vc.s:209    .text.ADC_Cmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:214    .text.ADC_Cmd:00000000 ADC_Cmd
+  R:\TEMP\ccdIZ2Vc.s:242    .text.ADC_DMACmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:247    .text.ADC_DMACmd:00000000 ADC_DMACmd
+  R:\TEMP\ccdIZ2Vc.s:275    .text.ADC_ITConfig:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:280    .text.ADC_ITConfig:00000000 ADC_ITConfig
+  R:\TEMP\ccdIZ2Vc.s:310    .text.ADC_ResetCalibration:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:315    .text.ADC_ResetCalibration:00000000 ADC_ResetCalibration
+  R:\TEMP\ccdIZ2Vc.s:332    .text.ADC_GetResetCalibrationStatus:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:337    .text.ADC_GetResetCalibrationStatus:00000000 ADC_GetResetCalibrationStatus
+  R:\TEMP\ccdIZ2Vc.s:357    .text.ADC_StartCalibration:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:362    .text.ADC_StartCalibration:00000000 ADC_StartCalibration
+  R:\TEMP\ccdIZ2Vc.s:379    .text.ADC_GetCalibrationStatus:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:384    .text.ADC_GetCalibrationStatus:00000000 ADC_GetCalibrationStatus
+  R:\TEMP\ccdIZ2Vc.s:404    .text.ADC_SoftwareStartConvCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:409    .text.ADC_SoftwareStartConvCmd:00000000 ADC_SoftwareStartConvCmd
+  R:\TEMP\ccdIZ2Vc.s:437    .text.ADC_GetSoftwareStartConvStatus:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:442    .text.ADC_GetSoftwareStartConvStatus:00000000 ADC_GetSoftwareStartConvStatus
+  R:\TEMP\ccdIZ2Vc.s:462    .text.ADC_DiscModeChannelCountConfig:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:467    .text.ADC_DiscModeChannelCountConfig:00000000 ADC_DiscModeChannelCountConfig
+  R:\TEMP\ccdIZ2Vc.s:495    .text.ADC_DiscModeCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:500    .text.ADC_DiscModeCmd:00000000 ADC_DiscModeCmd
+  R:\TEMP\ccdIZ2Vc.s:528    .text.ADC_RegularChannelConfig:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:533    .text.ADC_RegularChannelConfig:00000000 ADC_RegularChannelConfig
+  R:\TEMP\ccdIZ2Vc.s:682    .text.ADC_ExternalTrigConvCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:687    .text.ADC_ExternalTrigConvCmd:00000000 ADC_ExternalTrigConvCmd
+  R:\TEMP\ccdIZ2Vc.s:715    .text.ADC_GetConversionValue:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:720    .text.ADC_GetConversionValue:00000000 ADC_GetConversionValue
+  R:\TEMP\ccdIZ2Vc.s:738    .text.ADC_GetDualModeConversionValue:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:743    .text.ADC_GetDualModeConversionValue:00000000 ADC_GetDualModeConversionValue
+  R:\TEMP\ccdIZ2Vc.s:758    .text.ADC_GetDualModeConversionValue:00000008 $d
+  R:\TEMP\ccdIZ2Vc.s:763    .text.ADC_AutoInjectedConvCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:768    .text.ADC_AutoInjectedConvCmd:00000000 ADC_AutoInjectedConvCmd
+  R:\TEMP\ccdIZ2Vc.s:796    .text.ADC_InjectedDiscModeCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:801    .text.ADC_InjectedDiscModeCmd:00000000 ADC_InjectedDiscModeCmd
+  R:\TEMP\ccdIZ2Vc.s:829    .text.ADC_ExternalTrigInjectedConvConfig:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:834    .text.ADC_ExternalTrigInjectedConvConfig:00000000 ADC_ExternalTrigInjectedConvConfig
+  R:\TEMP\ccdIZ2Vc.s:859    .text.ADC_ExternalTrigInjectedConvCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:864    .text.ADC_ExternalTrigInjectedConvCmd:00000000 ADC_ExternalTrigInjectedConvCmd
+  R:\TEMP\ccdIZ2Vc.s:892    .text.ADC_SoftwareStartInjectedConvCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:897    .text.ADC_SoftwareStartInjectedConvCmd:00000000 ADC_SoftwareStartInjectedConvCmd
+  R:\TEMP\ccdIZ2Vc.s:925    .text.ADC_GetSoftwareStartInjectedConvCmdStatus:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:930    .text.ADC_GetSoftwareStartInjectedConvCmdStatus:00000000 ADC_GetSoftwareStartInjectedConvCmdStatus
+  R:\TEMP\ccdIZ2Vc.s:950    .text.ADC_InjectedChannelConfig:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:955    .text.ADC_InjectedChannelConfig:00000000 ADC_InjectedChannelConfig
+  R:\TEMP\ccdIZ2Vc.s:1052   .text.ADC_InjectedSequencerLengthConfig:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1057   .text.ADC_InjectedSequencerLengthConfig:00000000 ADC_InjectedSequencerLengthConfig
+  R:\TEMP\ccdIZ2Vc.s:1085   .text.ADC_SetInjectedOffset:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1090   .text.ADC_SetInjectedOffset:00000000 ADC_SetInjectedOffset
+  R:\TEMP\ccdIZ2Vc.s:1124   .text.ADC_GetInjectedConversionValue:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1129   .text.ADC_GetInjectedConversionValue:00000000 ADC_GetInjectedConversionValue
+  R:\TEMP\ccdIZ2Vc.s:1165   .text.ADC_AnalogWatchdogCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1170   .text.ADC_AnalogWatchdogCmd:00000000 ADC_AnalogWatchdogCmd
+  R:\TEMP\ccdIZ2Vc.s:1196   .text.ADC_AnalogWatchdogThresholdsConfig:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1201   .text.ADC_AnalogWatchdogThresholdsConfig:00000000 ADC_AnalogWatchdogThresholdsConfig
+  R:\TEMP\ccdIZ2Vc.s:1218   .text.ADC_AnalogWatchdogSingleChannelConfig:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1223   .text.ADC_AnalogWatchdogSingleChannelConfig:00000000 ADC_AnalogWatchdogSingleChannelConfig
+  R:\TEMP\ccdIZ2Vc.s:1248   .text.ADC_TempSensorVrefintCmd:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1253   .text.ADC_TempSensorVrefintCmd:00000000 ADC_TempSensorVrefintCmd
+  R:\TEMP\ccdIZ2Vc.s:1281   .text.ADC_TempSensorVrefintCmd:00000014 $d
+  R:\TEMP\ccdIZ2Vc.s:1286   .text.ADC_GetFlagStatus:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1291   .text.ADC_GetFlagStatus:00000000 ADC_GetFlagStatus
+  R:\TEMP\ccdIZ2Vc.s:1314   .text.ADC_ClearFlag:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1319   .text.ADC_ClearFlag:00000000 ADC_ClearFlag
+  R:\TEMP\ccdIZ2Vc.s:1336   .text.ADC_GetITStatus:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1341   .text.ADC_GetITStatus:00000000 ADC_GetITStatus
+  R:\TEMP\ccdIZ2Vc.s:1375   .text.ADC_ClearITPendingBit:00000000 $t
+  R:\TEMP\ccdIZ2Vc.s:1380   .text.ADC_ClearITPendingBit:00000000 ADC_ClearITPendingBit
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

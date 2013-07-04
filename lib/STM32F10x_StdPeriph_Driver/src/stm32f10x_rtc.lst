@@ -137,7 +137,7 @@
   34              		.loc 1 104 0
   35 0002 1A88     		ldrh	r2, [r3, #0]
   36 0004 92B2     		uxth	r2, r2
- 102:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.c ****   if (NewState != DISABLE)
+ 102:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.c ****   {
   37              		.loc 1 102 0
   38 0006 09B1     		cbz	r1, .L2
   39              		.loc 1 104 0
@@ -769,7 +769,7 @@
  473 0006 1B88     		ldrh	r3, [r3, #0]
  474 0008 10EA0302 		ands	r2, r0, r3
  475 000c 06D0     		beq	.L55
- 316:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.c ****   bitstatus = (ITStatus)(RTC->CRL & RTC_IT);
+ 316:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_rtc.c ****   if (((RTC->CRH & RTC_IT) != (uint16_t)RESET) && (bitstatus != (uint16_t)RESET))
  476              		.loc 1 316 0 discriminator 1
  477 000e 0840     		ands	r0, r0, r1
  478              	.LVL36:
@@ -847,53 +847,53 @@
  526              	.LFE69:
  528              		.text
  529              	.Letext0:
- 530              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 530              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  531              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  532              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_rtc.c
-  R:\TEMP\ccznXyLa.s:19     .text.RTC_ITConfig:00000000 $t
-  R:\TEMP\ccznXyLa.s:24     .text.RTC_ITConfig:00000000 RTC_ITConfig
-  R:\TEMP\ccznXyLa.s:54     .text.RTC_ITConfig:00000014 $d
-  R:\TEMP\ccznXyLa.s:59     .text.RTC_EnterConfigMode:00000000 $t
-  R:\TEMP\ccznXyLa.s:64     .text.RTC_EnterConfigMode:00000000 RTC_EnterConfigMode
-  R:\TEMP\ccznXyLa.s:81     .text.RTC_EnterConfigMode:00000010 $d
-  R:\TEMP\ccznXyLa.s:86     .text.RTC_ExitConfigMode:00000000 $t
-  R:\TEMP\ccznXyLa.s:91     .text.RTC_ExitConfigMode:00000000 RTC_ExitConfigMode
-  R:\TEMP\ccznXyLa.s:109    .text.RTC_ExitConfigMode:00000010 $d
-  R:\TEMP\ccznXyLa.s:114    .text.RTC_GetCounter:00000000 $t
-  R:\TEMP\ccznXyLa.s:119    .text.RTC_GetCounter:00000000 RTC_GetCounter
-  R:\TEMP\ccznXyLa.s:160    .text.RTC_GetCounter:00000024 $d
-  R:\TEMP\ccznXyLa.s:165    .text.RTC_SetCounter:00000000 $t
-  R:\TEMP\ccznXyLa.s:170    .text.RTC_SetCounter:00000000 RTC_SetCounter
-  R:\TEMP\ccznXyLa.s:202    .text.RTC_SetCounter:0000001c $d
-  R:\TEMP\ccznXyLa.s:207    .text.RTC_SetPrescaler:00000000 $t
-  R:\TEMP\ccznXyLa.s:212    .text.RTC_SetPrescaler:00000000 RTC_SetPrescaler
-  R:\TEMP\ccznXyLa.s:244    .text.RTC_SetPrescaler:0000001c $d
-  R:\TEMP\ccznXyLa.s:249    .text.RTC_SetAlarm:00000000 $t
-  R:\TEMP\ccznXyLa.s:254    .text.RTC_SetAlarm:00000000 RTC_SetAlarm
-  R:\TEMP\ccznXyLa.s:286    .text.RTC_SetAlarm:0000001c $d
-  R:\TEMP\ccznXyLa.s:291    .text.RTC_GetDivider:00000000 $t
-  R:\TEMP\ccznXyLa.s:296    .text.RTC_GetDivider:00000000 RTC_GetDivider
-  R:\TEMP\ccznXyLa.s:319    .text.RTC_GetDivider:00000014 $d
-  R:\TEMP\ccznXyLa.s:324    .text.RTC_WaitForLastTask:00000000 $t
-  R:\TEMP\ccznXyLa.s:329    .text.RTC_WaitForLastTask:00000000 RTC_WaitForLastTask
-  R:\TEMP\ccznXyLa.s:349    .text.RTC_WaitForLastTask:00000010 $d
-  R:\TEMP\ccznXyLa.s:354    .text.RTC_WaitForSynchro:00000000 $t
-  R:\TEMP\ccznXyLa.s:359    .text.RTC_WaitForSynchro:00000000 RTC_WaitForSynchro
-  R:\TEMP\ccznXyLa.s:386    .text.RTC_WaitForSynchro:00000020 $d
-  R:\TEMP\ccznXyLa.s:391    .text.RTC_GetFlagStatus:00000000 $t
-  R:\TEMP\ccznXyLa.s:396    .text.RTC_GetFlagStatus:00000000 RTC_GetFlagStatus
-  R:\TEMP\ccznXyLa.s:419    .text.RTC_GetFlagStatus:00000010 $d
-  R:\TEMP\ccznXyLa.s:424    .text.RTC_ClearFlag:00000000 $t
-  R:\TEMP\ccznXyLa.s:429    .text.RTC_ClearFlag:00000000 RTC_ClearFlag
-  R:\TEMP\ccznXyLa.s:448    .text.RTC_ClearFlag:00000010 $d
-  R:\TEMP\ccznXyLa.s:453    .text.RTC_GetITStatus:00000000 $t
-  R:\TEMP\ccznXyLa.s:458    .text.RTC_GetITStatus:00000000 RTC_GetITStatus
-  R:\TEMP\ccznXyLa.s:495    .text.RTC_GetITStatus:00000020 $d
-  R:\TEMP\ccznXyLa.s:500    .text.RTC_ClearITPendingBit:00000000 $t
-  R:\TEMP\ccznXyLa.s:505    .text.RTC_ClearITPendingBit:00000000 RTC_ClearITPendingBit
-  R:\TEMP\ccznXyLa.s:524    .text.RTC_ClearITPendingBit:00000010 $d
+  R:\TEMP\cceUZjSf.s:19     .text.RTC_ITConfig:00000000 $t
+  R:\TEMP\cceUZjSf.s:24     .text.RTC_ITConfig:00000000 RTC_ITConfig
+  R:\TEMP\cceUZjSf.s:54     .text.RTC_ITConfig:00000014 $d
+  R:\TEMP\cceUZjSf.s:59     .text.RTC_EnterConfigMode:00000000 $t
+  R:\TEMP\cceUZjSf.s:64     .text.RTC_EnterConfigMode:00000000 RTC_EnterConfigMode
+  R:\TEMP\cceUZjSf.s:81     .text.RTC_EnterConfigMode:00000010 $d
+  R:\TEMP\cceUZjSf.s:86     .text.RTC_ExitConfigMode:00000000 $t
+  R:\TEMP\cceUZjSf.s:91     .text.RTC_ExitConfigMode:00000000 RTC_ExitConfigMode
+  R:\TEMP\cceUZjSf.s:109    .text.RTC_ExitConfigMode:00000010 $d
+  R:\TEMP\cceUZjSf.s:114    .text.RTC_GetCounter:00000000 $t
+  R:\TEMP\cceUZjSf.s:119    .text.RTC_GetCounter:00000000 RTC_GetCounter
+  R:\TEMP\cceUZjSf.s:160    .text.RTC_GetCounter:00000024 $d
+  R:\TEMP\cceUZjSf.s:165    .text.RTC_SetCounter:00000000 $t
+  R:\TEMP\cceUZjSf.s:170    .text.RTC_SetCounter:00000000 RTC_SetCounter
+  R:\TEMP\cceUZjSf.s:202    .text.RTC_SetCounter:0000001c $d
+  R:\TEMP\cceUZjSf.s:207    .text.RTC_SetPrescaler:00000000 $t
+  R:\TEMP\cceUZjSf.s:212    .text.RTC_SetPrescaler:00000000 RTC_SetPrescaler
+  R:\TEMP\cceUZjSf.s:244    .text.RTC_SetPrescaler:0000001c $d
+  R:\TEMP\cceUZjSf.s:249    .text.RTC_SetAlarm:00000000 $t
+  R:\TEMP\cceUZjSf.s:254    .text.RTC_SetAlarm:00000000 RTC_SetAlarm
+  R:\TEMP\cceUZjSf.s:286    .text.RTC_SetAlarm:0000001c $d
+  R:\TEMP\cceUZjSf.s:291    .text.RTC_GetDivider:00000000 $t
+  R:\TEMP\cceUZjSf.s:296    .text.RTC_GetDivider:00000000 RTC_GetDivider
+  R:\TEMP\cceUZjSf.s:319    .text.RTC_GetDivider:00000014 $d
+  R:\TEMP\cceUZjSf.s:324    .text.RTC_WaitForLastTask:00000000 $t
+  R:\TEMP\cceUZjSf.s:329    .text.RTC_WaitForLastTask:00000000 RTC_WaitForLastTask
+  R:\TEMP\cceUZjSf.s:349    .text.RTC_WaitForLastTask:00000010 $d
+  R:\TEMP\cceUZjSf.s:354    .text.RTC_WaitForSynchro:00000000 $t
+  R:\TEMP\cceUZjSf.s:359    .text.RTC_WaitForSynchro:00000000 RTC_WaitForSynchro
+  R:\TEMP\cceUZjSf.s:386    .text.RTC_WaitForSynchro:00000020 $d
+  R:\TEMP\cceUZjSf.s:391    .text.RTC_GetFlagStatus:00000000 $t
+  R:\TEMP\cceUZjSf.s:396    .text.RTC_GetFlagStatus:00000000 RTC_GetFlagStatus
+  R:\TEMP\cceUZjSf.s:419    .text.RTC_GetFlagStatus:00000010 $d
+  R:\TEMP\cceUZjSf.s:424    .text.RTC_ClearFlag:00000000 $t
+  R:\TEMP\cceUZjSf.s:429    .text.RTC_ClearFlag:00000000 RTC_ClearFlag
+  R:\TEMP\cceUZjSf.s:448    .text.RTC_ClearFlag:00000010 $d
+  R:\TEMP\cceUZjSf.s:453    .text.RTC_GetITStatus:00000000 $t
+  R:\TEMP\cceUZjSf.s:458    .text.RTC_GetITStatus:00000000 RTC_GetITStatus
+  R:\TEMP\cceUZjSf.s:495    .text.RTC_GetITStatus:00000020 $d
+  R:\TEMP\cceUZjSf.s:500    .text.RTC_ClearITPendingBit:00000000 $t
+  R:\TEMP\cceUZjSf.s:505    .text.RTC_ClearITPendingBit:00000000 RTC_ClearITPendingBit
+  R:\TEMP\cceUZjSf.s:524    .text.RTC_ClearITPendingBit:00000010 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

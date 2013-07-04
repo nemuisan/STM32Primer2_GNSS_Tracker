@@ -670,47 +670,47 @@
  393              	.LFE67:
  395              		.text
  396              	.Letext0:
- 397              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 397              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  398              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  399              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  400              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_bkp.c
-  R:\TEMP\ccslH8kx.s:19     .text.BKP_DeInit:00000000 $t
-  R:\TEMP\ccslH8kx.s:24     .text.BKP_DeInit:00000000 BKP_DeInit
-  R:\TEMP\ccslH8kx.s:51     .text.BKP_TamperPinLevelConfig:00000000 $t
-  R:\TEMP\ccslH8kx.s:56     .text.BKP_TamperPinLevelConfig:00000000 BKP_TamperPinLevelConfig
-  R:\TEMP\ccslH8kx.s:71     .text.BKP_TamperPinLevelConfig:00000008 $d
-  R:\TEMP\ccslH8kx.s:76     .text.BKP_TamperPinCmd:00000000 $t
-  R:\TEMP\ccslH8kx.s:81     .text.BKP_TamperPinCmd:00000000 BKP_TamperPinCmd
-  R:\TEMP\ccslH8kx.s:96     .text.BKP_TamperPinCmd:00000008 $d
-  R:\TEMP\ccslH8kx.s:101    .text.BKP_ITConfig:00000000 $t
-  R:\TEMP\ccslH8kx.s:106    .text.BKP_ITConfig:00000000 BKP_ITConfig
-  R:\TEMP\ccslH8kx.s:121    .text.BKP_ITConfig:00000008 $d
-  R:\TEMP\ccslH8kx.s:126    .text.BKP_RTCOutputConfig:00000000 $t
-  R:\TEMP\ccslH8kx.s:131    .text.BKP_RTCOutputConfig:00000000 BKP_RTCOutputConfig
-  R:\TEMP\ccslH8kx.s:159    .text.BKP_RTCOutputConfig:00000014 $d
-  R:\TEMP\ccslH8kx.s:164    .text.BKP_SetRTCCalibrationValue:00000000 $t
-  R:\TEMP\ccslH8kx.s:169    .text.BKP_SetRTCCalibrationValue:00000000 BKP_SetRTCCalibrationValue
-  R:\TEMP\ccslH8kx.s:197    .text.BKP_SetRTCCalibrationValue:00000014 $d
-  R:\TEMP\ccslH8kx.s:202    .text.BKP_WriteBackupRegister:00000000 $t
-  R:\TEMP\ccslH8kx.s:207    .text.BKP_WriteBackupRegister:00000000 BKP_WriteBackupRegister
-  R:\TEMP\ccslH8kx.s:240    .text.BKP_WriteBackupRegister:00000018 $d
-  R:\TEMP\ccslH8kx.s:245    .text.BKP_ReadBackupRegister:00000000 $t
-  R:\TEMP\ccslH8kx.s:250    .text.BKP_ReadBackupRegister:00000000 BKP_ReadBackupRegister
-  R:\TEMP\ccslH8kx.s:285    .text.BKP_ReadBackupRegister:0000001c $d
-  R:\TEMP\ccslH8kx.s:290    .text.BKP_GetFlagStatus:00000000 $t
-  R:\TEMP\ccslH8kx.s:295    .text.BKP_GetFlagStatus:00000000 BKP_GetFlagStatus
-  R:\TEMP\ccslH8kx.s:311    .text.BKP_GetFlagStatus:00000008 $d
-  R:\TEMP\ccslH8kx.s:316    .text.BKP_ClearFlag:00000000 $t
-  R:\TEMP\ccslH8kx.s:321    .text.BKP_ClearFlag:00000000 BKP_ClearFlag
-  R:\TEMP\ccslH8kx.s:338    .text.BKP_ClearFlag:00000010 $d
-  R:\TEMP\ccslH8kx.s:343    .text.BKP_GetITStatus:00000000 $t
-  R:\TEMP\ccslH8kx.s:348    .text.BKP_GetITStatus:00000000 BKP_GetITStatus
-  R:\TEMP\ccslH8kx.s:364    .text.BKP_GetITStatus:00000008 $d
-  R:\TEMP\ccslH8kx.s:369    .text.BKP_ClearITPendingBit:00000000 $t
-  R:\TEMP\ccslH8kx.s:374    .text.BKP_ClearITPendingBit:00000000 BKP_ClearITPendingBit
-  R:\TEMP\ccslH8kx.s:391    .text.BKP_ClearITPendingBit:00000010 $d
+  R:\TEMP\ccVncyTO.s:19     .text.BKP_DeInit:00000000 $t
+  R:\TEMP\ccVncyTO.s:24     .text.BKP_DeInit:00000000 BKP_DeInit
+  R:\TEMP\ccVncyTO.s:51     .text.BKP_TamperPinLevelConfig:00000000 $t
+  R:\TEMP\ccVncyTO.s:56     .text.BKP_TamperPinLevelConfig:00000000 BKP_TamperPinLevelConfig
+  R:\TEMP\ccVncyTO.s:71     .text.BKP_TamperPinLevelConfig:00000008 $d
+  R:\TEMP\ccVncyTO.s:76     .text.BKP_TamperPinCmd:00000000 $t
+  R:\TEMP\ccVncyTO.s:81     .text.BKP_TamperPinCmd:00000000 BKP_TamperPinCmd
+  R:\TEMP\ccVncyTO.s:96     .text.BKP_TamperPinCmd:00000008 $d
+  R:\TEMP\ccVncyTO.s:101    .text.BKP_ITConfig:00000000 $t
+  R:\TEMP\ccVncyTO.s:106    .text.BKP_ITConfig:00000000 BKP_ITConfig
+  R:\TEMP\ccVncyTO.s:121    .text.BKP_ITConfig:00000008 $d
+  R:\TEMP\ccVncyTO.s:126    .text.BKP_RTCOutputConfig:00000000 $t
+  R:\TEMP\ccVncyTO.s:131    .text.BKP_RTCOutputConfig:00000000 BKP_RTCOutputConfig
+  R:\TEMP\ccVncyTO.s:159    .text.BKP_RTCOutputConfig:00000014 $d
+  R:\TEMP\ccVncyTO.s:164    .text.BKP_SetRTCCalibrationValue:00000000 $t
+  R:\TEMP\ccVncyTO.s:169    .text.BKP_SetRTCCalibrationValue:00000000 BKP_SetRTCCalibrationValue
+  R:\TEMP\ccVncyTO.s:197    .text.BKP_SetRTCCalibrationValue:00000014 $d
+  R:\TEMP\ccVncyTO.s:202    .text.BKP_WriteBackupRegister:00000000 $t
+  R:\TEMP\ccVncyTO.s:207    .text.BKP_WriteBackupRegister:00000000 BKP_WriteBackupRegister
+  R:\TEMP\ccVncyTO.s:240    .text.BKP_WriteBackupRegister:00000018 $d
+  R:\TEMP\ccVncyTO.s:245    .text.BKP_ReadBackupRegister:00000000 $t
+  R:\TEMP\ccVncyTO.s:250    .text.BKP_ReadBackupRegister:00000000 BKP_ReadBackupRegister
+  R:\TEMP\ccVncyTO.s:285    .text.BKP_ReadBackupRegister:0000001c $d
+  R:\TEMP\ccVncyTO.s:290    .text.BKP_GetFlagStatus:00000000 $t
+  R:\TEMP\ccVncyTO.s:295    .text.BKP_GetFlagStatus:00000000 BKP_GetFlagStatus
+  R:\TEMP\ccVncyTO.s:311    .text.BKP_GetFlagStatus:00000008 $d
+  R:\TEMP\ccVncyTO.s:316    .text.BKP_ClearFlag:00000000 $t
+  R:\TEMP\ccVncyTO.s:321    .text.BKP_ClearFlag:00000000 BKP_ClearFlag
+  R:\TEMP\ccVncyTO.s:338    .text.BKP_ClearFlag:00000010 $d
+  R:\TEMP\ccVncyTO.s:343    .text.BKP_GetITStatus:00000000 $t
+  R:\TEMP\ccVncyTO.s:348    .text.BKP_GetITStatus:00000000 BKP_GetITStatus
+  R:\TEMP\ccVncyTO.s:364    .text.BKP_GetITStatus:00000008 $d
+  R:\TEMP\ccVncyTO.s:369    .text.BKP_ClearITPendingBit:00000000 $t
+  R:\TEMP\ccVncyTO.s:374    .text.BKP_ClearITPendingBit:00000000 BKP_ClearITPendingBit
+  R:\TEMP\ccVncyTO.s:391    .text.BKP_ClearITPendingBit:00000010 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

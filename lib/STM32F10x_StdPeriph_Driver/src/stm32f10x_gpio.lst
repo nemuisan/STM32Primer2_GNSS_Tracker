@@ -498,7 +498,7 @@
  276 0046 0561     		streq	r5, [r0, #16]
  277              	.LVL38:
  278              	.L18:
- 202:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****     for (pinpos = 0x00; pinpos < 0x08; pinpos++)
+ 202:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****     {
  279              		.loc 1 202 0
  280 0048 0133     		adds	r3, r3, #1
  281              	.LVL39:
@@ -531,7 +531,7 @@
  296 0058 0023     		movs	r3, #0
  297              	.LVL42:
  298              	.L24:
- 179:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c **** void GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct)
+ 179:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c **** {
  299              		.loc 1 179 0
  300 005a 03F10805 		add	r5, r3, #8
  238:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****     {
@@ -596,7 +596,7 @@
  339 008c 0561     		streq	r5, [r0, #16]
  340              	.LVL51:
  341              	.L22:
- 237:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****     for (pinpos = 0x00; pinpos < 0x08; pinpos++)
+ 237:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****     {
  342              		.loc 1 237 0
  343 008e 0133     		adds	r3, r3, #1
  344              	.LVL52:
@@ -1273,7 +1273,7 @@
  719 0028 C402     		lsls	r4, r0, #11
  720 002a 05D5     		bpl	.L53
  721              	.LVL88:
- 572:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****   tmpmask = (GPIO_Remap & DBGAFR_POSITION_MASK) >> 0x10;
+ 572:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****   tmp = GPIO_Remap & LSB_MASK;
  722              		.loc 1 572 0
  723 002c C0F30344 		ubfx	r4, r0, #16, #4
  581:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****   {
@@ -1393,7 +1393,7 @@
  797 000a 094B     		ldr	r3, .L64
  798 000c 0231     		adds	r1, r1, #2
  799 000e 53F82150 		ldr	r5, [r3, r1, lsl #2]
- 622:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****   tmp = ((uint32_t)0x0F) << (0x04 * (GPIO_PinSource & (uint8_t)0x03));
+ 622:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ****   AFIO->EXTICR[GPIO_PinSource >> 0x02] &= ~tmp;
  800              		.loc 1 622 0
  801 0012 0F24     		movs	r4, #15
  802 0014 04FA02F4 		lsl	r4, r4, r2
@@ -1458,55 +1458,55 @@
  845              	.LFE73:
  847              		.text
  848              	.Letext0:
- 849              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 849              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  850              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  851              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  852              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
  853              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_gpio.c
-  R:\TEMP\ccv6SHP8.s:19     .text.GPIO_DeInit:00000000 $t
-  R:\TEMP\ccv6SHP8.s:24     .text.GPIO_DeInit:00000000 GPIO_DeInit
-  R:\TEMP\ccv6SHP8.s:151    .text.GPIO_DeInit:00000090 $d
-  R:\TEMP\ccv6SHP8.s:162    .text.GPIO_AFIODeInit:00000000 $t
-  R:\TEMP\ccv6SHP8.s:167    .text.GPIO_AFIODeInit:00000000 GPIO_AFIODeInit
-  R:\TEMP\ccv6SHP8.s:195    .text.GPIO_Init:00000000 $t
-  R:\TEMP\ccv6SHP8.s:200    .text.GPIO_Init:00000000 GPIO_Init
-  R:\TEMP\ccv6SHP8.s:356    .text.GPIO_StructInit:00000000 $t
-  R:\TEMP\ccv6SHP8.s:361    .text.GPIO_StructInit:00000000 GPIO_StructInit
-  R:\TEMP\ccv6SHP8.s:383    .text.GPIO_ReadInputDataBit:00000000 $t
-  R:\TEMP\ccv6SHP8.s:388    .text.GPIO_ReadInputDataBit:00000000 GPIO_ReadInputDataBit
-  R:\TEMP\ccv6SHP8.s:411    .text.GPIO_ReadInputData:00000000 $t
-  R:\TEMP\ccv6SHP8.s:416    .text.GPIO_ReadInputData:00000000 GPIO_ReadInputData
-  R:\TEMP\ccv6SHP8.s:434    .text.GPIO_ReadOutputDataBit:00000000 $t
-  R:\TEMP\ccv6SHP8.s:439    .text.GPIO_ReadOutputDataBit:00000000 GPIO_ReadOutputDataBit
-  R:\TEMP\ccv6SHP8.s:462    .text.GPIO_ReadOutputData:00000000 $t
-  R:\TEMP\ccv6SHP8.s:467    .text.GPIO_ReadOutputData:00000000 GPIO_ReadOutputData
-  R:\TEMP\ccv6SHP8.s:485    .text.GPIO_SetBits:00000000 $t
-  R:\TEMP\ccv6SHP8.s:490    .text.GPIO_SetBits:00000000 GPIO_SetBits
-  R:\TEMP\ccv6SHP8.s:505    .text.GPIO_ResetBits:00000000 $t
-  R:\TEMP\ccv6SHP8.s:510    .text.GPIO_ResetBits:00000000 GPIO_ResetBits
-  R:\TEMP\ccv6SHP8.s:525    .text.GPIO_WriteBit:00000000 $t
-  R:\TEMP\ccv6SHP8.s:530    .text.GPIO_WriteBit:00000000 GPIO_WriteBit
-  R:\TEMP\ccv6SHP8.s:551    .text.GPIO_Write:00000000 $t
-  R:\TEMP\ccv6SHP8.s:556    .text.GPIO_Write:00000000 GPIO_Write
-  R:\TEMP\ccv6SHP8.s:571    .text.GPIO_PinLockConfig:00000000 $t
-  R:\TEMP\ccv6SHP8.s:576    .text.GPIO_PinLockConfig:00000000 GPIO_PinLockConfig
-  R:\TEMP\ccv6SHP8.s:604    .text.GPIO_EventOutputConfig:00000000 $t
-  R:\TEMP\ccv6SHP8.s:609    .text.GPIO_EventOutputConfig:00000000 GPIO_EventOutputConfig
-  R:\TEMP\ccv6SHP8.s:642    .text.GPIO_EventOutputConfig:00000018 $d
-  R:\TEMP\ccv6SHP8.s:647    .text.GPIO_EventOutputCmd:00000000 $t
-  R:\TEMP\ccv6SHP8.s:652    .text.GPIO_EventOutputCmd:00000000 GPIO_EventOutputCmd
-  R:\TEMP\ccv6SHP8.s:667    .text.GPIO_EventOutputCmd:00000008 $d
-  R:\TEMP\ccv6SHP8.s:672    .text.GPIO_PinRemapConfig:00000000 $t
-  R:\TEMP\ccv6SHP8.s:677    .text.GPIO_PinRemapConfig:00000000 GPIO_PinRemapConfig
-  R:\TEMP\ccv6SHP8.s:766    .text.GPIO_PinRemapConfig:00000060 $d
-  R:\TEMP\ccv6SHP8.s:771    .text.GPIO_EXTILineConfig:00000000 $t
-  R:\TEMP\ccv6SHP8.s:776    .text.GPIO_EXTILineConfig:00000000 GPIO_EXTILineConfig
-  R:\TEMP\ccv6SHP8.s:818    .text.GPIO_EXTILineConfig:00000030 $d
-  R:\TEMP\ccv6SHP8.s:823    .text.GPIO_ETH_MediaInterfaceConfig:00000000 $t
-  R:\TEMP\ccv6SHP8.s:828    .text.GPIO_ETH_MediaInterfaceConfig:00000000 GPIO_ETH_MediaInterfaceConfig
-  R:\TEMP\ccv6SHP8.s:843    .text.GPIO_ETH_MediaInterfaceConfig:00000008 $d
+  R:\TEMP\ccyJveur.s:19     .text.GPIO_DeInit:00000000 $t
+  R:\TEMP\ccyJveur.s:24     .text.GPIO_DeInit:00000000 GPIO_DeInit
+  R:\TEMP\ccyJveur.s:151    .text.GPIO_DeInit:00000090 $d
+  R:\TEMP\ccyJveur.s:162    .text.GPIO_AFIODeInit:00000000 $t
+  R:\TEMP\ccyJveur.s:167    .text.GPIO_AFIODeInit:00000000 GPIO_AFIODeInit
+  R:\TEMP\ccyJveur.s:195    .text.GPIO_Init:00000000 $t
+  R:\TEMP\ccyJveur.s:200    .text.GPIO_Init:00000000 GPIO_Init
+  R:\TEMP\ccyJveur.s:356    .text.GPIO_StructInit:00000000 $t
+  R:\TEMP\ccyJveur.s:361    .text.GPIO_StructInit:00000000 GPIO_StructInit
+  R:\TEMP\ccyJveur.s:383    .text.GPIO_ReadInputDataBit:00000000 $t
+  R:\TEMP\ccyJveur.s:388    .text.GPIO_ReadInputDataBit:00000000 GPIO_ReadInputDataBit
+  R:\TEMP\ccyJveur.s:411    .text.GPIO_ReadInputData:00000000 $t
+  R:\TEMP\ccyJveur.s:416    .text.GPIO_ReadInputData:00000000 GPIO_ReadInputData
+  R:\TEMP\ccyJveur.s:434    .text.GPIO_ReadOutputDataBit:00000000 $t
+  R:\TEMP\ccyJveur.s:439    .text.GPIO_ReadOutputDataBit:00000000 GPIO_ReadOutputDataBit
+  R:\TEMP\ccyJveur.s:462    .text.GPIO_ReadOutputData:00000000 $t
+  R:\TEMP\ccyJveur.s:467    .text.GPIO_ReadOutputData:00000000 GPIO_ReadOutputData
+  R:\TEMP\ccyJveur.s:485    .text.GPIO_SetBits:00000000 $t
+  R:\TEMP\ccyJveur.s:490    .text.GPIO_SetBits:00000000 GPIO_SetBits
+  R:\TEMP\ccyJveur.s:505    .text.GPIO_ResetBits:00000000 $t
+  R:\TEMP\ccyJveur.s:510    .text.GPIO_ResetBits:00000000 GPIO_ResetBits
+  R:\TEMP\ccyJveur.s:525    .text.GPIO_WriteBit:00000000 $t
+  R:\TEMP\ccyJveur.s:530    .text.GPIO_WriteBit:00000000 GPIO_WriteBit
+  R:\TEMP\ccyJveur.s:551    .text.GPIO_Write:00000000 $t
+  R:\TEMP\ccyJveur.s:556    .text.GPIO_Write:00000000 GPIO_Write
+  R:\TEMP\ccyJveur.s:571    .text.GPIO_PinLockConfig:00000000 $t
+  R:\TEMP\ccyJveur.s:576    .text.GPIO_PinLockConfig:00000000 GPIO_PinLockConfig
+  R:\TEMP\ccyJveur.s:604    .text.GPIO_EventOutputConfig:00000000 $t
+  R:\TEMP\ccyJveur.s:609    .text.GPIO_EventOutputConfig:00000000 GPIO_EventOutputConfig
+  R:\TEMP\ccyJveur.s:642    .text.GPIO_EventOutputConfig:00000018 $d
+  R:\TEMP\ccyJveur.s:647    .text.GPIO_EventOutputCmd:00000000 $t
+  R:\TEMP\ccyJveur.s:652    .text.GPIO_EventOutputCmd:00000000 GPIO_EventOutputCmd
+  R:\TEMP\ccyJveur.s:667    .text.GPIO_EventOutputCmd:00000008 $d
+  R:\TEMP\ccyJveur.s:672    .text.GPIO_PinRemapConfig:00000000 $t
+  R:\TEMP\ccyJveur.s:677    .text.GPIO_PinRemapConfig:00000000 GPIO_PinRemapConfig
+  R:\TEMP\ccyJveur.s:766    .text.GPIO_PinRemapConfig:00000060 $d
+  R:\TEMP\ccyJveur.s:771    .text.GPIO_EXTILineConfig:00000000 $t
+  R:\TEMP\ccyJveur.s:776    .text.GPIO_EXTILineConfig:00000000 GPIO_EXTILineConfig
+  R:\TEMP\ccyJveur.s:818    .text.GPIO_EXTILineConfig:00000030 $d
+  R:\TEMP\ccyJveur.s:823    .text.GPIO_ETH_MediaInterfaceConfig:00000000 $t
+  R:\TEMP\ccyJveur.s:828    .text.GPIO_ETH_MediaInterfaceConfig:00000000 GPIO_ETH_MediaInterfaceConfig
+  R:\TEMP\ccyJveur.s:843    .text.GPIO_ETH_MediaInterfaceConfig:00000008 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

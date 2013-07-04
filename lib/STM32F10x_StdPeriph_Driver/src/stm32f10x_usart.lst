@@ -222,80 +222,80 @@
   53 001c FFF7FEBF 		b	RCC_APB2PeriphResetCmd
   54              	.LVL3:
   55              	.L2:
- 146:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   else if (USARTx == USART2)
+ 146:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
   56              		.loc 1 146 0
   57 0020 1949     		ldr	r1, .L9+4
   58 0022 8842     		cmp	r0, r1
   59 0024 07D1     		bne	.L3
- 148:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, ENABLE);
+ 148:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, DISABLE);
   60              		.loc 1 148 0
   61 0026 4FF40030 		mov	r0, #131072
   62              	.LVL4:
   63 002a 0121     		movs	r1, #1
   64 002c FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
   65              	.LVL5:
- 149:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, DISABLE);
+ 149:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   }
   66              		.loc 1 149 0
   67 0030 4FF40030 		mov	r0, #131072
   68 0034 1FE0     		b	.L7
   69              	.LVL6:
   70              	.L3:
- 151:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   else if (USARTx == USART3)
+ 151:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
   71              		.loc 1 151 0
   72 0036 154A     		ldr	r2, .L9+8
   73 0038 9042     		cmp	r0, r2
   74 003a 07D1     		bne	.L4
- 153:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, ENABLE);
+ 153:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, DISABLE);
   75              		.loc 1 153 0
   76 003c 4FF48020 		mov	r0, #262144
   77              	.LVL7:
   78 0040 0121     		movs	r1, #1
   79 0042 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
   80              	.LVL8:
- 154:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, DISABLE);
+ 154:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   }    
   81              		.loc 1 154 0
   82 0046 4FF48020 		mov	r0, #262144
   83 004a 14E0     		b	.L7
   84              	.LVL9:
   85              	.L4:
- 156:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   else if (USARTx == UART4)
+ 156:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
   86              		.loc 1 156 0
   87 004c 104B     		ldr	r3, .L9+12
   88 004e 9842     		cmp	r0, r3
   89 0050 07D1     		bne	.L5
- 158:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, ENABLE);
+ 158:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, DISABLE);
   90              		.loc 1 158 0
   91 0052 4FF40020 		mov	r0, #524288
   92              	.LVL10:
   93 0056 0121     		movs	r1, #1
   94 0058 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
   95              	.LVL11:
- 159:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, DISABLE);
+ 159:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   }    
   96              		.loc 1 159 0
   97 005c 4FF40020 		mov	r0, #524288
   98 0060 09E0     		b	.L7
   99              	.LVL12:
  100              	.L5:
- 163:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     if (USARTx == UART5)
+ 163:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     { 
  101              		.loc 1 163 0
  102 0062 0C49     		ldr	r1, .L9+16
  103 0064 8842     		cmp	r0, r1
  104 0066 0BD1     		bne	.L1
- 165:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, ENABLE);
+ 165:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, DISABLE);
  105              		.loc 1 165 0
  106 0068 4FF48010 		mov	r0, #1048576
  107              	.LVL13:
  108 006c 0121     		movs	r1, #1
  109 006e FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
  110              	.LVL14:
- 166:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, DISABLE);
+ 166:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     }
  111              		.loc 1 166 0
  112 0072 4FF48010 		mov	r0, #1048576
  113              	.L7:
  114 0076 0021     		movs	r1, #0
  115              		.loc 1 169 0
  116 0078 BDE80840 		pop	{r3, lr}
- 166:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, DISABLE);
+ 166:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     }
  117              		.loc 1 166 0
  118 007c FFF7FEBF 		b	RCC_APB1PeriphResetCmd
  119              	.LVL15:
@@ -412,7 +412,7 @@
  177 001c 40EA0102 		orr	r2, r0, r1
  178 0020 6889     		ldrh	r0, [r5, #10]
  179 0022 0243     		orrs	r2, r2, r0
- 219:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   tmpreg &= CR1_CLEAR_Mask;
+ 219:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   /* Configure the USART Word Length, Parity and mode ----------------------- */
  180              		.loc 1 219 0
  181 0024 23F4B053 		bic	r3, r3, #5632
  182              	.LVL22:
@@ -491,7 +491,7 @@
  224              		.loc 1 255 0
  225 0060 03FB00F0 		mul	r0, r3, r0
  226              	.LVL29:
- 252:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if ((USARTx->CR1 & CR1_OVER8_Set) != 0)
+ 252:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  227              		.loc 1 252 0
  228 0064 01DA     		bge	.L14
  229              		.loc 1 255 0
@@ -682,11 +682,11 @@
  345 0010 C988     		ldrh	r1, [r1, #6]
  346              	.LVL41:
  347 0012 0B43     		orrs	r3, r3, r1
- 321:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   tmpreg &= CR2_CLOCK_CLEAR_Mask;
+ 321:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   /* Configure the USART Clock, CPOL, CPHA and LastBit ------------*/
  348              		.loc 1 321 0
  349 0014 22F47062 		bic	r2, r2, #3840
  350              	.LVL42:
- 327:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   tmpreg |= (uint32_t)USART_ClockInitStruct->USART_Clock | USART_ClockInitStruct->USART_CPOL | 
+ 327:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****                  USART_ClockInitStruct->USART_CPHA | USART_ClockInitStruct->USART_LastBit;
  351              		.loc 1 327 0
  352 0018 1343     		orrs	r3, r3, r2
  353 001a 9BB2     		uxth	r3, r3
@@ -774,7 +774,7 @@
  366:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR1 |= CR1_UE_Set;
  402              		.loc 1 366 0
  403 0000 8389     		ldrh	r3, [r0, #12]
- 363:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 363:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  404              		.loc 1 363 0
  405 0002 19B1     		cbz	r1, .L26
  406              		.loc 1 366 0
@@ -911,7 +911,7 @@
  474              		.loc 1 431 0
  475 0022 0368     		ldr	r3, [r0, #0]
  476              	.LVL59:
- 429:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 429:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  477              		.loc 1 429 0
  478 0024 12B1     		cbz	r2, .L33
  479              		.loc 1 431 0
@@ -977,7 +977,7 @@
  508              		.loc 1 464 0
  509 0000 838A     		ldrh	r3, [r0, #20]
  510 0002 9BB2     		uxth	r3, r3
- 460:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 460:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  511              		.loc 1 460 0
  512 0004 0AB1     		cbz	r2, .L37
  513              		.loc 1 464 0
@@ -1134,7 +1134,7 @@
  533:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR1 |= CR1_RWU_Set;
  602              		.loc 1 533 0
  603 0000 8389     		ldrh	r3, [r0, #12]
- 530:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 530:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  604              		.loc 1 530 0
  605 0002 19B1     		cbz	r1, .L43
  606              		.loc 1 533 0
@@ -1245,7 +1245,7 @@
  581:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR2 |= CR2_LINEN_Set;
  668              		.loc 1 581 0
  669 0000 038A     		ldrh	r3, [r0, #16]
- 578:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 578:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  670              		.loc 1 578 0
  671 0002 19B1     		cbz	r1, .L48
  672              		.loc 1 581 0
@@ -1509,7 +1509,7 @@
  694:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR3 |= CR3_SCEN_Set;
  830              		.loc 1 694 0
  831 0000 838A     		ldrh	r3, [r0, #20]
- 691:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 691:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  832              		.loc 1 691 0
  833 0002 19B1     		cbz	r1, .L57
  834              		.loc 1 694 0
@@ -1569,7 +1569,7 @@
  719:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR3 |= CR3_NACK_Set;
  866              		.loc 1 719 0
  867 0000 838A     		ldrh	r3, [r0, #20]
- 716:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 716:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  868              		.loc 1 716 0
  869 0002 19B1     		cbz	r1, .L61
  870              		.loc 1 719 0
@@ -1631,7 +1631,7 @@
  746:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR3 |= CR3_HDSEL_Set;
  902              		.loc 1 746 0
  903 0000 838A     		ldrh	r3, [r0, #20]
- 743:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 743:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  904              		.loc 1 743 0
  905 0002 19B1     		cbz	r1, .L65
  906              		.loc 1 746 0
@@ -1697,7 +1697,7 @@
  777:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR1 |= CR1_OVER8_Set;
  938              		.loc 1 777 0
  939 0000 8389     		ldrh	r3, [r0, #12]
- 774:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 774:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  940              		.loc 1 774 0
  941 0002 29B1     		cbz	r1, .L69
  942              		.loc 1 777 0
@@ -1759,7 +1759,7 @@
  804:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR3 |= CR3_ONEBITE_Set;
  974              		.loc 1 804 0
  975 0000 838A     		ldrh	r3, [r0, #20]
- 801:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 801:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  976              		.loc 1 801 0
  977 0002 19B1     		cbz	r1, .L73
  978              		.loc 1 804 0
@@ -1870,7 +1870,7 @@
  852:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****     USARTx->CR3 |= CR3_IREN_Set;
  1040              		.loc 1 852 0
  1041 0000 838A     		ldrh	r3, [r0, #20]
- 849:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if (NewState != DISABLE)
+ 849:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   {
  1042              		.loc 1 849 0
  1043 0002 19B1     		cbz	r1, .L78
  1044              		.loc 1 852 0
@@ -2134,7 +2134,7 @@
  998:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   if ((itmask != (uint16_t)RESET)&&(bitpos != (uint16_t)RESET))
  1163              		.loc 1 998 0
  1164 0028 43B1     		cbz	r3, .L88
- 996:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   bitpos = (uint32_t)0x01 << bitpos;
+ 996:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ****   bitpos &= USARTx->SR;
  1165              		.loc 1 996 0 discriminator 1
  1166 002a 090A     		lsrs	r1, r1, #8
  1167              	.LVL129:
@@ -2238,73 +2238,73 @@
  1214              	.LFE84:
  1216              		.text
  1217              	.Letext0:
- 1218              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 1218              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  1219              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  1220              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
  1221              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
  1222              		.file 6 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_usart.c
-  R:\TEMP\ccFGA6I2.s:19     .text.USART_DeInit:00000000 $t
-  R:\TEMP\ccFGA6I2.s:24     .text.USART_DeInit:00000000 USART_DeInit
-  R:\TEMP\ccFGA6I2.s:125    .text.USART_DeInit:00000084 $d
-  R:\TEMP\ccFGA6I2.s:134    .text.USART_Init:00000000 $t
-  R:\TEMP\ccFGA6I2.s:139    .text.USART_Init:00000000 USART_Init
-  R:\TEMP\ccFGA6I2.s:279    .text.USART_Init:000000ac $d
-  R:\TEMP\ccFGA6I2.s:284    .text.USART_StructInit:00000000 $t
-  R:\TEMP\ccFGA6I2.s:289    .text.USART_StructInit:00000000 USART_StructInit
-  R:\TEMP\ccFGA6I2.s:317    .text.USART_ClockInit:00000000 $t
-  R:\TEMP\ccFGA6I2.s:322    .text.USART_ClockInit:00000000 USART_ClockInit
-  R:\TEMP\ccFGA6I2.s:362    .text.USART_ClockStructInit:00000000 $t
-  R:\TEMP\ccFGA6I2.s:367    .text.USART_ClockStructInit:00000000 USART_ClockStructInit
-  R:\TEMP\ccFGA6I2.s:389    .text.USART_Cmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:394    .text.USART_Cmd:00000000 USART_Cmd
-  R:\TEMP\ccFGA6I2.s:425    .text.USART_ITConfig:00000000 $t
-  R:\TEMP\ccFGA6I2.s:430    .text.USART_ITConfig:00000000 USART_ITConfig
-  R:\TEMP\ccFGA6I2.s:495    .text.USART_DMACmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:500    .text.USART_DMACmd:00000000 USART_DMACmd
-  R:\TEMP\ccFGA6I2.s:529    .text.USART_SetAddress:00000000 $t
-  R:\TEMP\ccFGA6I2.s:534    .text.USART_SetAddress:00000000 USART_SetAddress
-  R:\TEMP\ccFGA6I2.s:559    .text.USART_WakeUpConfig:00000000 $t
-  R:\TEMP\ccFGA6I2.s:564    .text.USART_WakeUpConfig:00000000 USART_WakeUpConfig
-  R:\TEMP\ccFGA6I2.s:589    .text.USART_ReceiverWakeUpCmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:594    .text.USART_ReceiverWakeUpCmd:00000000 USART_ReceiverWakeUpCmd
-  R:\TEMP\ccFGA6I2.s:625    .text.USART_LINBreakDetectLengthConfig:00000000 $t
-  R:\TEMP\ccFGA6I2.s:630    .text.USART_LINBreakDetectLengthConfig:00000000 USART_LINBreakDetectLengthConfig
-  R:\TEMP\ccFGA6I2.s:655    .text.USART_LINCmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:660    .text.USART_LINCmd:00000000 USART_LINCmd
-  R:\TEMP\ccFGA6I2.s:691    .text.USART_SendData:00000000 $t
-  R:\TEMP\ccFGA6I2.s:696    .text.USART_SendData:00000000 USART_SendData
-  R:\TEMP\ccFGA6I2.s:714    .text.USART_ReceiveData:00000000 $t
-  R:\TEMP\ccFGA6I2.s:719    .text.USART_ReceiveData:00000000 USART_ReceiveData
-  R:\TEMP\ccFGA6I2.s:738    .text.USART_SendBreak:00000000 $t
-  R:\TEMP\ccFGA6I2.s:743    .text.USART_SendBreak:00000000 USART_SendBreak
-  R:\TEMP\ccFGA6I2.s:761    .text.USART_SetGuardTime:00000000 $t
-  R:\TEMP\ccFGA6I2.s:766    .text.USART_SetGuardTime:00000000 USART_SetGuardTime
-  R:\TEMP\ccFGA6I2.s:789    .text.USART_SetPrescaler:00000000 $t
-  R:\TEMP\ccFGA6I2.s:794    .text.USART_SetPrescaler:00000000 USART_SetPrescaler
-  R:\TEMP\ccFGA6I2.s:817    .text.USART_SmartCardCmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:822    .text.USART_SmartCardCmd:00000000 USART_SmartCardCmd
-  R:\TEMP\ccFGA6I2.s:853    .text.USART_SmartCardNACKCmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:858    .text.USART_SmartCardNACKCmd:00000000 USART_SmartCardNACKCmd
-  R:\TEMP\ccFGA6I2.s:889    .text.USART_HalfDuplexCmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:894    .text.USART_HalfDuplexCmd:00000000 USART_HalfDuplexCmd
-  R:\TEMP\ccFGA6I2.s:925    .text.USART_OverSampling8Cmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:930    .text.USART_OverSampling8Cmd:00000000 USART_OverSampling8Cmd
-  R:\TEMP\ccFGA6I2.s:961    .text.USART_OneBitMethodCmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:966    .text.USART_OneBitMethodCmd:00000000 USART_OneBitMethodCmd
-  R:\TEMP\ccFGA6I2.s:997    .text.USART_IrDAConfig:00000000 $t
-  R:\TEMP\ccFGA6I2.s:1002   .text.USART_IrDAConfig:00000000 USART_IrDAConfig
-  R:\TEMP\ccFGA6I2.s:1027   .text.USART_IrDACmd:00000000 $t
-  R:\TEMP\ccFGA6I2.s:1032   .text.USART_IrDACmd:00000000 USART_IrDACmd
-  R:\TEMP\ccFGA6I2.s:1063   .text.USART_GetFlagStatus:00000000 $t
-  R:\TEMP\ccFGA6I2.s:1068   .text.USART_GetFlagStatus:00000000 USART_GetFlagStatus
-  R:\TEMP\ccFGA6I2.s:1091   .text.USART_ClearFlag:00000000 $t
-  R:\TEMP\ccFGA6I2.s:1096   .text.USART_ClearFlag:00000000 USART_ClearFlag
-  R:\TEMP\ccFGA6I2.s:1114   .text.USART_GetITStatus:00000000 $t
-  R:\TEMP\ccFGA6I2.s:1119   .text.USART_GetITStatus:00000000 USART_GetITStatus
-  R:\TEMP\ccFGA6I2.s:1189   .text.USART_ClearITPendingBit:00000000 $t
-  R:\TEMP\ccFGA6I2.s:1194   .text.USART_ClearITPendingBit:00000000 USART_ClearITPendingBit
+  R:\TEMP\ccRP4wmv.s:19     .text.USART_DeInit:00000000 $t
+  R:\TEMP\ccRP4wmv.s:24     .text.USART_DeInit:00000000 USART_DeInit
+  R:\TEMP\ccRP4wmv.s:125    .text.USART_DeInit:00000084 $d
+  R:\TEMP\ccRP4wmv.s:134    .text.USART_Init:00000000 $t
+  R:\TEMP\ccRP4wmv.s:139    .text.USART_Init:00000000 USART_Init
+  R:\TEMP\ccRP4wmv.s:279    .text.USART_Init:000000ac $d
+  R:\TEMP\ccRP4wmv.s:284    .text.USART_StructInit:00000000 $t
+  R:\TEMP\ccRP4wmv.s:289    .text.USART_StructInit:00000000 USART_StructInit
+  R:\TEMP\ccRP4wmv.s:317    .text.USART_ClockInit:00000000 $t
+  R:\TEMP\ccRP4wmv.s:322    .text.USART_ClockInit:00000000 USART_ClockInit
+  R:\TEMP\ccRP4wmv.s:362    .text.USART_ClockStructInit:00000000 $t
+  R:\TEMP\ccRP4wmv.s:367    .text.USART_ClockStructInit:00000000 USART_ClockStructInit
+  R:\TEMP\ccRP4wmv.s:389    .text.USART_Cmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:394    .text.USART_Cmd:00000000 USART_Cmd
+  R:\TEMP\ccRP4wmv.s:425    .text.USART_ITConfig:00000000 $t
+  R:\TEMP\ccRP4wmv.s:430    .text.USART_ITConfig:00000000 USART_ITConfig
+  R:\TEMP\ccRP4wmv.s:495    .text.USART_DMACmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:500    .text.USART_DMACmd:00000000 USART_DMACmd
+  R:\TEMP\ccRP4wmv.s:529    .text.USART_SetAddress:00000000 $t
+  R:\TEMP\ccRP4wmv.s:534    .text.USART_SetAddress:00000000 USART_SetAddress
+  R:\TEMP\ccRP4wmv.s:559    .text.USART_WakeUpConfig:00000000 $t
+  R:\TEMP\ccRP4wmv.s:564    .text.USART_WakeUpConfig:00000000 USART_WakeUpConfig
+  R:\TEMP\ccRP4wmv.s:589    .text.USART_ReceiverWakeUpCmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:594    .text.USART_ReceiverWakeUpCmd:00000000 USART_ReceiverWakeUpCmd
+  R:\TEMP\ccRP4wmv.s:625    .text.USART_LINBreakDetectLengthConfig:00000000 $t
+  R:\TEMP\ccRP4wmv.s:630    .text.USART_LINBreakDetectLengthConfig:00000000 USART_LINBreakDetectLengthConfig
+  R:\TEMP\ccRP4wmv.s:655    .text.USART_LINCmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:660    .text.USART_LINCmd:00000000 USART_LINCmd
+  R:\TEMP\ccRP4wmv.s:691    .text.USART_SendData:00000000 $t
+  R:\TEMP\ccRP4wmv.s:696    .text.USART_SendData:00000000 USART_SendData
+  R:\TEMP\ccRP4wmv.s:714    .text.USART_ReceiveData:00000000 $t
+  R:\TEMP\ccRP4wmv.s:719    .text.USART_ReceiveData:00000000 USART_ReceiveData
+  R:\TEMP\ccRP4wmv.s:738    .text.USART_SendBreak:00000000 $t
+  R:\TEMP\ccRP4wmv.s:743    .text.USART_SendBreak:00000000 USART_SendBreak
+  R:\TEMP\ccRP4wmv.s:761    .text.USART_SetGuardTime:00000000 $t
+  R:\TEMP\ccRP4wmv.s:766    .text.USART_SetGuardTime:00000000 USART_SetGuardTime
+  R:\TEMP\ccRP4wmv.s:789    .text.USART_SetPrescaler:00000000 $t
+  R:\TEMP\ccRP4wmv.s:794    .text.USART_SetPrescaler:00000000 USART_SetPrescaler
+  R:\TEMP\ccRP4wmv.s:817    .text.USART_SmartCardCmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:822    .text.USART_SmartCardCmd:00000000 USART_SmartCardCmd
+  R:\TEMP\ccRP4wmv.s:853    .text.USART_SmartCardNACKCmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:858    .text.USART_SmartCardNACKCmd:00000000 USART_SmartCardNACKCmd
+  R:\TEMP\ccRP4wmv.s:889    .text.USART_HalfDuplexCmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:894    .text.USART_HalfDuplexCmd:00000000 USART_HalfDuplexCmd
+  R:\TEMP\ccRP4wmv.s:925    .text.USART_OverSampling8Cmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:930    .text.USART_OverSampling8Cmd:00000000 USART_OverSampling8Cmd
+  R:\TEMP\ccRP4wmv.s:961    .text.USART_OneBitMethodCmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:966    .text.USART_OneBitMethodCmd:00000000 USART_OneBitMethodCmd
+  R:\TEMP\ccRP4wmv.s:997    .text.USART_IrDAConfig:00000000 $t
+  R:\TEMP\ccRP4wmv.s:1002   .text.USART_IrDAConfig:00000000 USART_IrDAConfig
+  R:\TEMP\ccRP4wmv.s:1027   .text.USART_IrDACmd:00000000 $t
+  R:\TEMP\ccRP4wmv.s:1032   .text.USART_IrDACmd:00000000 USART_IrDACmd
+  R:\TEMP\ccRP4wmv.s:1063   .text.USART_GetFlagStatus:00000000 $t
+  R:\TEMP\ccRP4wmv.s:1068   .text.USART_GetFlagStatus:00000000 USART_GetFlagStatus
+  R:\TEMP\ccRP4wmv.s:1091   .text.USART_ClearFlag:00000000 $t
+  R:\TEMP\ccRP4wmv.s:1096   .text.USART_ClearFlag:00000000 USART_ClearFlag
+  R:\TEMP\ccRP4wmv.s:1114   .text.USART_GetITStatus:00000000 $t
+  R:\TEMP\ccRP4wmv.s:1119   .text.USART_GetITStatus:00000000 USART_GetITStatus
+  R:\TEMP\ccRP4wmv.s:1189   .text.USART_ClearITPendingBit:00000000 $t
+  R:\TEMP\ccRP4wmv.s:1194   .text.USART_ClearITPendingBit:00000000 USART_ClearITPendingBit
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
