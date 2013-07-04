@@ -1331,64 +1331,6 @@
  808              		.file 12 "./inc/uart_support_gps.h"
  809              		.file 13 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-e
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 syscalls.c
-  R:\TEMP\ccp3M1Vm.s:19     .text._read_r:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:24     .text._read_r:0000000000000000 _read_r
-  R:\TEMP\ccp3M1Vm.s:89     .text._write_r:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:94     .text._write_r:0000000000000000 _write_r
-  R:\TEMP\ccp3M1Vm.s:142    .text._fini:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:147    .text._fini:0000000000000000 _fini
-  R:\TEMP\ccp3M1Vm.s:159    .text._close_r:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:164    .text._close_r:0000000000000000 _close_r
-  R:\TEMP\ccp3M1Vm.s:181    .text._lseek_r:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:186    .text._lseek_r:0000000000000000 _lseek_r
-  R:\TEMP\ccp3M1Vm.s:202    .text._fstat_r:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:207    .text._fstat_r:0000000000000000 _fstat_r
-  R:\TEMP\ccp3M1Vm.s:226    .text._sbrk_r:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:231    .text._sbrk_r:0000000000000000 _sbrk_r
-  R:\TEMP\ccp3M1Vm.s:279    .text._sbrk_r:000000000000002c $d
-  R:\TEMP\ccp3M1Vm.s:285    .text.isatty:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:290    .text.isatty:0000000000000000 isatty
-  R:\TEMP\ccp3M1Vm.s:306    .text._exit:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:311    .text._exit:0000000000000000 _exit
-  R:\TEMP\ccp3M1Vm.s:327    .text._getpid:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:332    .text._getpid:0000000000000000 _getpid
-  R:\TEMP\ccp3M1Vm.s:349    .text._sbrk:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:354    .text._sbrk:0000000000000000 _sbrk
-  R:\TEMP\ccp3M1Vm.s:404    .text._sbrk:000000000000002c $d
-  R:\TEMP\ccp3M1Vm.s:410    .text._open:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:415    .text._open:0000000000000000 _open
-  R:\TEMP\ccp3M1Vm.s:438    .text._close:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:443    .text._close:0000000000000000 _close
-  R:\TEMP\ccp3M1Vm.s:459    .text._fstat:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:464    .text._fstat:0000000000000000 _fstat
-  R:\TEMP\ccp3M1Vm.s:483    .text._isatty:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:488    .text._isatty:0000000000000000 _isatty
-  R:\TEMP\ccp3M1Vm.s:504    .text._lseek:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:509    .text._lseek:0000000000000000 _lseek
-  R:\TEMP\ccp3M1Vm.s:525    .text._read:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:530    .text._read:0000000000000000 _read
-  R:\TEMP\ccp3M1Vm.s:554    .text._write:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:559    .text._write:0000000000000000 _write
-  R:\TEMP\ccp3M1Vm.s:597    .text._times:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:602    .text._times:0000000000000000 _times
-  R:\TEMP\ccp3M1Vm.s:618    .text._link:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:623    .text._link:0000000000000000 _link
-  R:\TEMP\ccp3M1Vm.s:647    .text._unlink:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:652    .text._unlink:0000000000000000 _unlink
-  R:\TEMP\ccp3M1Vm.s:676    .text._wait:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:681    .text._wait:0000000000000000 _wait
-  R:\TEMP\ccp3M1Vm.s:705    .text._execve:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:710    .text._execve:0000000000000000 _execve
-  R:\TEMP\ccp3M1Vm.s:734    .text._fork:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:739    .text._fork:0000000000000000 _fork
-  R:\TEMP\ccp3M1Vm.s:762    .text._kill:0000000000000000 $t
-  R:\TEMP\ccp3M1Vm.s:767    .text._kill:0000000000000000 _kill
-  R:\TEMP\ccp3M1Vm.s:791    .bss.heap_ptr:0000000000000000 $d
-  R:\TEMP\ccp3M1Vm.s:795    .bss.heap_ptr:0000000000000000 heap_ptr
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 syscalls.c
   R:\TEMP\ccdJvG89.s:19     .text._read_r:00000000 $t
   R:\TEMP\ccdJvG89.s:24     .text._read_r:00000000 _read_r
@@ -1445,7 +1387,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccdJvG89.s:791    .bss.heap_ptr:00000000 $d
   R:\TEMP\ccdJvG89.s:795    .bss.heap_ptr:00000000 heap_ptr
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 getch

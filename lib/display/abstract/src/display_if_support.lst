@@ -3233,51 +3233,6 @@
  2305              		.file 6 "./inc/systick.h"
  2306              		.file 7 "./lib/display/drivers/inc/st7732.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 display_if_support.c
-  R:\TEMP\ccEtA7ay.s:19     .text.SetPixel:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:23     .text.SetPixel:0000000000000000 SetPixel
-  R:\TEMP\ccEtA7ay.s:45     .text.putkanji_t:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:49     .text.putkanji_t:0000000000000000 putkanji_t
-  R:\TEMP\ccEtA7ay.s:209    .text.putkanji_t:00000000000000c4 $d
-  R:\TEMP\ccEtA7ay.s:214    .text.putank_t.isra.0:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:218    .text.putank_t.isra.0:0000000000000000 putank_t.isra.0
-  R:\TEMP\ccEtA7ay.s:372    .text.putank_t.isra.0:00000000000000bc $d
-  R:\TEMP\ccEtA7ay.s:377    .text.Display_ChrCol:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:382    .text.Display_ChrCol:0000000000000000 Display_ChrCol
-  R:\TEMP\ccEtA7ay.s:402    .text.Display_ChrCol:000000000000000c $d
-  R:\TEMP\ccEtA7ay.s:407    .text.PutPixel:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:412    .text.PutPixel:0000000000000000 PutPixel
-  R:\TEMP\ccEtA7ay.s:439    .text.Display_FillRect_If:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:444    .text.Display_FillRect_If:0000000000000000 Display_FillRect_If
-  R:\TEMP\ccEtA7ay.s:506    .text.Display_DrawLine_If:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:511    .text.Display_DrawLine_If:0000000000000000 Display_DrawLine_If
-  R:\TEMP\ccEtA7ay.s:672    .text.Display_DrawCircle_If:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:677    .text.Display_DrawCircle_If:0000000000000000 Display_DrawCircle_If
-  R:\TEMP\ccEtA7ay.s:1156   .text.Display_DrawCircle_If:0000000000000308 $d
-  R:\TEMP\ccEtA7ay.s:1160   .text.Display_DrawCircle_If:0000000000000310 $t
-  R:\TEMP\ccEtA7ay.s:1392   .text.Display_FillCircle_If:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:1397   .text.Display_FillCircle_If:0000000000000000 Display_FillCircle_If
-  R:\TEMP\ccEtA7ay.s:1582   .text.Display_DrawRect_If:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:1587   .text.Display_DrawRect_If:0000000000000000 Display_DrawRect_If
-  R:\TEMP\ccEtA7ay.s:1705   .text.putkanji:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:1710   .text.putkanji:0000000000000000 putkanji
-  R:\TEMP\ccEtA7ay.s:1856   .text.putkanji:00000000000000b0 $d
-  R:\TEMP\ccEtA7ay.s:1861   .text.putank:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:1866   .text.putank:0000000000000000 putank
-  R:\TEMP\ccEtA7ay.s:2009   .text.putank:00000000000000a8 $d
-  R:\TEMP\ccEtA7ay.s:2014   .text.Display_Puts_If:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:2019   .text.Display_Puts_If:0000000000000000 Display_Puts_If
-  R:\TEMP\ccEtA7ay.s:2143   .text.Display_Puts_If:000000000000008c $d
-  R:\TEMP\ccEtA7ay.s:2150   .text.Display_Puts_If_Ex:0000000000000000 $t
-  R:\TEMP\ccEtA7ay.s:2155   .text.Display_Puts_If_Ex:0000000000000000 Display_Puts_If_Ex
-  R:\TEMP\ccEtA7ay.s:2278   .text.Display_Puts_If_Ex:0000000000000098 $d
-  R:\TEMP\ccEtA7ay.s:2290   .data.pScrCol:0000000000000000 pScrCol
-  R:\TEMP\ccEtA7ay.s:2296   .data.ScrCol:0000000000000000 ScrCol
-  R:\TEMP\ccEtA7ay.s:2286   .data.pScrCol:0000000000000000 $d
-  R:\TEMP\ccEtA7ay.s:2293   .data.ScrCol:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 display_if_support.c
   R:\TEMP\ccYDNlqK.s:19     .text.SetPixel:00000000 $t
   R:\TEMP\ccYDNlqK.s:23     .text.SetPixel:00000000 SetPixel
@@ -3321,7 +3276,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccYDNlqK.s:2286   .data.pScrCol:00000000 $d
   R:\TEMP\ccYDNlqK.s:2293   .data.ScrCol:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 ST7732_rect

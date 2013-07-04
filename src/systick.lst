@@ -2301,23 +2301,6 @@
  315              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
  316              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 systick.c
-  R:\TEMP\ccCKH9ok.s:19     .text.SysTickInit:0000000000000000 $t
-  R:\TEMP\ccCKH9ok.s:24     .text.SysTickInit:0000000000000000 SysTickInit
-  R:\TEMP\ccCKH9ok.s:125    .text.SysTickInit:0000000000000074 $d
-  R:\TEMP\ccCKH9ok.s:134    .text._delay_ms:0000000000000000 $t
-  R:\TEMP\ccCKH9ok.s:139    .text._delay_ms:0000000000000000 _delay_ms
-  R:\TEMP\ccCKH9ok.s:166    .text._delay_ms:0000000000000014 $d
-  R:\TEMP\ccCKH9ok.s:171    .text._delay_us:0000000000000000 $t
-  R:\TEMP\ccCKH9ok.s:176    .text._delay_us:0000000000000000 _delay_us
-  R:\TEMP\ccCKH9ok.s:211    .text._delay_us:0000000000000024 $d
-  R:\TEMP\ccCKH9ok.s:216    .text.Delay:0000000000000000 $t
-  R:\TEMP\ccCKH9ok.s:221    .text.Delay:0000000000000000 Delay
-  R:\TEMP\ccCKH9ok.s:307    .bss.TimingDelay:0000000000000000 TimingDelay
-  R:\TEMP\ccCKH9ok.s:303    .bss.TimingDelay:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 systick.c
   R:\TEMP\ccFnnVTX.s:19     .text.SysTickInit:00000000 $t
   R:\TEMP\ccFnnVTX.s:24     .text.SysTickInit:00000000 SysTickInit
@@ -2333,7 +2316,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccFnnVTX.s:307    .bss.TimingDelay:00000000 TimingDelay
   R:\TEMP\ccFnnVTX.s:303    .bss.TimingDelay:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 SysTick_CLKSourceConfig

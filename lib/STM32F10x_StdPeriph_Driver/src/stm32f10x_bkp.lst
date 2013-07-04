@@ -675,45 +675,6 @@
  399              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  400              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 stm32f10x_bkp.c
-  R:\TEMP\ccF3AVtk.s:19     .text.BKP_DeInit:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:24     .text.BKP_DeInit:0000000000000000 BKP_DeInit
-  R:\TEMP\ccF3AVtk.s:51     .text.BKP_TamperPinLevelConfig:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:56     .text.BKP_TamperPinLevelConfig:0000000000000000 BKP_TamperPinLevelConfig
-  R:\TEMP\ccF3AVtk.s:71     .text.BKP_TamperPinLevelConfig:0000000000000008 $d
-  R:\TEMP\ccF3AVtk.s:76     .text.BKP_TamperPinCmd:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:81     .text.BKP_TamperPinCmd:0000000000000000 BKP_TamperPinCmd
-  R:\TEMP\ccF3AVtk.s:96     .text.BKP_TamperPinCmd:0000000000000008 $d
-  R:\TEMP\ccF3AVtk.s:101    .text.BKP_ITConfig:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:106    .text.BKP_ITConfig:0000000000000000 BKP_ITConfig
-  R:\TEMP\ccF3AVtk.s:121    .text.BKP_ITConfig:0000000000000008 $d
-  R:\TEMP\ccF3AVtk.s:126    .text.BKP_RTCOutputConfig:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:131    .text.BKP_RTCOutputConfig:0000000000000000 BKP_RTCOutputConfig
-  R:\TEMP\ccF3AVtk.s:159    .text.BKP_RTCOutputConfig:0000000000000014 $d
-  R:\TEMP\ccF3AVtk.s:164    .text.BKP_SetRTCCalibrationValue:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:169    .text.BKP_SetRTCCalibrationValue:0000000000000000 BKP_SetRTCCalibrationValue
-  R:\TEMP\ccF3AVtk.s:197    .text.BKP_SetRTCCalibrationValue:0000000000000014 $d
-  R:\TEMP\ccF3AVtk.s:202    .text.BKP_WriteBackupRegister:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:207    .text.BKP_WriteBackupRegister:0000000000000000 BKP_WriteBackupRegister
-  R:\TEMP\ccF3AVtk.s:240    .text.BKP_WriteBackupRegister:0000000000000018 $d
-  R:\TEMP\ccF3AVtk.s:245    .text.BKP_ReadBackupRegister:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:250    .text.BKP_ReadBackupRegister:0000000000000000 BKP_ReadBackupRegister
-  R:\TEMP\ccF3AVtk.s:285    .text.BKP_ReadBackupRegister:000000000000001c $d
-  R:\TEMP\ccF3AVtk.s:290    .text.BKP_GetFlagStatus:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:295    .text.BKP_GetFlagStatus:0000000000000000 BKP_GetFlagStatus
-  R:\TEMP\ccF3AVtk.s:311    .text.BKP_GetFlagStatus:0000000000000008 $d
-  R:\TEMP\ccF3AVtk.s:316    .text.BKP_ClearFlag:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:321    .text.BKP_ClearFlag:0000000000000000 BKP_ClearFlag
-  R:\TEMP\ccF3AVtk.s:338    .text.BKP_ClearFlag:0000000000000010 $d
-  R:\TEMP\ccF3AVtk.s:343    .text.BKP_GetITStatus:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:348    .text.BKP_GetITStatus:0000000000000000 BKP_GetITStatus
-  R:\TEMP\ccF3AVtk.s:364    .text.BKP_GetITStatus:0000000000000008 $d
-  R:\TEMP\ccF3AVtk.s:369    .text.BKP_ClearITPendingBit:0000000000000000 $t
-  R:\TEMP\ccF3AVtk.s:374    .text.BKP_ClearITPendingBit:0000000000000000 BKP_ClearITPendingBit
-  R:\TEMP\ccF3AVtk.s:391    .text.BKP_ClearITPendingBit:0000000000000010 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 stm32f10x_bkp.c
   R:\TEMP\ccVncyTO.s:19     .text.BKP_DeInit:00000000 $t
   R:\TEMP\ccVncyTO.s:24     .text.BKP_DeInit:00000000 BKP_DeInit
@@ -751,7 +712,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccVncyTO.s:374    .text.BKP_ClearITPendingBit:00000000 BKP_ClearITPendingBit
   R:\TEMP\ccVncyTO.s:391    .text.BKP_ClearITPendingBit:00000010 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 RCC_BackupResetCmd

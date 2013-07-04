@@ -1673,35 +1673,6 @@
  1239              		.file 5 "./inc/systick.h"
  1240              		.file 6 "./lib/display/mcu_depend/inc/display_if_basis.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 st7732.c
-  R:\TEMP\ccUn6W49.s:19     .text.ST7732_reset:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:24     .text.ST7732_reset:0000000000000000 ST7732_reset
-  R:\TEMP\ccUn6W49.s:67     .text.ST7732_reset:0000000000000028 $d
-  R:\TEMP\ccUn6W49.s:72     .text.ST7732_wr_cmd:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:77     .text.ST7732_wr_cmd:0000000000000000 ST7732_wr_cmd
-  R:\TEMP\ccUn6W49.s:95     .text.ST7732_wr_dat:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:100    .text.ST7732_wr_dat:0000000000000000 ST7732_wr_dat
-  R:\TEMP\ccUn6W49.s:117    .text.ST7732_wr_dat:0000000000000008 $d
-  R:\TEMP\ccUn6W49.s:122    .text.ST7732_wr_gram:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:127    .text.ST7732_wr_gram:0000000000000000 ST7732_wr_gram
-  R:\TEMP\ccUn6W49.s:148    .text.ST7732_wr_gram:0000000000000010 $d
-  R:\TEMP\ccUn6W49.s:153    .text.ST7732_wr_block:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:158    .text.ST7732_wr_block:0000000000000000 ST7732_wr_block
-  R:\TEMP\ccUn6W49.s:258    .text.ST7732_wr_block:0000000000000048 $d
-  R:\TEMP\ccUn6W49.s:263    .text.ST7732_rect:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:268    .text.ST7732_rect:0000000000000000 ST7732_rect
-  R:\TEMP\ccUn6W49.s:376    .text.ST7732_rect:0000000000000040 $d
-  R:\TEMP\ccUn6W49.s:383    .text.ST7732_clear:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:388    .text.ST7732_clear:0000000000000000 ST7732_clear
-  R:\TEMP\ccUn6W49.s:435    .text.ST7732_clear:0000000000000030 $d
-  R:\TEMP\ccUn6W49.s:440    .text.ST7732_init:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:445    .text.ST7732_init:0000000000000000 ST7732_init
-  R:\TEMP\ccUn6W49.s:1005   .text.ST7732_init:0000000000000178 $d
-  R:\TEMP\ccUn6W49.s:1010   .text.ST7732_draw_bmp:0000000000000000 $t
-  R:\TEMP\ccUn6W49.s:1015   .text.ST7732_draw_bmp:0000000000000000 ST7732_draw_bmp
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 st7732.c
   R:\TEMP\cctBzAHa.s:19     .text.ST7732_reset:00000000 $t
   R:\TEMP\cctBzAHa.s:24     .text.ST7732_reset:00000000 ST7732_reset
@@ -1729,7 +1700,6 @@ DEFINED SYMBOLS
   R:\TEMP\cctBzAHa.s:1010   .text.ST7732_draw_bmp:00000000 $t
   R:\TEMP\cctBzAHa.s:1015   .text.ST7732_draw_bmp:00000000 ST7732_draw_bmp
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 _delay_ms

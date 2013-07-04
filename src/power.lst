@@ -662,36 +662,6 @@
  438              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
  439              		.file 10 "./inc/gps_support.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 power.c
-  R:\TEMP\ccutn70d.s:19     .text.GetVbat:0000000000000000 $t
-  R:\TEMP\ccutn70d.s:24     .text.GetVbat:0000000000000000 GetVbat
-  R:\TEMP\ccutn70d.s:83     .text.GetVbat:0000000000000044 $d
-  R:\TEMP\ccutn70d.s:89     .text.PWR_Mgn:0000000000000000 $t
-  R:\TEMP\ccutn70d.s:94     .text.PWR_Mgn:0000000000000000 PWR_Mgn
-  R:\TEMP\ccutn70d.s:227    .text.PWR_Mgn:00000000000000b4 $d
-  R:\TEMP\ccutn70d.s:243    .text.GetTemp:0000000000000000 $t
-  R:\TEMP\ccutn70d.s:248    .text.GetTemp:0000000000000000 GetTemp
-  R:\TEMP\ccutn70d.s:325    .text.GetTemp:0000000000000058 $d
-  R:\TEMP\ccutn70d.s:333    .text.PWR_Configuration:0000000000000000 $t
-  R:\TEMP\ccutn70d.s:338    .text.PWR_Configuration:0000000000000000 PWR_Configuration
-  R:\TEMP\ccutn70d.s:375    .text.PWR_Configuration:0000000000000028 $d
-  R:\TEMP\ccutn70d.s:392    .data.BatState:0000000000000000 BatState
-  R:\TEMP\ccutn70d.s:381    .data.vbatbabyflag.8838:0000000000000000 $d
-  R:\TEMP\ccutn70d.s:385    .data.vbatbabyflag.8838:0000000000000000 vbatbabyflag.8838
-  R:\TEMP\ccutn70d.s:388    .data.BatState:0000000000000000 $d
-  R:\TEMP\ccutn70d.s:395    .bss.shutcounts.8831:0000000000000000 $d
-  R:\TEMP\ccutn70d.s:399    .bss.shutcounts.8831:0000000000000000 shutcounts.8831
-  R:\TEMP\ccutn70d.s:402    .bss.vbatlow.8837:0000000000000000 $d
-  R:\TEMP\ccutn70d.s:406    .bss.vbatlow.8837:0000000000000000 vbatlow.8837
-  R:\TEMP\ccutn70d.s:409    .bss.vbatcounts.8836:0000000000000000 $d
-  R:\TEMP\ccutn70d.s:413    .bss.vbatcounts.8836:0000000000000000 vbatcounts.8836
-  R:\TEMP\ccutn70d.s:416    .bss.VBat.8844:0000000000000000 $d
-  R:\TEMP\ccutn70d.s:420    .bss.VBat.8844:0000000000000000 VBat.8844
-  R:\TEMP\ccutn70d.s:423    .bss.CurrentVbat.8839:0000000000000000 $d
-  R:\TEMP\ccutn70d.s:427    .bss.CurrentVbat.8839:0000000000000000 CurrentVbat.8839
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 power.c
   R:\TEMP\ccelcyTO.s:19     .text.GetVbat:00000000 $t
   R:\TEMP\ccelcyTO.s:24     .text.GetVbat:00000000 GetVbat
@@ -720,7 +690,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccelcyTO.s:423    .bss.CurrentVbat.8839:00000000 $d
   R:\TEMP\ccelcyTO.s:427    .bss.CurrentVbat.8839:00000000 CurrentVbat.8839
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 ADC_RegularConvertedValueTab

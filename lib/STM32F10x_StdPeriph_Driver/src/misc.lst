@@ -453,25 +453,6 @@
  244              		.file 4 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  245              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 misc.c
-  R:\TEMP\ccrq8UMh.s:19     .text.NVIC_PriorityGroupConfig:0000000000000000 $t
-  R:\TEMP\ccrq8UMh.s:24     .text.NVIC_PriorityGroupConfig:0000000000000000 NVIC_PriorityGroupConfig
-  R:\TEMP\ccrq8UMh.s:43     .text.NVIC_PriorityGroupConfig:0000000000000010 $d
-  R:\TEMP\ccrq8UMh.s:48     .text.NVIC_Init:0000000000000000 $t
-  R:\TEMP\ccrq8UMh.s:53     .text.NVIC_Init:0000000000000000 NVIC_Init
-  R:\TEMP\ccrq8UMh.s:135    .text.NVIC_Init:0000000000000060 $d
-  R:\TEMP\ccrq8UMh.s:141    .text.NVIC_SetVectorTable:0000000000000000 $t
-  R:\TEMP\ccrq8UMh.s:146    .text.NVIC_SetVectorTable:0000000000000000 NVIC_SetVectorTable
-  R:\TEMP\ccrq8UMh.s:166    .text.NVIC_SetVectorTable:0000000000000010 $d
-  R:\TEMP\ccrq8UMh.s:171    .text.NVIC_SystemLPConfig:0000000000000000 $t
-  R:\TEMP\ccrq8UMh.s:176    .text.NVIC_SystemLPConfig:0000000000000000 NVIC_SystemLPConfig
-  R:\TEMP\ccrq8UMh.s:204    .text.NVIC_SystemLPConfig:0000000000000014 $d
-  R:\TEMP\ccrq8UMh.s:209    .text.SysTick_CLKSourceConfig:0000000000000000 $t
-  R:\TEMP\ccrq8UMh.s:214    .text.SysTick_CLKSourceConfig:0000000000000000 SysTick_CLKSourceConfig
-  R:\TEMP\ccrq8UMh.s:236    .text.SysTick_CLKSourceConfig:0000000000000014 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 misc.c
   R:\TEMP\ccdvvCgW.s:19     .text.NVIC_PriorityGroupConfig:00000000 $t
   R:\TEMP\ccdvvCgW.s:24     .text.NVIC_PriorityGroupConfig:00000000 NVIC_PriorityGroupConfig
@@ -489,6 +470,5 @@ DEFINED SYMBOLS
   R:\TEMP\ccdvvCgW.s:214    .text.SysTick_CLKSourceConfig:00000000 SysTick_CLKSourceConfig
   R:\TEMP\ccdvvCgW.s:236    .text.SysTick_CLKSourceConfig:00000014 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 NO UNDEFINED SYMBOLS

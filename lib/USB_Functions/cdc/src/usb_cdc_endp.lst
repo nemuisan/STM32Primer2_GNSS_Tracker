@@ -503,23 +503,6 @@
  327              		.file 6 "./inc/systick.h"
  328              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 usb_cdc_endp.c
-  R:\TEMP\ccs33tbc.s:19     .text.CDC_EP1_IN_Callback:0000000000000000 $t
-  R:\TEMP\ccs33tbc.s:24     .text.CDC_EP1_IN_Callback:0000000000000000 CDC_EP1_IN_Callback
-  R:\TEMP\ccs33tbc.s:175    .text.CDC_EP1_IN_Callback:00000000000000a8 $d
-  R:\TEMP\ccs33tbc.s:185    .text.CDC_EP3_OUT_Callback:0000000000000000 $t
-  R:\TEMP\ccs33tbc.s:190    .text.CDC_EP3_OUT_Callback:0000000000000000 CDC_EP3_OUT_Callback
-  R:\TEMP\ccs33tbc.s:261    .text.CDC_EP3_OUT_Callback:0000000000000058 $d
-  R:\TEMP\ccs33tbc.s:266    .text.CDC_SOF_Callback:0000000000000000 $t
-  R:\TEMP\ccs33tbc.s:271    .text.CDC_SOF_Callback:0000000000000000 CDC_SOF_Callback
-  R:\TEMP\ccs33tbc.s:302    .text.CDC_SOF_Callback:0000000000000020 $d
-  R:\TEMP\ccs33tbc.s:312    .bss.USB_Rx_Buffer:0000000000000000 USB_Rx_Buffer
-  R:\TEMP\ccs33tbc.s:313    .bss.USB_Rx_Buffer:0000000000000000 $d
-  R:\TEMP\ccs33tbc.s:315    .bss.FrameCount.8848:0000000000000000 $d
-  R:\TEMP\ccs33tbc.s:319    .bss.FrameCount.8848:0000000000000000 FrameCount.8848
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 usb_cdc_endp.c
   R:\TEMP\ccEzydTb.s:19     .text.CDC_EP1_IN_Callback:00000000 $t
   R:\TEMP\ccEzydTb.s:24     .text.CDC_EP1_IN_Callback:00000000 CDC_EP1_IN_Callback
@@ -535,7 +518,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccEzydTb.s:315    .bss.FrameCount.8848:00000000 $d
   R:\TEMP\ccEzydTb.s:319    .bss.FrameCount.8848:00000000 FrameCount.8848
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 UserToPMABufferCopy

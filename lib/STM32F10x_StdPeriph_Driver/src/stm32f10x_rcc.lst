@@ -2670,107 +2670,6 @@
  1261              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
  1262              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 stm32f10x_rcc.c
-  R:\TEMP\ccV2xpbh.s:19     .text.RCC_DeInit:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:24     .text.RCC_DeInit:0000000000000000 RCC_DeInit
-  R:\TEMP\ccV2xpbh.s:62     .text.RCC_DeInit:0000000000000038 $d
-  R:\TEMP\ccV2xpbh.s:68     .text.RCC_HSEConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:73     .text.RCC_HSEConfig:0000000000000000 RCC_HSEConfig
-  R:\TEMP\ccV2xpbh.s:114    .text.RCC_HSEConfig:0000000000000030 $d
-  R:\TEMP\ccV2xpbh.s:119    .text.RCC_AdjustHSICalibrationValue:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:124    .text.RCC_AdjustHSICalibrationValue:0000000000000000 RCC_AdjustHSICalibrationValue
-  R:\TEMP\ccV2xpbh.s:149    .text.RCC_AdjustHSICalibrationValue:0000000000000010 $d
-  R:\TEMP\ccV2xpbh.s:154    .text.RCC_HSICmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:159    .text.RCC_HSICmd:0000000000000000 RCC_HSICmd
-  R:\TEMP\ccV2xpbh.s:174    .text.RCC_HSICmd:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:179    .text.RCC_PLLConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:184    .text.RCC_PLLConfig:0000000000000000 RCC_PLLConfig
-  R:\TEMP\ccV2xpbh.s:211    .text.RCC_PLLConfig:0000000000000010 $d
-  R:\TEMP\ccV2xpbh.s:216    .text.RCC_PLLCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:221    .text.RCC_PLLCmd:0000000000000000 RCC_PLLCmd
-  R:\TEMP\ccV2xpbh.s:236    .text.RCC_PLLCmd:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:241    .text.RCC_SYSCLKConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:246    .text.RCC_SYSCLKConfig:0000000000000000 RCC_SYSCLKConfig
-  R:\TEMP\ccV2xpbh.s:271    .text.RCC_SYSCLKConfig:0000000000000010 $d
-  R:\TEMP\ccV2xpbh.s:276    .text.RCC_GetSYSCLKSource:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:281    .text.RCC_GetSYSCLKSource:0000000000000000 RCC_GetSYSCLKSource
-  R:\TEMP\ccV2xpbh.s:297    .text.RCC_GetSYSCLKSource:000000000000000c $d
-  R:\TEMP\ccV2xpbh.s:302    .text.RCC_HCLKConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:307    .text.RCC_HCLKConfig:0000000000000000 RCC_HCLKConfig
-  R:\TEMP\ccV2xpbh.s:332    .text.RCC_HCLKConfig:0000000000000010 $d
-  R:\TEMP\ccV2xpbh.s:337    .text.RCC_PCLK1Config:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:342    .text.RCC_PCLK1Config:0000000000000000 RCC_PCLK1Config
-  R:\TEMP\ccV2xpbh.s:367    .text.RCC_PCLK1Config:0000000000000010 $d
-  R:\TEMP\ccV2xpbh.s:372    .text.RCC_PCLK2Config:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:377    .text.RCC_PCLK2Config:0000000000000000 RCC_PCLK2Config
-  R:\TEMP\ccV2xpbh.s:402    .text.RCC_PCLK2Config:0000000000000010 $d
-  R:\TEMP\ccV2xpbh.s:407    .text.RCC_ITConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:412    .text.RCC_ITConfig:0000000000000000 RCC_ITConfig
-  R:\TEMP\ccV2xpbh.s:440    .text.RCC_ITConfig:0000000000000014 $d
-  R:\TEMP\ccV2xpbh.s:445    .text.RCC_USBCLKConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:450    .text.RCC_USBCLKConfig:0000000000000000 RCC_USBCLKConfig
-  R:\TEMP\ccV2xpbh.s:465    .text.RCC_USBCLKConfig:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:470    .text.RCC_ADCCLKConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:475    .text.RCC_ADCCLKConfig:0000000000000000 RCC_ADCCLKConfig
-  R:\TEMP\ccV2xpbh.s:500    .text.RCC_ADCCLKConfig:0000000000000010 $d
-  R:\TEMP\ccV2xpbh.s:505    .text.RCC_LSEConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:510    .text.RCC_LSEConfig:0000000000000000 RCC_LSEConfig
-  R:\TEMP\ccV2xpbh.s:547    .text.RCC_LSEConfig:000000000000001c $d
-  R:\TEMP\ccV2xpbh.s:552    .text.RCC_LSICmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:557    .text.RCC_LSICmd:0000000000000000 RCC_LSICmd
-  R:\TEMP\ccV2xpbh.s:572    .text.RCC_LSICmd:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:577    .text.RCC_RTCCLKConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:582    .text.RCC_RTCCLKConfig:0000000000000000 RCC_RTCCLKConfig
-  R:\TEMP\ccV2xpbh.s:600    .text.RCC_RTCCLKConfig:000000000000000c $d
-  R:\TEMP\ccV2xpbh.s:605    .text.RCC_RTCCLKCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:610    .text.RCC_RTCCLKCmd:0000000000000000 RCC_RTCCLKCmd
-  R:\TEMP\ccV2xpbh.s:625    .text.RCC_RTCCLKCmd:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:630    .text.RCC_GetClocksFreq:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:635    .text.RCC_GetClocksFreq:0000000000000000 RCC_GetClocksFreq
-  R:\TEMP\ccV2xpbh.s:761    .text.RCC_GetClocksFreq:0000000000000080 $d
-  R:\TEMP\ccV2xpbh.s:772    .text.RCC_AHBPeriphClockCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:777    .text.RCC_AHBPeriphClockCmd:0000000000000000 RCC_AHBPeriphClockCmd
-  R:\TEMP\ccV2xpbh.s:805    .text.RCC_AHBPeriphClockCmd:0000000000000014 $d
-  R:\TEMP\ccV2xpbh.s:810    .text.RCC_APB2PeriphClockCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:815    .text.RCC_APB2PeriphClockCmd:0000000000000000 RCC_APB2PeriphClockCmd
-  R:\TEMP\ccV2xpbh.s:843    .text.RCC_APB2PeriphClockCmd:0000000000000014 $d
-  R:\TEMP\ccV2xpbh.s:848    .text.RCC_APB1PeriphClockCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:853    .text.RCC_APB1PeriphClockCmd:0000000000000000 RCC_APB1PeriphClockCmd
-  R:\TEMP\ccV2xpbh.s:881    .text.RCC_APB1PeriphClockCmd:0000000000000014 $d
-  R:\TEMP\ccV2xpbh.s:886    .text.RCC_APB2PeriphResetCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:891    .text.RCC_APB2PeriphResetCmd:0000000000000000 RCC_APB2PeriphResetCmd
-  R:\TEMP\ccV2xpbh.s:919    .text.RCC_APB2PeriphResetCmd:0000000000000014 $d
-  R:\TEMP\ccV2xpbh.s:924    .text.RCC_APB1PeriphResetCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:929    .text.RCC_APB1PeriphResetCmd:0000000000000000 RCC_APB1PeriphResetCmd
-  R:\TEMP\ccV2xpbh.s:957    .text.RCC_APB1PeriphResetCmd:0000000000000014 $d
-  R:\TEMP\ccV2xpbh.s:962    .text.RCC_BackupResetCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:967    .text.RCC_BackupResetCmd:0000000000000000 RCC_BackupResetCmd
-  R:\TEMP\ccV2xpbh.s:982    .text.RCC_BackupResetCmd:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:987    .text.RCC_ClockSecuritySystemCmd:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:992    .text.RCC_ClockSecuritySystemCmd:0000000000000000 RCC_ClockSecuritySystemCmd
-  R:\TEMP\ccV2xpbh.s:1007   .text.RCC_ClockSecuritySystemCmd:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:1012   .text.RCC_MCOConfig:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:1017   .text.RCC_MCOConfig:0000000000000000 RCC_MCOConfig
-  R:\TEMP\ccV2xpbh.s:1032   .text.RCC_MCOConfig:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:1037   .text.RCC_GetFlagStatus:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:1042   .text.RCC_GetFlagStatus:0000000000000000 RCC_GetFlagStatus
-  R:\TEMP\ccV2xpbh.s:1084   .text.RCC_GetFlagStatus:0000000000000024 $d
-  R:\TEMP\ccV2xpbh.s:1089   .text.RCC_WaitForHSEStartUp:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:1094   .text.RCC_WaitForHSEStartUp:0000000000000000 RCC_WaitForHSEStartUp
-  R:\TEMP\ccV2xpbh.s:1144   .text.RCC_ClearFlag:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:1149   .text.RCC_ClearFlag:0000000000000000 RCC_ClearFlag
-  R:\TEMP\ccV2xpbh.s:1165   .text.RCC_ClearFlag:000000000000000c $d
-  R:\TEMP\ccV2xpbh.s:1170   .text.RCC_GetITStatus:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:1175   .text.RCC_GetITStatus:0000000000000000 RCC_GetITStatus
-  R:\TEMP\ccV2xpbh.s:1198   .text.RCC_GetITStatus:0000000000000010 $d
-  R:\TEMP\ccV2xpbh.s:1203   .text.RCC_ClearITPendingBit:0000000000000000 $t
-  R:\TEMP\ccV2xpbh.s:1208   .text.RCC_ClearITPendingBit:0000000000000000 RCC_ClearITPendingBit
-  R:\TEMP\ccV2xpbh.s:1223   .text.RCC_ClearITPendingBit:0000000000000008 $d
-  R:\TEMP\ccV2xpbh.s:1231   .data.ADCPrescTable:0000000000000000 ADCPrescTable
-  R:\TEMP\ccV2xpbh.s:1240   .data.APBAHBPrescTable:0000000000000000 APBAHBPrescTable
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 stm32f10x_rcc.c
   R:\TEMP\ccaFIp73.s:19     .text.RCC_DeInit:00000000 $t
   R:\TEMP\ccaFIp73.s:24     .text.RCC_DeInit:00000000 RCC_DeInit
@@ -2870,6 +2769,5 @@ DEFINED SYMBOLS
   R:\TEMP\ccaFIp73.s:1231   .data.ADCPrescTable:00000000 ADCPrescTable
   R:\TEMP\ccaFIp73.s:1240   .data.APBAHBPrescTable:00000000 APBAHBPrescTable
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 NO UNDEFINED SYMBOLS

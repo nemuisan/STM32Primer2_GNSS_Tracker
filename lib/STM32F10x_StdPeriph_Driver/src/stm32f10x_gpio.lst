@@ -1464,52 +1464,6 @@
  852              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
  853              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 stm32f10x_gpio.c
-  R:\TEMP\ccmlUoyN.s:19     .text.GPIO_DeInit:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:24     .text.GPIO_DeInit:0000000000000000 GPIO_DeInit
-  R:\TEMP\ccmlUoyN.s:151    .text.GPIO_DeInit:0000000000000090 $d
-  R:\TEMP\ccmlUoyN.s:162    .text.GPIO_AFIODeInit:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:167    .text.GPIO_AFIODeInit:0000000000000000 GPIO_AFIODeInit
-  R:\TEMP\ccmlUoyN.s:195    .text.GPIO_Init:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:200    .text.GPIO_Init:0000000000000000 GPIO_Init
-  R:\TEMP\ccmlUoyN.s:356    .text.GPIO_StructInit:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:361    .text.GPIO_StructInit:0000000000000000 GPIO_StructInit
-  R:\TEMP\ccmlUoyN.s:383    .text.GPIO_ReadInputDataBit:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:388    .text.GPIO_ReadInputDataBit:0000000000000000 GPIO_ReadInputDataBit
-  R:\TEMP\ccmlUoyN.s:411    .text.GPIO_ReadInputData:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:416    .text.GPIO_ReadInputData:0000000000000000 GPIO_ReadInputData
-  R:\TEMP\ccmlUoyN.s:434    .text.GPIO_ReadOutputDataBit:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:439    .text.GPIO_ReadOutputDataBit:0000000000000000 GPIO_ReadOutputDataBit
-  R:\TEMP\ccmlUoyN.s:462    .text.GPIO_ReadOutputData:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:467    .text.GPIO_ReadOutputData:0000000000000000 GPIO_ReadOutputData
-  R:\TEMP\ccmlUoyN.s:485    .text.GPIO_SetBits:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:490    .text.GPIO_SetBits:0000000000000000 GPIO_SetBits
-  R:\TEMP\ccmlUoyN.s:505    .text.GPIO_ResetBits:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:510    .text.GPIO_ResetBits:0000000000000000 GPIO_ResetBits
-  R:\TEMP\ccmlUoyN.s:525    .text.GPIO_WriteBit:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:530    .text.GPIO_WriteBit:0000000000000000 GPIO_WriteBit
-  R:\TEMP\ccmlUoyN.s:551    .text.GPIO_Write:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:556    .text.GPIO_Write:0000000000000000 GPIO_Write
-  R:\TEMP\ccmlUoyN.s:571    .text.GPIO_PinLockConfig:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:576    .text.GPIO_PinLockConfig:0000000000000000 GPIO_PinLockConfig
-  R:\TEMP\ccmlUoyN.s:604    .text.GPIO_EventOutputConfig:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:609    .text.GPIO_EventOutputConfig:0000000000000000 GPIO_EventOutputConfig
-  R:\TEMP\ccmlUoyN.s:642    .text.GPIO_EventOutputConfig:0000000000000018 $d
-  R:\TEMP\ccmlUoyN.s:647    .text.GPIO_EventOutputCmd:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:652    .text.GPIO_EventOutputCmd:0000000000000000 GPIO_EventOutputCmd
-  R:\TEMP\ccmlUoyN.s:667    .text.GPIO_EventOutputCmd:0000000000000008 $d
-  R:\TEMP\ccmlUoyN.s:672    .text.GPIO_PinRemapConfig:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:677    .text.GPIO_PinRemapConfig:0000000000000000 GPIO_PinRemapConfig
-  R:\TEMP\ccmlUoyN.s:766    .text.GPIO_PinRemapConfig:0000000000000060 $d
-  R:\TEMP\ccmlUoyN.s:771    .text.GPIO_EXTILineConfig:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:776    .text.GPIO_EXTILineConfig:0000000000000000 GPIO_EXTILineConfig
-  R:\TEMP\ccmlUoyN.s:818    .text.GPIO_EXTILineConfig:0000000000000030 $d
-  R:\TEMP\ccmlUoyN.s:823    .text.GPIO_ETH_MediaInterfaceConfig:0000000000000000 $t
-  R:\TEMP\ccmlUoyN.s:828    .text.GPIO_ETH_MediaInterfaceConfig:0000000000000000 GPIO_ETH_MediaInterfaceConfig
-  R:\TEMP\ccmlUoyN.s:843    .text.GPIO_ETH_MediaInterfaceConfig:0000000000000008 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 stm32f10x_gpio.c
   R:\TEMP\ccyJveur.s:19     .text.GPIO_DeInit:00000000 $t
   R:\TEMP\ccyJveur.s:24     .text.GPIO_DeInit:00000000 GPIO_DeInit
@@ -1554,7 +1508,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccyJveur.s:828    .text.GPIO_ETH_MediaInterfaceConfig:00000000 GPIO_ETH_MediaInterfaceConfig
   R:\TEMP\ccyJveur.s:843    .text.GPIO_ETH_MediaInterfaceConfig:00000008 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphResetCmd

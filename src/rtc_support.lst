@@ -680,31 +680,6 @@
  452              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_bkp.h"
  453              		.file 10 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 rtc_support.c
-  R:\TEMP\ccyx0jhL.s:19     .text.Time_ConvUnixToCalendar:0000000000000000 $t
-  R:\TEMP\ccyx0jhL.s:24     .text.Time_ConvUnixToCalendar:0000000000000000 Time_ConvUnixToCalendar
-  R:\TEMP\ccyx0jhL.s:71     .text.Time_ConvCalendarToUnix:0000000000000000 $t
-  R:\TEMP\ccyx0jhL.s:76     .text.Time_ConvCalendarToUnix:0000000000000000 Time_ConvCalendarToUnix
-  R:\TEMP\ccyx0jhL.s:108    .text.Time_GetUnixTime:0000000000000000 $t
-  R:\TEMP\ccyx0jhL.s:113    .text.Time_GetUnixTime:0000000000000000 Time_GetUnixTime
-  R:\TEMP\ccyx0jhL.s:128    .text.Time_GetCalendarTime:0000000000000000 $t
-  R:\TEMP\ccyx0jhL.s:133    .text.Time_GetCalendarTime:0000000000000000 Time_GetCalendarTime
-  R:\TEMP\ccyx0jhL.s:163    .text.Time_SetUnixTime:0000000000000000 $t
-  R:\TEMP\ccyx0jhL.s:168    .text.Time_SetUnixTime:0000000000000000 Time_SetUnixTime
-  R:\TEMP\ccyx0jhL.s:207    .text.Time_SetCalendarTime:0000000000000000 $t
-  R:\TEMP\ccyx0jhL.s:212    .text.Time_SetCalendarTime:0000000000000000 Time_SetCalendarTime
-  R:\TEMP\ccyx0jhL.s:264    .text.RTC_Configuration:0000000000000000 $t
-  R:\TEMP\ccyx0jhL.s:269    .text.RTC_Configuration:0000000000000000 RTC_Configuration
-  R:\TEMP\ccyx0jhL.s:417    .text.RTC_Configuration:00000000000000d4 $d
-  R:\TEMP\ccyx0jhL.s:435    .bss.rtc:0000000000000000 rtc
-  R:\TEMP\ccyx0jhL.s:428    .bss.current_time:0000000000000000 current_time
-  R:\TEMP\ccyx0jhL.s:441    .bss.TimeDisplay:0000000000000000 TimeDisplay
-  R:\TEMP\ccyx0jhL.s:425    .bss.current_time:0000000000000000 $d
-  R:\TEMP\ccyx0jhL.s:431    .bss.rtc:0000000000000000 $d
-  R:\TEMP\ccyx0jhL.s:438    .bss.TimeDisplay:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 rtc_support.c
   R:\TEMP\ccyn3Ifg.s:19     .text.Time_ConvUnixToCalendar:00000000 $t
   R:\TEMP\ccyn3Ifg.s:24     .text.Time_ConvUnixToCalendar:00000000 Time_ConvUnixToCalendar
@@ -728,7 +703,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccyn3Ifg.s:431    .bss.rtc:00000000 $d
   R:\TEMP\ccyn3Ifg.s:438    .bss.TimeDisplay:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 localtime

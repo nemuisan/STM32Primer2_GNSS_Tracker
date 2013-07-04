@@ -2244,70 +2244,6 @@
  1221              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
  1222              		.file 6 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 stm32f10x_usart.c
-  R:\TEMP\cc9gJ3VX.s:19     .text.USART_DeInit:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:24     .text.USART_DeInit:0000000000000000 USART_DeInit
-  R:\TEMP\cc9gJ3VX.s:125    .text.USART_DeInit:0000000000000084 $d
-  R:\TEMP\cc9gJ3VX.s:134    .text.USART_Init:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:139    .text.USART_Init:0000000000000000 USART_Init
-  R:\TEMP\cc9gJ3VX.s:279    .text.USART_Init:00000000000000ac $d
-  R:\TEMP\cc9gJ3VX.s:284    .text.USART_StructInit:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:289    .text.USART_StructInit:0000000000000000 USART_StructInit
-  R:\TEMP\cc9gJ3VX.s:317    .text.USART_ClockInit:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:322    .text.USART_ClockInit:0000000000000000 USART_ClockInit
-  R:\TEMP\cc9gJ3VX.s:362    .text.USART_ClockStructInit:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:367    .text.USART_ClockStructInit:0000000000000000 USART_ClockStructInit
-  R:\TEMP\cc9gJ3VX.s:389    .text.USART_Cmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:394    .text.USART_Cmd:0000000000000000 USART_Cmd
-  R:\TEMP\cc9gJ3VX.s:425    .text.USART_ITConfig:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:430    .text.USART_ITConfig:0000000000000000 USART_ITConfig
-  R:\TEMP\cc9gJ3VX.s:495    .text.USART_DMACmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:500    .text.USART_DMACmd:0000000000000000 USART_DMACmd
-  R:\TEMP\cc9gJ3VX.s:529    .text.USART_SetAddress:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:534    .text.USART_SetAddress:0000000000000000 USART_SetAddress
-  R:\TEMP\cc9gJ3VX.s:559    .text.USART_WakeUpConfig:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:564    .text.USART_WakeUpConfig:0000000000000000 USART_WakeUpConfig
-  R:\TEMP\cc9gJ3VX.s:589    .text.USART_ReceiverWakeUpCmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:594    .text.USART_ReceiverWakeUpCmd:0000000000000000 USART_ReceiverWakeUpCmd
-  R:\TEMP\cc9gJ3VX.s:625    .text.USART_LINBreakDetectLengthConfig:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:630    .text.USART_LINBreakDetectLengthConfig:0000000000000000 USART_LINBreakDetectLengthConfig
-  R:\TEMP\cc9gJ3VX.s:655    .text.USART_LINCmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:660    .text.USART_LINCmd:0000000000000000 USART_LINCmd
-  R:\TEMP\cc9gJ3VX.s:691    .text.USART_SendData:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:696    .text.USART_SendData:0000000000000000 USART_SendData
-  R:\TEMP\cc9gJ3VX.s:714    .text.USART_ReceiveData:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:719    .text.USART_ReceiveData:0000000000000000 USART_ReceiveData
-  R:\TEMP\cc9gJ3VX.s:738    .text.USART_SendBreak:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:743    .text.USART_SendBreak:0000000000000000 USART_SendBreak
-  R:\TEMP\cc9gJ3VX.s:761    .text.USART_SetGuardTime:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:766    .text.USART_SetGuardTime:0000000000000000 USART_SetGuardTime
-  R:\TEMP\cc9gJ3VX.s:789    .text.USART_SetPrescaler:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:794    .text.USART_SetPrescaler:0000000000000000 USART_SetPrescaler
-  R:\TEMP\cc9gJ3VX.s:817    .text.USART_SmartCardCmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:822    .text.USART_SmartCardCmd:0000000000000000 USART_SmartCardCmd
-  R:\TEMP\cc9gJ3VX.s:853    .text.USART_SmartCardNACKCmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:858    .text.USART_SmartCardNACKCmd:0000000000000000 USART_SmartCardNACKCmd
-  R:\TEMP\cc9gJ3VX.s:889    .text.USART_HalfDuplexCmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:894    .text.USART_HalfDuplexCmd:0000000000000000 USART_HalfDuplexCmd
-  R:\TEMP\cc9gJ3VX.s:925    .text.USART_OverSampling8Cmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:930    .text.USART_OverSampling8Cmd:0000000000000000 USART_OverSampling8Cmd
-  R:\TEMP\cc9gJ3VX.s:961    .text.USART_OneBitMethodCmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:966    .text.USART_OneBitMethodCmd:0000000000000000 USART_OneBitMethodCmd
-  R:\TEMP\cc9gJ3VX.s:997    .text.USART_IrDAConfig:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:1002   .text.USART_IrDAConfig:0000000000000000 USART_IrDAConfig
-  R:\TEMP\cc9gJ3VX.s:1027   .text.USART_IrDACmd:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:1032   .text.USART_IrDACmd:0000000000000000 USART_IrDACmd
-  R:\TEMP\cc9gJ3VX.s:1063   .text.USART_GetFlagStatus:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:1068   .text.USART_GetFlagStatus:0000000000000000 USART_GetFlagStatus
-  R:\TEMP\cc9gJ3VX.s:1091   .text.USART_ClearFlag:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:1096   .text.USART_ClearFlag:0000000000000000 USART_ClearFlag
-  R:\TEMP\cc9gJ3VX.s:1114   .text.USART_GetITStatus:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:1119   .text.USART_GetITStatus:0000000000000000 USART_GetITStatus
-  R:\TEMP\cc9gJ3VX.s:1189   .text.USART_ClearITPendingBit:0000000000000000 $t
-  R:\TEMP\cc9gJ3VX.s:1194   .text.USART_ClearITPendingBit:0000000000000000 USART_ClearITPendingBit
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 stm32f10x_usart.c
   R:\TEMP\ccRP4wmv.s:19     .text.USART_DeInit:00000000 $t
   R:\TEMP\ccRP4wmv.s:24     .text.USART_DeInit:00000000 USART_DeInit
@@ -2370,7 +2306,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccRP4wmv.s:1189   .text.USART_ClearITPendingBit:00000000 $t
   R:\TEMP\ccRP4wmv.s:1194   .text.USART_ClearITPendingBit:00000000 USART_ClearITPendingBit
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphResetCmd

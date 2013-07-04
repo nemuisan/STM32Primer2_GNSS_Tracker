@@ -1325,63 +1325,6 @@
  886              		.file 12 "./lib/USB_Functions/usb_prop.h"
  887              		.file 13 "./lib/STM32_USB-FS-Device_Driver/inc/usb_sil.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 usb_cdc_prop.c
-  R:\TEMP\ccZCbAYX.s:19     .text.Virtual_Com_Port_SetConfiguration:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:24     .text.Virtual_Com_Port_SetConfiguration:0000000000000000 Virtual_Com_Port_SetConfiguration
-  R:\TEMP\ccZCbAYX.s:46     .text.Virtual_Com_Port_SetConfiguration:0000000000000010 $d
-  R:\TEMP\ccZCbAYX.s:52     .text.Virtual_Com_Port_SetDeviceAddress:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:57     .text.Virtual_Com_Port_SetDeviceAddress:0000000000000000 Virtual_Com_Port_SetDeviceAddress
-  R:\TEMP\ccZCbAYX.s:72     .text.Virtual_Com_Port_SetDeviceAddress:0000000000000008 $d
-  R:\TEMP\ccZCbAYX.s:77     .text.Virtual_Com_Port_Status_Out:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:82     .text.Virtual_Com_Port_Status_Out:0000000000000000 Virtual_Com_Port_Status_Out
-  R:\TEMP\ccZCbAYX.s:94     .text.Virtual_Com_Port_Data_Setup:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:99     .text.Virtual_Com_Port_Data_Setup:0000000000000000 Virtual_Com_Port_Data_Setup
-  R:\TEMP\ccZCbAYX.s:176    .text.Virtual_Com_Port_Data_Setup:000000000000004c $d
-  R:\TEMP\ccZCbAYX.s:307    .text.Virtual_Com_Port_SetLineCoding:0000000000000000 Virtual_Com_Port_SetLineCoding
-  R:\TEMP\ccZCbAYX.s:270    .text.Virtual_Com_Port_GetLineCoding:0000000000000000 Virtual_Com_Port_GetLineCoding
-  R:\TEMP\ccZCbAYX.s:184    .text.Virtual_Com_Port_NoData_Setup:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:189    .text.Virtual_Com_Port_NoData_Setup:0000000000000000 Virtual_Com_Port_NoData_Setup
-  R:\TEMP\ccZCbAYX.s:226    .text.Virtual_Com_Port_NoData_Setup:0000000000000020 $d
-  R:\TEMP\ccZCbAYX.s:231    .text.Virtual_Com_Port_Get_Interface_Setting:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:236    .text.Virtual_Com_Port_Get_Interface_Setting:0000000000000000 Virtual_Com_Port_Get_Interface_Setting
-  R:\TEMP\ccZCbAYX.s:265    .text.Virtual_Com_Port_GetLineCoding:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:296    .text.Virtual_Com_Port_GetLineCoding:0000000000000010 $d
-  R:\TEMP\ccZCbAYX.s:302    .text.Virtual_Com_Port_SetLineCoding:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:333    .text.Virtual_Com_Port_SetLineCoding:0000000000000010 $d
-  R:\TEMP\ccZCbAYX.s:339    .text.Virtual_Com_Port_GetStringDescriptor:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:344    .text.Virtual_Com_Port_GetStringDescriptor:0000000000000000 Virtual_Com_Port_GetStringDescriptor
-  R:\TEMP\ccZCbAYX.s:376    .text.Virtual_Com_Port_GetStringDescriptor:0000000000000018 $d
-  R:\TEMP\ccZCbAYX.s:382    .text.Virtual_Com_Port_GetConfigDescriptor:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:387    .text.Virtual_Com_Port_GetConfigDescriptor:0000000000000000 Virtual_Com_Port_GetConfigDescriptor
-  R:\TEMP\ccZCbAYX.s:404    .text.Virtual_Com_Port_GetConfigDescriptor:0000000000000008 $d
-  R:\TEMP\ccZCbAYX.s:409    .text.Virtual_Com_Port_GetDeviceDescriptor:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:414    .text.Virtual_Com_Port_GetDeviceDescriptor:0000000000000000 Virtual_Com_Port_GetDeviceDescriptor
-  R:\TEMP\ccZCbAYX.s:431    .text.Virtual_Com_Port_GetDeviceDescriptor:0000000000000008 $d
-  R:\TEMP\ccZCbAYX.s:436    .text.Virtual_Com_Port_Status_In:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:441    .text.Virtual_Com_Port_Status_In:0000000000000000 Virtual_Com_Port_Status_In
-  R:\TEMP\ccZCbAYX.s:468    .text.Virtual_Com_Port_Status_In:0000000000000014 $d
-  R:\TEMP\ccZCbAYX.s:473    .text.Virtual_Com_Port_Reset:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:478    .text.Virtual_Com_Port_Reset:0000000000000000 Virtual_Com_Port_Reset
-  R:\TEMP\ccZCbAYX.s:633    .text.Virtual_Com_Port_Reset:00000000000000f0 $d
-  R:\TEMP\ccZCbAYX.s:641    .text.Virtual_Com_Port_init:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:646    .text.Virtual_Com_Port_init:0000000000000000 Virtual_Com_Port_init
-  R:\TEMP\ccZCbAYX.s:683    .text.Virtual_Com_Port_init:0000000000000028 $d
-  R:\TEMP\ccZCbAYX.s:690    .text.CDC_SetStructure:0000000000000000 $t
-  R:\TEMP\ccZCbAYX.s:695    .text.CDC_SetStructure:0000000000000000 CDC_SetStructure
-  R:\TEMP\ccZCbAYX.s:780    .text.CDC_SetStructure:0000000000000070 $d
-  R:\TEMP\ccZCbAYX.s:835    .data.CDC_String_Descriptor:0000000000000000 CDC_String_Descriptor
-  R:\TEMP\ccZCbAYX.s:853    .data.CDC_Config_Descriptor:0000000000000000 CDC_Config_Descriptor
-  R:\TEMP\ccZCbAYX.s:826    .data.CDC_Device_Descriptor:0000000000000000 CDC_Device_Descriptor
-  R:\TEMP\ccZCbAYX.s:868    .data.linecoding:0000000000000000 linecoding
-  R:\TEMP\ccZCbAYX.s:861    .bss.Request:0000000000000000 Request
-  R:\TEMP\ccZCbAYX.s:822    .data.CDC_Device_Descriptor:0000000000000000 $d
-  R:\TEMP\ccZCbAYX.s:831    .data.CDC_String_Descriptor:0000000000000000 $d
-  R:\TEMP\ccZCbAYX.s:849    .data.CDC_Config_Descriptor:0000000000000000 $d
-  R:\TEMP\ccZCbAYX.s:862    .bss.Request:0000000000000000 $d
-  R:\TEMP\ccZCbAYX.s:864    .data.linecoding:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 usb_cdc_prop.c
   R:\TEMP\cc3SLn8Z.s:19     .text.Virtual_Com_Port_SetConfiguration:00000000 $t
   R:\TEMP\cc3SLn8Z.s:24     .text.Virtual_Com_Port_SetConfiguration:00000000 Virtual_Com_Port_SetConfiguration
@@ -1437,7 +1380,6 @@ DEFINED SYMBOLS
   R:\TEMP\cc3SLn8Z.s:862    .bss.Request:00000000 $d
   R:\TEMP\cc3SLn8Z.s:864    .data.linecoding:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 Device_Info

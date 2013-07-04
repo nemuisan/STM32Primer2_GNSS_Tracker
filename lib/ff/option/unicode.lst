@@ -17,6 +17,6 @@
   17              		.cfi_sections	.debug_frame
   18              	.Letext0:
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 unicode.c
+                            *ABS*:00000000 unicode.c
 
 NO UNDEFINED SYMBOLS

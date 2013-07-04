@@ -527,35 +527,6 @@
  290              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_int.h"
  291              		.file 9 "./lib/USB_Functions/usb_istr.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 stm32f10x_it.c
-  R:\TEMP\ccvcTEuL.s:19     .text.NMI_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:24     .text.NMI_Handler:0000000000000000 NMI_Handler
-  R:\TEMP\ccvcTEuL.s:37     .text.HardFault_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:42     .text.HardFault_Handler:0000000000000000 HardFault_Handler
-  R:\TEMP\ccvcTEuL.s:57     .text.MemManage_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:62     .text.MemManage_Handler:0000000000000000 MemManage_Handler
-  R:\TEMP\ccvcTEuL.s:77     .text.BusFault_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:82     .text.BusFault_Handler:0000000000000000 BusFault_Handler
-  R:\TEMP\ccvcTEuL.s:97     .text.UsageFault_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:102    .text.UsageFault_Handler:0000000000000000 UsageFault_Handler
-  R:\TEMP\ccvcTEuL.s:117    .text.SVC_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:122    .text.SVC_Handler:0000000000000000 SVC_Handler
-  R:\TEMP\ccvcTEuL.s:135    .text.DebugMon_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:140    .text.DebugMon_Handler:0000000000000000 DebugMon_Handler
-  R:\TEMP\ccvcTEuL.s:153    .text.PendSV_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:158    .text.PendSV_Handler:0000000000000000 PendSV_Handler
-  R:\TEMP\ccvcTEuL.s:171    .text.SysTick_Handler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:176    .text.SysTick_Handler:0000000000000000 SysTick_Handler
-  R:\TEMP\ccvcTEuL.s:221    .text.SysTick_Handler:0000000000000024 $d
-  R:\TEMP\ccvcTEuL.s:227    .text.USB_HP_CAN1_TX_IRQHandler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:232    .text.USB_HP_CAN1_TX_IRQHandler:0000000000000000 USB_HP_CAN1_TX_IRQHandler
-  R:\TEMP\ccvcTEuL.s:247    .text.USB_LP_CAN1_RX0_IRQHandler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:252    .text.USB_LP_CAN1_RX0_IRQHandler:0000000000000000 USB_LP_CAN1_RX0_IRQHandler
-  R:\TEMP\ccvcTEuL.s:267    .text.RTC_IRQHandler:0000000000000000 $t
-  R:\TEMP\ccvcTEuL.s:272    .text.RTC_IRQHandler:0000000000000000 RTC_IRQHandler
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 stm32f10x_it.c
   R:\TEMP\cc4RFwTh.s:19     .text.NMI_Handler:00000000 $t
   R:\TEMP\cc4RFwTh.s:24     .text.NMI_Handler:00000000 NMI_Handler
@@ -583,7 +554,6 @@ DEFINED SYMBOLS
   R:\TEMP\cc4RFwTh.s:267    .text.RTC_IRQHandler:00000000 $t
   R:\TEMP\cc4RFwTh.s:272    .text.RTC_IRQHandler:00000000 RTC_IRQHandler
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 PWR_Mgn

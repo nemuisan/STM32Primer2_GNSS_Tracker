@@ -642,33 +642,6 @@
  418              		.file 7 "./lib/CMSIS/Include/core_cm3.h"
  419              		.file 8 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-ea
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 diskio_sdio.c
-  R:\TEMP\ccejkFKk.s:19     .text.disk_initialize:0000000000000000 $t
-  R:\TEMP\ccejkFKk.s:24     .text.disk_initialize:0000000000000000 disk_initialize
-  R:\TEMP\ccejkFKk.s:61     .text.disk_initialize:000000000000001c $d
-  R:\TEMP\ccejkFKk.s:66     .text.disk_status:0000000000000000 $t
-  R:\TEMP\ccejkFKk.s:71     .text.disk_status:0000000000000000 disk_status
-  R:\TEMP\ccejkFKk.s:109    .text.disk_status:000000000000001c $d
-  R:\TEMP\ccejkFKk.s:115    .text.disk_read:0000000000000000 $t
-  R:\TEMP\ccejkFKk.s:120    .text.disk_read:0000000000000000 disk_read
-  R:\TEMP\ccejkFKk.s:178    .text.disk_write:0000000000000000 $t
-  R:\TEMP\ccejkFKk.s:183    .text.disk_write:0000000000000000 disk_write
-  R:\TEMP\ccejkFKk.s:241    .text.disk_ioctl:0000000000000000 $t
-  R:\TEMP\ccejkFKk.s:246    .text.disk_ioctl:0000000000000000 disk_ioctl
-  R:\TEMP\ccejkFKk.s:269    .text.disk_ioctl:0000000000000012 $d
-  R:\TEMP\ccejkFKk.s:283    .text.disk_ioctl:0000000000000020 $t
-  R:\TEMP\ccejkFKk.s:373    .text.disk_ioctl:0000000000000078 $d
-  R:\TEMP\ccejkFKk.s:398    .bss.SDCardStatus:0000000000000000 SDCardStatus
-  R:\TEMP\ccejkFKk.s:404    .data.Status:0000000000000000 Status
-  R:\TEMP\ccejkFKk.s:382    .bss.Timer1:0000000000000000 $d
-  R:\TEMP\ccejkFKk.s:385    .bss.Timer1:0000000000000000 Timer1
-  R:\TEMP\ccejkFKk.s:388    .bss.Timer2:0000000000000000 $d
-  R:\TEMP\ccejkFKk.s:391    .bss.Timer2:0000000000000000 Timer2
-  R:\TEMP\ccejkFKk.s:394    .bss.SDCardStatus:0000000000000000 $d
-  R:\TEMP\ccejkFKk.s:409    .data.Stat:0000000000000000 Stat
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 diskio_sdio.c
   R:\TEMP\cckUbhQD.s:19     .text.disk_initialize:00000000 $t
   R:\TEMP\cckUbhQD.s:24     .text.disk_initialize:00000000 disk_initialize
@@ -694,7 +667,6 @@ DEFINED SYMBOLS
   R:\TEMP\cckUbhQD.s:394    .bss.SDCardStatus:00000000 $d
   R:\TEMP\cckUbhQD.s:409    .data.Stat:00000000 Stat
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 SD_Init

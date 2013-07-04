@@ -1344,60 +1344,6 @@
  872              		.file 12 "./lib/USB_Functions/usb_prop.h"
  873              		.file 13 "./lib/STM32_USB-FS-Device_Driver/inc/usb_sil.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 usb_msc_prop.c
-  R:\TEMP\ccLWLvKT.s:19     .text.Mass_SetDeviceAddress:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:24     .text.Mass_SetDeviceAddress:0000000000000000 Mass_SetDeviceAddress
-  R:\TEMP\ccLWLvKT.s:40     .text.Mass_SetDeviceAddress:0000000000000008 $d
-  R:\TEMP\ccLWLvKT.s:45     .text.Mass_Status_In:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:50     .text.Mass_Status_In:0000000000000000 Mass_Status_In
-  R:\TEMP\ccLWLvKT.s:62     .text.Mass_Status_Out:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:67     .text.Mass_Status_Out:0000000000000000 Mass_Status_Out
-  R:\TEMP\ccLWLvKT.s:80     .text.Mass_Get_Interface_Setting:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:85     .text.Mass_Get_Interface_Setting:0000000000000000 Mass_Get_Interface_Setting
-  R:\TEMP\ccLWLvKT.s:112    .text.Get_Max_Lun:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:117    .text.Get_Max_Lun:0000000000000000 Get_Max_Lun
-  R:\TEMP\ccLWLvKT.s:143    .text.Get_Max_Lun:0000000000000010 $d
-  R:\TEMP\ccLWLvKT.s:149    .text.Mass_GetStringDescriptor:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:154    .text.Mass_GetStringDescriptor:0000000000000000 Mass_GetStringDescriptor
-  R:\TEMP\ccLWLvKT.s:186    .text.Mass_GetStringDescriptor:0000000000000018 $d
-  R:\TEMP\ccLWLvKT.s:192    .text.Mass_GetConfigDescriptor:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:197    .text.Mass_GetConfigDescriptor:0000000000000000 Mass_GetConfigDescriptor
-  R:\TEMP\ccLWLvKT.s:214    .text.Mass_GetConfigDescriptor:0000000000000008 $d
-  R:\TEMP\ccLWLvKT.s:219    .text.Mass_GetDeviceDescriptor:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:224    .text.Mass_GetDeviceDescriptor:0000000000000000 Mass_GetDeviceDescriptor
-  R:\TEMP\ccLWLvKT.s:241    .text.Mass_GetDeviceDescriptor:0000000000000008 $d
-  R:\TEMP\ccLWLvKT.s:246    .text.Mass_ClearFeature:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:251    .text.Mass_ClearFeature:0000000000000000 Mass_ClearFeature
-  R:\TEMP\ccLWLvKT.s:275    .text.Mass_ClearFeature:0000000000000014 $d
-  R:\TEMP\ccLWLvKT.s:281    .text.Mass_Reset:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:286    .text.Mass_Reset:0000000000000000 Mass_Reset
-  R:\TEMP\ccLWLvKT.s:438    .text.Mass_Reset:00000000000000e4 $d
-  R:\TEMP\ccLWLvKT.s:450    .text.Mass_init:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:455    .text.Mass_init:0000000000000000 Mass_init
-  R:\TEMP\ccLWLvKT.s:489    .text.Mass_init:0000000000000024 $d
-  R:\TEMP\ccLWLvKT.s:496    .text.Mass_NoData_Setup:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:501    .text.Mass_NoData_Setup:0000000000000000 Mass_NoData_Setup
-  R:\TEMP\ccLWLvKT.s:559    .text.Mass_NoData_Setup:000000000000003c $d
-  R:\TEMP\ccLWLvKT.s:567    .text.Mass_SetConfiguration:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:572    .text.Mass_SetConfiguration:0000000000000000 Mass_SetConfiguration
-  R:\TEMP\ccLWLvKT.s:611    .text.Mass_SetConfiguration:0000000000000024 $d
-  R:\TEMP\ccLWLvKT.s:620    .text.Mass_Data_Setup:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:625    .text.Mass_Data_Setup:0000000000000000 Mass_Data_Setup
-  R:\TEMP\ccLWLvKT.s:676    .text.Mass_Data_Setup:0000000000000030 $d
-  R:\TEMP\ccLWLvKT.s:682    .text.MSC_SetStructure:0000000000000000 $t
-  R:\TEMP\ccLWLvKT.s:687    .text.MSC_SetStructure:0000000000000000 MSC_SetStructure
-  R:\TEMP\ccLWLvKT.s:773    .text.MSC_SetStructure:0000000000000070 $d
-  R:\TEMP\ccLWLvKT.s:828    .data.MSC_String_Descriptor:0000000000000000 MSC_String_Descriptor
-  R:\TEMP\ccLWLvKT.s:849    .data.MSC_Config_Descriptor:0000000000000000 MSC_Config_Descriptor
-  R:\TEMP\ccLWLvKT.s:819    .data.MSC_Device_Descriptor:0000000000000000 MSC_Device_Descriptor
-  R:\TEMP\ccLWLvKT.s:858    .bss.Max_Lun:0000000000000000 Max_Lun
-  R:\TEMP\ccLWLvKT.s:815    .data.MSC_Device_Descriptor:0000000000000000 $d
-  R:\TEMP\ccLWLvKT.s:824    .data.MSC_String_Descriptor:0000000000000000 $d
-  R:\TEMP\ccLWLvKT.s:845    .data.MSC_Config_Descriptor:0000000000000000 $d
-  R:\TEMP\ccLWLvKT.s:854    .bss.Max_Lun:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 usb_msc_prop.c
   R:\TEMP\ccXs8jby.s:19     .text.Mass_SetDeviceAddress:00000000 $t
   R:\TEMP\ccXs8jby.s:24     .text.Mass_SetDeviceAddress:00000000 Mass_SetDeviceAddress
@@ -1450,7 +1396,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccXs8jby.s:845    .data.MSC_Config_Descriptor:00000000 $d
   R:\TEMP\ccXs8jby.s:854    .bss.Max_Lun:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 bDeviceState

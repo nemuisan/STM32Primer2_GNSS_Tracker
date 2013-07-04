@@ -2018,55 +2018,6 @@
  1110              		.file 14 "./inc/uart_support_gps.h"
  1111              		.file 15 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 gps_support.c
-  R:\TEMP\cc4jsCTZ.s:19     .text.get_line_GPS:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:23     .text.get_line_GPS:0000000000000000 get_line_GPS
-  R:\TEMP\cc4jsCTZ.s:77     .text.get_line_GPS:000000000000002c $d
-  R:\TEMP\cc4jsCTZ.s:83     .text.gp_val:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:87     .text.gp_val:0000000000000000 gp_val
-  R:\TEMP\cc4jsCTZ.s:129    .text.gp_comp.constprop.0:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:133    .text.gp_comp.constprop.0:0000000000000000 gp_comp.constprop.0
-  R:\TEMP\cc4jsCTZ.s:165    .text.gp_comp.constprop.0:0000000000000014 $d
-  R:\TEMP\cc4jsCTZ.s:170    .text.gp_col.constprop.1:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:174    .text.gp_col.constprop.1:0000000000000000 gp_col.constprop.1
-  R:\TEMP\cc4jsCTZ.s:221    .text.gp_col.constprop.1:0000000000000020 $d
-  R:\TEMP\cc4jsCTZ.s:226    .text.xSend_MTKCmd:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:230    .text.xSend_MTKCmd:0000000000000000 xSend_MTKCmd
-  R:\TEMP\cc4jsCTZ.s:318    .text.xSend_MTKCmd:0000000000000054 $d
-  R:\TEMP\cc4jsCTZ.s:325    .text.ff_support_timerproc:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:330    .text.ff_support_timerproc:0000000000000000 ff_support_timerproc
-  R:\TEMP\cc4jsCTZ.s:346    .text.ff_support_timerproc:000000000000000c $d
-  R:\TEMP\cc4jsCTZ.s:351    .text.get_fattime:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:356    .text.get_fattime:0000000000000000 get_fattime
-  R:\TEMP\cc4jsCTZ.s:399    .text.get_fattime:0000000000000034 $d
-  R:\TEMP\cc4jsCTZ.s:404    .text.ChkAckLimit:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:409    .text.ChkAckLimit:0000000000000000 ChkAckLimit
-  R:\TEMP\cc4jsCTZ.s:441    .text.ChkAckLimit:0000000000000020 $d
-  R:\TEMP\cc4jsCTZ.s:448    .text.ShutFileClose:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:453    .text.ShutFileClose:0000000000000000 ShutFileClose
-  R:\TEMP\cc4jsCTZ.s:480    .text.ShutFileClose:0000000000000014 $d
-  R:\TEMP\cc4jsCTZ.s:486    .text.gps_task:0000000000000000 $t
-  R:\TEMP\cc4jsCTZ.s:491    .text.gps_task:0000000000000000 gps_task
-  R:\TEMP\cc4jsCTZ.s:959    .text.gps_task:000000000000028c $d
-  R:\TEMP\cc4jsCTZ.s:1024   .bss.ack_limit:0000000000000000 ack_limit
-  R:\TEMP\cc4jsCTZ.s:1088   .bss.l_stat:0000000000000000 l_stat
-  R:\TEMP\cc4jsCTZ.s:1095   .bss.Timer:0000000000000000 Timer
-  R:\TEMP\cc4jsCTZ.s:1075   .bss.Buff:0000000000000000 Buff
-  R:\TEMP\cc4jsCTZ.s:1081   .bss.Dir:0000000000000000 Dir
-  R:\TEMP\cc4jsCTZ.s:1003   .bss.File1:0000000000000000 File1
-  R:\TEMP\cc4jsCTZ.s:1010   .bss.Fatfs:0000000000000000 Fatfs
-  R:\TEMP\cc4jsCTZ.s:1017   .bss.ff_rtc:0000000000000000 ff_rtc
-  R:\TEMP\cc4jsCTZ.s:999    .bss.File1:0000000000000000 $d
-  R:\TEMP\cc4jsCTZ.s:1006   .bss.Fatfs:0000000000000000 $d
-  R:\TEMP\cc4jsCTZ.s:1013   .bss.ff_rtc:0000000000000000 $d
-  R:\TEMP\cc4jsCTZ.s:1020   .bss.ack_limit:0000000000000000 $d
-  R:\TEMP\cc4jsCTZ.s:1076   .bss.Buff:0000000000000000 $d
-  R:\TEMP\cc4jsCTZ.s:1078   .bss.Dir:0000000000000000 $d
-  R:\TEMP\cc4jsCTZ.s:1084   .bss.l_stat:0000000000000000 $d
-  R:\TEMP\cc4jsCTZ.s:1091   .bss.Timer:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 gps_support.c
   R:\TEMP\ccnfcddo.s:19     .text.get_line_GPS:00000000 $t
   R:\TEMP\ccnfcddo.s:23     .text.get_line_GPS:00000000 get_line_GPS
@@ -2114,7 +2065,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccnfcddo.s:1084   .bss.l_stat:00000000 $d
   R:\TEMP\ccnfcddo.s:1091   .bss.Timer:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 xfunc_in

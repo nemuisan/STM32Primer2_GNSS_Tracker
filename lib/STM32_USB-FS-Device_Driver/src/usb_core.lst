@@ -3178,63 +3178,6 @@
  1914              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
  1915              		.file 9 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 usb_core.c
-  R:\TEMP\cckG1eAB.s:19     .text.Standard_GetConfiguration:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:24     .text.Standard_GetConfiguration:0000000000000000 Standard_GetConfiguration
-  R:\TEMP\cckG1eAB.s:62     .text.Standard_GetConfiguration:000000000000001c $d
-  R:\TEMP\cckG1eAB.s:68     .text.Standard_GetInterface:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:73     .text.Standard_GetInterface:0000000000000000 Standard_GetInterface
-  R:\TEMP\cckG1eAB.s:110    .text.Standard_GetInterface:000000000000001c $d
-  R:\TEMP\cckG1eAB.s:116    .text.Standard_GetStatus:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:121    .text.Standard_GetStatus:0000000000000000 Standard_GetStatus
-  R:\TEMP\cckG1eAB.s:241    .text.Standard_GetStatus:0000000000000090 $d
-  R:\TEMP\cckG1eAB.s:248    .text.DataStageIn:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:252    .text.DataStageIn:0000000000000000 DataStageIn
-  R:\TEMP\cckG1eAB.s:376    .text.DataStageIn:0000000000000088 $d
-  R:\TEMP\cckG1eAB.s:386    .text.Standard_SetConfiguration:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:391    .text.Standard_SetConfiguration:0000000000000000 Standard_SetConfiguration
-  R:\TEMP\cckG1eAB.s:437    .text.Standard_SetConfiguration:000000000000002c $d
-  R:\TEMP\cckG1eAB.s:444    .text.Standard_SetInterface:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:449    .text.Standard_SetInterface:0000000000000000 Standard_SetInterface
-  R:\TEMP\cckG1eAB.s:509    .text.Standard_SetInterface:000000000000003c $d
-  R:\TEMP\cckG1eAB.s:516    .text.Standard_ClearFeature:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:521    .text.Standard_ClearFeature:0000000000000000 Standard_ClearFeature
-  R:\TEMP\cckG1eAB.s:674    .text.Standard_ClearFeature:00000000000000cc $d
-  R:\TEMP\cckG1eAB.s:682    .text.Standard_SetEndPointFeature:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:687    .text.Standard_SetEndPointFeature:0000000000000000 Standard_SetEndPointFeature
-  R:\TEMP\cckG1eAB.s:787    .text.Standard_SetEndPointFeature:0000000000000080 $d
-  R:\TEMP\cckG1eAB.s:794    .text.Standard_SetDeviceFeature:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:799    .text.Standard_SetDeviceFeature:0000000000000000 Standard_SetDeviceFeature
-  R:\TEMP\cckG1eAB.s:828    .text.Standard_SetDeviceFeature:000000000000001c $d
-  R:\TEMP\cckG1eAB.s:834    .text.Standard_GetDescriptorData:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:839    .text.Standard_GetDescriptorData:0000000000000000 Standard_GetDescriptorData
-  R:\TEMP\cckG1eAB.s:873    .text.Standard_GetDescriptorData:0000000000000018 $d
-  R:\TEMP\cckG1eAB.s:878    .text.Post0_Process:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:883    .text.Post0_Process:0000000000000000 Post0_Process
-  R:\TEMP\cckG1eAB.s:923    .text.Post0_Process:0000000000000030 $d
-  R:\TEMP\cckG1eAB.s:931    .text.Out0_Process:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:936    .text.Out0_Process:0000000000000000 Out0_Process
-  R:\TEMP\cckG1eAB.s:1105   .text.Out0_Process:00000000000000bc $d
-  R:\TEMP\cckG1eAB.s:1115   .text.Setup0_Process:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:1120   .text.Setup0_Process:0000000000000000 Setup0_Process
-  R:\TEMP\cckG1eAB.s:1608   .text.Setup0_Process:0000000000000258 $d
-  R:\TEMP\cckG1eAB.s:1618   .text.Setup0_Process:0000000000000274 $t
-  R:\TEMP\cckG1eAB.s:1708   .text.Setup0_Process:00000000000002e0 $d
-  R:\TEMP\cckG1eAB.s:1720   .text.SetDeviceAddress:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:1725   .text.SetDeviceAddress:0000000000000000 SetDeviceAddress
-  R:\TEMP\cckG1eAB.s:1777   .text.SetDeviceAddress:0000000000000038 $d
-  R:\TEMP\cckG1eAB.s:1783   .text.In0_Process:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:1788   .text.In0_Process:0000000000000000 In0_Process
-  R:\TEMP\cckG1eAB.s:1868   .text.In0_Process:0000000000000054 $d
-  R:\TEMP\cckG1eAB.s:1875   .text.NOP_Process:0000000000000000 $t
-  R:\TEMP\cckG1eAB.s:1880   .text.NOP_Process:0000000000000000 NOP_Process
-  R:\TEMP\cckG1eAB.s:1897   .bss.Data_Mul_MaxPacketSize:0000000000000000 Data_Mul_MaxPacketSize
-  R:\TEMP\cckG1eAB.s:1904   .bss.StatusInfo:0000000000000000 StatusInfo
-  R:\TEMP\cckG1eAB.s:1898   .bss.Data_Mul_MaxPacketSize:0000000000000000 $d
-  R:\TEMP\cckG1eAB.s:1900   .bss.StatusInfo:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 usb_core.c
   R:\TEMP\ccpdxqnc.s:19     .text.Standard_GetConfiguration:00000000 $t
   R:\TEMP\ccpdxqnc.s:24     .text.Standard_GetConfiguration:00000000 Standard_GetConfiguration
@@ -3290,7 +3233,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccpdxqnc.s:1898   .bss.Data_Mul_MaxPacketSize:00000000 $d
   R:\TEMP\ccpdxqnc.s:1900   .bss.StatusInfo:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 pInformation

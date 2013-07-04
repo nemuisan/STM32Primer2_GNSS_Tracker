@@ -590,32 +590,6 @@
  363              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
  364              		.file 9 "./inc/hw_config.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 usb_pwr.c
-  R:\TEMP\ccO9rjQT.s:19     .text.PowerOn:0000000000000000 $t
-  R:\TEMP\ccO9rjQT.s:24     .text.PowerOn:0000000000000000 PowerOn
-  R:\TEMP\ccO9rjQT.s:62     .text.PowerOn:0000000000000024 $d
-  R:\TEMP\ccO9rjQT.s:69     .text.PowerOff:0000000000000000 $t
-  R:\TEMP\ccO9rjQT.s:74     .text.PowerOff:0000000000000000 PowerOff
-  R:\TEMP\ccO9rjQT.s:108    .text.PowerOff:000000000000001c $d
-  R:\TEMP\ccO9rjQT.s:114    .text.Suspend:0000000000000000 $t
-  R:\TEMP\ccO9rjQT.s:119    .text.Suspend:0000000000000000 Suspend
-  R:\TEMP\ccO9rjQT.s:148    .text.Suspend:000000000000001c $d
-  R:\TEMP\ccO9rjQT.s:153    .text.Resume_Init:0000000000000000 $t
-  R:\TEMP\ccO9rjQT.s:158    .text.Resume_Init:0000000000000000 Resume_Init
-  R:\TEMP\ccO9rjQT.s:189    .text.Resume_Init:000000000000001c $d
-  R:\TEMP\ccO9rjQT.s:194    .text.Resume:0000000000000000 $t
-  R:\TEMP\ccO9rjQT.s:199    .text.Resume:0000000000000000 Resume
-  R:\TEMP\ccO9rjQT.s:224    .text.Resume:0000000000000016 $d
-  R:\TEMP\ccO9rjQT.s:230    .text.Resume:000000000000001c $t
-  R:\TEMP\ccO9rjQT.s:330    .text.Resume:0000000000000080 $d
-  R:\TEMP\ccO9rjQT.s:342    .bss.ResumeS:0000000000000000 ResumeS
-  R:\TEMP\ccO9rjQT.s:347    .data.fSuspendEnabled:0000000000000000 fSuspendEnabled
-  R:\TEMP\ccO9rjQT.s:353    .bss.bDeviceState:0000000000000000 bDeviceState
-  R:\TEMP\ccO9rjQT.s:343    .bss.ResumeS:0000000000000000 $d
-  R:\TEMP\ccO9rjQT.s:350    .bss.bDeviceState:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 usb_pwr.c
   R:\TEMP\ccsa7BA8.s:19     .text.PowerOn:00000000 $t
   R:\TEMP\ccsa7BA8.s:24     .text.PowerOn:00000000 PowerOn
@@ -640,7 +614,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccsa7BA8.s:343    .bss.ResumeS:00000000 $d
   R:\TEMP\ccsa7BA8.s:350    .bss.bDeviceState:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 USB_Cable_Config

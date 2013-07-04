@@ -976,36 +976,6 @@
  345              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  346              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 stm32f10x_pwr.c
-  R:\TEMP\ccuFJVTl.s:19     .text.PWR_DeInit:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:24     .text.PWR_DeInit:0000000000000000 PWR_DeInit
-  R:\TEMP\ccuFJVTl.s:53     .text.PWR_BackupAccessCmd:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:58     .text.PWR_BackupAccessCmd:0000000000000000 PWR_BackupAccessCmd
-  R:\TEMP\ccuFJVTl.s:73     .text.PWR_BackupAccessCmd:0000000000000008 $d
-  R:\TEMP\ccuFJVTl.s:78     .text.PWR_PVDCmd:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:83     .text.PWR_PVDCmd:0000000000000000 PWR_PVDCmd
-  R:\TEMP\ccuFJVTl.s:98     .text.PWR_PVDCmd:0000000000000008 $d
-  R:\TEMP\ccuFJVTl.s:103    .text.PWR_PVDLevelConfig:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:108    .text.PWR_PVDLevelConfig:0000000000000000 PWR_PVDLevelConfig
-  R:\TEMP\ccuFJVTl.s:133    .text.PWR_PVDLevelConfig:0000000000000010 $d
-  R:\TEMP\ccuFJVTl.s:138    .text.PWR_WakeUpPinCmd:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:143    .text.PWR_WakeUpPinCmd:0000000000000000 PWR_WakeUpPinCmd
-  R:\TEMP\ccuFJVTl.s:158    .text.PWR_WakeUpPinCmd:0000000000000008 $d
-  R:\TEMP\ccuFJVTl.s:163    .text.PWR_EnterSTOPMode:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:168    .text.PWR_EnterSTOPMode:0000000000000000 PWR_EnterSTOPMode
-  R:\TEMP\ccuFJVTl.s:230    .text.PWR_EnterSTOPMode:000000000000002c $d
-  R:\TEMP\ccuFJVTl.s:236    .text.PWR_EnterSTANDBYMode:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:241    .text.PWR_EnterSTANDBYMode:0000000000000000 PWR_EnterSTANDBYMode
-  R:\TEMP\ccuFJVTl.s:273    .text.PWR_EnterSTANDBYMode:0000000000000020 $d
-  R:\TEMP\ccuFJVTl.s:281    .text.PWR_GetFlagStatus:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:286    .text.PWR_GetFlagStatus:0000000000000000 PWR_GetFlagStatus
-  R:\TEMP\ccuFJVTl.s:309    .text.PWR_GetFlagStatus:0000000000000010 $d
-  R:\TEMP\ccuFJVTl.s:314    .text.PWR_ClearFlag:0000000000000000 $t
-  R:\TEMP\ccuFJVTl.s:319    .text.PWR_ClearFlag:0000000000000000 PWR_ClearFlag
-  R:\TEMP\ccuFJVTl.s:337    .text.PWR_ClearFlag:000000000000000c $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 stm32f10x_pwr.c
   R:\TEMP\ccvYkky3.s:19     .text.PWR_DeInit:00000000 $t
   R:\TEMP\ccvYkky3.s:24     .text.PWR_DeInit:00000000 PWR_DeInit
@@ -1034,7 +1004,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccvYkky3.s:319    .text.PWR_ClearFlag:00000000 PWR_ClearFlag
   R:\TEMP\ccvYkky3.s:337    .text.PWR_ClearFlag:0000000c $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 RCC_APB1PeriphResetCmd

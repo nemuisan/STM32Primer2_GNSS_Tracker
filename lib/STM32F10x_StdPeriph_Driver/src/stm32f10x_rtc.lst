@@ -851,52 +851,6 @@
  531              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  532              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 stm32f10x_rtc.c
-  R:\TEMP\cctFIgdv.s:19     .text.RTC_ITConfig:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:24     .text.RTC_ITConfig:0000000000000000 RTC_ITConfig
-  R:\TEMP\cctFIgdv.s:54     .text.RTC_ITConfig:0000000000000014 $d
-  R:\TEMP\cctFIgdv.s:59     .text.RTC_EnterConfigMode:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:64     .text.RTC_EnterConfigMode:0000000000000000 RTC_EnterConfigMode
-  R:\TEMP\cctFIgdv.s:81     .text.RTC_EnterConfigMode:0000000000000010 $d
-  R:\TEMP\cctFIgdv.s:86     .text.RTC_ExitConfigMode:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:91     .text.RTC_ExitConfigMode:0000000000000000 RTC_ExitConfigMode
-  R:\TEMP\cctFIgdv.s:109    .text.RTC_ExitConfigMode:0000000000000010 $d
-  R:\TEMP\cctFIgdv.s:114    .text.RTC_GetCounter:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:119    .text.RTC_GetCounter:0000000000000000 RTC_GetCounter
-  R:\TEMP\cctFIgdv.s:160    .text.RTC_GetCounter:0000000000000024 $d
-  R:\TEMP\cctFIgdv.s:165    .text.RTC_SetCounter:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:170    .text.RTC_SetCounter:0000000000000000 RTC_SetCounter
-  R:\TEMP\cctFIgdv.s:202    .text.RTC_SetCounter:000000000000001c $d
-  R:\TEMP\cctFIgdv.s:207    .text.RTC_SetPrescaler:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:212    .text.RTC_SetPrescaler:0000000000000000 RTC_SetPrescaler
-  R:\TEMP\cctFIgdv.s:244    .text.RTC_SetPrescaler:000000000000001c $d
-  R:\TEMP\cctFIgdv.s:249    .text.RTC_SetAlarm:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:254    .text.RTC_SetAlarm:0000000000000000 RTC_SetAlarm
-  R:\TEMP\cctFIgdv.s:286    .text.RTC_SetAlarm:000000000000001c $d
-  R:\TEMP\cctFIgdv.s:291    .text.RTC_GetDivider:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:296    .text.RTC_GetDivider:0000000000000000 RTC_GetDivider
-  R:\TEMP\cctFIgdv.s:319    .text.RTC_GetDivider:0000000000000014 $d
-  R:\TEMP\cctFIgdv.s:324    .text.RTC_WaitForLastTask:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:329    .text.RTC_WaitForLastTask:0000000000000000 RTC_WaitForLastTask
-  R:\TEMP\cctFIgdv.s:349    .text.RTC_WaitForLastTask:0000000000000010 $d
-  R:\TEMP\cctFIgdv.s:354    .text.RTC_WaitForSynchro:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:359    .text.RTC_WaitForSynchro:0000000000000000 RTC_WaitForSynchro
-  R:\TEMP\cctFIgdv.s:386    .text.RTC_WaitForSynchro:0000000000000020 $d
-  R:\TEMP\cctFIgdv.s:391    .text.RTC_GetFlagStatus:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:396    .text.RTC_GetFlagStatus:0000000000000000 RTC_GetFlagStatus
-  R:\TEMP\cctFIgdv.s:419    .text.RTC_GetFlagStatus:0000000000000010 $d
-  R:\TEMP\cctFIgdv.s:424    .text.RTC_ClearFlag:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:429    .text.RTC_ClearFlag:0000000000000000 RTC_ClearFlag
-  R:\TEMP\cctFIgdv.s:448    .text.RTC_ClearFlag:0000000000000010 $d
-  R:\TEMP\cctFIgdv.s:453    .text.RTC_GetITStatus:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:458    .text.RTC_GetITStatus:0000000000000000 RTC_GetITStatus
-  R:\TEMP\cctFIgdv.s:495    .text.RTC_GetITStatus:0000000000000020 $d
-  R:\TEMP\cctFIgdv.s:500    .text.RTC_ClearITPendingBit:0000000000000000 $t
-  R:\TEMP\cctFIgdv.s:505    .text.RTC_ClearITPendingBit:0000000000000000 RTC_ClearITPendingBit
-  R:\TEMP\cctFIgdv.s:524    .text.RTC_ClearITPendingBit:0000000000000010 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 stm32f10x_rtc.c
   R:\TEMP\cceUZjSf.s:19     .text.RTC_ITConfig:00000000 $t
   R:\TEMP\cceUZjSf.s:24     .text.RTC_ITConfig:00000000 RTC_ITConfig
@@ -941,6 +895,5 @@ DEFINED SYMBOLS
   R:\TEMP\cceUZjSf.s:505    .text.RTC_ClearITPendingBit:00000000 RTC_ClearITPendingBit
   R:\TEMP\cceUZjSf.s:524    .text.RTC_ClearITPendingBit:00000010 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 NO UNDEFINED SYMBOLS

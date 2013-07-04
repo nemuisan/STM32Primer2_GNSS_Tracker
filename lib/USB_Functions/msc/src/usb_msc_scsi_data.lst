@@ -125,18 +125,6 @@
  137              		.file 3 "lib/USB_Functions/msc/src/usb_msc_scsi_data.c"
  138              		.file 4 "./inc/systick.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 usb_msc_scsi_data.c
-  R:\TEMP\ccmS91IV.s:75     .data.ReadFormatCapacity_Data:0000000000000000 ReadFormatCapacity_Data
-  R:\TEMP\ccmS91IV.s:40     .bss.ReadCapacity10_Data:0000000000000000 ReadCapacity10_Data
-  R:\TEMP\ccmS91IV.s:45     .data.Scsi_Sense_Data:0000000000000000 Scsi_Sense_Data
-  R:\TEMP\ccmS91IV.s:28     .data.Mode_Sense10_data:0000000000000000 Mode_Sense10_data
-  R:\TEMP\ccmS91IV.s:67     .data.Mode_Sense6_data:0000000000000000 Mode_Sense6_data
-  R:\TEMP\ccmS91IV.s:96     .data.Standard_Inquiry_Data:0000000000000000 Standard_Inquiry_Data
-  R:\TEMP\ccmS91IV.s:91     .bss.Page00_Inquiry_Data:0000000000000000 Page00_Inquiry_Data
-  R:\TEMP\ccmS91IV.s:41     .bss.ReadCapacity10_Data:0000000000000000 $d
-  R:\TEMP\ccmS91IV.s:92     .bss.Page00_Inquiry_Data:0000000000000000 $d
-=======
                             *ABS*:00000000 usb_msc_scsi_data.c
   R:\TEMP\ccuUaOEM.s:75     .data.ReadFormatCapacity_Data:00000000 ReadFormatCapacity_Data
   R:\TEMP\ccuUaOEM.s:40     .bss.ReadCapacity10_Data:00000000 ReadCapacity10_Data
@@ -147,6 +135,5 @@ DEFINED SYMBOLS
   R:\TEMP\ccuUaOEM.s:91     .bss.Page00_Inquiry_Data:00000000 Page00_Inquiry_Data
   R:\TEMP\ccuUaOEM.s:41     .bss.ReadCapacity10_Data:00000000 $d
   R:\TEMP\ccuUaOEM.s:92     .bss.Page00_Inquiry_Data:00000000 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 NO UNDEFINED SYMBOLS

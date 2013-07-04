@@ -2643,86 +2643,6 @@
  1402              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
  1403              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 stm32f10x_adc.c
-  R:\TEMP\ccPdSI7B.s:19     .text.ADC_DeInit:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:24     .text.ADC_DeInit:0000000000000000 ADC_DeInit
-  R:\TEMP\ccPdSI7B.s:91     .text.ADC_DeInit:0000000000000050 $d
-  R:\TEMP\ccPdSI7B.s:98     .text.ADC_Init:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:103    .text.ADC_Init:0000000000000000 ADC_Init
-  R:\TEMP\ccPdSI7B.s:172    .text.ADC_Init:0000000000000044 $d
-  R:\TEMP\ccPdSI7B.s:177    .text.ADC_StructInit:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:182    .text.ADC_StructInit:0000000000000000 ADC_StructInit
-  R:\TEMP\ccPdSI7B.s:209    .text.ADC_Cmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:214    .text.ADC_Cmd:0000000000000000 ADC_Cmd
-  R:\TEMP\ccPdSI7B.s:242    .text.ADC_DMACmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:247    .text.ADC_DMACmd:0000000000000000 ADC_DMACmd
-  R:\TEMP\ccPdSI7B.s:275    .text.ADC_ITConfig:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:280    .text.ADC_ITConfig:0000000000000000 ADC_ITConfig
-  R:\TEMP\ccPdSI7B.s:310    .text.ADC_ResetCalibration:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:315    .text.ADC_ResetCalibration:0000000000000000 ADC_ResetCalibration
-  R:\TEMP\ccPdSI7B.s:332    .text.ADC_GetResetCalibrationStatus:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:337    .text.ADC_GetResetCalibrationStatus:0000000000000000 ADC_GetResetCalibrationStatus
-  R:\TEMP\ccPdSI7B.s:357    .text.ADC_StartCalibration:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:362    .text.ADC_StartCalibration:0000000000000000 ADC_StartCalibration
-  R:\TEMP\ccPdSI7B.s:379    .text.ADC_GetCalibrationStatus:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:384    .text.ADC_GetCalibrationStatus:0000000000000000 ADC_GetCalibrationStatus
-  R:\TEMP\ccPdSI7B.s:404    .text.ADC_SoftwareStartConvCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:409    .text.ADC_SoftwareStartConvCmd:0000000000000000 ADC_SoftwareStartConvCmd
-  R:\TEMP\ccPdSI7B.s:437    .text.ADC_GetSoftwareStartConvStatus:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:442    .text.ADC_GetSoftwareStartConvStatus:0000000000000000 ADC_GetSoftwareStartConvStatus
-  R:\TEMP\ccPdSI7B.s:462    .text.ADC_DiscModeChannelCountConfig:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:467    .text.ADC_DiscModeChannelCountConfig:0000000000000000 ADC_DiscModeChannelCountConfig
-  R:\TEMP\ccPdSI7B.s:495    .text.ADC_DiscModeCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:500    .text.ADC_DiscModeCmd:0000000000000000 ADC_DiscModeCmd
-  R:\TEMP\ccPdSI7B.s:528    .text.ADC_RegularChannelConfig:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:533    .text.ADC_RegularChannelConfig:0000000000000000 ADC_RegularChannelConfig
-  R:\TEMP\ccPdSI7B.s:682    .text.ADC_ExternalTrigConvCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:687    .text.ADC_ExternalTrigConvCmd:0000000000000000 ADC_ExternalTrigConvCmd
-  R:\TEMP\ccPdSI7B.s:715    .text.ADC_GetConversionValue:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:720    .text.ADC_GetConversionValue:0000000000000000 ADC_GetConversionValue
-  R:\TEMP\ccPdSI7B.s:738    .text.ADC_GetDualModeConversionValue:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:743    .text.ADC_GetDualModeConversionValue:0000000000000000 ADC_GetDualModeConversionValue
-  R:\TEMP\ccPdSI7B.s:758    .text.ADC_GetDualModeConversionValue:0000000000000008 $d
-  R:\TEMP\ccPdSI7B.s:763    .text.ADC_AutoInjectedConvCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:768    .text.ADC_AutoInjectedConvCmd:0000000000000000 ADC_AutoInjectedConvCmd
-  R:\TEMP\ccPdSI7B.s:796    .text.ADC_InjectedDiscModeCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:801    .text.ADC_InjectedDiscModeCmd:0000000000000000 ADC_InjectedDiscModeCmd
-  R:\TEMP\ccPdSI7B.s:829    .text.ADC_ExternalTrigInjectedConvConfig:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:834    .text.ADC_ExternalTrigInjectedConvConfig:0000000000000000 ADC_ExternalTrigInjectedConvConfig
-  R:\TEMP\ccPdSI7B.s:859    .text.ADC_ExternalTrigInjectedConvCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:864    .text.ADC_ExternalTrigInjectedConvCmd:0000000000000000 ADC_ExternalTrigInjectedConvCmd
-  R:\TEMP\ccPdSI7B.s:892    .text.ADC_SoftwareStartInjectedConvCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:897    .text.ADC_SoftwareStartInjectedConvCmd:0000000000000000 ADC_SoftwareStartInjectedConvCmd
-  R:\TEMP\ccPdSI7B.s:925    .text.ADC_GetSoftwareStartInjectedConvCmdStatus:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:930    .text.ADC_GetSoftwareStartInjectedConvCmdStatus:0000000000000000 ADC_GetSoftwareStartInjectedConvCmdStatus
-  R:\TEMP\ccPdSI7B.s:950    .text.ADC_InjectedChannelConfig:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:955    .text.ADC_InjectedChannelConfig:0000000000000000 ADC_InjectedChannelConfig
-  R:\TEMP\ccPdSI7B.s:1052   .text.ADC_InjectedSequencerLengthConfig:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1057   .text.ADC_InjectedSequencerLengthConfig:0000000000000000 ADC_InjectedSequencerLengthConfig
-  R:\TEMP\ccPdSI7B.s:1085   .text.ADC_SetInjectedOffset:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1090   .text.ADC_SetInjectedOffset:0000000000000000 ADC_SetInjectedOffset
-  R:\TEMP\ccPdSI7B.s:1124   .text.ADC_GetInjectedConversionValue:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1129   .text.ADC_GetInjectedConversionValue:0000000000000000 ADC_GetInjectedConversionValue
-  R:\TEMP\ccPdSI7B.s:1165   .text.ADC_AnalogWatchdogCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1170   .text.ADC_AnalogWatchdogCmd:0000000000000000 ADC_AnalogWatchdogCmd
-  R:\TEMP\ccPdSI7B.s:1196   .text.ADC_AnalogWatchdogThresholdsConfig:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1201   .text.ADC_AnalogWatchdogThresholdsConfig:0000000000000000 ADC_AnalogWatchdogThresholdsConfig
-  R:\TEMP\ccPdSI7B.s:1218   .text.ADC_AnalogWatchdogSingleChannelConfig:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1223   .text.ADC_AnalogWatchdogSingleChannelConfig:0000000000000000 ADC_AnalogWatchdogSingleChannelConfig
-  R:\TEMP\ccPdSI7B.s:1248   .text.ADC_TempSensorVrefintCmd:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1253   .text.ADC_TempSensorVrefintCmd:0000000000000000 ADC_TempSensorVrefintCmd
-  R:\TEMP\ccPdSI7B.s:1281   .text.ADC_TempSensorVrefintCmd:0000000000000014 $d
-  R:\TEMP\ccPdSI7B.s:1286   .text.ADC_GetFlagStatus:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1291   .text.ADC_GetFlagStatus:0000000000000000 ADC_GetFlagStatus
-  R:\TEMP\ccPdSI7B.s:1314   .text.ADC_ClearFlag:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1319   .text.ADC_ClearFlag:0000000000000000 ADC_ClearFlag
-  R:\TEMP\ccPdSI7B.s:1336   .text.ADC_GetITStatus:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1341   .text.ADC_GetITStatus:0000000000000000 ADC_GetITStatus
-  R:\TEMP\ccPdSI7B.s:1375   .text.ADC_ClearITPendingBit:0000000000000000 $t
-  R:\TEMP\ccPdSI7B.s:1380   .text.ADC_ClearITPendingBit:0000000000000000 ADC_ClearITPendingBit
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 stm32f10x_adc.c
   R:\TEMP\ccdIZ2Vc.s:19     .text.ADC_DeInit:00000000 $t
   R:\TEMP\ccdIZ2Vc.s:24     .text.ADC_DeInit:00000000 ADC_DeInit
@@ -2801,7 +2721,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccdIZ2Vc.s:1375   .text.ADC_ClearITPendingBit:00000000 $t
   R:\TEMP\ccdIZ2Vc.s:1380   .text.ADC_ClearITPendingBit:00000000 ADC_ClearITPendingBit
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphResetCmd

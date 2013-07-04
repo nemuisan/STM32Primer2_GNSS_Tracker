@@ -506,28 +506,6 @@
  332              		.file 3 "./lib/ff/sdio_stm32f1.h"
  333              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 usb_msc_mass_mal.c
-  R:\TEMP\ccUVBn5q.s:19     .text.MAL_Init:0000000000000000 $t
-  R:\TEMP\ccUVBn5q.s:24     .text.MAL_Init:0000000000000000 MAL_Init
-  R:\TEMP\ccUVBn5q.s:59     .text.MAL_Init:0000000000000018 $d
-  R:\TEMP\ccUVBn5q.s:64     .text.MAL_Write:0000000000000000 $t
-  R:\TEMP\ccUVBn5q.s:69     .text.MAL_Write:0000000000000000 MAL_Write
-  R:\TEMP\ccUVBn5q.s:109    .text.MAL_Write:0000000000000020 $d
-  R:\TEMP\ccUVBn5q.s:114    .text.MAL_Read:0000000000000000 $t
-  R:\TEMP\ccUVBn5q.s:119    .text.MAL_Read:0000000000000000 MAL_Read
-  R:\TEMP\ccUVBn5q.s:159    .text.MAL_Read:0000000000000020 $d
-  R:\TEMP\ccUVBn5q.s:164    .text.MAL_GetStatus:0000000000000000 $t
-  R:\TEMP\ccUVBn5q.s:169    .text.MAL_GetStatus:0000000000000000 MAL_GetStatus
-  R:\TEMP\ccUVBn5q.s:297    .text.MAL_GetStatus:00000000000000b4 $d
-  R:\TEMP\ccUVBn5q.s:327    .bss.Mass_Block_Count:0000000000000000 Mass_Block_Count
-  R:\TEMP\ccUVBn5q.s:313    .bss.Mass_Block_Size:0000000000000000 Mass_Block_Size
-  R:\TEMP\ccUVBn5q.s:320    .bss.Mass_Memory_Size:0000000000000000 Mass_Memory_Size
-  R:\TEMP\ccUVBn5q.s:309    .bss.Mass_Block_Size:0000000000000000 $d
-  R:\TEMP\ccUVBn5q.s:316    .bss.Mass_Memory_Size:0000000000000000 $d
-  R:\TEMP\ccUVBn5q.s:323    .bss.Mass_Block_Count:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 usb_msc_mass_mal.c
   R:\TEMP\cci2610m.s:19     .text.MAL_Init:00000000 $t
   R:\TEMP\cci2610m.s:24     .text.MAL_Init:00000000 MAL_Init
@@ -548,7 +526,6 @@ DEFINED SYMBOLS
   R:\TEMP\cci2610m.s:316    .bss.Mass_Memory_Size:00000000 $d
   R:\TEMP\cci2610m.s:323    .bss.Mass_Block_Count:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 SD_Init

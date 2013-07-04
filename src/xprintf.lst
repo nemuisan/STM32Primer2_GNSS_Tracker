@@ -1592,45 +1592,6 @@
  1192              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdarg.h"
  1193              		.file 3 "<built-in>"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 xprintf.c
-  R:\TEMP\ccrttJ7b.s:19     .text.xputc:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:24     .text.xputc:0000000000000000 xputc
-  R:\TEMP\ccrttJ7b.s:72     .text.xputc:0000000000000028 $d
-  R:\TEMP\ccrttJ7b.s:80     .text.xputs:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:85     .text.xputs:0000000000000000 xputs
-  R:\TEMP\ccrttJ7b.s:117    .text.xvprintf:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:121    .text.xvprintf:0000000000000000 xvprintf
-  R:\TEMP\ccrttJ7b.s:505    .text.xfputs:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:510    .text.xfputs:0000000000000000 xfputs
-  R:\TEMP\ccrttJ7b.s:551    .text.xfputs:0000000000000020 $d
-  R:\TEMP\ccrttJ7b.s:556    .text.xprintf:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:561    .text.xprintf:0000000000000000 xprintf
-  R:\TEMP\ccrttJ7b.s:597    .text.xsprintf:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:602    .text.xsprintf:0000000000000000 xsprintf
-  R:\TEMP\ccrttJ7b.s:648    .text.xsprintf:0000000000000028 $d
-  R:\TEMP\ccrttJ7b.s:653    .text.xfprintf:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:658    .text.xfprintf:0000000000000000 xfprintf
-  R:\TEMP\ccrttJ7b.s:703    .text.xfprintf:0000000000000024 $d
-  R:\TEMP\ccrttJ7b.s:708    .text.put_dump:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:713    .text.put_dump:0000000000000000 put_dump
-  R:\TEMP\ccrttJ7b.s:822    .text.put_dump:0000000000000078 $d
-  R:\TEMP\ccrttJ7b.s:830    .text.xgets:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:835    .text.xgets:0000000000000000 xgets
-  R:\TEMP\ccrttJ7b.s:924    .text.xgets:0000000000000054 $d
-  R:\TEMP\ccrttJ7b.s:929    .text.xfgets:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:934    .text.xfgets:0000000000000000 xfgets
-  R:\TEMP\ccrttJ7b.s:968    .text.xfgets:0000000000000014 $d
-  R:\TEMP\ccrttJ7b.s:973    .text.xatoi:0000000000000000 $t
-  R:\TEMP\ccrttJ7b.s:978    .text.xatoi:0000000000000000 xatoi
-  R:\TEMP\ccrttJ7b.s:1188   .bss.xfunc_in:0000000000000000 xfunc_in
-  R:\TEMP\ccrttJ7b.s:1172   .bss.xfunc_out:0000000000000000 xfunc_out
-  R:\TEMP\ccrttJ7b.s:1161   .bss.outptr:0000000000000000 $d
-  R:\TEMP\ccrttJ7b.s:1165   .bss.outptr:0000000000000000 outptr
-  R:\TEMP\ccrttJ7b.s:1168   .bss.xfunc_out:0000000000000000 $d
-  R:\TEMP\ccrttJ7b.s:1184   .bss.xfunc_in:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 xprintf.c
   R:\TEMP\cccT4Y7j.s:19     .text.xputc:00000000 $t
   R:\TEMP\cccT4Y7j.s:24     .text.xputc:00000000 xputc
@@ -1668,6 +1629,5 @@ DEFINED SYMBOLS
   R:\TEMP\cccT4Y7j.s:1168   .bss.xfunc_out:00000000 $d
   R:\TEMP\cccT4Y7j.s:1184   .bss.xfunc_in:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 NO UNDEFINED SYMBOLS

@@ -592,36 +592,6 @@
  450              		.file 9 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
  451              		.file 10 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 usb_msc_memory.c
-  R:\TEMP\ccqwBvqG.s:19     .text.Read_Memory:0000000000000000 $t
-  R:\TEMP\ccqwBvqG.s:24     .text.Read_Memory:0000000000000000 Read_Memory
-  R:\TEMP\ccqwBvqG.s:178    .text.Read_Memory:00000000000000d0 $d
-  R:\TEMP\ccqwBvqG.s:192    .text.Write_Memory:0000000000000000 $t
-  R:\TEMP\ccqwBvqG.s:197    .text.Write_Memory:0000000000000000 Write_Memory
-  R:\TEMP\ccqwBvqG.s:351    .text.Write_Memory:00000000000000d0 $d
-  R:\TEMP\ccqwBvqG.s:439    .bss.TransferState:0000000000000000 TransferState
-  R:\TEMP\ccqwBvqG.s:405    .bss.Data_Buffer:0000000000000000 Data_Buffer
-  R:\TEMP\ccqwBvqG.s:412    .bss.Idx:0000000000000000 Idx
-  R:\TEMP\ccqwBvqG.s:398    .bss.Counter:0000000000000000 Counter
-  R:\TEMP\ccqwBvqG.s:384    .bss.Block_offset:0000000000000000 Block_offset
-  R:\TEMP\ccqwBvqG.s:391    .bss.Block_Read_count:0000000000000000 Block_Read_count
-  R:\TEMP\ccqwBvqG.s:373    .bss.W_Length.8931:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:377    .bss.W_Length.8931:0000000000000000 W_Length.8931
-  R:\TEMP\ccqwBvqG.s:380    .bss.Block_offset:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:387    .bss.Block_Read_count:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:394    .bss.Counter:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:401    .bss.Data_Buffer:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:408    .bss.Idx:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:415    .bss.Length.8924:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:419    .bss.Length.8924:0000000000000000 Length.8924
-  R:\TEMP\ccqwBvqG.s:422    .bss.Offset.8923:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:426    .bss.Offset.8923:0000000000000000 Offset.8923
-  R:\TEMP\ccqwBvqG.s:429    .bss.W_Offset.8930:0000000000000000 $d
-  R:\TEMP\ccqwBvqG.s:433    .bss.W_Offset.8930:0000000000000000 W_Offset.8930
-  R:\TEMP\ccqwBvqG.s:440    .bss.TransferState:0000000000000000 $d
-                     .debug_frame:0000000000000010 $d
-=======
                             *ABS*:00000000 usb_msc_memory.c
   R:\TEMP\ccG66jby.s:19     .text.Read_Memory:00000000 $t
   R:\TEMP\ccG66jby.s:24     .text.Read_Memory:00000000 Read_Memory
@@ -650,7 +620,6 @@ DEFINED SYMBOLS
   R:\TEMP\ccG66jby.s:433    .bss.W_Offset.8930:00000000 W_Offset.8930
   R:\TEMP\ccG66jby.s:440    .bss.TransferState:00000000 $d
                      .debug_frame:00000010 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 UNDEFINED SYMBOLS
 MAL_Read

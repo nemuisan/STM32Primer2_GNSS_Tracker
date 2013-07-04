@@ -2607,16 +2607,9 @@
  2610              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  2611              		.file 3 "lib/FONTX2/src/font_if_datatable.c"
 DEFINED SYMBOLS
-<<<<<<< HEAD
-                            *ABS*:0000000000000000 font_if_datatable.c
-  R:\TEMP\ccBfHbQj.s:2605   .bss.Mplus_Ank:0000000000000000 Mplus_Ank
-  R:\TEMP\ccBfHbQj.s:23     .rodata.font_table_ank:0000000000000000 font_table_ank
-  R:\TEMP\ccBfHbQj.s:2602   .bss.Mplus_Ank:0000000000000000 $d
-=======
                             *ABS*:00000000 font_if_datatable.c
   R:\TEMP\ccfcxeur.s:2605   .bss.Mplus_Ank:00000000 Mplus_Ank
   R:\TEMP\ccfcxeur.s:23     .rodata.font_table_ank:00000000 font_table_ank
   R:\TEMP\ccfcxeur.s:2602   .bss.Mplus_Ank:00000000 $d
->>>>>>> 7820716ed17a15e922f343f0b27ed105efa46fbb
 
 NO UNDEFINED SYMBOLS
