@@ -27,12 +27,12 @@
    2:src/main.c    **** /*!
    3:src/main.c    **** 	@file			main.c
    4:src/main.c    **** 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-   5:src/main.c    ****     @version        12.00
-   6:src/main.c    ****     @date           2013.04.10
+   5:src/main.c    ****     @version        13.50
+   6:src/main.c    ****     @date           2013.07.01
    7:src/main.c    **** 	@brief          STM32 Primer2 GPS Tr@cker.
    8:src/main.c    **** 
    9:src/main.c    ****     @section HISTORY
-  10:src/main.c    **** 		2013.04.10	V12.00	See Whatnew.txt
+  10:src/main.c    **** 		2013.07.01	V13.50	See Whatnew.txt
   11:src/main.c    **** 
   12:src/main.c    ****     @section LICENSE
   13:src/main.c    **** 		BSD License. See Copyright.txt
@@ -132,7 +132,7 @@
   78              		.loc 1 55 0
   79 0040 03E0     		b	.L4
   80              	.L3:
-  51:src/main.c    **** 	for(; mscnt<3; mscnt++){
+  51:src/main.c    **** 		_delay_ms(1000);
   81              		.loc 1 51 0
   82 0042 0199     		ldr	r1, [sp, #4]
   83 0044 4A1C     		adds	r2, r1, #1
@@ -335,7 +335,7 @@
  242 0000 00000000 		.space	4
  243              		.text
  244              	.Letext0:
- 245              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 245              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  246              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  247              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  248              		.file 5 "./inc/systick.h"
@@ -347,15 +347,15 @@
  254              		.file 11 "./lib/USB_Functions/msc/inc/usb_msc_prop.h"
  255              		.file 12 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 main.c
-  R:\TEMP\cceC8gy4.s:19     .text.startup.main:00000000 $t
-  R:\TEMP\cceC8gy4.s:24     .text.startup.main:00000000 main
-  R:\TEMP\cceC8gy4.s:202    .text.startup.main:000000e4 $d
-  R:\TEMP\cceC8gy4.s:234    .bss.xTask:00000000 xTask
-  R:\TEMP\cceC8gy4.s:241    .bss.TaskStat:00000000 TaskStat
-  R:\TEMP\cceC8gy4.s:230    .bss.xTask:00000000 $d
-  R:\TEMP\cceC8gy4.s:237    .bss.TaskStat:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 main.c
+  R:\TEMP\ccK8mqoG.s:19     .text.startup.main:0000000000000000 $t
+  R:\TEMP\ccK8mqoG.s:24     .text.startup.main:0000000000000000 main
+  R:\TEMP\ccK8mqoG.s:202    .text.startup.main:00000000000000e4 $d
+  R:\TEMP\ccK8mqoG.s:234    .bss.xTask:0000000000000000 xTask
+  R:\TEMP\ccK8mqoG.s:241    .bss.TaskStat:0000000000000000 TaskStat
+  R:\TEMP\ccK8mqoG.s:230    .bss.xTask:0000000000000000 $d
+  R:\TEMP\ccK8mqoG.s:237    .bss.TaskStat:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 Set_System

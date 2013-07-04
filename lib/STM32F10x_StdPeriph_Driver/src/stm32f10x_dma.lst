@@ -455,7 +455,7 @@
  217              		.loc 1 241 0
  218 002a 8B6A     		ldr	r3, [r1, #40]
  219 002c 1A43     		orrs	r2, r2, r3
- 238:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_dma.c ****   tmpreg |= DMA_InitStruct->DMA_DIR | DMA_InitStruct->DMA_Mode |
+ 238:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_dma.c ****             DMA_InitStruct->DMA_PeripheralInc | DMA_InitStruct->DMA_MemoryInc |
  220              		.loc 1 238 0
  221 002e 3243     		orrs	r2, r2, r6
  222              	.LVL13:
@@ -661,7 +661,7 @@
  341:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_dma.c ****     DMAy_Channelx->CCR |= DMA_IT;
  329              		.loc 1 341 0
  330 0000 0368     		ldr	r3, [r0, #0]
- 338:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_dma.c ****   if (NewState != DISABLE)
+ 338:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_dma.c ****   {
  331              		.loc 1 338 0
  332 0002 0AB1     		cbz	r2, .L29
  333              		.loc 1 341 0
@@ -1216,39 +1216,39 @@
  531              	.LFE66:
  533              		.text
  534              	.Letext0:
- 535              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 535              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  536              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  537              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_dma.h"
  538              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 stm32f10x_dma.c
-  R:\TEMP\ccF9G9sx.s:19     .text.DMA_DeInit:00000000 $t
-  R:\TEMP\ccF9G9sx.s:24     .text.DMA_DeInit:00000000 DMA_DeInit
-  R:\TEMP\ccF9G9sx.s:158    .text.DMA_DeInit:000000c0 $d
-  R:\TEMP\ccF9G9sx.s:174    .text.DMA_Init:00000000 $t
-  R:\TEMP\ccF9G9sx.s:179    .text.DMA_Init:00000000 DMA_Init
-  R:\TEMP\ccF9G9sx.s:241    .text.DMA_StructInit:00000000 $t
-  R:\TEMP\ccF9G9sx.s:246    .text.DMA_StructInit:00000000 DMA_StructInit
-  R:\TEMP\ccF9G9sx.s:282    .text.DMA_Cmd:00000000 $t
-  R:\TEMP\ccF9G9sx.s:287    .text.DMA_Cmd:00000000 DMA_Cmd
-  R:\TEMP\ccF9G9sx.s:316    .text.DMA_ITConfig:00000000 $t
-  R:\TEMP\ccF9G9sx.s:321    .text.DMA_ITConfig:00000000 DMA_ITConfig
-  R:\TEMP\ccF9G9sx.s:349    .text.DMA_SetCurrDataCounter:00000000 $t
-  R:\TEMP\ccF9G9sx.s:354    .text.DMA_SetCurrDataCounter:00000000 DMA_SetCurrDataCounter
-  R:\TEMP\ccF9G9sx.s:369    .text.DMA_GetCurrDataCounter:00000000 $t
-  R:\TEMP\ccF9G9sx.s:374    .text.DMA_GetCurrDataCounter:00000000 DMA_GetCurrDataCounter
-  R:\TEMP\ccF9G9sx.s:392    .text.DMA_GetFlagStatus:00000000 $t
-  R:\TEMP\ccF9G9sx.s:397    .text.DMA_GetFlagStatus:00000000 DMA_GetFlagStatus
-  R:\TEMP\ccF9G9sx.s:426    .text.DMA_GetFlagStatus:00000014 $d
-  R:\TEMP\ccF9G9sx.s:432    .text.DMA_ClearFlag:00000000 $t
-  R:\TEMP\ccF9G9sx.s:437    .text.DMA_ClearFlag:00000000 DMA_ClearFlag
-  R:\TEMP\ccF9G9sx.s:457    .text.DMA_ClearFlag:0000000c $d
-  R:\TEMP\ccF9G9sx.s:463    .text.DMA_GetITStatus:00000000 $t
-  R:\TEMP\ccF9G9sx.s:468    .text.DMA_GetITStatus:00000000 DMA_GetITStatus
-  R:\TEMP\ccF9G9sx.s:497    .text.DMA_GetITStatus:00000014 $d
-  R:\TEMP\ccF9G9sx.s:503    .text.DMA_ClearITPendingBit:00000000 $t
-  R:\TEMP\ccF9G9sx.s:508    .text.DMA_ClearITPendingBit:00000000 DMA_ClearITPendingBit
-  R:\TEMP\ccF9G9sx.s:528    .text.DMA_ClearITPendingBit:0000000c $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 stm32f10x_dma.c
+  R:\TEMP\ccZAaDMV.s:19     .text.DMA_DeInit:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:24     .text.DMA_DeInit:0000000000000000 DMA_DeInit
+  R:\TEMP\ccZAaDMV.s:158    .text.DMA_DeInit:00000000000000c0 $d
+  R:\TEMP\ccZAaDMV.s:174    .text.DMA_Init:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:179    .text.DMA_Init:0000000000000000 DMA_Init
+  R:\TEMP\ccZAaDMV.s:241    .text.DMA_StructInit:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:246    .text.DMA_StructInit:0000000000000000 DMA_StructInit
+  R:\TEMP\ccZAaDMV.s:282    .text.DMA_Cmd:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:287    .text.DMA_Cmd:0000000000000000 DMA_Cmd
+  R:\TEMP\ccZAaDMV.s:316    .text.DMA_ITConfig:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:321    .text.DMA_ITConfig:0000000000000000 DMA_ITConfig
+  R:\TEMP\ccZAaDMV.s:349    .text.DMA_SetCurrDataCounter:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:354    .text.DMA_SetCurrDataCounter:0000000000000000 DMA_SetCurrDataCounter
+  R:\TEMP\ccZAaDMV.s:369    .text.DMA_GetCurrDataCounter:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:374    .text.DMA_GetCurrDataCounter:0000000000000000 DMA_GetCurrDataCounter
+  R:\TEMP\ccZAaDMV.s:392    .text.DMA_GetFlagStatus:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:397    .text.DMA_GetFlagStatus:0000000000000000 DMA_GetFlagStatus
+  R:\TEMP\ccZAaDMV.s:426    .text.DMA_GetFlagStatus:0000000000000014 $d
+  R:\TEMP\ccZAaDMV.s:432    .text.DMA_ClearFlag:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:437    .text.DMA_ClearFlag:0000000000000000 DMA_ClearFlag
+  R:\TEMP\ccZAaDMV.s:457    .text.DMA_ClearFlag:000000000000000c $d
+  R:\TEMP\ccZAaDMV.s:463    .text.DMA_GetITStatus:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:468    .text.DMA_GetITStatus:0000000000000000 DMA_GetITStatus
+  R:\TEMP\ccZAaDMV.s:497    .text.DMA_GetITStatus:0000000000000014 $d
+  R:\TEMP\ccZAaDMV.s:503    .text.DMA_ClearITPendingBit:0000000000000000 $t
+  R:\TEMP\ccZAaDMV.s:508    .text.DMA_ClearITPendingBit:0000000000000000 DMA_ClearITPendingBit
+  R:\TEMP\ccZAaDMV.s:528    .text.DMA_ClearITPendingBit:000000000000000c $d
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

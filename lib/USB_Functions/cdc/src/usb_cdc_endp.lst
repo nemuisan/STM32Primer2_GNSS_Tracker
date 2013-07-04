@@ -128,7 +128,7 @@
   57              		.loc 1 72 0
   58 001c 2068     		ldr	r0, [r4, #0]
   59 001e 81B2     		uxth	r1, r0
-  71:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		  if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE){
+  71:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_ptr = USART_Rx_ptr_out;
   60              		.loc 1 71 0
   61 0020 05D9     		bls	.L6
   62              	.LVL0:
@@ -216,7 +216,7 @@
  120              		.loc 1 95 0
  121 006a 1868     		ldr	r0, [r3, #0]
  122 006c 81B2     		uxth	r1, r0
-  94:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 		if (USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE){
+  94:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** 			USB_Tx_ptr = USART_Rx_ptr_out;
  123              		.loc 1 94 0
  124 006e 05D9     		bls	.L9
  125              	.LVL10:
@@ -405,7 +405,7 @@
  151:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** }
  253              		.loc 1 151 0
  254 004e BDE81040 		pop	{r4, lr}
- 149:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   SetEPRxValid(ENDP3);
+ 149:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****  
  255              		.loc 1 149 0
  256 0052 FFF7FEBF 		b	SetEPRxValid
  257              	.LVL33:
@@ -467,7 +467,7 @@
  174:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****   }  
  175:lib/USB_Functions/cdc/src/usb_cdc_endp.c **** }
  293              		.loc 1 175 0
- 172:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****       Handle_USBAsynchXfer();
+ 172:lib/USB_Functions/cdc/src/usb_cdc_endp.c ****     }
  294              		.loc 1 172 0
  295 0018 FFF7FEBF 		b	Handle_USBAsynchXfer
  296              	.LVL34:
@@ -489,35 +489,35 @@
  313      00000000 
  313      00000000 
  313      00000000 
- 314              		.section	.bss.FrameCount.8826,"aw",%nobits
+ 314              		.section	.bss.FrameCount.8848,"aw",%nobits
  315              		.align	2
  316              		.set	.LANCHOR1,. + 0
- 319              	FrameCount.8826:
+ 319              	FrameCount.8848:
  320 0000 00000000 		.space	4
  321              		.text
  322              	.Letext0:
- 323              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 323              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  324              		.file 3 "./lib/USB_Functions/usb_pwr.h"
  325              		.file 4 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
  326              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
  327              		.file 6 "./inc/systick.h"
  328              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_cdc_endp.c
-  R:\TEMP\ccIiykEe.s:19     .text.CDC_EP1_IN_Callback:00000000 $t
-  R:\TEMP\ccIiykEe.s:24     .text.CDC_EP1_IN_Callback:00000000 CDC_EP1_IN_Callback
-  R:\TEMP\ccIiykEe.s:175    .text.CDC_EP1_IN_Callback:000000a8 $d
-  R:\TEMP\ccIiykEe.s:185    .text.CDC_EP3_OUT_Callback:00000000 $t
-  R:\TEMP\ccIiykEe.s:190    .text.CDC_EP3_OUT_Callback:00000000 CDC_EP3_OUT_Callback
-  R:\TEMP\ccIiykEe.s:261    .text.CDC_EP3_OUT_Callback:00000058 $d
-  R:\TEMP\ccIiykEe.s:266    .text.CDC_SOF_Callback:00000000 $t
-  R:\TEMP\ccIiykEe.s:271    .text.CDC_SOF_Callback:00000000 CDC_SOF_Callback
-  R:\TEMP\ccIiykEe.s:302    .text.CDC_SOF_Callback:00000020 $d
-  R:\TEMP\ccIiykEe.s:312    .bss.USB_Rx_Buffer:00000000 USB_Rx_Buffer
-  R:\TEMP\ccIiykEe.s:313    .bss.USB_Rx_Buffer:00000000 $d
-  R:\TEMP\ccIiykEe.s:315    .bss.FrameCount.8826:00000000 $d
-  R:\TEMP\ccIiykEe.s:319    .bss.FrameCount.8826:00000000 FrameCount.8826
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_cdc_endp.c
+  R:\TEMP\ccs33tbc.s:19     .text.CDC_EP1_IN_Callback:0000000000000000 $t
+  R:\TEMP\ccs33tbc.s:24     .text.CDC_EP1_IN_Callback:0000000000000000 CDC_EP1_IN_Callback
+  R:\TEMP\ccs33tbc.s:175    .text.CDC_EP1_IN_Callback:00000000000000a8 $d
+  R:\TEMP\ccs33tbc.s:185    .text.CDC_EP3_OUT_Callback:0000000000000000 $t
+  R:\TEMP\ccs33tbc.s:190    .text.CDC_EP3_OUT_Callback:0000000000000000 CDC_EP3_OUT_Callback
+  R:\TEMP\ccs33tbc.s:261    .text.CDC_EP3_OUT_Callback:0000000000000058 $d
+  R:\TEMP\ccs33tbc.s:266    .text.CDC_SOF_Callback:0000000000000000 $t
+  R:\TEMP\ccs33tbc.s:271    .text.CDC_SOF_Callback:0000000000000000 CDC_SOF_Callback
+  R:\TEMP\ccs33tbc.s:302    .text.CDC_SOF_Callback:0000000000000020 $d
+  R:\TEMP\ccs33tbc.s:312    .bss.USB_Rx_Buffer:0000000000000000 USB_Rx_Buffer
+  R:\TEMP\ccs33tbc.s:313    .bss.USB_Rx_Buffer:0000000000000000 $d
+  R:\TEMP\ccs33tbc.s:315    .bss.FrameCount.8848:0000000000000000 $d
+  R:\TEMP\ccs33tbc.s:319    .bss.FrameCount.8848:0000000000000000 FrameCount.8848
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 UserToPMABufferCopy

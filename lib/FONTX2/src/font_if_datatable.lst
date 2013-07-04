@@ -2604,12 +2604,12 @@
  2607              		.text
  2608              	.Letext0:
  2609              		.file 1 "./lib/FONTX2/inc/font_if.h"
- 2610              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 2610              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  2611              		.file 3 "lib/FONTX2/src/font_if_datatable.c"
 DEFINED SYMBOLS
-                            *ABS*:00000000 font_if_datatable.c
-  R:\TEMP\cca2mQIH.s:2605   .bss.Mplus_Ank:00000000 Mplus_Ank
-  R:\TEMP\cca2mQIH.s:23     .rodata.font_table_ank:00000000 font_table_ank
-  R:\TEMP\cca2mQIH.s:2602   .bss.Mplus_Ank:00000000 $d
+                            *ABS*:0000000000000000 font_if_datatable.c
+  R:\TEMP\ccBfHbQj.s:2605   .bss.Mplus_Ank:0000000000000000 Mplus_Ank
+  R:\TEMP\ccBfHbQj.s:23     .rodata.font_table_ank:0000000000000000 font_table_ank
+  R:\TEMP\ccBfHbQj.s:2602   .bss.Mplus_Ank:0000000000000000 $d
 
 NO UNDEFINED SYMBOLS

@@ -274,15 +274,15 @@
  154 0014 4FF40051 		mov	r1, #8192
  155 0018 04E0     		b	.L24
  156              	.L6:
- 117:src/cdc_support.c **** 			USART_InitStructure.USART_StopBits = USART_StopBits_1;
+ 117:src/cdc_support.c **** 			break;
  157              		.loc 1 117 0
  158 001a 3348     		ldr	r0, .L29+4
  159 001c C480     		strh	r4, [r0, #6]	@ movhi
- 118:src/cdc_support.c **** 			break;
+ 118:src/cdc_support.c **** 		case 1:
  160              		.loc 1 118 0
  161 001e 03E0     		b	.L9
  162              	.L7:
- 120:src/cdc_support.c **** 			USART_InitStructure.USART_StopBits = USART_StopBits_1_5;
+ 120:src/cdc_support.c **** 			break;
  163              		.loc 1 120 0
  164 0020 4FF44051 		mov	r1, #12288
  165              	.L24:
@@ -321,15 +321,15 @@
  179 0038 4FF4C061 		mov	r1, #1536
  180 003c 04E0     		b	.L25
  181              	.L12:
- 136:src/cdc_support.c **** 			USART_InitStructure.USART_Parity = USART_Parity_No;
+ 136:src/cdc_support.c **** 			break;
  182              		.loc 1 136 0
  183 003e 2A4B     		ldr	r3, .L29+4
  184 0040 1C81     		strh	r4, [r3, #8]	@ movhi
- 137:src/cdc_support.c **** 			break;
+ 137:src/cdc_support.c **** 		case 1:
  185              		.loc 1 137 0
  186 0042 03E0     		b	.L15
  187              	.L13:
- 139:src/cdc_support.c **** 			USART_InitStructure.USART_Parity = USART_Parity_Even;
+ 139:src/cdc_support.c **** 			break;
  188              		.loc 1 139 0
  189 0044 4FF48061 		mov	r1, #1024
  190              	.L25:
@@ -567,7 +567,7 @@
  343              	.LVL18:
  344 001c 0028     		cmp	r0, #0
  345 001e F9D0     		beq	.L33
- 220:src/cdc_support.c **** 	for (i = 0; i < Nb_bytes; i++)
+ 220:src/cdc_support.c **** 	{
  346              		.loc 1 220 0
  347 0020 0134     		adds	r4, r4, #1
  348              	.LVL19:
@@ -697,7 +697,7 @@
  427              		.loc 1 270 0
  428 004c 403C     		subs	r4, r4, #64
  429 004e 0C60     		str	r4, [r1, #0]
- 267:src/cdc_support.c **** 		USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
+ 267:src/cdc_support.c ****       
  430              		.loc 1 267 0
  431 0050 4025     		movs	r5, #64
  432 0052 04E0     		b	.L49
@@ -945,7 +945,7 @@
  364:src/cdc_support.c ****  }
  584              		.loc 1 364 0
  585 001e BDE80840 		pop	{r3, lr}
- 362:src/cdc_support.c **** 		(void)USART_ReceiveData(USART2);
+ 362:src/cdc_support.c **** 	}
  586              		.loc 1 362 0
  587 0022 FFF7FEBF 		b	USART_ReceiveData
  588              	.LVL35:
@@ -1045,39 +1045,39 @@
  656              	.LVL45:
  657              	.LBB4:
  658              	.LBB5:
- 330:src/cdc_support.c **** 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+ 330:src/cdc_support.c **** 
  659              		.loc 1 330 0
  660 003a 4FF4C060 		mov	r0, #1536
  661 003e FFF7FEFF 		bl	NVIC_PriorityGroupConfig
  662              	.LVL46:
- 332:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+ 332:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
  663              		.loc 1 332 0
  664 0042 1423     		movs	r3, #20
  665 0044 8DF80430 		strb	r3, [sp, #4]
- 333:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+ 333:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
  666              		.loc 1 333 0
  667 0048 0124     		movs	r4, #1
  668 004a 8DF80540 		strb	r4, [sp, #5]
- 334:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+ 334:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
  669              		.loc 1 334 0
  670 004e 0025     		movs	r5, #0
  671 0050 8DF80650 		strb	r5, [sp, #6]
- 335:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+ 335:src/cdc_support.c **** 	NVIC_Init(&NVIC_InitStructure);
  672              		.loc 1 335 0
  673 0054 8DF80740 		strb	r4, [sp, #7]
- 336:src/cdc_support.c **** 	NVIC_Init(&NVIC_InitStructure);
+ 336:src/cdc_support.c **** 
  674              		.loc 1 336 0
  675 0058 01A8     		add	r0, sp, #4
  676 005a FFF7FEFF 		bl	NVIC_Init
  677              	.LVL47:
- 339:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+ 339:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
  678              		.loc 1 339 0
  679 005e 2620     		movs	r0, #38
  680 0060 8DF80400 		strb	r0, [sp, #4]
- 340:src/cdc_support.c **** 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+ 340:src/cdc_support.c **** 	NVIC_Init(&NVIC_InitStructure);
  681              		.loc 1 340 0
  682 0064 8DF80550 		strb	r5, [sp, #5]
- 341:src/cdc_support.c **** 	NVIC_Init(&NVIC_InitStructure);
+ 341:src/cdc_support.c ****   
  683              		.loc 1 341 0
  684 0068 01A8     		add	r0, sp, #4
  685 006a FFF7FEFF 		bl	NVIC_Init
@@ -1158,7 +1158,7 @@
  761 0000 00000000 		.space	4
  762              		.text
  763              	.Letext0:
- 764              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 764              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  765              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  766              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  767              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
@@ -1178,41 +1178,41 @@
  781              		.file 19 "./lib/display/drivers/inc/st7732.h"
  782              		.file 20 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 cdc_support.c
-  R:\TEMP\ccW8diFe.s:19     .text.USART_Config_Default:00000000 $t
-  R:\TEMP\ccW8diFe.s:24     .text.USART_Config_Default:00000000 USART_Config_Default
-  R:\TEMP\ccW8diFe.s:118    .text.USART_Config_Default:00000080 $d
-  R:\TEMP\ccW8diFe.s:124    .text.USART_Config:00000000 $t
-  R:\TEMP\ccW8diFe.s:129    .text.USART_Config:00000000 USART_Config
-  R:\TEMP\ccW8diFe.s:295    .text.USART_Config:000000e4 $d
-  R:\TEMP\ccW8diFe.s:303    .text.USB_To_USART_Send_Data:00000000 $t
-  R:\TEMP\ccW8diFe.s:308    .text.USB_To_USART_Send_Data:00000000 USB_To_USART_Send_Data
-  R:\TEMP\ccW8diFe.s:356    .text.USB_To_USART_Send_Data:00000028 $d
-  R:\TEMP\ccW8diFe.s:361    .text.Handle_USBAsynchXfer:00000000 $t
-  R:\TEMP\ccW8diFe.s:366    .text.Handle_USBAsynchXfer:00000000 Handle_USBAsynchXfer
-  R:\TEMP\ccW8diFe.s:476    .text.Handle_USBAsynchXfer:00000084 $d
-  R:\TEMP\ccW8diFe.s:486    .text.USART_To_USB_Send_Data:00000000 $t
-  R:\TEMP\ccW8diFe.s:491    .text.USART_To_USB_Send_Data:00000000 USART_To_USB_Send_Data
-  R:\TEMP\ccW8diFe.s:542    .text.USART_To_USB_Send_Data:0000003c $d
-  R:\TEMP\ccW8diFe.s:550    .text.CDC_IRQ:00000000 $t
-  R:\TEMP\ccW8diFe.s:555    .text.CDC_IRQ:00000000 CDC_IRQ
-  R:\TEMP\ccW8diFe.s:594    .text.CDC_IRQ:00000028 $d
-  R:\TEMP\ccW8diFe.s:599    .text.cdc_task:00000000 $t
-  R:\TEMP\ccW8diFe.s:604    .text.cdc_task:00000000 cdc_task
-  R:\TEMP\ccW8diFe.s:707    .text.cdc_task:00000084 $d
-  R:\TEMP\ccW8diFe.s:724    .bss.USB_xMutex:00000000 USB_xMutex
-  R:\TEMP\ccW8diFe.s:736    .bss.USB_Tx_State:00000000 USB_Tx_State
-  R:\TEMP\ccW8diFe.s:760    .bss.USART_Rx_length:00000000 USART_Rx_length
-  R:\TEMP\ccW8diFe.s:750    .bss.USART_Rx_ptr_out:00000000 USART_Rx_ptr_out
-  R:\TEMP\ccW8diFe.s:743    .bss.USART_Rx_ptr_in:00000000 USART_Rx_ptr_in
-  R:\TEMP\ccW8diFe.s:730    .bss.USART_Rx_Buffer:00000000 USART_Rx_Buffer
-  R:\TEMP\ccW8diFe.s:725    .bss.USB_xMutex:00000000 $d
-  R:\TEMP\ccW8diFe.s:731    .bss.USART_Rx_Buffer:00000000 $d
-  R:\TEMP\ccW8diFe.s:737    .bss.USB_Tx_State:00000000 $d
-  R:\TEMP\ccW8diFe.s:739    .bss.USART_Rx_ptr_in:00000000 $d
-  R:\TEMP\ccW8diFe.s:746    .bss.USART_Rx_ptr_out:00000000 $d
-  R:\TEMP\ccW8diFe.s:756    .bss.USART_Rx_length:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 cdc_support.c
+  R:\TEMP\cc3CGypj.s:19     .text.USART_Config_Default:0000000000000000 $t
+  R:\TEMP\cc3CGypj.s:24     .text.USART_Config_Default:0000000000000000 USART_Config_Default
+  R:\TEMP\cc3CGypj.s:118    .text.USART_Config_Default:0000000000000080 $d
+  R:\TEMP\cc3CGypj.s:124    .text.USART_Config:0000000000000000 $t
+  R:\TEMP\cc3CGypj.s:129    .text.USART_Config:0000000000000000 USART_Config
+  R:\TEMP\cc3CGypj.s:295    .text.USART_Config:00000000000000e4 $d
+  R:\TEMP\cc3CGypj.s:303    .text.USB_To_USART_Send_Data:0000000000000000 $t
+  R:\TEMP\cc3CGypj.s:308    .text.USB_To_USART_Send_Data:0000000000000000 USB_To_USART_Send_Data
+  R:\TEMP\cc3CGypj.s:356    .text.USB_To_USART_Send_Data:0000000000000028 $d
+  R:\TEMP\cc3CGypj.s:361    .text.Handle_USBAsynchXfer:0000000000000000 $t
+  R:\TEMP\cc3CGypj.s:366    .text.Handle_USBAsynchXfer:0000000000000000 Handle_USBAsynchXfer
+  R:\TEMP\cc3CGypj.s:476    .text.Handle_USBAsynchXfer:0000000000000084 $d
+  R:\TEMP\cc3CGypj.s:486    .text.USART_To_USB_Send_Data:0000000000000000 $t
+  R:\TEMP\cc3CGypj.s:491    .text.USART_To_USB_Send_Data:0000000000000000 USART_To_USB_Send_Data
+  R:\TEMP\cc3CGypj.s:542    .text.USART_To_USB_Send_Data:000000000000003c $d
+  R:\TEMP\cc3CGypj.s:550    .text.CDC_IRQ:0000000000000000 $t
+  R:\TEMP\cc3CGypj.s:555    .text.CDC_IRQ:0000000000000000 CDC_IRQ
+  R:\TEMP\cc3CGypj.s:594    .text.CDC_IRQ:0000000000000028 $d
+  R:\TEMP\cc3CGypj.s:599    .text.cdc_task:0000000000000000 $t
+  R:\TEMP\cc3CGypj.s:604    .text.cdc_task:0000000000000000 cdc_task
+  R:\TEMP\cc3CGypj.s:707    .text.cdc_task:0000000000000084 $d
+  R:\TEMP\cc3CGypj.s:724    .bss.USB_xMutex:0000000000000000 USB_xMutex
+  R:\TEMP\cc3CGypj.s:736    .bss.USB_Tx_State:0000000000000000 USB_Tx_State
+  R:\TEMP\cc3CGypj.s:760    .bss.USART_Rx_length:0000000000000000 USART_Rx_length
+  R:\TEMP\cc3CGypj.s:750    .bss.USART_Rx_ptr_out:0000000000000000 USART_Rx_ptr_out
+  R:\TEMP\cc3CGypj.s:743    .bss.USART_Rx_ptr_in:0000000000000000 USART_Rx_ptr_in
+  R:\TEMP\cc3CGypj.s:730    .bss.USART_Rx_Buffer:0000000000000000 USART_Rx_Buffer
+  R:\TEMP\cc3CGypj.s:725    .bss.USB_xMutex:0000000000000000 $d
+  R:\TEMP\cc3CGypj.s:731    .bss.USART_Rx_Buffer:0000000000000000 $d
+  R:\TEMP\cc3CGypj.s:737    .bss.USB_Tx_State:0000000000000000 $d
+  R:\TEMP\cc3CGypj.s:739    .bss.USART_Rx_ptr_in:0000000000000000 $d
+  R:\TEMP\cc3CGypj.s:746    .bss.USART_Rx_ptr_out:0000000000000000 $d
+  R:\TEMP\cc3CGypj.s:756    .bss.USART_Rx_length:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphClockCmd

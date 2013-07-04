@@ -2561,7 +2561,7 @@ FRESULT f_write (
 		LEAVE_FF(fp->fs, FR_INT_ERR);
 	if (!(fp->flag & FA_WRITE))				/* Check access mode */
 		LEAVE_FF(fp->fs, FR_DENIED);
-	if ((DWORD)(fp->fsize + btw) < fp->fsize) btw = 0;	/* File size cannot reach 4GB */
+	if (fp->fptr + btw < fp->fptr) btw = 0;    /* File size cannot reach 4GB */
 
 	for ( ;  btw;							/* Repeat until all data written */
 		wbuff += wcnt, fp->fptr += wcnt, *bw += wcnt, btw -= wcnt) {

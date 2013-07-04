@@ -407,7 +407,7 @@
   34              		.cfi_offset 4, -8
   35              		.cfi_offset 14, -4
   36              	.LVL1:
- 373:src/hw_config.c **** static void IntToUnicode (uint32_t value , uint8_t *pbuf , uint8_t len)
+ 373:src/hw_config.c **** {
   37              		.loc 1 373 0
   38 0002 0131     		adds	r1, r1, #1
   39              	.LVL2:
@@ -452,7 +452,7 @@
   63              		.loc 1 389 0
   64 001c 0024     		movs	r4, #0
   65 001e 01F8024B 		strb	r4, [r1], #2
- 377:src/hw_config.c **** 	for( idx = 0 ; idx < len ; idx ++)
+ 377:src/hw_config.c **** 	{
   66              		.loc 1 377 0
   67 0022 0133     		adds	r3, r3, #1
   68              	.LVL5:
@@ -473,7 +473,7 @@
   82              		.thumb_func
   84              	LED_Configuration:
   85              	.LFB58:
-  77:src/hw_config.c **** {
+  77:src/hw_config.c **** 	GPIO_InitTypeDef GPIO_InitStructure;
   86              		.loc 1 77 0
   87              		.cfi_startproc
   88              		@ args = 0, pretend = 0, frame = 8
@@ -489,113 +489,113 @@
   98              		.cfi_offset 6, -12
   99              		.cfi_offset 7, -8
  100              		.cfi_offset 14, -4
-  81:src/hw_config.c ****     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB |
+  81:src/hw_config.c **** 						   RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD | 
  101              		.loc 1 81 0
  102 0002 7D20     		movs	r0, #125
  103 0004 0121     		movs	r1, #1
  104 0006 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
  105              	.LVL7:
-  85:src/hw_config.c ****     GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_All;
+  85:src/hw_config.c ****     GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
  106              		.loc 1 85 0
  107 000a 4FF6FF73 		movw	r3, #65535
  108 000e ADF80430 		strh	r3, [sp, #4]	@ movhi
-  86:src/hw_config.c ****     GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+  86:src/hw_config.c ****     GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AIN;
  109              		.loc 1 86 0
  110 0012 0326     		movs	r6, #3
  111 0014 8DF80660 		strb	r6, [sp, #6]
-  87:src/hw_config.c ****     GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AIN;
+  87:src/hw_config.c ****     GPIO_Init(GPIOA, &GPIO_InitStructure);
  112              		.loc 1 87 0
  113 0018 0027     		movs	r7, #0
  114 001a 8DF80770 		strb	r7, [sp, #7]
-  88:src/hw_config.c ****     GPIO_Init(GPIOA, &GPIO_InitStructure);
+  88:src/hw_config.c ****     GPIO_Init(GPIOB, &GPIO_InitStructure);
  115              		.loc 1 88 0
  116 001e 1F48     		ldr	r0, .L10
  117 0020 01A9     		add	r1, sp, #4
  118 0022 FFF7FEFF 		bl	GPIO_Init
  119              	.LVL8:
-  89:src/hw_config.c ****     GPIO_Init(GPIOB, &GPIO_InitStructure);
+  89:src/hw_config.c ****     GPIO_Init(GPIOC, &GPIO_InitStructure);
  120              		.loc 1 89 0
  121 0026 1E4D     		ldr	r5, .L10+4
  122 0028 2846     		mov	r0, r5
  123 002a 01A9     		add	r1, sp, #4
  124 002c FFF7FEFF 		bl	GPIO_Init
  125              	.LVL9:
-  90:src/hw_config.c ****     GPIO_Init(GPIOC, &GPIO_InitStructure);
+  90:src/hw_config.c ****     GPIO_Init(GPIOD, &GPIO_InitStructure);
  126              		.loc 1 90 0
  127 0030 1C48     		ldr	r0, .L10+8
  128 0032 01A9     		add	r1, sp, #4
  129 0034 FFF7FEFF 		bl	GPIO_Init
  130              	.LVL10:
-  91:src/hw_config.c ****     GPIO_Init(GPIOD, &GPIO_InitStructure);
+  91:src/hw_config.c ****     GPIO_Init(GPIOE, &GPIO_InitStructure);
  131              		.loc 1 91 0
  132 0038 1B48     		ldr	r0, .L10+12
  133 003a 01A9     		add	r1, sp, #4
  134 003c FFF7FEFF 		bl	GPIO_Init
  135              	.LVL11:
-  92:src/hw_config.c ****     GPIO_Init(GPIOE, &GPIO_InitStructure);
+  92:src/hw_config.c **** 	
  136              		.loc 1 92 0
  137 0040 1A4C     		ldr	r4, .L10+16
  138 0042 2046     		mov	r0, r4
  139 0044 01A9     		add	r1, sp, #4
  140 0046 FFF7FEFF 		bl	GPIO_Init
  141              	.LVL12:
-  94:src/hw_config.c ****     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB |
+  94:src/hw_config.c **** 						   RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD | 
  142              		.loc 1 94 0
  143 004a 7D20     		movs	r0, #125
  144 004c 3946     		mov	r1, r7
  145 004e FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
  146              	.LVL13:
-  99:src/hw_config.c **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIO_LED | RCC_APB2Periph_GPIOB, ENABLE);
+  99:src/hw_config.c **** 	
  147              		.loc 1 99 0
  148 0052 4820     		movs	r0, #72
  149 0054 0121     		movs	r1, #1
  150 0056 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
  151              	.LVL14:
- 102:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Pin 	= LED_GREEN | LED_RED;
+ 102:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
  152              		.loc 1 102 0
  153 005a ADF80460 		strh	r6, [sp, #4]	@ movhi
- 103:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+ 103:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_Out_PP;
  154              		.loc 1 103 0
  155 005e 8DF80660 		strb	r6, [sp, #6]
- 104:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_Out_PP;
+ 104:src/hw_config.c **** 	GPIO_Init(GPIO_LED, &GPIO_InitStructure);
  156              		.loc 1 104 0
  157 0062 1020     		movs	r0, #16
  158 0064 8DF80700 		strb	r0, [sp, #7]
- 105:src/hw_config.c **** 	GPIO_Init(GPIO_LED, &GPIO_InitStructure);
+ 105:src/hw_config.c **** 	
  159              		.loc 1 105 0
  160 0068 2046     		mov	r0, r4
  161 006a 01A9     		add	r1, sp, #4
  162 006c FFF7FEFF 		bl	GPIO_Init
  163              	.LVL15:
- 108:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_8;
+ 108:src/hw_config.c **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
  164              		.loc 1 108 0
  165 0070 4FF48076 		mov	r6, #256
  166 0074 ADF80460 		strh	r6, [sp, #4]	@ movhi
- 109:src/hw_config.c **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 109:src/hw_config.c **** 	GPIO_ResetBits(GPIOB,GPIO_Pin_8);	/* LED Backlight is Always OFF in GPS Tracker */
  167              		.loc 1 109 0
  168 0078 2846     		mov	r0, r5
  169 007a 01A9     		add	r1, sp, #4
  170 007c FFF7FEFF 		bl	GPIO_Init
  171              	.LVL16:
- 110:src/hw_config.c **** 	GPIO_ResetBits(GPIOB,GPIO_Pin_8);	/* LED Backlight is Always OFF in GPS Tracker */
+ 110:src/hw_config.c **** 	
  172              		.loc 1 110 0
  173 0080 2846     		mov	r0, r5
  174 0082 3146     		mov	r1, r6
  175 0084 FFF7FEFF 		bl	GPIO_ResetBits
  176              	.LVL17:
- 113:src/hw_config.c **** 	LED_GRN_OFF();
+ 113:src/hw_config.c **** 	LED_RED_OFF();
  177              		.loc 1 113 0
  178 0088 2046     		mov	r0, r4
  179 008a 0121     		movs	r1, #1
  180 008c FFF7FEFF 		bl	GPIO_ResetBits
  181              	.LVL18:
- 114:src/hw_config.c **** 	LED_RED_OFF();
+ 114:src/hw_config.c **** }
  182              		.loc 1 114 0
  183 0090 2046     		mov	r0, r4
  184 0092 0221     		movs	r1, #2
  185 0094 FFF7FEFF 		bl	GPIO_ResetBits
  186              	.LVL19:
- 115:src/hw_config.c **** }
+ 115:src/hw_config.c **** 
  187              		.loc 1 115 0
  188 0098 FEBD     		pop	{r1, r2, r3, r4, r5, r6, r7, pc}
  189              	.L11:
@@ -615,7 +615,7 @@
  204              		.thumb_func
  206              	KEY_Configuration:
  207              	.LFB59:
- 126:src/hw_config.c **** {
+ 126:src/hw_config.c **** 	GPIO_InitTypeDef GPIO_InitStructure;
  208              		.loc 1 126 0
  209              		.cfi_startproc
  210              		@ args = 0, pretend = 0, frame = 8
@@ -627,54 +627,54 @@
  216              		.cfi_offset 1, -12
  217              		.cfi_offset 4, -8
  218              		.cfi_offset 14, -4
- 130:src/hw_config.c **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
+ 130:src/hw_config.c **** 
  219              		.loc 1 130 0
  220 0002 4020     		movs	r0, #64
  221 0004 0121     		movs	r1, #1
  222 0006 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
  223              	.LVL20:
- 133:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Pin 	= KEY_L | KEY_R | KEY_U | KEY_D;
+ 133:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
  224              		.loc 1 133 0
  225 000a 7823     		movs	r3, #120
  226 000c ADF80430 		strh	r3, [sp, #4]	@ movhi
- 134:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+ 134:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IPD;
  227              		.loc 1 134 0
  228 0010 0324     		movs	r4, #3
  229 0012 8DF80640 		strb	r4, [sp, #6]
- 135:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IPD;
+ 135:src/hw_config.c **** 	GPIO_Init(GPIOE, &GPIO_InitStructure);
  230              		.loc 1 135 0
  231 0016 2820     		movs	r0, #40
  232 0018 8DF80700 		strb	r0, [sp, #7]
- 136:src/hw_config.c **** 	GPIO_Init(GPIOE, &GPIO_InitStructure);
+ 136:src/hw_config.c **** 
  233              		.loc 1 136 0
  234 001c 0B48     		ldr	r0, .L13
  235 001e 01A9     		add	r1, sp, #4
  236 0020 FFF7FEFF 		bl	GPIO_Init
  237              	.LVL21:
- 140:src/hw_config.c **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+ 140:src/hw_config.c **** 
  238              		.loc 1 140 0
  239 0024 0420     		movs	r0, #4
  240 0026 0121     		movs	r1, #1
  241 0028 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
  242              	.LVL22:
- 143:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Pin 	= KEY_CT;
+ 143:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
  243              		.loc 1 143 0
  244 002c 4FF48071 		mov	r1, #256
  245 0030 ADF80410 		strh	r1, [sp, #4]	@ movhi
- 144:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+ 144:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
  246              		.loc 1 144 0
  247 0034 8DF80640 		strb	r4, [sp, #6]
- 145:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+ 145:src/hw_config.c **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
  248              		.loc 1 145 0
  249 0038 0422     		movs	r2, #4
  250 003a 8DF80720 		strb	r2, [sp, #7]
- 146:src/hw_config.c **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 146:src/hw_config.c **** 
  251              		.loc 1 146 0
  252 003e 0448     		ldr	r0, .L13+4
  253 0040 0DEB0201 		add	r1, sp, r2
  254 0044 FFF7FEFF 		bl	GPIO_Init
  255              	.LVL23:
- 148:src/hw_config.c **** }
+ 148:src/hw_config.c **** 
  256              		.loc 1 148 0
  257 0048 1CBD     		pop	{r2, r3, r4, pc}
  258              	.L14:
@@ -691,19 +691,19 @@
  270              		.thumb_func
  272              	NVIC_Configuration:
  273              	.LFB60:
- 163:src/hw_config.c **** {
+ 163:src/hw_config.c **** 
  274              		.loc 1 163 0
  275              		.cfi_startproc
  276              		@ args = 0, pretend = 0, frame = 0
  277              		@ frame_needed = 0, uses_anonymous_args = 0
  278              		@ link register save eliminated.
- 171:src/hw_config.c ****       NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0000);
+ 171:src/hw_config.c ****     #endif
  279              		.loc 1 171 0
  280 0000 4FF00060 		mov	r0, #134217728
  281 0004 0021     		movs	r1, #0
- 189:src/hw_config.c **** }
+ 189:src/hw_config.c **** 
  282              		.loc 1 189 0
- 171:src/hw_config.c ****       NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0000);
+ 171:src/hw_config.c ****     #endif
  283              		.loc 1 171 0
  284 0006 FFF7FEBF 		b	NVIC_SetVectorTable
  285              	.LVL24:
@@ -716,7 +716,7 @@
  293              		.thumb_func
  295              	Set_System:
  296              	.LFB57:
-  41:src/hw_config.c **** {
+  41:src/hw_config.c **** 	/* SystemInit was already executed in asm startup Since StdPeriph V3.2.0 */
  297              		.loc 1 41 0
  298              		.cfi_startproc
  299              		@ args = 0, pretend = 0, frame = 0
@@ -726,34 +726,34 @@
  303              		.cfi_def_cfa_offset 8
  304              		.cfi_offset 3, -8
  305              		.cfi_offset 14, -4
-  46:src/hw_config.c **** 	SystemCoreClockUpdate();
+  46:src/hw_config.c **** 
  306              		.loc 1 46 0
  307 0002 FFF7FEFF 		bl	SystemCoreClockUpdate
  308              	.LVL25:
-  49:src/hw_config.c **** 	NVIC_Configuration();
+  49:src/hw_config.c **** 
  309              		.loc 1 49 0
  310 0006 FFF7FEFF 		bl	NVIC_Configuration
  311              	.LVL26:
-  52:src/hw_config.c **** 	LED_Configuration();
+  52:src/hw_config.c **** 
  312              		.loc 1 52 0
  313 000a FFF7FEFF 		bl	LED_Configuration
  314              	.LVL27:
-  55:src/hw_config.c **** 	KEY_Configuration();
+  55:src/hw_config.c **** 
  315              		.loc 1 55 0
  316 000e FFF7FEFF 		bl	KEY_Configuration
  317              	.LVL28:
-  58:src/hw_config.c **** 	PWR_Configuration();
+  58:src/hw_config.c **** 	
  318              		.loc 1 58 0
  319 0012 FFF7FEFF 		bl	PWR_Configuration
  320              	.LVL29:
-  61:src/hw_config.c **** 	RTC_Configuration();
+  61:src/hw_config.c **** 
  321              		.loc 1 61 0
  322 0016 FFF7FEFF 		bl	RTC_Configuration
  323              	.LVL30:
-  66:src/hw_config.c **** }
+  66:src/hw_config.c **** 
  324              		.loc 1 66 0
  325 001a BDE80840 		pop	{r3, lr}
-  64:src/hw_config.c **** 	ADC_DMA_Configuration();
+  64:src/hw_config.c **** 
  326              		.loc 1 64 0
  327 001e FFF7FEBF 		b	ADC_DMA_Configuration
  328              	.LVL31:
@@ -766,7 +766,7 @@
  336              		.thumb_func
  338              	JoyInp_Chk:
  339              	.LFB61:
- 200:src/hw_config.c **** {
+ 200:src/hw_config.c **** 	static uint32_t keycounts=0;
  340              		.loc 1 200 0
  341              		.cfi_startproc
  342              		@ args = 0, pretend = 0, frame = 0
@@ -778,7 +778,7 @@
  348              		.cfi_offset 4, -12
  349              		.cfi_offset 5, -8
  350              		.cfi_offset 14, -4
- 205:src/hw_config.c **** 	if(++keycounts >= 5 ){
+ 205:src/hw_config.c **** 		keycounts =0;
  351              		.loc 1 205 0
  352 0002 114B     		ldr	r3, .L24
  353 0004 1A68     		ldr	r2, [r3, #0]
@@ -788,11 +788,11 @@
  357 000c 1860     		str	r0, [r3, #0]
  358 000e 38BD     		pop	{r3, r4, r5, pc}
  359              	.L18:
- 206:src/hw_config.c **** 		keycounts =0;
+ 206:src/hw_config.c **** 		now  = GPIO_ReadInputData(GPIOE) & (KEY_L | KEY_R | KEY_U | KEY_D);
  360              		.loc 1 206 0
  361 0010 0021     		movs	r1, #0
  362 0012 1960     		str	r1, [r3, #0]
- 207:src/hw_config.c **** 		now  = GPIO_ReadInputData(GPIOE) & (KEY_L | KEY_R | KEY_U | KEY_D);
+ 207:src/hw_config.c **** 		now |= GPIO_ReadInputData(GPIOA) & (KEY_CT);
  363              		.loc 1 207 0
  364 0014 0D48     		ldr	r0, .L24+4
  365 0016 FFF7FEFF 		bl	GPIO_ReadInputData
@@ -800,7 +800,7 @@
  367 001a 00F07805 		and	r5, r0, #120
  368 001e 0C4C     		ldr	r4, .L24+8
  369 0020 2560     		str	r5, [r4, #0]
- 208:src/hw_config.c **** 		now |= GPIO_ReadInputData(GPIOA) & (KEY_CT);
+ 208:src/hw_config.c **** 		
  370              		.loc 1 208 0
  371 0022 0C48     		ldr	r0, .L24+12
  372 0024 FFF7FEFF 		bl	GPIO_ReadInputData
@@ -808,21 +808,21 @@
  374 0028 00F48073 		and	r3, r0, #256
  375 002c 45EA0300 		orr	r0, r5, r3
  376 0030 2060     		str	r0, [r4, #0]
- 210:src/hw_config.c **** 		prev = (prev ^ now) & now;
+ 210:src/hw_config.c **** 		if (prev) CmdKey = prev;
  377              		.loc 1 210 0
  378 0032 094A     		ldr	r2, .L24+16
  379 0034 1168     		ldr	r1, [r2, #0]
- 211:src/hw_config.c **** 		if (prev) CmdKey = prev;
+ 211:src/hw_config.c **** 		prev = now;
  380              		.loc 1 211 0
  381 0036 30EA0103 		bics	r3, r0, r1
  382 003a 02D0     		beq	.L20
- 211:src/hw_config.c **** 		if (prev) CmdKey = prev;
+ 211:src/hw_config.c **** 		prev = now;
  383              		.loc 1 211 0 is_stmt 0 discriminator 1
  384 003c 9BB2     		uxth	r3, r3
  385 003e 0749     		ldr	r1, .L24+20
  386 0040 0B80     		strh	r3, [r1, #0]	@ movhi
  387              	.L20:
- 212:src/hw_config.c **** 		prev = now;
+ 212:src/hw_config.c **** 	}
  388              		.loc 1 212 0 is_stmt 1
  389 0042 1060     		str	r0, [r2, #0]
  390 0044 38BD     		pop	{r3, r4, r5, pc}
@@ -844,7 +844,7 @@
  407              		.thumb_func
  409              	Set72:
  410              	.LFB62:
- 227:src/hw_config.c **** {
+ 227:src/hw_config.c **** 	RCC_ClocksTypeDef    RCC_ClockFreq;
  411              		.loc 1 227 0
  412              		.cfi_startproc
  413              		@ args = 0, pretend = 0, frame = 24
@@ -860,69 +860,69 @@
  423              		.cfi_offset 5, -12
  424              		.cfi_offset 6, -8
  425              		.cfi_offset 14, -4
- 231:src/hw_config.c ****     RCC_SYSCLKConfig( RCC_SYSCLKSource_HSI );
+ 231:src/hw_config.c **** 
  426              		.loc 1 231 0
  427 0002 0020     		movs	r0, #0
  428 0004 FFF7FEFF 		bl	RCC_SYSCLKConfig
  429              	.LVL34:
- 234:src/hw_config.c ****     RCC_PLLCmd( DISABLE );
+ 234:src/hw_config.c **** 
  430              		.loc 1 234 0
  431 0008 0020     		movs	r0, #0
  432 000a FFF7FEFF 		bl	RCC_PLLCmd
  433              	.LVL35:
- 237:src/hw_config.c ****     RCC_PLLConfig( RCC_PLLSource_HSE_Div1, RCC_PLLMul_6 );
+ 237:src/hw_config.c **** 
  434              		.loc 1 237 0
  435 000e 4FF48030 		mov	r0, #65536
  436 0012 4FF48011 		mov	r1, #1048576
  437 0016 FFF7FEFF 		bl	RCC_PLLConfig
  438              	.LVL36:
- 240:src/hw_config.c ****     RCC_PLLCmd( ENABLE );
+ 240:src/hw_config.c **** 
  439              		.loc 1 240 0
  440 001a 0120     		movs	r0, #1
  441 001c FFF7FEFF 		bl	RCC_PLLCmd
  442              	.LVL37:
  443              	.L27:
- 243:src/hw_config.c ****     while( RCC_GetFlagStatus( RCC_FLAG_PLLRDY ) == RESET )
+ 243:src/hw_config.c ****         { ; }
  444              		.loc 1 243 0 discriminator 1
  445 0020 3920     		movs	r0, #57
  446 0022 FFF7FEFF 		bl	RCC_GetFlagStatus
  447              	.LVL38:
  448 0026 0028     		cmp	r0, #0
  449 0028 FAD0     		beq	.L27
- 247:src/hw_config.c ****     FLASH->ACR |= FLASH_ACR_PRFTBE;
+ 247:src/hw_config.c **** 
  450              		.loc 1 247 0
  451 002a 0C4B     		ldr	r3, .L34
  452 002c 1A68     		ldr	r2, [r3, #0]
  453 002e 42F01000 		orr	r0, r2, #16
  454 0032 1860     		str	r0, [r3, #0]
- 250:src/hw_config.c ****     FLASH->ACR &= (uint32_t)((uint32_t)~FLASH_ACR_LATENCY);
+ 250:src/hw_config.c ****     FLASH->ACR |= (uint32_t)FLASH_ACR_LATENCY_2;
  455              		.loc 1 250 0
  456 0034 1968     		ldr	r1, [r3, #0]
  457 0036 21F00302 		bic	r2, r1, #3
  458 003a 1A60     		str	r2, [r3, #0]
- 251:src/hw_config.c ****     FLASH->ACR |= (uint32_t)FLASH_ACR_LATENCY_2;
+ 251:src/hw_config.c **** 
  459              		.loc 1 251 0
  460 003c 1868     		ldr	r0, [r3, #0]
  461 003e 40F00201 		orr	r1, r0, #2
  462 0042 1960     		str	r1, [r3, #0]
- 254:src/hw_config.c ****     RCC_SYSCLKConfig( RCC_SYSCLKSource_PLLCLK );
+ 254:src/hw_config.c **** 
  463              		.loc 1 254 0
  464 0044 0220     		movs	r0, #2
  465 0046 FFF7FEFF 		bl	RCC_SYSCLKConfig
  466              	.LVL39:
  467              	.L28:
- 257:src/hw_config.c ****     while( RCC_GetSYSCLKSource() != 0x08 )
+ 257:src/hw_config.c ****         { ; }
  468              		.loc 1 257 0 discriminator 1
  469 004a FFF7FEFF 		bl	RCC_GetSYSCLKSource
  470              	.LVL40:
  471 004e 0828     		cmp	r0, #8
  472 0050 FBD1     		bne	.L28
- 262:src/hw_config.c ****     RCC_GetClocksFreq( &RCC_ClockFreq );
+ 262:src/hw_config.c **** }
  473              		.loc 1 262 0
  474 0052 01A8     		add	r0, sp, #4
  475 0054 FFF7FEFF 		bl	RCC_GetClocksFreq
  476              	.LVL41:
- 263:src/hw_config.c **** }
+ 263:src/hw_config.c **** 
  477              		.loc 1 263 0
  478 0058 07B0     		add	sp, sp, #28
  479 005a 00BD     		pop	{pc}
@@ -939,7 +939,7 @@
  491              		.thumb_func
  493              	USB_Disconnect_Config:
  494              	.LFB63:
- 273:src/hw_config.c **** {
+ 273:src/hw_config.c **** 	GPIO_InitTypeDef GPIO_InitStructure;
  495              		.loc 1 273 0
  496              		.cfi_startproc
  497              		@ args = 0, pretend = 0, frame = 8
@@ -951,31 +951,31 @@
  503              		.cfi_offset 1, -12
  504              		.cfi_offset 2, -8
  505              		.cfi_offset 14, -4
- 277:src/hw_config.c **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIO_DISCONNECT, ENABLE);
+ 277:src/hw_config.c **** 
  506              		.loc 1 277 0
  507 0002 2020     		movs	r0, #32
  508 0004 0121     		movs	r1, #1
  509 0006 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
  510              	.LVL42:
- 280:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Pin = USB_DISCONNECT_PIN;
+ 280:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
  511              		.loc 1 280 0
  512 000a 0823     		movs	r3, #8
  513 000c ADF80430 		strh	r3, [sp, #4]	@ movhi
- 281:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 281:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
  514              		.loc 1 281 0
  515 0010 0320     		movs	r0, #3
  516 0012 8DF80600 		strb	r0, [sp, #6]
- 282:src/hw_config.c **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 282:src/hw_config.c **** 	GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
  517              		.loc 1 282 0
  518 0016 1421     		movs	r1, #20
  519 0018 8DF80710 		strb	r1, [sp, #7]
- 283:src/hw_config.c **** 	GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
+ 283:src/hw_config.c **** }
  520              		.loc 1 283 0
  521 001c 0248     		ldr	r0, .L37
  522 001e 01A9     		add	r1, sp, #4
  523 0020 FFF7FEFF 		bl	GPIO_Init
  524              	.LVL43:
- 284:src/hw_config.c **** }
+ 284:src/hw_config.c **** 
  525              		.loc 1 284 0
  526 0024 0EBD     		pop	{r1, r2, r3, pc}
  527              	.L38:
@@ -991,7 +991,7 @@
  538              		.thumb_func
  540              	Set_USBClock:
  541              	.LFB64:
- 295:src/hw_config.c **** {
+ 295:src/hw_config.c **** 	/* Select USBCLK source */
  542              		.loc 1 295 0
  543              		.cfi_startproc
  544              		@ args = 0, pretend = 0, frame = 0
@@ -1001,19 +1001,19 @@
  548              		.cfi_def_cfa_offset 8
  549              		.cfi_offset 3, -8
  550              		.cfi_offset 14, -4
- 297:src/hw_config.c **** 	RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
+ 297:src/hw_config.c **** 
  551              		.loc 1 297 0
  552 0002 0020     		movs	r0, #0
  553 0004 FFF7FEFF 		bl	RCC_USBCLKConfig
  554              	.LVL44:
- 300:src/hw_config.c **** 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, ENABLE);
+ 300:src/hw_config.c **** }
  555              		.loc 1 300 0
  556 0008 4FF40000 		mov	r0, #8388608
  557 000c 0121     		movs	r1, #1
- 301:src/hw_config.c **** }
+ 301:src/hw_config.c **** 
  558              		.loc 1 301 0
  559 000e BDE80840 		pop	{r3, lr}
- 300:src/hw_config.c **** 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, ENABLE);
+ 300:src/hw_config.c **** }
  560              		.loc 1 300 0
  561 0012 FFF7FEBF 		b	RCC_APB1PeriphClockCmd
  562              	.LVL45:
@@ -1026,36 +1026,36 @@
  570              		.thumb_func
  572              	USB_Cable_Config:
  573              	.LFB65:
- 312:src/hw_config.c **** {
+ 312:src/hw_config.c **** 
  574              		.loc 1 312 0
  575              		.cfi_startproc
  576              		@ args = 0, pretend = 0, frame = 0
  577              		@ frame_needed = 0, uses_anonymous_args = 0
  578              		@ link register save eliminated.
  579              	.LVL46:
- 314:src/hw_config.c **** 	if (NewState != DISABLE)
+ 314:src/hw_config.c **** 	{
  580              		.loc 1 314 0
  581 0000 18B1     		cbz	r0, .L41
- 316:src/hw_config.c **** 		GPIO_ResetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
+ 316:src/hw_config.c **** 	}
  582              		.loc 1 316 0
  583 0002 0448     		ldr	r0, .L42
  584              	.LVL47:
  585 0004 0821     		movs	r1, #8
- 323:src/hw_config.c **** }
+ 323:src/hw_config.c **** 
  586              		.loc 1 323 0
- 316:src/hw_config.c **** 		GPIO_ResetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
+ 316:src/hw_config.c **** 	}
  587              		.loc 1 316 0
  588 0006 FFF7FEBF 		b	GPIO_ResetBits
  589              	.LVL48:
  590              	.L41:
- 320:src/hw_config.c **** 		GPIO_SetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
+ 320:src/hw_config.c **** 	}
  591              		.loc 1 320 0
  592 000a 0248     		ldr	r0, .L42
  593              	.LVL49:
  594 000c 0821     		movs	r1, #8
- 323:src/hw_config.c **** }
+ 323:src/hw_config.c **** 
  595              		.loc 1 323 0
- 320:src/hw_config.c **** 		GPIO_SetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
+ 320:src/hw_config.c **** 	}
  596              		.loc 1 320 0
  597 000e FFF7FEBF 		b	GPIO_SetBits
  598              	.LVL50:
@@ -1072,13 +1072,13 @@
  610              		.thumb_func
  612              	Enter_LowPowerMode:
  613              	.LFB66:
- 334:src/hw_config.c **** {
+ 334:src/hw_config.c **** 	/* Set the device state to suspend */
  614              		.loc 1 334 0
  615              		.cfi_startproc
  616              		@ args = 0, pretend = 0, frame = 0
  617              		@ frame_needed = 0, uses_anonymous_args = 0
  618              		@ link register save eliminated.
- 336:src/hw_config.c **** 	bDeviceState = SUSPENDED;
+ 336:src/hw_config.c **** }
  619              		.loc 1 336 0
  620 0000 0322     		movs	r2, #3
  621 0002 014B     		ldr	r3, .L45
@@ -1097,25 +1097,25 @@
  635              		.thumb_func
  637              	Leave_LowPowerMode:
  638              	.LFB67:
- 348:src/hw_config.c **** {
+ 348:src/hw_config.c **** 	DEVICE_INFO *pInfo = &Device_Info;
  639              		.loc 1 348 0
  640              		.cfi_startproc
  641              		@ args = 0, pretend = 0, frame = 0
  642              		@ frame_needed = 0, uses_anonymous_args = 0
  643              		@ link register save eliminated.
  644              	.LVL51:
- 352:src/hw_config.c **** 	if (pInfo->Current_Configuration != 0)
+ 352:src/hw_config.c **** 	{
  645              		.loc 1 352 0
  646 0000 044B     		ldr	r3, .L51
  647 0002 9A7A     		ldrb	r2, [r3, #10]	@ zero_extendqisi2
  648 0004 0448     		ldr	r0, .L51+4
  649 0006 0AB1     		cbz	r2, .L48
- 355:src/hw_config.c **** 		bDeviceState = CONFIGURED;
+ 355:src/hw_config.c **** 	}
  650              		.loc 1 355 0
  651 0008 0521     		movs	r1, #5
  652 000a 00E0     		b	.L50
  653              	.L48:
- 359:src/hw_config.c **** 		bDeviceState = ATTACHED;
+ 359:src/hw_config.c **** 	}
  654              		.loc 1 359 0
  655 000c 0121     		movs	r1, #1
  656              	.L50:
@@ -1215,29 +1215,29 @@
  727              		.cfi_endproc
  728              	.LFE69:
  730              		.global	CmdKey
- 731              		.section	.bss.now.8818,"aw",%nobits
+ 731              		.section	.bss.keycounts.8838,"aw",%nobits
  732              		.align	2
- 733              		.set	.LANCHOR1,. + 0
- 736              	now.8818:
+ 733              		.set	.LANCHOR0,. + 0
+ 736              	keycounts.8838:
  737 0000 00000000 		.space	4
- 738              		.section	.bss.keycounts.8816,"aw",%nobits
+ 738              		.section	.bss.prev.8839,"aw",%nobits
  739              		.align	2
- 740              		.set	.LANCHOR0,. + 0
- 743              	keycounts.8816:
+ 740              		.set	.LANCHOR2,. + 0
+ 743              	prev.8839:
  744 0000 00000000 		.space	4
  745              		.section	.bss.CmdKey,"aw",%nobits
  746              		.align	1
  747              		.set	.LANCHOR3,. + 0
  750              	CmdKey:
  751 0000 0000     		.space	2
- 752              		.section	.bss.prev.8817,"aw",%nobits
+ 752              		.section	.bss.now.8840,"aw",%nobits
  753              		.align	2
- 754              		.set	.LANCHOR2,. + 0
- 757              	prev.8817:
+ 754              		.set	.LANCHOR1,. + 0
+ 757              	now.8840:
  758 0000 00000000 		.space	4
  759              		.text
  760              	.Letext0:
- 761              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 761              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  762              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  763              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  764              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
@@ -1251,51 +1251,51 @@
  772              		.file 13 "./inc/rtc_support.h"
  773              		.file 14 "./inc/adc_support.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 hw_config.c
-  R:\TEMP\ccSFH1bX.s:19     .text.IntToUnicode:00000000 $t
-  R:\TEMP\ccSFH1bX.s:23     .text.IntToUnicode:00000000 IntToUnicode
-  R:\TEMP\ccSFH1bX.s:79     .text.LED_Configuration:00000000 $t
-  R:\TEMP\ccSFH1bX.s:84     .text.LED_Configuration:00000000 LED_Configuration
-  R:\TEMP\ccSFH1bX.s:192    .text.LED_Configuration:0000009c $d
-  R:\TEMP\ccSFH1bX.s:201    .text.KEY_Configuration:00000000 $t
-  R:\TEMP\ccSFH1bX.s:206    .text.KEY_Configuration:00000000 KEY_Configuration
-  R:\TEMP\ccSFH1bX.s:261    .text.KEY_Configuration:0000004c $d
-  R:\TEMP\ccSFH1bX.s:267    .text.NVIC_Configuration:00000000 $t
-  R:\TEMP\ccSFH1bX.s:272    .text.NVIC_Configuration:00000000 NVIC_Configuration
-  R:\TEMP\ccSFH1bX.s:290    .text.Set_System:00000000 $t
-  R:\TEMP\ccSFH1bX.s:295    .text.Set_System:00000000 Set_System
-  R:\TEMP\ccSFH1bX.s:333    .text.JoyInp_Chk:00000000 $t
-  R:\TEMP\ccSFH1bX.s:338    .text.JoyInp_Chk:00000000 JoyInp_Chk
-  R:\TEMP\ccSFH1bX.s:394    .text.JoyInp_Chk:00000048 $d
-  R:\TEMP\ccSFH1bX.s:404    .text.Set72:00000000 $t
-  R:\TEMP\ccSFH1bX.s:409    .text.Set72:00000000 Set72
-  R:\TEMP\ccSFH1bX.s:483    .text.Set72:0000005c $d
-  R:\TEMP\ccSFH1bX.s:488    .text.USB_Disconnect_Config:00000000 $t
-  R:\TEMP\ccSFH1bX.s:493    .text.USB_Disconnect_Config:00000000 USB_Disconnect_Config
-  R:\TEMP\ccSFH1bX.s:530    .text.USB_Disconnect_Config:00000028 $d
-  R:\TEMP\ccSFH1bX.s:535    .text.Set_USBClock:00000000 $t
-  R:\TEMP\ccSFH1bX.s:540    .text.Set_USBClock:00000000 Set_USBClock
-  R:\TEMP\ccSFH1bX.s:567    .text.USB_Cable_Config:00000000 $t
-  R:\TEMP\ccSFH1bX.s:572    .text.USB_Cable_Config:00000000 USB_Cable_Config
-  R:\TEMP\ccSFH1bX.s:602    .text.USB_Cable_Config:00000014 $d
-  R:\TEMP\ccSFH1bX.s:607    .text.Enter_LowPowerMode:00000000 $t
-  R:\TEMP\ccSFH1bX.s:612    .text.Enter_LowPowerMode:00000000 Enter_LowPowerMode
-  R:\TEMP\ccSFH1bX.s:627    .text.Enter_LowPowerMode:00000008 $d
-  R:\TEMP\ccSFH1bX.s:632    .text.Leave_LowPowerMode:00000000 $t
-  R:\TEMP\ccSFH1bX.s:637    .text.Leave_LowPowerMode:00000000 Leave_LowPowerMode
-  R:\TEMP\ccSFH1bX.s:662    .text.Leave_LowPowerMode:00000014 $d
-  R:\TEMP\ccSFH1bX.s:668    .text.Get_SerialNum:00000000 $t
-  R:\TEMP\ccSFH1bX.s:673    .text.Get_SerialNum:00000000 Get_SerialNum
-  R:\TEMP\ccSFH1bX.s:725    .text.Get_SerialNum:00000030 $d
-  R:\TEMP\ccSFH1bX.s:750    .bss.CmdKey:00000000 CmdKey
-  R:\TEMP\ccSFH1bX.s:732    .bss.now.8818:00000000 $d
-  R:\TEMP\ccSFH1bX.s:736    .bss.now.8818:00000000 now.8818
-  R:\TEMP\ccSFH1bX.s:739    .bss.keycounts.8816:00000000 $d
-  R:\TEMP\ccSFH1bX.s:743    .bss.keycounts.8816:00000000 keycounts.8816
-  R:\TEMP\ccSFH1bX.s:746    .bss.CmdKey:00000000 $d
-  R:\TEMP\ccSFH1bX.s:753    .bss.prev.8817:00000000 $d
-  R:\TEMP\ccSFH1bX.s:757    .bss.prev.8817:00000000 prev.8817
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 hw_config.c
+  R:\TEMP\ccd1dKQ1.s:19     .text.IntToUnicode:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:23     .text.IntToUnicode:0000000000000000 IntToUnicode
+  R:\TEMP\ccd1dKQ1.s:79     .text.LED_Configuration:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:84     .text.LED_Configuration:0000000000000000 LED_Configuration
+  R:\TEMP\ccd1dKQ1.s:192    .text.LED_Configuration:000000000000009c $d
+  R:\TEMP\ccd1dKQ1.s:201    .text.KEY_Configuration:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:206    .text.KEY_Configuration:0000000000000000 KEY_Configuration
+  R:\TEMP\ccd1dKQ1.s:261    .text.KEY_Configuration:000000000000004c $d
+  R:\TEMP\ccd1dKQ1.s:267    .text.NVIC_Configuration:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:272    .text.NVIC_Configuration:0000000000000000 NVIC_Configuration
+  R:\TEMP\ccd1dKQ1.s:290    .text.Set_System:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:295    .text.Set_System:0000000000000000 Set_System
+  R:\TEMP\ccd1dKQ1.s:333    .text.JoyInp_Chk:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:338    .text.JoyInp_Chk:0000000000000000 JoyInp_Chk
+  R:\TEMP\ccd1dKQ1.s:394    .text.JoyInp_Chk:0000000000000048 $d
+  R:\TEMP\ccd1dKQ1.s:404    .text.Set72:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:409    .text.Set72:0000000000000000 Set72
+  R:\TEMP\ccd1dKQ1.s:483    .text.Set72:000000000000005c $d
+  R:\TEMP\ccd1dKQ1.s:488    .text.USB_Disconnect_Config:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:493    .text.USB_Disconnect_Config:0000000000000000 USB_Disconnect_Config
+  R:\TEMP\ccd1dKQ1.s:530    .text.USB_Disconnect_Config:0000000000000028 $d
+  R:\TEMP\ccd1dKQ1.s:535    .text.Set_USBClock:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:540    .text.Set_USBClock:0000000000000000 Set_USBClock
+  R:\TEMP\ccd1dKQ1.s:567    .text.USB_Cable_Config:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:572    .text.USB_Cable_Config:0000000000000000 USB_Cable_Config
+  R:\TEMP\ccd1dKQ1.s:602    .text.USB_Cable_Config:0000000000000014 $d
+  R:\TEMP\ccd1dKQ1.s:607    .text.Enter_LowPowerMode:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:612    .text.Enter_LowPowerMode:0000000000000000 Enter_LowPowerMode
+  R:\TEMP\ccd1dKQ1.s:627    .text.Enter_LowPowerMode:0000000000000008 $d
+  R:\TEMP\ccd1dKQ1.s:632    .text.Leave_LowPowerMode:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:637    .text.Leave_LowPowerMode:0000000000000000 Leave_LowPowerMode
+  R:\TEMP\ccd1dKQ1.s:662    .text.Leave_LowPowerMode:0000000000000014 $d
+  R:\TEMP\ccd1dKQ1.s:668    .text.Get_SerialNum:0000000000000000 $t
+  R:\TEMP\ccd1dKQ1.s:673    .text.Get_SerialNum:0000000000000000 Get_SerialNum
+  R:\TEMP\ccd1dKQ1.s:725    .text.Get_SerialNum:0000000000000030 $d
+  R:\TEMP\ccd1dKQ1.s:750    .bss.CmdKey:0000000000000000 CmdKey
+  R:\TEMP\ccd1dKQ1.s:732    .bss.keycounts.8838:0000000000000000 $d
+  R:\TEMP\ccd1dKQ1.s:736    .bss.keycounts.8838:0000000000000000 keycounts.8838
+  R:\TEMP\ccd1dKQ1.s:739    .bss.prev.8839:0000000000000000 $d
+  R:\TEMP\ccd1dKQ1.s:743    .bss.prev.8839:0000000000000000 prev.8839
+  R:\TEMP\ccd1dKQ1.s:746    .bss.CmdKey:0000000000000000 $d
+  R:\TEMP\ccd1dKQ1.s:753    .bss.now.8840:0000000000000000 $d
+  R:\TEMP\ccd1dKQ1.s:757    .bss.now.8840:0000000000000000 now.8840
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphClockCmd

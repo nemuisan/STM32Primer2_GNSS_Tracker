@@ -1,3 +1,12 @@
+20130701 : 
+V13.50 Fixed FatFs Minor Bug.
+
+20130615 : 
+V13.01 Added New GCC Compiler(bleeding-edge-toolchain).
+
+20130510 : 
+V13.00 Adopted CMSIS3.20.
+
 20130410:
 V12.00 Updated Display Libraries
 

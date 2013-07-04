@@ -105,7 +105,7 @@
   48 0010 10BD     		pop	{r4, pc}
   49              	.LVL3:
   50              	.L5:
-  56:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       return MAL_FAIL;
+  56:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****   }
   51              		.loc 1 56 0
   52 0012 0120     		movs	r0, #1
   53              	.LVL4:
@@ -346,39 +346,39 @@
  190 0006 38BD     		pop	{r3, r4, r5, pc}
  191              	.LVL20:
  192              	.L24:
- 123:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****     if (SD_Init() == SD_OK)
+ 123:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****     {
  193              		.loc 1 123 0
  194 0008 FFF7FEFF 		bl	SD_Init
  195              	.LVL21:
  196 000c 2A28     		cmp	r0, #42
  197 000e F9D1     		bne	.L26
- 125:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       SD_GetCardInfo(&SDCardInfo);
+ 125:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       SD_SelectDeselect((uint32_t) (SDCardInfo.RCA << 16));
  198              		.loc 1 125 0
  199 0010 284C     		ldr	r4, .L30
  200 0012 2046     		mov	r0, r4
  201 0014 FFF7FEFF 		bl	SD_GetCardInfo
  202              	.LVL22:
- 126:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       SD_SelectDeselect((uint32_t) (SDCardInfo.RCA << 16));
+ 126:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       DeviceSizeMul = (SDCardInfo.SD_csd.DeviceSizeMul + 2);
  203              		.loc 1 126 0
  204 0018 B4F85400 		ldrh	r0, [r4, #84]
  205 001c 0004     		lsls	r0, r0, #16
  206 001e FFF7FEFF 		bl	SD_SelectDeselect
  207              	.LVL23:
- 127:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       DeviceSizeMul = (SDCardInfo.SD_csd.DeviceSizeMul + 2);
+ 127:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** 
  208              		.loc 1 127 0
  209 0022 237E     		ldrb	r3, [r4, #24]	@ zero_extendqisi2
  210              	.LVL24:
- 129:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       if(SDCardInfo.CardType == SDIO_HIGH_CAPACITY_SD_CARD)
+ 129:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       {
  211              		.loc 1 129 0
  212 0024 94F85620 		ldrb	r2, [r4, #86]	@ zero_extendqisi2
  213 0028 022A     		cmp	r2, #2
  214 002a 2349     		ldr	r1, .L30+4
  215 002c 0DD1     		bne	.L27
- 132:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** 		dwDevSize  = (uint64_t)(SDCardInfo.SD_csd.DeviceSize + 1) * 512 * 1024;
+ 132:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** 		/* nemui  calculate highest LBA */
  216              		.loc 1 132 0
  217 002e 2469     		ldr	r4, [r4, #16]
  218 0030 651C     		adds	r5, r4, #1
- 134:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** 		Mass_Block_Count[0] = (dwDevSize - 1) / 512;
+ 134:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       }
  219              		.loc 1 134 0
  220 0032 4FF0FF32 		mov	r2, #-1
  221 0036 4FF0FF33 		mov	r3, #-1
@@ -390,22 +390,22 @@
  227 0048 0FE0     		b	.L29
  228              	.LVL26:
  229              	.L27:
- 138:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****         NumberOfBlocks  = ((1 << (SDCardInfo.SD_csd.RdBlockLen)) / 512);
+ 138:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****         Mass_Block_Count[0] = ((SDCardInfo.SD_csd.DeviceSize + 1) * (1 << DeviceSizeMul) << (Number
  230              		.loc 1 138 0
  231 004a 257A     		ldrb	r5, [r4, #8]	@ zero_extendqisi2
  232              	.LVL27:
- 139:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****         Mass_Block_Count[0] = ((SDCardInfo.SD_csd.DeviceSize + 1) * (1 << DeviceSizeMul) << (Number
+ 139:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       }
  233              		.loc 1 139 0
  234 004c 2469     		ldr	r4, [r4, #16]
  235 004e 601C     		adds	r0, r4, #1
- 127:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       DeviceSizeMul = (SDCardInfo.SD_csd.DeviceSizeMul + 2);
+ 127:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** 
  236              		.loc 1 127 0
  237 0050 0233     		adds	r3, r3, #2
  238              	.LVL28:
- 139:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****         Mass_Block_Count[0] = ((SDCardInfo.SD_csd.DeviceSize + 1) * (1 << DeviceSizeMul) << (Number
+ 139:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       }
  239              		.loc 1 139 0
  240 0052 00FA03F4 		lsl	r4, r0, r3
- 138:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****         NumberOfBlocks  = ((1 << (SDCardInfo.SD_csd.RdBlockLen)) / 512);
+ 138:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****         Mass_Block_Count[0] = ((SDCardInfo.SD_csd.DeviceSize + 1) * (1 << DeviceSizeMul) << (Number
  241              		.loc 1 138 0
  242 0056 0122     		movs	r2, #1
  243 0058 02FA05F5 		lsl	r5, r2, r5
@@ -413,18 +413,18 @@
  245 005c 4FF40070 		mov	r0, #512
  246 0060 95FBF0F3 		sdiv	r3, r5, r0
  247              	.LVL30:
- 139:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****         Mass_Block_Count[0] = ((SDCardInfo.SD_csd.DeviceSize + 1) * (1 << DeviceSizeMul) << (Number
+ 139:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       }
  248              		.loc 1 139 0
  249 0064 5A08     		lsrs	r2, r3, #1
  250 0066 04FA02F4 		lsl	r4, r4, r2
  251              	.L29:
  252 006a 0C60     		str	r4, [r1, #0]
- 141:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       Mass_Block_Size[0]  = 512;
+ 141:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** 
  253              		.loc 1 141 0
  254 006c 134D     		ldr	r5, .L30+8
  255 006e 4FF40071 		mov	r1, #512
  256 0072 2960     		str	r1, [r5, #0]
- 143:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       Status = SD_SelectDeselect((uint32_t) (SDCardInfo.RCA << 16)); 
+ 143:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       Status = SD_EnableWideBusOperation(SDIO_BusWide_4b); 
  257              		.loc 1 143 0
  258 0074 0F4B     		ldr	r3, .L30
  259 0076 B3F85440 		ldrh	r4, [r3, #84]
@@ -433,29 +433,29 @@
  262              	.LVL31:
  263 0080 0F4C     		ldr	r4, .L30+12
  264 0082 2070     		strb	r0, [r4, #0]
- 144:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       Status = SD_EnableWideBusOperation(SDIO_BusWide_4b); 
+ 144:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       if ( Status != SD_OK )
  265              		.loc 1 144 0
  266 0084 4FF40060 		mov	r0, #2048
  267 0088 FFF7FEFF 		bl	SD_EnableWideBusOperation
  268              	.LVL32:
  269 008c 2070     		strb	r0, [r4, #0]
- 145:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       if ( Status != SD_OK )
+ 145:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       {
  270              		.loc 1 145 0
  271 008e 2078     		ldrb	r0, [r4, #0]	@ zero_extendqisi2
  272 0090 2A28     		cmp	r0, #42
  273 0092 B7D1     		bne	.L26
- 150:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       Status = SD_SetDeviceMode(SD_DMA_MODE);         
+ 150:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       if ( Status != SD_OK )
  274              		.loc 1 150 0
  275 0094 0020     		movs	r0, #0
  276 0096 FFF7FEFF 		bl	SD_SetDeviceMode
  277              	.LVL33:
  278 009a 2070     		strb	r0, [r4, #0]
- 151:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       if ( Status != SD_OK )
+ 151:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       {
  279              		.loc 1 151 0
  280 009c 2278     		ldrb	r2, [r4, #0]	@ zero_extendqisi2
  281 009e 2A2A     		cmp	r2, #42
  282 00a0 B0D1     		bne	.L26
- 156:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       Mass_Memory_Size[0] = Mass_Block_Count[0] * Mass_Block_Size[0];
+ 156:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** 
  283              		.loc 1 156 0
  284 00a2 2968     		ldr	r1, [r5, #0]
  285 00a4 044B     		ldr	r3, .L30+4
@@ -463,7 +463,7 @@
  287 00a8 4843     		muls	r0, r1, r0
  288 00aa 064A     		ldr	r2, .L30+16
  289 00ac 1060     		str	r0, [r2, #0]
- 158:lib/USB_Functions/msc/src/usb_msc_mass_mal.c ****       return MAL_OK;
+ 158:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** 
  290              		.loc 1 158 0
  291 00ae 0020     		movs	r0, #0
  163:lib/USB_Functions/msc/src/usb_msc_mass_mal.c **** }
@@ -502,30 +502,30 @@
  328      00000000 
  329              		.text
  330              	.Letext0:
- 331              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 331              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  332              		.file 3 "./lib/ff/sdio_stm32f1.h"
  333              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_msc_mass_mal.c
-  R:\TEMP\cc7EOqSw.s:19     .text.MAL_Init:00000000 $t
-  R:\TEMP\cc7EOqSw.s:24     .text.MAL_Init:00000000 MAL_Init
-  R:\TEMP\cc7EOqSw.s:59     .text.MAL_Init:00000018 $d
-  R:\TEMP\cc7EOqSw.s:64     .text.MAL_Write:00000000 $t
-  R:\TEMP\cc7EOqSw.s:69     .text.MAL_Write:00000000 MAL_Write
-  R:\TEMP\cc7EOqSw.s:109    .text.MAL_Write:00000020 $d
-  R:\TEMP\cc7EOqSw.s:114    .text.MAL_Read:00000000 $t
-  R:\TEMP\cc7EOqSw.s:119    .text.MAL_Read:00000000 MAL_Read
-  R:\TEMP\cc7EOqSw.s:159    .text.MAL_Read:00000020 $d
-  R:\TEMP\cc7EOqSw.s:164    .text.MAL_GetStatus:00000000 $t
-  R:\TEMP\cc7EOqSw.s:169    .text.MAL_GetStatus:00000000 MAL_GetStatus
-  R:\TEMP\cc7EOqSw.s:297    .text.MAL_GetStatus:000000b4 $d
-  R:\TEMP\cc7EOqSw.s:327    .bss.Mass_Block_Count:00000000 Mass_Block_Count
-  R:\TEMP\cc7EOqSw.s:313    .bss.Mass_Block_Size:00000000 Mass_Block_Size
-  R:\TEMP\cc7EOqSw.s:320    .bss.Mass_Memory_Size:00000000 Mass_Memory_Size
-  R:\TEMP\cc7EOqSw.s:309    .bss.Mass_Block_Size:00000000 $d
-  R:\TEMP\cc7EOqSw.s:316    .bss.Mass_Memory_Size:00000000 $d
-  R:\TEMP\cc7EOqSw.s:323    .bss.Mass_Block_Count:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_msc_mass_mal.c
+  R:\TEMP\ccUVBn5q.s:19     .text.MAL_Init:0000000000000000 $t
+  R:\TEMP\ccUVBn5q.s:24     .text.MAL_Init:0000000000000000 MAL_Init
+  R:\TEMP\ccUVBn5q.s:59     .text.MAL_Init:0000000000000018 $d
+  R:\TEMP\ccUVBn5q.s:64     .text.MAL_Write:0000000000000000 $t
+  R:\TEMP\ccUVBn5q.s:69     .text.MAL_Write:0000000000000000 MAL_Write
+  R:\TEMP\ccUVBn5q.s:109    .text.MAL_Write:0000000000000020 $d
+  R:\TEMP\ccUVBn5q.s:114    .text.MAL_Read:0000000000000000 $t
+  R:\TEMP\ccUVBn5q.s:119    .text.MAL_Read:0000000000000000 MAL_Read
+  R:\TEMP\ccUVBn5q.s:159    .text.MAL_Read:0000000000000020 $d
+  R:\TEMP\ccUVBn5q.s:164    .text.MAL_GetStatus:0000000000000000 $t
+  R:\TEMP\ccUVBn5q.s:169    .text.MAL_GetStatus:0000000000000000 MAL_GetStatus
+  R:\TEMP\ccUVBn5q.s:297    .text.MAL_GetStatus:00000000000000b4 $d
+  R:\TEMP\ccUVBn5q.s:327    .bss.Mass_Block_Count:0000000000000000 Mass_Block_Count
+  R:\TEMP\ccUVBn5q.s:313    .bss.Mass_Block_Size:0000000000000000 Mass_Block_Size
+  R:\TEMP\ccUVBn5q.s:320    .bss.Mass_Memory_Size:0000000000000000 Mass_Memory_Size
+  R:\TEMP\ccUVBn5q.s:309    .bss.Mass_Block_Size:0000000000000000 $d
+  R:\TEMP\ccUVBn5q.s:316    .bss.Mass_Memory_Size:0000000000000000 $d
+  R:\TEMP\ccUVBn5q.s:323    .bss.Mass_Block_Count:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 SD_Init

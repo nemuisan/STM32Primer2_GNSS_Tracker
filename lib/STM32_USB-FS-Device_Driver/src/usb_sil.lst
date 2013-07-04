@@ -240,22 +240,22 @@
  144              	.LFE59:
  146              		.text
  147              	.Letext0:
- 148              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 148              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  149              		.file 3 "./lib/CMSIS/Include/core_cm3.h"
  150              		.file 4 "./inc/systick.h"
  151              		.file 5 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
  152              		.file 6 "./lib/STM32_USB-FS-Device_Driver/inc/usb_mem.h"
  153              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_sil.c
-  R:\TEMP\ccF19f9H.s:19     .text.USB_SIL_Init:00000000 $t
-  R:\TEMP\ccF19f9H.s:24     .text.USB_SIL_Init:00000000 USB_SIL_Init
-  R:\TEMP\ccF19f9H.s:48     .text.USB_SIL_Init:00000014 $d
-  R:\TEMP\ccF19f9H.s:55     .text.USB_SIL_Write:00000000 $t
-  R:\TEMP\ccF19f9H.s:60     .text.USB_SIL_Write:00000000 USB_SIL_Write
-  R:\TEMP\ccF19f9H.s:101    .text.USB_SIL_Read:00000000 $t
-  R:\TEMP\ccF19f9H.s:106    .text.USB_SIL_Read:00000000 USB_SIL_Read
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_sil.c
+  R:\TEMP\ccn9Cokk.s:19     .text.USB_SIL_Init:0000000000000000 $t
+  R:\TEMP\ccn9Cokk.s:24     .text.USB_SIL_Init:0000000000000000 USB_SIL_Init
+  R:\TEMP\ccn9Cokk.s:48     .text.USB_SIL_Init:0000000000000014 $d
+  R:\TEMP\ccn9Cokk.s:55     .text.USB_SIL_Write:0000000000000000 $t
+  R:\TEMP\ccn9Cokk.s:60     .text.USB_SIL_Write:0000000000000000 USB_SIL_Write
+  R:\TEMP\ccn9Cokk.s:101    .text.USB_SIL_Read:0000000000000000 $t
+  R:\TEMP\ccn9Cokk.s:106    .text.USB_SIL_Read:0000000000000000 USB_SIL_Read
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 wInterrupt_Mask

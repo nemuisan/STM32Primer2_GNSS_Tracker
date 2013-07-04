@@ -119,10 +119,10 @@
   47 0012 01E0     		b	.L2
   48              	.LVL3:
   49              	.L3:
-  58:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Inquiry_Data_Length = 5;
+  58:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   }
   50              		.loc 1 58 0
   51 0014 0521     		movs	r1, #5
-  57:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Inquiry_Data = Page00_Inquiry_Data;
+  57:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Inquiry_Data_Length = 5;
   52              		.loc 1 57 0
   53 0016 0348     		ldr	r0, .L6+8
   54              	.LVL4:
@@ -134,7 +134,7 @@
   78:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Inquiry_Data, Inquiry_Data_Length);
   79:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
   56              		.loc 1 79 0
-  78:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Inquiry_Data, Inquiry_Data_Length);
+  78:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
   57              		.loc 1 78 0
   58 0018 FFF7FEBF 		b	Transfer_Data_Request
   59              	.LVL5:
@@ -284,61 +284,61 @@
  101 0012 0273     		strb	r2, [r0, #12]
  102              	.LBE29:
  103              	.LBE28:
-  92:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+  92:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Bot_Abort(DIR_IN);
  104              		.loc 1 92 0
  105 0014 0120     		movs	r0, #1
  106 0016 0146     		mov	r1, r0
  107 0018 FFF7FEFF 		bl	Set_CSW
  108              	.LVL9:
-  93:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Bot_Abort(DIR_IN);
+  93:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     return;
  109              		.loc 1 93 0
  110 001c 0020     		movs	r0, #0
- 105:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 105:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  111              		.loc 1 105 0
  112 001e BDE81040 		pop	{r4, lr}
-  93:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Bot_Abort(DIR_IN);
+  93:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     return;
  113              		.loc 1 93 0
  114 0022 FFF7FEBF 		b	Bot_Abort
  115              	.LVL10:
  116              	.L9:
-  96:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[4] = (uint8_t)(Mass_Block_Count[lun] >> 24);
+  96:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[5] = (uint8_t)(Mass_Block_Count[lun] >> 16);
  117              		.loc 1 96 0
  118 0026 0D4B     		ldr	r3, .L10+4
  119 0028 53F82410 		ldr	r1, [r3, r4, lsl #2]
  120 002c 0C48     		ldr	r0, .L10+8
  121 002e 0A0E     		lsrs	r2, r1, #24
  122 0030 0271     		strb	r2, [r0, #4]
-  97:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[5] = (uint8_t)(Mass_Block_Count[lun] >> 16);
+  97:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[6] = (uint8_t)(Mass_Block_Count[lun] >>  8);
  123              		.loc 1 97 0
  124 0032 0B0C     		lsrs	r3, r1, #16
  125 0034 4371     		strb	r3, [r0, #5]
-  98:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[6] = (uint8_t)(Mass_Block_Count[lun] >>  8);
+  98:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[7] = (uint8_t)(Mass_Block_Count[lun]);
  126              		.loc 1 98 0
  127 0036 0A0A     		lsrs	r2, r1, #8
  128 0038 8271     		strb	r2, [r0, #6]
-  99:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[7] = (uint8_t)(Mass_Block_Count[lun]);
+  99:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  129              		.loc 1 99 0
  130 003a C171     		strb	r1, [r0, #7]
- 101:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[9] = (uint8_t)(Mass_Block_Size[lun] >>  16);
+ 101:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[10] = (uint8_t)(Mass_Block_Size[lun] >>  8);
  131              		.loc 1 101 0
  132 003c 0949     		ldr	r1, .L10+12
  133 003e 51F82430 		ldr	r3, [r1, r4, lsl #2]
  134 0042 1A0C     		lsrs	r2, r3, #16
  135 0044 4272     		strb	r2, [r0, #9]
- 102:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[10] = (uint8_t)(Mass_Block_Size[lun] >>  8);
+ 102:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[11] = (uint8_t)(Mass_Block_Size[lun]);
  136              		.loc 1 102 0
  137 0046 190A     		lsrs	r1, r3, #8
  138 0048 8172     		strb	r1, [r0, #10]
- 103:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadFormatCapacity_Data[11] = (uint8_t)(Mass_Block_Size[lun]);
+ 103:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(ReadFormatCapacity_Data, READ_FORMAT_CAPACITY_DATA_LEN);
  139              		.loc 1 103 0
  140 004a C372     		strb	r3, [r0, #11]
- 104:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(ReadFormatCapacity_Data, READ_FORMAT_CAPACITY_DATA_LEN);
+ 104:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  141              		.loc 1 104 0
  142 004c 0C21     		movs	r1, #12
- 105:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 105:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  143              		.loc 1 105 0
  144 004e BDE81040 		pop	{r4, lr}
- 104:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(ReadFormatCapacity_Data, READ_FORMAT_CAPACITY_DATA_LEN);
+ 104:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  145              		.loc 1 104 0
  146 0052 FFF7FEBF 		b	Transfer_Data_Request
  147              	.LVL11:
@@ -358,7 +358,7 @@
  162              		.thumb_func
  164              	SCSI_ReadCapacity10_Cmd:
  165              	.LFB59:
- 113:lib/USB_Functions/msc/src/usb_msc_scsi.c **** {
+ 113:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  166              		.loc 1 113 0
  167              		.cfi_startproc
  168              		@ args = 0, pretend = 0, frame = 0
@@ -370,7 +370,7 @@
  174              		.cfi_offset 4, -8
  175              		.cfi_offset 14, -4
  176 0002 0446     		mov	r4, r0
- 115:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   if (MAL_GetStatus(lun))
+ 115:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   {
  177              		.loc 1 115 0
  178 0004 FFF7FEFF 		bl	MAL_GetStatus
  179              	.LVL13:
@@ -378,7 +378,7 @@
  181              	.LVL14:
  182              	.LBB30:
  183              	.LBB31:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  184              		.loc 1 182 0
  185 000a 1448     		ldr	r0, .L14
  186 000c 0223     		movs	r3, #2
@@ -388,24 +388,24 @@
  190 0012 0173     		strb	r1, [r0, #12]
  191              	.LBE31:
  192              	.LBE30:
- 118:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+ 118:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Bot_Abort(DIR_IN);
  193              		.loc 1 118 0
  194 0014 0120     		movs	r0, #1
  195 0016 0146     		mov	r1, r0
  196 0018 FFF7FEFF 		bl	Set_CSW
  197              	.LVL15:
- 119:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Bot_Abort(DIR_IN);
+ 119:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     return;
  198              		.loc 1 119 0
  199 001c 0020     		movs	r0, #0
- 133:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 133:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  200              		.loc 1 133 0
  201 001e BDE81040 		pop	{r4, lr}
- 119:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Bot_Abort(DIR_IN);
+ 119:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     return;
  202              		.loc 1 119 0
  203 0022 FFF7FEBF 		b	Bot_Abort
  204              	.LVL16:
  205              	.L13:
- 123:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[0] = (uint8_t)((Mass_Block_Count[lun] - 1) >> 24);
+ 123:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[1] = (uint8_t)((Mass_Block_Count[lun] - 1) >> 16);
  206              		.loc 1 123 0
  207 0026 0E4B     		ldr	r3, .L14+4
  208 0028 53F82400 		ldr	r0, [r3, r4, lsl #2]
@@ -413,41 +413,41 @@
  210 002e 0D48     		ldr	r0, .L14+8
  211 0030 0A0E     		lsrs	r2, r1, #24
  212 0032 0270     		strb	r2, [r0, #0]
- 124:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[1] = (uint8_t)((Mass_Block_Count[lun] - 1) >> 16);
+ 124:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[2] = (uint8_t)((Mass_Block_Count[lun] - 1) >>  8);
  213              		.loc 1 124 0
  214 0034 0B0C     		lsrs	r3, r1, #16
  215 0036 4370     		strb	r3, [r0, #1]
- 125:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[2] = (uint8_t)((Mass_Block_Count[lun] - 1) >>  8);
+ 125:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[3] = (uint8_t)(Mass_Block_Count[lun] - 1);
  216              		.loc 1 125 0
  217 0038 0A0A     		lsrs	r2, r1, #8
  218 003a 8270     		strb	r2, [r0, #2]
- 126:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[3] = (uint8_t)(Mass_Block_Count[lun] - 1);
+ 126:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  219              		.loc 1 126 0
  220 003c C170     		strb	r1, [r0, #3]
- 128:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[4] = (uint8_t)(Mass_Block_Size[lun] >>  24);
+ 128:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[5] = (uint8_t)(Mass_Block_Size[lun] >>  16);
  221              		.loc 1 128 0
  222 003e 0A49     		ldr	r1, .L14+12
  223 0040 51F82430 		ldr	r3, [r1, r4, lsl #2]
  224 0044 1A0E     		lsrs	r2, r3, #24
  225 0046 0271     		strb	r2, [r0, #4]
- 129:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[5] = (uint8_t)(Mass_Block_Size[lun] >>  16);
+ 129:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[6] = (uint8_t)(Mass_Block_Size[lun] >>  8);
  226              		.loc 1 129 0
  227 0048 190C     		lsrs	r1, r3, #16
  228 004a 4171     		strb	r1, [r0, #5]
- 130:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[6] = (uint8_t)(Mass_Block_Size[lun] >>  8);
+ 130:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[7] = (uint8_t)(Mass_Block_Size[lun]);
  229              		.loc 1 130 0
  230 004c 1A0A     		lsrs	r2, r3, #8
  231 004e 8271     		strb	r2, [r0, #6]
- 131:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   ReadCapacity10_Data[7] = (uint8_t)(Mass_Block_Size[lun]);
+ 131:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(ReadCapacity10_Data, READ_CAPACITY10_DATA_LEN);
  232              		.loc 1 131 0
  233 0050 C371     		strb	r3, [r0, #7]
- 132:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(ReadCapacity10_Data, READ_CAPACITY10_DATA_LEN);
+ 132:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  234              		.loc 1 132 0
  235 0052 0821     		movs	r1, #8
- 133:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 133:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  236              		.loc 1 133 0
  237 0054 BDE81040 		pop	{r4, lr}
- 132:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(ReadCapacity10_Data, READ_CAPACITY10_DATA_LEN);
+ 132:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  238              		.loc 1 132 0
  239 0058 FFF7FEBF 		b	Transfer_Data_Request
  240              	.LVL17:
@@ -467,21 +467,21 @@
  255              		.thumb_func
  257              	SCSI_ModeSense6_Cmd:
  258              	.LFB60:
- 141:lib/USB_Functions/msc/src/usb_msc_scsi.c **** {
+ 141:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Mode_Sense6_data, MODE_SENSE6_DATA_LEN);
  259              		.loc 1 141 0
  260              		.cfi_startproc
  261              		@ args = 0, pretend = 0, frame = 0
  262              		@ frame_needed = 0, uses_anonymous_args = 0
  263              		@ link register save eliminated.
  264              	.LVL18:
- 142:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Mode_Sense6_data, MODE_SENSE6_DATA_LEN);
+ 142:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  265              		.loc 1 142 0
  266 0000 0148     		ldr	r0, .L17
  267              	.LVL19:
  268 0002 0421     		movs	r1, #4
- 143:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 143:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  269              		.loc 1 143 0
- 142:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Mode_Sense6_data, MODE_SENSE6_DATA_LEN);
+ 142:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  270              		.loc 1 142 0
  271 0004 FFF7FEBF 		b	Transfer_Data_Request
  272              	.LVL20:
@@ -498,21 +498,21 @@
  284              		.thumb_func
  286              	SCSI_ModeSense10_Cmd:
  287              	.LFB61:
- 151:lib/USB_Functions/msc/src/usb_msc_scsi.c **** {
+ 151:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Mode_Sense10_data, MODE_SENSE10_DATA_LEN);
  288              		.loc 1 151 0
  289              		.cfi_startproc
  290              		@ args = 0, pretend = 0, frame = 0
  291              		@ frame_needed = 0, uses_anonymous_args = 0
  292              		@ link register save eliminated.
  293              	.LVL21:
- 152:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Mode_Sense10_data, MODE_SENSE10_DATA_LEN);
+ 152:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  294              		.loc 1 152 0
  295 0000 0148     		ldr	r0, .L20
  296              	.LVL22:
  297 0002 0821     		movs	r1, #8
- 153:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 153:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  298              		.loc 1 153 0
- 152:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Mode_Sense10_data, MODE_SENSE10_DATA_LEN);
+ 152:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  299              		.loc 1 152 0
  300 0004 FFF7FEBF 		b	Transfer_Data_Request
  301              	.LVL23:
@@ -529,19 +529,19 @@
  313              		.thumb_func
  315              	SCSI_RequestSense_Cmd:
  316              	.LFB62:
- 161:lib/USB_Functions/msc/src/usb_msc_scsi.c **** {
+ 161:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   uint8_t Request_Sense_data_Length;
  317              		.loc 1 161 0
  318              		.cfi_startproc
  319              		@ args = 0, pretend = 0, frame = 0
  320              		@ frame_needed = 0, uses_anonymous_args = 0
  321              		@ link register save eliminated.
  322              	.LVL24:
- 164:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   if (CBW.CB[4] <= REQUEST_SENSE_DATA_LEN)
+ 164:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   {
  323              		.loc 1 164 0
  324 0000 034B     		ldr	r3, .L23
  325 0002 D97C     		ldrb	r1, [r3, #19]	@ zero_extendqisi2
  326              	.LVL25:
- 172:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Scsi_Sense_Data, Request_Sense_data_Length);
+ 172:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  327              		.loc 1 172 0
  328 0004 0348     		ldr	r0, .L23+4
  329              	.LVL26:
@@ -549,9 +549,9 @@
  331 0008 28BF     		it	cs
  332 000a 1221     		movcs	r1, #18
  333              	.LVL27:
- 173:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 173:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  334              		.loc 1 173 0
- 172:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Transfer_Data_Request(Scsi_Sense_Data, Request_Sense_data_Length);
+ 172:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  335              		.loc 1 172 0
  336 000c FFF7FEBF 		b	Transfer_Data_Request
  337              	.LVL28:
@@ -569,14 +569,14 @@
  350              		.thumb_func
  352              	Set_Scsi_Sense_Data:
  353              	.LFB63:
- 181:lib/USB_Functions/msc/src/usb_msc_scsi.c **** {
+ 181:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
  354              		.loc 1 181 0
  355              		.cfi_startproc
  356              		@ args = 0, pretend = 0, frame = 0
  357              		@ frame_needed = 0, uses_anonymous_args = 0
  358              		@ link register save eliminated.
  359              	.LVL29:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  360              		.loc 1 182 0
  361 0000 014B     		ldr	r3, .L26
  362 0002 9970     		strb	r1, [r3, #2]
@@ -746,12 +746,12 @@
  433              	.LVL35:
  434              	.LBB32:
  435              	.LBB33:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  436              		.loc 1 182 0
  437 001c 064B     		ldr	r3, .L32+4
  438 001e 0522     		movs	r2, #5
  439 0020 9A70     		strb	r2, [r3, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  440              		.loc 1 183 0
  441 0022 2420     		movs	r0, #36
  442 0024 1873     		strb	r0, [r3, #12]
@@ -768,7 +768,7 @@
  283:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  450              		.loc 1 283 0
  451 002a BDE80840 		pop	{r3, lr}
- 281:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+ 281:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   }
  452              		.loc 1 281 0
  453 002e FFF7FEBF 		b	Set_CSW
  454              	.LVL37:
@@ -818,12 +818,12 @@
  489              	.LVL40:
  490              	.LBB34:
  491              	.LBB35:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  492              		.loc 1 182 0
  493 000e 0748     		ldr	r0, .L37+4
  494 0010 0522     		movs	r2, #5
  495 0012 8270     		strb	r2, [r0, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  496              		.loc 1 183 0
  497 0014 2021     		movs	r1, #32
  498 0016 0173     		strb	r1, [r0, #12]
@@ -846,7 +846,7 @@
  300:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  510              		.loc 1 300 0
  511 0020 BDE80840 		pop	{r3, lr}
- 299:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+ 299:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  512              		.loc 1 299 0
  513 0024 FFF7FEBF 		b	Set_CSW
  514              	.LVL42:
@@ -890,12 +890,12 @@
  545              	.LVL45:
  546              	.LBB36:
  547              	.LBB37:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  548              		.loc 1 182 0
  549 0008 094B     		ldr	r3, .L41
  550 000a 0222     		movs	r2, #2
  551 000c 9A70     		strb	r2, [r3, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  552              		.loc 1 183 0
  553 000e 3A20     		movs	r0, #58
  554 0010 1873     		strb	r0, [r3, #12]
@@ -926,12 +926,12 @@
  567 0020 FFF7FEBF 		b	Bot_Abort
  568              	.LVL47:
  569              	.L40:
- 318:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+ 318:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   }
  570              		.loc 1 318 0
  571 0024 0121     		movs	r1, #1
  572              		.loc 1 320 0
  573 0026 BDE80840 		pop	{r3, lr}
- 318:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+ 318:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   }
  574              		.loc 1 318 0
  575 002a FFF7FEBF 		b	Set_CSW
  576              	.LVL48:
@@ -974,12 +974,12 @@
  606              	.LVL51:
  607              	.LBB38:
  608              	.LBB39:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  609              		.loc 1 182 0
  610 0008 074B     		ldr	r3, .L45
  611 000a 0222     		movs	r2, #2
  612 000c 9A70     		strb	r2, [r3, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  613              		.loc 1 183 0
  614 000e 3A20     		movs	r0, #58
  615 0010 1873     		strb	r0, [r3, #12]
@@ -1075,12 +1075,12 @@
  677              	.LVL58:
  678              	.LBB40:
  679              	.LBB41:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  680              		.loc 1 182 0
  681 001a 0649     		ldr	r1, .L52+4
  682 001c 0523     		movs	r3, #5
  683 001e 8B70     		strb	r3, [r1, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  684              		.loc 1 183 0
  685 0020 2022     		movs	r2, #32
  686 0022 0A73     		strb	r2, [r1, #12]
@@ -1096,7 +1096,7 @@
  363:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  692              		.loc 1 363 0
  693 0028 BDE80840 		pop	{r3, lr}
- 362:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+ 362:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  694              		.loc 1 362 0
  695 002c FFF7FEBF 		b	Set_CSW
  696              	.LVL59:
@@ -1162,12 +1162,12 @@
  742              	.LVL64:
  743              	.LBB50:
  744              	.LBB51:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  745              		.loc 1 182 0
  746 001e 114B     		ldr	r3, .L63+4
  747 0020 0520     		movs	r0, #5
  748 0022 9870     		strb	r0, [r3, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  749              		.loc 1 183 0
  750 0024 2122     		movs	r2, #33
  751 0026 12E0     		b	.L62
@@ -1217,12 +1217,12 @@
  780              	.LVL69:
  781              	.LBB54:
  782              	.LBB55:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  783              		.loc 1 182 0
  784 0046 074B     		ldr	r3, .L63+4
  785 0048 0521     		movs	r1, #5
  786 004a 9970     		strb	r1, [r3, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  787              		.loc 1 183 0
  788 004c 2422     		movs	r2, #36
  789              	.LVL70:
@@ -1268,7 +1268,7 @@
  823              		.thumb_func
  825              	SCSI_Write10_Cmd:
  826              	.LFB66:
- 236:lib/USB_Functions/msc/src/usb_msc_scsi.c **** {
+ 236:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  827              		.loc 1 236 0
  828              		.cfi_startproc
  829              		@ args = 0, pretend = 0, frame = 0
@@ -1285,13 +1285,13 @@
  840              		.cfi_offset 14, -4
  841 0002 0F46     		mov	r7, r1
  842 0004 1346     		mov	r3, r2
- 238:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   if (Bot_State == BOT_IDLE)
+ 238:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   {
  843              		.loc 1 238 0
  844 0006 174D     		ldr	r5, .L71
  845 0008 2C78     		ldrb	r4, [r5, #0]	@ zero_extendqisi2
  846 000a 002C     		cmp	r4, #0
  847 000c 22D1     		bne	.L66
- 240:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     if (!(SCSI_Address_Management(CBW.bLUN, SCSI_WRITE10 , LBA, BlockNbr)))/*address out of range*/
+ 240:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     {
  848              		.loc 1 240 0
  849 000e 164E     		ldr	r6, .L71+4
  850 0010 707B     		ldrb	r0, [r6, #13]	@ zero_extendqisi2
@@ -1304,65 +1304,65 @@
  857              	.LVL77:
  858 001a 0028     		cmp	r0, #0
  859 001c 20D0     		beq	.L65
- 245:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     if ((CBW.bmFlags & 0x80) == 0)
+ 245:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     {
  860              		.loc 1 245 0
  861 001e 96F90C30 		ldrsb	r3, [r6, #12]
  862 0022 002B     		cmp	r3, #0
  863 0024 08DB     		blt	.L69
- 247:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Bot_State = BOT_DATA_OUT;
+ 247:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     #ifndef STM32F10X_CL
  864              		.loc 1 247 0
  865 0026 0123     		movs	r3, #1
  866 0028 2B70     		strb	r3, [r5, #0]
- 249:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       SetEPRxStatus(ENDP2, EP_RX_VALID);
+ 249:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     #endif /* STM32F10X_CL */
  867              		.loc 1 249 0
  868 002a 0220     		movs	r0, #2
  869 002c 4FF44051 		mov	r1, #12288
- 264:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 264:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  870              		.loc 1 264 0
  871 0030 BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
- 249:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       SetEPRxStatus(ENDP2, EP_RX_VALID);
+ 249:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     #endif /* STM32F10X_CL */
  872              		.loc 1 249 0
  873 0034 FFF7FEBF 		b	SetEPRxStatus
  874              	.LVL78:
  875              	.L69:
- 254:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Bot_Abort(DIR_IN);
+ 254:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
  876              		.loc 1 254 0
  877 0038 2046     		mov	r0, r4
  878 003a FFF7FEFF 		bl	Bot_Abort
  879              	.LVL79:
  880              	.LBB56:
  881              	.LBB57:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  882              		.loc 1 182 0
  883 003e 0B48     		ldr	r0, .L71+8
  884 0040 0522     		movs	r2, #5
  885 0042 8270     		strb	r2, [r0, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  886              		.loc 1 183 0
  887 0044 2421     		movs	r1, #36
  888 0046 0173     		strb	r1, [r0, #12]
  889              	.LBE57:
  890              	.LBE56:
- 256:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+ 256:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     }
  891              		.loc 1 256 0
  892 0048 0120     		movs	r0, #1
  893 004a 2146     		mov	r1, r4
- 264:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 264:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  894              		.loc 1 264 0
  895 004c BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
- 256:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+ 256:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     }
  896              		.loc 1 256 0
  897 0050 FFF7FEBF 		b	Set_CSW
  898              	.LVL80:
  899              	.L66:
- 260:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   else if (Bot_State == BOT_DATA_OUT)
+ 260:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   {
  900              		.loc 1 260 0
  901 0054 012C     		cmp	r4, #1
  902 0056 03D1     		bne	.L65
- 264:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 264:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  903              		.loc 1 264 0
  904 0058 BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
- 262:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Write_Memory(lun , LBA , BlockNbr);
+ 262:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   }
  905              		.loc 1 262 0
  906 005c FFF7FEBF 		b	Write_Memory
  907              	.LVL81:
@@ -1383,7 +1383,7 @@
  923              		.thumb_func
  925              	SCSI_Read10_Cmd:
  926              	.LFB65:
- 202:lib/USB_Functions/msc/src/usb_msc_scsi.c **** {
+ 202:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  927              		.loc 1 202 0
  928              		.cfi_startproc
  929              		@ args = 0, pretend = 0, frame = 0
@@ -1401,12 +1401,12 @@
  941 0004 8046     		mov	r8, r0
  942 0006 0D46     		mov	r5, r1
  943 0008 1446     		mov	r4, r2
- 204:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   if (Bot_State == BOT_IDLE)
+ 204:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   {
  944              		.loc 1 204 0
  945 000a 164E     		ldr	r6, .L80
  946 000c 3378     		ldrb	r3, [r6, #0]	@ zero_extendqisi2
  947 000e 03BB     		cbnz	r3, .L74
- 206:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     if (!(SCSI_Address_Management(CBW.bLUN, SCSI_READ10, LBA, BlockNbr)))/*address out of range*/
+ 206:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     {
  948              		.loc 1 206 0
  949 0010 154F     		ldr	r7, .L80+4
  950 0012 787B     		ldrb	r0, [r7, #13]	@ zero_extendqisi2
@@ -1420,62 +1420,62 @@
  958              	.LVL86:
  959 001e 0028     		cmp	r0, #0
  960 0020 1DD0     		beq	.L73
- 211:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     if ((CBW.bmFlags & 0x80) != 0)
+ 211:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     {
  961              		.loc 1 211 0
  962 0022 97F90C00 		ldrsb	r0, [r7, #12]
  963 0026 0028     		cmp	r0, #0
  964 0028 05DA     		bge	.L77
- 213:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Bot_State = BOT_DATA_IN;
+ 213:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Read_Memory(lun, LBA , BlockNbr);
  965              		.loc 1 213 0
  966 002a 0220     		movs	r0, #2
  967 002c 3070     		strb	r0, [r6, #0]
- 214:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Read_Memory(lun, LBA , BlockNbr);
+ 214:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     }
  968              		.loc 1 214 0
  969 002e 4046     		mov	r0, r8
  970 0030 2946     		mov	r1, r5
  971 0032 2246     		mov	r2, r4
  972 0034 0FE0     		b	.L79
  973              	.L77:
- 218:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Bot_Abort(BOTH_DIR);
+ 218:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
  974              		.loc 1 218 0
  975 0036 0220     		movs	r0, #2
  976 0038 FFF7FEFF 		bl	Bot_Abort
  977              	.LVL87:
  978              	.LBB58:
  979              	.LBB59:
- 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[2] = Sens_Key;
+ 182:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
  980              		.loc 1 182 0
  981 003c 0B49     		ldr	r1, .L80+8
  982 003e 0522     		movs	r2, #5
  983 0040 8A70     		strb	r2, [r1, #2]
- 183:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   Scsi_Sense_Data[12] = Asc;
+ 183:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
  984              		.loc 1 183 0
  985 0042 2423     		movs	r3, #36
  986 0044 0B73     		strb	r3, [r1, #12]
  987              	.LBE59:
  988              	.LBE58:
- 220:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+ 220:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     }
  989              		.loc 1 220 0
  990 0046 0120     		movs	r0, #1
  991 0048 0146     		mov	r1, r0
- 228:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 228:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  992              		.loc 1 228 0
  993 004a BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}
- 220:lib/USB_Functions/msc/src/usb_msc_scsi.c ****       Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+ 220:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     }
  994              		.loc 1 220 0
  995 004e FFF7FEBF 		b	Set_CSW
  996              	.LVL88:
  997              	.L74:
- 224:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   else if (Bot_State == BOT_DATA_IN)
+ 224:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   {
  998              		.loc 1 224 0
  999 0052 022B     		cmp	r3, #2
  1000 0054 03D1     		bne	.L73
  1001              	.LVL89:
  1002              	.L79:
- 228:lib/USB_Functions/msc/src/usb_msc_scsi.c **** }
+ 228:lib/USB_Functions/msc/src/usb_msc_scsi.c **** 
  1003              		.loc 1 228 0
  1004 0056 BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}
- 226:lib/USB_Functions/msc/src/usb_msc_scsi.c ****     Read_Memory(lun , LBA , BlockNbr);
+ 226:lib/USB_Functions/msc/src/usb_msc_scsi.c ****   }
  1005              		.loc 1 226 0
  1006 005a FFF7FEBF 		b	Read_Memory
  1007              	.LVL90:
@@ -1491,7 +1491,7 @@
  1017              	.LFE65:
  1019              		.text
  1020              	.Letext0:
- 1021              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 1021              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  1022              		.file 3 "./lib/USB_Functions/msc/inc/usb_msc_bot.h"
  1023              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  1024              		.file 5 "./inc/systick.h"
@@ -1500,55 +1500,55 @@
  1027              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
  1028              		.file 9 "./lib/USB_Functions/msc/inc/usb_msc_memory.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_msc_scsi.c
-  R:\TEMP\ccs5XbZs.s:19     .text.SCSI_Inquiry_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:24     .text.SCSI_Inquiry_Cmd:00000000 SCSI_Inquiry_Cmd
-  R:\TEMP\ccs5XbZs.s:63     .text.SCSI_Inquiry_Cmd:0000001c $d
-  R:\TEMP\ccs5XbZs.s:70     .text.SCSI_ReadFormatCapacity_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:75     .text.SCSI_ReadFormatCapacity_Cmd:00000000 SCSI_ReadFormatCapacity_Cmd
-  R:\TEMP\ccs5XbZs.s:151    .text.SCSI_ReadFormatCapacity_Cmd:00000058 $d
-  R:\TEMP\ccs5XbZs.s:159    .text.SCSI_ReadCapacity10_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:164    .text.SCSI_ReadCapacity10_Cmd:00000000 SCSI_ReadCapacity10_Cmd
-  R:\TEMP\ccs5XbZs.s:244    .text.SCSI_ReadCapacity10_Cmd:0000005c $d
-  R:\TEMP\ccs5XbZs.s:252    .text.SCSI_ModeSense6_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:257    .text.SCSI_ModeSense6_Cmd:00000000 SCSI_ModeSense6_Cmd
-  R:\TEMP\ccs5XbZs.s:276    .text.SCSI_ModeSense6_Cmd:00000008 $d
-  R:\TEMP\ccs5XbZs.s:281    .text.SCSI_ModeSense10_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:286    .text.SCSI_ModeSense10_Cmd:00000000 SCSI_ModeSense10_Cmd
-  R:\TEMP\ccs5XbZs.s:305    .text.SCSI_ModeSense10_Cmd:00000008 $d
-  R:\TEMP\ccs5XbZs.s:310    .text.SCSI_RequestSense_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:315    .text.SCSI_RequestSense_Cmd:00000000 SCSI_RequestSense_Cmd
-  R:\TEMP\ccs5XbZs.s:341    .text.SCSI_RequestSense_Cmd:00000010 $d
-  R:\TEMP\ccs5XbZs.s:347    .text.Set_Scsi_Sense_Data:00000000 $t
-  R:\TEMP\ccs5XbZs.s:352    .text.Set_Scsi_Sense_Data:00000000 Set_Scsi_Sense_Data
-  R:\TEMP\ccs5XbZs.s:369    .text.Set_Scsi_Sense_Data:00000008 $d
-  R:\TEMP\ccs5XbZs.s:374    .text.SCSI_Start_Stop_Unit_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:379    .text.SCSI_Start_Stop_Unit_Cmd:00000000 SCSI_Start_Stop_Unit_Cmd
-  R:\TEMP\ccs5XbZs.s:399    .text.SCSI_Verify10_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:404    .text.SCSI_Verify10_Cmd:00000000 SCSI_Verify10_Cmd
-  R:\TEMP\ccs5XbZs.s:458    .text.SCSI_Verify10_Cmd:00000034 $d
-  R:\TEMP\ccs5XbZs.s:464    .text.SCSI_Valid_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:469    .text.SCSI_Valid_Cmd:00000000 SCSI_Valid_Cmd
-  R:\TEMP\ccs5XbZs.s:518    .text.SCSI_Valid_Cmd:00000028 $d
-  R:\TEMP\ccs5XbZs.s:524    .text.SCSI_TestUnitReady_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:529    .text.SCSI_TestUnitReady_Cmd:00000000 SCSI_TestUnitReady_Cmd
-  R:\TEMP\ccs5XbZs.s:580    .text.SCSI_TestUnitReady_Cmd:00000030 $d
-  R:\TEMP\ccs5XbZs.s:585    .text.SCSI_Format_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:590    .text.SCSI_Format_Cmd:00000000 SCSI_Format_Cmd
-  R:\TEMP\ccs5XbZs.s:635    .text.SCSI_Format_Cmd:00000028 $d
-  R:\TEMP\ccs5XbZs.s:640    .text.SCSI_Invalid_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:645    .text.SCSI_Invalid_Cmd:00000000 SCSI_Invalid_Cmd
-  R:\TEMP\ccs5XbZs.s:700    .text.SCSI_Invalid_Cmd:00000030 $d
-  R:\TEMP\ccs5XbZs.s:706    .text.SCSI_Address_Management:00000000 $t
-  R:\TEMP\ccs5XbZs.s:711    .text.SCSI_Address_Management:00000000 SCSI_Address_Management
-  R:\TEMP\ccs5XbZs.s:812    .text.SCSI_Address_Management:00000060 $d
-  R:\TEMP\ccs5XbZs.s:820    .text.SCSI_Write10_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:825    .text.SCSI_Write10_Cmd:00000000 SCSI_Write10_Cmd
-  R:\TEMP\ccs5XbZs.s:913    .text.SCSI_Write10_Cmd:00000064 $d
-  R:\TEMP\ccs5XbZs.s:920    .text.SCSI_Read10_Cmd:00000000 $t
-  R:\TEMP\ccs5XbZs.s:925    .text.SCSI_Read10_Cmd:00000000 SCSI_Read10_Cmd
-  R:\TEMP\ccs5XbZs.s:1013   .text.SCSI_Read10_Cmd:00000064 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_msc_scsi.c
+  R:\TEMP\cc0cRMY9.s:19     .text.SCSI_Inquiry_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:24     .text.SCSI_Inquiry_Cmd:0000000000000000 SCSI_Inquiry_Cmd
+  R:\TEMP\cc0cRMY9.s:63     .text.SCSI_Inquiry_Cmd:000000000000001c $d
+  R:\TEMP\cc0cRMY9.s:70     .text.SCSI_ReadFormatCapacity_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:75     .text.SCSI_ReadFormatCapacity_Cmd:0000000000000000 SCSI_ReadFormatCapacity_Cmd
+  R:\TEMP\cc0cRMY9.s:151    .text.SCSI_ReadFormatCapacity_Cmd:0000000000000058 $d
+  R:\TEMP\cc0cRMY9.s:159    .text.SCSI_ReadCapacity10_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:164    .text.SCSI_ReadCapacity10_Cmd:0000000000000000 SCSI_ReadCapacity10_Cmd
+  R:\TEMP\cc0cRMY9.s:244    .text.SCSI_ReadCapacity10_Cmd:000000000000005c $d
+  R:\TEMP\cc0cRMY9.s:252    .text.SCSI_ModeSense6_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:257    .text.SCSI_ModeSense6_Cmd:0000000000000000 SCSI_ModeSense6_Cmd
+  R:\TEMP\cc0cRMY9.s:276    .text.SCSI_ModeSense6_Cmd:0000000000000008 $d
+  R:\TEMP\cc0cRMY9.s:281    .text.SCSI_ModeSense10_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:286    .text.SCSI_ModeSense10_Cmd:0000000000000000 SCSI_ModeSense10_Cmd
+  R:\TEMP\cc0cRMY9.s:305    .text.SCSI_ModeSense10_Cmd:0000000000000008 $d
+  R:\TEMP\cc0cRMY9.s:310    .text.SCSI_RequestSense_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:315    .text.SCSI_RequestSense_Cmd:0000000000000000 SCSI_RequestSense_Cmd
+  R:\TEMP\cc0cRMY9.s:341    .text.SCSI_RequestSense_Cmd:0000000000000010 $d
+  R:\TEMP\cc0cRMY9.s:347    .text.Set_Scsi_Sense_Data:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:352    .text.Set_Scsi_Sense_Data:0000000000000000 Set_Scsi_Sense_Data
+  R:\TEMP\cc0cRMY9.s:369    .text.Set_Scsi_Sense_Data:0000000000000008 $d
+  R:\TEMP\cc0cRMY9.s:374    .text.SCSI_Start_Stop_Unit_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:379    .text.SCSI_Start_Stop_Unit_Cmd:0000000000000000 SCSI_Start_Stop_Unit_Cmd
+  R:\TEMP\cc0cRMY9.s:399    .text.SCSI_Verify10_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:404    .text.SCSI_Verify10_Cmd:0000000000000000 SCSI_Verify10_Cmd
+  R:\TEMP\cc0cRMY9.s:458    .text.SCSI_Verify10_Cmd:0000000000000034 $d
+  R:\TEMP\cc0cRMY9.s:464    .text.SCSI_Valid_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:469    .text.SCSI_Valid_Cmd:0000000000000000 SCSI_Valid_Cmd
+  R:\TEMP\cc0cRMY9.s:518    .text.SCSI_Valid_Cmd:0000000000000028 $d
+  R:\TEMP\cc0cRMY9.s:524    .text.SCSI_TestUnitReady_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:529    .text.SCSI_TestUnitReady_Cmd:0000000000000000 SCSI_TestUnitReady_Cmd
+  R:\TEMP\cc0cRMY9.s:580    .text.SCSI_TestUnitReady_Cmd:0000000000000030 $d
+  R:\TEMP\cc0cRMY9.s:585    .text.SCSI_Format_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:590    .text.SCSI_Format_Cmd:0000000000000000 SCSI_Format_Cmd
+  R:\TEMP\cc0cRMY9.s:635    .text.SCSI_Format_Cmd:0000000000000028 $d
+  R:\TEMP\cc0cRMY9.s:640    .text.SCSI_Invalid_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:645    .text.SCSI_Invalid_Cmd:0000000000000000 SCSI_Invalid_Cmd
+  R:\TEMP\cc0cRMY9.s:700    .text.SCSI_Invalid_Cmd:0000000000000030 $d
+  R:\TEMP\cc0cRMY9.s:706    .text.SCSI_Address_Management:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:711    .text.SCSI_Address_Management:0000000000000000 SCSI_Address_Management
+  R:\TEMP\cc0cRMY9.s:812    .text.SCSI_Address_Management:0000000000000060 $d
+  R:\TEMP\cc0cRMY9.s:820    .text.SCSI_Write10_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:825    .text.SCSI_Write10_Cmd:0000000000000000 SCSI_Write10_Cmd
+  R:\TEMP\cc0cRMY9.s:913    .text.SCSI_Write10_Cmd:0000000000000064 $d
+  R:\TEMP\cc0cRMY9.s:920    .text.SCSI_Read10_Cmd:0000000000000000 $t
+  R:\TEMP\cc0cRMY9.s:925    .text.SCSI_Read10_Cmd:0000000000000000 SCSI_Read10_Cmd
+  R:\TEMP\cc0cRMY9.s:1013   .text.SCSI_Read10_Cmd:0000000000000064 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 Transfer_Data_Request

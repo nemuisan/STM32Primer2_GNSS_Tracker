@@ -414,304 +414,343 @@
    1:./lib/CMSIS/Include/core_cmInstr.h **** /**************************************************************************//**
    2:./lib/CMSIS/Include/core_cmInstr.h ****  * @file     core_cmInstr.h
    3:./lib/CMSIS/Include/core_cmInstr.h ****  * @brief    CMSIS Cortex-M Core Instruction Access Header File
-   4:./lib/CMSIS/Include/core_cmInstr.h ****  * @version  V3.01
-   5:./lib/CMSIS/Include/core_cmInstr.h ****  * @date     06. March 2012
+   4:./lib/CMSIS/Include/core_cmInstr.h ****  * @version  V3.20
+   5:./lib/CMSIS/Include/core_cmInstr.h ****  * @date     05. March 2013
    6:./lib/CMSIS/Include/core_cmInstr.h ****  *
    7:./lib/CMSIS/Include/core_cmInstr.h ****  * @note
-   8:./lib/CMSIS/Include/core_cmInstr.h ****  * Copyright (C) 2009-2012 ARM Limited. All rights reserved.
-   9:./lib/CMSIS/Include/core_cmInstr.h ****  *
-  10:./lib/CMSIS/Include/core_cmInstr.h ****  * @par
-  11:./lib/CMSIS/Include/core_cmInstr.h ****  * ARM Limited (ARM) is supplying this software for use with Cortex-M
-  12:./lib/CMSIS/Include/core_cmInstr.h ****  * processor based microcontrollers.  This file can be freely distributed
-  13:./lib/CMSIS/Include/core_cmInstr.h ****  * within development tools that are supporting such ARM based processors.
-  14:./lib/CMSIS/Include/core_cmInstr.h ****  *
-  15:./lib/CMSIS/Include/core_cmInstr.h ****  * @par
-  16:./lib/CMSIS/Include/core_cmInstr.h ****  * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
-  17:./lib/CMSIS/Include/core_cmInstr.h ****  * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
-  18:./lib/CMSIS/Include/core_cmInstr.h ****  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
-  19:./lib/CMSIS/Include/core_cmInstr.h ****  * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
-  20:./lib/CMSIS/Include/core_cmInstr.h ****  * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
-  21:./lib/CMSIS/Include/core_cmInstr.h ****  *
-  22:./lib/CMSIS/Include/core_cmInstr.h ****  ******************************************************************************/
-  23:./lib/CMSIS/Include/core_cmInstr.h **** 
-  24:./lib/CMSIS/Include/core_cmInstr.h **** #ifndef __CORE_CMINSTR_H
-  25:./lib/CMSIS/Include/core_cmInstr.h **** #define __CORE_CMINSTR_H
-  26:./lib/CMSIS/Include/core_cmInstr.h **** 
-  27:./lib/CMSIS/Include/core_cmInstr.h **** 
-  28:./lib/CMSIS/Include/core_cmInstr.h **** /* ##########################  Core Instruction Access  ######################### */
-  29:./lib/CMSIS/Include/core_cmInstr.h **** /** \defgroup CMSIS_Core_InstructionInterface CMSIS Core Instruction Interface
-  30:./lib/CMSIS/Include/core_cmInstr.h ****   Access to dedicated instructions
-  31:./lib/CMSIS/Include/core_cmInstr.h ****   @{
-  32:./lib/CMSIS/Include/core_cmInstr.h **** */
-  33:./lib/CMSIS/Include/core_cmInstr.h **** 
-  34:./lib/CMSIS/Include/core_cmInstr.h **** #if   defined ( __CC_ARM ) /*------------------RealView Compiler -----------------*/
-  35:./lib/CMSIS/Include/core_cmInstr.h **** /* ARM armcc specific functions */
+   8:./lib/CMSIS/Include/core_cmInstr.h ****  *
+   9:./lib/CMSIS/Include/core_cmInstr.h ****  ******************************************************************************/
+  10:./lib/CMSIS/Include/core_cmInstr.h **** /* Copyright (c) 2009 - 2013 ARM LIMITED
+  11:./lib/CMSIS/Include/core_cmInstr.h **** 
+  12:./lib/CMSIS/Include/core_cmInstr.h ****    All rights reserved.
+  13:./lib/CMSIS/Include/core_cmInstr.h ****    Redistribution and use in source and binary forms, with or without
+  14:./lib/CMSIS/Include/core_cmInstr.h ****    modification, are permitted provided that the following conditions are met:
+  15:./lib/CMSIS/Include/core_cmInstr.h ****    - Redistributions of source code must retain the above copyright
+  16:./lib/CMSIS/Include/core_cmInstr.h ****      notice, this list of conditions and the following disclaimer.
+  17:./lib/CMSIS/Include/core_cmInstr.h ****    - Redistributions in binary form must reproduce the above copyright
+  18:./lib/CMSIS/Include/core_cmInstr.h ****      notice, this list of conditions and the following disclaimer in the
+  19:./lib/CMSIS/Include/core_cmInstr.h ****      documentation and/or other materials provided with the distribution.
+  20:./lib/CMSIS/Include/core_cmInstr.h ****    - Neither the name of ARM nor the names of its contributors may be used
+  21:./lib/CMSIS/Include/core_cmInstr.h ****      to endorse or promote products derived from this software without
+  22:./lib/CMSIS/Include/core_cmInstr.h ****      specific prior written permission.
+  23:./lib/CMSIS/Include/core_cmInstr.h ****    *
+  24:./lib/CMSIS/Include/core_cmInstr.h ****    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  25:./lib/CMSIS/Include/core_cmInstr.h ****    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  26:./lib/CMSIS/Include/core_cmInstr.h ****    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  27:./lib/CMSIS/Include/core_cmInstr.h ****    ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+  28:./lib/CMSIS/Include/core_cmInstr.h ****    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  29:./lib/CMSIS/Include/core_cmInstr.h ****    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  30:./lib/CMSIS/Include/core_cmInstr.h ****    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  31:./lib/CMSIS/Include/core_cmInstr.h ****    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  32:./lib/CMSIS/Include/core_cmInstr.h ****    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  33:./lib/CMSIS/Include/core_cmInstr.h ****    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  34:./lib/CMSIS/Include/core_cmInstr.h ****    POSSIBILITY OF SUCH DAMAGE.
+  35:./lib/CMSIS/Include/core_cmInstr.h ****    ---------------------------------------------------------------------------*/
   36:./lib/CMSIS/Include/core_cmInstr.h **** 
-  37:./lib/CMSIS/Include/core_cmInstr.h **** #if (__ARMCC_VERSION < 400677)
-  38:./lib/CMSIS/Include/core_cmInstr.h ****   #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
-  39:./lib/CMSIS/Include/core_cmInstr.h **** #endif
+  37:./lib/CMSIS/Include/core_cmInstr.h **** 
+  38:./lib/CMSIS/Include/core_cmInstr.h **** #ifndef __CORE_CMINSTR_H
+  39:./lib/CMSIS/Include/core_cmInstr.h **** #define __CORE_CMINSTR_H
   40:./lib/CMSIS/Include/core_cmInstr.h **** 
   41:./lib/CMSIS/Include/core_cmInstr.h **** 
-  42:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  No Operation
-  43:./lib/CMSIS/Include/core_cmInstr.h **** 
-  44:./lib/CMSIS/Include/core_cmInstr.h ****     No Operation does nothing. This instruction can be used for code alignment purposes.
-  45:./lib/CMSIS/Include/core_cmInstr.h ****  */
-  46:./lib/CMSIS/Include/core_cmInstr.h **** #define __NOP                             __nop
+  42:./lib/CMSIS/Include/core_cmInstr.h **** /* ##########################  Core Instruction Access  ######################### */
+  43:./lib/CMSIS/Include/core_cmInstr.h **** /** \defgroup CMSIS_Core_InstructionInterface CMSIS Core Instruction Interface
+  44:./lib/CMSIS/Include/core_cmInstr.h ****   Access to dedicated instructions
+  45:./lib/CMSIS/Include/core_cmInstr.h ****   @{
+  46:./lib/CMSIS/Include/core_cmInstr.h **** */
   47:./lib/CMSIS/Include/core_cmInstr.h **** 
-  48:./lib/CMSIS/Include/core_cmInstr.h **** 
-  49:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Wait For Interrupt
+  48:./lib/CMSIS/Include/core_cmInstr.h **** #if   defined ( __CC_ARM ) /*------------------RealView Compiler -----------------*/
+  49:./lib/CMSIS/Include/core_cmInstr.h **** /* ARM armcc specific functions */
   50:./lib/CMSIS/Include/core_cmInstr.h **** 
-  51:./lib/CMSIS/Include/core_cmInstr.h ****     Wait For Interrupt is a hint instruction that suspends execution
-  52:./lib/CMSIS/Include/core_cmInstr.h ****     until one of a number of events occurs.
-  53:./lib/CMSIS/Include/core_cmInstr.h ****  */
-  54:./lib/CMSIS/Include/core_cmInstr.h **** #define __WFI                             __wfi
+  51:./lib/CMSIS/Include/core_cmInstr.h **** #if (__ARMCC_VERSION < 400677)
+  52:./lib/CMSIS/Include/core_cmInstr.h ****   #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
+  53:./lib/CMSIS/Include/core_cmInstr.h **** #endif
+  54:./lib/CMSIS/Include/core_cmInstr.h **** 
   55:./lib/CMSIS/Include/core_cmInstr.h **** 
-  56:./lib/CMSIS/Include/core_cmInstr.h **** 
-  57:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Wait For Event
-  58:./lib/CMSIS/Include/core_cmInstr.h **** 
-  59:./lib/CMSIS/Include/core_cmInstr.h ****     Wait For Event is a hint instruction that permits the processor to enter
-  60:./lib/CMSIS/Include/core_cmInstr.h ****     a low-power state until one of a number of events occurs.
-  61:./lib/CMSIS/Include/core_cmInstr.h ****  */
-  62:./lib/CMSIS/Include/core_cmInstr.h **** #define __WFE                             __wfe
-  63:./lib/CMSIS/Include/core_cmInstr.h **** 
+  56:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  No Operation
+  57:./lib/CMSIS/Include/core_cmInstr.h **** 
+  58:./lib/CMSIS/Include/core_cmInstr.h ****     No Operation does nothing. This instruction can be used for code alignment purposes.
+  59:./lib/CMSIS/Include/core_cmInstr.h ****  */
+  60:./lib/CMSIS/Include/core_cmInstr.h **** #define __NOP                             __nop
+  61:./lib/CMSIS/Include/core_cmInstr.h **** 
+  62:./lib/CMSIS/Include/core_cmInstr.h **** 
+  63:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Wait For Interrupt
   64:./lib/CMSIS/Include/core_cmInstr.h **** 
-  65:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Send Event
-  66:./lib/CMSIS/Include/core_cmInstr.h **** 
-  67:./lib/CMSIS/Include/core_cmInstr.h ****     Send Event is a hint instruction. It causes an event to be signaled to the CPU.
-  68:./lib/CMSIS/Include/core_cmInstr.h ****  */
-  69:./lib/CMSIS/Include/core_cmInstr.h **** #define __SEV                             __sev
+  65:./lib/CMSIS/Include/core_cmInstr.h ****     Wait For Interrupt is a hint instruction that suspends execution
+  66:./lib/CMSIS/Include/core_cmInstr.h ****     until one of a number of events occurs.
+  67:./lib/CMSIS/Include/core_cmInstr.h ****  */
+  68:./lib/CMSIS/Include/core_cmInstr.h **** #define __WFI                             __wfi
+  69:./lib/CMSIS/Include/core_cmInstr.h **** 
   70:./lib/CMSIS/Include/core_cmInstr.h **** 
-  71:./lib/CMSIS/Include/core_cmInstr.h **** 
-  72:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Instruction Synchronization Barrier
-  73:./lib/CMSIS/Include/core_cmInstr.h **** 
-  74:./lib/CMSIS/Include/core_cmInstr.h ****     Instruction Synchronization Barrier flushes the pipeline in the processor,
-  75:./lib/CMSIS/Include/core_cmInstr.h ****     so that all instructions following the ISB are fetched from cache or
-  76:./lib/CMSIS/Include/core_cmInstr.h ****     memory, after the instruction has been completed.
-  77:./lib/CMSIS/Include/core_cmInstr.h ****  */
-  78:./lib/CMSIS/Include/core_cmInstr.h **** #define __ISB()                           __isb(0xF)
-  79:./lib/CMSIS/Include/core_cmInstr.h **** 
+  71:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Wait For Event
+  72:./lib/CMSIS/Include/core_cmInstr.h **** 
+  73:./lib/CMSIS/Include/core_cmInstr.h ****     Wait For Event is a hint instruction that permits the processor to enter
+  74:./lib/CMSIS/Include/core_cmInstr.h ****     a low-power state until one of a number of events occurs.
+  75:./lib/CMSIS/Include/core_cmInstr.h ****  */
+  76:./lib/CMSIS/Include/core_cmInstr.h **** #define __WFE                             __wfe
+  77:./lib/CMSIS/Include/core_cmInstr.h **** 
+  78:./lib/CMSIS/Include/core_cmInstr.h **** 
+  79:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Send Event
   80:./lib/CMSIS/Include/core_cmInstr.h **** 
-  81:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Data Synchronization Barrier
-  82:./lib/CMSIS/Include/core_cmInstr.h **** 
-  83:./lib/CMSIS/Include/core_cmInstr.h ****     This function acts as a special kind of Data Memory Barrier.
-  84:./lib/CMSIS/Include/core_cmInstr.h ****     It completes when all explicit memory accesses before this instruction complete.
-  85:./lib/CMSIS/Include/core_cmInstr.h ****  */
-  86:./lib/CMSIS/Include/core_cmInstr.h **** #define __DSB()                           __dsb(0xF)
+  81:./lib/CMSIS/Include/core_cmInstr.h ****     Send Event is a hint instruction. It causes an event to be signaled to the CPU.
+  82:./lib/CMSIS/Include/core_cmInstr.h ****  */
+  83:./lib/CMSIS/Include/core_cmInstr.h **** #define __SEV                             __sev
+  84:./lib/CMSIS/Include/core_cmInstr.h **** 
+  85:./lib/CMSIS/Include/core_cmInstr.h **** 
+  86:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Instruction Synchronization Barrier
   87:./lib/CMSIS/Include/core_cmInstr.h **** 
-  88:./lib/CMSIS/Include/core_cmInstr.h **** 
-  89:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Data Memory Barrier
-  90:./lib/CMSIS/Include/core_cmInstr.h **** 
-  91:./lib/CMSIS/Include/core_cmInstr.h ****     This function ensures the apparent order of the explicit memory operations before
-  92:./lib/CMSIS/Include/core_cmInstr.h ****     and after the instruction, without ensuring their completion.
-  93:./lib/CMSIS/Include/core_cmInstr.h ****  */
-  94:./lib/CMSIS/Include/core_cmInstr.h **** #define __DMB()                           __dmb(0xF)
-  95:./lib/CMSIS/Include/core_cmInstr.h **** 
+  88:./lib/CMSIS/Include/core_cmInstr.h ****     Instruction Synchronization Barrier flushes the pipeline in the processor,
+  89:./lib/CMSIS/Include/core_cmInstr.h ****     so that all instructions following the ISB are fetched from cache or
+  90:./lib/CMSIS/Include/core_cmInstr.h ****     memory, after the instruction has been completed.
+  91:./lib/CMSIS/Include/core_cmInstr.h ****  */
+  92:./lib/CMSIS/Include/core_cmInstr.h **** #define __ISB()                           __isb(0xF)
+  93:./lib/CMSIS/Include/core_cmInstr.h **** 
+  94:./lib/CMSIS/Include/core_cmInstr.h **** 
+  95:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Data Synchronization Barrier
   96:./lib/CMSIS/Include/core_cmInstr.h **** 
-  97:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Reverse byte order (32 bit)
-  98:./lib/CMSIS/Include/core_cmInstr.h **** 
-  99:./lib/CMSIS/Include/core_cmInstr.h ****     This function reverses the byte order in integer value.
- 100:./lib/CMSIS/Include/core_cmInstr.h **** 
- 101:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to reverse
- 102:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Reversed value
- 103:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 104:./lib/CMSIS/Include/core_cmInstr.h **** #define __REV                             __rev
- 105:./lib/CMSIS/Include/core_cmInstr.h **** 
- 106:./lib/CMSIS/Include/core_cmInstr.h **** 
- 107:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Reverse byte order (16 bit)
- 108:./lib/CMSIS/Include/core_cmInstr.h **** 
- 109:./lib/CMSIS/Include/core_cmInstr.h ****     This function reverses the byte order in two unsigned short values.
+  97:./lib/CMSIS/Include/core_cmInstr.h ****     This function acts as a special kind of Data Memory Barrier.
+  98:./lib/CMSIS/Include/core_cmInstr.h ****     It completes when all explicit memory accesses before this instruction complete.
+  99:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 100:./lib/CMSIS/Include/core_cmInstr.h **** #define __DSB()                           __dsb(0xF)
+ 101:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 102:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 103:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Data Memory Barrier
+ 104:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 105:./lib/CMSIS/Include/core_cmInstr.h ****     This function ensures the apparent order of the explicit memory operations before
+ 106:./lib/CMSIS/Include/core_cmInstr.h ****     and after the instruction, without ensuring their completion.
+ 107:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 108:./lib/CMSIS/Include/core_cmInstr.h **** #define __DMB()                           __dmb(0xF)
+ 109:./lib/CMSIS/Include/core_cmInstr.h **** 
  110:./lib/CMSIS/Include/core_cmInstr.h **** 
- 111:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to reverse
- 112:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Reversed value
- 113:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 114:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__((section(".rev16_text"))) __STATIC_INLINE __ASM uint32_t __REV16(uint32_t value)
- 115:./lib/CMSIS/Include/core_cmInstr.h **** {
- 116:./lib/CMSIS/Include/core_cmInstr.h ****   rev16 r0, r0
- 117:./lib/CMSIS/Include/core_cmInstr.h ****   bx lr
- 118:./lib/CMSIS/Include/core_cmInstr.h **** }
+ 111:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Reverse byte order (32 bit)
+ 112:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 113:./lib/CMSIS/Include/core_cmInstr.h ****     This function reverses the byte order in integer value.
+ 114:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 115:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to reverse
+ 116:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Reversed value
+ 117:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 118:./lib/CMSIS/Include/core_cmInstr.h **** #define __REV                             __rev
  119:./lib/CMSIS/Include/core_cmInstr.h **** 
  120:./lib/CMSIS/Include/core_cmInstr.h **** 
- 121:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Reverse byte order in signed short value
+ 121:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Reverse byte order (16 bit)
  122:./lib/CMSIS/Include/core_cmInstr.h **** 
- 123:./lib/CMSIS/Include/core_cmInstr.h ****     This function reverses the byte order in a signed short value with sign extension to integer.
+ 123:./lib/CMSIS/Include/core_cmInstr.h ****     This function reverses the byte order in two unsigned short values.
  124:./lib/CMSIS/Include/core_cmInstr.h **** 
  125:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to reverse
  126:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Reversed value
  127:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 128:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__((section(".revsh_text"))) __STATIC_INLINE __ASM int32_t __REVSH(int32_t value)
- 129:./lib/CMSIS/Include/core_cmInstr.h **** {
- 130:./lib/CMSIS/Include/core_cmInstr.h ****   revsh r0, r0
- 131:./lib/CMSIS/Include/core_cmInstr.h ****   bx lr
- 132:./lib/CMSIS/Include/core_cmInstr.h **** }
- 133:./lib/CMSIS/Include/core_cmInstr.h **** 
- 134:./lib/CMSIS/Include/core_cmInstr.h **** 
- 135:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Rotate Right in unsigned value (32 bit)
- 136:./lib/CMSIS/Include/core_cmInstr.h **** 
- 137:./lib/CMSIS/Include/core_cmInstr.h ****     This function Rotate Right (immediate) provides the value of the contents of a register rotated
- 138:./lib/CMSIS/Include/core_cmInstr.h **** 
- 139:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to rotate
- 140:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Number of Bits to rotate
- 141:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Rotated value
+ 128:./lib/CMSIS/Include/core_cmInstr.h **** #ifndef __NO_EMBEDDED_ASM
+ 129:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__((section(".rev16_text"))) __STATIC_INLINE __ASM uint32_t __REV16(uint32_t value)
+ 130:./lib/CMSIS/Include/core_cmInstr.h **** {
+ 131:./lib/CMSIS/Include/core_cmInstr.h ****   rev16 r0, r0
+ 132:./lib/CMSIS/Include/core_cmInstr.h ****   bx lr
+ 133:./lib/CMSIS/Include/core_cmInstr.h **** }
+ 134:./lib/CMSIS/Include/core_cmInstr.h **** #endif
+ 135:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 136:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Reverse byte order in signed short value
+ 137:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 138:./lib/CMSIS/Include/core_cmInstr.h ****     This function reverses the byte order in a signed short value with sign extension to integer.
+ 139:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 140:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to reverse
+ 141:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Reversed value
  142:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 143:./lib/CMSIS/Include/core_cmInstr.h **** #define __ROR                             __ror
- 144:./lib/CMSIS/Include/core_cmInstr.h **** 
- 145:./lib/CMSIS/Include/core_cmInstr.h **** 
- 146:./lib/CMSIS/Include/core_cmInstr.h **** #if       (__CORTEX_M >= 0x03)
- 147:./lib/CMSIS/Include/core_cmInstr.h **** 
- 148:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Reverse bit order of value
- 149:./lib/CMSIS/Include/core_cmInstr.h **** 
- 150:./lib/CMSIS/Include/core_cmInstr.h ****     This function reverses the bit order of the given value.
+ 143:./lib/CMSIS/Include/core_cmInstr.h **** #ifndef __NO_EMBEDDED_ASM
+ 144:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__((section(".revsh_text"))) __STATIC_INLINE __ASM int32_t __REVSH(int32_t value)
+ 145:./lib/CMSIS/Include/core_cmInstr.h **** {
+ 146:./lib/CMSIS/Include/core_cmInstr.h ****   revsh r0, r0
+ 147:./lib/CMSIS/Include/core_cmInstr.h ****   bx lr
+ 148:./lib/CMSIS/Include/core_cmInstr.h **** }
+ 149:./lib/CMSIS/Include/core_cmInstr.h **** #endif
+ 150:./lib/CMSIS/Include/core_cmInstr.h **** 
  151:./lib/CMSIS/Include/core_cmInstr.h **** 
- 152:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to reverse
- 153:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Reversed value
- 154:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 155:./lib/CMSIS/Include/core_cmInstr.h **** #define __RBIT                            __rbit
- 156:./lib/CMSIS/Include/core_cmInstr.h **** 
- 157:./lib/CMSIS/Include/core_cmInstr.h **** 
- 158:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  LDR Exclusive (8 bit)
- 159:./lib/CMSIS/Include/core_cmInstr.h **** 
- 160:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive LDR command for 8 bit value.
+ 152:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Rotate Right in unsigned value (32 bit)
+ 153:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 154:./lib/CMSIS/Include/core_cmInstr.h ****     This function Rotate Right (immediate) provides the value of the contents of a register rotated
+ 155:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 156:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to rotate
+ 157:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Number of Bits to rotate
+ 158:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Rotated value
+ 159:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 160:./lib/CMSIS/Include/core_cmInstr.h **** #define __ROR                             __ror
  161:./lib/CMSIS/Include/core_cmInstr.h **** 
- 162:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to data
- 163:./lib/CMSIS/Include/core_cmInstr.h ****     \return             value of type uint8_t at (*ptr)
- 164:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 165:./lib/CMSIS/Include/core_cmInstr.h **** #define __LDREXB(ptr)                     ((uint8_t ) __ldrex(ptr))
- 166:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 162:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 163:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Breakpoint
+ 164:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 165:./lib/CMSIS/Include/core_cmInstr.h ****     This function causes the processor to enter Debug state.
+ 166:./lib/CMSIS/Include/core_cmInstr.h ****     Debug tools can use this to investigate system state when the instruction at a particular addre
  167:./lib/CMSIS/Include/core_cmInstr.h **** 
- 168:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  LDR Exclusive (16 bit)
- 169:./lib/CMSIS/Include/core_cmInstr.h **** 
- 170:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive LDR command for 16 bit values.
- 171:./lib/CMSIS/Include/core_cmInstr.h **** 
- 172:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to data
- 173:./lib/CMSIS/Include/core_cmInstr.h ****     \return        value of type uint16_t at (*ptr)
- 174:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 175:./lib/CMSIS/Include/core_cmInstr.h **** #define __LDREXH(ptr)                     ((uint16_t) __ldrex(ptr))
- 176:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 168:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  is ignored by the processor.
+ 169:./lib/CMSIS/Include/core_cmInstr.h ****                    If required, a debugger can use it to store additional information about the bre
+ 170:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 171:./lib/CMSIS/Include/core_cmInstr.h **** #define __BKPT(value)                       __breakpoint(value)
+ 172:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 173:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 174:./lib/CMSIS/Include/core_cmInstr.h **** #if       (__CORTEX_M >= 0x03)
+ 175:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 176:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Reverse bit order of value
  177:./lib/CMSIS/Include/core_cmInstr.h **** 
- 178:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  LDR Exclusive (32 bit)
+ 178:./lib/CMSIS/Include/core_cmInstr.h ****     This function reverses the bit order of the given value.
  179:./lib/CMSIS/Include/core_cmInstr.h **** 
- 180:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive LDR command for 32 bit values.
- 181:./lib/CMSIS/Include/core_cmInstr.h **** 
- 182:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to data
- 183:./lib/CMSIS/Include/core_cmInstr.h ****     \return        value of type uint32_t at (*ptr)
- 184:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 185:./lib/CMSIS/Include/core_cmInstr.h **** #define __LDREXW(ptr)                     ((uint32_t ) __ldrex(ptr))
- 186:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 180:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    value  Value to reverse
+ 181:./lib/CMSIS/Include/core_cmInstr.h ****     \return               Reversed value
+ 182:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 183:./lib/CMSIS/Include/core_cmInstr.h **** #define __RBIT                            __rbit
+ 184:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 185:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 186:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  LDR Exclusive (8 bit)
  187:./lib/CMSIS/Include/core_cmInstr.h **** 
- 188:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  STR Exclusive (8 bit)
+ 188:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive LDR command for 8 bit value.
  189:./lib/CMSIS/Include/core_cmInstr.h **** 
- 190:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive STR command for 8 bit values.
- 191:./lib/CMSIS/Include/core_cmInstr.h **** 
- 192:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to store
- 193:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to location
- 194:./lib/CMSIS/Include/core_cmInstr.h ****     \return          0  Function succeeded
- 195:./lib/CMSIS/Include/core_cmInstr.h ****     \return          1  Function failed
- 196:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 197:./lib/CMSIS/Include/core_cmInstr.h **** #define __STREXB(value, ptr)              __strex(value, ptr)
- 198:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 190:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to data
+ 191:./lib/CMSIS/Include/core_cmInstr.h ****     \return             value of type uint8_t at (*ptr)
+ 192:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 193:./lib/CMSIS/Include/core_cmInstr.h **** #define __LDREXB(ptr)                     ((uint8_t ) __ldrex(ptr))
+ 194:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 195:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 196:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  LDR Exclusive (16 bit)
+ 197:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 198:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive LDR command for 16 bit values.
  199:./lib/CMSIS/Include/core_cmInstr.h **** 
- 200:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  STR Exclusive (16 bit)
- 201:./lib/CMSIS/Include/core_cmInstr.h **** 
- 202:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive STR command for 16 bit values.
- 203:./lib/CMSIS/Include/core_cmInstr.h **** 
- 204:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to store
- 205:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to location
- 206:./lib/CMSIS/Include/core_cmInstr.h ****     \return          0  Function succeeded
- 207:./lib/CMSIS/Include/core_cmInstr.h ****     \return          1  Function failed
- 208:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 209:./lib/CMSIS/Include/core_cmInstr.h **** #define __STREXH(value, ptr)              __strex(value, ptr)
- 210:./lib/CMSIS/Include/core_cmInstr.h **** 
- 211:./lib/CMSIS/Include/core_cmInstr.h **** 
- 212:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  STR Exclusive (32 bit)
- 213:./lib/CMSIS/Include/core_cmInstr.h **** 
- 214:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive STR command for 32 bit values.
+ 200:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to data
+ 201:./lib/CMSIS/Include/core_cmInstr.h ****     \return        value of type uint16_t at (*ptr)
+ 202:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 203:./lib/CMSIS/Include/core_cmInstr.h **** #define __LDREXH(ptr)                     ((uint16_t) __ldrex(ptr))
+ 204:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 205:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 206:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  LDR Exclusive (32 bit)
+ 207:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 208:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive LDR command for 32 bit values.
+ 209:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 210:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to data
+ 211:./lib/CMSIS/Include/core_cmInstr.h ****     \return        value of type uint32_t at (*ptr)
+ 212:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 213:./lib/CMSIS/Include/core_cmInstr.h **** #define __LDREXW(ptr)                     ((uint32_t ) __ldrex(ptr))
+ 214:./lib/CMSIS/Include/core_cmInstr.h **** 
  215:./lib/CMSIS/Include/core_cmInstr.h **** 
- 216:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to store
- 217:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to location
- 218:./lib/CMSIS/Include/core_cmInstr.h ****     \return          0  Function succeeded
- 219:./lib/CMSIS/Include/core_cmInstr.h ****     \return          1  Function failed
- 220:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 221:./lib/CMSIS/Include/core_cmInstr.h **** #define __STREXW(value, ptr)              __strex(value, ptr)
- 222:./lib/CMSIS/Include/core_cmInstr.h **** 
- 223:./lib/CMSIS/Include/core_cmInstr.h **** 
- 224:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Remove the exclusive lock
- 225:./lib/CMSIS/Include/core_cmInstr.h **** 
- 226:./lib/CMSIS/Include/core_cmInstr.h ****     This function removes the exclusive lock which is created by LDREX.
+ 216:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  STR Exclusive (8 bit)
+ 217:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 218:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive STR command for 8 bit values.
+ 219:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 220:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to store
+ 221:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to location
+ 222:./lib/CMSIS/Include/core_cmInstr.h ****     \return          0  Function succeeded
+ 223:./lib/CMSIS/Include/core_cmInstr.h ****     \return          1  Function failed
+ 224:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 225:./lib/CMSIS/Include/core_cmInstr.h **** #define __STREXB(value, ptr)              __strex(value, ptr)
+ 226:./lib/CMSIS/Include/core_cmInstr.h **** 
  227:./lib/CMSIS/Include/core_cmInstr.h **** 
- 228:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 229:./lib/CMSIS/Include/core_cmInstr.h **** #define __CLREX                           __clrex
- 230:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 228:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  STR Exclusive (16 bit)
+ 229:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 230:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive STR command for 16 bit values.
  231:./lib/CMSIS/Include/core_cmInstr.h **** 
- 232:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Signed Saturate
- 233:./lib/CMSIS/Include/core_cmInstr.h **** 
- 234:./lib/CMSIS/Include/core_cmInstr.h ****     This function saturates a signed value.
- 235:./lib/CMSIS/Include/core_cmInstr.h **** 
- 236:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to be saturated
- 237:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    sat  Bit position to saturate to (1..32)
- 238:./lib/CMSIS/Include/core_cmInstr.h ****     \return             Saturated value
- 239:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 240:./lib/CMSIS/Include/core_cmInstr.h **** #define __SSAT                            __ssat
+ 232:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to store
+ 233:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to location
+ 234:./lib/CMSIS/Include/core_cmInstr.h ****     \return          0  Function succeeded
+ 235:./lib/CMSIS/Include/core_cmInstr.h ****     \return          1  Function failed
+ 236:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 237:./lib/CMSIS/Include/core_cmInstr.h **** #define __STREXH(value, ptr)              __strex(value, ptr)
+ 238:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 239:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 240:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  STR Exclusive (32 bit)
  241:./lib/CMSIS/Include/core_cmInstr.h **** 
- 242:./lib/CMSIS/Include/core_cmInstr.h **** 
- 243:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Unsigned Saturate
- 244:./lib/CMSIS/Include/core_cmInstr.h **** 
- 245:./lib/CMSIS/Include/core_cmInstr.h ****     This function saturates an unsigned value.
- 246:./lib/CMSIS/Include/core_cmInstr.h **** 
- 247:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to be saturated
- 248:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    sat  Bit position to saturate to (0..31)
- 249:./lib/CMSIS/Include/core_cmInstr.h ****     \return             Saturated value
- 250:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 251:./lib/CMSIS/Include/core_cmInstr.h **** #define __USAT                            __usat
- 252:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 242:./lib/CMSIS/Include/core_cmInstr.h ****     This function performs a exclusive STR command for 32 bit values.
+ 243:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 244:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to store
+ 245:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    ptr  Pointer to location
+ 246:./lib/CMSIS/Include/core_cmInstr.h ****     \return          0  Function succeeded
+ 247:./lib/CMSIS/Include/core_cmInstr.h ****     \return          1  Function failed
+ 248:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 249:./lib/CMSIS/Include/core_cmInstr.h **** #define __STREXW(value, ptr)              __strex(value, ptr)
+ 250:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 251:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 252:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Remove the exclusive lock
  253:./lib/CMSIS/Include/core_cmInstr.h **** 
- 254:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Count leading zeros
+ 254:./lib/CMSIS/Include/core_cmInstr.h ****     This function removes the exclusive lock which is created by LDREX.
  255:./lib/CMSIS/Include/core_cmInstr.h **** 
- 256:./lib/CMSIS/Include/core_cmInstr.h ****     This function counts the number of leading zeros of a data value.
- 257:./lib/CMSIS/Include/core_cmInstr.h **** 
- 258:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to count the leading zeros
- 259:./lib/CMSIS/Include/core_cmInstr.h ****     \return             number of leading zeros in value
- 260:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 261:./lib/CMSIS/Include/core_cmInstr.h **** #define __CLZ                             __clz
- 262:./lib/CMSIS/Include/core_cmInstr.h **** 
- 263:./lib/CMSIS/Include/core_cmInstr.h **** #endif /* (__CORTEX_M >= 0x03) */
- 264:./lib/CMSIS/Include/core_cmInstr.h **** 
- 265:./lib/CMSIS/Include/core_cmInstr.h **** 
- 266:./lib/CMSIS/Include/core_cmInstr.h **** 
- 267:./lib/CMSIS/Include/core_cmInstr.h **** #elif defined ( __ICCARM__ ) /*------------------ ICC Compiler -------------------*/
- 268:./lib/CMSIS/Include/core_cmInstr.h **** /* IAR iccarm specific functions */
+ 256:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 257:./lib/CMSIS/Include/core_cmInstr.h **** #define __CLREX                           __clrex
+ 258:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 259:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 260:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Signed Saturate
+ 261:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 262:./lib/CMSIS/Include/core_cmInstr.h ****     This function saturates a signed value.
+ 263:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 264:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to be saturated
+ 265:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    sat  Bit position to saturate to (1..32)
+ 266:./lib/CMSIS/Include/core_cmInstr.h ****     \return             Saturated value
+ 267:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 268:./lib/CMSIS/Include/core_cmInstr.h **** #define __SSAT                            __ssat
  269:./lib/CMSIS/Include/core_cmInstr.h **** 
- 270:./lib/CMSIS/Include/core_cmInstr.h **** #include <cmsis_iar.h>
- 271:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 270:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 271:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Unsigned Saturate
  272:./lib/CMSIS/Include/core_cmInstr.h **** 
- 273:./lib/CMSIS/Include/core_cmInstr.h **** #elif defined ( __TMS470__ ) /*---------------- TI CCS Compiler ------------------*/
- 274:./lib/CMSIS/Include/core_cmInstr.h **** /* TI CCS specific functions */
- 275:./lib/CMSIS/Include/core_cmInstr.h **** 
- 276:./lib/CMSIS/Include/core_cmInstr.h **** #include <cmsis_ccs.h>
- 277:./lib/CMSIS/Include/core_cmInstr.h **** 
- 278:./lib/CMSIS/Include/core_cmInstr.h **** 
- 279:./lib/CMSIS/Include/core_cmInstr.h **** #elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
- 280:./lib/CMSIS/Include/core_cmInstr.h **** /* GNU gcc specific functions */
+ 273:./lib/CMSIS/Include/core_cmInstr.h ****     This function saturates an unsigned value.
+ 274:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 275:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to be saturated
+ 276:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]    sat  Bit position to saturate to (0..31)
+ 277:./lib/CMSIS/Include/core_cmInstr.h ****     \return             Saturated value
+ 278:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 279:./lib/CMSIS/Include/core_cmInstr.h **** #define __USAT                            __usat
+ 280:./lib/CMSIS/Include/core_cmInstr.h **** 
  281:./lib/CMSIS/Include/core_cmInstr.h **** 
- 282:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  No Operation
+ 282:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Count leading zeros
  283:./lib/CMSIS/Include/core_cmInstr.h **** 
- 284:./lib/CMSIS/Include/core_cmInstr.h ****     No Operation does nothing. This instruction can be used for code alignment purposes.
- 285:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 286:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __NOP(void)
- 287:./lib/CMSIS/Include/core_cmInstr.h **** {
- 288:./lib/CMSIS/Include/core_cmInstr.h ****   __ASM volatile ("nop");
- 289:./lib/CMSIS/Include/core_cmInstr.h **** }
+ 284:./lib/CMSIS/Include/core_cmInstr.h ****     This function counts the number of leading zeros of a data value.
+ 285:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 286:./lib/CMSIS/Include/core_cmInstr.h ****     \param [in]  value  Value to count the leading zeros
+ 287:./lib/CMSIS/Include/core_cmInstr.h ****     \return             number of leading zeros in value
+ 288:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 289:./lib/CMSIS/Include/core_cmInstr.h **** #define __CLZ                             __clz
  290:./lib/CMSIS/Include/core_cmInstr.h **** 
- 291:./lib/CMSIS/Include/core_cmInstr.h **** 
- 292:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Wait For Interrupt
+ 291:./lib/CMSIS/Include/core_cmInstr.h **** #endif /* (__CORTEX_M >= 0x03) */
+ 292:./lib/CMSIS/Include/core_cmInstr.h **** 
  293:./lib/CMSIS/Include/core_cmInstr.h **** 
- 294:./lib/CMSIS/Include/core_cmInstr.h ****     Wait For Interrupt is a hint instruction that suspends execution
- 295:./lib/CMSIS/Include/core_cmInstr.h ****     until one of a number of events occurs.
- 296:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 297:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __WFI(void)
- 298:./lib/CMSIS/Include/core_cmInstr.h **** {
- 299:./lib/CMSIS/Include/core_cmInstr.h ****   __ASM volatile ("wfi");
- 202              		.loc 2 299 0
- 203              	@ 299 "./lib/CMSIS/Include/core_cmInstr.h" 1
+ 294:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 295:./lib/CMSIS/Include/core_cmInstr.h **** #elif defined ( __ICCARM__ ) /*------------------ ICC Compiler -------------------*/
+ 296:./lib/CMSIS/Include/core_cmInstr.h **** /* IAR iccarm specific functions */
+ 297:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 298:./lib/CMSIS/Include/core_cmInstr.h **** #include <cmsis_iar.h>
+ 299:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 300:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 301:./lib/CMSIS/Include/core_cmInstr.h **** #elif defined ( __TMS470__ ) /*---------------- TI CCS Compiler ------------------*/
+ 302:./lib/CMSIS/Include/core_cmInstr.h **** /* TI CCS specific functions */
+ 303:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 304:./lib/CMSIS/Include/core_cmInstr.h **** #include <cmsis_ccs.h>
+ 305:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 306:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 307:./lib/CMSIS/Include/core_cmInstr.h **** #elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
+ 308:./lib/CMSIS/Include/core_cmInstr.h **** /* GNU gcc specific functions */
+ 309:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 310:./lib/CMSIS/Include/core_cmInstr.h **** /* Define macros for porting to both thumb1 and thumb2.
+ 311:./lib/CMSIS/Include/core_cmInstr.h ****  * For thumb1, use low register (r0-r7), specified by constrant "l"
+ 312:./lib/CMSIS/Include/core_cmInstr.h ****  * Otherwise, use general registers, specified by constrant "r" */
+ 313:./lib/CMSIS/Include/core_cmInstr.h **** #if defined (__thumb__) && !defined (__thumb2__)
+ 314:./lib/CMSIS/Include/core_cmInstr.h **** #define __CMSIS_GCC_OUT_REG(r) "=l" (r)
+ 315:./lib/CMSIS/Include/core_cmInstr.h **** #define __CMSIS_GCC_USE_REG(r) "l" (r)
+ 316:./lib/CMSIS/Include/core_cmInstr.h **** #else
+ 317:./lib/CMSIS/Include/core_cmInstr.h **** #define __CMSIS_GCC_OUT_REG(r) "=r" (r)
+ 318:./lib/CMSIS/Include/core_cmInstr.h **** #define __CMSIS_GCC_USE_REG(r) "r" (r)
+ 319:./lib/CMSIS/Include/core_cmInstr.h **** #endif
+ 320:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 321:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  No Operation
+ 322:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 323:./lib/CMSIS/Include/core_cmInstr.h ****     No Operation does nothing. This instruction can be used for code alignment purposes.
+ 324:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 325:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __NOP(void)
+ 326:./lib/CMSIS/Include/core_cmInstr.h **** {
+ 327:./lib/CMSIS/Include/core_cmInstr.h ****   __ASM volatile ("nop");
+ 328:./lib/CMSIS/Include/core_cmInstr.h **** }
+ 329:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 330:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 331:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Wait For Interrupt
+ 332:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 333:./lib/CMSIS/Include/core_cmInstr.h ****     Wait For Interrupt is a hint instruction that suspends execution
+ 334:./lib/CMSIS/Include/core_cmInstr.h ****     until one of a number of events occurs.
+ 335:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 336:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __WFI(void)
+ 337:./lib/CMSIS/Include/core_cmInstr.h **** {
+ 338:./lib/CMSIS/Include/core_cmInstr.h ****   __ASM volatile ("wfi");
+ 202              		.loc 2 338 0
+ 203              	@ 338 "./lib/CMSIS/Include/core_cmInstr.h" 1
  204 001a 30BF     		wfi
  205              	@ 0 "" 2
  206              		.thumb
@@ -721,19 +760,19 @@
  210              	.LBE8:
  211              	.LBB10:
  212              	.LBB11:
- 300:./lib/CMSIS/Include/core_cmInstr.h **** }
- 301:./lib/CMSIS/Include/core_cmInstr.h **** 
- 302:./lib/CMSIS/Include/core_cmInstr.h **** 
- 303:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Wait For Event
- 304:./lib/CMSIS/Include/core_cmInstr.h **** 
- 305:./lib/CMSIS/Include/core_cmInstr.h ****     Wait For Event is a hint instruction that permits the processor to enter
- 306:./lib/CMSIS/Include/core_cmInstr.h ****     a low-power state until one of a number of events occurs.
- 307:./lib/CMSIS/Include/core_cmInstr.h ****  */
- 308:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __WFE(void)
- 309:./lib/CMSIS/Include/core_cmInstr.h **** {
- 310:./lib/CMSIS/Include/core_cmInstr.h ****   __ASM volatile ("wfe");
- 213              		.loc 2 310 0
- 214              	@ 310 "./lib/CMSIS/Include/core_cmInstr.h" 1
+ 339:./lib/CMSIS/Include/core_cmInstr.h **** }
+ 340:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 341:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 342:./lib/CMSIS/Include/core_cmInstr.h **** /** \brief  Wait For Event
+ 343:./lib/CMSIS/Include/core_cmInstr.h **** 
+ 344:./lib/CMSIS/Include/core_cmInstr.h ****     Wait For Event is a hint instruction that permits the processor to enter
+ 345:./lib/CMSIS/Include/core_cmInstr.h ****     a low-power state until one of a number of events occurs.
+ 346:./lib/CMSIS/Include/core_cmInstr.h ****  */
+ 347:./lib/CMSIS/Include/core_cmInstr.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __WFE(void)
+ 348:./lib/CMSIS/Include/core_cmInstr.h **** {
+ 349:./lib/CMSIS/Include/core_cmInstr.h ****   __ASM volatile ("wfe");
+ 213              		.loc 2 349 0
+ 214              	@ 349 "./lib/CMSIS/Include/core_cmInstr.h" 1
  215 001e 20BF     		wfe
  216              	@ 0 "" 2
  217              		.thumb
@@ -808,9 +847,9 @@
  261 001a 1961     		str	r1, [r3, #16]
  262              	.LBB12:
  263              	.LBB13:
- 299:./lib/CMSIS/Include/core_cmInstr.h ****   __ASM volatile ("wfi");
- 264              		.loc 2 299 0
- 265              	@ 299 "./lib/CMSIS/Include/core_cmInstr.h" 1
+ 338:./lib/CMSIS/Include/core_cmInstr.h **** }
+ 264              		.loc 2 338 0
+ 265              	@ 338 "./lib/CMSIS/Include/core_cmInstr.h" 1
  266 001c 30BF     		wfi
  267              	@ 0 "" 2
  268              		.thumb
@@ -932,39 +971,39 @@
  339              	.LFE64:
  341              		.text
  342              	.Letext0:
- 343              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 343              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  344              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  345              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  346              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 stm32f10x_pwr.c
-  R:\TEMP\ccMa4hcr.s:19     .text.PWR_DeInit:00000000 $t
-  R:\TEMP\ccMa4hcr.s:24     .text.PWR_DeInit:00000000 PWR_DeInit
-  R:\TEMP\ccMa4hcr.s:53     .text.PWR_BackupAccessCmd:00000000 $t
-  R:\TEMP\ccMa4hcr.s:58     .text.PWR_BackupAccessCmd:00000000 PWR_BackupAccessCmd
-  R:\TEMP\ccMa4hcr.s:73     .text.PWR_BackupAccessCmd:00000008 $d
-  R:\TEMP\ccMa4hcr.s:78     .text.PWR_PVDCmd:00000000 $t
-  R:\TEMP\ccMa4hcr.s:83     .text.PWR_PVDCmd:00000000 PWR_PVDCmd
-  R:\TEMP\ccMa4hcr.s:98     .text.PWR_PVDCmd:00000008 $d
-  R:\TEMP\ccMa4hcr.s:103    .text.PWR_PVDLevelConfig:00000000 $t
-  R:\TEMP\ccMa4hcr.s:108    .text.PWR_PVDLevelConfig:00000000 PWR_PVDLevelConfig
-  R:\TEMP\ccMa4hcr.s:133    .text.PWR_PVDLevelConfig:00000010 $d
-  R:\TEMP\ccMa4hcr.s:138    .text.PWR_WakeUpPinCmd:00000000 $t
-  R:\TEMP\ccMa4hcr.s:143    .text.PWR_WakeUpPinCmd:00000000 PWR_WakeUpPinCmd
-  R:\TEMP\ccMa4hcr.s:158    .text.PWR_WakeUpPinCmd:00000008 $d
-  R:\TEMP\ccMa4hcr.s:163    .text.PWR_EnterSTOPMode:00000000 $t
-  R:\TEMP\ccMa4hcr.s:168    .text.PWR_EnterSTOPMode:00000000 PWR_EnterSTOPMode
-  R:\TEMP\ccMa4hcr.s:230    .text.PWR_EnterSTOPMode:0000002c $d
-  R:\TEMP\ccMa4hcr.s:236    .text.PWR_EnterSTANDBYMode:00000000 $t
-  R:\TEMP\ccMa4hcr.s:241    .text.PWR_EnterSTANDBYMode:00000000 PWR_EnterSTANDBYMode
-  R:\TEMP\ccMa4hcr.s:273    .text.PWR_EnterSTANDBYMode:00000020 $d
-  R:\TEMP\ccMa4hcr.s:281    .text.PWR_GetFlagStatus:00000000 $t
-  R:\TEMP\ccMa4hcr.s:286    .text.PWR_GetFlagStatus:00000000 PWR_GetFlagStatus
-  R:\TEMP\ccMa4hcr.s:309    .text.PWR_GetFlagStatus:00000010 $d
-  R:\TEMP\ccMa4hcr.s:314    .text.PWR_ClearFlag:00000000 $t
-  R:\TEMP\ccMa4hcr.s:319    .text.PWR_ClearFlag:00000000 PWR_ClearFlag
-  R:\TEMP\ccMa4hcr.s:337    .text.PWR_ClearFlag:0000000c $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 stm32f10x_pwr.c
+  R:\TEMP\ccuFJVTl.s:19     .text.PWR_DeInit:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:24     .text.PWR_DeInit:0000000000000000 PWR_DeInit
+  R:\TEMP\ccuFJVTl.s:53     .text.PWR_BackupAccessCmd:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:58     .text.PWR_BackupAccessCmd:0000000000000000 PWR_BackupAccessCmd
+  R:\TEMP\ccuFJVTl.s:73     .text.PWR_BackupAccessCmd:0000000000000008 $d
+  R:\TEMP\ccuFJVTl.s:78     .text.PWR_PVDCmd:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:83     .text.PWR_PVDCmd:0000000000000000 PWR_PVDCmd
+  R:\TEMP\ccuFJVTl.s:98     .text.PWR_PVDCmd:0000000000000008 $d
+  R:\TEMP\ccuFJVTl.s:103    .text.PWR_PVDLevelConfig:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:108    .text.PWR_PVDLevelConfig:0000000000000000 PWR_PVDLevelConfig
+  R:\TEMP\ccuFJVTl.s:133    .text.PWR_PVDLevelConfig:0000000000000010 $d
+  R:\TEMP\ccuFJVTl.s:138    .text.PWR_WakeUpPinCmd:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:143    .text.PWR_WakeUpPinCmd:0000000000000000 PWR_WakeUpPinCmd
+  R:\TEMP\ccuFJVTl.s:158    .text.PWR_WakeUpPinCmd:0000000000000008 $d
+  R:\TEMP\ccuFJVTl.s:163    .text.PWR_EnterSTOPMode:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:168    .text.PWR_EnterSTOPMode:0000000000000000 PWR_EnterSTOPMode
+  R:\TEMP\ccuFJVTl.s:230    .text.PWR_EnterSTOPMode:000000000000002c $d
+  R:\TEMP\ccuFJVTl.s:236    .text.PWR_EnterSTANDBYMode:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:241    .text.PWR_EnterSTANDBYMode:0000000000000000 PWR_EnterSTANDBYMode
+  R:\TEMP\ccuFJVTl.s:273    .text.PWR_EnterSTANDBYMode:0000000000000020 $d
+  R:\TEMP\ccuFJVTl.s:281    .text.PWR_GetFlagStatus:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:286    .text.PWR_GetFlagStatus:0000000000000000 PWR_GetFlagStatus
+  R:\TEMP\ccuFJVTl.s:309    .text.PWR_GetFlagStatus:0000000000000010 $d
+  R:\TEMP\ccuFJVTl.s:314    .text.PWR_ClearFlag:0000000000000000 $t
+  R:\TEMP\ccuFJVTl.s:319    .text.PWR_ClearFlag:0000000000000000 PWR_ClearFlag
+  R:\TEMP\ccuFJVTl.s:337    .text.PWR_ClearFlag:000000000000000c $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_APB1PeriphResetCmd

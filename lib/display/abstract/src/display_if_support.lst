@@ -576,12 +576,12 @@
   95              		.loc 1 483 0
   96 0026 08EBC60B 		add	fp, r8, r6, lsl #3
   97 002a 1FFA8BFB 		uxth	fp, fp
- 466:lib/display/abstract/src/display_if_support.c **** 	for(i=0; i<CurrentKanjiDat->Y_Size;i++)
+ 466:lib/display/abstract/src/display_if_support.c **** 	{
   98              		.loc 1 466 0
   99 002e 0025     		movs	r5, #0
  100              	.LVL12:
  101              	.L3:
- 466:lib/display/abstract/src/display_if_support.c **** 	for(i=0; i<CurrentKanjiDat->Y_Size;i++)
+ 466:lib/display/abstract/src/display_if_support.c **** 	{
  102              		.loc 1 466 0 is_stmt 0 discriminator 1
  103 0030 244B     		ldr	r3, .L26
  104 0032 1868     		ldr	r0, [r3, #0]
@@ -589,33 +589,33 @@
  106 0036 8D42     		cmp	r5, r1
  107 0038 40DA     		bge	.L24
  108              	.L12:
- 466:lib/display/abstract/src/display_if_support.c **** 	for(i=0; i<CurrentKanjiDat->Y_Size;i++)
+ 466:lib/display/abstract/src/display_if_support.c **** 	{
  109              		.loc 1 466 0
  110 003a 0022     		movs	r2, #0
  111              	.LVL13:
  112              	.L11:
- 468:lib/display/abstract/src/display_if_support.c **** 		for(k=0; k < l ;k++){
+ 468:lib/display/abstract/src/display_if_support.c **** 			
  113              		.loc 1 468 0 is_stmt 1 discriminator 1
  114 003c B242     		cmp	r2, r6
  115 003e 21DA     		bge	.L6
- 454:lib/display/abstract/src/display_if_support.c **** static void putkanji_t(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t colour)
+ 454:lib/display/abstract/src/display_if_support.c **** {
  116              		.loc 1 454 0
  117 0040 08EBC20C 		add	ip, r8, r2, lsl #3
  118 0044 1FFA8CFC 		uxth	ip, ip
  119 0048 0023     		movs	r3, #0
  120              	.LVL14:
  121              	.L5:
- 472:lib/display/abstract/src/display_if_support.c **** 				if((*(ptemp)<<j)&0x80){
+ 472:lib/display/abstract/src/display_if_support.c **** 						SetPixel(col +j +(k*8),row +i);
  122              		.loc 1 472 0
  123 004a A05C     		ldrb	r0, [r4, r2]	@ zero_extendqisi2
  124 004c 00FA03F0 		lsl	r0, r0, r3
  125 0050 0106     		lsls	r1, r0, #24
  126 0052 12D5     		bpl	.L4
- 454:lib/display/abstract/src/display_if_support.c **** static void putkanji_t(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t colour)
+ 454:lib/display/abstract/src/display_if_support.c **** {
  127              		.loc 1 454 0
  128 0054 0CEB0300 		add	r0, ip, r3
  129 0058 09EB0501 		add	r1, r9, r5
- 473:lib/display/abstract/src/display_if_support.c **** 						SetPixel(col +j +(k*8),row +i);
+ 473:lib/display/abstract/src/display_if_support.c **** 						Display_wr_dat_if(colour);
  130              		.loc 1 473 0
  131 005c 80B2     		uxth	r0, r0
  132 005e 89B2     		uxth	r1, r1
@@ -624,7 +624,7 @@
  135 0064 CDF808C0 		str	ip, [sp, #8]
  136 0068 FFF7FEFF 		bl	SetPixel
  137              	.LVL15:
- 474:lib/display/abstract/src/display_if_support.c **** 						Display_wr_dat_if(colour);
+ 474:lib/display/abstract/src/display_if_support.c **** 					}
  138              		.loc 1 474 0
  139 006c 5046     		mov	r0, sl
  140 006e FFF7FEFF 		bl	ST7732_wr_gram
@@ -633,13 +633,13 @@
  143 0076 019B     		ldr	r3, [sp, #4]
  144 0078 039A     		ldr	r2, [sp, #12]
  145              	.L4:
- 470:lib/display/abstract/src/display_if_support.c **** 			for(j=0; j< 8;j++){
+ 470:lib/display/abstract/src/display_if_support.c **** 
  146              		.loc 1 470 0
  147 007a 0133     		adds	r3, r3, #1
  148              	.LVL17:
  149 007c 082B     		cmp	r3, #8
  150 007e E4D1     		bne	.L5
- 468:lib/display/abstract/src/display_if_support.c **** 		for(k=0; k < l ;k++){
+ 468:lib/display/abstract/src/display_if_support.c **** 			
  151              		.loc 1 468 0
  152 0080 0132     		adds	r2, r2, #1
  153              	.LVL18:
@@ -647,23 +647,23 @@
  155              	.LVL19:
  156              	.L6:
  157 0084 A419     		adds	r4, r4, r6
- 454:lib/display/abstract/src/display_if_support.c **** static void putkanji_t(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t colour)
+ 454:lib/display/abstract/src/display_if_support.c **** {
  158              		.loc 1 454 0 discriminator 1
  159 0086 0023     		movs	r3, #0
  160              	.LVL20:
  161              	.L7:
- 480:lib/display/abstract/src/display_if_support.c **** 		for(j=0; j< m ;j++){
+ 480:lib/display/abstract/src/display_if_support.c **** 
  162              		.loc 1 480 0 discriminator 1
  163 0088 BB42     		cmp	r3, r7
  164 008a 13DA     		bge	.L25
  165              	.L9:
- 482:lib/display/abstract/src/display_if_support.c **** 			if((*(ptemp)<<j)&0x80){
+ 482:lib/display/abstract/src/display_if_support.c **** 					SetPixel(col +j +(k*8),row +i);
  166              		.loc 1 482 0
  167 008c 2078     		ldrb	r0, [r4, #0]	@ zero_extendqisi2
  168 008e 00FA03F0 		lsl	r0, r0, r3
  169 0092 0206     		lsls	r2, r0, #24
  170 0094 0CD5     		bpl	.L8
- 454:lib/display/abstract/src/display_if_support.c **** static void putkanji_t(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t colour)
+ 454:lib/display/abstract/src/display_if_support.c **** {
  171              		.loc 1 454 0
  172 0096 0BEB0302 		add	r2, fp, r3
  173 009a 09EB0501 		add	r1, r9, r5
@@ -680,7 +680,7 @@
  183              	.LVL22:
  184 00ae 019B     		ldr	r3, [sp, #4]
  185              	.L8:
- 480:lib/display/abstract/src/display_if_support.c **** 		for(j=0; j< m ;j++){
+ 480:lib/display/abstract/src/display_if_support.c **** 
  186              		.loc 1 480 0
  187 00b0 0133     		adds	r3, r3, #1
  188              	.LVL23:
@@ -697,7 +697,7 @@
  194 00b6 0134     		adds	r4, r4, #1
  195              	.LVL24:
  196              	.L10:
- 466:lib/display/abstract/src/display_if_support.c **** 	for(i=0; i<CurrentKanjiDat->Y_Size;i++)
+ 466:lib/display/abstract/src/display_if_support.c **** 	{
  197              		.loc 1 466 0 is_stmt 1
  198 00b8 0135     		adds	r5, r5, #1
  199              	.LVL25:
@@ -804,7 +804,7 @@
  261              		.loc 1 530 0
  262 0020 08EBC60B 		add	fp, r8, r6, lsl #3
  263 0024 1FFA8BFB 		uxth	fp, fp
- 513:lib/display/abstract/src/display_if_support.c **** 	for(i=0; i<CurrentAnkDat->Y_Size;i++)
+ 513:lib/display/abstract/src/display_if_support.c **** 	{
  264              		.loc 1 513 0
  265 0028 0025     		movs	r5, #0
  266              	.LVL35:
@@ -818,28 +818,28 @@
  274 0034 0022     		movs	r2, #0
  275              	.LVL36:
  276              	.L37:
- 515:lib/display/abstract/src/display_if_support.c **** 		for(k=0; k < l ;k++){
+ 515:lib/display/abstract/src/display_if_support.c **** 			
  277              		.loc 1 515 0
  278 0036 B242     		cmp	r2, r6
  279 0038 21DA     		bge	.L32
- 501:lib/display/abstract/src/display_if_support.c **** static void putank_t(uint16_t col, uint16_t row, uint8_t* pank, uint16_t colour)
+ 501:lib/display/abstract/src/display_if_support.c **** {
  280              		.loc 1 501 0
  281 003a 08EBC20C 		add	ip, r8, r2, lsl #3
  282 003e 1FFA8CFC 		uxth	ip, ip
  283 0042 0023     		movs	r3, #0
  284              	.LVL37:
  285              	.L31:
- 519:lib/display/abstract/src/display_if_support.c **** 				if((*(ptemp)<<j)&0x80){
+ 519:lib/display/abstract/src/display_if_support.c **** 						SetPixel(col +j +(k*8),row +i);
  286              		.loc 1 519 0
  287 0044 A05C     		ldrb	r0, [r4, r2]	@ zero_extendqisi2
  288 0046 00FA03F0 		lsl	r0, r0, r3
  289 004a 0106     		lsls	r1, r0, #24
  290 004c 12D5     		bpl	.L30
- 501:lib/display/abstract/src/display_if_support.c **** static void putank_t(uint16_t col, uint16_t row, uint8_t* pank, uint16_t colour)
+ 501:lib/display/abstract/src/display_if_support.c **** {
  291              		.loc 1 501 0
  292 004e 0CEB0300 		add	r0, ip, r3
  293 0052 09EB0501 		add	r1, r9, r5
- 520:lib/display/abstract/src/display_if_support.c **** 						SetPixel(col +j +(k*8),row +i);
+ 520:lib/display/abstract/src/display_if_support.c **** 						Display_wr_dat_if(colour);
  294              		.loc 1 520 0
  295 0056 80B2     		uxth	r0, r0
  296 0058 89B2     		uxth	r1, r1
@@ -848,7 +848,7 @@
  299 005e CDF808C0 		str	ip, [sp, #8]
  300 0062 FFF7FEFF 		bl	SetPixel
  301              	.LVL38:
- 521:lib/display/abstract/src/display_if_support.c **** 						Display_wr_dat_if(colour);
+ 521:lib/display/abstract/src/display_if_support.c **** 					}
  302              		.loc 1 521 0
  303 0066 5046     		mov	r0, sl
  304 0068 FFF7FEFF 		bl	ST7732_wr_gram
@@ -857,13 +857,13 @@
  307 0070 019B     		ldr	r3, [sp, #4]
  308 0072 039A     		ldr	r2, [sp, #12]
  309              	.L30:
- 517:lib/display/abstract/src/display_if_support.c **** 			for(j=0; j< 8;j++){
+ 517:lib/display/abstract/src/display_if_support.c **** 
  310              		.loc 1 517 0
  311 0074 0133     		adds	r3, r3, #1
  312              	.LVL40:
  313 0076 082B     		cmp	r3, #8
  314 0078 E4D1     		bne	.L31
- 515:lib/display/abstract/src/display_if_support.c **** 		for(k=0; k < l ;k++){
+ 515:lib/display/abstract/src/display_if_support.c **** 			
  315              		.loc 1 515 0
  316 007a 0132     		adds	r2, r2, #1
  317              	.LVL41:
@@ -871,23 +871,23 @@
  319              	.LVL42:
  320              	.L32:
  321 007e A419     		adds	r4, r4, r6
- 501:lib/display/abstract/src/display_if_support.c **** static void putank_t(uint16_t col, uint16_t row, uint8_t* pank, uint16_t colour)
+ 501:lib/display/abstract/src/display_if_support.c **** {
  322              		.loc 1 501 0
  323 0080 0023     		movs	r3, #0
  324              	.LVL43:
  325              	.L33:
- 527:lib/display/abstract/src/display_if_support.c **** 		for(j=0; j< m ;j++){
+ 527:lib/display/abstract/src/display_if_support.c **** 
  326              		.loc 1 527 0
  327 0082 BB42     		cmp	r3, r7
  328 0084 13DA     		bge	.L50
  329              	.L35:
- 529:lib/display/abstract/src/display_if_support.c **** 			if((*(ptemp)<<j)&0x80){
+ 529:lib/display/abstract/src/display_if_support.c **** 					SetPixel(col +j +(k*8),row +i);
  330              		.loc 1 529 0
  331 0086 2078     		ldrb	r0, [r4, #0]	@ zero_extendqisi2
  332 0088 00FA03F0 		lsl	r0, r0, r3
  333 008c 0006     		lsls	r0, r0, #24
  334 008e 0CD5     		bpl	.L34
- 501:lib/display/abstract/src/display_if_support.c **** static void putank_t(uint16_t col, uint16_t row, uint8_t* pank, uint16_t colour)
+ 501:lib/display/abstract/src/display_if_support.c **** {
  335              		.loc 1 501 0
  336 0090 0BEB0302 		add	r2, fp, r3
  337 0094 09EB0501 		add	r1, r9, r5
@@ -904,7 +904,7 @@
  347              	.LVL45:
  348 00a8 019B     		ldr	r3, [sp, #4]
  349              	.L34:
- 527:lib/display/abstract/src/display_if_support.c **** 		for(j=0; j< m ;j++){
+ 527:lib/display/abstract/src/display_if_support.c **** 
  350              		.loc 1 527 0
  351 00aa 0133     		adds	r3, r3, #1
  352              	.LVL46:
@@ -918,7 +918,7 @@
  357 00b0 0134     		adds	r4, r4, #1
  358              	.LVL47:
  359              	.L36:
- 513:lib/display/abstract/src/display_if_support.c **** 	for(i=0; i<CurrentAnkDat->Y_Size;i++)
+ 513:lib/display/abstract/src/display_if_support.c **** 	{
  360              		.loc 1 513 0
  361 00b2 0135     		adds	r5, r5, #1
  362              	.LVL48:
@@ -944,19 +944,19 @@
  380              		.thumb_func
  382              	Display_ChrCol:
  383              	.LFB59:
-  64:lib/display/abstract/src/display_if_support.c **** {
+  64:lib/display/abstract/src/display_if_support.c **** 	pScrCol->Fg = fg;
  384              		.loc 1 64 0
  385              		.cfi_startproc
  386              		@ args = 0, pretend = 0, frame = 0
  387              		@ frame_needed = 0, uses_anonymous_args = 0
  388              		@ link register save eliminated.
  389              	.LVL50:
-  65:lib/display/abstract/src/display_if_support.c **** 	pScrCol->Fg = fg;
+  65:lib/display/abstract/src/display_if_support.c **** 	pScrCol->Bg = bg;
  390              		.loc 1 65 0
  391 0000 024B     		ldr	r3, .L54
  392 0002 1A68     		ldr	r2, [r3, #0]
  393 0004 1080     		strh	r0, [r2, #0]	@ movhi
-  66:lib/display/abstract/src/display_if_support.c **** 	pScrCol->Bg = bg;
+  66:lib/display/abstract/src/display_if_support.c **** }
  394              		.loc 1 66 0
  395 0006 1868     		ldr	r0, [r3, #0]
  396              	.LVL51:
@@ -975,7 +975,7 @@
  410              		.thumb_func
  412              	PutPixel:
  413              	.LFB61:
-  86:lib/display/abstract/src/display_if_support.c **** {
+  86:lib/display/abstract/src/display_if_support.c **** 	SetPixel(col,row);
  414              		.loc 1 86 0
  415              		.cfi_startproc
  416              		@ args = 0, pretend = 0, frame = 0
@@ -987,17 +987,17 @@
  422              		.cfi_offset 4, -8
  423              		.cfi_offset 14, -4
  424 0002 1446     		mov	r4, r2
-  87:lib/display/abstract/src/display_if_support.c **** 	SetPixel(col,row);
+  87:lib/display/abstract/src/display_if_support.c **** 	Display_wr_dat_if(colour);
  425              		.loc 1 87 0
  426 0004 FFF7FEFF 		bl	SetPixel
  427              	.LVL53:
-  88:lib/display/abstract/src/display_if_support.c **** 	Display_wr_dat_if(colour);
+  88:lib/display/abstract/src/display_if_support.c **** }
  428              		.loc 1 88 0
  429 0008 2046     		mov	r0, r4
-  89:lib/display/abstract/src/display_if_support.c **** }
+  89:lib/display/abstract/src/display_if_support.c **** 
  430              		.loc 1 89 0
  431 000a BDE81040 		pop	{r4, lr}
-  88:lib/display/abstract/src/display_if_support.c **** 	Display_wr_dat_if(colour);
+  88:lib/display/abstract/src/display_if_support.c **** }
  432              		.loc 1 88 0
  433 000e FFF7FEBF 		b	ST7732_wr_gram
  434              	.LVL54:
@@ -1010,7 +1010,7 @@
  442              		.thumb_func
  444              	Display_FillRect_If:
  445              	.LFB62:
-  98:lib/display/abstract/src/display_if_support.c **** {
+  98:lib/display/abstract/src/display_if_support.c **** 	volatile uint32_t n;
  446              		.loc 1 98 0
  447              		.cfi_startproc
  448              		@ args = 4, pretend = 0, frame = 8
@@ -1032,19 +1032,19 @@
  464 0008 1646     		mov	r6, r2
  465 000a 1F46     		mov	r7, r3
  466 000c BDF82080 		ldrh	r8, [sp, #32]
- 101:lib/display/abstract/src/display_if_support.c **** 	if((width < x) || (height < y) ) return;
+ 101:lib/display/abstract/src/display_if_support.c **** 	
  467              		.loc 1 101 0
  468 0010 8142     		cmp	r1, r0
  469 0012 11D3     		bcc	.L57
- 101:lib/display/abstract/src/display_if_support.c **** 	if((width < x) || (height < y) ) return;
+ 101:lib/display/abstract/src/display_if_support.c **** 	
  470              		.loc 1 101 0 is_stmt 0 discriminator 2
  471 0014 9342     		cmp	r3, r2
  472 0016 0FD3     		bcc	.L57
- 103:lib/display/abstract/src/display_if_support.c **** 	Display_rect_if(x,width,y,height);
+ 103:lib/display/abstract/src/display_if_support.c **** 	n = (width-x+1) * (height-y+1);
  473              		.loc 1 103 0 is_stmt 1
  474 0018 FFF7FEFF 		bl	ST7732_rect
  475              	.LVL56:
- 104:lib/display/abstract/src/display_if_support.c **** 	n = (width-x+1) * (height-y+1);
+ 104:lib/display/abstract/src/display_if_support.c **** 	
  476              		.loc 1 104 0
  477 001c BE1B     		subs	r6, r7, r6
  478              	.LVL57:
@@ -1057,12 +1057,12 @@
  485 0026 0194     		str	r4, [sp, #4]
  486              	.LVL60:
  487              	.L60:
- 107:lib/display/abstract/src/display_if_support.c **** 		Display_wr_dat_if(colour);
+ 107:lib/display/abstract/src/display_if_support.c **** 	} while (--n);
  488              		.loc 1 107 0 discriminator 1
  489 0028 4046     		mov	r0, r8
  490 002a FFF7FEFF 		bl	ST7732_wr_gram
  491              	.LVL61:
- 108:lib/display/abstract/src/display_if_support.c **** 	} while (--n);
+ 108:lib/display/abstract/src/display_if_support.c **** 
  492              		.loc 1 108 0 discriminator 1
  493 002e 019B     		ldr	r3, [sp, #4]
  494 0030 581E     		subs	r0, r3, #1
@@ -1071,7 +1071,7 @@
  497 0034 0028     		cmp	r0, #0
  498 0036 F7D1     		bne	.L60
  499              	.L57:
- 110:lib/display/abstract/src/display_if_support.c **** }
+ 110:lib/display/abstract/src/display_if_support.c **** 
  500              		.loc 1 110 0
  501 0038 BDE8FC81 		pop	{r2, r3, r4, r5, r6, r7, r8, pc}
  502              		.cfi_endproc
@@ -1083,7 +1083,7 @@
  509              		.thumb_func
  511              	Display_DrawLine_If:
  512              	.LFB63:
- 119:lib/display/abstract/src/display_if_support.c **** {
+ 119:lib/display/abstract/src/display_if_support.c **** 	/* Bresenham Algorithum */
  513              		.loc 1 119 0
  514              		.cfi_startproc
  515              		@ args = 4, pretend = 0, frame = 16
@@ -1105,54 +1105,54 @@
  531              	.LCFI7:
  532              		.cfi_def_cfa_offset 56
  533 0006 BDF83890 		ldrh	r9, [sp, #56]
- 124:lib/display/abstract/src/display_if_support.c **** 	hhy = ye - ys;
+ 124:lib/display/abstract/src/display_if_support.c **** 	wwx = xe - xs;
  534              		.loc 1 124 0
  535 000a 5C1A     		subs	r4, r3, r1
  536              	.LVL64:
- 125:lib/display/abstract/src/display_if_support.c **** 	wwx = xe - xs;
+ 125:lib/display/abstract/src/display_if_support.c **** 	x_ct  = ABS(wwx);
  537              		.loc 1 125 0
  538 000c 121A     		subs	r2, r2, r0
  539              	.LVL65:
- 126:lib/display/abstract/src/display_if_support.c **** 	x_ct  = ABS(wwx);
+ 126:lib/display/abstract/src/display_if_support.c **** 	y_ct  = ABS(hhy);
  540              		.loc 1 126 0
  541 000e 82EAE27C 		eor	ip, r2, r2, asr #31
  542 0012 ACEBE27C 		sub	ip, ip, r2, asr #31
  543              	.LVL66:
- 127:lib/display/abstract/src/display_if_support.c **** 	y_ct  = ABS(hhy);
+ 127:lib/display/abstract/src/display_if_support.c **** 	
  544              		.loc 1 127 0
  545 0016 84EAE473 		eor	r3, r4, r4, asr #31
  546 001a A3EBE473 		sub	r3, r3, r4, asr #31
  547              	.LVL67:
- 129:lib/display/abstract/src/display_if_support.c **** 	if (wwx) sx = 1; else	 sx =-1;
+ 129:lib/display/abstract/src/display_if_support.c **** 	if (hhy) sy = 1; else	 sy =-1;
  548              		.loc 1 129 0
  549 001e 002A     		cmp	r2, #0
  550 0020 0CBF     		ite	eq
  551 0022 4FF0FF37 		moveq	r7, #-1
  552 0026 0127     		movne	r7, #1
  553              	.LVL68:
- 130:lib/display/abstract/src/display_if_support.c **** 	if (hhy) sy = 1; else	 sy =-1;
+ 130:lib/display/abstract/src/display_if_support.c **** 
  554              		.loc 1 130 0
  555 0028 002C     		cmp	r4, #0
  556 002a 0CBF     		ite	eq
  557 002c 4FF0FF38 		moveq	r8, #-1
  558 0030 4FF00108 		movne	r8, #1
  559              	.LVL69:
- 135:lib/display/abstract/src/display_if_support.c **** 	if ( x_ct >= y_ct )
+ 135:lib/display/abstract/src/display_if_support.c **** 	{
  560              		.loc 1 135 0
  561 0034 9C45     		cmp	ip, r3
  562 0036 4FEA440A 		lsl	sl, r4, #1
  563 003a 4FEA420B 		lsl	fp, r2, #1
  564 003e 6FF00105 		mvn	r5, #1
  565 0042 1BDB     		blt	.L65
- 147:lib/display/abstract/src/display_if_support.c **** 				e -= 2*wwx;
+ 147:lib/display/abstract/src/display_if_support.c **** 				y +=sy;
  566              		.loc 1 147 0
  567 0044 5543     		muls	r5, r2, r5
  568 0046 0395     		str	r5, [sp, #12]
- 125:lib/display/abstract/src/display_if_support.c **** 	wwx = xe - xs;
+ 125:lib/display/abstract/src/display_if_support.c **** 	x_ct  = ABS(wwx);
  569              		.loc 1 125 0
  570 0048 1446     		mov	r4, r2
  571              	.LVL70:
- 147:lib/display/abstract/src/display_if_support.c **** 				e -= 2*wwx;
+ 147:lib/display/abstract/src/display_if_support.c **** 				y +=sy;
  572              		.loc 1 147 0
  573 004a 0E46     		mov	r6, r1
  574 004c 0346     		mov	r3, r0
@@ -1160,7 +1160,7 @@
  576 004e 0025     		movs	r5, #0
  577              	.LVL72:
  578              	.L67:
- 142:lib/display/abstract/src/display_if_support.c **** 			PutPixel(x,y,colour);
+ 142:lib/display/abstract/src/display_if_support.c **** 			x +=sx;
  579              		.loc 1 142 0
  580 0050 98B2     		uxth	r0, r3
  581 0052 B1B2     		uxth	r1, r6
@@ -1169,31 +1169,31 @@
  584 0058 CDF808C0 		str	ip, [sp, #8]
  585 005c FFF7FEFF 		bl	PutPixel
  586              	.LVL73:
- 143:lib/display/abstract/src/display_if_support.c **** 			x +=sx;
+ 143:lib/display/abstract/src/display_if_support.c **** 			e += 2*hhy;
  587              		.loc 1 143 0
  588 0060 0199     		ldr	r1, [sp, #4]
  589 0062 CB19     		adds	r3, r1, r7
  590              	.LVL74:
- 144:lib/display/abstract/src/display_if_support.c **** 			e += 2*hhy;
+ 144:lib/display/abstract/src/display_if_support.c **** 
  591              		.loc 1 144 0
  592 0064 5444     		add	r4, r4, sl
  593              	.LVL75:
- 146:lib/display/abstract/src/display_if_support.c **** 			if (e>=2*wwx){
+ 146:lib/display/abstract/src/display_if_support.c **** 				e -= 2*wwx;
  594              		.loc 1 146 0
  595 0066 5C45     		cmp	r4, fp
  596 0068 DDF808C0 		ldr	ip, [sp, #8]
  597 006c 02DB     		blt	.L66
- 147:lib/display/abstract/src/display_if_support.c **** 				e -= 2*wwx;
+ 147:lib/display/abstract/src/display_if_support.c **** 				y +=sy;
  598              		.loc 1 147 0
  599 006e 039A     		ldr	r2, [sp, #12]
  600 0070 A418     		adds	r4, r4, r2
  601              	.LVL76:
- 148:lib/display/abstract/src/display_if_support.c **** 				y +=sy;
+ 148:lib/display/abstract/src/display_if_support.c **** 			}
  602              		.loc 1 148 0
  603 0072 4644     		add	r6, r6, r8
  604              	.LVL77:
  605              	.L66:
- 140:lib/display/abstract/src/display_if_support.c **** 		for(n=0; n<=x_ct;++n ){
+ 140:lib/display/abstract/src/display_if_support.c **** 
  606              		.loc 1 140 0
  607 0074 0135     		adds	r5, r5, #1
  608              	.LVL78:
@@ -1202,7 +1202,7 @@
  611 007a 1AE0     		b	.L62
  612              	.LVL79:
  613              	.L65:
- 165:lib/display/abstract/src/display_if_support.c **** 				e -= 2*hhy;
+ 165:lib/display/abstract/src/display_if_support.c **** 				x +=sx;
  614              		.loc 1 165 0
  615 007c 6543     		muls	r5, r4, r5
  616 007e 0395     		str	r5, [sp, #12]
@@ -1212,7 +1212,7 @@
  620 0084 0025     		movs	r5, #0
  621              	.LVL81:
  622              	.L69:
- 160:lib/display/abstract/src/display_if_support.c **** 			PutPixel(x,y,colour);
+ 160:lib/display/abstract/src/display_if_support.c **** 			y +=sy;
  623              		.loc 1 160 0
  624 0086 B0B2     		uxth	r0, r6
  625 0088 1FFA8CF1 		uxth	r1, ip
@@ -1221,31 +1221,31 @@
  628 0090 CDF808C0 		str	ip, [sp, #8]
  629 0094 FFF7FEFF 		bl	PutPixel
  630              	.LVL82:
- 161:lib/display/abstract/src/display_if_support.c **** 			y +=sy;
+ 161:lib/display/abstract/src/display_if_support.c **** 			e += 2*wwx;
  631              		.loc 1 161 0
  632 0098 DDF808C0 		ldr	ip, [sp, #8]
  633 009c C444     		add	ip, ip, r8
  634              	.LVL83:
- 162:lib/display/abstract/src/display_if_support.c **** 			e += 2*wwx;
+ 162:lib/display/abstract/src/display_if_support.c **** 
  635              		.loc 1 162 0
  636 009e 5C44     		add	r4, r4, fp
  637              	.LVL84:
- 164:lib/display/abstract/src/display_if_support.c **** 			if (e>=2*hhy){
+ 164:lib/display/abstract/src/display_if_support.c **** 				e -= 2*hhy;
  638              		.loc 1 164 0
  639 00a0 5445     		cmp	r4, sl
  640 00a2 019B     		ldr	r3, [sp, #4]
  641 00a4 02DB     		blt	.L68
- 165:lib/display/abstract/src/display_if_support.c **** 				e -= 2*hhy;
+ 165:lib/display/abstract/src/display_if_support.c **** 				x +=sx;
  642              		.loc 1 165 0
  643 00a6 0398     		ldr	r0, [sp, #12]
  644 00a8 2418     		adds	r4, r4, r0
  645              	.LVL85:
- 166:lib/display/abstract/src/display_if_support.c **** 				x +=sx;
+ 166:lib/display/abstract/src/display_if_support.c **** 			}
  646              		.loc 1 166 0
  647 00aa F619     		adds	r6, r6, r7
  648              	.LVL86:
  649              	.L68:
- 158:lib/display/abstract/src/display_if_support.c **** 		for(n=0; n<=y_ct;++n ){
+ 158:lib/display/abstract/src/display_if_support.c **** 		
  650              		.loc 1 158 0
  651 00ac 0135     		adds	r5, r5, #1
  652              	.LVL87:
@@ -1253,7 +1253,7 @@
  654 00b0 E9DD     		ble	.L69
  655              	.LVL88:
  656              	.L62:
- 171:lib/display/abstract/src/display_if_support.c **** }
+ 171:lib/display/abstract/src/display_if_support.c **** 
  657              		.loc 1 171 0
  658 00b2 05B0     		add	sp, sp, #20
  659 00b4 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
@@ -1274,7 +1274,7 @@
  675              		.thumb_func
  677              	Display_DrawCircle_If:
  678              	.LFB64:
- 180:lib/display/abstract/src/display_if_support.c **** {
+ 180:lib/display/abstract/src/display_if_support.c ****     PLOT_XY center;
  679              		.loc 1 180 0
  680              		.cfi_startproc
  681              		@ args = 0, pretend = 0, frame = 128
@@ -1299,17 +1299,17 @@
  700 0008 0791     		str	r1, [sp, #28]
  701 000a 0392     		str	r2, [sp, #12]
  702 000c 0D93     		str	r3, [sp, #52]
- 182:lib/display/abstract/src/display_if_support.c ****     center.x=x_ct;
+ 182:lib/display/abstract/src/display_if_support.c ****     center.y=y_ct;
  703              		.loc 1 182 0
  704 000e 84B2     		uxth	r4, r0
  705 0010 0894     		str	r4, [sp, #32]
  706              	.LVL90:
- 183:lib/display/abstract/src/display_if_support.c ****     center.y=y_ct;
+ 183:lib/display/abstract/src/display_if_support.c ****     long cx = 0, cy=diameter/2, *px, *py, tmp;
  707              		.loc 1 183 0
  708 0012 8EB2     		uxth	r6, r1
  709 0014 0996     		str	r6, [sp, #36]
  710              	.LVL91:
- 184:lib/display/abstract/src/display_if_support.c ****     long cx = 0, cy=diameter/2, *px, *py, tmp;
+ 184:lib/display/abstract/src/display_if_support.c ****     long dx, dy, x_sign, num_eigth, r_root2,y_sign =0;
  711              		.loc 1 184 0
  712 0016 0023     		movs	r3, #0
  713              	.LVL92:
@@ -1322,11 +1322,11 @@
  720 0020 0591     		str	r1, [sp, #20]
  721 0022 0F91     		str	r1, [sp, #60]
  722              	.LVL96:
- 188:lib/display/abstract/src/display_if_support.c ****     r_root2 = (diameter>3)? root(diameter*diameter/8) :1;
+ 188:lib/display/abstract/src/display_if_support.c ****     tmp = r_root2*r_root2*8-diameter*diameter;
  723              		.loc 1 188 0
  724 0024 032A     		cmp	r2, #3
  725 0026 32DD     		ble	.L115
- 188:lib/display/abstract/src/display_if_support.c ****     r_root2 = (diameter>3)? root(diameter*diameter/8) :1;
+ 188:lib/display/abstract/src/display_if_support.c ****     tmp = r_root2*r_root2*8-diameter*diameter;
  726              		.loc 1 188 0 is_stmt 0 discriminator 1
  727 0028 1046     		mov	r0, r2
  728 002a 5043     		muls	r0, r2, r0
@@ -1338,20 +1338,20 @@
  734              	.LVL98:
  735              	.LBB7:
  736              	.LBB8:
-  51:lib/display/abstract/src/display_if_support.c ****     if (x<=0) return 1;
+  51:lib/display/abstract/src/display_if_support.c ****     do { s2=s; s=(x/s+s)/2; } while(s2!=s);
  737              		.loc 1 51 0 is_stmt 1 discriminator 1
  738 0036 0022     		movs	r2, #0
  739 0038 0023     		movs	r3, #0
  740 003a FFF7FEFF 		bl	__aeabi_dcmple
  741              	.LVL99:
  742 003e E8B9     		cbnz	r0, .L116
-  51:lib/display/abstract/src/display_if_support.c ****     if (x<=0) return 1;
+  51:lib/display/abstract/src/display_if_support.c ****     do { s2=s; s=(x/s+s)/2; } while(s2!=s);
  743              		.loc 1 51 0 is_stmt 0
  744 0040 0024     		movs	r4, #0
  745 0042 B14D     		ldr	r5, .L133
  746              	.LVL100:
  747              	.L78:
-  52:lib/display/abstract/src/display_if_support.c ****     do { s2=s; s=(x/s+s)/2; } while(s2!=s);
+  52:lib/display/abstract/src/display_if_support.c ****     return s;
  748              		.loc 1 52 0 is_stmt 1
  749 0044 5046     		mov	r0, sl
  750 0046 5946     		mov	r1, fp
@@ -1386,7 +1386,7 @@
  779 007a E3E7     		b	.L78
  780              	.LVL107:
  781              	.L116:
-  51:lib/display/abstract/src/display_if_support.c ****     if (x<=0) return 1;
+  51:lib/display/abstract/src/display_if_support.c ****     do { s2=s; s=(x/s+s)/2; } while(s2!=s);
  782              		.loc 1 51 0
  783 007c 4FF00008 		mov	r8, #0
  784 0080 DFF88492 		ldr	r9, .L133
@@ -1394,7 +1394,7 @@
  786              	.L77:
  787              	.LBE8:
  788              	.LBE7:
- 188:lib/display/abstract/src/display_if_support.c ****     r_root2 = (diameter>3)? root(diameter*diameter/8) :1;
+ 188:lib/display/abstract/src/display_if_support.c ****     tmp = r_root2*r_root2*8-diameter*diameter;
  789              		.loc 1 188 0
  790 0084 4046     		mov	r0, r8
  791 0086 4946     		mov	r1, r9
@@ -1406,7 +1406,7 @@
  797 008e 0120     		movs	r0, #1
  798              	.LVL111:
  799              	.L76:
- 189:lib/display/abstract/src/display_if_support.c ****     tmp = r_root2*r_root2*8-diameter*diameter;
+ 189:lib/display/abstract/src/display_if_support.c ****     if (ABS(tmp)>ABS(tmp+8*(2*r_root2+1))) r_root2++;	/* near by (r*Å„2) */
  800              		.loc 1 189 0 discriminator 3
  801 0090 039F     		ldr	r7, [sp, #12]
  802 0092 7F43     		muls	r7, r7, r7
@@ -1415,40 +1415,40 @@
  805 009a D900     		lsls	r1, r3, #3
  806 009c CE1B     		subs	r6, r1, r7
  807              	.LVL112:
- 190:lib/display/abstract/src/display_if_support.c ****     if (ABS(tmp)>ABS(tmp+8*(2*r_root2+1))) r_root2++;	/* near by (r*Å„2) */
+ 190:lib/display/abstract/src/display_if_support.c **** 
  808              		.loc 1 190 0 discriminator 3
  809 009e 86EAE675 		eor	r5, r6, r6, asr #31
  810 00a2 A5EBE675 		sub	r5, r5, r6, asr #31
  811 00a6 06EB0011 		add	r1, r6, r0, lsl #4
  812 00aa 0831     		adds	r1, r1, #8
  813 00ac 04D5     		bpl	.L79
- 190:lib/display/abstract/src/display_if_support.c ****     if (ABS(tmp)>ABS(tmp+8*(2*r_root2+1))) r_root2++;	/* near by (r*Å„2) */
+ 190:lib/display/abstract/src/display_if_support.c **** 
  814              		.loc 1 190 0 is_stmt 0 discriminator 2
  815 00ae 0401     		lsls	r4, r0, #4
  816 00b0 6FF00702 		mvn	r2, #7
  817 00b4 131B     		subs	r3, r2, r4
  818 00b6 991B     		subs	r1, r3, r6
  819              	.L79:
- 190:lib/display/abstract/src/display_if_support.c ****     if (ABS(tmp)>ABS(tmp+8*(2*r_root2+1))) r_root2++;	/* near by (r*Å„2) */
+ 190:lib/display/abstract/src/display_if_support.c **** 
  820              		.loc 1 190 0 discriminator 3
  821 00b8 8D42     		cmp	r5, r1
  822 00ba C8BF     		it	gt
  823 00bc 0130     		addgt	r0, r0, #1
  824              	.LVL113:
- 197:lib/display/abstract/src/display_if_support.c ****     if ((diameter&1) ==0){
+ 197:lib/display/abstract/src/display_if_support.c ****         mirror_center.x++;
  825              		.loc 1 197 0 is_stmt 1 discriminator 3
  826 00be 039E     		ldr	r6, [sp, #12]
  827              	.LVL114:
  828 00c0 F407     		lsls	r4, r6, #31
  829 00c2 08D4     		bmi	.L118
- 198:lib/display/abstract/src/display_if_support.c ****         mirror_center.x++;
+ 198:lib/display/abstract/src/display_if_support.c ****         mirror_center.y++;
  830              		.loc 1 198 0
  831 00c4 089C     		ldr	r4, [sp, #32]
  832 00c6 621C     		adds	r2, r4, #1
  833 00c8 93B2     		uxth	r3, r2
  834 00ca 0C93     		str	r3, [sp, #48]
  835              	.LVL115:
- 199:lib/display/abstract/src/display_if_support.c ****         mirror_center.y++;
+ 199:lib/display/abstract/src/display_if_support.c ****     }
  836              		.loc 1 199 0
  837 00cc 0999     		ldr	r1, [sp, #36]
  838 00ce 4E1C     		adds	r6, r1, #1
@@ -1458,7 +1458,7 @@
  842 00d4 03E0     		b	.L81
  843              	.LVL117:
  844              	.L118:
- 196:lib/display/abstract/src/display_if_support.c ****     PLOT_XY mirror_center = center, now_center, start_po[8], end_po[8];
+ 196:lib/display/abstract/src/display_if_support.c ****     if ((diameter&1) ==0){
  845              		.loc 1 196 0
  846 00d6 099F     		ldr	r7, [sp, #36]
  847 00d8 0B97     		str	r7, [sp, #44]
@@ -1469,37 +1469,37 @@
  852 00de 0023     		movs	r3, #0
  853              	.LVL119:
  854              	.L82:
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  855              		.loc 1 179 0 discriminator 2
  856 00e0 10AC     		add	r4, sp, #64
  857 00e2 E218     		adds	r2, r4, r3
- 204:lib/display/abstract/src/display_if_support.c ****         start_po[num_eigth].y=diameter/2;
+ 204:lib/display/abstract/src/display_if_support.c ****         start_po[num_eigth].x=0;
  858              		.loc 1 204 0 discriminator 2
  859 00e4 0599     		ldr	r1, [sp, #20]
  860 00e6 5180     		strh	r1, [r2, #2]	@ movhi
- 205:lib/display/abstract/src/display_if_support.c ****         start_po[num_eigth].x=0;
+ 205:lib/display/abstract/src/display_if_support.c ****         end_po[num_eigth].x=end_po[num_eigth].y=r_root2;
  861              		.loc 1 205 0 discriminator 2
  862 00e8 0021     		movs	r1, #0
  863 00ea 1953     		strh	r1, [r3, r4]	@ movhi
- 206:lib/display/abstract/src/display_if_support.c ****         end_po[num_eigth].x=end_po[num_eigth].y=r_root2;
+ 206:lib/display/abstract/src/display_if_support.c ****     }
  864              		.loc 1 206 0 discriminator 2
  865 00ec 86B2     		uxth	r6, r0
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  866              		.loc 1 179 0 discriminator 2
  867 00ee 18AC     		add	r4, sp, #96
  868 00f0 E518     		adds	r5, r4, r3
- 206:lib/display/abstract/src/display_if_support.c ****         end_po[num_eigth].x=end_po[num_eigth].y=r_root2;
+ 206:lib/display/abstract/src/display_if_support.c ****     }
  869              		.loc 1 206 0 discriminator 2
  870 00f2 6E80     		strh	r6, [r5, #2]	@ movhi
  871 00f4 1E53     		strh	r6, [r3, r4]	@ movhi
  872 00f6 0433     		adds	r3, r3, #4
- 203:lib/display/abstract/src/display_if_support.c ****     for(num_eigth=0; num_eigth <8; num_eigth++){
+ 203:lib/display/abstract/src/display_if_support.c ****         start_po[num_eigth].y=diameter/2;
  873              		.loc 1 203 0 discriminator 2
  874 00f8 202B     		cmp	r3, #32
  875 00fa F1D1     		bne	.L82
  876              	.LVL120:
  877 00fc 0F9D     		ldr	r5, [sp, #60]
- 203:lib/display/abstract/src/display_if_support.c ****     for(num_eigth=0; num_eigth <8; num_eigth++){
+ 203:lib/display/abstract/src/display_if_support.c ****         start_po[num_eigth].y=diameter/2;
  878              		.loc 1 203 0 is_stmt 0
  879 00fe 0424     		movs	r4, #4
  880 0100 0A46     		mov	r2, r1
@@ -1507,10 +1507,10 @@
  882              	.LVL121:
  883              	.L105:
  884              	.LBB9:
- 210:lib/display/abstract/src/display_if_support.c ****         if (li==0) { cy = center.y-(MAX_Y-1); y_sign=-1;}
+ 210:lib/display/abstract/src/display_if_support.c ****         if (li==1) { cy = mirror_center.x;    y_sign= 1;}
  885              		.loc 1 210 0 is_stmt 1
  886 0104 3AB9     		cbnz	r2, .L83
- 210:lib/display/abstract/src/display_if_support.c ****         if (li==0) { cy = center.y-(MAX_Y-1); y_sign=-1;}
+ 210:lib/display/abstract/src/display_if_support.c ****         if (li==1) { cy = mirror_center.x;    y_sign= 1;}
  887              		.loc 1 210 0 is_stmt 0 discriminator 1
  888 0106 079F     		ldr	r7, [sp, #28]
  889 0108 BDB2     		uxth	r5, r7
@@ -1521,11 +1521,11 @@
  894 0114 16E0     		b	.L84
  895              	.LVL123:
  896              	.L83:
- 211:lib/display/abstract/src/display_if_support.c ****         if (li==1) { cy = mirror_center.x;    y_sign= 1;}
+ 211:lib/display/abstract/src/display_if_support.c ****         if (li==2) { cy = mirror_center.y;    y_sign= 1;}
  897              		.loc 1 211 0 is_stmt 1
  898 0116 012A     		cmp	r2, #1
  899 0118 02D1     		bne	.L85
- 211:lib/display/abstract/src/display_if_support.c ****         if (li==1) { cy = mirror_center.x;    y_sign= 1;}
+ 211:lib/display/abstract/src/display_if_support.c ****         if (li==2) { cy = mirror_center.y;    y_sign= 1;}
  900              		.loc 1 211 0 is_stmt 0 discriminator 1
  901 011a 0C9D     		ldr	r5, [sp, #48]
  902              	.LVL124:
@@ -1533,11 +1533,11 @@
  904 011e 11E0     		b	.L84
  905              	.LVL125:
  906              	.L85:
- 212:lib/display/abstract/src/display_if_support.c ****         if (li==2) { cy = mirror_center.y;    y_sign= 1;}
+ 212:lib/display/abstract/src/display_if_support.c ****         if (li==3) { cy = center.x-(MAX_X-1); y_sign=-1;}
  907              		.loc 1 212 0 is_stmt 1
  908 0120 022A     		cmp	r2, #2
  909 0122 05D1     		bne	.L86
- 212:lib/display/abstract/src/display_if_support.c ****         if (li==2) { cy = mirror_center.y;    y_sign= 1;}
+ 212:lib/display/abstract/src/display_if_support.c ****         if (li==3) { cy = center.x-(MAX_X-1); y_sign=-1;}
  910              		.loc 1 212 0 is_stmt 0 discriminator 1
  911 0124 0B9D     		ldr	r5, [sp, #44]
  912              	.LVL126:
@@ -1546,11 +1546,11 @@
  915 012e 09E0     		b	.L84
  916              	.LVL127:
  917              	.L86:
- 213:lib/display/abstract/src/display_if_support.c ****         if (li==3) { cy = center.x-(MAX_X-1); y_sign=-1;}
+ 213:lib/display/abstract/src/display_if_support.c **** 
  918              		.loc 1 213 0 is_stmt 1
  919 0130 032A     		cmp	r2, #3
  920 0132 07D1     		bne	.L84
- 213:lib/display/abstract/src/display_if_support.c ****         if (li==3) { cy = center.x-(MAX_X-1); y_sign=-1;}
+ 213:lib/display/abstract/src/display_if_support.c **** 
  921              		.loc 1 213 0 is_stmt 0 discriminator 1
  922 0134 DDF818C0 		ldr	ip, [sp, #24]
  923 0138 1FFA8CF5 		uxth	r5, ip
@@ -1560,22 +1560,22 @@
  927 0142 0496     		str	r6, [sp, #16]
  928              	.LVL129:
  929              	.L84:
- 215:lib/display/abstract/src/display_if_support.c ****         if (ABS(cy)>=(diameter/2)) {
+ 215:lib/display/abstract/src/display_if_support.c ****             if (((li==0 || li==3) && cy<0) || ((li==1 || li==2) && cy>0)) continue;	/* Circle is In
  930              		.loc 1 215 0 is_stmt 1
  931 0144 85EAE573 		eor	r3, r5, r5, asr #31
  932 0148 A3EBE573 		sub	r3, r3, r5, asr #31
  933 014c 059E     		ldr	r6, [sp, #20]
  934 014e B342     		cmp	r3, r6
  935 0150 0DDB     		blt	.L87
- 216:lib/display/abstract/src/display_if_support.c ****             if (((li==0 || li==3) && cy<0) || ((li==1 || li==2) && cy>0)) continue;	/* Circle is In
+ 216:lib/display/abstract/src/display_if_support.c ****             else return ;	/* Circle is Outside of Region */
  936              		.loc 1 216 0
  937 0152 0AB1     		cbz	r2, .L88
- 216:lib/display/abstract/src/display_if_support.c ****             if (((li==0 || li==3) && cy<0) || ((li==1 || li==2) && cy>0)) continue;	/* Circle is In
+ 216:lib/display/abstract/src/display_if_support.c ****             else return ;	/* Circle is Outside of Region */
  938              		.loc 1 216 0 is_stmt 0 discriminator 2
  939 0154 032A     		cmp	r2, #3
  940 0156 02D1     		bne	.L89
  941              	.L88:
- 216:lib/display/abstract/src/display_if_support.c ****             if (((li==0 || li==3) && cy<0) || ((li==1 || li==2) && cy>0)) continue;	/* Circle is In
+ 216:lib/display/abstract/src/display_if_support.c ****             else return ;	/* Circle is Outside of Region */
  942              		.loc 1 216 0 discriminator 1
  943 0158 002D     		cmp	r5, #0
  944 015a C0F20C81 		blt	.L90
@@ -1587,25 +1587,25 @@
  950 0168 00F30581 		bgt	.L90
  951 016c A1E1     		b	.L75
  952              	.L87:
- 220:lib/display/abstract/src/display_if_support.c ****         tmp = diameter*diameter -4*cy*cy;
+ 220:lib/display/abstract/src/display_if_support.c ****         cx = root_i(tmp/4); /* n=tmp/4; if (tmp%4) n++; */
  953              		.loc 1 220 0 is_stmt 1
  954 016e 05FB05F9 		mul	r9, r5, r5
  955 0172 0A9F     		ldr	r7, [sp, #40]
  956 0174 A7EB890B 		sub	fp, r7, r9, lsl #2
  957              	.LVL130:
- 221:lib/display/abstract/src/display_if_support.c ****         cx = root_i(tmp/4); /* n=tmp/4; if (tmp%4) n++; */
+ 221:lib/display/abstract/src/display_if_support.c ****         tmp -= 4*cx*cx;
  958              		.loc 1 221 0
  959 0178 4FF00408 		mov	r8, #4
  960 017c 9BFBF8F9 		sdiv	r9, fp, r8
  961              	.LVL131:
-  41:lib/display/abstract/src/display_if_support.c ****     int s=1, s2=1;
+  41:lib/display/abstract/src/display_if_support.c ****     do {
  962              		.loc 1 41 0
  963 0180 0127     		movs	r7, #1
  964              	.LVL132:
  965              	.L131:
  966              	.LBB10:
  967              	.LBB11:
-  43:lib/display/abstract/src/display_if_support.c ****         s=(x/s+s)/2;
+  43:lib/display/abstract/src/display_if_support.c ****         s2=s+1;
  968              		.loc 1 43 0
  969 0182 99FBF7F6 		sdiv	r6, r9, r7
  970 0186 F719     		adds	r7, r6, r7
@@ -1613,27 +1613,27 @@
  972 0188 4FF0020A 		mov	sl, #2
  973 018c 97FBFAF7 		sdiv	r7, r7, sl
  974              	.LVL134:
-  45:lib/display/abstract/src/display_if_support.c ****         if (s*s<=x && x<s2*s2) break;
+  45:lib/display/abstract/src/display_if_support.c ****     } while(1);
  975              		.loc 1 45 0
  976 0190 07FB07F6 		mul	r6, r7, r7
  977 0194 4E45     		cmp	r6, r9
  978 0196 F4DC     		bgt	.L131
-  44:lib/display/abstract/src/display_if_support.c ****         s2=s+1;
+  44:lib/display/abstract/src/display_if_support.c ****         if (s*s<=x && x<s2*s2) break;
  979              		.loc 1 44 0
  980 0198 07F1010C 		add	ip, r7, #1
  981              	.LVL135:
-  45:lib/display/abstract/src/display_if_support.c ****         if (s*s<=x && x<s2*s2) break;
+  45:lib/display/abstract/src/display_if_support.c ****     } while(1);
  982              		.loc 1 45 0
  983 019c 0CFB0CF8 		mul	r8, ip, ip
  984 01a0 C145     		cmp	r9, r8
  985 01a2 EEDA     		bge	.L131
  986              	.LBE11:
  987              	.LBE10:
- 222:lib/display/abstract/src/display_if_support.c ****         tmp -= 4*cx*cx;
+ 222:lib/display/abstract/src/display_if_support.c ****         if (ABS(tmp)>=ABS(tmp -8*cx-4)) cx++;
  988              		.loc 1 222 0
  989 01a4 ABEB860B 		sub	fp, fp, r6, lsl #2
  990              	.LVL136:
- 223:lib/display/abstract/src/display_if_support.c ****         if (ABS(tmp)>=ABS(tmp -8*cx-4)) cx++;
+ 223:lib/display/abstract/src/display_if_support.c **** 
  991              		.loc 1 223 0
  992 01a8 8BEAEB79 		eor	r9, fp, fp, asr #31
  993 01ac A9EBEB79 		sub	r9, r9, fp, asr #31
@@ -1641,25 +1641,25 @@
  995 01b0 ABEBC706 		sub	r6, fp, r7, lsl #3
  996 01b4 032E     		cmp	r6, #3
  997 01b6 02DD     		ble	.L95
- 223:lib/display/abstract/src/display_if_support.c ****         if (ABS(tmp)>=ABS(tmp -8*cx-4)) cx++;
+ 223:lib/display/abstract/src/display_if_support.c **** 
  998              		.loc 1 223 0 is_stmt 0 discriminator 1
  999 01b8 A6F10406 		sub	r6, r6, #4
  1000 01bc 03E0     		b	.L96
  1001              	.L95:
- 223:lib/display/abstract/src/display_if_support.c ****         if (ABS(tmp)>=ABS(tmp -8*cx-4)) cx++;
+ 223:lib/display/abstract/src/display_if_support.c **** 
  1002              		.loc 1 223 0 discriminator 2
  1003 01be FE00     		lsls	r6, r7, #3
  1004 01c0 CBEB0606 		rsb	r6, fp, r6
  1005 01c4 0436     		adds	r6, r6, #4
  1006              	.L96:
- 223:lib/display/abstract/src/display_if_support.c ****         if (ABS(tmp)>=ABS(tmp -8*cx-4)) cx++;
+ 223:lib/display/abstract/src/display_if_support.c **** 
  1007              		.loc 1 223 0 discriminator 3
  1008 01c6 B145     		cmp	r9, r6
  1009 01c8 A8BF     		it	ge
  1010 01ca 6746     		movge	r7, ip
  1011              	.LVL138:
  1012 01cc 0197     		str	r7, [sp, #4]
- 226:lib/display/abstract/src/display_if_support.c ****         if (cy*y_sign>r_root2){
+ 226:lib/display/abstract/src/display_if_support.c ****             /* 1,2 -> 3,4 -> 5,6 -> 7,0 */
  1013              		.loc 1 226 0 is_stmt 1 discriminator 3
  1014 01ce DDF810A0 		ldr	sl, [sp, #16]
  1015 01d2 0AFB05F8 		mul	r8, sl, r5
@@ -1668,10 +1668,10 @@
  1018 01dc A4F1020B 		sub	fp, r4, #2
  1019              	.LVL139:
  1020 01e0 1ADD     		ble	.L98
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1021              		.loc 1 179 0
  1022 01e2 09EB0107 		add	r7, r9, r1
- 228:lib/display/abstract/src/display_if_support.c ****             if (start_po[li*2+1].x<ABS(cx)) {
+ 228:lib/display/abstract/src/display_if_support.c ****                 start_po[li*2+1].y = ABS(cy);
  1023              		.loc 1 228 0
  1024 01e6 019E     		ldr	r6, [sp, #4]
  1025 01e8 002E     		cmp	r6, #0
@@ -1680,14 +1680,14 @@
  1028 01ee B7F804C0 		ldrh	ip, [r7, #4]
  1029              	.LVL140:
  1030 01f2 B445     		cmp	ip, r6
- 229:lib/display/abstract/src/display_if_support.c ****                 start_po[li*2+1].y = ABS(cy);
+ 229:lib/display/abstract/src/display_if_support.c ****                 start_po[li*2+1].x = ABS(cx);
  1031              		.loc 1 229 0
  1032 01f4 BCBF     		itt	lt
  1033 01f6 FB80     		strhlt	r3, [r7, #6]	@ movhi
- 230:lib/display/abstract/src/display_if_support.c ****                 start_po[li*2+1].x = ABS(cx);
+ 230:lib/display/abstract/src/display_if_support.c ****             }
  1034              		.loc 1 230 0
  1035 01f8 BE80     		strhlt	r6, [r7, #4]	@ movhi
- 232:lib/display/abstract/src/display_if_support.c ****             if (start_po[(li*2+2)%8].x<ABS(cx)) {
+ 232:lib/display/abstract/src/display_if_support.c ****                 start_po[(li*2+2)%8].y = ABS(cy);
  1036              		.loc 1 232 0
  1037 01fa 0BF0070B 		and	fp, fp, #7
  1038 01fe 20AF     		add	r7, sp, #128
@@ -1695,16 +1695,16 @@
  1040 0204 37F840CC 		ldrh	ip, [r7, #-64]
  1041 0208 B445     		cmp	ip, r6
  1042 020a 80F2B480 		bge	.L90
- 233:lib/display/abstract/src/display_if_support.c ****                 start_po[(li*2+2)%8].y = ABS(cy);
+ 233:lib/display/abstract/src/display_if_support.c ****                 start_po[(li*2+2)%8].x = ABS(cx);
  1043              		.loc 1 233 0
  1044 020e 27F83E3C 		strh	r3, [r7, #-62]	@ movhi
- 234:lib/display/abstract/src/display_if_support.c ****                 start_po[(li*2+2)%8].x = ABS(cx);
+ 234:lib/display/abstract/src/display_if_support.c ****             }
  1045              		.loc 1 234 0
  1046 0212 27F8406C 		strh	r6, [r7, #-64]	@ movhi
  1047 0216 AEE0     		b	.L90
  1048              	.LVL141:
  1049              	.L98:
- 238:lib/display/abstract/src/display_if_support.c ****             start_po[li*2+1].y = start_po[(li*2+2)%8].y = 0;        /* Set Out of Region */
+ 238:lib/display/abstract/src/display_if_support.c ****             start_po[li*2+1].x = start_po[(li*2+2)%8].x = diameter;	/* Set Out of Region */
  1050              		.loc 1 238 0
  1051 0218 0BF00707 		and	r7, fp, #7
  1052 021c 20AE     		add	r6, sp, #128
@@ -1712,46 +1712,46 @@
  1054 0222 4FF0000C 		mov	ip, #0
  1055              	.LVL142:
  1056 0226 26F83ECC 		strh	ip, [r6, #-62]	@ movhi
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1057              		.loc 1 179 0
  1058 022a 09EB010A 		add	sl, r9, r1
- 238:lib/display/abstract/src/display_if_support.c ****             start_po[li*2+1].y = start_po[(li*2+2)%8].y = 0;        /* Set Out of Region */
+ 238:lib/display/abstract/src/display_if_support.c ****             start_po[li*2+1].x = start_po[(li*2+2)%8].x = diameter;	/* Set Out of Region */
  1059              		.loc 1 238 0
  1060 022e AAF806C0 		strh	ip, [sl, #6]	@ movhi
- 239:lib/display/abstract/src/display_if_support.c ****             start_po[li*2+1].x = start_po[(li*2+2)%8].x = diameter;	/* Set Out of Region */
+ 239:lib/display/abstract/src/display_if_support.c ****             if (cy*y_sign<=r_root2 && cy*y_sign>0){
  1061              		.loc 1 239 0
  1062 0232 DDF80CB0 		ldr	fp, [sp, #12]
  1063 0236 1FFA8BF7 		uxth	r7, fp
  1064 023a 26F8407C 		strh	r7, [r6, #-64]	@ movhi
  1065 023e AAF80470 		strh	r7, [sl, #4]	@ movhi
- 240:lib/display/abstract/src/display_if_support.c ****             if (cy*y_sign<=r_root2 && cy*y_sign>0){
+ 240:lib/display/abstract/src/display_if_support.c ****                 /* Set Out of Region... 1,2 -> 3,4 -> 5,6 -> 7,0 */
  1066              		.loc 1 240 0
  1067 0242 E045     		cmp	r8, ip
  1068 0244 23DD     		ble	.L100
- 243:lib/display/abstract/src/display_if_support.c ****                 if (end_po[li*2].x > ABS(cy)) {
+ 243:lib/display/abstract/src/display_if_support.c ****                     end_po[li*2].y = ABS(cx);
  1069              		.loc 1 243 0
  1070 0246 18AF     		add	r7, sp, #96
  1071 0248 31F807C0 		ldrh	ip, [r1, r7]
  1072 024c 9C45     		cmp	ip, r3
  1073 024e 0ADD     		ble	.L101
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1074              		.loc 1 179 0
  1075 0250 7E18     		adds	r6, r7, r1
- 244:lib/display/abstract/src/display_if_support.c ****                     end_po[li*2].y = ABS(cx);
+ 244:lib/display/abstract/src/display_if_support.c ****                     end_po[li*2].x = ABS(cy);
  1076              		.loc 1 244 0
  1077 0252 DDF80480 		ldr	r8, [sp, #4]
  1078 0256 B8F1000F 		cmp	r8, #0
  1079 025a B8BF     		it	lt
  1080 025c C8F10008 		rsblt	r8, r8, #0
  1081 0260 A6F80280 		strh	r8, [r6, #2]	@ movhi
- 245:lib/display/abstract/src/display_if_support.c ****                     end_po[li*2].x = ABS(cy);
+ 245:lib/display/abstract/src/display_if_support.c ****                 }
  1082              		.loc 1 245 0
  1083 0264 CB53     		strh	r3, [r1, r7]	@ movhi
  1084              	.L101:
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1085              		.loc 1 179 0
  1086 0266 671E     		subs	r7, r4, #1
- 247:lib/display/abstract/src/display_if_support.c ****                 if (end_po[(li*2+3)%8].x > ABS(cy)) {
+ 247:lib/display/abstract/src/display_if_support.c ****                     end_po[(li*2+3)%8].y = ABS(cx);
  1087              		.loc 1 247 0
  1088 0268 07F00706 		and	r6, r7, #7
  1089 026c 0DF1800C 		add	ip, sp, #128
@@ -1759,60 +1759,60 @@
  1091 0274 37F8206C 		ldrh	r6, [r7, #-32]
  1092 0278 9E42     		cmp	r6, r3
  1093 027a 7CDD     		ble	.L90
- 248:lib/display/abstract/src/display_if_support.c ****                     end_po[(li*2+3)%8].y = ABS(cx);
+ 248:lib/display/abstract/src/display_if_support.c ****                     end_po[(li*2+3)%8].x = ABS(cy);
  1094              		.loc 1 248 0
  1095 027c 019E     		ldr	r6, [sp, #4]
  1096 027e 002E     		cmp	r6, #0
  1097 0280 B8BF     		it	lt
  1098 0282 7642     		rsblt	r6, r6, #0
  1099 0284 27F81E6C 		strh	r6, [r7, #-30]	@ movhi
- 249:lib/display/abstract/src/display_if_support.c ****                     end_po[(li*2+3)%8].x = ABS(cy);
+ 249:lib/display/abstract/src/display_if_support.c ****                 }
  1100              		.loc 1 249 0
  1101 0288 27F8203C 		strh	r3, [r7, #-32]	@ movhi
  1102 028c 73E0     		b	.L90
  1103              	.L100:
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1104              		.loc 1 179 0
  1105 028e 04F1FF3B 		add	fp, r4, #-1
- 253:lib/display/abstract/src/display_if_support.c ****                 start_po[li*2].y = start_po[(li*2+3)%8].y = 0;
+ 253:lib/display/abstract/src/display_if_support.c ****                 start_po[li*2].x = start_po[(li*2+3)%8].x = diameter;
  1106              		.loc 1 253 0
  1107 0292 0BF0070B 		and	fp, fp, #7
  1108 0296 20AE     		add	r6, sp, #128
  1109 0298 06EB8B06 		add	r6, r6, fp, lsl #2
  1110 029c 26F83ECC 		strh	ip, [r6, #-62]	@ movhi
  1111 02a0 AAF802C0 		strh	ip, [sl, #2]	@ movhi
- 254:lib/display/abstract/src/display_if_support.c ****                 start_po[li*2].x = start_po[(li*2+3)%8].x = diameter;
+ 254:lib/display/abstract/src/display_if_support.c ****                 if (cy*y_sign<=0 && cy*y_sign>-r_root2){
  1112              		.loc 1 254 0
  1113 02a4 26F8407C 		strh	r7, [r6, #-64]	@ movhi
  1114 02a8 29F80170 		strh	r7, [r9, r1]	@ movhi
- 255:lib/display/abstract/src/display_if_support.c ****                 if (cy*y_sign<=0 && cy*y_sign>-r_root2){
+ 255:lib/display/abstract/src/display_if_support.c **** 				    /* Set Out of Region... 0,3 -> 2,5 -> 4,7 -> 6,1 */
  1115              		.loc 1 255 0
  1116 02ac C0F10009 		rsb	r9, r0, #0
  1117 02b0 C845     		cmp	r8, r9
  1118 02b2 04F00708 		and	r8, r4, #7
  1119 02b6 2BDD     		ble	.L102
- 258:lib/display/abstract/src/display_if_support.c ****                     if (start_po[(li*2+4)%8].x < ABS(cy)) {
+ 258:lib/display/abstract/src/display_if_support.c ****                         start_po[(li*2+4)%8].y = ABS(cx);
  1120              		.loc 1 258 0
  1121 02b8 0DF1800A 		add	sl, sp, #128
  1122 02bc 0AEB8806 		add	r6, sl, r8, lsl #2
  1123 02c0 36F8407C 		ldrh	r7, [r6, #-64]
  1124 02c4 9F42     		cmp	r7, r3
  1125 02c6 0ADA     		bge	.L103
- 259:lib/display/abstract/src/display_if_support.c ****                         start_po[(li*2+4)%8].y = ABS(cx);
+ 259:lib/display/abstract/src/display_if_support.c ****                         start_po[(li*2+4)%8].x = ABS(cy);
  1126              		.loc 1 259 0
  1127 02c8 DDF804B0 		ldr	fp, [sp, #4]
  1128 02cc BBF1000F 		cmp	fp, #0
  1129 02d0 B8BF     		it	lt
  1130 02d2 CBF1000B 		rsblt	fp, fp, #0
  1131 02d6 26F83EBC 		strh	fp, [r6, #-62]	@ movhi
- 260:lib/display/abstract/src/display_if_support.c ****                         start_po[(li*2+4)%8].x = ABS(cy);
+ 260:lib/display/abstract/src/display_if_support.c ****                     }
  1132              		.loc 1 260 0
  1133 02da 26F8403C 		strh	r3, [r6, #-64]	@ movhi
  1134              	.L103:
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1135              		.loc 1 179 0
  1136 02de E61C     		adds	r6, r4, #3
- 262:lib/display/abstract/src/display_if_support.c ****                     if (start_po[(li*2+7)%8].x < ABS(cy)) {
+ 262:lib/display/abstract/src/display_if_support.c ****                         start_po[(li*2+7)%8].y = ABS(cx);
  1137              		.loc 1 262 0
  1138 02e0 06F00707 		and	r7, r6, #7
  1139 02e4 0DF1800B 		add	fp, sp, #128
@@ -1820,14 +1820,14 @@
  1141 02ec 37F840CC 		ldrh	ip, [r7, #-64]
  1142 02f0 9C45     		cmp	ip, r3
  1143 02f2 40DA     		bge	.L90
- 263:lib/display/abstract/src/display_if_support.c ****                         start_po[(li*2+7)%8].y = ABS(cx);
+ 263:lib/display/abstract/src/display_if_support.c ****                         start_po[(li*2+7)%8].x = ABS(cy);
  1144              		.loc 1 263 0
  1145 02f4 019E     		ldr	r6, [sp, #4]
  1146 02f6 002E     		cmp	r6, #0
  1147 02f8 B8BF     		it	lt
  1148 02fa 7642     		rsblt	r6, r6, #0
  1149 02fc 27F83E6C 		strh	r6, [r7, #-62]	@ movhi
- 264:lib/display/abstract/src/display_if_support.c ****                         start_po[(li*2+7)%8].x = ABS(cy);
+ 264:lib/display/abstract/src/display_if_support.c ****                     }
  1150              		.loc 1 264 0
  1151 0300 27F8403C 		strh	r3, [r7, #-64]	@ movhi
  1152 0304 37E0     		b	.L90
@@ -1837,10 +1837,10 @@
  1156 0308 0000F03F 		.word	1072693248
  1157 030c 0000E03F 		.word	1071644672
  1158              	.L102:
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1159              		.loc 1 179 0
  1160 0310 04F1030A 		add	sl, r4, #3
- 268:lib/display/abstract/src/display_if_support.c ****                     start_po[(li*2+4)%8].y = start_po[(li*2+7)%8].y = 0;
+ 268:lib/display/abstract/src/display_if_support.c ****                     start_po[(li*2+4)%8].x = start_po[(li*2+7)%8].x = diameter;
  1161              		.loc 1 268 0
  1162 0314 0AF00709 		and	r9, sl, #7
  1163 0318 20AE     		add	r6, sp, #128
@@ -1848,14 +1848,14 @@
  1165 031e 29F83ECC 		strh	ip, [r9, #-62]	@ movhi
  1166 0322 06EB8808 		add	r8, r6, r8, lsl #2
  1167 0326 28F83ECC 		strh	ip, [r8, #-62]	@ movhi
- 269:lib/display/abstract/src/display_if_support.c ****                     start_po[(li*2+4)%8].x = start_po[(li*2+7)%8].x = diameter;
+ 269:lib/display/abstract/src/display_if_support.c **** 					/* Set Out of Region...  4,7 -> 6,1 -> 0,3 -> 2,5 */
  1168              		.loc 1 269 0
  1169 032a 29F8407C 		strh	r7, [r9, #-64]	@ movhi
  1170 032e 28F8407C 		strh	r7, [r8, #-64]	@ movhi
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1171              		.loc 1 179 0
  1172 0332 671C     		adds	r7, r4, #1
- 272:lib/display/abstract/src/display_if_support.c ****                     if (end_po[(li*2+5)%8].x>ABS(cx)) {
+ 272:lib/display/abstract/src/display_if_support.c ****                         end_po[(li*2+5)%8].y = ABS(cy);
  1173              		.loc 1 272 0
  1174 0334 07F00707 		and	r7, r7, #7
  1175 0338 019E     		ldr	r6, [sp, #4]
@@ -1866,33 +1866,33 @@
  1180 0344 0AEB8707 		add	r7, sl, r7, lsl #2
  1181 0348 37F820CC 		ldrh	ip, [r7, #-32]
  1182 034c B445     		cmp	ip, r6
- 273:lib/display/abstract/src/display_if_support.c ****                         end_po[(li*2+5)%8].y = ABS(cy);
+ 273:lib/display/abstract/src/display_if_support.c ****                         end_po[(li*2+5)%8].x = ABS(cx);
  1183              		.loc 1 273 0
  1184 034e C4BF     		itt	gt
  1185 0350 27F81E3C 		strhgt	r3, [r7, #-30]	@ movhi
- 274:lib/display/abstract/src/display_if_support.c ****                         end_po[(li*2+5)%8].x = ABS(cx);
+ 274:lib/display/abstract/src/display_if_support.c ****                     }
  1186              		.loc 1 274 0
  1187 0354 27F8206C 		strhgt	r6, [r7, #-32]	@ movhi
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1188              		.loc 1 179 0
  1189 0358 A71C     		adds	r7, r4, #2
- 276:lib/display/abstract/src/display_if_support.c ****                     if (end_po[(li*2+6)%8].x>ABS(cx)) {
+ 276:lib/display/abstract/src/display_if_support.c ****                         end_po[(li*2+6)%8].y = ABS(cy);
  1190              		.loc 1 276 0
  1191 035a 07F00707 		and	r7, r7, #7
  1192 035e 0DF1800B 		add	fp, sp, #128
  1193 0362 0BEB8707 		add	r7, fp, r7, lsl #2
  1194 0366 37F820CC 		ldrh	ip, [r7, #-32]
  1195 036a B445     		cmp	ip, r6
- 277:lib/display/abstract/src/display_if_support.c ****                         end_po[(li*2+6)%8].y = ABS(cy);
+ 277:lib/display/abstract/src/display_if_support.c ****                         end_po[(li*2+6)%8].x = ABS(cx);
  1196              		.loc 1 277 0
  1197 036c C4BF     		itt	gt
  1198 036e 27F81E3C 		strhgt	r3, [r7, #-30]	@ movhi
- 278:lib/display/abstract/src/display_if_support.c ****                         end_po[(li*2+6)%8].x = ABS(cx);
+ 278:lib/display/abstract/src/display_if_support.c ****                     }
  1199              		.loc 1 278 0
  1200 0372 27F8206C 		strhgt	r6, [r7, #-32]	@ movhi
  1201              	.LVL143:
  1202              	.L90:
- 209:lib/display/abstract/src/display_if_support.c ****     for(int li=0;li<4;li++){
+ 209:lib/display/abstract/src/display_if_support.c ****         if (li==0) { cy = center.y-(MAX_Y-1); y_sign=-1;}
  1203              		.loc 1 209 0
  1204 0376 0132     		adds	r2, r2, #1
  1205              	.LVL144:
@@ -1904,32 +1904,32 @@
  1211              	.LVL145:
  1212              	.L113:
  1213              	.LBE9:
- 288:lib/display/abstract/src/display_if_support.c ****         if (num_eigth<4){
+ 288:lib/display/abstract/src/display_if_support.c ****                 now_center.y = y_ct; y_sign=1; }            /* 0,1,2,3 */
  1214              		.loc 1 288 0
  1215 0386 B8F1030F 		cmp	r8, #3
  1216 038a 06DC     		bgt	.L119
- 289:lib/display/abstract/src/display_if_support.c ****                 now_center.y = y_ct; y_sign=1; }            /* 0,1,2,3 */
+ 289:lib/display/abstract/src/display_if_support.c ****         else{   now_center.y = mirror_center.y; y_sign=-1; }    /* 4,5,6,7 */
  1217              		.loc 1 289 0
  1218 038c DDF824B0 		ldr	fp, [sp, #36]
  1219 0390 4FF0010E 		mov	lr, #1
  1220 0394 CDF810E0 		str	lr, [sp, #16]
  1221 0398 04E0     		b	.L106
  1222              	.L119:
- 290:lib/display/abstract/src/display_if_support.c ****         else{   now_center.y = mirror_center.y; y_sign=-1; }    /* 4,5,6,7 */
+ 290:lib/display/abstract/src/display_if_support.c ****         if ((num_eigth%6)<=1){
  1223              		.loc 1 290 0
  1224 039a DDF82CB0 		ldr	fp, [sp, #44]
  1225 039e 4FF0FF30 		mov	r0, #-1
  1226 03a2 0490     		str	r0, [sp, #16]
  1227              	.L106:
  1228              	.LVL146:
- 291:lib/display/abstract/src/display_if_support.c ****         if ((num_eigth%6)<=1){
+ 291:lib/display/abstract/src/display_if_support.c ****                 now_center.x = x_ct;  x_sign=1; }           /* 0,1,6,7 */
  1229              		.loc 1 291 0
  1230 03a4 0621     		movs	r1, #6
  1231 03a6 98FBF1F4 		sdiv	r4, r8, r1
  1232 03aa 01FB1485 		mls	r5, r1, r4, r8
  1233 03ae 012D     		cmp	r5, #1
  1234 03b0 04DC     		bgt	.L120
- 292:lib/display/abstract/src/display_if_support.c ****                 now_center.x = x_ct;  x_sign=1; }           /* 0,1,6,7 */
+ 292:lib/display/abstract/src/display_if_support.c ****         else {  now_center.x = mirror_center.x; x_sign=-1; }    /* 2,3,4,5 */
  1235              		.loc 1 292 0
  1236 03b2 089B     		ldr	r3, [sp, #32]
  1237 03b4 0693     		str	r3, [sp, #24]
@@ -1937,7 +1937,7 @@
  1239 03b8 0392     		str	r2, [sp, #12]
  1240 03ba 04E0     		b	.L107
  1241              	.L120:
- 293:lib/display/abstract/src/display_if_support.c ****         else {  now_center.x = mirror_center.x; x_sign=-1; }    /* 2,3,4,5 */
+ 293:lib/display/abstract/src/display_if_support.c ****         if ((num_eigth%4)%3){
  1242              		.loc 1 293 0
  1243 03bc 0C9E     		ldr	r6, [sp, #48]
  1244 03be 0696     		str	r6, [sp, #24]
@@ -1945,44 +1945,44 @@
  1246 03c4 0397     		str	r7, [sp, #12]
  1247              	.L107:
  1248              	.LVL147:
- 294:lib/display/abstract/src/display_if_support.c ****         if ((num_eigth%4)%3){
+ 294:lib/display/abstract/src/display_if_support.c ****                 px = &cx; py = &cy; }   /* 0,3,4,7 */
  1249              		.loc 1 294 0
  1250 03c6 08F00300 		and	r0, r8, #3
  1251 03ca 0324     		movs	r4, #3
  1252 03cc 90FBF4F1 		sdiv	r1, r0, r4
  1253 03d0 04FB1105 		mls	r5, r4, r1, r0
  1254 03d4 25B1     		cbz	r5, .L121
- 295:lib/display/abstract/src/display_if_support.c ****                 px = &cx; py = &cy; }   /* 0,3,4,7 */
+ 295:lib/display/abstract/src/display_if_support.c ****         else {  px = &cy; py = &cx; }   /* 1,2,5,6 */
  1255              		.loc 1 295 0
  1256 03d6 0DF13C0A 		add	sl, sp, #60
  1257 03da 0DF13809 		add	r9, sp, #56
  1258 03de 03E0     		b	.L108
  1259              	.L121:
- 296:lib/display/abstract/src/display_if_support.c ****         else {  px = &cy; py = &cx; }   /* 1,2,5,6 */
+ 296:lib/display/abstract/src/display_if_support.c **** 
  1260              		.loc 1 296 0
  1261 03e0 0DF1380A 		add	sl, sp, #56
  1262 03e4 0DF13C09 		add	r9, sp, #60
  1263              	.L108:
  1264              	.LVL148:
- 179:lib/display/abstract/src/display_if_support.c **** inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 179:lib/display/abstract/src/display_if_support.c **** {
  1265              		.loc 1 179 0
  1266 03e8 4FEA8806 		lsl	r6, r8, #2
  1267 03ec 0796     		str	r6, [sp, #28]
  1268 03ee 10AB     		add	r3, sp, #64
  1269 03f0 9F19     		adds	r7, r3, r6
- 299:lib/display/abstract/src/display_if_support.c ****         cy=start_po[num_eigth].y;
+ 299:lib/display/abstract/src/display_if_support.c ****         cx=start_po[num_eigth].x;
  1270              		.loc 1 299 0
  1271 03f2 7F88     		ldrh	r7, [r7, #2]
  1272              	.LVL149:
  1273 03f4 0F97     		str	r7, [sp, #60]
  1274              	.LVL150:
- 300:lib/display/abstract/src/display_if_support.c ****         cx=start_po[num_eigth].x;
+ 300:lib/display/abstract/src/display_if_support.c **** 
  1275              		.loc 1 300 0
  1276 03f6 33F82860 		ldrh	r6, [r3, r8, lsl #2]
  1277              	.LVL151:
  1278 03fa 0E96     		str	r6, [sp, #56]
  1279              	.LVL152:
- 303:lib/display/abstract/src/display_if_support.c ****         d = 4*cx*cx+4*cy*cy -4*cy+2 - diameter * diameter;
+ 303:lib/display/abstract/src/display_if_support.c ****         dx = 8*cx+4;
  1280              		.loc 1 303 0
  1281 03fc 07FB07F2 		mul	r2, r7, r7
  1282 0400 06FB0620 		mla	r0, r6, r6, r2
@@ -1996,19 +1996,19 @@
  1290 0416 0446     		mov	r4, r0
  1291 0418 0D46     		mov	r5, r1
  1292              	.LVL154:
- 304:lib/display/abstract/src/display_if_support.c ****         dx = 8*cx+4;
+ 304:lib/display/abstract/src/display_if_support.c ****         dy = -8*cy+8;
  1293              		.loc 1 304 0
  1294 041a F300     		lsls	r3, r6, #3
  1295 041c 1E1D     		adds	r6, r3, #4
  1296              	.LVL155:
- 305:lib/display/abstract/src/display_if_support.c ****         dy = -8*cy+8;
+ 305:lib/display/abstract/src/display_if_support.c **** 
  1297              		.loc 1 305 0
  1298 041e FF00     		lsls	r7, r7, #3
  1299              	.LVL156:
  1300 0420 C7F10807 		rsb	r7, r7, #8
  1301              	.LVL157:
  1302              	.L109:
- 308:lib/display/abstract/src/display_if_support.c ****         for (;cx<=end_po[num_eigth].x;cx++){
+ 308:lib/display/abstract/src/display_if_support.c ****             if (d>0) {
  1303              		.loc 1 308 0 discriminator 1
  1304 0424 0E9A     		ldr	r2, [sp, #56]
  1305 0426 0592     		str	r2, [sp, #20]
@@ -2018,7 +2018,7 @@
  1309 0432 8A42     		cmp	r2, r1
  1310 0434 37DC     		bgt	.L132
  1311              	.L112:
- 309:lib/display/abstract/src/display_if_support.c ****             if (d>0) {
+ 309:lib/display/abstract/src/display_if_support.c ****                 d += dy;
  1312              		.loc 1 309 0
  1313 0436 2046     		mov	r0, r4
  1314 0438 2946     		mov	r1, r5
@@ -2027,7 +2027,7 @@
  1317 043e FFF7FEFF 		bl	__aeabi_dcmpgt
  1318              	.LVL158:
  1319 0442 70B1     		cbz	r0, .L110
- 310:lib/display/abstract/src/display_if_support.c ****                 d += dy;
+ 310:lib/display/abstract/src/display_if_support.c ****                 dy+=8;
  1320              		.loc 1 310 0
  1321 0444 3846     		mov	r0, r7
  1322 0446 FFF7FEFF 		bl	__aeabi_i2d
@@ -2042,17 +2042,17 @@
  1331              	.LVL161:
  1332 0458 0D46     		mov	r5, r1
  1333              	.LVL162:
- 311:lib/display/abstract/src/display_if_support.c ****                 dy+=8;
+ 311:lib/display/abstract/src/display_if_support.c ****                 cy--;
  1334              		.loc 1 311 0
  1335 045a 0837     		adds	r7, r7, #8
  1336              	.LVL163:
- 312:lib/display/abstract/src/display_if_support.c ****                 cy--;
+ 312:lib/display/abstract/src/display_if_support.c ****             }
  1337              		.loc 1 312 0
  1338 045c 0F9B     		ldr	r3, [sp, #60]
  1339 045e 5A1E     		subs	r2, r3, #1
  1340 0460 0F92     		str	r2, [sp, #60]
  1341              	.L110:
- 314:lib/display/abstract/src/display_if_support.c ****             PutPixel((*px)*x_sign + now_center.x, (*py)*y_sign + now_center.y, colour);
+ 314:lib/display/abstract/src/display_if_support.c ****             d += dx;
  1342              		.loc 1 314 0
  1343 0462 D9F80000 		ldr	r0, [r9, #0]
  1344 0466 DDF80CC0 		ldr	ip, [sp, #12]
@@ -2066,7 +2066,7 @@
  1352 0480 0D9A     		ldr	r2, [sp, #52]
  1353 0482 FFF7FEFF 		bl	PutPixel
  1354              	.LVL164:
- 315:lib/display/abstract/src/display_if_support.c ****             d += dx;
+ 315:lib/display/abstract/src/display_if_support.c ****             dx+=8;
  1355              		.loc 1 315 0
  1356 0486 3046     		mov	r0, r6
  1357 0488 FFF7FEFF 		bl	__aeabi_i2d
@@ -2081,18 +2081,18 @@
  1366              	.LVL167:
  1367 049a 0D46     		mov	r5, r1
  1368              	.LVL168:
- 316:lib/display/abstract/src/display_if_support.c ****             dx+=8;
+ 316:lib/display/abstract/src/display_if_support.c ****         }
  1369              		.loc 1 316 0
  1370 049c 0836     		adds	r6, r6, #8
  1371              	.LVL169:
- 308:lib/display/abstract/src/display_if_support.c ****         for (;cx<=end_po[num_eigth].x;cx++){
+ 308:lib/display/abstract/src/display_if_support.c ****             if (d>0) {
  1372              		.loc 1 308 0
  1373 049e 0598     		ldr	r0, [sp, #20]
  1374 04a0 431C     		adds	r3, r0, #1
  1375 04a2 0E93     		str	r3, [sp, #56]
  1376 04a4 BEE7     		b	.L109
  1377              	.L132:
- 286:lib/display/abstract/src/display_if_support.c ****     for(num_eigth=0; num_eigth<8 ; num_eigth++){
+ 286:lib/display/abstract/src/display_if_support.c **** 		/* Circle Divided Octal Regions */
  1378              		.loc 1 286 0
  1379 04a6 08F10108 		add	r8, r8, #1
  1380              	.LVL170:
@@ -2100,7 +2100,7 @@
  1382 04ae 7FF46AAF 		bne	.L113
  1383              	.LVL171:
  1384              	.L75:
- 319:lib/display/abstract/src/display_if_support.c **** }
+ 319:lib/display/abstract/src/display_if_support.c **** 
  1385              		.loc 1 319 0
  1386 04b2 21B0     		add	sp, sp, #132
  1387 04b4 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
@@ -2113,7 +2113,7 @@
  1395              		.thumb_func
  1397              	Display_FillCircle_If:
  1398              	.LFB65:
- 363:lib/display/abstract/src/display_if_support.c **** {
+ 363:lib/display/abstract/src/display_if_support.c **** 	/* Bresenham Midpoint Algorithum */
  1399              		.loc 1 363 0
  1400              		.cfi_startproc
  1401              		@ args = 0, pretend = 0, frame = 32
@@ -2137,74 +2137,74 @@
  1419 0006 0690     		str	r0, [sp, #24]
  1420 0008 0791     		str	r1, [sp, #28]
  1421 000a 9A46     		mov	sl, r3
- 366:lib/display/abstract/src/display_if_support.c **** 	long radius= diameter/2;
+ 366:lib/display/abstract/src/display_if_support.c **** 	
  1422              		.loc 1 366 0
  1423 000c 0224     		movs	r4, #2
  1424 000e 92FBF4F2 		sdiv	r2, r2, r4
  1425              	.LVL173:
- 368:lib/display/abstract/src/display_if_support.c ****     d   = 1 - radius;
+ 368:lib/display/abstract/src/display_if_support.c ****     dH  = 3;
  1426              		.loc 1 368 0
  1427 0012 C2F10106 		rsb	r6, r2, #1
  1428              	.LVL174:
- 370:lib/display/abstract/src/display_if_support.c ****     dD  = 5 - 2 * radius;
+ 370:lib/display/abstract/src/display_if_support.c ****     cy  = radius;
  1429              		.loc 1 370 0
  1430 0016 5700     		lsls	r7, r2, #1
  1431 0018 C7F10507 		rsb	r7, r7, #5
  1432              	.LVL175:
- 371:lib/display/abstract/src/display_if_support.c ****     cy  = radius;
+ 371:lib/display/abstract/src/display_if_support.c **** 
  1433              		.loc 1 371 0
  1434 001c 1446     		mov	r4, r2
- 373:lib/display/abstract/src/display_if_support.c ****     for (cx = 0; cx <= cy; cx++) {
+ 373:lib/display/abstract/src/display_if_support.c ****         if (d < 0) {
  1435              		.loc 1 373 0
  1436 001e 0025     		movs	r5, #0
  1437              	.LVL176:
  1438              	.L136:
- 362:lib/display/abstract/src/display_if_support.c **** inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 362:lib/display/abstract/src/display_if_support.c **** {
  1439              		.loc 1 362 0 discriminator 1
  1440 0020 6B00     		lsls	r3, r5, #1
  1441 0022 D81C     		adds	r0, r3, #3
  1442              	.LVL177:
- 373:lib/display/abstract/src/display_if_support.c ****     for (cx = 0; cx <= cy; cx++) {
+ 373:lib/display/abstract/src/display_if_support.c ****         if (d < 0) {
  1443              		.loc 1 373 0 discriminator 1
  1444 0024 A542     		cmp	r5, r4
  1445 0026 66DC     		bgt	.L149
  1446              	.L143:
- 374:lib/display/abstract/src/display_if_support.c ****         if (d < 0) {
+ 374:lib/display/abstract/src/display_if_support.c ****             d   += dH;
  1447              		.loc 1 374 0
  1448 0028 002E     		cmp	r6, #0
  1449 002a 02DA     		bge	.L137
- 375:lib/display/abstract/src/display_if_support.c ****             d   += dH;
+ 375:lib/display/abstract/src/display_if_support.c ****             dH  += 2;
  1450              		.loc 1 375 0
  1451 002c 3618     		adds	r6, r6, r0
  1452              	.LVL178:
- 377:lib/display/abstract/src/display_if_support.c ****             dD  += 2;
+ 377:lib/display/abstract/src/display_if_support.c ****         }
  1453              		.loc 1 377 0
  1454 002e 0237     		adds	r7, r7, #2
  1455              	.LVL179:
  1456 0030 02E0     		b	.L138
  1457              	.LVL180:
  1458              	.L137:
- 380:lib/display/abstract/src/display_if_support.c ****             d   += dD;
+ 380:lib/display/abstract/src/display_if_support.c ****             dH  += 2;
  1459              		.loc 1 380 0
  1460 0032 F619     		adds	r6, r6, r7
  1461              	.LVL181:
- 382:lib/display/abstract/src/display_if_support.c ****             dD  += 4;
+ 382:lib/display/abstract/src/display_if_support.c ****             --cy;
  1462              		.loc 1 382 0
  1463 0034 0437     		adds	r7, r7, #4
  1464              	.LVL182:
- 383:lib/display/abstract/src/display_if_support.c ****             --cy;
+ 383:lib/display/abstract/src/display_if_support.c ****         }
  1465              		.loc 1 383 0
  1466 0036 013C     		subs	r4, r4, #1
  1467              	.LVL183:
  1468              	.L138:
- 387:lib/display/abstract/src/display_if_support.c **** 		n = 2*cy;
+ 387:lib/display/abstract/src/display_if_support.c **** 		do{
  1469              		.loc 1 387 0
  1470 0038 4FEA4408 		lsl	r8, r4, #1
  1471              	.LVL184:
  1472 003c C146     		mov	r9, r8
  1473              	.LVL185:
  1474              	.L139:
- 362:lib/display/abstract/src/display_if_support.c **** inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 362:lib/display/abstract/src/display_if_support.c **** {
  1475              		.loc 1 362 0 discriminator 1
  1476 003e A2B2     		uxth	r2, r4
  1477 0040 0292     		str	r2, [sp, #8]
@@ -2222,7 +2222,7 @@
  1489 005a C9EB0100 		rsb	r0, r9, r1
  1490 005e 039A     		ldr	r2, [sp, #12]
  1491 0060 02EB0B01 		add	r1, r2, fp
- 389:lib/display/abstract/src/display_if_support.c **** 			PutPixel((cy-n)+ x_ct,cx + y_ct,colour);
+ 389:lib/display/abstract/src/display_if_support.c **** 		} while (n--);
  1492              		.loc 1 389 0 discriminator 1
  1493 0064 80B2     		uxth	r0, r0
  1494 0066 89B2     		uxth	r1, r1
@@ -2230,25 +2230,25 @@
  1496 006a 0193     		str	r3, [sp, #4]
  1497 006c FFF7FEFF 		bl	PutPixel
  1498              	.LVL186:
- 390:lib/display/abstract/src/display_if_support.c **** 		} while (n--);
+ 390:lib/display/abstract/src/display_if_support.c **** 
  1499              		.loc 1 390 0 discriminator 1
  1500 0070 09F1FF39 		add	r9, r9, #-1
  1501              	.LVL187:
  1502 0074 B9F1FF3F 		cmp	r9, #-1
  1503 0078 019B     		ldr	r3, [sp, #4]
  1504 007a E0D1     		bne	.L139
- 362:lib/display/abstract/src/display_if_support.c **** inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 362:lib/display/abstract/src/display_if_support.c **** {
  1505              		.loc 1 362 0
  1506 007c 9946     		mov	r9, r3
  1507              	.LVL188:
  1508              	.L140:
- 362:lib/display/abstract/src/display_if_support.c **** inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 362:lib/display/abstract/src/display_if_support.c **** {
  1509              		.loc 1 362 0 is_stmt 0 discriminator 1
  1510 007e 0398     		ldr	r0, [sp, #12]
  1511 0080 049A     		ldr	r2, [sp, #16]
  1512 0082 00EB020C 		add	ip, r0, r2
  1513 0086 C3EB0C00 		rsb	r0, r3, ip
- 395:lib/display/abstract/src/display_if_support.c **** 			PutPixel((cx-n)+ x_ct,cy + y_ct,colour);
+ 395:lib/display/abstract/src/display_if_support.c **** 		} while (n--);
  1514              		.loc 1 395 0 is_stmt 1 discriminator 1
  1515 008a 0299     		ldr	r1, [sp, #8]
  1516 008c 01EB0B02 		add	r2, r1, fp
@@ -2259,7 +2259,7 @@
  1521 0098 CDF800C0 		str	ip, [sp, #0]
  1522 009c FFF7FEFF 		bl	PutPixel
  1523              	.LVL189:
- 396:lib/display/abstract/src/display_if_support.c **** 		} while (n--);
+ 396:lib/display/abstract/src/display_if_support.c **** 
  1524              		.loc 1 396 0 discriminator 1
  1525 00a0 019B     		ldr	r3, [sp, #4]
  1526 00a2 013B     		subs	r3, r3, #1
@@ -2267,15 +2267,15 @@
  1528 00a4 5A1C     		adds	r2, r3, #1
  1529 00a6 DDF800C0 		ldr	ip, [sp, #0]
  1530 00aa E8D1     		bne	.L140
- 362:lib/display/abstract/src/display_if_support.c **** inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 362:lib/display/abstract/src/display_if_support.c **** {
  1531              		.loc 1 362 0
  1532 00ac 1FFA8CFC 		uxth	ip, ip
  1533              	.LVL191:
  1534              	.L141:
- 362:lib/display/abstract/src/display_if_support.c **** inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 362:lib/display/abstract/src/display_if_support.c **** {
  1535              		.loc 1 362 0 is_stmt 0 discriminator 1
  1536 00b0 C9EB0C00 		rsb	r0, r9, ip
- 401:lib/display/abstract/src/display_if_support.c **** 			PutPixel((cx-n)+ x_ct,-cy + y_ct,colour);
+ 401:lib/display/abstract/src/display_if_support.c **** 		} while (n--);
  1537              		.loc 1 401 0 is_stmt 1 discriminator 1
  1538 00b4 0299     		ldr	r1, [sp, #8]
  1539 00b6 C1EB0B02 		rsb	r2, r1, fp
@@ -2285,7 +2285,7 @@
  1543 00c0 CDF800C0 		str	ip, [sp, #0]
  1544 00c4 FFF7FEFF 		bl	PutPixel
  1545              	.LVL192:
- 402:lib/display/abstract/src/display_if_support.c **** 		} while (n--);
+ 402:lib/display/abstract/src/display_if_support.c **** 
  1546              		.loc 1 402 0 discriminator 1
  1547 00c8 09F1FF39 		add	r9, r9, #-1
  1548              	.LVL193:
@@ -2294,32 +2294,32 @@
  1551 00d4 ECD1     		bne	.L141
  1552              	.LVL194:
  1553              	.L144:
- 362:lib/display/abstract/src/display_if_support.c **** inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+ 362:lib/display/abstract/src/display_if_support.c **** {
  1554              		.loc 1 362 0 discriminator 1
  1555 00d6 059B     		ldr	r3, [sp, #20]
  1556 00d8 C8EB0300 		rsb	r0, r8, r3
  1557 00dc 0399     		ldr	r1, [sp, #12]
  1558 00de C1EB0B02 		rsb	r2, r1, fp
- 407:lib/display/abstract/src/display_if_support.c **** 			PutPixel((cy-n)+ x_ct,-cx + y_ct,colour);
+ 407:lib/display/abstract/src/display_if_support.c **** 		} while (n--);
  1559              		.loc 1 407 0 discriminator 1
  1560 00e2 80B2     		uxth	r0, r0
  1561 00e4 91B2     		uxth	r1, r2
  1562 00e6 5246     		mov	r2, sl
  1563 00e8 FFF7FEFF 		bl	PutPixel
  1564              	.LVL195:
- 408:lib/display/abstract/src/display_if_support.c **** 		} while (n--);
+ 408:lib/display/abstract/src/display_if_support.c **** 
  1565              		.loc 1 408 0 discriminator 1
  1566 00ec 18F1FF38 		adds	r8, r8, #-1
  1567              	.LVL196:
  1568 00f0 F1D2     		bcs	.L144
- 373:lib/display/abstract/src/display_if_support.c ****     for (cx = 0; cx <= cy; cx++) {
+ 373:lib/display/abstract/src/display_if_support.c ****         if (d < 0) {
  1569              		.loc 1 373 0
  1570 00f2 0135     		adds	r5, r5, #1
  1571              	.LVL197:
  1572 00f4 94E7     		b	.L136
  1573              	.LVL198:
  1574              	.L149:
- 411:lib/display/abstract/src/display_if_support.c **** }
+ 411:lib/display/abstract/src/display_if_support.c **** 
  1575              		.loc 1 411 0
  1576 00f6 09B0     		add	sp, sp, #36
  1577 00f8 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
@@ -2332,7 +2332,7 @@
  1585              		.thumb_func
  1587              	Display_DrawRect_If:
  1588              	.LFB66:
- 419:lib/display/abstract/src/display_if_support.c **** {
+ 419:lib/display/abstract/src/display_if_support.c **** 	volatile uint32_t n;
  1589              		.loc 1 419 0
  1590              		.cfi_startproc
  1591              		@ args = 4, pretend = 0, frame = 8
@@ -2356,14 +2356,14 @@
  1609 0008 9046     		mov	r8, r2
  1610 000a 9946     		mov	r9, r3
  1611 000c BDF82840 		ldrh	r4, [sp, #40]
- 422:lib/display/abstract/src/display_if_support.c **** 	n = xe - xs;
+ 422:lib/display/abstract/src/display_if_support.c **** 	do{
  1612              		.loc 1 422 0
  1613 0010 C0EB010A 		rsb	sl, r0, r1
  1614              	.LVL200:
  1615 0014 CDF804A0 		str	sl, [sp, #4]
  1616              	.LVL201:
  1617              	.L151:
- 424:lib/display/abstract/src/display_if_support.c **** 		PutPixel((xe-n),ys,colour);
+ 424:lib/display/abstract/src/display_if_support.c **** 	} while (n--);
  1618              		.loc 1 424 0 discriminator 1
  1619 0018 B5B2     		uxth	r5, r6
  1620 001a 0198     		ldr	r0, [sp, #4]
@@ -2373,7 +2373,7 @@
  1624 0024 2246     		mov	r2, r4
  1625 0026 FFF7FEFF 		bl	PutPixel
  1626              	.LVL202:
- 425:lib/display/abstract/src/display_if_support.c **** 	} while (n--);
+ 425:lib/display/abstract/src/display_if_support.c **** 
  1627              		.loc 1 425 0 discriminator 1
  1628 002a 019B     		ldr	r3, [sp, #4]
  1629 002c 5A1E     		subs	r2, r3, #1
@@ -2383,12 +2383,12 @@
  1633 0030 002B     		cmp	r3, #0
  1634 0032 F1D1     		bne	.L151
  1635              	.LVL205:
- 427:lib/display/abstract/src/display_if_support.c **** 	n = xe - xs;
+ 427:lib/display/abstract/src/display_if_support.c **** 	do{
  1636              		.loc 1 427 0
  1637 0034 CDF804A0 		str	sl, [sp, #4]
  1638              	.LVL206:
  1639              	.L152:
- 429:lib/display/abstract/src/display_if_support.c **** 		PutPixel((xe-n),ye,colour);
+ 429:lib/display/abstract/src/display_if_support.c **** 	} while (n--);
  1640              		.loc 1 429 0 discriminator 1
  1641 0038 0198     		ldr	r0, [sp, #4]
  1642 003a 1FFA89F6 		uxth	r6, r9
@@ -2398,7 +2398,7 @@
  1646 0044 2246     		mov	r2, r4
  1647 0046 FFF7FEFF 		bl	PutPixel
  1648              	.LVL207:
- 430:lib/display/abstract/src/display_if_support.c **** 	} while (n--);
+ 430:lib/display/abstract/src/display_if_support.c **** 
  1649              		.loc 1 430 0 discriminator 1
  1650 004a 019B     		ldr	r3, [sp, #4]
  1651 004c 5A1E     		subs	r2, r3, #1
@@ -2407,14 +2407,14 @@
  1654              	.LVL209:
  1655 0050 002B     		cmp	r3, #0
  1656 0052 F1D1     		bne	.L152
- 432:lib/display/abstract/src/display_if_support.c **** 	n = ye - ys;
+ 432:lib/display/abstract/src/display_if_support.c **** 	do{
  1657              		.loc 1 432 0
  1658 0054 C8EB0908 		rsb	r8, r8, r9
  1659              	.LVL210:
  1660 0058 CDF80480 		str	r8, [sp, #4]
  1661              	.LVL211:
  1662              	.L153:
- 434:lib/display/abstract/src/display_if_support.c **** 		PutPixel(xs,(ye-n),colour);
+ 434:lib/display/abstract/src/display_if_support.c **** 	} while (n--);
  1663              		.loc 1 434 0 discriminator 1
  1664 005c 0198     		ldr	r0, [sp, #4]
  1665 005e 311A     		subs	r1, r6, r0
@@ -2423,7 +2423,7 @@
  1668 0064 2246     		mov	r2, r4
  1669 0066 FFF7FEFF 		bl	PutPixel
  1670              	.LVL212:
- 435:lib/display/abstract/src/display_if_support.c **** 	} while (n--);
+ 435:lib/display/abstract/src/display_if_support.c **** 
  1671              		.loc 1 435 0 discriminator 1
  1672 006a 019B     		ldr	r3, [sp, #4]
  1673 006c 5A1E     		subs	r2, r3, #1
@@ -2433,11 +2433,11 @@
  1677 0070 002B     		cmp	r3, #0
  1678 0072 F3D1     		bne	.L153
  1679              	.LVL215:
- 437:lib/display/abstract/src/display_if_support.c **** 	n = ye - ys;
+ 437:lib/display/abstract/src/display_if_support.c **** 	do{
  1680              		.loc 1 437 0
  1681 0074 CDF80480 		str	r8, [sp, #4]
  1682              	.L154:
- 439:lib/display/abstract/src/display_if_support.c **** 		PutPixel(xe,(ye-n),colour);
+ 439:lib/display/abstract/src/display_if_support.c **** 	} while (n--);
  1683              		.loc 1 439 0 discriminator 1
  1684 0078 0198     		ldr	r0, [sp, #4]
  1685 007a 311A     		subs	r1, r6, r0
@@ -2446,7 +2446,7 @@
  1688 0080 2246     		mov	r2, r4
  1689 0082 FFF7FEFF 		bl	PutPixel
  1690              	.LVL216:
- 440:lib/display/abstract/src/display_if_support.c **** 	} while (n--);
+ 440:lib/display/abstract/src/display_if_support.c **** 	
  1691              		.loc 1 440 0 discriminator 1
  1692 0086 019B     		ldr	r3, [sp, #4]
  1693 0088 5A1E     		subs	r2, r3, #1
@@ -2455,7 +2455,7 @@
  1696              	.LVL218:
  1697 008c 002B     		cmp	r3, #0
  1698 008e F3D1     		bne	.L154
- 442:lib/display/abstract/src/display_if_support.c **** }
+ 442:lib/display/abstract/src/display_if_support.c **** 
  1699              		.loc 1 442 0
  1700 0090 BDE8FC87 		pop	{r2, r3, r4, r5, r6, r7, r8, r9, sl, pc}
  1701              		.cfi_endproc
@@ -2539,7 +2539,7 @@
  1759 0038 907A     		ldrb	r0, [r2, #10]	@ zero_extendqisi2
  1760              	.LVL227:
  1761 003a 2B18     		adds	r3, r5, r0
- 558:lib/display/abstract/src/display_if_support.c **** 	Display_rect_if(col, col + CurrentKanjiDat->X_Size - 1,
+ 558:lib/display/abstract/src/display_if_support.c **** 					row, row + CurrentKanjiDat->Y_Size - 1);
  1762              		.loc 1 558 0
  1763 003c 3046     		mov	r0, r6
  1764 003e 0139     		subs	r1, r1, #1
@@ -2592,13 +2592,13 @@
  1799 006c 4846     		movne	r0, r9
  1800 006e FFF7FEFF 		bl	ST7732_wr_gram
  1801              	.LVL232:
- 566:lib/display/abstract/src/display_if_support.c **** 			for(j=0; j< 8;j++){
+ 566:lib/display/abstract/src/display_if_support.c **** 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
  1802              		.loc 1 566 0
  1803 0072 0136     		adds	r6, r6, #1
  1804              	.LVL233:
  1805 0074 082E     		cmp	r6, #8
  1806 0076 F2D1     		bne	.L162
- 564:lib/display/abstract/src/display_if_support.c **** 		for(k=0; k < l ;k++){
+ 564:lib/display/abstract/src/display_if_support.c **** 			
  1807              		.loc 1 564 0
  1808 0078 0135     		adds	r5, r5, #1
  1809              	.LVL234:
@@ -2606,7 +2606,7 @@
  1811              	.LVL235:
  1812              	.L177:
  1813 007c E419     		adds	r4, r4, r7
- 545:lib/display/abstract/src/display_if_support.c **** void putkanji(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t fg,uint16_t bg)
+ 545:lib/display/abstract/src/display_if_support.c **** {
  1814              		.loc 1 545 0 discriminator 1
  1815 007e 0025     		movs	r5, #0
  1816              	.LVL236:
@@ -2636,7 +2636,7 @@
  1830 0092 4846     		movne	r0, r9
  1831 0094 FFF7FEFF 		bl	ST7732_wr_gram
  1832              	.LVL238:
- 576:lib/display/abstract/src/display_if_support.c **** 		for(j=0; j< m ;j++){
+ 576:lib/display/abstract/src/display_if_support.c **** 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
  1833              		.loc 1 576 0
  1834 0098 0135     		adds	r5, r5, #1
  1835              	.LVL239:
@@ -2652,7 +2652,7 @@
  1842 00a2 0134     		adds	r4, r4, #1
  1843              	.LVL240:
  1844              	.L166:
- 562:lib/display/abstract/src/display_if_support.c **** 	for(i=0; i<CurrentKanjiDat->Y_Size;i++)
+ 562:lib/display/abstract/src/display_if_support.c **** 	{
  1845              		.loc 1 562 0 is_stmt 1
  1846 00a4 0BF1010B 		add	fp, fp, #1
  1847              	.LVL241:
@@ -2746,7 +2746,7 @@
  1912              		.loc 1 609 0
  1913 0032 8379     		ldrb	r3, [r0, #6]	@ zero_extendqisi2
  1914 0034 EB18     		adds	r3, r5, r3
- 608:lib/display/abstract/src/display_if_support.c **** 	Display_rect_if(col, col + CurrentAnkDat->X_Size - 1,
+ 608:lib/display/abstract/src/display_if_support.c **** 					row, row + CurrentAnkDat->Y_Size - 1);
  1915              		.loc 1 608 0
  1916 0036 3046     		mov	r0, r6
  1917 0038 511E     		subs	r1, r2, #1
@@ -2799,13 +2799,13 @@
  1952 0066 4846     		movne	r0, r9
  1953 0068 FFF7FEFF 		bl	ST7732_wr_gram
  1954              	.LVL255:
- 616:lib/display/abstract/src/display_if_support.c **** 			for(j=0; j< 8;j++){
+ 616:lib/display/abstract/src/display_if_support.c **** 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
  1955              		.loc 1 616 0
  1956 006c 0136     		adds	r6, r6, #1
  1957              	.LVL256:
  1958 006e 082E     		cmp	r6, #8
  1959 0070 F2D1     		bne	.L184
- 614:lib/display/abstract/src/display_if_support.c **** 		for(k=0; k < l ;k++){
+ 614:lib/display/abstract/src/display_if_support.c **** 			
  1960              		.loc 1 614 0
  1961 0072 0135     		adds	r5, r5, #1
  1962              	.LVL257:
@@ -2813,7 +2813,7 @@
  1964              	.LVL258:
  1965              	.L199:
  1966 0076 E419     		adds	r4, r4, r7
- 595:lib/display/abstract/src/display_if_support.c **** void putank(uint16_t col, uint16_t row, uint8_t* pank, uint16_t fg,uint16_t bg)
+ 595:lib/display/abstract/src/display_if_support.c **** {
  1967              		.loc 1 595 0 discriminator 1
  1968 0078 0025     		movs	r5, #0
  1969              	.LVL259:
@@ -2843,7 +2843,7 @@
  1983 008c 4846     		movne	r0, r9
  1984 008e FFF7FEFF 		bl	ST7732_wr_gram
  1985              	.LVL261:
- 626:lib/display/abstract/src/display_if_support.c **** 		for(j=0; j< m ;j++){
+ 626:lib/display/abstract/src/display_if_support.c **** 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
  1986              		.loc 1 626 0
  1987 0092 0135     		adds	r5, r5, #1
  1988              	.LVL262:
@@ -2859,7 +2859,7 @@
  1995 009c 0134     		adds	r4, r4, #1
  1996              	.LVL263:
  1997              	.L188:
- 612:lib/display/abstract/src/display_if_support.c **** 	for(i=0; i<CurrentAnkDat->Y_Size;i++)
+ 612:lib/display/abstract/src/display_if_support.c **** 	{
  1998              		.loc 1 612 0 is_stmt 1
  1999 009e 0BF1010B 		add	fp, fp, #1
  2000              	.LVL264:
@@ -3031,7 +3031,7 @@
  2132 0084 0120     		movs	r0, #1
  2133 0086 00E0     		b	.L205
  2134              	.L215:
- 650:lib/display/abstract/src/display_if_support.c **** 		if (col >= MAX_X || row >= MAX_Y) return 0;
+ 650:lib/display/abstract/src/display_if_support.c **** 
  2135              		.loc 1 650 0
  2136 0088 0020     		movs	r0, #0
  2137              	.L205:
@@ -3198,7 +3198,7 @@
  2267 008c 0120     		movs	r0, #1
  2268 008e 00E0     		b	.L223
  2269              	.L233:
- 683:lib/display/abstract/src/display_if_support.c **** 		if (col >= MAX_X || row >= MAX_Y) return 0;
+ 683:lib/display/abstract/src/display_if_support.c **** 
  2270              		.loc 1 683 0
  2271 0090 0020     		movs	r0, #0
  2272              	.L223:
@@ -3226,56 +3226,56 @@
  2298 0002 0000     		.short	0
  2299              		.text
  2300              	.Letext0:
- 2301              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 2301              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  2302              		.file 3 "./lib/FONTX2/inc/font_if.h"
  2303              		.file 4 "./lib/display/abstract/inc/display_if_support.h"
  2304              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
  2305              		.file 6 "./inc/systick.h"
  2306              		.file 7 "./lib/display/drivers/inc/st7732.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 display_if_support.c
-  R:\TEMP\cctS7QNg.s:19     .text.SetPixel:00000000 $t
-  R:\TEMP\cctS7QNg.s:23     .text.SetPixel:00000000 SetPixel
-  R:\TEMP\cctS7QNg.s:45     .text.putkanji_t:00000000 $t
-  R:\TEMP\cctS7QNg.s:49     .text.putkanji_t:00000000 putkanji_t
-  R:\TEMP\cctS7QNg.s:209    .text.putkanji_t:000000c4 $d
-  R:\TEMP\cctS7QNg.s:214    .text.putank_t.isra.0:00000000 $t
-  R:\TEMP\cctS7QNg.s:218    .text.putank_t.isra.0:00000000 putank_t.isra.0
-  R:\TEMP\cctS7QNg.s:372    .text.putank_t.isra.0:000000bc $d
-  R:\TEMP\cctS7QNg.s:377    .text.Display_ChrCol:00000000 $t
-  R:\TEMP\cctS7QNg.s:382    .text.Display_ChrCol:00000000 Display_ChrCol
-  R:\TEMP\cctS7QNg.s:402    .text.Display_ChrCol:0000000c $d
-  R:\TEMP\cctS7QNg.s:407    .text.PutPixel:00000000 $t
-  R:\TEMP\cctS7QNg.s:412    .text.PutPixel:00000000 PutPixel
-  R:\TEMP\cctS7QNg.s:439    .text.Display_FillRect_If:00000000 $t
-  R:\TEMP\cctS7QNg.s:444    .text.Display_FillRect_If:00000000 Display_FillRect_If
-  R:\TEMP\cctS7QNg.s:506    .text.Display_DrawLine_If:00000000 $t
-  R:\TEMP\cctS7QNg.s:511    .text.Display_DrawLine_If:00000000 Display_DrawLine_If
-  R:\TEMP\cctS7QNg.s:672    .text.Display_DrawCircle_If:00000000 $t
-  R:\TEMP\cctS7QNg.s:677    .text.Display_DrawCircle_If:00000000 Display_DrawCircle_If
-  R:\TEMP\cctS7QNg.s:1156   .text.Display_DrawCircle_If:00000308 $d
-  R:\TEMP\cctS7QNg.s:1160   .text.Display_DrawCircle_If:00000310 $t
-  R:\TEMP\cctS7QNg.s:1392   .text.Display_FillCircle_If:00000000 $t
-  R:\TEMP\cctS7QNg.s:1397   .text.Display_FillCircle_If:00000000 Display_FillCircle_If
-  R:\TEMP\cctS7QNg.s:1582   .text.Display_DrawRect_If:00000000 $t
-  R:\TEMP\cctS7QNg.s:1587   .text.Display_DrawRect_If:00000000 Display_DrawRect_If
-  R:\TEMP\cctS7QNg.s:1705   .text.putkanji:00000000 $t
-  R:\TEMP\cctS7QNg.s:1710   .text.putkanji:00000000 putkanji
-  R:\TEMP\cctS7QNg.s:1856   .text.putkanji:000000b0 $d
-  R:\TEMP\cctS7QNg.s:1861   .text.putank:00000000 $t
-  R:\TEMP\cctS7QNg.s:1866   .text.putank:00000000 putank
-  R:\TEMP\cctS7QNg.s:2009   .text.putank:000000a8 $d
-  R:\TEMP\cctS7QNg.s:2014   .text.Display_Puts_If:00000000 $t
-  R:\TEMP\cctS7QNg.s:2019   .text.Display_Puts_If:00000000 Display_Puts_If
-  R:\TEMP\cctS7QNg.s:2143   .text.Display_Puts_If:0000008c $d
-  R:\TEMP\cctS7QNg.s:2150   .text.Display_Puts_If_Ex:00000000 $t
-  R:\TEMP\cctS7QNg.s:2155   .text.Display_Puts_If_Ex:00000000 Display_Puts_If_Ex
-  R:\TEMP\cctS7QNg.s:2278   .text.Display_Puts_If_Ex:00000098 $d
-  R:\TEMP\cctS7QNg.s:2290   .data.pScrCol:00000000 pScrCol
-  R:\TEMP\cctS7QNg.s:2296   .data.ScrCol:00000000 ScrCol
-  R:\TEMP\cctS7QNg.s:2286   .data.pScrCol:00000000 $d
-  R:\TEMP\cctS7QNg.s:2293   .data.ScrCol:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 display_if_support.c
+  R:\TEMP\ccEtA7ay.s:19     .text.SetPixel:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:23     .text.SetPixel:0000000000000000 SetPixel
+  R:\TEMP\ccEtA7ay.s:45     .text.putkanji_t:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:49     .text.putkanji_t:0000000000000000 putkanji_t
+  R:\TEMP\ccEtA7ay.s:209    .text.putkanji_t:00000000000000c4 $d
+  R:\TEMP\ccEtA7ay.s:214    .text.putank_t.isra.0:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:218    .text.putank_t.isra.0:0000000000000000 putank_t.isra.0
+  R:\TEMP\ccEtA7ay.s:372    .text.putank_t.isra.0:00000000000000bc $d
+  R:\TEMP\ccEtA7ay.s:377    .text.Display_ChrCol:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:382    .text.Display_ChrCol:0000000000000000 Display_ChrCol
+  R:\TEMP\ccEtA7ay.s:402    .text.Display_ChrCol:000000000000000c $d
+  R:\TEMP\ccEtA7ay.s:407    .text.PutPixel:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:412    .text.PutPixel:0000000000000000 PutPixel
+  R:\TEMP\ccEtA7ay.s:439    .text.Display_FillRect_If:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:444    .text.Display_FillRect_If:0000000000000000 Display_FillRect_If
+  R:\TEMP\ccEtA7ay.s:506    .text.Display_DrawLine_If:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:511    .text.Display_DrawLine_If:0000000000000000 Display_DrawLine_If
+  R:\TEMP\ccEtA7ay.s:672    .text.Display_DrawCircle_If:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:677    .text.Display_DrawCircle_If:0000000000000000 Display_DrawCircle_If
+  R:\TEMP\ccEtA7ay.s:1156   .text.Display_DrawCircle_If:0000000000000308 $d
+  R:\TEMP\ccEtA7ay.s:1160   .text.Display_DrawCircle_If:0000000000000310 $t
+  R:\TEMP\ccEtA7ay.s:1392   .text.Display_FillCircle_If:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:1397   .text.Display_FillCircle_If:0000000000000000 Display_FillCircle_If
+  R:\TEMP\ccEtA7ay.s:1582   .text.Display_DrawRect_If:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:1587   .text.Display_DrawRect_If:0000000000000000 Display_DrawRect_If
+  R:\TEMP\ccEtA7ay.s:1705   .text.putkanji:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:1710   .text.putkanji:0000000000000000 putkanji
+  R:\TEMP\ccEtA7ay.s:1856   .text.putkanji:00000000000000b0 $d
+  R:\TEMP\ccEtA7ay.s:1861   .text.putank:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:1866   .text.putank:0000000000000000 putank
+  R:\TEMP\ccEtA7ay.s:2009   .text.putank:00000000000000a8 $d
+  R:\TEMP\ccEtA7ay.s:2014   .text.Display_Puts_If:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:2019   .text.Display_Puts_If:0000000000000000 Display_Puts_If
+  R:\TEMP\ccEtA7ay.s:2143   .text.Display_Puts_If:000000000000008c $d
+  R:\TEMP\ccEtA7ay.s:2150   .text.Display_Puts_If_Ex:0000000000000000 $t
+  R:\TEMP\ccEtA7ay.s:2155   .text.Display_Puts_If_Ex:0000000000000000 Display_Puts_If_Ex
+  R:\TEMP\ccEtA7ay.s:2278   .text.Display_Puts_If_Ex:0000000000000098 $d
+  R:\TEMP\ccEtA7ay.s:2290   .data.pScrCol:0000000000000000 pScrCol
+  R:\TEMP\ccEtA7ay.s:2296   .data.ScrCol:0000000000000000 ScrCol
+  R:\TEMP\ccEtA7ay.s:2286   .data.pScrCol:0000000000000000 $d
+  R:\TEMP\ccEtA7ay.s:2293   .data.ScrCol:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 ST7732_rect

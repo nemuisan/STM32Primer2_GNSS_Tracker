@@ -679,7 +679,7 @@
  478              	.LVL30:
  479              	.LBB6:
  480              	.LBB7:
- 169:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetENDPOINT(bEpNum));
+ 169:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  481              		.loc 1 169 0
  482 0000 8000     		lsls	r0, r0, #2
  483              	.LVL31:
@@ -1825,20 +1825,20 @@
  1139              		.thumb_func
  1141              	SetEPRxAddr:
  1142              	.LFB94:
- 492:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 492:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxAddr(bEpNum, wAddr);
  1143              		.loc 1 492 0
  1144              		.cfi_startproc
  1145              		@ args = 0, pretend = 0, frame = 0
  1146              		@ frame_needed = 0, uses_anonymous_args = 0
  1147              		@ link register save eliminated.
  1148              	.LVL80:
- 493:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxAddr(bEpNum, wAddr);
+ 493:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1149              		.loc 1 493 0
  1150 0000 054B     		ldr	r3, .L83
  1151 0002 1A68     		ldr	r2, [r3, #0]
  1152              		.loc 1 758 0
  1153 0004 93B2     		uxth	r3, r2
- 493:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxAddr(bEpNum, wAddr);
+ 493:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1154              		.loc 1 493 0
  1155 0006 03EBC000 		add	r0, r3, r0, lsl #3
  1156              	.LVL81:
@@ -1864,27 +1864,27 @@
  1177              		.thumb_func
  1179              	GetEPTxAddr:
  1180              	.LFB95:
- 503:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 503:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPTxAddr(bEpNum));
  1181              		.loc 1 503 0
  1182              		.cfi_startproc
  1183              		@ args = 0, pretend = 0, frame = 0
  1184              		@ frame_needed = 0, uses_anonymous_args = 0
  1185              		@ link register save eliminated.
  1186              	.LVL83:
- 504:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPTxAddr(bEpNum));
+ 504:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1187              		.loc 1 504 0
  1188 0000 054B     		ldr	r3, .L86
  1189 0002 1968     		ldr	r1, [r3, #0]
  1190              		.loc 1 758 0
  1191 0004 8AB2     		uxth	r2, r1
- 504:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPTxAddr(bEpNum));
+ 504:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1192              		.loc 1 504 0
  1193 0006 02EBC000 		add	r0, r2, r0, lsl #3
  1194              	.LVL84:
  1195 000a 00F10053 		add	r3, r0, #536870912
  1196 000e 03F54051 		add	r1, r3, #12288
  1197 0012 4A00     		lsls	r2, r1, #1
- 505:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 505:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  1198              		.loc 1 505 0
  1199 0014 1088     		ldrh	r0, [r2, #0]
  1200 0016 7047     		bx	lr
@@ -1901,27 +1901,27 @@
  1212              		.thumb_func
  1214              	GetEPRxAddr:
  1215              	.LFB96:
- 514:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 514:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPRxAddr(bEpNum));
  1216              		.loc 1 514 0
  1217              		.cfi_startproc
  1218              		@ args = 0, pretend = 0, frame = 0
  1219              		@ frame_needed = 0, uses_anonymous_args = 0
  1220              		@ link register save eliminated.
  1221              	.LVL85:
- 515:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPRxAddr(bEpNum));
+ 515:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1222              		.loc 1 515 0
  1223 0000 044B     		ldr	r3, .L89
  1224 0002 1968     		ldr	r1, [r3, #0]
  1225              		.loc 1 758 0
  1226 0004 8AB2     		uxth	r2, r1
- 515:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPRxAddr(bEpNum));
+ 515:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1227              		.loc 1 515 0
  1228 0006 02EBC000 		add	r0, r2, r0, lsl #3
  1229              	.LVL86:
  1230 000a 034B     		ldr	r3, .L89+4
  1231 000c C118     		adds	r1, r0, r3
  1232 000e 4A00     		lsls	r2, r1, #1
- 516:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 516:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  1233              		.loc 1 516 0
  1234 0010 1088     		ldrh	r0, [r2, #0]
  1235 0012 7047     		bx	lr
@@ -1939,20 +1939,20 @@
  1248              		.thumb_func
  1250              	SetEPTxCount:
  1251              	.LFB97:
- 526:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 526:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPTxCount(bEpNum, wCount);
  1252              		.loc 1 526 0
  1253              		.cfi_startproc
  1254              		@ args = 0, pretend = 0, frame = 0
  1255              		@ frame_needed = 0, uses_anonymous_args = 0
  1256              		@ link register save eliminated.
  1257              	.LVL87:
- 527:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPTxCount(bEpNum, wCount);
+ 527:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1258              		.loc 1 527 0
  1259 0000 044B     		ldr	r3, .L92
  1260 0002 1A68     		ldr	r2, [r3, #0]
  1261              		.loc 1 758 0
  1262 0004 93B2     		uxth	r3, r2
- 527:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPTxCount(bEpNum, wCount);
+ 527:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1263              		.loc 1 527 0
  1264 0006 03EBC000 		add	r0, r3, r0, lsl #3
  1265              	.LVL88:
@@ -1975,7 +1975,7 @@
  1283              		.thumb_func
  1285              	SetEPCountRxReg:
  1286              	.LFB98:
- 538:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 538:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPCountRxReg(dwReg, wCount);
  1287              		.loc 1 538 0
  1288              		.cfi_startproc
  1289              		@ args = 0, pretend = 0, frame = 0
@@ -1983,31 +1983,31 @@
  1291              		@ link register save eliminated.
  1292              	.LVL89:
  1293              	.LBB10:
- 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPCountRxReg(dwReg, wCount);
+ 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1294              		.loc 1 539 0
  1295 0000 3E29     		cmp	r1, #62
  1296 0002 08D9     		bls	.L95
- 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPCountRxReg(dwReg, wCount);
+ 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1297              		.loc 1 539 0 is_stmt 0 discriminator 1
  1298 0004 4B09     		lsrs	r3, r1, #5
  1299              	.LVL90:
  1300 0006 C906     		lsls	r1, r1, #27
  1301              	.LVL91:
  1302 0008 01D1     		bne	.L96
- 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPCountRxReg(dwReg, wCount);
+ 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1303              		.loc 1 539 0 discriminator 3
  1304 000a 5A1E     		subs	r2, r3, #1
  1305 000c 93B2     		uxth	r3, r2
  1306              	.LVL92:
  1307              	.L96:
- 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPCountRxReg(dwReg, wCount);
+ 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1308              		.loc 1 539 0 discriminator 4
  1309 000e 9902     		lsls	r1, r3, #10
  1310 0010 41F40041 		orr	r1, r1, #32768
  1311 0014 04E0     		b	.L102
  1312              	.LVL93:
  1313              	.L95:
- 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPCountRxReg(dwReg, wCount);
+ 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1314              		.loc 1 539 0 discriminator 2
  1315 0016 4B08     		lsrs	r3, r1, #1
  1316              	.LVL94:
@@ -2018,7 +2018,7 @@
  1321 001e 9902     		lsls	r1, r3, #10
  1322              	.LVL96:
  1323              	.L102:
- 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPCountRxReg(dwReg, wCount);
+ 539:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1324              		.loc 1 539 0 discriminator 6
  1325 0020 0160     		str	r1, [r0, #0]
  1326 0022 7047     		bx	lr
@@ -2032,7 +2032,7 @@
  1335              		.thumb_func
  1337              	SetEPRxCount:
  1338              	.LFB99:
- 550:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 550:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxCount(bEpNum, wCount);
  1339              		.loc 1 550 0 is_stmt 1
  1340              		.cfi_startproc
  1341              		@ args = 0, pretend = 0, frame = 0
@@ -2040,13 +2040,13 @@
  1343              		@ link register save eliminated.
  1344              	.LVL97:
  1345              	.LBB11:
- 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxCount(bEpNum, wCount);
+ 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1346              		.loc 1 551 0
  1347 0000 0C4B     		ldr	r3, .L112
  1348 0002 1A68     		ldr	r2, [r3, #0]
  1349              		.loc 1 758 0
  1350 0004 93B2     		uxth	r3, r2
- 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxCount(bEpNum, wCount);
+ 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1351              		.loc 1 551 0
  1352 0006 03EBC000 		add	r0, r3, r0, lsl #3
  1353              	.LVL98:
@@ -2057,27 +2057,27 @@
  1358              	.LBB12:
  1359 0010 3E29     		cmp	r1, #62
  1360 0012 08D9     		bls	.L104
- 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxCount(bEpNum, wCount);
+ 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1361              		.loc 1 551 0 is_stmt 0 discriminator 1
  1362 0014 4B09     		lsrs	r3, r1, #5
  1363              	.LVL100:
  1364 0016 C906     		lsls	r1, r1, #27
  1365              	.LVL101:
  1366 0018 01D1     		bne	.L105
- 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxCount(bEpNum, wCount);
+ 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1367              		.loc 1 551 0 discriminator 3
  1368 001a 581E     		subs	r0, r3, #1
  1369 001c 83B2     		uxth	r3, r0
  1370              	.LVL102:
  1371              	.L105:
- 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxCount(bEpNum, wCount);
+ 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1372              		.loc 1 551 0 discriminator 4
  1373 001e 9902     		lsls	r1, r3, #10
  1374 0020 41F40041 		orr	r1, r1, #32768
  1375 0024 04E0     		b	.L111
  1376              	.LVL103:
  1377              	.L104:
- 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxCount(bEpNum, wCount);
+ 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1378              		.loc 1 551 0 discriminator 2
  1379 0026 4B08     		lsrs	r3, r1, #1
  1380              	.LVL104:
@@ -2088,7 +2088,7 @@
  1385 002e 9902     		lsls	r1, r3, #10
  1386              	.LVL106:
  1387              	.L111:
- 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPRxCount(bEpNum, wCount);
+ 551:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1388              		.loc 1 551 0 discriminator 6
  1389 0030 1160     		str	r1, [r2, #0]
  1390 0032 7047     		bx	lr
@@ -2108,20 +2108,20 @@
  1405              		.thumb_func
  1407              	GetEPTxCount:
  1408              	.LFB100:
- 561:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 561:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPTxCount(bEpNum));
  1409              		.loc 1 561 0 is_stmt 1
  1410              		.cfi_startproc
  1411              		@ args = 0, pretend = 0, frame = 0
  1412              		@ frame_needed = 0, uses_anonymous_args = 0
  1413              		@ link register save eliminated.
  1414              	.LVL107:
- 562:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPTxCount(bEpNum));
+ 562:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1415              		.loc 1 562 0
  1416 0000 054B     		ldr	r3, .L115
  1417 0002 1968     		ldr	r1, [r3, #0]
  1418              		.loc 1 758 0
  1419 0004 8AB2     		uxth	r2, r1
- 562:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPTxCount(bEpNum));
+ 562:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1420              		.loc 1 562 0
  1421 0006 02EBC000 		add	r0, r2, r0, lsl #3
  1422              	.LVL108:
@@ -2130,7 +2130,7 @@
  1425 000e 4A00     		lsls	r2, r1, #1
  1426 0010 1068     		ldr	r0, [r2, #0]
  1427 0012 8305     		lsls	r3, r0, #22
- 563:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 563:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  1428              		.loc 1 563 0
  1429 0014 980D     		lsrs	r0, r3, #22
  1430 0016 7047     		bx	lr
@@ -2148,20 +2148,20 @@
  1443              		.thumb_func
  1445              	GetEPRxCount:
  1446              	.LFB101:
- 572:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 572:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPRxCount(bEpNum));
  1447              		.loc 1 572 0
  1448              		.cfi_startproc
  1449              		@ args = 0, pretend = 0, frame = 0
  1450              		@ frame_needed = 0, uses_anonymous_args = 0
  1451              		@ link register save eliminated.
  1452              	.LVL109:
- 573:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPRxCount(bEpNum));
+ 573:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1453              		.loc 1 573 0
  1454 0000 054B     		ldr	r3, .L118
  1455 0002 1968     		ldr	r1, [r3, #0]
  1456              		.loc 1 758 0
  1457 0004 8AB2     		uxth	r2, r1
- 573:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPRxCount(bEpNum));
+ 573:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1458              		.loc 1 573 0
  1459 0006 02EBC000 		add	r0, r2, r0, lsl #3
  1460              	.LVL110:
@@ -2170,7 +2170,7 @@
  1463 000e 4A00     		lsls	r2, r1, #1
  1464 0010 1068     		ldr	r0, [r2, #0]
  1465 0012 8305     		lsls	r3, r0, #22
- 574:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 574:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  1466              		.loc 1 574 0
  1467 0014 980D     		lsrs	r0, r3, #22
  1468 0016 7047     		bx	lr
@@ -2188,7 +2188,7 @@
  1481              		.thumb_func
  1483              	SetEPDblBuffAddr:
  1484              	.LFB102:
- 585:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 585:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffAddr(bEpNum, wBuf0Addr, wBuf1Addr);
  1485              		.loc 1 585 0
  1486              		.cfi_startproc
  1487              		@ args = 0, pretend = 0, frame = 0
@@ -2199,7 +2199,7 @@
  1492              		.cfi_def_cfa_offset 8
  1493              		.cfi_offset 4, -8
  1494              		.cfi_offset 14, -4
- 586:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffAddr(bEpNum, wBuf0Addr, wBuf1Addr);
+ 586:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1495              		.loc 1 586 0
  1496 0002 0B4B     		ldr	r3, .L121
  1497 0004 1C68     		ldr	r4, [r3, #0]
@@ -2207,7 +2207,7 @@
  1499              	.LVL112:
  1500              		.loc 1 758 0
  1501 0008 A4B2     		uxth	r4, r4
- 586:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffAddr(bEpNum, wBuf0Addr, wBuf1Addr);
+ 586:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1502              		.loc 1 586 0
  1503 000a 0419     		adds	r4, r0, r4
  1504 000c 04F10054 		add	r4, r4, #536870912
@@ -2220,7 +2220,7 @@
  1511 001c 1B68     		ldr	r3, [r3, #0]
  1512              		.loc 1 758 0
  1513 001e 99B2     		uxth	r1, r3
- 586:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffAddr(bEpNum, wBuf0Addr, wBuf1Addr);
+ 586:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1514              		.loc 1 586 0
  1515 0020 4018     		adds	r0, r0, r1
  1516 0022 044B     		ldr	r3, .L121+4
@@ -2245,20 +2245,20 @@
  1536              		.thumb_func
  1538              	SetEPDblBuf0Addr:
  1539              	.LFB103:
- 597:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 597:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Addr(bEpNum, wBuf0Addr);
  1540              		.loc 1 597 0
  1541              		.cfi_startproc
  1542              		@ args = 0, pretend = 0, frame = 0
  1543              		@ frame_needed = 0, uses_anonymous_args = 0
  1544              		@ link register save eliminated.
  1545              	.LVL115:
- 598:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Addr(bEpNum, wBuf0Addr);
+ 598:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1546              		.loc 1 598 0
  1547 0000 064B     		ldr	r3, .L124
  1548 0002 1A68     		ldr	r2, [r3, #0]
  1549              		.loc 1 758 0
  1550 0004 93B2     		uxth	r3, r2
- 598:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Addr(bEpNum, wBuf0Addr);
+ 598:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1551              		.loc 1 598 0
  1552 0006 03EBC000 		add	r0, r3, r0, lsl #3
  1553              	.LVL116:
@@ -2283,20 +2283,20 @@
  1573              		.thumb_func
  1575              	SetEPDblBuf1Addr:
  1576              	.LFB104:
- 609:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 609:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Addr(bEpNum, wBuf1Addr);
  1577              		.loc 1 609 0
  1578              		.cfi_startproc
  1579              		@ args = 0, pretend = 0, frame = 0
  1580              		@ frame_needed = 0, uses_anonymous_args = 0
  1581              		@ link register save eliminated.
  1582              	.LVL118:
- 610:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Addr(bEpNum, wBuf1Addr);
+ 610:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1583              		.loc 1 610 0
  1584 0000 054B     		ldr	r3, .L127
  1585 0002 1A68     		ldr	r2, [r3, #0]
  1586              		.loc 1 758 0
  1587 0004 93B2     		uxth	r3, r2
- 610:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Addr(bEpNum, wBuf1Addr);
+ 610:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1588              		.loc 1 610 0
  1589 0006 03EBC000 		add	r0, r3, r0, lsl #3
  1590              	.LVL119:
@@ -2322,27 +2322,27 @@
  1611              		.thumb_func
  1613              	GetEPDblBuf0Addr:
  1614              	.LFB105:
- 620:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 620:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf0Addr(bEpNum));
  1615              		.loc 1 620 0
  1616              		.cfi_startproc
  1617              		@ args = 0, pretend = 0, frame = 0
  1618              		@ frame_needed = 0, uses_anonymous_args = 0
  1619              		@ link register save eliminated.
  1620              	.LVL121:
- 621:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf0Addr(bEpNum));
+ 621:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1621              		.loc 1 621 0
  1622 0000 054B     		ldr	r3, .L130
  1623 0002 1968     		ldr	r1, [r3, #0]
  1624              		.loc 1 758 0
  1625 0004 8AB2     		uxth	r2, r1
- 621:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf0Addr(bEpNum));
+ 621:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1626              		.loc 1 621 0
  1627 0006 02EBC000 		add	r0, r2, r0, lsl #3
  1628              	.LVL122:
  1629 000a 00F10053 		add	r3, r0, #536870912
  1630 000e 03F54051 		add	r1, r3, #12288
  1631 0012 4A00     		lsls	r2, r1, #1
- 622:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 622:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  1632              		.loc 1 622 0
  1633 0014 1088     		ldrh	r0, [r2, #0]
  1634 0016 7047     		bx	lr
@@ -2359,27 +2359,27 @@
  1646              		.thumb_func
  1648              	GetEPDblBuf1Addr:
  1649              	.LFB106:
- 631:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 631:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf1Addr(bEpNum));
  1650              		.loc 1 631 0
  1651              		.cfi_startproc
  1652              		@ args = 0, pretend = 0, frame = 0
  1653              		@ frame_needed = 0, uses_anonymous_args = 0
  1654              		@ link register save eliminated.
  1655              	.LVL123:
- 632:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf1Addr(bEpNum));
+ 632:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1656              		.loc 1 632 0
  1657 0000 044B     		ldr	r3, .L133
  1658 0002 1968     		ldr	r1, [r3, #0]
  1659              		.loc 1 758 0
  1660 0004 8AB2     		uxth	r2, r1
- 632:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf1Addr(bEpNum));
+ 632:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1661              		.loc 1 632 0
  1662 0006 02EBC000 		add	r0, r2, r0, lsl #3
  1663              	.LVL124:
  1664 000a 034B     		ldr	r3, .L133+4
  1665 000c C118     		adds	r1, r0, r3
  1666 000e 4A00     		lsls	r2, r1, #1
- 633:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 633:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  1667              		.loc 1 633 0
  1668 0010 1088     		ldrh	r0, [r2, #0]
  1669 0012 7047     		bx	lr
@@ -2397,7 +2397,7 @@
  1682              		.thumb_func
  1684              	SetEPDblBuffCount:
  1685              	.LFB107:
- 643:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 643:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
  1686              		.loc 1 643 0
  1687              		.cfi_startproc
  1688              		@ args = 0, pretend = 0, frame = 0
@@ -2408,12 +2408,12 @@
  1693              		.cfi_def_cfa_offset 8
  1694              		.cfi_offset 4, -8
  1695              		.cfi_offset 14, -4
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1696              		.loc 1 644 0
  1697 0002 0129     		cmp	r1, #1
  1698 0004 24D1     		bne	.L136
  1699              	.LBB13:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1700              		.loc 1 644 0 is_stmt 0 discriminator 1
  1701 0006 2449     		ldr	r1, .L156
  1702              	.LVL126:
@@ -2422,7 +2422,7 @@
  1705              	.LVL127:
  1706              		.loc 1 758 0 is_stmt 1 discriminator 1
  1707 000c 99B2     		uxth	r1, r3
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1708              		.loc 1 644 0 discriminator 1
  1709 000e 0918     		adds	r1, r1, r0
  1710 0010 224B     		ldr	r3, .L156+4
@@ -2432,27 +2432,27 @@
  1714              	.LBB14:
  1715 0016 3E2A     		cmp	r2, #62
  1716 0018 09D9     		bls	.L137
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1717              		.loc 1 644 0 is_stmt 0 discriminator 3
  1718 001a 5309     		lsrs	r3, r2, #5
  1719              	.LVL129:
  1720 001c 12F01F0F 		tst	r2, #31
  1721 0020 01D1     		bne	.L138
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1722              		.loc 1 644 0 discriminator 5
  1723 0022 013B     		subs	r3, r3, #1
  1724              	.LVL130:
  1725 0024 9BB2     		uxth	r3, r3
  1726              	.LVL131:
  1727              	.L138:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1728              		.loc 1 644 0 discriminator 6
  1729 0026 9B02     		lsls	r3, r3, #10
  1730              	.LVL132:
  1731 0028 43F40043 		orr	r3, r3, #32768
  1732 002c 05E0     		b	.L153
  1733              	.L137:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1734              		.loc 1 644 0 discriminator 4
  1735 002e 5308     		lsrs	r3, r2, #1
  1736              	.LVL133:
@@ -2463,7 +2463,7 @@
  1741 0038 9B02     		lsls	r3, r3, #10
  1742              	.LVL135:
  1743              	.L153:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1744              		.loc 1 644 0 discriminator 8
  1745 003a 0B60     		str	r3, [r1, #0]
  1746              	.LBE14:
@@ -2474,7 +2474,7 @@
  1751 003e 0B68     		ldr	r3, [r1, #0]
  1752              		.loc 1 758 0 is_stmt 1 discriminator 8
  1753 0040 99B2     		uxth	r1, r3
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1754              		.loc 1 644 0 discriminator 8
  1755 0042 0818     		adds	r0, r1, r0
  1756 0044 164B     		ldr	r3, .L156+8
@@ -2489,11 +2489,11 @@
  1765              	.L136:
  1766              	.LBE16:
  1767              	.LBE15:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1768              		.loc 1 644 0 is_stmt 0 discriminator 2
  1769 0050 0229     		cmp	r1, #2
  1770 0052 20D1     		bne	.L135
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1771              		.loc 1 644 0 discriminator 9
  1772 0054 1049     		ldr	r1, .L156
  1773              	.LVL139:
@@ -2502,7 +2502,7 @@
  1776              	.LVL140:
  1777              		.loc 1 758 0 is_stmt 1 discriminator 9
  1778 005a A3B2     		uxth	r3, r4
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1779              		.loc 1 644 0 discriminator 9
  1780 005c C418     		adds	r4, r0, r3
  1781 005e 0F4B     		ldr	r3, .L156+4
@@ -2512,7 +2512,7 @@
  1785 0066 0968     		ldr	r1, [r1, #0]
  1786              		.loc 1 758 0 discriminator 9
  1787 0068 8BB2     		uxth	r3, r1
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1788              		.loc 1 644 0 discriminator 9
  1789 006a C018     		adds	r0, r0, r3
  1790 006c 0C49     		ldr	r1, .L156+8
@@ -2524,27 +2524,27 @@
  1796              	.L144:
  1797              	.LBB18:
  1798              	.LBB17:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1799              		.loc 1 644 0 is_stmt 0 discriminator 13
  1800 0076 5109     		lsrs	r1, r2, #5
  1801              	.LVL142:
  1802 0078 D206     		lsls	r2, r2, #27
  1803              	.LVL143:
  1804 007a 01D1     		bne	.L142
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1805              		.loc 1 644 0 discriminator 15
  1806 007c 481E     		subs	r0, r1, #1
  1807 007e 81B2     		uxth	r1, r0
  1808              	.LVL144:
  1809              	.L142:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1810              		.loc 1 644 0 discriminator 16
  1811 0080 8A02     		lsls	r2, r1, #10
  1812 0082 42F40042 		orr	r2, r2, #32768
  1813 0086 04E0     		b	.L154
  1814              	.LVL145:
  1815              	.L155:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1816              		.loc 1 644 0 discriminator 14
  1817 0088 5108     		lsrs	r1, r2, #1
  1818              	.LVL146:
@@ -2555,7 +2555,7 @@
  1823 0090 8A02     		lsls	r2, r1, #10
  1824              	.LVL148:
  1825              	.L154:
- 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuffCount(bEpNum, bDir, wCount);
+ 644:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1826              		.loc 1 644 0 discriminator 18
  1827 0092 1A60     		str	r2, [r3, #0]
  1828 0094 10BD     		pop	{r4, pc}
@@ -2579,26 +2579,26 @@
  1847              		.thumb_func
  1849              	SetEPDblBuf0Count:
  1850              	.LFB108:
- 655:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 655:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
  1851              		.loc 1 655 0 is_stmt 1
  1852              		.cfi_startproc
  1853              		@ args = 0, pretend = 0, frame = 0
  1854              		@ frame_needed = 0, uses_anonymous_args = 0
  1855              		@ link register save eliminated.
  1856              	.LVL150:
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1857              		.loc 1 656 0
  1858 0000 0129     		cmp	r1, #1
  1859 0002 19D1     		bne	.L159
  1860              	.LBB19:
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1861              		.loc 1 656 0 is_stmt 0 discriminator 1
  1862 0004 1249     		ldr	r1, .L168
  1863              	.LVL151:
  1864 0006 0B68     		ldr	r3, [r1, #0]
  1865              		.loc 1 758 0 is_stmt 1 discriminator 1
  1866 0008 99B2     		uxth	r1, r3
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1867              		.loc 1 656 0 discriminator 1
  1868 000a 01EBC000 		add	r0, r1, r0, lsl #3
  1869              	.LVL152:
@@ -2609,20 +2609,20 @@
  1874              	.LBB20:
  1875 0014 3E2A     		cmp	r2, #62
  1876 0016 08D9     		bls	.L160
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1877              		.loc 1 656 0 is_stmt 0 discriminator 3
  1878 0018 5309     		lsrs	r3, r2, #5
  1879              	.LVL154:
  1880 001a D006     		lsls	r0, r2, #27
  1881 001c 01D1     		bne	.L161
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1882              		.loc 1 656 0 discriminator 5
  1883 001e 013B     		subs	r3, r3, #1
  1884              	.LVL155:
  1885 0020 9BB2     		uxth	r3, r3
  1886              	.LVL156:
  1887              	.L161:
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1888              		.loc 1 656 0 discriminator 6
  1889 0022 9802     		lsls	r0, r3, #10
  1890 0024 40F40042 		orr	r2, r0, #32768
@@ -2630,7 +2630,7 @@
  1892 0028 04E0     		b	.L167
  1893              	.LVL158:
  1894              	.L160:
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1895              		.loc 1 656 0 discriminator 4
  1896 002a 5008     		lsrs	r0, r2, #1
  1897              	.LVL159:
@@ -2642,7 +2642,7 @@
  1903 0032 8202     		lsls	r2, r0, #10
  1904              	.LVL162:
  1905              	.L167:
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1906              		.loc 1 656 0 discriminator 8
  1907 0034 0A60     		str	r2, [r1, #0]
  1908 0036 7047     		bx	lr
@@ -2650,18 +2650,18 @@
  1910              	.L159:
  1911              	.LBE20:
  1912              	.LBE19:
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1913              		.loc 1 656 0 discriminator 2
  1914 0038 0229     		cmp	r1, #2
  1915 003a 08D1     		bne	.L158
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1916              		.loc 1 656 0 discriminator 9
  1917 003c 044B     		ldr	r3, .L168
  1918 003e 1968     		ldr	r1, [r3, #0]
  1919              	.LVL164:
  1920              		.loc 1 758 0 is_stmt 1 discriminator 9
  1921 0040 8BB2     		uxth	r3, r1
- 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
+ 656:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1922              		.loc 1 656 0 discriminator 9
  1923 0042 03EBC000 		add	r0, r3, r0, lsl #3
  1924              	.LVL165:
@@ -2685,26 +2685,26 @@
  1943              		.thumb_func
  1945              	SetEPDblBuf1Count:
  1946              	.LFB109:
- 667:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 667:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
  1947              		.loc 1 667 0
  1948              		.cfi_startproc
  1949              		@ args = 0, pretend = 0, frame = 0
  1950              		@ frame_needed = 0, uses_anonymous_args = 0
  1951              		@ link register save eliminated.
  1952              	.LVL166:
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1953              		.loc 1 668 0
  1954 0000 0129     		cmp	r1, #1
  1955 0002 19D1     		bne	.L171
  1956              	.LBB21:
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1957              		.loc 1 668 0 is_stmt 0 discriminator 1
  1958 0004 1249     		ldr	r1, .L180
  1959              	.LVL167:
  1960 0006 0B68     		ldr	r3, [r1, #0]
  1961              		.loc 1 758 0 is_stmt 1 discriminator 1
  1962 0008 99B2     		uxth	r1, r3
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1963              		.loc 1 668 0 discriminator 1
  1964 000a 01EBC000 		add	r0, r1, r0, lsl #3
  1965              	.LVL168:
@@ -2715,20 +2715,20 @@
  1970              	.LBB22:
  1971 0014 3E2A     		cmp	r2, #62
  1972 0016 08D9     		bls	.L172
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1973              		.loc 1 668 0 is_stmt 0 discriminator 3
  1974 0018 5309     		lsrs	r3, r2, #5
  1975              	.LVL170:
  1976 001a D006     		lsls	r0, r2, #27
  1977 001c 01D1     		bne	.L173
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1978              		.loc 1 668 0 discriminator 5
  1979 001e 013B     		subs	r3, r3, #1
  1980              	.LVL171:
  1981 0020 9BB2     		uxth	r3, r3
  1982              	.LVL172:
  1983              	.L173:
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1984              		.loc 1 668 0 discriminator 6
  1985 0022 9802     		lsls	r0, r3, #10
  1986 0024 40F40042 		orr	r2, r0, #32768
@@ -2736,7 +2736,7 @@
  1988 0028 04E0     		b	.L179
  1989              	.LVL174:
  1990              	.L172:
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  1991              		.loc 1 668 0 discriminator 4
  1992 002a 5008     		lsrs	r0, r2, #1
  1993              	.LVL175:
@@ -2748,7 +2748,7 @@
  1999 0032 8202     		lsls	r2, r0, #10
  2000              	.LVL178:
  2001              	.L179:
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  2002              		.loc 1 668 0 discriminator 8
  2003 0034 0A60     		str	r2, [r1, #0]
  2004 0036 7047     		bx	lr
@@ -2756,18 +2756,18 @@
  2006              	.L171:
  2007              	.LBE22:
  2008              	.LBE21:
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  2009              		.loc 1 668 0 discriminator 2
  2010 0038 0229     		cmp	r1, #2
  2011 003a 08D1     		bne	.L170
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  2012              		.loc 1 668 0 discriminator 9
  2013 003c 044B     		ldr	r3, .L180
  2014 003e 1968     		ldr	r1, [r3, #0]
  2015              	.LVL180:
  2016              		.loc 1 758 0 is_stmt 1 discriminator 9
  2017 0040 8BB2     		uxth	r3, r1
- 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
+ 668:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  2018              		.loc 1 668 0 discriminator 9
  2019 0042 03EBC000 		add	r0, r3, r0, lsl #3
  2020              	.LVL181:
@@ -2791,20 +2791,20 @@
  2039              		.thumb_func
  2041              	GetEPDblBuf0Count:
  2042              	.LFB110:
- 679:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 679:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf0Count(bEpNum));
  2043              		.loc 1 679 0
  2044              		.cfi_startproc
  2045              		@ args = 0, pretend = 0, frame = 0
  2046              		@ frame_needed = 0, uses_anonymous_args = 0
  2047              		@ link register save eliminated.
  2048              	.LVL182:
- 680:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf0Count(bEpNum));
+ 680:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  2049              		.loc 1 680 0
  2050 0000 054B     		ldr	r3, .L183
  2051 0002 1968     		ldr	r1, [r3, #0]
  2052              		.loc 1 758 0
  2053 0004 8AB2     		uxth	r2, r1
- 680:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf0Count(bEpNum));
+ 680:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  2054              		.loc 1 680 0
  2055 0006 02EBC000 		add	r0, r2, r0, lsl #3
  2056              	.LVL183:
@@ -2813,7 +2813,7 @@
  2059 000e 4A00     		lsls	r2, r1, #1
  2060 0010 1068     		ldr	r0, [r2, #0]
  2061 0012 8305     		lsls	r3, r0, #22
- 681:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 681:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  2062              		.loc 1 681 0
  2063 0014 980D     		lsrs	r0, r3, #22
  2064 0016 7047     		bx	lr
@@ -2831,20 +2831,20 @@
  2077              		.thumb_func
  2079              	GetEPDblBuf1Count:
  2080              	.LFB111:
- 691:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 691:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf1Count(bEpNum));
  2081              		.loc 1 691 0
  2082              		.cfi_startproc
  2083              		@ args = 0, pretend = 0, frame = 0
  2084              		@ frame_needed = 0, uses_anonymous_args = 0
  2085              		@ link register save eliminated.
  2086              	.LVL184:
- 692:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf1Count(bEpNum));
+ 692:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  2087              		.loc 1 692 0
  2088 0000 054B     		ldr	r3, .L186
  2089 0002 1968     		ldr	r1, [r3, #0]
  2090              		.loc 1 758 0
  2091 0004 8AB2     		uxth	r2, r1
- 692:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(_GetEPDblBuf1Count(bEpNum));
+ 692:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
  2092              		.loc 1 692 0
  2093 0006 02EBC000 		add	r0, r2, r0, lsl #3
  2094              	.LVL185:
@@ -2853,7 +2853,7 @@
  2097 000e 4A00     		lsls	r2, r1, #1
  2098 0010 1068     		ldr	r0, [r2, #0]
  2099 0012 8305     		lsls	r3, r0, #22
- 693:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 693:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  2100              		.loc 1 693 0
  2101 0014 980D     		lsrs	r0, r3, #22
  2102 0016 7047     		bx	lr
@@ -2871,14 +2871,14 @@
  2115              		.thumb_func
  2117              	GetEPDblBufDir:
  2118              	.LFB112:
- 703:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 703:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   if ((uint16_t)(*_pEPRxCount(bEpNum) & 0xFC00) != 0)
  2119              		.loc 1 703 0
  2120              		.cfi_startproc
  2121              		@ args = 0, pretend = 0, frame = 0
  2122              		@ frame_needed = 0, uses_anonymous_args = 0
  2123              		@ link register save eliminated.
  2124              	.LVL186:
- 704:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   if ((uint16_t)(*_pEPRxCount(bEpNum) & 0xFC00) != 0)
+ 704:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****     return(EP_DBUF_OUT);
  2125              		.loc 1 704 0
  2126 0000 0C4A     		ldr	r2, .L192
  2127 0002 1368     		ldr	r3, [r2, #0]
@@ -2886,7 +2886,7 @@
  2129              	.LVL187:
  2130              		.loc 1 758 0
  2131 0006 99B2     		uxth	r1, r3
- 704:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   if ((uint16_t)(*_pEPRxCount(bEpNum) & 0xFC00) != 0)
+ 704:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****     return(EP_DBUF_OUT);
  2132              		.loc 1 704 0
  2133 0008 4118     		adds	r1, r0, r1
  2134 000a 0B4B     		ldr	r3, .L192+4
@@ -2895,12 +2895,12 @@
  2137 0010 1968     		ldr	r1, [r3, #0]
  2138 0012 11F47C4F 		tst	r1, #64512
  2139 0016 0BD1     		bne	.L190
- 706:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   else if (((uint16_t)(*_pEPTxCount(bEpNum)) & 0x03FF) != 0)
+ 706:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****     return(EP_DBUF_IN);
  2140              		.loc 1 706 0
  2141 0018 1268     		ldr	r2, [r2, #0]
  2142              		.loc 1 758 0
  2143 001a 93B2     		uxth	r3, r2
- 706:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   else if (((uint16_t)(*_pEPTxCount(bEpNum)) & 0x03FF) != 0)
+ 706:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****     return(EP_DBUF_IN);
  2144              		.loc 1 706 0
  2145 001c C018     		adds	r0, r0, r3
  2146 001e 0749     		ldr	r1, .L192+8
@@ -2908,17 +2908,17 @@
  2148 0022 5300     		lsls	r3, r2, #1
  2149 0024 1868     		ldr	r0, [r3, #0]
  2150 0026 8305     		lsls	r3, r0, #22
- 707:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****     return(EP_DBUF_IN);
+ 707:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   else
  2151              		.loc 1 707 0
  2152 0028 0CBF     		ite	eq
  2153 002a 0020     		moveq	r0, #0
  2154 002c 0220     		movne	r0, #2
  2155 002e 7047     		bx	lr
  2156              	.L190:
- 705:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****     return(EP_DBUF_OUT);
+ 705:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   else if (((uint16_t)(*_pEPTxCount(bEpNum)) & 0x03FF) != 0)
  2157              		.loc 1 705 0
  2158 0030 0120     		movs	r0, #1
- 710:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 710:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  2159              		.loc 1 710 0
  2160 0032 7047     		bx	lr
  2161              	.L193:
@@ -2936,18 +2936,18 @@
  2174              		.thumb_func
  2176              	FreeUserBuffer:
  2177              	.LFB113:
- 720:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 720:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   if (bDir == EP_DBUF_OUT)
  2178              		.loc 1 720 0
  2179              		.cfi_startproc
  2180              		@ args = 0, pretend = 0, frame = 0
  2181              		@ frame_needed = 0, uses_anonymous_args = 0
  2182              		@ link register save eliminated.
  2183              	.LVL188:
- 721:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   if (bDir == EP_DBUF_OUT)
+ 721:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   { /* OUT double buffered endpoint */
  2184              		.loc 1 721 0
  2185 0000 0129     		cmp	r1, #1
  2186 0002 0DD1     		bne	.L195
- 723:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****     _ToggleDTOG_TX(bEpNum);
+ 723:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   }
  2187              		.loc 1 723 0
  2188 0004 8000     		lsls	r0, r0, #2
  2189              	.LVL189:
@@ -2962,11 +2962,11 @@
  2198 001e 0EE0     		b	.L197
  2199              	.LVL191:
  2200              	.L195:
- 725:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   else if (bDir == EP_DBUF_IN)
+ 725:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   { /* IN double buffered endpoint */
  2201              		.loc 1 725 0
  2202 0020 0229     		cmp	r1, #2
  2203 0022 0DD1     		bne	.L194
- 727:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****     _ToggleDTOG_RX(bEpNum);
+ 727:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   }
  2204              		.loc 1 727 0
  2205 0024 8000     		lsls	r0, r0, #2
  2206              	.LVL192:
@@ -2991,7 +2991,7 @@
  2226              		.thumb_func
  2228              	ToWord:
  2229              	.LFB114:
- 739:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 739:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   uint16_t wRet;
  2230              		.loc 1 739 0
  2231              		.cfi_startproc
  2232              		@ args = 0, pretend = 0, frame = 0
@@ -2999,7 +2999,7 @@
  2234              		@ link register save eliminated.
  2235              	.LVL194:
  2236              	.LVL195:
- 743:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** }
+ 743:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** /*******************************************************************************
  2237              		.loc 1 743 0
  2238 0000 41EA0020 		orr	r0, r1, r0, lsl #8
  2239              	.LVL196:
@@ -3013,7 +3013,7 @@
  2248              		.thumb_func
  2250              	ByteSwap:
  2251              	.LFB115:
- 752:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c **** {
+ 752:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   uint8_t bTemp;
  2252              		.loc 1 752 0
  2253              		.cfi_startproc
  2254              		@ args = 0, pretend = 0, frame = 0
@@ -3021,7 +3021,7 @@
  2256              		@ link register save eliminated.
  2257              	.LVL197:
  2258              	.LVL198:
- 756:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   wRet =  (wSwW >> 8) | ((uint16_t)bTemp << 8);
+ 756:lib/STM32_USB-FS-Device_Driver/src/usb_regs.c ****   return(wRet);
  2259              		.loc 1 756 0
  2260 0000 C3B2     		uxtb	r3, r0
  2261 0002 000A     		lsrs	r0, r0, #8
@@ -3033,158 +3033,158 @@
  2267              	.LFE115:
  2269              		.text
  2270              	.Letext0:
- 2271              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 2271              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  2272              		.file 3 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
  2273              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  2274              		.file 5 "./inc/systick.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_regs.c
-  R:\TEMP\ccQDjVTS.s:19     .text.SetCNTR:00000000 $t
-  R:\TEMP\ccQDjVTS.s:24     .text.SetCNTR:00000000 SetCNTR
-  R:\TEMP\ccQDjVTS.s:40     .text.SetCNTR:00000008 $d
-  R:\TEMP\ccQDjVTS.s:45     .text.GetCNTR:00000000 $t
-  R:\TEMP\ccQDjVTS.s:50     .text.GetCNTR:00000000 GetCNTR
-  R:\TEMP\ccQDjVTS.s:66     .text.GetCNTR:00000008 $d
-  R:\TEMP\ccQDjVTS.s:71     .text.SetISTR:00000000 $t
-  R:\TEMP\ccQDjVTS.s:76     .text.SetISTR:00000000 SetISTR
-  R:\TEMP\ccQDjVTS.s:91     .text.SetISTR:00000008 $d
-  R:\TEMP\ccQDjVTS.s:96     .text.GetISTR:00000000 $t
-  R:\TEMP\ccQDjVTS.s:101    .text.GetISTR:00000000 GetISTR
-  R:\TEMP\ccQDjVTS.s:117    .text.GetISTR:00000008 $d
-  R:\TEMP\ccQDjVTS.s:122    .text.GetFNR:00000000 $t
-  R:\TEMP\ccQDjVTS.s:127    .text.GetFNR:00000000 GetFNR
-  R:\TEMP\ccQDjVTS.s:143    .text.GetFNR:00000008 $d
-  R:\TEMP\ccQDjVTS.s:148    .text.SetDADDR:00000000 $t
-  R:\TEMP\ccQDjVTS.s:153    .text.SetDADDR:00000000 SetDADDR
-  R:\TEMP\ccQDjVTS.s:168    .text.SetDADDR:00000008 $d
-  R:\TEMP\ccQDjVTS.s:173    .text.GetDADDR:00000000 $t
-  R:\TEMP\ccQDjVTS.s:178    .text.GetDADDR:00000000 GetDADDR
-  R:\TEMP\ccQDjVTS.s:194    .text.GetDADDR:00000008 $d
-  R:\TEMP\ccQDjVTS.s:199    .text.SetBTABLE:00000000 $t
-  R:\TEMP\ccQDjVTS.s:204    .text.SetBTABLE:00000000 SetBTABLE
-  R:\TEMP\ccQDjVTS.s:221    .text.SetBTABLE:0000000c $d
-  R:\TEMP\ccQDjVTS.s:226    .text.GetBTABLE:00000000 $t
-  R:\TEMP\ccQDjVTS.s:231    .text.GetBTABLE:00000000 GetBTABLE
-  R:\TEMP\ccQDjVTS.s:247    .text.GetBTABLE:00000008 $d
-  R:\TEMP\ccQDjVTS.s:252    .text.SetENDPOINT:00000000 $t
-  R:\TEMP\ccQDjVTS.s:257    .text.SetENDPOINT:00000000 SetENDPOINT
-  R:\TEMP\ccQDjVTS.s:276    .text.GetENDPOINT:00000000 $t
-  R:\TEMP\ccQDjVTS.s:281    .text.GetENDPOINT:00000000 GetENDPOINT
-  R:\TEMP\ccQDjVTS.s:302    .text.SetEPType:00000000 $t
-  R:\TEMP\ccQDjVTS.s:307    .text.SetEPType:00000000 SetEPType
-  R:\TEMP\ccQDjVTS.s:331    .text.GetEPType:00000000 $t
-  R:\TEMP\ccQDjVTS.s:336    .text.GetEPType:00000000 GetEPType
-  R:\TEMP\ccQDjVTS.s:357    .text.SetEPTxStatus:00000000 $t
-  R:\TEMP\ccQDjVTS.s:362    .text.SetEPTxStatus:00000000 SetEPTxStatus
-  R:\TEMP\ccQDjVTS.s:411    .text.SetEPRxStatus:00000000 $t
-  R:\TEMP\ccQDjVTS.s:416    .text.SetEPRxStatus:00000000 SetEPRxStatus
-  R:\TEMP\ccQDjVTS.s:465    .text.SetDouBleBuffEPStall:00000000 $t
-  R:\TEMP\ccQDjVTS.s:470    .text.SetDouBleBuffEPStall:00000000 SetDouBleBuffEPStall
-  R:\TEMP\ccQDjVTS.s:510    .text.GetEPTxStatus:00000000 $t
-  R:\TEMP\ccQDjVTS.s:515    .text.GetEPTxStatus:00000000 GetEPTxStatus
-  R:\TEMP\ccQDjVTS.s:536    .text.GetEPRxStatus:00000000 $t
-  R:\TEMP\ccQDjVTS.s:541    .text.GetEPRxStatus:00000000 GetEPRxStatus
-  R:\TEMP\ccQDjVTS.s:562    .text.SetEPTxValid:00000000 $t
-  R:\TEMP\ccQDjVTS.s:567    .text.SetEPTxValid:00000000 SetEPTxValid
-  R:\TEMP\ccQDjVTS.s:596    .text.SetEPRxValid:00000000 $t
-  R:\TEMP\ccQDjVTS.s:601    .text.SetEPRxValid:00000000 SetEPRxValid
-  R:\TEMP\ccQDjVTS.s:630    .text.SetEP_KIND:00000000 $t
-  R:\TEMP\ccQDjVTS.s:635    .text.SetEP_KIND:00000000 SetEP_KIND
-  R:\TEMP\ccQDjVTS.s:659    .text.ClearEP_KIND:00000000 $t
-  R:\TEMP\ccQDjVTS.s:664    .text.ClearEP_KIND:00000000 ClearEP_KIND
-  R:\TEMP\ccQDjVTS.s:688    .text.Clear_Status_Out:00000000 $t
-  R:\TEMP\ccQDjVTS.s:693    .text.Clear_Status_Out:00000000 Clear_Status_Out
-  R:\TEMP\ccQDjVTS.s:717    .text.Set_Status_Out:00000000 $t
-  R:\TEMP\ccQDjVTS.s:722    .text.Set_Status_Out:00000000 Set_Status_Out
-  R:\TEMP\ccQDjVTS.s:746    .text.SetEPDoubleBuff:00000000 $t
-  R:\TEMP\ccQDjVTS.s:751    .text.SetEPDoubleBuff:00000000 SetEPDoubleBuff
-  R:\TEMP\ccQDjVTS.s:775    .text.ClearEPDoubleBuff:00000000 $t
-  R:\TEMP\ccQDjVTS.s:780    .text.ClearEPDoubleBuff:00000000 ClearEPDoubleBuff
-  R:\TEMP\ccQDjVTS.s:804    .text.GetTxStallStatus:00000000 $t
-  R:\TEMP\ccQDjVTS.s:809    .text.GetTxStallStatus:00000000 GetTxStallStatus
-  R:\TEMP\ccQDjVTS.s:833    .text.GetRxStallStatus:00000000 $t
-  R:\TEMP\ccQDjVTS.s:838    .text.GetRxStallStatus:00000000 GetRxStallStatus
-  R:\TEMP\ccQDjVTS.s:862    .text.ClearEP_CTR_RX:00000000 $t
-  R:\TEMP\ccQDjVTS.s:867    .text.ClearEP_CTR_RX:00000000 ClearEP_CTR_RX
-  R:\TEMP\ccQDjVTS.s:889    .text.ClearEP_CTR_TX:00000000 $t
-  R:\TEMP\ccQDjVTS.s:894    .text.ClearEP_CTR_TX:00000000 ClearEP_CTR_TX
-  R:\TEMP\ccQDjVTS.s:916    .text.ToggleDTOG_RX:00000000 $t
-  R:\TEMP\ccQDjVTS.s:921    .text.ToggleDTOG_RX:00000000 ToggleDTOG_RX
-  R:\TEMP\ccQDjVTS.s:945    .text.ToggleDTOG_TX:00000000 $t
-  R:\TEMP\ccQDjVTS.s:950    .text.ToggleDTOG_TX:00000000 ToggleDTOG_TX
-  R:\TEMP\ccQDjVTS.s:974    .text.ClearDTOG_RX:00000000 $t
-  R:\TEMP\ccQDjVTS.s:979    .text.ClearDTOG_RX:00000000 ClearDTOG_RX
-  R:\TEMP\ccQDjVTS.s:1008   .text.ClearDTOG_TX:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1013   .text.ClearDTOG_TX:00000000 ClearDTOG_TX
-  R:\TEMP\ccQDjVTS.s:1042   .text.SetEPAddress:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1047   .text.SetEPAddress:00000000 SetEPAddress
-  R:\TEMP\ccQDjVTS.s:1073   .text.GetEPAddress:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1078   .text.GetEPAddress:00000000 GetEPAddress
-  R:\TEMP\ccQDjVTS.s:1099   .text.SetEPTxAddr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1104   .text.SetEPTxAddr:00000000 SetEPTxAddr
-  R:\TEMP\ccQDjVTS.s:1131   .text.SetEPTxAddr:0000001c $d
-  R:\TEMP\ccQDjVTS.s:1136   .text.SetEPRxAddr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1141   .text.SetEPRxAddr:00000000 SetEPRxAddr
-  R:\TEMP\ccQDjVTS.s:1168   .text.SetEPRxAddr:00000018 $d
-  R:\TEMP\ccQDjVTS.s:1174   .text.GetEPTxAddr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1179   .text.GetEPTxAddr:00000000 GetEPTxAddr
-  R:\TEMP\ccQDjVTS.s:1204   .text.GetEPTxAddr:00000018 $d
-  R:\TEMP\ccQDjVTS.s:1209   .text.GetEPRxAddr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1214   .text.GetEPRxAddr:00000000 GetEPRxAddr
-  R:\TEMP\ccQDjVTS.s:1239   .text.GetEPRxAddr:00000014 $d
-  R:\TEMP\ccQDjVTS.s:1245   .text.SetEPTxCount:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1250   .text.SetEPTxCount:00000000 SetEPTxCount
-  R:\TEMP\ccQDjVTS.s:1274   .text.SetEPTxCount:00000014 $d
-  R:\TEMP\ccQDjVTS.s:1280   .text.SetEPCountRxReg:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1285   .text.SetEPCountRxReg:00000000 SetEPCountRxReg
-  R:\TEMP\ccQDjVTS.s:1332   .text.SetEPRxCount:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1337   .text.SetEPRxCount:00000000 SetEPRxCount
-  R:\TEMP\ccQDjVTS.s:1394   .text.SetEPRxCount:00000034 $d
-  R:\TEMP\ccQDjVTS.s:1402   .text.GetEPTxCount:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1407   .text.GetEPTxCount:00000000 GetEPTxCount
-  R:\TEMP\ccQDjVTS.s:1434   .text.GetEPTxCount:00000018 $d
-  R:\TEMP\ccQDjVTS.s:1440   .text.GetEPRxCount:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1445   .text.GetEPRxCount:00000000 GetEPRxCount
-  R:\TEMP\ccQDjVTS.s:1472   .text.GetEPRxCount:00000018 $d
-  R:\TEMP\ccQDjVTS.s:1478   .text.SetEPDblBuffAddr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1483   .text.SetEPDblBuffAddr:00000000 SetEPDblBuffAddr
-  R:\TEMP\ccQDjVTS.s:1527   .text.SetEPDblBuffAddr:00000030 $d
-  R:\TEMP\ccQDjVTS.s:1533   .text.SetEPDblBuf0Addr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1538   .text.SetEPDblBuf0Addr:00000000 SetEPDblBuf0Addr
-  R:\TEMP\ccQDjVTS.s:1565   .text.SetEPDblBuf0Addr:0000001c $d
-  R:\TEMP\ccQDjVTS.s:1570   .text.SetEPDblBuf1Addr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1575   .text.SetEPDblBuf1Addr:00000000 SetEPDblBuf1Addr
-  R:\TEMP\ccQDjVTS.s:1602   .text.SetEPDblBuf1Addr:00000018 $d
-  R:\TEMP\ccQDjVTS.s:1608   .text.GetEPDblBuf0Addr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1613   .text.GetEPDblBuf0Addr:00000000 GetEPDblBuf0Addr
-  R:\TEMP\ccQDjVTS.s:1638   .text.GetEPDblBuf0Addr:00000018 $d
-  R:\TEMP\ccQDjVTS.s:1643   .text.GetEPDblBuf1Addr:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1648   .text.GetEPDblBuf1Addr:00000000 GetEPDblBuf1Addr
-  R:\TEMP\ccQDjVTS.s:1673   .text.GetEPDblBuf1Addr:00000014 $d
-  R:\TEMP\ccQDjVTS.s:1679   .text.SetEPDblBuffCount:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1684   .text.SetEPDblBuffCount:00000000 SetEPDblBuffCount
-  R:\TEMP\ccQDjVTS.s:1835   .text.SetEPDblBuffCount:00000098 $d
-  R:\TEMP\ccQDjVTS.s:1844   .text.SetEPDblBuf0Count:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1849   .text.SetEPDblBuf0Count:00000000 SetEPDblBuf0Count
-  R:\TEMP\ccQDjVTS.s:1934   .text.SetEPDblBuf0Count:00000050 $d
-  R:\TEMP\ccQDjVTS.s:1940   .text.SetEPDblBuf1Count:00000000 $t
-  R:\TEMP\ccQDjVTS.s:1945   .text.SetEPDblBuf1Count:00000000 SetEPDblBuf1Count
-  R:\TEMP\ccQDjVTS.s:2030   .text.SetEPDblBuf1Count:00000050 $d
-  R:\TEMP\ccQDjVTS.s:2036   .text.GetEPDblBuf0Count:00000000 $t
-  R:\TEMP\ccQDjVTS.s:2041   .text.GetEPDblBuf0Count:00000000 GetEPDblBuf0Count
-  R:\TEMP\ccQDjVTS.s:2068   .text.GetEPDblBuf0Count:00000018 $d
-  R:\TEMP\ccQDjVTS.s:2074   .text.GetEPDblBuf1Count:00000000 $t
-  R:\TEMP\ccQDjVTS.s:2079   .text.GetEPDblBuf1Count:00000000 GetEPDblBuf1Count
-  R:\TEMP\ccQDjVTS.s:2106   .text.GetEPDblBuf1Count:00000018 $d
-  R:\TEMP\ccQDjVTS.s:2112   .text.GetEPDblBufDir:00000000 $t
-  R:\TEMP\ccQDjVTS.s:2117   .text.GetEPDblBufDir:00000000 GetEPDblBufDir
-  R:\TEMP\ccQDjVTS.s:2164   .text.GetEPDblBufDir:00000034 $d
-  R:\TEMP\ccQDjVTS.s:2171   .text.FreeUserBuffer:00000000 $t
-  R:\TEMP\ccQDjVTS.s:2176   .text.FreeUserBuffer:00000000 FreeUserBuffer
-  R:\TEMP\ccQDjVTS.s:2223   .text.ToWord:00000000 $t
-  R:\TEMP\ccQDjVTS.s:2228   .text.ToWord:00000000 ToWord
-  R:\TEMP\ccQDjVTS.s:2245   .text.ByteSwap:00000000 $t
-  R:\TEMP\ccQDjVTS.s:2250   .text.ByteSwap:00000000 ByteSwap
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_regs.c
+  R:\TEMP\ccZAJgGN.s:19     .text.SetCNTR:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:24     .text.SetCNTR:0000000000000000 SetCNTR
+  R:\TEMP\ccZAJgGN.s:40     .text.SetCNTR:0000000000000008 $d
+  R:\TEMP\ccZAJgGN.s:45     .text.GetCNTR:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:50     .text.GetCNTR:0000000000000000 GetCNTR
+  R:\TEMP\ccZAJgGN.s:66     .text.GetCNTR:0000000000000008 $d
+  R:\TEMP\ccZAJgGN.s:71     .text.SetISTR:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:76     .text.SetISTR:0000000000000000 SetISTR
+  R:\TEMP\ccZAJgGN.s:91     .text.SetISTR:0000000000000008 $d
+  R:\TEMP\ccZAJgGN.s:96     .text.GetISTR:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:101    .text.GetISTR:0000000000000000 GetISTR
+  R:\TEMP\ccZAJgGN.s:117    .text.GetISTR:0000000000000008 $d
+  R:\TEMP\ccZAJgGN.s:122    .text.GetFNR:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:127    .text.GetFNR:0000000000000000 GetFNR
+  R:\TEMP\ccZAJgGN.s:143    .text.GetFNR:0000000000000008 $d
+  R:\TEMP\ccZAJgGN.s:148    .text.SetDADDR:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:153    .text.SetDADDR:0000000000000000 SetDADDR
+  R:\TEMP\ccZAJgGN.s:168    .text.SetDADDR:0000000000000008 $d
+  R:\TEMP\ccZAJgGN.s:173    .text.GetDADDR:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:178    .text.GetDADDR:0000000000000000 GetDADDR
+  R:\TEMP\ccZAJgGN.s:194    .text.GetDADDR:0000000000000008 $d
+  R:\TEMP\ccZAJgGN.s:199    .text.SetBTABLE:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:204    .text.SetBTABLE:0000000000000000 SetBTABLE
+  R:\TEMP\ccZAJgGN.s:221    .text.SetBTABLE:000000000000000c $d
+  R:\TEMP\ccZAJgGN.s:226    .text.GetBTABLE:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:231    .text.GetBTABLE:0000000000000000 GetBTABLE
+  R:\TEMP\ccZAJgGN.s:247    .text.GetBTABLE:0000000000000008 $d
+  R:\TEMP\ccZAJgGN.s:252    .text.SetENDPOINT:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:257    .text.SetENDPOINT:0000000000000000 SetENDPOINT
+  R:\TEMP\ccZAJgGN.s:276    .text.GetENDPOINT:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:281    .text.GetENDPOINT:0000000000000000 GetENDPOINT
+  R:\TEMP\ccZAJgGN.s:302    .text.SetEPType:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:307    .text.SetEPType:0000000000000000 SetEPType
+  R:\TEMP\ccZAJgGN.s:331    .text.GetEPType:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:336    .text.GetEPType:0000000000000000 GetEPType
+  R:\TEMP\ccZAJgGN.s:357    .text.SetEPTxStatus:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:362    .text.SetEPTxStatus:0000000000000000 SetEPTxStatus
+  R:\TEMP\ccZAJgGN.s:411    .text.SetEPRxStatus:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:416    .text.SetEPRxStatus:0000000000000000 SetEPRxStatus
+  R:\TEMP\ccZAJgGN.s:465    .text.SetDouBleBuffEPStall:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:470    .text.SetDouBleBuffEPStall:0000000000000000 SetDouBleBuffEPStall
+  R:\TEMP\ccZAJgGN.s:510    .text.GetEPTxStatus:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:515    .text.GetEPTxStatus:0000000000000000 GetEPTxStatus
+  R:\TEMP\ccZAJgGN.s:536    .text.GetEPRxStatus:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:541    .text.GetEPRxStatus:0000000000000000 GetEPRxStatus
+  R:\TEMP\ccZAJgGN.s:562    .text.SetEPTxValid:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:567    .text.SetEPTxValid:0000000000000000 SetEPTxValid
+  R:\TEMP\ccZAJgGN.s:596    .text.SetEPRxValid:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:601    .text.SetEPRxValid:0000000000000000 SetEPRxValid
+  R:\TEMP\ccZAJgGN.s:630    .text.SetEP_KIND:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:635    .text.SetEP_KIND:0000000000000000 SetEP_KIND
+  R:\TEMP\ccZAJgGN.s:659    .text.ClearEP_KIND:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:664    .text.ClearEP_KIND:0000000000000000 ClearEP_KIND
+  R:\TEMP\ccZAJgGN.s:688    .text.Clear_Status_Out:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:693    .text.Clear_Status_Out:0000000000000000 Clear_Status_Out
+  R:\TEMP\ccZAJgGN.s:717    .text.Set_Status_Out:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:722    .text.Set_Status_Out:0000000000000000 Set_Status_Out
+  R:\TEMP\ccZAJgGN.s:746    .text.SetEPDoubleBuff:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:751    .text.SetEPDoubleBuff:0000000000000000 SetEPDoubleBuff
+  R:\TEMP\ccZAJgGN.s:775    .text.ClearEPDoubleBuff:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:780    .text.ClearEPDoubleBuff:0000000000000000 ClearEPDoubleBuff
+  R:\TEMP\ccZAJgGN.s:804    .text.GetTxStallStatus:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:809    .text.GetTxStallStatus:0000000000000000 GetTxStallStatus
+  R:\TEMP\ccZAJgGN.s:833    .text.GetRxStallStatus:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:838    .text.GetRxStallStatus:0000000000000000 GetRxStallStatus
+  R:\TEMP\ccZAJgGN.s:862    .text.ClearEP_CTR_RX:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:867    .text.ClearEP_CTR_RX:0000000000000000 ClearEP_CTR_RX
+  R:\TEMP\ccZAJgGN.s:889    .text.ClearEP_CTR_TX:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:894    .text.ClearEP_CTR_TX:0000000000000000 ClearEP_CTR_TX
+  R:\TEMP\ccZAJgGN.s:916    .text.ToggleDTOG_RX:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:921    .text.ToggleDTOG_RX:0000000000000000 ToggleDTOG_RX
+  R:\TEMP\ccZAJgGN.s:945    .text.ToggleDTOG_TX:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:950    .text.ToggleDTOG_TX:0000000000000000 ToggleDTOG_TX
+  R:\TEMP\ccZAJgGN.s:974    .text.ClearDTOG_RX:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:979    .text.ClearDTOG_RX:0000000000000000 ClearDTOG_RX
+  R:\TEMP\ccZAJgGN.s:1008   .text.ClearDTOG_TX:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1013   .text.ClearDTOG_TX:0000000000000000 ClearDTOG_TX
+  R:\TEMP\ccZAJgGN.s:1042   .text.SetEPAddress:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1047   .text.SetEPAddress:0000000000000000 SetEPAddress
+  R:\TEMP\ccZAJgGN.s:1073   .text.GetEPAddress:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1078   .text.GetEPAddress:0000000000000000 GetEPAddress
+  R:\TEMP\ccZAJgGN.s:1099   .text.SetEPTxAddr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1104   .text.SetEPTxAddr:0000000000000000 SetEPTxAddr
+  R:\TEMP\ccZAJgGN.s:1131   .text.SetEPTxAddr:000000000000001c $d
+  R:\TEMP\ccZAJgGN.s:1136   .text.SetEPRxAddr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1141   .text.SetEPRxAddr:0000000000000000 SetEPRxAddr
+  R:\TEMP\ccZAJgGN.s:1168   .text.SetEPRxAddr:0000000000000018 $d
+  R:\TEMP\ccZAJgGN.s:1174   .text.GetEPTxAddr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1179   .text.GetEPTxAddr:0000000000000000 GetEPTxAddr
+  R:\TEMP\ccZAJgGN.s:1204   .text.GetEPTxAddr:0000000000000018 $d
+  R:\TEMP\ccZAJgGN.s:1209   .text.GetEPRxAddr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1214   .text.GetEPRxAddr:0000000000000000 GetEPRxAddr
+  R:\TEMP\ccZAJgGN.s:1239   .text.GetEPRxAddr:0000000000000014 $d
+  R:\TEMP\ccZAJgGN.s:1245   .text.SetEPTxCount:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1250   .text.SetEPTxCount:0000000000000000 SetEPTxCount
+  R:\TEMP\ccZAJgGN.s:1274   .text.SetEPTxCount:0000000000000014 $d
+  R:\TEMP\ccZAJgGN.s:1280   .text.SetEPCountRxReg:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1285   .text.SetEPCountRxReg:0000000000000000 SetEPCountRxReg
+  R:\TEMP\ccZAJgGN.s:1332   .text.SetEPRxCount:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1337   .text.SetEPRxCount:0000000000000000 SetEPRxCount
+  R:\TEMP\ccZAJgGN.s:1394   .text.SetEPRxCount:0000000000000034 $d
+  R:\TEMP\ccZAJgGN.s:1402   .text.GetEPTxCount:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1407   .text.GetEPTxCount:0000000000000000 GetEPTxCount
+  R:\TEMP\ccZAJgGN.s:1434   .text.GetEPTxCount:0000000000000018 $d
+  R:\TEMP\ccZAJgGN.s:1440   .text.GetEPRxCount:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1445   .text.GetEPRxCount:0000000000000000 GetEPRxCount
+  R:\TEMP\ccZAJgGN.s:1472   .text.GetEPRxCount:0000000000000018 $d
+  R:\TEMP\ccZAJgGN.s:1478   .text.SetEPDblBuffAddr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1483   .text.SetEPDblBuffAddr:0000000000000000 SetEPDblBuffAddr
+  R:\TEMP\ccZAJgGN.s:1527   .text.SetEPDblBuffAddr:0000000000000030 $d
+  R:\TEMP\ccZAJgGN.s:1533   .text.SetEPDblBuf0Addr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1538   .text.SetEPDblBuf0Addr:0000000000000000 SetEPDblBuf0Addr
+  R:\TEMP\ccZAJgGN.s:1565   .text.SetEPDblBuf0Addr:000000000000001c $d
+  R:\TEMP\ccZAJgGN.s:1570   .text.SetEPDblBuf1Addr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1575   .text.SetEPDblBuf1Addr:0000000000000000 SetEPDblBuf1Addr
+  R:\TEMP\ccZAJgGN.s:1602   .text.SetEPDblBuf1Addr:0000000000000018 $d
+  R:\TEMP\ccZAJgGN.s:1608   .text.GetEPDblBuf0Addr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1613   .text.GetEPDblBuf0Addr:0000000000000000 GetEPDblBuf0Addr
+  R:\TEMP\ccZAJgGN.s:1638   .text.GetEPDblBuf0Addr:0000000000000018 $d
+  R:\TEMP\ccZAJgGN.s:1643   .text.GetEPDblBuf1Addr:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1648   .text.GetEPDblBuf1Addr:0000000000000000 GetEPDblBuf1Addr
+  R:\TEMP\ccZAJgGN.s:1673   .text.GetEPDblBuf1Addr:0000000000000014 $d
+  R:\TEMP\ccZAJgGN.s:1679   .text.SetEPDblBuffCount:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1684   .text.SetEPDblBuffCount:0000000000000000 SetEPDblBuffCount
+  R:\TEMP\ccZAJgGN.s:1835   .text.SetEPDblBuffCount:0000000000000098 $d
+  R:\TEMP\ccZAJgGN.s:1844   .text.SetEPDblBuf0Count:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1849   .text.SetEPDblBuf0Count:0000000000000000 SetEPDblBuf0Count
+  R:\TEMP\ccZAJgGN.s:1934   .text.SetEPDblBuf0Count:0000000000000050 $d
+  R:\TEMP\ccZAJgGN.s:1940   .text.SetEPDblBuf1Count:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:1945   .text.SetEPDblBuf1Count:0000000000000000 SetEPDblBuf1Count
+  R:\TEMP\ccZAJgGN.s:2030   .text.SetEPDblBuf1Count:0000000000000050 $d
+  R:\TEMP\ccZAJgGN.s:2036   .text.GetEPDblBuf0Count:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:2041   .text.GetEPDblBuf0Count:0000000000000000 GetEPDblBuf0Count
+  R:\TEMP\ccZAJgGN.s:2068   .text.GetEPDblBuf0Count:0000000000000018 $d
+  R:\TEMP\ccZAJgGN.s:2074   .text.GetEPDblBuf1Count:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:2079   .text.GetEPDblBuf1Count:0000000000000000 GetEPDblBuf1Count
+  R:\TEMP\ccZAJgGN.s:2106   .text.GetEPDblBuf1Count:0000000000000018 $d
+  R:\TEMP\ccZAJgGN.s:2112   .text.GetEPDblBufDir:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:2117   .text.GetEPDblBufDir:0000000000000000 GetEPDblBufDir
+  R:\TEMP\ccZAJgGN.s:2164   .text.GetEPDblBufDir:0000000000000034 $d
+  R:\TEMP\ccZAJgGN.s:2171   .text.FreeUserBuffer:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:2176   .text.FreeUserBuffer:0000000000000000 FreeUserBuffer
+  R:\TEMP\ccZAJgGN.s:2223   .text.ToWord:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:2228   .text.ToWord:0000000000000000 ToWord
+  R:\TEMP\ccZAJgGN.s:2245   .text.ByteSwap:0000000000000000 $t
+  R:\TEMP\ccZAJgGN.s:2250   .text.ByteSwap:0000000000000000 ByteSwap
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

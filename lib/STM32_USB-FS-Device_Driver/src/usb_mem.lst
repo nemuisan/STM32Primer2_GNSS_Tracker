@@ -115,7 +115,7 @@
   58:lib/STM32_USB-FS-Device_Driver/src/usb_mem.c ****     temp2 = temp1 | (uint16_t) * pbUsrBuf << 8;
   59              		.loc 1 58 0 is_stmt 1 discriminator 2
   60 0018 10F8015C 		ldrb	r5, [r0, #-1]	@ zero_extendqisi2
-  56:lib/STM32_USB-FS-Device_Driver/src/usb_mem.c ****     temp1 = (uint16_t) * pbUsrBuf;
+  56:lib/STM32_USB-FS-Device_Driver/src/usb_mem.c ****     pbUsrBuf++;
   61              		.loc 1 56 0 discriminator 2
   62 001c 10F8024C 		ldrb	r4, [r0, #-2]	@ zero_extendqisi2
   63              	.LVL7:
@@ -207,15 +207,15 @@
  124              	.LFE58:
  126              		.text
  127              	.Letext0:
- 128              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 128              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  129              		.file 3 "./lib/CMSIS/Include/core_cm3.h"
  130              		.file 4 "./inc/systick.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_mem.c
-  R:\TEMP\cci8GPGz.s:19     .text.UserToPMABufferCopy:00000000 $t
-  R:\TEMP\cci8GPGz.s:24     .text.UserToPMABufferCopy:00000000 UserToPMABufferCopy
-  R:\TEMP\cci8GPGz.s:79     .text.PMAToUserBufferCopy:00000000 $t
-  R:\TEMP\cci8GPGz.s:84     .text.PMAToUserBufferCopy:00000000 PMAToUserBufferCopy
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_mem.c
+  R:\TEMP\ccnHo9fz.s:19     .text.UserToPMABufferCopy:0000000000000000 $t
+  R:\TEMP\ccnHo9fz.s:24     .text.UserToPMABufferCopy:0000000000000000 UserToPMABufferCopy
+  R:\TEMP\ccnHo9fz.s:79     .text.PMAToUserBufferCopy:0000000000000000 $t
+  R:\TEMP\ccnHo9fz.s:84     .text.PMAToUserBufferCopy:0000000000000000 PMAToUserBufferCopy
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

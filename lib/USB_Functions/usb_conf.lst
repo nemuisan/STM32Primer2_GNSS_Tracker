@@ -204,29 +204,29 @@
  171              		.text
  172              	.Letext0:
  173              		.file 2 "./lib/CMSIS/Include/core_cm3.h"
- 174              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 174              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_conf.c
-  R:\TEMP\cc5shsYH.s:19     .text.EP1_IN_Callback:00000000 $t
-  R:\TEMP\cc5shsYH.s:24     .text.EP1_IN_Callback:00000000 EP1_IN_Callback
-  R:\TEMP\cc5shsYH.s:45     .text.EP1_IN_Callback:0000000c $d
-  R:\TEMP\cc5shsYH.s:50     .text.EP3_OUT_Callback:00000000 $t
-  R:\TEMP\cc5shsYH.s:55     .text.EP3_OUT_Callback:00000000 EP3_OUT_Callback
-  R:\TEMP\cc5shsYH.s:75     .text.EP3_OUT_Callback:0000000c $d
-  R:\TEMP\cc5shsYH.s:80     .text.EP2_OUT_Callback:00000000 $t
-  R:\TEMP\cc5shsYH.s:85     .text.EP2_OUT_Callback:00000000 EP2_OUT_Callback
-  R:\TEMP\cc5shsYH.s:105    .text.EP2_OUT_Callback:0000000c $d
-  R:\TEMP\cc5shsYH.s:110    .text.SOF_Callback:00000000 $t
-  R:\TEMP\cc5shsYH.s:115    .text.SOF_Callback:00000000 SOF_Callback
-  R:\TEMP\cc5shsYH.s:135    .text.SOF_Callback:0000000c $d
-  R:\TEMP\cc5shsYH.s:169    .bss.xSOF_Callback:00000000 xSOF_Callback
-  R:\TEMP\cc5shsYH.s:162    .bss.xEP3_OUT_Callback:00000000 xEP3_OUT_Callback
-  R:\TEMP\cc5shsYH.s:148    .bss.xEP2_OUT_Callback:00000000 xEP2_OUT_Callback
-  R:\TEMP\cc5shsYH.s:155    .bss.xEP1_IN_Callback:00000000 xEP1_IN_Callback
-  R:\TEMP\cc5shsYH.s:144    .bss.xEP2_OUT_Callback:00000000 $d
-  R:\TEMP\cc5shsYH.s:151    .bss.xEP1_IN_Callback:00000000 $d
-  R:\TEMP\cc5shsYH.s:158    .bss.xEP3_OUT_Callback:00000000 $d
-  R:\TEMP\cc5shsYH.s:165    .bss.xSOF_Callback:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_conf.c
+  R:\TEMP\ccrrcRij.s:19     .text.EP1_IN_Callback:0000000000000000 $t
+  R:\TEMP\ccrrcRij.s:24     .text.EP1_IN_Callback:0000000000000000 EP1_IN_Callback
+  R:\TEMP\ccrrcRij.s:45     .text.EP1_IN_Callback:000000000000000c $d
+  R:\TEMP\ccrrcRij.s:50     .text.EP3_OUT_Callback:0000000000000000 $t
+  R:\TEMP\ccrrcRij.s:55     .text.EP3_OUT_Callback:0000000000000000 EP3_OUT_Callback
+  R:\TEMP\ccrrcRij.s:75     .text.EP3_OUT_Callback:000000000000000c $d
+  R:\TEMP\ccrrcRij.s:80     .text.EP2_OUT_Callback:0000000000000000 $t
+  R:\TEMP\ccrrcRij.s:85     .text.EP2_OUT_Callback:0000000000000000 EP2_OUT_Callback
+  R:\TEMP\ccrrcRij.s:105    .text.EP2_OUT_Callback:000000000000000c $d
+  R:\TEMP\ccrrcRij.s:110    .text.SOF_Callback:0000000000000000 $t
+  R:\TEMP\ccrrcRij.s:115    .text.SOF_Callback:0000000000000000 SOF_Callback
+  R:\TEMP\ccrrcRij.s:135    .text.SOF_Callback:000000000000000c $d
+  R:\TEMP\ccrrcRij.s:169    .bss.xSOF_Callback:0000000000000000 xSOF_Callback
+  R:\TEMP\ccrrcRij.s:162    .bss.xEP3_OUT_Callback:0000000000000000 xEP3_OUT_Callback
+  R:\TEMP\ccrrcRij.s:148    .bss.xEP2_OUT_Callback:0000000000000000 xEP2_OUT_Callback
+  R:\TEMP\ccrrcRij.s:155    .bss.xEP1_IN_Callback:0000000000000000 xEP1_IN_Callback
+  R:\TEMP\ccrrcRij.s:144    .bss.xEP2_OUT_Callback:0000000000000000 $d
+  R:\TEMP\ccrrcRij.s:151    .bss.xEP1_IN_Callback:0000000000000000 $d
+  R:\TEMP\ccrrcRij.s:158    .bss.xEP3_OUT_Callback:0000000000000000 $d
+  R:\TEMP\ccrrcRij.s:165    .bss.xSOF_Callback:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

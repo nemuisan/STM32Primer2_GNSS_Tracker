@@ -406,7 +406,7 @@
  172:src/stm32f10x_it.c **** }
  211              		.loc 1 172 0 discriminator 1
  212 0018 BDE80840 		pop	{r3, lr}
- 166:src/stm32f10x_it.c **** 	if(TaskStat == GPS_LOGGING) ChkAckLimit();
+ 166:src/stm32f10x_it.c **** 	
  213              		.loc 1 166 0 discriminator 1
  214 001c FFF7FEBF 		b	ChkAckLimit
  215              	.LVL3:
@@ -519,7 +519,7 @@
  281              	.LFE68:
  283              		.text
  284              	.Letext0:
- 285              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 285              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  286              		.file 4 "./lib/CMSIS/Include/core_cm3.h"
  287              		.file 5 "./inc/hw_config.h"
  288              		.file 6 "./inc/power.h"
@@ -527,33 +527,33 @@
  290              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_int.h"
  291              		.file 9 "./lib/USB_Functions/usb_istr.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 stm32f10x_it.c
-  R:\TEMP\ccMMjDIz.s:19     .text.NMI_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:24     .text.NMI_Handler:00000000 NMI_Handler
-  R:\TEMP\ccMMjDIz.s:37     .text.HardFault_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:42     .text.HardFault_Handler:00000000 HardFault_Handler
-  R:\TEMP\ccMMjDIz.s:57     .text.MemManage_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:62     .text.MemManage_Handler:00000000 MemManage_Handler
-  R:\TEMP\ccMMjDIz.s:77     .text.BusFault_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:82     .text.BusFault_Handler:00000000 BusFault_Handler
-  R:\TEMP\ccMMjDIz.s:97     .text.UsageFault_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:102    .text.UsageFault_Handler:00000000 UsageFault_Handler
-  R:\TEMP\ccMMjDIz.s:117    .text.SVC_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:122    .text.SVC_Handler:00000000 SVC_Handler
-  R:\TEMP\ccMMjDIz.s:135    .text.DebugMon_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:140    .text.DebugMon_Handler:00000000 DebugMon_Handler
-  R:\TEMP\ccMMjDIz.s:153    .text.PendSV_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:158    .text.PendSV_Handler:00000000 PendSV_Handler
-  R:\TEMP\ccMMjDIz.s:171    .text.SysTick_Handler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:176    .text.SysTick_Handler:00000000 SysTick_Handler
-  R:\TEMP\ccMMjDIz.s:221    .text.SysTick_Handler:00000024 $d
-  R:\TEMP\ccMMjDIz.s:227    .text.USB_HP_CAN1_TX_IRQHandler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:232    .text.USB_HP_CAN1_TX_IRQHandler:00000000 USB_HP_CAN1_TX_IRQHandler
-  R:\TEMP\ccMMjDIz.s:247    .text.USB_LP_CAN1_RX0_IRQHandler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:252    .text.USB_LP_CAN1_RX0_IRQHandler:00000000 USB_LP_CAN1_RX0_IRQHandler
-  R:\TEMP\ccMMjDIz.s:267    .text.RTC_IRQHandler:00000000 $t
-  R:\TEMP\ccMMjDIz.s:272    .text.RTC_IRQHandler:00000000 RTC_IRQHandler
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 stm32f10x_it.c
+  R:\TEMP\ccvcTEuL.s:19     .text.NMI_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:24     .text.NMI_Handler:0000000000000000 NMI_Handler
+  R:\TEMP\ccvcTEuL.s:37     .text.HardFault_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:42     .text.HardFault_Handler:0000000000000000 HardFault_Handler
+  R:\TEMP\ccvcTEuL.s:57     .text.MemManage_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:62     .text.MemManage_Handler:0000000000000000 MemManage_Handler
+  R:\TEMP\ccvcTEuL.s:77     .text.BusFault_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:82     .text.BusFault_Handler:0000000000000000 BusFault_Handler
+  R:\TEMP\ccvcTEuL.s:97     .text.UsageFault_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:102    .text.UsageFault_Handler:0000000000000000 UsageFault_Handler
+  R:\TEMP\ccvcTEuL.s:117    .text.SVC_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:122    .text.SVC_Handler:0000000000000000 SVC_Handler
+  R:\TEMP\ccvcTEuL.s:135    .text.DebugMon_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:140    .text.DebugMon_Handler:0000000000000000 DebugMon_Handler
+  R:\TEMP\ccvcTEuL.s:153    .text.PendSV_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:158    .text.PendSV_Handler:0000000000000000 PendSV_Handler
+  R:\TEMP\ccvcTEuL.s:171    .text.SysTick_Handler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:176    .text.SysTick_Handler:0000000000000000 SysTick_Handler
+  R:\TEMP\ccvcTEuL.s:221    .text.SysTick_Handler:0000000000000024 $d
+  R:\TEMP\ccvcTEuL.s:227    .text.USB_HP_CAN1_TX_IRQHandler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:232    .text.USB_HP_CAN1_TX_IRQHandler:0000000000000000 USB_HP_CAN1_TX_IRQHandler
+  R:\TEMP\ccvcTEuL.s:247    .text.USB_LP_CAN1_RX0_IRQHandler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:252    .text.USB_LP_CAN1_RX0_IRQHandler:0000000000000000 USB_LP_CAN1_RX0_IRQHandler
+  R:\TEMP\ccvcTEuL.s:267    .text.RTC_IRQHandler:0000000000000000 $t
+  R:\TEMP\ccvcTEuL.s:272    .text.RTC_IRQHandler:0000000000000000 RTC_IRQHandler
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 PWR_Mgn

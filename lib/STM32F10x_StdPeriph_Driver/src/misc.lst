@@ -269,7 +269,7 @@
  122 004c 00F01F03 		and	r3, r0, #31
  123 0050 0122     		movs	r2, #1
  124 0052 02FA03F0 		lsl	r0, r2, r3
- 147:lib/STM32F10x_StdPeriph_Driver/src/misc.c ****     NVIC->ICER[NVIC_InitStruct->NVIC_IRQChannel >> 0x05] =
+ 147:lib/STM32F10x_StdPeriph_Driver/src/misc.c ****       (uint32_t)0x01 << (NVIC_InitStruct->NVIC_IRQChannel & (uint8_t)0x1F);
  125              		.loc 1 147 0
  126 0056 2031     		adds	r1, r1, #32
  127              	.LVL18:
@@ -369,7 +369,7 @@
  189:lib/STM32F10x_StdPeriph_Driver/src/misc.c ****     SCB->SCR |= LowPowerMode;
  185              		.loc 1 189 0
  186 0002 1A69     		ldr	r2, [r3, #16]
- 187:lib/STM32F10x_StdPeriph_Driver/src/misc.c ****   if (NewState != DISABLE)
+ 187:lib/STM32F10x_StdPeriph_Driver/src/misc.c ****   {
  187              		.loc 1 187 0
  188 0004 09B1     		cbz	r1, .L15
  189              		.loc 1 189 0
@@ -448,27 +448,27 @@
  238              	.LFE60:
  240              		.text
  241              	.Letext0:
- 242              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 242              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  243              		.file 3 "./lib/CMSIS/Include/core_cm3.h"
  244              		.file 4 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  245              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 misc.c
-  R:\TEMP\ccgmNAge.s:19     .text.NVIC_PriorityGroupConfig:00000000 $t
-  R:\TEMP\ccgmNAge.s:24     .text.NVIC_PriorityGroupConfig:00000000 NVIC_PriorityGroupConfig
-  R:\TEMP\ccgmNAge.s:43     .text.NVIC_PriorityGroupConfig:00000010 $d
-  R:\TEMP\ccgmNAge.s:48     .text.NVIC_Init:00000000 $t
-  R:\TEMP\ccgmNAge.s:53     .text.NVIC_Init:00000000 NVIC_Init
-  R:\TEMP\ccgmNAge.s:135    .text.NVIC_Init:00000060 $d
-  R:\TEMP\ccgmNAge.s:141    .text.NVIC_SetVectorTable:00000000 $t
-  R:\TEMP\ccgmNAge.s:146    .text.NVIC_SetVectorTable:00000000 NVIC_SetVectorTable
-  R:\TEMP\ccgmNAge.s:166    .text.NVIC_SetVectorTable:00000010 $d
-  R:\TEMP\ccgmNAge.s:171    .text.NVIC_SystemLPConfig:00000000 $t
-  R:\TEMP\ccgmNAge.s:176    .text.NVIC_SystemLPConfig:00000000 NVIC_SystemLPConfig
-  R:\TEMP\ccgmNAge.s:204    .text.NVIC_SystemLPConfig:00000014 $d
-  R:\TEMP\ccgmNAge.s:209    .text.SysTick_CLKSourceConfig:00000000 $t
-  R:\TEMP\ccgmNAge.s:214    .text.SysTick_CLKSourceConfig:00000000 SysTick_CLKSourceConfig
-  R:\TEMP\ccgmNAge.s:236    .text.SysTick_CLKSourceConfig:00000014 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 misc.c
+  R:\TEMP\ccrq8UMh.s:19     .text.NVIC_PriorityGroupConfig:0000000000000000 $t
+  R:\TEMP\ccrq8UMh.s:24     .text.NVIC_PriorityGroupConfig:0000000000000000 NVIC_PriorityGroupConfig
+  R:\TEMP\ccrq8UMh.s:43     .text.NVIC_PriorityGroupConfig:0000000000000010 $d
+  R:\TEMP\ccrq8UMh.s:48     .text.NVIC_Init:0000000000000000 $t
+  R:\TEMP\ccrq8UMh.s:53     .text.NVIC_Init:0000000000000000 NVIC_Init
+  R:\TEMP\ccrq8UMh.s:135    .text.NVIC_Init:0000000000000060 $d
+  R:\TEMP\ccrq8UMh.s:141    .text.NVIC_SetVectorTable:0000000000000000 $t
+  R:\TEMP\ccrq8UMh.s:146    .text.NVIC_SetVectorTable:0000000000000000 NVIC_SetVectorTable
+  R:\TEMP\ccrq8UMh.s:166    .text.NVIC_SetVectorTable:0000000000000010 $d
+  R:\TEMP\ccrq8UMh.s:171    .text.NVIC_SystemLPConfig:0000000000000000 $t
+  R:\TEMP\ccrq8UMh.s:176    .text.NVIC_SystemLPConfig:0000000000000000 NVIC_SystemLPConfig
+  R:\TEMP\ccrq8UMh.s:204    .text.NVIC_SystemLPConfig:0000000000000014 $d
+  R:\TEMP\ccrq8UMh.s:209    .text.SysTick_CLKSourceConfig:0000000000000000 $t
+  R:\TEMP\ccrq8UMh.s:214    .text.SysTick_CLKSourceConfig:0000000000000000 SysTick_CLKSourceConfig
+  R:\TEMP\ccrq8UMh.s:236    .text.SysTick_CLKSourceConfig:0000000000000014 $d
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

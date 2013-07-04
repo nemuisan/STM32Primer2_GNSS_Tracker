@@ -316,7 +316,7 @@
  178              		.loc 1 141 0
  179 0004 B0F80632 		ldrh	r3, [r0, #518]
  180              	.LVL16:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  181              		.loc 1 140 0
  182 0008 501C     		adds	r0, r2, #1
  183              	.LVL17:
@@ -364,19 +364,19 @@
  215              	.LVL20:
  216              	.LBB18:
  217              	.LBB19:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  218              		.loc 1 140 0
  219 0004 B0F80442 		ldrh	r4, [r0, #516]
  220              	.LVL21:
- 141:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
+ 141:src/uart_support_gps.c **** 
  221              		.loc 1 141 0
  222 0008 B0F80622 		ldrh	r2, [r0, #518]
  223              	.LVL22:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  224              		.loc 1 140 0
  225 000c 601C     		adds	r0, r4, #1
  226              	.LVL23:
- 144:src/uart_support_gps.c **** 	return (tempHead != tempTail);
+ 144:src/uart_support_gps.c **** }
  227              		.loc 1 144 0
  228 000e 00F0FF04 		and	r4, r0, #255
  229              	.LVL24:
@@ -409,333 +409,347 @@
    1:./lib/CMSIS/Include/core_cmFunc.h **** /**************************************************************************//**
    2:./lib/CMSIS/Include/core_cmFunc.h ****  * @file     core_cmFunc.h
    3:./lib/CMSIS/Include/core_cmFunc.h ****  * @brief    CMSIS Cortex-M Core Function Access Header File
-   4:./lib/CMSIS/Include/core_cmFunc.h ****  * @version  V3.01
-   5:./lib/CMSIS/Include/core_cmFunc.h ****  * @date     06. March 2012
+   4:./lib/CMSIS/Include/core_cmFunc.h ****  * @version  V3.20
+   5:./lib/CMSIS/Include/core_cmFunc.h ****  * @date     25. February 2013
    6:./lib/CMSIS/Include/core_cmFunc.h ****  *
    7:./lib/CMSIS/Include/core_cmFunc.h ****  * @note
-   8:./lib/CMSIS/Include/core_cmFunc.h ****  * Copyright (C) 2009-2012 ARM Limited. All rights reserved.
-   9:./lib/CMSIS/Include/core_cmFunc.h ****  *
-  10:./lib/CMSIS/Include/core_cmFunc.h ****  * @par
-  11:./lib/CMSIS/Include/core_cmFunc.h ****  * ARM Limited (ARM) is supplying this software for use with Cortex-M
-  12:./lib/CMSIS/Include/core_cmFunc.h ****  * processor based microcontrollers.  This file can be freely distributed
-  13:./lib/CMSIS/Include/core_cmFunc.h ****  * within development tools that are supporting such ARM based processors.
-  14:./lib/CMSIS/Include/core_cmFunc.h ****  *
-  15:./lib/CMSIS/Include/core_cmFunc.h ****  * @par
-  16:./lib/CMSIS/Include/core_cmFunc.h ****  * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
-  17:./lib/CMSIS/Include/core_cmFunc.h ****  * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
-  18:./lib/CMSIS/Include/core_cmFunc.h ****  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
-  19:./lib/CMSIS/Include/core_cmFunc.h ****  * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
-  20:./lib/CMSIS/Include/core_cmFunc.h ****  * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
-  21:./lib/CMSIS/Include/core_cmFunc.h ****  *
-  22:./lib/CMSIS/Include/core_cmFunc.h ****  ******************************************************************************/
-  23:./lib/CMSIS/Include/core_cmFunc.h **** 
-  24:./lib/CMSIS/Include/core_cmFunc.h **** #ifndef __CORE_CMFUNC_H
-  25:./lib/CMSIS/Include/core_cmFunc.h **** #define __CORE_CMFUNC_H
-  26:./lib/CMSIS/Include/core_cmFunc.h **** 
-  27:./lib/CMSIS/Include/core_cmFunc.h **** 
-  28:./lib/CMSIS/Include/core_cmFunc.h **** /* ###########################  Core Function Access  ########################### */
-  29:./lib/CMSIS/Include/core_cmFunc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
-  30:./lib/CMSIS/Include/core_cmFunc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
-  31:./lib/CMSIS/Include/core_cmFunc.h ****   @{
-  32:./lib/CMSIS/Include/core_cmFunc.h ****  */
-  33:./lib/CMSIS/Include/core_cmFunc.h **** 
-  34:./lib/CMSIS/Include/core_cmFunc.h **** #if   defined ( __CC_ARM ) /*------------------RealView Compiler -----------------*/
-  35:./lib/CMSIS/Include/core_cmFunc.h **** /* ARM armcc specific functions */
+   8:./lib/CMSIS/Include/core_cmFunc.h ****  *
+   9:./lib/CMSIS/Include/core_cmFunc.h ****  ******************************************************************************/
+  10:./lib/CMSIS/Include/core_cmFunc.h **** /* Copyright (c) 2009 - 2013 ARM LIMITED
+  11:./lib/CMSIS/Include/core_cmFunc.h **** 
+  12:./lib/CMSIS/Include/core_cmFunc.h ****    All rights reserved.
+  13:./lib/CMSIS/Include/core_cmFunc.h ****    Redistribution and use in source and binary forms, with or without
+  14:./lib/CMSIS/Include/core_cmFunc.h ****    modification, are permitted provided that the following conditions are met:
+  15:./lib/CMSIS/Include/core_cmFunc.h ****    - Redistributions of source code must retain the above copyright
+  16:./lib/CMSIS/Include/core_cmFunc.h ****      notice, this list of conditions and the following disclaimer.
+  17:./lib/CMSIS/Include/core_cmFunc.h ****    - Redistributions in binary form must reproduce the above copyright
+  18:./lib/CMSIS/Include/core_cmFunc.h ****      notice, this list of conditions and the following disclaimer in the
+  19:./lib/CMSIS/Include/core_cmFunc.h ****      documentation and/or other materials provided with the distribution.
+  20:./lib/CMSIS/Include/core_cmFunc.h ****    - Neither the name of ARM nor the names of its contributors may be used
+  21:./lib/CMSIS/Include/core_cmFunc.h ****      to endorse or promote products derived from this software without
+  22:./lib/CMSIS/Include/core_cmFunc.h ****      specific prior written permission.
+  23:./lib/CMSIS/Include/core_cmFunc.h ****    *
+  24:./lib/CMSIS/Include/core_cmFunc.h ****    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  25:./lib/CMSIS/Include/core_cmFunc.h ****    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  26:./lib/CMSIS/Include/core_cmFunc.h ****    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  27:./lib/CMSIS/Include/core_cmFunc.h ****    ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+  28:./lib/CMSIS/Include/core_cmFunc.h ****    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  29:./lib/CMSIS/Include/core_cmFunc.h ****    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  30:./lib/CMSIS/Include/core_cmFunc.h ****    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  31:./lib/CMSIS/Include/core_cmFunc.h ****    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  32:./lib/CMSIS/Include/core_cmFunc.h ****    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  33:./lib/CMSIS/Include/core_cmFunc.h ****    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  34:./lib/CMSIS/Include/core_cmFunc.h ****    POSSIBILITY OF SUCH DAMAGE.
+  35:./lib/CMSIS/Include/core_cmFunc.h ****    ---------------------------------------------------------------------------*/
   36:./lib/CMSIS/Include/core_cmFunc.h **** 
-  37:./lib/CMSIS/Include/core_cmFunc.h **** #if (__ARMCC_VERSION < 400677)
-  38:./lib/CMSIS/Include/core_cmFunc.h ****   #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
-  39:./lib/CMSIS/Include/core_cmFunc.h **** #endif
+  37:./lib/CMSIS/Include/core_cmFunc.h **** 
+  38:./lib/CMSIS/Include/core_cmFunc.h **** #ifndef __CORE_CMFUNC_H
+  39:./lib/CMSIS/Include/core_cmFunc.h **** #define __CORE_CMFUNC_H
   40:./lib/CMSIS/Include/core_cmFunc.h **** 
-  41:./lib/CMSIS/Include/core_cmFunc.h **** /* intrinsic void __enable_irq();     */
-  42:./lib/CMSIS/Include/core_cmFunc.h **** /* intrinsic void __disable_irq();    */
-  43:./lib/CMSIS/Include/core_cmFunc.h **** 
-  44:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Control Register
-  45:./lib/CMSIS/Include/core_cmFunc.h **** 
-  46:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the content of the Control Register.
+  41:./lib/CMSIS/Include/core_cmFunc.h **** 
+  42:./lib/CMSIS/Include/core_cmFunc.h **** /* ###########################  Core Function Access  ########################### */
+  43:./lib/CMSIS/Include/core_cmFunc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+  44:./lib/CMSIS/Include/core_cmFunc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+  45:./lib/CMSIS/Include/core_cmFunc.h ****   @{
+  46:./lib/CMSIS/Include/core_cmFunc.h ****  */
   47:./lib/CMSIS/Include/core_cmFunc.h **** 
-  48:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Control Register value
-  49:./lib/CMSIS/Include/core_cmFunc.h ****  */
-  50:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_CONTROL(void)
-  51:./lib/CMSIS/Include/core_cmFunc.h **** {
-  52:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regControl         __ASM("control");
-  53:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regControl);
-  54:./lib/CMSIS/Include/core_cmFunc.h **** }
-  55:./lib/CMSIS/Include/core_cmFunc.h **** 
-  56:./lib/CMSIS/Include/core_cmFunc.h **** 
-  57:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Control Register
-  58:./lib/CMSIS/Include/core_cmFunc.h **** 
-  59:./lib/CMSIS/Include/core_cmFunc.h ****     This function writes the given value to the Control Register.
-  60:./lib/CMSIS/Include/core_cmFunc.h **** 
-  61:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    control  Control Register value to set
-  62:./lib/CMSIS/Include/core_cmFunc.h ****  */
-  63:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_CONTROL(uint32_t control)
-  64:./lib/CMSIS/Include/core_cmFunc.h **** {
-  65:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regControl         __ASM("control");
-  66:./lib/CMSIS/Include/core_cmFunc.h ****   __regControl = control;
-  67:./lib/CMSIS/Include/core_cmFunc.h **** }
-  68:./lib/CMSIS/Include/core_cmFunc.h **** 
+  48:./lib/CMSIS/Include/core_cmFunc.h **** #if   defined ( __CC_ARM ) /*------------------RealView Compiler -----------------*/
+  49:./lib/CMSIS/Include/core_cmFunc.h **** /* ARM armcc specific functions */
+  50:./lib/CMSIS/Include/core_cmFunc.h **** 
+  51:./lib/CMSIS/Include/core_cmFunc.h **** #if (__ARMCC_VERSION < 400677)
+  52:./lib/CMSIS/Include/core_cmFunc.h ****   #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
+  53:./lib/CMSIS/Include/core_cmFunc.h **** #endif
+  54:./lib/CMSIS/Include/core_cmFunc.h **** 
+  55:./lib/CMSIS/Include/core_cmFunc.h **** /* intrinsic void __enable_irq();     */
+  56:./lib/CMSIS/Include/core_cmFunc.h **** /* intrinsic void __disable_irq();    */
+  57:./lib/CMSIS/Include/core_cmFunc.h **** 
+  58:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Control Register
+  59:./lib/CMSIS/Include/core_cmFunc.h **** 
+  60:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the content of the Control Register.
+  61:./lib/CMSIS/Include/core_cmFunc.h **** 
+  62:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Control Register value
+  63:./lib/CMSIS/Include/core_cmFunc.h ****  */
+  64:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_CONTROL(void)
+  65:./lib/CMSIS/Include/core_cmFunc.h **** {
+  66:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regControl         __ASM("control");
+  67:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regControl);
+  68:./lib/CMSIS/Include/core_cmFunc.h **** }
   69:./lib/CMSIS/Include/core_cmFunc.h **** 
-  70:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get IPSR Register
-  71:./lib/CMSIS/Include/core_cmFunc.h **** 
-  72:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the content of the IPSR Register.
-  73:./lib/CMSIS/Include/core_cmFunc.h **** 
-  74:./lib/CMSIS/Include/core_cmFunc.h ****     \return               IPSR Register value
-  75:./lib/CMSIS/Include/core_cmFunc.h ****  */
-  76:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_IPSR(void)
-  77:./lib/CMSIS/Include/core_cmFunc.h **** {
-  78:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regIPSR          __ASM("ipsr");
-  79:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regIPSR);
-  80:./lib/CMSIS/Include/core_cmFunc.h **** }
-  81:./lib/CMSIS/Include/core_cmFunc.h **** 
+  70:./lib/CMSIS/Include/core_cmFunc.h **** 
+  71:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Control Register
+  72:./lib/CMSIS/Include/core_cmFunc.h **** 
+  73:./lib/CMSIS/Include/core_cmFunc.h ****     This function writes the given value to the Control Register.
+  74:./lib/CMSIS/Include/core_cmFunc.h **** 
+  75:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    control  Control Register value to set
+  76:./lib/CMSIS/Include/core_cmFunc.h ****  */
+  77:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_CONTROL(uint32_t control)
+  78:./lib/CMSIS/Include/core_cmFunc.h **** {
+  79:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regControl         __ASM("control");
+  80:./lib/CMSIS/Include/core_cmFunc.h ****   __regControl = control;
+  81:./lib/CMSIS/Include/core_cmFunc.h **** }
   82:./lib/CMSIS/Include/core_cmFunc.h **** 
-  83:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get APSR Register
-  84:./lib/CMSIS/Include/core_cmFunc.h **** 
-  85:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the content of the APSR Register.
-  86:./lib/CMSIS/Include/core_cmFunc.h **** 
-  87:./lib/CMSIS/Include/core_cmFunc.h ****     \return               APSR Register value
-  88:./lib/CMSIS/Include/core_cmFunc.h ****  */
-  89:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_APSR(void)
-  90:./lib/CMSIS/Include/core_cmFunc.h **** {
-  91:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regAPSR          __ASM("apsr");
-  92:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regAPSR);
-  93:./lib/CMSIS/Include/core_cmFunc.h **** }
-  94:./lib/CMSIS/Include/core_cmFunc.h **** 
+  83:./lib/CMSIS/Include/core_cmFunc.h **** 
+  84:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get IPSR Register
+  85:./lib/CMSIS/Include/core_cmFunc.h **** 
+  86:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the content of the IPSR Register.
+  87:./lib/CMSIS/Include/core_cmFunc.h **** 
+  88:./lib/CMSIS/Include/core_cmFunc.h ****     \return               IPSR Register value
+  89:./lib/CMSIS/Include/core_cmFunc.h ****  */
+  90:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_IPSR(void)
+  91:./lib/CMSIS/Include/core_cmFunc.h **** {
+  92:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regIPSR          __ASM("ipsr");
+  93:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regIPSR);
+  94:./lib/CMSIS/Include/core_cmFunc.h **** }
   95:./lib/CMSIS/Include/core_cmFunc.h **** 
-  96:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get xPSR Register
-  97:./lib/CMSIS/Include/core_cmFunc.h **** 
-  98:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the content of the xPSR Register.
-  99:./lib/CMSIS/Include/core_cmFunc.h **** 
- 100:./lib/CMSIS/Include/core_cmFunc.h ****     \return               xPSR Register value
- 101:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 102:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_xPSR(void)
- 103:./lib/CMSIS/Include/core_cmFunc.h **** {
- 104:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regXPSR          __ASM("xpsr");
- 105:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regXPSR);
- 106:./lib/CMSIS/Include/core_cmFunc.h **** }
- 107:./lib/CMSIS/Include/core_cmFunc.h **** 
+  96:./lib/CMSIS/Include/core_cmFunc.h **** 
+  97:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get APSR Register
+  98:./lib/CMSIS/Include/core_cmFunc.h **** 
+  99:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the content of the APSR Register.
+ 100:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 101:./lib/CMSIS/Include/core_cmFunc.h ****     \return               APSR Register value
+ 102:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 103:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_APSR(void)
+ 104:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 105:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regAPSR          __ASM("apsr");
+ 106:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regAPSR);
+ 107:./lib/CMSIS/Include/core_cmFunc.h **** }
  108:./lib/CMSIS/Include/core_cmFunc.h **** 
- 109:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Process Stack Pointer
- 110:./lib/CMSIS/Include/core_cmFunc.h **** 
- 111:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Process Stack Pointer (PSP).
- 112:./lib/CMSIS/Include/core_cmFunc.h **** 
- 113:./lib/CMSIS/Include/core_cmFunc.h ****     \return               PSP Register value
- 114:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 115:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_PSP(void)
- 116:./lib/CMSIS/Include/core_cmFunc.h **** {
- 117:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regProcessStackPointer  __ASM("psp");
- 118:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regProcessStackPointer);
- 119:./lib/CMSIS/Include/core_cmFunc.h **** }
- 120:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 109:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 110:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get xPSR Register
+ 111:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 112:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the content of the xPSR Register.
+ 113:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 114:./lib/CMSIS/Include/core_cmFunc.h ****     \return               xPSR Register value
+ 115:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 116:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_xPSR(void)
+ 117:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 118:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regXPSR          __ASM("xpsr");
+ 119:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regXPSR);
+ 120:./lib/CMSIS/Include/core_cmFunc.h **** }
  121:./lib/CMSIS/Include/core_cmFunc.h **** 
- 122:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Process Stack Pointer
- 123:./lib/CMSIS/Include/core_cmFunc.h **** 
- 124:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Process Stack Pointer (PSP).
- 125:./lib/CMSIS/Include/core_cmFunc.h **** 
- 126:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    topOfProcStack  Process Stack Pointer value to set
- 127:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 128:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
- 129:./lib/CMSIS/Include/core_cmFunc.h **** {
- 130:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regProcessStackPointer  __ASM("psp");
- 131:./lib/CMSIS/Include/core_cmFunc.h ****   __regProcessStackPointer = topOfProcStack;
- 132:./lib/CMSIS/Include/core_cmFunc.h **** }
- 133:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 122:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 123:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Process Stack Pointer
+ 124:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 125:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Process Stack Pointer (PSP).
+ 126:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 127:./lib/CMSIS/Include/core_cmFunc.h ****     \return               PSP Register value
+ 128:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 129:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_PSP(void)
+ 130:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 131:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regProcessStackPointer  __ASM("psp");
+ 132:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regProcessStackPointer);
+ 133:./lib/CMSIS/Include/core_cmFunc.h **** }
  134:./lib/CMSIS/Include/core_cmFunc.h **** 
- 135:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Main Stack Pointer
- 136:./lib/CMSIS/Include/core_cmFunc.h **** 
- 137:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Main Stack Pointer (MSP).
- 138:./lib/CMSIS/Include/core_cmFunc.h **** 
- 139:./lib/CMSIS/Include/core_cmFunc.h ****     \return               MSP Register value
- 140:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 141:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_MSP(void)
- 142:./lib/CMSIS/Include/core_cmFunc.h **** {
- 143:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regMainStackPointer     __ASM("msp");
- 144:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regMainStackPointer);
- 145:./lib/CMSIS/Include/core_cmFunc.h **** }
- 146:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 135:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 136:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Process Stack Pointer
+ 137:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 138:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Process Stack Pointer (PSP).
+ 139:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 140:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    topOfProcStack  Process Stack Pointer value to set
+ 141:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 142:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
+ 143:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 144:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regProcessStackPointer  __ASM("psp");
+ 145:./lib/CMSIS/Include/core_cmFunc.h ****   __regProcessStackPointer = topOfProcStack;
+ 146:./lib/CMSIS/Include/core_cmFunc.h **** }
  147:./lib/CMSIS/Include/core_cmFunc.h **** 
- 148:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Main Stack Pointer
- 149:./lib/CMSIS/Include/core_cmFunc.h **** 
- 150:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Main Stack Pointer (MSP).
- 151:./lib/CMSIS/Include/core_cmFunc.h **** 
- 152:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    topOfMainStack  Main Stack Pointer value to set
- 153:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 154:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
- 155:./lib/CMSIS/Include/core_cmFunc.h **** {
- 156:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regMainStackPointer     __ASM("msp");
- 157:./lib/CMSIS/Include/core_cmFunc.h ****   __regMainStackPointer = topOfMainStack;
- 158:./lib/CMSIS/Include/core_cmFunc.h **** }
- 159:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 148:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 149:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Main Stack Pointer
+ 150:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 151:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Main Stack Pointer (MSP).
+ 152:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 153:./lib/CMSIS/Include/core_cmFunc.h ****     \return               MSP Register value
+ 154:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 155:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_MSP(void)
+ 156:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 157:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regMainStackPointer     __ASM("msp");
+ 158:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regMainStackPointer);
+ 159:./lib/CMSIS/Include/core_cmFunc.h **** }
  160:./lib/CMSIS/Include/core_cmFunc.h **** 
- 161:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Priority Mask
- 162:./lib/CMSIS/Include/core_cmFunc.h **** 
- 163:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current state of the priority mask bit from the Priority Mask Registe
- 164:./lib/CMSIS/Include/core_cmFunc.h **** 
- 165:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Priority Mask value
- 166:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 167:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_PRIMASK(void)
- 168:./lib/CMSIS/Include/core_cmFunc.h **** {
- 169:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regPriMask         __ASM("primask");
- 170:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regPriMask);
- 171:./lib/CMSIS/Include/core_cmFunc.h **** }
- 172:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 161:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 162:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Main Stack Pointer
+ 163:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 164:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Main Stack Pointer (MSP).
+ 165:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 166:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    topOfMainStack  Main Stack Pointer value to set
+ 167:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 168:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
+ 169:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 170:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regMainStackPointer     __ASM("msp");
+ 171:./lib/CMSIS/Include/core_cmFunc.h ****   __regMainStackPointer = topOfMainStack;
+ 172:./lib/CMSIS/Include/core_cmFunc.h **** }
  173:./lib/CMSIS/Include/core_cmFunc.h **** 
- 174:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Priority Mask
- 175:./lib/CMSIS/Include/core_cmFunc.h **** 
- 176:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Priority Mask Register.
- 177:./lib/CMSIS/Include/core_cmFunc.h **** 
- 178:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    priMask  Priority Mask
- 179:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 180:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_PRIMASK(uint32_t priMask)
- 181:./lib/CMSIS/Include/core_cmFunc.h **** {
- 182:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regPriMask         __ASM("primask");
- 183:./lib/CMSIS/Include/core_cmFunc.h ****   __regPriMask = (priMask);
- 184:./lib/CMSIS/Include/core_cmFunc.h **** }
- 185:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 174:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 175:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Priority Mask
+ 176:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 177:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current state of the priority mask bit from the Priority Mask Registe
+ 178:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 179:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Priority Mask value
+ 180:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 181:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_PRIMASK(void)
+ 182:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 183:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regPriMask         __ASM("primask");
+ 184:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regPriMask);
+ 185:./lib/CMSIS/Include/core_cmFunc.h **** }
  186:./lib/CMSIS/Include/core_cmFunc.h **** 
- 187:./lib/CMSIS/Include/core_cmFunc.h **** #if       (__CORTEX_M >= 0x03)
- 188:./lib/CMSIS/Include/core_cmFunc.h **** 
- 189:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Enable FIQ
- 190:./lib/CMSIS/Include/core_cmFunc.h **** 
- 191:./lib/CMSIS/Include/core_cmFunc.h ****     This function enables FIQ interrupts by clearing the F-bit in the CPSR.
- 192:./lib/CMSIS/Include/core_cmFunc.h ****     Can only be executed in Privileged modes.
+ 187:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 188:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Priority Mask
+ 189:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 190:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Priority Mask Register.
+ 191:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 192:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    priMask  Priority Mask
  193:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 194:./lib/CMSIS/Include/core_cmFunc.h **** #define __enable_fault_irq                __enable_fiq
- 195:./lib/CMSIS/Include/core_cmFunc.h **** 
- 196:./lib/CMSIS/Include/core_cmFunc.h **** 
- 197:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Disable FIQ
- 198:./lib/CMSIS/Include/core_cmFunc.h **** 
- 199:./lib/CMSIS/Include/core_cmFunc.h ****     This function disables FIQ interrupts by setting the F-bit in the CPSR.
- 200:./lib/CMSIS/Include/core_cmFunc.h ****     Can only be executed in Privileged modes.
- 201:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 202:./lib/CMSIS/Include/core_cmFunc.h **** #define __disable_fault_irq               __disable_fiq
- 203:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 194:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_PRIMASK(uint32_t priMask)
+ 195:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 196:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regPriMask         __ASM("primask");
+ 197:./lib/CMSIS/Include/core_cmFunc.h ****   __regPriMask = (priMask);
+ 198:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 199:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 200:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 201:./lib/CMSIS/Include/core_cmFunc.h **** #if       (__CORTEX_M >= 0x03)
+ 202:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 203:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Enable FIQ
  204:./lib/CMSIS/Include/core_cmFunc.h **** 
- 205:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Base Priority
- 206:./lib/CMSIS/Include/core_cmFunc.h **** 
- 207:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Base Priority register.
- 208:./lib/CMSIS/Include/core_cmFunc.h **** 
- 209:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Base Priority register value
- 210:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 211:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t  __get_BASEPRI(void)
- 212:./lib/CMSIS/Include/core_cmFunc.h **** {
- 213:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regBasePri         __ASM("basepri");
- 214:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regBasePri);
- 215:./lib/CMSIS/Include/core_cmFunc.h **** }
- 216:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 205:./lib/CMSIS/Include/core_cmFunc.h ****     This function enables FIQ interrupts by clearing the F-bit in the CPSR.
+ 206:./lib/CMSIS/Include/core_cmFunc.h ****     Can only be executed in Privileged modes.
+ 207:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 208:./lib/CMSIS/Include/core_cmFunc.h **** #define __enable_fault_irq                __enable_fiq
+ 209:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 210:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 211:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Disable FIQ
+ 212:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 213:./lib/CMSIS/Include/core_cmFunc.h ****     This function disables FIQ interrupts by setting the F-bit in the CPSR.
+ 214:./lib/CMSIS/Include/core_cmFunc.h ****     Can only be executed in Privileged modes.
+ 215:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 216:./lib/CMSIS/Include/core_cmFunc.h **** #define __disable_fault_irq               __disable_fiq
  217:./lib/CMSIS/Include/core_cmFunc.h **** 
- 218:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Base Priority
- 219:./lib/CMSIS/Include/core_cmFunc.h **** 
- 220:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Base Priority register.
- 221:./lib/CMSIS/Include/core_cmFunc.h **** 
- 222:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    basePri  Base Priority value to set
- 223:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 224:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_BASEPRI(uint32_t basePri)
- 225:./lib/CMSIS/Include/core_cmFunc.h **** {
- 226:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regBasePri         __ASM("basepri");
- 227:./lib/CMSIS/Include/core_cmFunc.h ****   __regBasePri = (basePri & 0xff);
- 228:./lib/CMSIS/Include/core_cmFunc.h **** }
- 229:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 218:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 219:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Base Priority
+ 220:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 221:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Base Priority register.
+ 222:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 223:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Base Priority register value
+ 224:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 225:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t  __get_BASEPRI(void)
+ 226:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 227:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regBasePri         __ASM("basepri");
+ 228:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regBasePri);
+ 229:./lib/CMSIS/Include/core_cmFunc.h **** }
  230:./lib/CMSIS/Include/core_cmFunc.h **** 
- 231:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Fault Mask
- 232:./lib/CMSIS/Include/core_cmFunc.h **** 
- 233:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Fault Mask register.
- 234:./lib/CMSIS/Include/core_cmFunc.h **** 
- 235:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Fault Mask register value
- 236:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 237:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_FAULTMASK(void)
- 238:./lib/CMSIS/Include/core_cmFunc.h **** {
- 239:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
- 240:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regFaultMask);
- 241:./lib/CMSIS/Include/core_cmFunc.h **** }
- 242:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 231:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 232:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Base Priority
+ 233:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 234:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Base Priority register.
+ 235:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 236:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    basePri  Base Priority value to set
+ 237:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 238:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_BASEPRI(uint32_t basePri)
+ 239:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 240:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regBasePri         __ASM("basepri");
+ 241:./lib/CMSIS/Include/core_cmFunc.h ****   __regBasePri = (basePri & 0xff);
+ 242:./lib/CMSIS/Include/core_cmFunc.h **** }
  243:./lib/CMSIS/Include/core_cmFunc.h **** 
- 244:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Fault Mask
- 245:./lib/CMSIS/Include/core_cmFunc.h **** 
- 246:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Fault Mask register.
- 247:./lib/CMSIS/Include/core_cmFunc.h **** 
- 248:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    faultMask  Fault Mask value to set
- 249:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 250:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
- 251:./lib/CMSIS/Include/core_cmFunc.h **** {
- 252:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
- 253:./lib/CMSIS/Include/core_cmFunc.h ****   __regFaultMask = (faultMask & (uint32_t)1);
- 254:./lib/CMSIS/Include/core_cmFunc.h **** }
- 255:./lib/CMSIS/Include/core_cmFunc.h **** 
- 256:./lib/CMSIS/Include/core_cmFunc.h **** #endif /* (__CORTEX_M >= 0x03) */
+ 244:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 245:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get Fault Mask
+ 246:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 247:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Fault Mask register.
+ 248:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 249:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Fault Mask register value
+ 250:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 251:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_FAULTMASK(void)
+ 252:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 253:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
+ 254:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regFaultMask);
+ 255:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 256:./lib/CMSIS/Include/core_cmFunc.h **** 
  257:./lib/CMSIS/Include/core_cmFunc.h **** 
- 258:./lib/CMSIS/Include/core_cmFunc.h **** 
- 259:./lib/CMSIS/Include/core_cmFunc.h **** #if       (__CORTEX_M == 0x04)
- 260:./lib/CMSIS/Include/core_cmFunc.h **** 
- 261:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get FPSCR
- 262:./lib/CMSIS/Include/core_cmFunc.h **** 
- 263:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Floating Point Status/Control register.
- 264:./lib/CMSIS/Include/core_cmFunc.h **** 
- 265:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Floating Point Status/Control register value
- 266:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 267:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_FPSCR(void)
- 268:./lib/CMSIS/Include/core_cmFunc.h **** {
- 269:./lib/CMSIS/Include/core_cmFunc.h **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
- 270:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regfpscr         __ASM("fpscr");
- 271:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regfpscr);
- 272:./lib/CMSIS/Include/core_cmFunc.h **** #else
- 273:./lib/CMSIS/Include/core_cmFunc.h ****    return(0);
- 274:./lib/CMSIS/Include/core_cmFunc.h **** #endif
- 275:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 258:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set Fault Mask
+ 259:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 260:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Fault Mask register.
+ 261:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 262:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    faultMask  Fault Mask value to set
+ 263:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 264:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
+ 265:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 266:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
+ 267:./lib/CMSIS/Include/core_cmFunc.h ****   __regFaultMask = (faultMask & (uint32_t)1);
+ 268:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 269:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 270:./lib/CMSIS/Include/core_cmFunc.h **** #endif /* (__CORTEX_M >= 0x03) */
+ 271:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 272:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 273:./lib/CMSIS/Include/core_cmFunc.h **** #if       (__CORTEX_M == 0x04)
+ 274:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 275:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Get FPSCR
  276:./lib/CMSIS/Include/core_cmFunc.h **** 
- 277:./lib/CMSIS/Include/core_cmFunc.h **** 
- 278:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set FPSCR
- 279:./lib/CMSIS/Include/core_cmFunc.h **** 
- 280:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Floating Point Status/Control register.
- 281:./lib/CMSIS/Include/core_cmFunc.h **** 
- 282:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    fpscr  Floating Point Status/Control value to set
- 283:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 284:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
- 285:./lib/CMSIS/Include/core_cmFunc.h **** {
- 286:./lib/CMSIS/Include/core_cmFunc.h **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
- 287:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regfpscr         __ASM("fpscr");
- 288:./lib/CMSIS/Include/core_cmFunc.h ****   __regfpscr = (fpscr);
- 289:./lib/CMSIS/Include/core_cmFunc.h **** #endif
- 290:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 277:./lib/CMSIS/Include/core_cmFunc.h ****     This function returns the current value of the Floating Point Status/Control register.
+ 278:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 279:./lib/CMSIS/Include/core_cmFunc.h ****     \return               Floating Point Status/Control register value
+ 280:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 281:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE uint32_t __get_FPSCR(void)
+ 282:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 283:./lib/CMSIS/Include/core_cmFunc.h **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+ 284:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regfpscr         __ASM("fpscr");
+ 285:./lib/CMSIS/Include/core_cmFunc.h ****   return(__regfpscr);
+ 286:./lib/CMSIS/Include/core_cmFunc.h **** #else
+ 287:./lib/CMSIS/Include/core_cmFunc.h ****    return(0);
+ 288:./lib/CMSIS/Include/core_cmFunc.h **** #endif
+ 289:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 290:./lib/CMSIS/Include/core_cmFunc.h **** 
  291:./lib/CMSIS/Include/core_cmFunc.h **** 
- 292:./lib/CMSIS/Include/core_cmFunc.h **** #endif /* (__CORTEX_M == 0x04) */
+ 292:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Set FPSCR
  293:./lib/CMSIS/Include/core_cmFunc.h **** 
- 294:./lib/CMSIS/Include/core_cmFunc.h **** 
- 295:./lib/CMSIS/Include/core_cmFunc.h **** #elif defined ( __ICCARM__ ) /*------------------ ICC Compiler -------------------*/
- 296:./lib/CMSIS/Include/core_cmFunc.h **** /* IAR iccarm specific functions */
- 297:./lib/CMSIS/Include/core_cmFunc.h **** 
- 298:./lib/CMSIS/Include/core_cmFunc.h **** #include <cmsis_iar.h>
- 299:./lib/CMSIS/Include/core_cmFunc.h **** 
- 300:./lib/CMSIS/Include/core_cmFunc.h **** 
- 301:./lib/CMSIS/Include/core_cmFunc.h **** #elif defined ( __TMS470__ ) /*---------------- TI CCS Compiler ------------------*/
- 302:./lib/CMSIS/Include/core_cmFunc.h **** /* TI CCS specific functions */
- 303:./lib/CMSIS/Include/core_cmFunc.h **** 
- 304:./lib/CMSIS/Include/core_cmFunc.h **** #include <cmsis_ccs.h>
+ 294:./lib/CMSIS/Include/core_cmFunc.h ****     This function assigns the given value to the Floating Point Status/Control register.
+ 295:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 296:./lib/CMSIS/Include/core_cmFunc.h ****     \param [in]    fpscr  Floating Point Status/Control value to set
+ 297:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 298:./lib/CMSIS/Include/core_cmFunc.h **** __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
+ 299:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 300:./lib/CMSIS/Include/core_cmFunc.h **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+ 301:./lib/CMSIS/Include/core_cmFunc.h ****   register uint32_t __regfpscr         __ASM("fpscr");
+ 302:./lib/CMSIS/Include/core_cmFunc.h ****   __regfpscr = (fpscr);
+ 303:./lib/CMSIS/Include/core_cmFunc.h **** #endif
+ 304:./lib/CMSIS/Include/core_cmFunc.h **** }
  305:./lib/CMSIS/Include/core_cmFunc.h **** 
- 306:./lib/CMSIS/Include/core_cmFunc.h **** 
- 307:./lib/CMSIS/Include/core_cmFunc.h **** #elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
- 308:./lib/CMSIS/Include/core_cmFunc.h **** /* GNU gcc specific functions */
- 309:./lib/CMSIS/Include/core_cmFunc.h **** 
- 310:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Enable IRQ Interrupts
+ 306:./lib/CMSIS/Include/core_cmFunc.h **** #endif /* (__CORTEX_M == 0x04) */
+ 307:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 308:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 309:./lib/CMSIS/Include/core_cmFunc.h **** #elif defined ( __ICCARM__ ) /*------------------ ICC Compiler -------------------*/
+ 310:./lib/CMSIS/Include/core_cmFunc.h **** /* IAR iccarm specific functions */
  311:./lib/CMSIS/Include/core_cmFunc.h **** 
- 312:./lib/CMSIS/Include/core_cmFunc.h ****   This function enables IRQ interrupts by clearing the I-bit in the CPSR.
- 313:./lib/CMSIS/Include/core_cmFunc.h ****   Can only be executed in Privileged modes.
- 314:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 315:./lib/CMSIS/Include/core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
- 316:./lib/CMSIS/Include/core_cmFunc.h **** {
- 317:./lib/CMSIS/Include/core_cmFunc.h ****   __ASM volatile ("cpsie i");
- 318:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 312:./lib/CMSIS/Include/core_cmFunc.h **** #include <cmsis_iar.h>
+ 313:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 314:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 315:./lib/CMSIS/Include/core_cmFunc.h **** #elif defined ( __TMS470__ ) /*---------------- TI CCS Compiler ------------------*/
+ 316:./lib/CMSIS/Include/core_cmFunc.h **** /* TI CCS specific functions */
+ 317:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 318:./lib/CMSIS/Include/core_cmFunc.h **** #include <cmsis_ccs.h>
  319:./lib/CMSIS/Include/core_cmFunc.h **** 
  320:./lib/CMSIS/Include/core_cmFunc.h **** 
- 321:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Disable IRQ Interrupts
- 322:./lib/CMSIS/Include/core_cmFunc.h **** 
- 323:./lib/CMSIS/Include/core_cmFunc.h ****   This function disables IRQ interrupts by setting the I-bit in the CPSR.
- 324:./lib/CMSIS/Include/core_cmFunc.h ****   Can only be executed in Privileged modes.
- 325:./lib/CMSIS/Include/core_cmFunc.h ****  */
- 326:./lib/CMSIS/Include/core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
- 327:./lib/CMSIS/Include/core_cmFunc.h **** {
- 328:./lib/CMSIS/Include/core_cmFunc.h ****   __ASM volatile ("cpsid i");
- 246              		.loc 2 328 0
- 247              	@ 328 "./lib/CMSIS/Include/core_cmFunc.h" 1
+ 321:./lib/CMSIS/Include/core_cmFunc.h **** #elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
+ 322:./lib/CMSIS/Include/core_cmFunc.h **** /* GNU gcc specific functions */
+ 323:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 324:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Enable IRQ Interrupts
+ 325:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 326:./lib/CMSIS/Include/core_cmFunc.h ****   This function enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 327:./lib/CMSIS/Include/core_cmFunc.h ****   Can only be executed in Privileged modes.
+ 328:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 329:./lib/CMSIS/Include/core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
+ 330:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 331:./lib/CMSIS/Include/core_cmFunc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 332:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 333:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 334:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 335:./lib/CMSIS/Include/core_cmFunc.h **** /** \brief  Disable IRQ Interrupts
+ 336:./lib/CMSIS/Include/core_cmFunc.h **** 
+ 337:./lib/CMSIS/Include/core_cmFunc.h ****   This function disables IRQ interrupts by setting the I-bit in the CPSR.
+ 338:./lib/CMSIS/Include/core_cmFunc.h ****   Can only be executed in Privileged modes.
+ 339:./lib/CMSIS/Include/core_cmFunc.h ****  */
+ 340:./lib/CMSIS/Include/core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
+ 341:./lib/CMSIS/Include/core_cmFunc.h **** {
+ 342:./lib/CMSIS/Include/core_cmFunc.h ****   __ASM volatile ("cpsid i" : : : "memory");
+ 246              		.loc 2 342 0
+ 247              	@ 342 "./lib/CMSIS/Include/core_cmFunc.h" 1
  248 0022 72B6     		cpsid i
  249              	@ 0 "" 2
  250              		.thumb
@@ -759,9 +773,9 @@
  263 0030 A3F80422 		strh	r2, [r3, #516]	@ movhi
  264              	.LBB22:
  265              	.LBB23:
- 317:./lib/CMSIS/Include/core_cmFunc.h ****   __ASM volatile ("cpsie i");
- 266              		.loc 2 317 0
- 267              	@ 317 "./lib/CMSIS/Include/core_cmFunc.h" 1
+ 331:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 266              		.loc 2 331 0
+ 267              	@ 331 "./lib/CMSIS/Include/core_cmFunc.h" 1
  268 0034 62B6     		cpsie i
  269              	@ 0 "" 2
  270              		.thumb
@@ -863,8 +877,8 @@
  340 0000 0346     		mov	r3, r0
  341              	.LBB24:
  342              	.LBB25:
- 343              		.loc 2 328 0
- 344              	@ 328 "./lib/CMSIS/Include/core_cmFunc.h" 1
+ 343              		.loc 2 342 0
+ 344              	@ 342 "./lib/CMSIS/Include/core_cmFunc.h" 1
  345 0002 72B6     		cpsid i
  346              	@ 0 "" 2
  347              		.thumb
@@ -890,9 +904,9 @@
  360 0014 A3F80212 		strh	r1, [r3, #514]	@ movhi
  361              	.LBB26:
  362              	.LBB27:
- 317:./lib/CMSIS/Include/core_cmFunc.h ****   __ASM volatile ("cpsie i");
- 363              		.loc 2 317 0
- 364              	@ 317 "./lib/CMSIS/Include/core_cmFunc.h" 1
+ 331:./lib/CMSIS/Include/core_cmFunc.h **** }
+ 363              		.loc 2 331 0
+ 364              	@ 331 "./lib/CMSIS/Include/core_cmFunc.h" 1
  365 0018 62B6     		cpsie i
  366              	@ 0 "" 2
  367              		.thumb
@@ -940,15 +954,15 @@
  394              	.L18:
  395              	.LBB28:
  396              	.LBB29:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  397              		.loc 1 140 0 discriminator 1
  398 0006 B3F80402 		ldrh	r0, [r3, #516]
  399              	.LVL43:
- 141:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
+ 141:src/uart_support_gps.c **** 
  400              		.loc 1 141 0 discriminator 1
  401 000a B3F80622 		ldrh	r2, [r3, #518]
  402              	.LVL44:
- 140:src/uart_support_gps.c **** 	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+ 140:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->TX_Tail;
  403              		.loc 1 140 0 discriminator 1
  404 000e 0130     		adds	r0, r0, #1
  405              	.LVL45:
@@ -1009,11 +1023,11 @@
  443              	.LVL48:
  444              	.LBB30:
  445              	.LBB31:
- 185:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
+ 185:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
  446              		.loc 1 185 0
  447 0004 B0F80022 		ldrh	r2, [r0, #512]
  448              	.LVL49:
- 186:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
+ 186:src/uart_support_gps.c **** 
  449              		.loc 1 186 0
  450 0008 B0F80212 		ldrh	r1, [r0, #514]
  451              	.LVL50:
@@ -1033,7 +1047,7 @@
  246:src/uart_support_gps.c **** #endif
  247:src/uart_support_gps.c **** }
  460              		.loc 1 247 0 discriminator 1
- 240:src/uart_support_gps.c **** 	if (USART_RXBufferData_Available(pUSART_Buf))  return USART_RXBuffer_GetByte(pUSART_Buf);
+ 240:src/uart_support_gps.c **** 	else										   return false;
  461              		.loc 1 240 0 discriminator 1
  462 0014 FFF7FEBF 		b	USART_RXBuffer_GetByte
  463              	.LVL52:
@@ -1077,15 +1091,15 @@
  492              	.LVL54:
  493              	.LBB32:
  494              	.LBB33:
- 185:src/uart_support_gps.c **** 	uint8_t tempHead = USART_buf->RX_Head;
+ 185:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
  495              		.loc 1 185 0
  496 0004 B1F80002 		ldrh	r0, [r1, #512]
  497              	.LVL55:
- 186:src/uart_support_gps.c **** 	uint8_t tempTail = USART_buf->RX_Tail;
+ 186:src/uart_support_gps.c **** 
  498              		.loc 1 186 0
  499 0008 B1F80222 		ldrh	r2, [r1, #514]
  500              	.LVL56:
- 189:src/uart_support_gps.c **** 	return (tempHead != tempTail);
+ 189:src/uart_support_gps.c **** }
  501              		.loc 1 189 0
  502 000c C1B2     		uxtb	r1, r0
  503              	.LVL57:
@@ -1134,7 +1148,7 @@
  535              		.cfi_def_cfa_offset 8
  536              		.cfi_offset 4, -8
  537              		.cfi_offset 14, -4
- 270:src/uart_support_gps.c **** void cputs(char *s)
+ 270:src/uart_support_gps.c **** {
  538              		.loc 1 270 0
  539 0002 441E     		subs	r4, r0, #1
  540              	.LVL60:
@@ -1448,13 +1462,13 @@
  751              		.loc 1 372 0
  752 006c BDE87040 		pop	{r4, r5, r6, lr}
  753              	.LBB37:
- 361:src/uart_support_gps.c **** 			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
+ 361:src/uart_support_gps.c **** 		}else{
  754              		.loc 1 361 0
  755 0070 FFF7FEBF 		b	USART_ITConfig
  756              	.LVL91:
  757              	.L62:
  758              	.LBB36:
- 364:src/uart_support_gps.c **** 			uint8_t data = (&USART2_Buf)->TX[(&USART2_Buf)->TX_Tail];
+ 364:src/uart_support_gps.c **** 			USART2->DR = data;
  759              		.loc 1 364 0
  760 0074 B0F80632 		ldrh	r3, [r0, #518]
  761              	.LVL92:
@@ -1462,10 +1476,10 @@
  763 007a 8118     		adds	r1, r0, r2
  764 007c 91F80031 		ldrb	r3, [r1, #256]	@ zero_extendqisi2
  765              	.LVL93:
- 365:src/uart_support_gps.c **** 			USART2->DR = data;
+ 365:src/uart_support_gps.c **** 
  766              		.loc 1 365 0
  767 0080 A380     		strh	r3, [r4, #4]	@ movhi
- 368:src/uart_support_gps.c **** 			(&USART2_Buf)->TX_Tail = ((&USART2_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
+ 368:src/uart_support_gps.c **** 		}
  768              		.loc 1 368 0
  769 0082 B0F80622 		ldrh	r2, [r0, #518]
  770 0086 511C     		adds	r1, r2, #1
@@ -1567,7 +1581,7 @@
  841 0016 0122     		movs	r2, #1
  402:src/uart_support_gps.c **** }
  842              		.loc 1 402 0
- 401:src/uart_support_gps.c **** 	USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
+ 401:src/uart_support_gps.c **** }
  843              		.loc 1 401 0
  844 0018 FFF7FEBF 		b	USART_ITConfig
  845              	.LVL97:
@@ -1663,8 +1677,8 @@
  927      00000000 
  928              		.text
  929              	.Letext0:
- 930              		.file 3 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
- 931              		.file 4 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 930              		.file 3 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h"
+ 931              		.file 4 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  932              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  933              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  934              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
@@ -1672,57 +1686,57 @@
  936              		.file 9 "./inc/uart_support_gps.h"
  937              		.file 10 "./lib/CMSIS/Include/core_cm3.h"
  938              		.file 11 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
- 939              		.file 12 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/
+ 939              		.file 12 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-e
 DEFINED SYMBOLS
-                            *ABS*:00000000 uart_support_gps.c
-  R:\TEMP\ccRvdMd2.s:19     .text.conio_init:00000000 $t
-  R:\TEMP\ccRvdMd2.s:24     .text.conio_init:00000000 conio_init
-  R:\TEMP\ccRvdMd2.s:152    .text.conio_init:000000bc $d
-  R:\TEMP\ccRvdMd2.s:162    .text.USART_TXBuffer_FreeSpace:00000000 $t
-  R:\TEMP\ccRvdMd2.s:167    .text.USART_TXBuffer_FreeSpace:00000000 USART_TXBuffer_FreeSpace
-  R:\TEMP\ccRvdMd2.s:197    .text.USART_TXBuffer_PutByte:00000000 $t
-  R:\TEMP\ccRvdMd2.s:202    .text.USART_TXBuffer_PutByte:00000000 USART_TXBuffer_PutByte
-  R:\TEMP\ccRvdMd2.s:290    .text.USART_TXBuffer_PutByte:00000048 $d
-  R:\TEMP\ccRvdMd2.s:295    .text.USART_RXBufferData_Available:00000000 $t
-  R:\TEMP\ccRvdMd2.s:300    .text.USART_RXBufferData_Available:00000000 USART_RXBufferData_Available
-  R:\TEMP\ccRvdMd2.s:327    .text.USART_RXBuffer_GetByte:00000000 $t
-  R:\TEMP\ccRvdMd2.s:332    .text.USART_RXBuffer_GetByte:00000000 USART_RXBuffer_GetByte
-  R:\TEMP\ccRvdMd2.s:376    .text.putch:00000000 $t
-  R:\TEMP\ccRvdMd2.s:381    .text.putch:00000000 putch
-  R:\TEMP\ccRvdMd2.s:423    .text.putch:00000020 $d
-  R:\TEMP\ccRvdMd2.s:428    .text.getch:00000000 $t
-  R:\TEMP\ccRvdMd2.s:433    .text.getch:00000000 getch
-  R:\TEMP\ccRvdMd2.s:472    .text.getch:0000001c $d
-  R:\TEMP\ccRvdMd2.s:477    .text.keypressed:00000000 $t
-  R:\TEMP\ccRvdMd2.s:482    .text.keypressed:00000000 keypressed
-  R:\TEMP\ccRvdMd2.s:516    .text.keypressed:00000018 $d
-  R:\TEMP\ccRvdMd2.s:521    .text.cputs:00000000 $t
-  R:\TEMP\ccRvdMd2.s:526    .text.cputs:00000000 cputs
-  R:\TEMP\ccRvdMd2.s:557    .text.cgets:00000000 $t
-  R:\TEMP\ccRvdMd2.s:562    .text.cgets:00000000 cgets
-  R:\TEMP\ccRvdMd2.s:663    .text.conio_IRQ:00000000 $t
-  R:\TEMP\ccRvdMd2.s:668    .text.conio_IRQ:00000000 conio_IRQ
-  R:\TEMP\ccRvdMd2.s:780    .text.conio_IRQ:00000090 $d
-  R:\TEMP\ccRvdMd2.s:788    .text.USART2_IRQHandler:00000000 $t
-  R:\TEMP\ccRvdMd2.s:793    .text.USART2_IRQHandler:00000000 USART2_IRQHandler
-  R:\TEMP\ccRvdMd2.s:813    .text.USART2_IRQHandler:0000000c $d
-  R:\TEMP\ccRvdMd2.s:818    .text.Flush_RXBuffer:00000000 $t
-  R:\TEMP\ccRvdMd2.s:823    .text.Flush_RXBuffer:00000000 Flush_RXBuffer
-  R:\TEMP\ccRvdMd2.s:849    .text.Flush_RXBuffer:0000001c $d
-  R:\TEMP\ccRvdMd2.s:855    .text.WaitTxBuffer:00000000 $t
-  R:\TEMP\ccRvdMd2.s:860    .text.WaitTxBuffer:00000000 WaitTxBuffer
-  R:\TEMP\ccRvdMd2.s:886    .text.WaitTxBuffer:0000001c $d
-  R:\TEMP\ccRvdMd2.s:912    .bss.xUART_IRQ:00000000 xUART_IRQ
-  R:\TEMP\ccRvdMd2.s:919    .bss.USART2_Buf:00000000 USART2_Buf
-  R:\TEMP\ccRvdMd2.s:926    .bss.USART_InitStructure:00000000 USART_InitStructure
-  R:\TEMP\ccRvdMd2.s:894    .bss.pUSART_Buf:00000000 $d
-  R:\TEMP\ccRvdMd2.s:898    .bss.pUSART_Buf:00000000 pUSART_Buf
-  R:\TEMP\ccRvdMd2.s:901    .bss.UART:00000000 $d
-  R:\TEMP\ccRvdMd2.s:905    .bss.UART:00000000 UART
-  R:\TEMP\ccRvdMd2.s:908    .bss.xUART_IRQ:00000000 $d
-  R:\TEMP\ccRvdMd2.s:915    .bss.USART2_Buf:00000000 $d
-  R:\TEMP\ccRvdMd2.s:922    .bss.USART_InitStructure:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 uart_support_gps.c
+  R:\TEMP\ccnd5sWU.s:19     .text.conio_init:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:24     .text.conio_init:0000000000000000 conio_init
+  R:\TEMP\ccnd5sWU.s:152    .text.conio_init:00000000000000bc $d
+  R:\TEMP\ccnd5sWU.s:162    .text.USART_TXBuffer_FreeSpace:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:167    .text.USART_TXBuffer_FreeSpace:0000000000000000 USART_TXBuffer_FreeSpace
+  R:\TEMP\ccnd5sWU.s:197    .text.USART_TXBuffer_PutByte:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:202    .text.USART_TXBuffer_PutByte:0000000000000000 USART_TXBuffer_PutByte
+  R:\TEMP\ccnd5sWU.s:290    .text.USART_TXBuffer_PutByte:0000000000000048 $d
+  R:\TEMP\ccnd5sWU.s:295    .text.USART_RXBufferData_Available:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:300    .text.USART_RXBufferData_Available:0000000000000000 USART_RXBufferData_Available
+  R:\TEMP\ccnd5sWU.s:327    .text.USART_RXBuffer_GetByte:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:332    .text.USART_RXBuffer_GetByte:0000000000000000 USART_RXBuffer_GetByte
+  R:\TEMP\ccnd5sWU.s:376    .text.putch:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:381    .text.putch:0000000000000000 putch
+  R:\TEMP\ccnd5sWU.s:423    .text.putch:0000000000000020 $d
+  R:\TEMP\ccnd5sWU.s:428    .text.getch:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:433    .text.getch:0000000000000000 getch
+  R:\TEMP\ccnd5sWU.s:472    .text.getch:000000000000001c $d
+  R:\TEMP\ccnd5sWU.s:477    .text.keypressed:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:482    .text.keypressed:0000000000000000 keypressed
+  R:\TEMP\ccnd5sWU.s:516    .text.keypressed:0000000000000018 $d
+  R:\TEMP\ccnd5sWU.s:521    .text.cputs:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:526    .text.cputs:0000000000000000 cputs
+  R:\TEMP\ccnd5sWU.s:557    .text.cgets:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:562    .text.cgets:0000000000000000 cgets
+  R:\TEMP\ccnd5sWU.s:663    .text.conio_IRQ:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:668    .text.conio_IRQ:0000000000000000 conio_IRQ
+  R:\TEMP\ccnd5sWU.s:780    .text.conio_IRQ:0000000000000090 $d
+  R:\TEMP\ccnd5sWU.s:788    .text.USART2_IRQHandler:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:793    .text.USART2_IRQHandler:0000000000000000 USART2_IRQHandler
+  R:\TEMP\ccnd5sWU.s:813    .text.USART2_IRQHandler:000000000000000c $d
+  R:\TEMP\ccnd5sWU.s:818    .text.Flush_RXBuffer:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:823    .text.Flush_RXBuffer:0000000000000000 Flush_RXBuffer
+  R:\TEMP\ccnd5sWU.s:849    .text.Flush_RXBuffer:000000000000001c $d
+  R:\TEMP\ccnd5sWU.s:855    .text.WaitTxBuffer:0000000000000000 $t
+  R:\TEMP\ccnd5sWU.s:860    .text.WaitTxBuffer:0000000000000000 WaitTxBuffer
+  R:\TEMP\ccnd5sWU.s:886    .text.WaitTxBuffer:000000000000001c $d
+  R:\TEMP\ccnd5sWU.s:912    .bss.xUART_IRQ:0000000000000000 xUART_IRQ
+  R:\TEMP\ccnd5sWU.s:919    .bss.USART2_Buf:0000000000000000 USART2_Buf
+  R:\TEMP\ccnd5sWU.s:926    .bss.USART_InitStructure:0000000000000000 USART_InitStructure
+  R:\TEMP\ccnd5sWU.s:894    .bss.pUSART_Buf:0000000000000000 $d
+  R:\TEMP\ccnd5sWU.s:898    .bss.pUSART_Buf:0000000000000000 pUSART_Buf
+  R:\TEMP\ccnd5sWU.s:901    .bss.UART:0000000000000000 $d
+  R:\TEMP\ccnd5sWU.s:905    .bss.UART:0000000000000000 UART
+  R:\TEMP\ccnd5sWU.s:908    .bss.xUART_IRQ:0000000000000000 $d
+  R:\TEMP\ccnd5sWU.s:915    .bss.USART2_Buf:0000000000000000 $d
+  R:\TEMP\ccnd5sWU.s:922    .bss.USART_InitStructure:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphClockCmd

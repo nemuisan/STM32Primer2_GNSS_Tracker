@@ -550,25 +550,25 @@
  371 0000 0000     		.space	2
  372              		.text
  373              	.Letext0:
- 374              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 374              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  375              		.file 3 "./lib/CMSIS/Include/core_cm3.h"
  376              		.file 4 "./inc/systick.h"
  377              		.file 5 "./lib/STM32_USB-FS-Device_Driver/inc/usb_regs.h"
  378              		.file 6 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
  379              		.file 7 "./lib/STM32_USB-FS-Device_Driver/inc/usb_core.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_int.c
-  R:\TEMP\cclqAtZh.s:19     .text.CTR_LP:00000000 $t
-  R:\TEMP\cclqAtZh.s:24     .text.CTR_LP:00000000 CTR_LP
-  R:\TEMP\cclqAtZh.s:256    .text.CTR_LP:00000170 $d
-  R:\TEMP\cclqAtZh.s:268    .text.CTR_HP:00000000 $t
-  R:\TEMP\cclqAtZh.s:273    .text.CTR_HP:00000000 CTR_HP
-  R:\TEMP\cclqAtZh.s:348    .text.CTR_HP:00000060 $d
-  R:\TEMP\cclqAtZh.s:370    .bss.SaveTState:00000000 SaveTState
-  R:\TEMP\cclqAtZh.s:363    .bss.SaveRState:00000000 SaveRState
-  R:\TEMP\cclqAtZh.s:359    .bss.SaveRState:00000000 $d
-  R:\TEMP\cclqAtZh.s:366    .bss.SaveTState:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_int.c
+  R:\TEMP\ccBIyxUe.s:19     .text.CTR_LP:0000000000000000 $t
+  R:\TEMP\ccBIyxUe.s:24     .text.CTR_LP:0000000000000000 CTR_LP
+  R:\TEMP\ccBIyxUe.s:256    .text.CTR_LP:0000000000000170 $d
+  R:\TEMP\ccBIyxUe.s:268    .text.CTR_HP:0000000000000000 $t
+  R:\TEMP\ccBIyxUe.s:273    .text.CTR_HP:0000000000000000 CTR_HP
+  R:\TEMP\ccBIyxUe.s:348    .text.CTR_HP:0000000000000060 $d
+  R:\TEMP\ccBIyxUe.s:370    .bss.SaveTState:0000000000000000 SaveTState
+  R:\TEMP\ccBIyxUe.s:363    .bss.SaveRState:0000000000000000 SaveRState
+  R:\TEMP\ccBIyxUe.s:359    .bss.SaveRState:0000000000000000 $d
+  R:\TEMP\ccBIyxUe.s:366    .bss.SaveTState:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 In0_Process

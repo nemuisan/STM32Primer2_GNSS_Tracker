@@ -302,7 +302,7 @@
   93 0012 0C43     		orrs	r4, r4, r1
   94 0014 0169     		ldr	r1, [r0, #16]
   95 0016 2143     		orrs	r1, r1, r4
- 203:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****   tmpreg &= CLKCR_CLEAR_MASK;
+ 203:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****   
   96              		.loc 1 203 0
   97 0018 23F4FD43 		bic	r3, r3, #32384
   98              	.LVL3:
@@ -310,7 +310,7 @@
  213:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****              SDIO_InitStruct->SDIO_ClockEdge | SDIO_InitStruct->SDIO_HardwareFlowControl); 
  100              		.loc 1 213 0
  101 0020 1943     		orrs	r1, r1, r3
- 211:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****   tmpreg |= (SDIO_InitStruct->SDIO_ClockDiv  | SDIO_InitStruct->SDIO_ClockPowerSave |
+ 211:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****              SDIO_InitStruct->SDIO_ClockBypass | SDIO_InitStruct->SDIO_BusWide |
  102              		.loc 1 211 0
  103 0022 007D     		ldrb	r0, [r0, #20]	@ zero_extendqisi2
  104              	.LVL4:
@@ -548,7 +548,7 @@
  321:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****     SDIO->MASK |= SDIO_IT;
  239              		.loc 1 321 0
  240 0002 DA6B     		ldr	r2, [r3, #60]
- 318:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****   if (NewState != DISABLE)
+ 318:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****   {
  241              		.loc 1 318 0
  242 0004 09B1     		cbz	r1, .L18
  243              		.loc 1 321 0
@@ -685,7 +685,7 @@
  324 001c 0069     		ldr	r0, [r0, #16]
  325              	.LVL18:
  326 001e 0143     		orrs	r1, r1, r0
- 374:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****   tmpreg |= (uint32_t)SDIO_CmdInitStruct->SDIO_CmdIndex | SDIO_CmdInitStruct->SDIO_Response
+ 374:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****            | SDIO_CmdInitStruct->SDIO_Wait | SDIO_CmdInitStruct->SDIO_CPSM;
  327              		.loc 1 374 0
  328 0020 0A43     		orrs	r2, r2, r1
  329              	.LVL19:
@@ -920,7 +920,7 @@
  476 001c 4069     		ldr	r0, [r0, #20]
  477              	.LVL31:
  478 001e 0143     		orrs	r1, r1, r0
- 464:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****   tmpreg |= (uint32_t)SDIO_DataInitStruct->SDIO_DataBlockSize | SDIO_DataInitStruct->SDIO_TransferD
+ 464:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_sdio.c ****            | SDIO_DataInitStruct->SDIO_TransferMode | SDIO_DataInitStruct->SDIO_DPSM;
  479              		.loc 1 464 0
  480 0020 2143     		orrs	r1, r1, r4
  481              	.LVL32:
@@ -1676,99 +1676,99 @@
  941              	.LFE85:
  943              		.text
  944              	.Letext0:
- 945              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 945              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  946              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  947              		.file 4 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_sdio.h"
  948              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 stm32f10x_sdio.c
-  R:\TEMP\cc8eVpRj.s:19     .text.SDIO_DeInit:00000000 $t
-  R:\TEMP\cc8eVpRj.s:24     .text.SDIO_DeInit:00000000 SDIO_DeInit
-  R:\TEMP\cc8eVpRj.s:57     .text.SDIO_DeInit:0000001c $d
-  R:\TEMP\cc8eVpRj.s:63     .text.SDIO_Init:00000000 $t
-  R:\TEMP\cc8eVpRj.s:68     .text.SDIO_Init:00000000 SDIO_Init
-  R:\TEMP\cc8eVpRj.s:113    .text.SDIO_Init:0000002c $d
-  R:\TEMP\cc8eVpRj.s:118    .text.SDIO_StructInit:00000000 $t
-  R:\TEMP\cc8eVpRj.s:123    .text.SDIO_StructInit:00000000 SDIO_StructInit
-  R:\TEMP\cc8eVpRj.s:149    .text.SDIO_ClockCmd:00000000 $t
-  R:\TEMP\cc8eVpRj.s:154    .text.SDIO_ClockCmd:00000000 SDIO_ClockCmd
-  R:\TEMP\cc8eVpRj.s:169    .text.SDIO_ClockCmd:00000008 $d
-  R:\TEMP\cc8eVpRj.s:174    .text.SDIO_SetPowerState:00000000 $t
-  R:\TEMP\cc8eVpRj.s:179    .text.SDIO_SetPowerState:00000000 SDIO_SetPowerState
-  R:\TEMP\cc8eVpRj.s:194    .text.SDIO_SetPowerState:00000008 $d
-  R:\TEMP\cc8eVpRj.s:199    .text.SDIO_GetPowerState:00000000 $t
-  R:\TEMP\cc8eVpRj.s:204    .text.SDIO_GetPowerState:00000000 SDIO_GetPowerState
-  R:\TEMP\cc8eVpRj.s:220    .text.SDIO_GetPowerState:0000000c $d
-  R:\TEMP\cc8eVpRj.s:225    .text.SDIO_ITConfig:00000000 $t
-  R:\TEMP\cc8eVpRj.s:230    .text.SDIO_ITConfig:00000000 SDIO_ITConfig
-  R:\TEMP\cc8eVpRj.s:258    .text.SDIO_ITConfig:00000014 $d
-  R:\TEMP\cc8eVpRj.s:263    .text.SDIO_DMACmd:00000000 $t
-  R:\TEMP\cc8eVpRj.s:268    .text.SDIO_DMACmd:00000000 SDIO_DMACmd
-  R:\TEMP\cc8eVpRj.s:283    .text.SDIO_DMACmd:00000008 $d
-  R:\TEMP\cc8eVpRj.s:288    .text.SDIO_SendCommand:00000000 $t
-  R:\TEMP\cc8eVpRj.s:293    .text.SDIO_SendCommand:00000000 SDIO_SendCommand
-  R:\TEMP\cc8eVpRj.s:336    .text.SDIO_SendCommand:00000028 $d
-  R:\TEMP\cc8eVpRj.s:341    .text.SDIO_CmdStructInit:00000000 $t
-  R:\TEMP\cc8eVpRj.s:346    .text.SDIO_CmdStructInit:00000000 SDIO_CmdStructInit
-  R:\TEMP\cc8eVpRj.s:370    .text.SDIO_GetCommandResponse:00000000 $t
-  R:\TEMP\cc8eVpRj.s:375    .text.SDIO_GetCommandResponse:00000000 SDIO_GetCommandResponse
-  R:\TEMP\cc8eVpRj.s:391    .text.SDIO_GetCommandResponse:00000008 $d
-  R:\TEMP\cc8eVpRj.s:396    .text.SDIO_GetResponse:00000000 $t
-  R:\TEMP\cc8eVpRj.s:401    .text.SDIO_GetResponse:00000000 SDIO_GetResponse
-  R:\TEMP\cc8eVpRj.s:433    .text.SDIO_GetResponse:00000014 $d
-  R:\TEMP\cc8eVpRj.s:438    .text.SDIO_DataConfig:00000000 $t
-  R:\TEMP\cc8eVpRj.s:443    .text.SDIO_DataConfig:00000000 SDIO_DataConfig
-  R:\TEMP\cc8eVpRj.s:488    .text.SDIO_DataConfig:00000028 $d
-  R:\TEMP\cc8eVpRj.s:493    .text.SDIO_DataStructInit:00000000 $t
-  R:\TEMP\cc8eVpRj.s:498    .text.SDIO_DataStructInit:00000000 SDIO_DataStructInit
-  R:\TEMP\cc8eVpRj.s:525    .text.SDIO_GetDataCounter:00000000 $t
-  R:\TEMP\cc8eVpRj.s:530    .text.SDIO_GetDataCounter:00000000 SDIO_GetDataCounter
-  R:\TEMP\cc8eVpRj.s:545    .text.SDIO_GetDataCounter:00000008 $d
-  R:\TEMP\cc8eVpRj.s:550    .text.SDIO_ReadData:00000000 $t
-  R:\TEMP\cc8eVpRj.s:555    .text.SDIO_ReadData:00000000 SDIO_ReadData
-  R:\TEMP\cc8eVpRj.s:570    .text.SDIO_ReadData:00000008 $d
-  R:\TEMP\cc8eVpRj.s:575    .text.SDIO_WriteData:00000000 $t
-  R:\TEMP\cc8eVpRj.s:580    .text.SDIO_WriteData:00000000 SDIO_WriteData
-  R:\TEMP\cc8eVpRj.s:595    .text.SDIO_WriteData:00000008 $d
-  R:\TEMP\cc8eVpRj.s:600    .text.SDIO_GetFIFOCount:00000000 $t
-  R:\TEMP\cc8eVpRj.s:605    .text.SDIO_GetFIFOCount:00000000 SDIO_GetFIFOCount
-  R:\TEMP\cc8eVpRj.s:620    .text.SDIO_GetFIFOCount:00000008 $d
-  R:\TEMP\cc8eVpRj.s:625    .text.SDIO_StartSDIOReadWait:00000000 $t
-  R:\TEMP\cc8eVpRj.s:630    .text.SDIO_StartSDIOReadWait:00000000 SDIO_StartSDIOReadWait
-  R:\TEMP\cc8eVpRj.s:645    .text.SDIO_StartSDIOReadWait:00000008 $d
-  R:\TEMP\cc8eVpRj.s:650    .text.SDIO_StopSDIOReadWait:00000000 $t
-  R:\TEMP\cc8eVpRj.s:655    .text.SDIO_StopSDIOReadWait:00000000 SDIO_StopSDIOReadWait
-  R:\TEMP\cc8eVpRj.s:670    .text.SDIO_StopSDIOReadWait:00000008 $d
-  R:\TEMP\cc8eVpRj.s:675    .text.SDIO_SetSDIOReadWaitMode:00000000 $t
-  R:\TEMP\cc8eVpRj.s:680    .text.SDIO_SetSDIOReadWaitMode:00000000 SDIO_SetSDIOReadWaitMode
-  R:\TEMP\cc8eVpRj.s:695    .text.SDIO_SetSDIOReadWaitMode:00000008 $d
-  R:\TEMP\cc8eVpRj.s:700    .text.SDIO_SetSDIOOperation:00000000 $t
-  R:\TEMP\cc8eVpRj.s:705    .text.SDIO_SetSDIOOperation:00000000 SDIO_SetSDIOOperation
-  R:\TEMP\cc8eVpRj.s:720    .text.SDIO_SetSDIOOperation:00000008 $d
-  R:\TEMP\cc8eVpRj.s:725    .text.SDIO_SendSDIOSuspendCmd:00000000 $t
-  R:\TEMP\cc8eVpRj.s:730    .text.SDIO_SendSDIOSuspendCmd:00000000 SDIO_SendSDIOSuspendCmd
-  R:\TEMP\cc8eVpRj.s:745    .text.SDIO_SendSDIOSuspendCmd:00000008 $d
-  R:\TEMP\cc8eVpRj.s:750    .text.SDIO_CommandCompletionCmd:00000000 $t
-  R:\TEMP\cc8eVpRj.s:755    .text.SDIO_CommandCompletionCmd:00000000 SDIO_CommandCompletionCmd
-  R:\TEMP\cc8eVpRj.s:770    .text.SDIO_CommandCompletionCmd:00000008 $d
-  R:\TEMP\cc8eVpRj.s:775    .text.SDIO_CEATAITCmd:00000000 $t
-  R:\TEMP\cc8eVpRj.s:780    .text.SDIO_CEATAITCmd:00000000 SDIO_CEATAITCmd
-  R:\TEMP\cc8eVpRj.s:798    .text.SDIO_CEATAITCmd:00000010 $d
-  R:\TEMP\cc8eVpRj.s:803    .text.SDIO_SendCEATACmd:00000000 $t
-  R:\TEMP\cc8eVpRj.s:808    .text.SDIO_SendCEATACmd:00000000 SDIO_SendCEATACmd
-  R:\TEMP\cc8eVpRj.s:823    .text.SDIO_SendCEATACmd:00000008 $d
-  R:\TEMP\cc8eVpRj.s:828    .text.SDIO_GetFlagStatus:00000000 $t
-  R:\TEMP\cc8eVpRj.s:833    .text.SDIO_GetFlagStatus:00000000 SDIO_GetFlagStatus
-  R:\TEMP\cc8eVpRj.s:856    .text.SDIO_GetFlagStatus:00000010 $d
-  R:\TEMP\cc8eVpRj.s:861    .text.SDIO_ClearFlag:00000000 $t
-  R:\TEMP\cc8eVpRj.s:866    .text.SDIO_ClearFlag:00000000 SDIO_ClearFlag
-  R:\TEMP\cc8eVpRj.s:881    .text.SDIO_ClearFlag:00000008 $d
-  R:\TEMP\cc8eVpRj.s:886    .text.SDIO_GetITStatus:00000000 $t
-  R:\TEMP\cc8eVpRj.s:891    .text.SDIO_GetITStatus:00000000 SDIO_GetITStatus
-  R:\TEMP\cc8eVpRj.s:914    .text.SDIO_GetITStatus:00000010 $d
-  R:\TEMP\cc8eVpRj.s:919    .text.SDIO_ClearITPendingBit:00000000 $t
-  R:\TEMP\cc8eVpRj.s:924    .text.SDIO_ClearITPendingBit:00000000 SDIO_ClearITPendingBit
-  R:\TEMP\cc8eVpRj.s:939    .text.SDIO_ClearITPendingBit:00000008 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 stm32f10x_sdio.c
+  R:\TEMP\ccl9AbTI.s:19     .text.SDIO_DeInit:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:24     .text.SDIO_DeInit:0000000000000000 SDIO_DeInit
+  R:\TEMP\ccl9AbTI.s:57     .text.SDIO_DeInit:000000000000001c $d
+  R:\TEMP\ccl9AbTI.s:63     .text.SDIO_Init:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:68     .text.SDIO_Init:0000000000000000 SDIO_Init
+  R:\TEMP\ccl9AbTI.s:113    .text.SDIO_Init:000000000000002c $d
+  R:\TEMP\ccl9AbTI.s:118    .text.SDIO_StructInit:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:123    .text.SDIO_StructInit:0000000000000000 SDIO_StructInit
+  R:\TEMP\ccl9AbTI.s:149    .text.SDIO_ClockCmd:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:154    .text.SDIO_ClockCmd:0000000000000000 SDIO_ClockCmd
+  R:\TEMP\ccl9AbTI.s:169    .text.SDIO_ClockCmd:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:174    .text.SDIO_SetPowerState:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:179    .text.SDIO_SetPowerState:0000000000000000 SDIO_SetPowerState
+  R:\TEMP\ccl9AbTI.s:194    .text.SDIO_SetPowerState:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:199    .text.SDIO_GetPowerState:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:204    .text.SDIO_GetPowerState:0000000000000000 SDIO_GetPowerState
+  R:\TEMP\ccl9AbTI.s:220    .text.SDIO_GetPowerState:000000000000000c $d
+  R:\TEMP\ccl9AbTI.s:225    .text.SDIO_ITConfig:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:230    .text.SDIO_ITConfig:0000000000000000 SDIO_ITConfig
+  R:\TEMP\ccl9AbTI.s:258    .text.SDIO_ITConfig:0000000000000014 $d
+  R:\TEMP\ccl9AbTI.s:263    .text.SDIO_DMACmd:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:268    .text.SDIO_DMACmd:0000000000000000 SDIO_DMACmd
+  R:\TEMP\ccl9AbTI.s:283    .text.SDIO_DMACmd:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:288    .text.SDIO_SendCommand:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:293    .text.SDIO_SendCommand:0000000000000000 SDIO_SendCommand
+  R:\TEMP\ccl9AbTI.s:336    .text.SDIO_SendCommand:0000000000000028 $d
+  R:\TEMP\ccl9AbTI.s:341    .text.SDIO_CmdStructInit:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:346    .text.SDIO_CmdStructInit:0000000000000000 SDIO_CmdStructInit
+  R:\TEMP\ccl9AbTI.s:370    .text.SDIO_GetCommandResponse:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:375    .text.SDIO_GetCommandResponse:0000000000000000 SDIO_GetCommandResponse
+  R:\TEMP\ccl9AbTI.s:391    .text.SDIO_GetCommandResponse:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:396    .text.SDIO_GetResponse:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:401    .text.SDIO_GetResponse:0000000000000000 SDIO_GetResponse
+  R:\TEMP\ccl9AbTI.s:433    .text.SDIO_GetResponse:0000000000000014 $d
+  R:\TEMP\ccl9AbTI.s:438    .text.SDIO_DataConfig:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:443    .text.SDIO_DataConfig:0000000000000000 SDIO_DataConfig
+  R:\TEMP\ccl9AbTI.s:488    .text.SDIO_DataConfig:0000000000000028 $d
+  R:\TEMP\ccl9AbTI.s:493    .text.SDIO_DataStructInit:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:498    .text.SDIO_DataStructInit:0000000000000000 SDIO_DataStructInit
+  R:\TEMP\ccl9AbTI.s:525    .text.SDIO_GetDataCounter:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:530    .text.SDIO_GetDataCounter:0000000000000000 SDIO_GetDataCounter
+  R:\TEMP\ccl9AbTI.s:545    .text.SDIO_GetDataCounter:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:550    .text.SDIO_ReadData:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:555    .text.SDIO_ReadData:0000000000000000 SDIO_ReadData
+  R:\TEMP\ccl9AbTI.s:570    .text.SDIO_ReadData:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:575    .text.SDIO_WriteData:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:580    .text.SDIO_WriteData:0000000000000000 SDIO_WriteData
+  R:\TEMP\ccl9AbTI.s:595    .text.SDIO_WriteData:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:600    .text.SDIO_GetFIFOCount:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:605    .text.SDIO_GetFIFOCount:0000000000000000 SDIO_GetFIFOCount
+  R:\TEMP\ccl9AbTI.s:620    .text.SDIO_GetFIFOCount:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:625    .text.SDIO_StartSDIOReadWait:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:630    .text.SDIO_StartSDIOReadWait:0000000000000000 SDIO_StartSDIOReadWait
+  R:\TEMP\ccl9AbTI.s:645    .text.SDIO_StartSDIOReadWait:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:650    .text.SDIO_StopSDIOReadWait:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:655    .text.SDIO_StopSDIOReadWait:0000000000000000 SDIO_StopSDIOReadWait
+  R:\TEMP\ccl9AbTI.s:670    .text.SDIO_StopSDIOReadWait:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:675    .text.SDIO_SetSDIOReadWaitMode:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:680    .text.SDIO_SetSDIOReadWaitMode:0000000000000000 SDIO_SetSDIOReadWaitMode
+  R:\TEMP\ccl9AbTI.s:695    .text.SDIO_SetSDIOReadWaitMode:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:700    .text.SDIO_SetSDIOOperation:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:705    .text.SDIO_SetSDIOOperation:0000000000000000 SDIO_SetSDIOOperation
+  R:\TEMP\ccl9AbTI.s:720    .text.SDIO_SetSDIOOperation:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:725    .text.SDIO_SendSDIOSuspendCmd:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:730    .text.SDIO_SendSDIOSuspendCmd:0000000000000000 SDIO_SendSDIOSuspendCmd
+  R:\TEMP\ccl9AbTI.s:745    .text.SDIO_SendSDIOSuspendCmd:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:750    .text.SDIO_CommandCompletionCmd:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:755    .text.SDIO_CommandCompletionCmd:0000000000000000 SDIO_CommandCompletionCmd
+  R:\TEMP\ccl9AbTI.s:770    .text.SDIO_CommandCompletionCmd:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:775    .text.SDIO_CEATAITCmd:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:780    .text.SDIO_CEATAITCmd:0000000000000000 SDIO_CEATAITCmd
+  R:\TEMP\ccl9AbTI.s:798    .text.SDIO_CEATAITCmd:0000000000000010 $d
+  R:\TEMP\ccl9AbTI.s:803    .text.SDIO_SendCEATACmd:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:808    .text.SDIO_SendCEATACmd:0000000000000000 SDIO_SendCEATACmd
+  R:\TEMP\ccl9AbTI.s:823    .text.SDIO_SendCEATACmd:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:828    .text.SDIO_GetFlagStatus:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:833    .text.SDIO_GetFlagStatus:0000000000000000 SDIO_GetFlagStatus
+  R:\TEMP\ccl9AbTI.s:856    .text.SDIO_GetFlagStatus:0000000000000010 $d
+  R:\TEMP\ccl9AbTI.s:861    .text.SDIO_ClearFlag:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:866    .text.SDIO_ClearFlag:0000000000000000 SDIO_ClearFlag
+  R:\TEMP\ccl9AbTI.s:881    .text.SDIO_ClearFlag:0000000000000008 $d
+  R:\TEMP\ccl9AbTI.s:886    .text.SDIO_GetITStatus:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:891    .text.SDIO_GetITStatus:0000000000000000 SDIO_GetITStatus
+  R:\TEMP\ccl9AbTI.s:914    .text.SDIO_GetITStatus:0000000000000010 $d
+  R:\TEMP\ccl9AbTI.s:919    .text.SDIO_ClearITPendingBit:0000000000000000 $t
+  R:\TEMP\ccl9AbTI.s:924    .text.SDIO_ClearITPendingBit:0000000000000000 SDIO_ClearITPendingBit
+  R:\TEMP\ccl9AbTI.s:939    .text.SDIO_ClearITPendingBit:0000000000000008 $d
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

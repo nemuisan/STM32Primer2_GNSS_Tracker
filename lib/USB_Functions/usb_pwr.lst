@@ -270,7 +270,7 @@
  135:lib/USB_Functions/usb_pwr.c ****   Enter_LowPowerMode();
  136:lib/USB_Functions/usb_pwr.c **** }
  141              		.loc 1 136 0
- 135:lib/USB_Functions/usb_pwr.c ****   Enter_LowPowerMode();
+ 135:lib/USB_Functions/usb_pwr.c **** }
  142              		.loc 1 135 0
  143 0016 FFF7FEBF 		b	Enter_LowPowerMode
  144              	.LVL4:
@@ -581,7 +581,7 @@
  354 0000 00000000 		.space	4
  355              		.text
  356              	.Letext0:
- 357              		.file 2 "c:\\devz\\arm\\launchpad\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
+ 357              		.file 2 "c:\\devz\\arm\\bleeding-edge\\bin\\../lib/gcc/arm-none-eabi/4.7.3/include/stdint-gcc.h"
  358              		.file 3 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  359              		.file 4 "./lib/STM32_USB-FS-Device_Driver/inc/usb_core.h"
  360              		.file 5 "./lib/USB_Functions/usb_pwr.h"
@@ -590,30 +590,30 @@
  363              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
  364              		.file 9 "./inc/hw_config.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_pwr.c
-  R:\TEMP\ccCQ7Fy6.s:19     .text.PowerOn:00000000 $t
-  R:\TEMP\ccCQ7Fy6.s:24     .text.PowerOn:00000000 PowerOn
-  R:\TEMP\ccCQ7Fy6.s:62     .text.PowerOn:00000024 $d
-  R:\TEMP\ccCQ7Fy6.s:69     .text.PowerOff:00000000 $t
-  R:\TEMP\ccCQ7Fy6.s:74     .text.PowerOff:00000000 PowerOff
-  R:\TEMP\ccCQ7Fy6.s:108    .text.PowerOff:0000001c $d
-  R:\TEMP\ccCQ7Fy6.s:114    .text.Suspend:00000000 $t
-  R:\TEMP\ccCQ7Fy6.s:119    .text.Suspend:00000000 Suspend
-  R:\TEMP\ccCQ7Fy6.s:148    .text.Suspend:0000001c $d
-  R:\TEMP\ccCQ7Fy6.s:153    .text.Resume_Init:00000000 $t
-  R:\TEMP\ccCQ7Fy6.s:158    .text.Resume_Init:00000000 Resume_Init
-  R:\TEMP\ccCQ7Fy6.s:189    .text.Resume_Init:0000001c $d
-  R:\TEMP\ccCQ7Fy6.s:194    .text.Resume:00000000 $t
-  R:\TEMP\ccCQ7Fy6.s:199    .text.Resume:00000000 Resume
-  R:\TEMP\ccCQ7Fy6.s:224    .text.Resume:00000016 $d
-  R:\TEMP\ccCQ7Fy6.s:230    .text.Resume:0000001c $t
-  R:\TEMP\ccCQ7Fy6.s:330    .text.Resume:00000080 $d
-  R:\TEMP\ccCQ7Fy6.s:342    .bss.ResumeS:00000000 ResumeS
-  R:\TEMP\ccCQ7Fy6.s:347    .data.fSuspendEnabled:00000000 fSuspendEnabled
-  R:\TEMP\ccCQ7Fy6.s:353    .bss.bDeviceState:00000000 bDeviceState
-  R:\TEMP\ccCQ7Fy6.s:343    .bss.ResumeS:00000000 $d
-  R:\TEMP\ccCQ7Fy6.s:350    .bss.bDeviceState:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_pwr.c
+  R:\TEMP\ccO9rjQT.s:19     .text.PowerOn:0000000000000000 $t
+  R:\TEMP\ccO9rjQT.s:24     .text.PowerOn:0000000000000000 PowerOn
+  R:\TEMP\ccO9rjQT.s:62     .text.PowerOn:0000000000000024 $d
+  R:\TEMP\ccO9rjQT.s:69     .text.PowerOff:0000000000000000 $t
+  R:\TEMP\ccO9rjQT.s:74     .text.PowerOff:0000000000000000 PowerOff
+  R:\TEMP\ccO9rjQT.s:108    .text.PowerOff:000000000000001c $d
+  R:\TEMP\ccO9rjQT.s:114    .text.Suspend:0000000000000000 $t
+  R:\TEMP\ccO9rjQT.s:119    .text.Suspend:0000000000000000 Suspend
+  R:\TEMP\ccO9rjQT.s:148    .text.Suspend:000000000000001c $d
+  R:\TEMP\ccO9rjQT.s:153    .text.Resume_Init:0000000000000000 $t
+  R:\TEMP\ccO9rjQT.s:158    .text.Resume_Init:0000000000000000 Resume_Init
+  R:\TEMP\ccO9rjQT.s:189    .text.Resume_Init:000000000000001c $d
+  R:\TEMP\ccO9rjQT.s:194    .text.Resume:0000000000000000 $t
+  R:\TEMP\ccO9rjQT.s:199    .text.Resume:0000000000000000 Resume
+  R:\TEMP\ccO9rjQT.s:224    .text.Resume:0000000000000016 $d
+  R:\TEMP\ccO9rjQT.s:230    .text.Resume:000000000000001c $t
+  R:\TEMP\ccO9rjQT.s:330    .text.Resume:0000000000000080 $d
+  R:\TEMP\ccO9rjQT.s:342    .bss.ResumeS:0000000000000000 ResumeS
+  R:\TEMP\ccO9rjQT.s:347    .data.fSuspendEnabled:0000000000000000 fSuspendEnabled
+  R:\TEMP\ccO9rjQT.s:353    .bss.bDeviceState:0000000000000000 bDeviceState
+  R:\TEMP\ccO9rjQT.s:343    .bss.ResumeS:0000000000000000 $d
+  R:\TEMP\ccO9rjQT.s:350    .bss.bDeviceState:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 USB_Cable_Config

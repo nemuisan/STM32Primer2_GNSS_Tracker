@@ -15,7 +15,8 @@ OCD		= openocd
 RLINK	= Cortex_pgm
 
 # Development Tools based on GNU Compiler Collection
-DEVTOOL = LAUNCHPAD
+#DEVTOOL = LAUNCHPAD
+DEVTOOL = BLEEDING_EDGE
 #DEVTOOL = YAGARTO
 #DEVTOOL = DEVKITARM
 #DEVTOOL = SOURCERY
@@ -24,8 +25,11 @@ DEVTOOL = LAUNCHPAD
 ifeq ($(DEVTOOL),LAUNCHPAD)
  TOOLDIR = C:/Devz/ARM/Launchpad
  NANOLIB = --specs=nano.specs
- # NANOLIB += -u _scanf_float
- # NANOLIB += -u _printf_float
+  NANOLIB += -u _printf_float
+#  NANOLIB += -u _scanf_float
+ REMOVAL = rm
+else ifeq ($(DEVTOOL),BLEEDING_EDGE)
+ TOOLDIR = C:/Devz/ARM/Bleeding-edge
  REMOVAL = rm
 else ifeq ($(DEVTOOL),YAGARTO)
  TOOLDIR = C:/Devz/ARM/Yagarto
@@ -39,6 +43,7 @@ else ifeq ($(DEVTOOL),SOURCERY)
 else
  $(error SET BUILD-TOOLS AT FIRST!!)
 endif
+
 
 # Set UNIX-Like tools (Coreutils)
 MAKEDIR = C:/Devz/Coreutils/bin
