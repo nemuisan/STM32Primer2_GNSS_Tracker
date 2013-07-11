@@ -14,6 +14,8 @@ SECTIONS
 	    KEEP(*(.isr_vector))	   	/* Startup code */
 	    . = ALIGN(4);
         *(.text .text.*)          	/* remaining code */
+		KEEP(*(.init))
+		KEEP(*(.fini))
         *(.gnu.linkonce.t.*)
         *(.glue_7)					/* glue arm to thumb code */
         *(.glue_7t)					/* glue thumb to arm code */
@@ -92,7 +94,30 @@ SECTIONS
         _data = .;
 		*(.data .data.*)
 		*(.gnu.linkonce.d*)
+	
+		. = ALIGN(4);
+		/* preinit data */
+		PROVIDE_HIDDEN (__preinit_array_start = .);
+		KEEP(*(.preinit_array))
+		PROVIDE_HIDDEN (__preinit_array_end = .);
 
+		. = ALIGN(4);
+		/* init data */
+		PROVIDE_HIDDEN (__init_array_start = .);
+		KEEP(*(SORT(.init_array.*)))
+		KEEP(*(.init_array))
+		PROVIDE_HIDDEN (__init_array_end = .);
+
+
+		. = ALIGN(4);
+		/* finit data */
+		PROVIDE_HIDDEN (__fini_array_start = .);
+		KEEP(*(SORT(.fini_array.*)))
+		KEEP(*(.fini_array))
+		PROVIDE_HIDDEN (__fini_array_end = .);
+
+		KEEP(*(.jcr*))
+	
         . = ALIGN(4); 	/* 20090714 Nemui */
         *(.ramfunc*) 	/* 20090714 Nemui */
         . = ALIGN(4); 	/* 20090714 Nemui */
@@ -138,6 +163,7 @@ SECTIONS
 	__heap_end = . ;
 	PROVIDE (__heap_end = .);
 
+    /* This is the Stack section */
 	/* .stack section which is used for auto variable */
 	.stack (NOLOAD) :
 	{

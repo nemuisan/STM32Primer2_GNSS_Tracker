@@ -1178,41 +1178,41 @@
  781              		.file 19 "./lib/display/drivers/inc/st7732.h"
  782              		.file 20 "./lib/STM32_USB-FS-Device_Driver/inc/usb_init.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 cdc_support.c
-  R:\TEMP\ccliviSI.s:19     .text.USART_Config_Default:00000000 $t
-  R:\TEMP\ccliviSI.s:24     .text.USART_Config_Default:00000000 USART_Config_Default
-  R:\TEMP\ccliviSI.s:118    .text.USART_Config_Default:00000080 $d
-  R:\TEMP\ccliviSI.s:124    .text.USART_Config:00000000 $t
-  R:\TEMP\ccliviSI.s:129    .text.USART_Config:00000000 USART_Config
-  R:\TEMP\ccliviSI.s:295    .text.USART_Config:000000e4 $d
-  R:\TEMP\ccliviSI.s:303    .text.USB_To_USART_Send_Data:00000000 $t
-  R:\TEMP\ccliviSI.s:308    .text.USB_To_USART_Send_Data:00000000 USB_To_USART_Send_Data
-  R:\TEMP\ccliviSI.s:356    .text.USB_To_USART_Send_Data:00000028 $d
-  R:\TEMP\ccliviSI.s:361    .text.Handle_USBAsynchXfer:00000000 $t
-  R:\TEMP\ccliviSI.s:366    .text.Handle_USBAsynchXfer:00000000 Handle_USBAsynchXfer
-  R:\TEMP\ccliviSI.s:476    .text.Handle_USBAsynchXfer:00000084 $d
-  R:\TEMP\ccliviSI.s:486    .text.USART_To_USB_Send_Data:00000000 $t
-  R:\TEMP\ccliviSI.s:491    .text.USART_To_USB_Send_Data:00000000 USART_To_USB_Send_Data
-  R:\TEMP\ccliviSI.s:542    .text.USART_To_USB_Send_Data:0000003c $d
-  R:\TEMP\ccliviSI.s:550    .text.CDC_IRQ:00000000 $t
-  R:\TEMP\ccliviSI.s:555    .text.CDC_IRQ:00000000 CDC_IRQ
-  R:\TEMP\ccliviSI.s:594    .text.CDC_IRQ:00000028 $d
-  R:\TEMP\ccliviSI.s:599    .text.cdc_task:00000000 $t
-  R:\TEMP\ccliviSI.s:604    .text.cdc_task:00000000 cdc_task
-  R:\TEMP\ccliviSI.s:707    .text.cdc_task:00000084 $d
-  R:\TEMP\ccliviSI.s:724    .bss.USB_xMutex:00000000 USB_xMutex
-  R:\TEMP\ccliviSI.s:736    .bss.USB_Tx_State:00000000 USB_Tx_State
-  R:\TEMP\ccliviSI.s:760    .bss.USART_Rx_length:00000000 USART_Rx_length
-  R:\TEMP\ccliviSI.s:750    .bss.USART_Rx_ptr_out:00000000 USART_Rx_ptr_out
-  R:\TEMP\ccliviSI.s:743    .bss.USART_Rx_ptr_in:00000000 USART_Rx_ptr_in
-  R:\TEMP\ccliviSI.s:730    .bss.USART_Rx_Buffer:00000000 USART_Rx_Buffer
-  R:\TEMP\ccliviSI.s:725    .bss.USB_xMutex:00000000 $d
-  R:\TEMP\ccliviSI.s:731    .bss.USART_Rx_Buffer:00000000 $d
-  R:\TEMP\ccliviSI.s:737    .bss.USB_Tx_State:00000000 $d
-  R:\TEMP\ccliviSI.s:739    .bss.USART_Rx_ptr_in:00000000 $d
-  R:\TEMP\ccliviSI.s:746    .bss.USART_Rx_ptr_out:00000000 $d
-  R:\TEMP\ccliviSI.s:756    .bss.USART_Rx_length:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 cdc_support.c
+  R:\TEMP\ccrCZ71D.s:19     .text.USART_Config_Default:0000000000000000 $t
+  R:\TEMP\ccrCZ71D.s:24     .text.USART_Config_Default:0000000000000000 USART_Config_Default
+  R:\TEMP\ccrCZ71D.s:118    .text.USART_Config_Default:0000000000000080 $d
+  R:\TEMP\ccrCZ71D.s:124    .text.USART_Config:0000000000000000 $t
+  R:\TEMP\ccrCZ71D.s:129    .text.USART_Config:0000000000000000 USART_Config
+  R:\TEMP\ccrCZ71D.s:295    .text.USART_Config:00000000000000e4 $d
+  R:\TEMP\ccrCZ71D.s:303    .text.USB_To_USART_Send_Data:0000000000000000 $t
+  R:\TEMP\ccrCZ71D.s:308    .text.USB_To_USART_Send_Data:0000000000000000 USB_To_USART_Send_Data
+  R:\TEMP\ccrCZ71D.s:356    .text.USB_To_USART_Send_Data:0000000000000028 $d
+  R:\TEMP\ccrCZ71D.s:361    .text.Handle_USBAsynchXfer:0000000000000000 $t
+  R:\TEMP\ccrCZ71D.s:366    .text.Handle_USBAsynchXfer:0000000000000000 Handle_USBAsynchXfer
+  R:\TEMP\ccrCZ71D.s:476    .text.Handle_USBAsynchXfer:0000000000000084 $d
+  R:\TEMP\ccrCZ71D.s:486    .text.USART_To_USB_Send_Data:0000000000000000 $t
+  R:\TEMP\ccrCZ71D.s:491    .text.USART_To_USB_Send_Data:0000000000000000 USART_To_USB_Send_Data
+  R:\TEMP\ccrCZ71D.s:542    .text.USART_To_USB_Send_Data:000000000000003c $d
+  R:\TEMP\ccrCZ71D.s:550    .text.CDC_IRQ:0000000000000000 $t
+  R:\TEMP\ccrCZ71D.s:555    .text.CDC_IRQ:0000000000000000 CDC_IRQ
+  R:\TEMP\ccrCZ71D.s:594    .text.CDC_IRQ:0000000000000028 $d
+  R:\TEMP\ccrCZ71D.s:599    .text.cdc_task:0000000000000000 $t
+  R:\TEMP\ccrCZ71D.s:604    .text.cdc_task:0000000000000000 cdc_task
+  R:\TEMP\ccrCZ71D.s:707    .text.cdc_task:0000000000000084 $d
+  R:\TEMP\ccrCZ71D.s:724    .bss.USB_xMutex:0000000000000000 USB_xMutex
+  R:\TEMP\ccrCZ71D.s:736    .bss.USB_Tx_State:0000000000000000 USB_Tx_State
+  R:\TEMP\ccrCZ71D.s:760    .bss.USART_Rx_length:0000000000000000 USART_Rx_length
+  R:\TEMP\ccrCZ71D.s:750    .bss.USART_Rx_ptr_out:0000000000000000 USART_Rx_ptr_out
+  R:\TEMP\ccrCZ71D.s:743    .bss.USART_Rx_ptr_in:0000000000000000 USART_Rx_ptr_in
+  R:\TEMP\ccrCZ71D.s:730    .bss.USART_Rx_Buffer:0000000000000000 USART_Rx_Buffer
+  R:\TEMP\ccrCZ71D.s:725    .bss.USB_xMutex:0000000000000000 $d
+  R:\TEMP\ccrCZ71D.s:731    .bss.USART_Rx_Buffer:0000000000000000 $d
+  R:\TEMP\ccrCZ71D.s:737    .bss.USB_Tx_State:0000000000000000 $d
+  R:\TEMP\ccrCZ71D.s:739    .bss.USART_Rx_ptr_in:0000000000000000 $d
+  R:\TEMP\ccrCZ71D.s:746    .bss.USART_Rx_ptr_out:0000000000000000 $d
+  R:\TEMP\ccrCZ71D.s:756    .bss.USART_Rx_length:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphClockCmd

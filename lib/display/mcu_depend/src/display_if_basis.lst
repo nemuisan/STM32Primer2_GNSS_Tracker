@@ -383,11 +383,11 @@
  208              		.file 7 "./inc/systick.h"
  209              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 display_if_basis.c
-  R:\TEMP\ccIDjVpA.s:19     .text.Display_IoInit_If:00000000 $t
-  R:\TEMP\ccIDjVpA.s:24     .text.Display_IoInit_If:00000000 Display_IoInit_If
-  R:\TEMP\ccIDjVpA.s:195    .text.Display_IoInit_If:000000ec $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 display_if_basis.c
+  R:\TEMP\ccOTRHVO.s:19     .text.Display_IoInit_If:0000000000000000 $t
+  R:\TEMP\ccOTRHVO.s:24     .text.Display_IoInit_If:0000000000000000 Display_IoInit_If
+  R:\TEMP\ccOTRHVO.s:195    .text.Display_IoInit_If:00000000000000ec $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_AHBPeriphClockCmd

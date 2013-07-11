@@ -69,7 +69,7 @@ ALIGNED_ACCESS	= -mno-unaligned-access
 
 
 # Apprication Version
-APP_VER = Version12.00
+APP_VER = Version13.60
 
 # Basic definition
 SUBMODEL		= STM32F103VET6

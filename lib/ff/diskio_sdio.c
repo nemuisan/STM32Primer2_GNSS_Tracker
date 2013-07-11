@@ -116,13 +116,13 @@ DRESULT disk_read (
 	if(count==1)
     {
 		status = SD_ReadBlock((uint8_t*)(buff), 
-                              (sector)*SECTOR_SIZE,
+                              ((uint64_t)(sector)*SECTOR_SIZE),
                               SECTOR_SIZE);
 	}
 	else
     {
 		status = SD_ReadMultiBlocks((uint8_t*)(buff), 
-									(sector)*SECTOR_SIZE,
+									((uint64_t)(sector)*SECTOR_SIZE),
 									SECTOR_SIZE
 									,count);
 	}
@@ -159,13 +159,13 @@ DRESULT disk_write (
 	if(count==1)
     {
 		status = SD_WriteBlock((uint8_t*)(buff), 
-                              (sector)*SECTOR_SIZE,
+                              ((uint64_t)(sector)*SECTOR_SIZE),
                               SECTOR_SIZE);
 	}
 	else
     {
 		status = SD_WriteMultiBlocks((uint8_t*)(buff), 
-									(sector)*SECTOR_SIZE,
+									((uint64_t)(sector)*SECTOR_SIZE),
 									SECTOR_SIZE
 									,count);
 	}

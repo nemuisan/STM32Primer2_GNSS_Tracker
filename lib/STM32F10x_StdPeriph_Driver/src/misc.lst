@@ -453,22 +453,22 @@
  244              		.file 4 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  245              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 misc.c
-  R:\TEMP\ccdvvCgW.s:19     .text.NVIC_PriorityGroupConfig:00000000 $t
-  R:\TEMP\ccdvvCgW.s:24     .text.NVIC_PriorityGroupConfig:00000000 NVIC_PriorityGroupConfig
-  R:\TEMP\ccdvvCgW.s:43     .text.NVIC_PriorityGroupConfig:00000010 $d
-  R:\TEMP\ccdvvCgW.s:48     .text.NVIC_Init:00000000 $t
-  R:\TEMP\ccdvvCgW.s:53     .text.NVIC_Init:00000000 NVIC_Init
-  R:\TEMP\ccdvvCgW.s:135    .text.NVIC_Init:00000060 $d
-  R:\TEMP\ccdvvCgW.s:141    .text.NVIC_SetVectorTable:00000000 $t
-  R:\TEMP\ccdvvCgW.s:146    .text.NVIC_SetVectorTable:00000000 NVIC_SetVectorTable
-  R:\TEMP\ccdvvCgW.s:166    .text.NVIC_SetVectorTable:00000010 $d
-  R:\TEMP\ccdvvCgW.s:171    .text.NVIC_SystemLPConfig:00000000 $t
-  R:\TEMP\ccdvvCgW.s:176    .text.NVIC_SystemLPConfig:00000000 NVIC_SystemLPConfig
-  R:\TEMP\ccdvvCgW.s:204    .text.NVIC_SystemLPConfig:00000014 $d
-  R:\TEMP\ccdvvCgW.s:209    .text.SysTick_CLKSourceConfig:00000000 $t
-  R:\TEMP\ccdvvCgW.s:214    .text.SysTick_CLKSourceConfig:00000000 SysTick_CLKSourceConfig
-  R:\TEMP\ccdvvCgW.s:236    .text.SysTick_CLKSourceConfig:00000014 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 misc.c
+  R:\TEMP\ccrCmNap.s:19     .text.NVIC_PriorityGroupConfig:0000000000000000 $t
+  R:\TEMP\ccrCmNap.s:24     .text.NVIC_PriorityGroupConfig:0000000000000000 NVIC_PriorityGroupConfig
+  R:\TEMP\ccrCmNap.s:43     .text.NVIC_PriorityGroupConfig:0000000000000010 $d
+  R:\TEMP\ccrCmNap.s:48     .text.NVIC_Init:0000000000000000 $t
+  R:\TEMP\ccrCmNap.s:53     .text.NVIC_Init:0000000000000000 NVIC_Init
+  R:\TEMP\ccrCmNap.s:135    .text.NVIC_Init:0000000000000060 $d
+  R:\TEMP\ccrCmNap.s:141    .text.NVIC_SetVectorTable:0000000000000000 $t
+  R:\TEMP\ccrCmNap.s:146    .text.NVIC_SetVectorTable:0000000000000000 NVIC_SetVectorTable
+  R:\TEMP\ccrCmNap.s:166    .text.NVIC_SetVectorTable:0000000000000010 $d
+  R:\TEMP\ccrCmNap.s:171    .text.NVIC_SystemLPConfig:0000000000000000 $t
+  R:\TEMP\ccrCmNap.s:176    .text.NVIC_SystemLPConfig:0000000000000000 NVIC_SystemLPConfig
+  R:\TEMP\ccrCmNap.s:204    .text.NVIC_SystemLPConfig:0000000000000014 $d
+  R:\TEMP\ccrCmNap.s:209    .text.SysTick_CLKSourceConfig:0000000000000000 $t
+  R:\TEMP\ccrCmNap.s:214    .text.SysTick_CLKSourceConfig:0000000000000000 SysTick_CLKSourceConfig
+  R:\TEMP\ccrCmNap.s:236    .text.SysTick_CLKSourceConfig:0000000000000014 $d
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

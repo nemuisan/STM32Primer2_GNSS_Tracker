@@ -246,14 +246,14 @@
  158              		.file 5 "./lib/CMSIS/Include/core_cm3.h"
  159              		.file 6 "./inc/rtc_support.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 ff_rtc_if.c
-  R:\TEMP\ccy5byTO.s:19     .text.rtc_gettime:00000000 $t
-  R:\TEMP\ccy5byTO.s:24     .text.rtc_gettime:00000000 rtc_gettime
-  R:\TEMP\ccy5byTO.s:84     .text.rtc_gettime:00000040 $d
-  R:\TEMP\ccy5byTO.s:89     .text.rtc_settime:00000000 $t
-  R:\TEMP\ccy5byTO.s:94     .text.rtc_settime:00000000 rtc_settime
-  R:\TEMP\ccy5byTO.s:149    .text.rtc_settime:0000003c $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 ff_rtc_if.c
+  R:\TEMP\ccjigC0o.s:19     .text.rtc_gettime:0000000000000000 $t
+  R:\TEMP\ccjigC0o.s:24     .text.rtc_gettime:0000000000000000 rtc_gettime
+  R:\TEMP\ccjigC0o.s:84     .text.rtc_gettime:0000000000000040 $d
+  R:\TEMP\ccjigC0o.s:89     .text.rtc_settime:0000000000000000 $t
+  R:\TEMP\ccjigC0o.s:94     .text.rtc_settime:0000000000000000 rtc_settime
+  R:\TEMP\ccjigC0o.s:149    .text.rtc_settime:000000000000003c $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 Time_GetCalendarTime

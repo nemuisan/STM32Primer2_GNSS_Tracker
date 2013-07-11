@@ -406,19 +406,19 @@
  271              		.file 7 "./lib/CMSIS/Include/core_cm3.h"
  272              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 adc_support.c
-  R:\TEMP\ccYMt7Q2.s:19     .text.ADC_DMA_Configuration:00000000 $t
-  R:\TEMP\ccYMt7Q2.s:24     .text.ADC_DMA_Configuration:00000000 ADC_DMA_Configuration
-  R:\TEMP\ccYMt7Q2.s:221    .text.ADC_DMA_Configuration:00000118 $d
-  R:\TEMP\ccYMt7Q2.s:255    .bss.ADC_RegularConvertedValueTab:00000000 ADC_RegularConvertedValueTab
-  R:\TEMP\ccYMt7Q2.s:262    .bss.GPIO_InitStructure:00000000 GPIO_InitStructure
-  R:\TEMP\ccYMt7Q2.s:248    .bss.DMA_InitStructure:00000000 DMA_InitStructure
-  R:\TEMP\ccYMt7Q2.s:241    .bss.ADC_InitStructure:00000000 ADC_InitStructure
-  R:\TEMP\ccYMt7Q2.s:237    .bss.ADC_InitStructure:00000000 $d
-  R:\TEMP\ccYMt7Q2.s:244    .bss.DMA_InitStructure:00000000 $d
-  R:\TEMP\ccYMt7Q2.s:251    .bss.ADC_RegularConvertedValueTab:00000000 $d
-  R:\TEMP\ccYMt7Q2.s:258    .bss.GPIO_InitStructure:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 adc_support.c
+  R:\TEMP\ccYLDolL.s:19     .text.ADC_DMA_Configuration:0000000000000000 $t
+  R:\TEMP\ccYLDolL.s:24     .text.ADC_DMA_Configuration:0000000000000000 ADC_DMA_Configuration
+  R:\TEMP\ccYLDolL.s:221    .text.ADC_DMA_Configuration:0000000000000118 $d
+  R:\TEMP\ccYLDolL.s:255    .bss.ADC_RegularConvertedValueTab:0000000000000000 ADC_RegularConvertedValueTab
+  R:\TEMP\ccYLDolL.s:262    .bss.GPIO_InitStructure:0000000000000000 GPIO_InitStructure
+  R:\TEMP\ccYLDolL.s:248    .bss.DMA_InitStructure:0000000000000000 DMA_InitStructure
+  R:\TEMP\ccYLDolL.s:241    .bss.ADC_InitStructure:0000000000000000 ADC_InitStructure
+  R:\TEMP\ccYLDolL.s:237    .bss.ADC_InitStructure:0000000000000000 $d
+  R:\TEMP\ccYLDolL.s:244    .bss.DMA_InitStructure:0000000000000000 $d
+  R:\TEMP\ccYLDolL.s:251    .bss.ADC_RegularConvertedValueTab:0000000000000000 $d
+  R:\TEMP\ccYLDolL.s:258    .bss.GPIO_InitStructure:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphClockCmd

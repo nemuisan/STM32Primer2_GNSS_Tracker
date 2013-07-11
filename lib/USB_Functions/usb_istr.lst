@@ -458,27 +458,27 @@
  262              		.file 7 "lib/USB_Functions/usb_istr.h"
  263              		.file 8 "./lib/STM32_USB-FS-Device_Driver/inc/usb_int.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_istr.c
-  R:\TEMP\ccFSAAHa.s:19     .text.USB_Istr:00000000 $t
-  R:\TEMP\ccFSAAHa.s:24     .text.USB_Istr:00000000 USB_Istr
-  R:\TEMP\ccFSAAHa.s:45     .text.USB_Istr:0000000c $d
-  R:\TEMP\ccFSAAHa.s:50     .text.CDC_USB_Istr:00000000 $t
-  R:\TEMP\ccFSAAHa.s:55     .text.CDC_USB_Istr:00000000 CDC_USB_Istr
-  R:\TEMP\ccFSAAHa.s:131    .text.CDC_USB_Istr:00000068 $d
-  R:\TEMP\ccFSAAHa.s:140    .text.MSC_USB_Istr:00000000 $t
-  R:\TEMP\ccFSAAHa.s:145    .text.MSC_USB_Istr:00000000 MSC_USB_Istr
-  R:\TEMP\ccFSAAHa.s:199    .text.MSC_USB_Istr:00000044 $d
-  R:\TEMP\ccFSAAHa.s:216    .bss.xUSB_Istr:00000000 xUSB_Istr
-  R:\TEMP\ccFSAAHa.s:228    .data.pEpInt_OUT:00000000 pEpInt_OUT
-  R:\TEMP\ccFSAAHa.s:247    .data.pEpInt_IN:00000000 pEpInt_IN
-  R:\TEMP\ccFSAAHa.s:222    .bss.bIntPackSOF:00000000 bIntPackSOF
-  R:\TEMP\ccFSAAHa.s:241    .bss.wIstr:00000000 wIstr
-  R:\TEMP\ccFSAAHa.s:212    .bss.xUSB_Istr:00000000 $d
-  R:\TEMP\ccFSAAHa.s:223    .bss.bIntPackSOF:00000000 $d
-  R:\TEMP\ccFSAAHa.s:225    .data.pEpInt_OUT:00000000 $d
-  R:\TEMP\ccFSAAHa.s:237    .bss.wIstr:00000000 $d
-  R:\TEMP\ccFSAAHa.s:244    .data.pEpInt_IN:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_istr.c
+  R:\TEMP\ccJROVV4.s:19     .text.USB_Istr:0000000000000000 $t
+  R:\TEMP\ccJROVV4.s:24     .text.USB_Istr:0000000000000000 USB_Istr
+  R:\TEMP\ccJROVV4.s:45     .text.USB_Istr:000000000000000c $d
+  R:\TEMP\ccJROVV4.s:50     .text.CDC_USB_Istr:0000000000000000 $t
+  R:\TEMP\ccJROVV4.s:55     .text.CDC_USB_Istr:0000000000000000 CDC_USB_Istr
+  R:\TEMP\ccJROVV4.s:131    .text.CDC_USB_Istr:0000000000000068 $d
+  R:\TEMP\ccJROVV4.s:140    .text.MSC_USB_Istr:0000000000000000 $t
+  R:\TEMP\ccJROVV4.s:145    .text.MSC_USB_Istr:0000000000000000 MSC_USB_Istr
+  R:\TEMP\ccJROVV4.s:199    .text.MSC_USB_Istr:0000000000000044 $d
+  R:\TEMP\ccJROVV4.s:216    .bss.xUSB_Istr:0000000000000000 xUSB_Istr
+  R:\TEMP\ccJROVV4.s:228    .data.pEpInt_OUT:0000000000000000 pEpInt_OUT
+  R:\TEMP\ccJROVV4.s:247    .data.pEpInt_IN:0000000000000000 pEpInt_IN
+  R:\TEMP\ccJROVV4.s:222    .bss.bIntPackSOF:0000000000000000 bIntPackSOF
+  R:\TEMP\ccJROVV4.s:241    .bss.wIstr:0000000000000000 wIstr
+  R:\TEMP\ccJROVV4.s:212    .bss.xUSB_Istr:0000000000000000 $d
+  R:\TEMP\ccJROVV4.s:223    .bss.bIntPackSOF:0000000000000000 $d
+  R:\TEMP\ccJROVV4.s:225    .data.pEpInt_OUT:0000000000000000 $d
+  R:\TEMP\ccJROVV4.s:237    .bss.wIstr:0000000000000000 $d
+  R:\TEMP\ccJROVV4.s:244    .data.pEpInt_IN:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 SOF_Callback

@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2012.10.05
+    @version        6.00
+    @date           2013.07.06
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.				@n
 
@@ -13,6 +13,7 @@
 		2012.04.17	V3.00 Added SD_GetCardStatus().
 		2012.09.22  V4.00 Updated Support grater than 32GB Cards.
 		2012.10.05  V5.00 Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
+		2013.07.06  V6.00 Fixed over 4GB R/W Problem.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -712,7 +713,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo)
     /*!< Byte 10 */
     tmp = (uint8_t)((CSD_Tab[2] & 0x0000FF00) >> 8);
     /* nemui fixed due to SD2.00 Capacity fomula is Size = (C_SIZE+1)~2^19 */
-    cardinfo->CardCapacity = (uint64_t)(cardinfo->SD_csd.DeviceSize + 1) * 512 * 1024;
+    cardinfo->CardCapacity = ((uint64_t)cardinfo->SD_csd.DeviceSize + 1) * 512 * 1024;
     cardinfo->CardBlockSize = 512;    
   }
 
@@ -926,12 +927,12 @@ SD_Error SD_SetDeviceMode(uint32_t Mode)
 	@retval SD_Error: SD Card Error code.
 */
 /**************************************************************************/
-SD_Error SD_SelectDeselect(uint32_t addr)
+SD_Error SD_SelectDeselect(uint64_t addr)
 {
   SD_Error errorstatus = SD_OK;
 
   /*!< Send CMD7 SDIO_SEL_DESEL_CARD */
-  SDIO_CmdInitStructure.SDIO_Argument =  addr;
+  SDIO_CmdInitStructure.SDIO_Argument =  (uint32_t)addr;
   SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SEL_DESEL_CARD;
   SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
   SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -953,7 +954,7 @@ SD_Error SD_SelectDeselect(uint32_t addr)
 	@retval SD_Error: SD Card Error code.
 */
 /**************************************************************************/
-SD_Error SD_ReadBlock(uint8_t *readbuff, uint32_t ReadAddr, uint16_t BlockSize)
+SD_Error SD_ReadBlock(uint8_t *readbuff, uint64_t ReadAddr, uint16_t BlockSize)
 {
   SD_Error errorstatus = SD_OK;
   uint32_t count = 0, *tempbuff = (uint32_t *)readbuff;
@@ -1126,7 +1127,7 @@ SD_Error SD_ReadBlock(uint8_t *readbuff, uint32_t ReadAddr, uint16_t BlockSize)
 	@retval SD_Error: SD Card Error code.
 */
 /**************************************************************************/
-SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint32_t ReadAddr, uint16_t BlockSize, uint32_t NumberOfBlocks)
+SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint64_t ReadAddr, uint16_t BlockSize, uint32_t NumberOfBlocks)
 {
   SD_Error errorstatus = SD_OK;
   uint32_t count = 0, *tempbuff = (uint32_t *)readbuff;
@@ -1330,7 +1331,7 @@ SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint32_t ReadAddr, uint16_t Block
 	@retval SD_Error: SD Card Error code.
 */
 /**************************************************************************/
-SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSize)
+SD_Error SD_WriteBlock(uint8_t *writebuff, uint64_t WriteAddr, uint16_t BlockSize)
 {
   SD_Error errorstatus = SD_OK;
   uint8_t  power = 0, cardstate = 0;
@@ -1438,7 +1439,7 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSiz
   }
 
   /*!< Send CMD24 WRITE_SINGLE_BLOCK */
-  SDIO_CmdInitStructure.SDIO_Argument = WriteAddr;
+  SDIO_CmdInitStructure.SDIO_Argument = (uint32_t) WriteAddr;
   SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_WRITE_SINGLE_BLOCK;
   SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
   SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -1564,7 +1565,7 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSiz
 	@retval SD_Error: SD Card Error code.
 */
 /**************************************************************************/
-SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint32_t WriteAddr, uint16_t BlockSize, uint32_t NumberOfBlocks)
+SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint64_t WriteAddr, uint16_t BlockSize, uint32_t NumberOfBlocks)
 {
   SD_Error errorstatus = SD_OK;
   uint8_t  power = 0, cardstate = 0;
@@ -1886,7 +1887,7 @@ SD_Error SD_StopTransfer(void)
 	@retval SD_Error: SD Card Error code.
 */
 /**************************************************************************/
-SD_Error SD_Erase(uint32_t startaddr, uint32_t endaddr)
+SD_Error SD_Erase(uint64_t startaddr, uint64_t endaddr)
 {
   SD_Error errorstatus = SD_OK;
   uint32_t delay = 0;
@@ -1918,7 +1919,7 @@ SD_Error SD_Erase(uint32_t startaddr, uint32_t endaddr)
   if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) || (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) || (SDIO_HIGH_CAPACITY_SD_CARD == CardType))
   {
     /*!< Send CMD32 SD_ERASE_GRP_START with argument as addr  */
-    SDIO_CmdInitStructure.SDIO_Argument = startaddr;
+    SDIO_CmdInitStructure.SDIO_Argument = (uint32_t) startaddr;
     SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SD_ERASE_GRP_START;
     SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
     SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -1932,7 +1933,7 @@ SD_Error SD_Erase(uint32_t startaddr, uint32_t endaddr)
     }
 
     /*!< Send CMD33 SD_ERASE_GRP_END with argument as addr  */
-    SDIO_CmdInitStructure.SDIO_Argument = endaddr;
+    SDIO_CmdInitStructure.SDIO_Argument = (uint32_t) endaddr;
     SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SD_ERASE_GRP_END;
     SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
     SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;

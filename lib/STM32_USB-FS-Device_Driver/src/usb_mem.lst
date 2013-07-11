@@ -211,11 +211,11 @@
  129              		.file 3 "./lib/CMSIS/Include/core_cm3.h"
  130              		.file 4 "./inc/systick.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 usb_mem.c
-  R:\TEMP\ccyFt7Q2.s:19     .text.UserToPMABufferCopy:00000000 $t
-  R:\TEMP\ccyFt7Q2.s:24     .text.UserToPMABufferCopy:00000000 UserToPMABufferCopy
-  R:\TEMP\ccyFt7Q2.s:79     .text.PMAToUserBufferCopy:00000000 $t
-  R:\TEMP\ccyFt7Q2.s:84     .text.PMAToUserBufferCopy:00000000 PMAToUserBufferCopy
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 usb_mem.c
+  R:\TEMP\cc9v22Ip.s:19     .text.UserToPMABufferCopy:0000000000000000 $t
+  R:\TEMP\cc9v22Ip.s:24     .text.UserToPMABufferCopy:0000000000000000 UserToPMABufferCopy
+  R:\TEMP\cc9v22Ip.s:79     .text.PMAToUserBufferCopy:0000000000000000 $t
+  R:\TEMP\cc9v22Ip.s:84     .text.PMAToUserBufferCopy:0000000000000000 PMAToUserBufferCopy
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

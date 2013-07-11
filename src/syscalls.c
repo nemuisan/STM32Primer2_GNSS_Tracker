@@ -2,8 +2,8 @@
 /*!
 	@file			syscalls.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2013.01.07
+    @version        3.00
+    @date           2013.07.10
 	@brief          Syscall support functions for newlib console I/O with stdio.
 					Based on Red Hat newlib C library examples thanks!
 					Based on under URL thanks!
@@ -12,6 +12,7 @@
     @section HISTORY
 		2012.08.27	V1.00	Start Here.
 		2013.01.07	V2.00	Adopted "--specs=nano.specs" option.
+		2013.07.10	V3.00	Adopted semihosting function on nanolib.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -42,7 +43,7 @@ extern char *__exidx_end;
 /* Function prototypes -------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
-
+#if !defined(USE_SEMIHOSTING)
 /**************************************************************************/
 /*! 
     @brief  Input Datas from STDIN with reentrancy.					@n
@@ -50,7 +51,11 @@ extern char *__exidx_end;
 			See "syscalls_if.h"!
 */
 /**************************************************************************/
-_ssize_t _read_r(struct _reent *r, int file, void *ptr, size_t len)
+_ssize_t _read_r(
+	struct _reent *r,
+	int file,
+	void *ptr,
+	size_t len)
 {
 	char c;
 	int  i;
@@ -59,25 +64,25 @@ _ssize_t _read_r(struct _reent *r, int file, void *ptr, size_t len)
 	p = (unsigned char*)ptr;
 	for (i = 0; i < len; i++)
 	{
-	/* 20090521Nemui */
-		do{		
-			c = getch();
-	}while(c == false);
-	/* 20090521Nemui */
+		/* 20090521Nemui */
+			do{		
+				c = getch();
+		}while(c == false);
+		/* 20090521Nemui */
 
-	*p++ = c;
-	#ifdef ECHOBACK 
-	 putch(c);
-	#endif
+		*p++ = c;
+		#ifdef ECHOBACK 
+		 putch(c);
+		#endif
 
-	if (c == '\r' && i <= (len - 2)) /* 0x0D */
-	{
-		*p = '\n';					 /* 0x0A */
-	  #ifdef ECHOBACK 
-		putch('\n');				 /* 0x0A */
-	  #endif
-		return i + 2;
-	}
+		if (c == '\r' && i <= (len - 2)) /* 0x0D */
+		{
+			*p = '\n';					 /* 0x0A */
+		  #ifdef ECHOBACK 
+			putch('\n');				 /* 0x0A */
+		  #endif
+			return i + 2;
+		}
 	}
 	return i;
 }
@@ -220,15 +225,6 @@ void * _sbrk_r(
 int isatty(int file)
 {
 	return 1;
-}
-
-/**************************************************************************/
-/*! 
-    @brief  Dummy OS Function for Newlib.
-*/
-/**************************************************************************/
-void _exit(int n) {
-label:  goto label; /* endless loop */
 }
 
 /**************************************************************************/
@@ -401,6 +397,16 @@ int _execve(char *name, char **argv, char **env) {
 int _fork(void) {
 	errno = EAGAIN;
 	return -1;
+}
+#endif
+
+/**************************************************************************/
+/*! 
+    @brief  Dummy OS Function for Newlib.
+*/
+/**************************************************************************/
+void _exit(int n) {
+label:  goto label; /* endless loop */
 }
 
 /**************************************************************************/

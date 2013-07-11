@@ -976,34 +976,34 @@
  345              		.file 5 "./lib/CMSIS/Device/ST/STM32F10x/Include/stm32f10x.h"
  346              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 stm32f10x_pwr.c
-  R:\TEMP\ccvYkky3.s:19     .text.PWR_DeInit:00000000 $t
-  R:\TEMP\ccvYkky3.s:24     .text.PWR_DeInit:00000000 PWR_DeInit
-  R:\TEMP\ccvYkky3.s:53     .text.PWR_BackupAccessCmd:00000000 $t
-  R:\TEMP\ccvYkky3.s:58     .text.PWR_BackupAccessCmd:00000000 PWR_BackupAccessCmd
-  R:\TEMP\ccvYkky3.s:73     .text.PWR_BackupAccessCmd:00000008 $d
-  R:\TEMP\ccvYkky3.s:78     .text.PWR_PVDCmd:00000000 $t
-  R:\TEMP\ccvYkky3.s:83     .text.PWR_PVDCmd:00000000 PWR_PVDCmd
-  R:\TEMP\ccvYkky3.s:98     .text.PWR_PVDCmd:00000008 $d
-  R:\TEMP\ccvYkky3.s:103    .text.PWR_PVDLevelConfig:00000000 $t
-  R:\TEMP\ccvYkky3.s:108    .text.PWR_PVDLevelConfig:00000000 PWR_PVDLevelConfig
-  R:\TEMP\ccvYkky3.s:133    .text.PWR_PVDLevelConfig:00000010 $d
-  R:\TEMP\ccvYkky3.s:138    .text.PWR_WakeUpPinCmd:00000000 $t
-  R:\TEMP\ccvYkky3.s:143    .text.PWR_WakeUpPinCmd:00000000 PWR_WakeUpPinCmd
-  R:\TEMP\ccvYkky3.s:158    .text.PWR_WakeUpPinCmd:00000008 $d
-  R:\TEMP\ccvYkky3.s:163    .text.PWR_EnterSTOPMode:00000000 $t
-  R:\TEMP\ccvYkky3.s:168    .text.PWR_EnterSTOPMode:00000000 PWR_EnterSTOPMode
-  R:\TEMP\ccvYkky3.s:230    .text.PWR_EnterSTOPMode:0000002c $d
-  R:\TEMP\ccvYkky3.s:236    .text.PWR_EnterSTANDBYMode:00000000 $t
-  R:\TEMP\ccvYkky3.s:241    .text.PWR_EnterSTANDBYMode:00000000 PWR_EnterSTANDBYMode
-  R:\TEMP\ccvYkky3.s:273    .text.PWR_EnterSTANDBYMode:00000020 $d
-  R:\TEMP\ccvYkky3.s:281    .text.PWR_GetFlagStatus:00000000 $t
-  R:\TEMP\ccvYkky3.s:286    .text.PWR_GetFlagStatus:00000000 PWR_GetFlagStatus
-  R:\TEMP\ccvYkky3.s:309    .text.PWR_GetFlagStatus:00000010 $d
-  R:\TEMP\ccvYkky3.s:314    .text.PWR_ClearFlag:00000000 $t
-  R:\TEMP\ccvYkky3.s:319    .text.PWR_ClearFlag:00000000 PWR_ClearFlag
-  R:\TEMP\ccvYkky3.s:337    .text.PWR_ClearFlag:0000000c $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 stm32f10x_pwr.c
+  R:\TEMP\cc33fNNf.s:19     .text.PWR_DeInit:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:24     .text.PWR_DeInit:0000000000000000 PWR_DeInit
+  R:\TEMP\cc33fNNf.s:53     .text.PWR_BackupAccessCmd:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:58     .text.PWR_BackupAccessCmd:0000000000000000 PWR_BackupAccessCmd
+  R:\TEMP\cc33fNNf.s:73     .text.PWR_BackupAccessCmd:0000000000000008 $d
+  R:\TEMP\cc33fNNf.s:78     .text.PWR_PVDCmd:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:83     .text.PWR_PVDCmd:0000000000000000 PWR_PVDCmd
+  R:\TEMP\cc33fNNf.s:98     .text.PWR_PVDCmd:0000000000000008 $d
+  R:\TEMP\cc33fNNf.s:103    .text.PWR_PVDLevelConfig:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:108    .text.PWR_PVDLevelConfig:0000000000000000 PWR_PVDLevelConfig
+  R:\TEMP\cc33fNNf.s:133    .text.PWR_PVDLevelConfig:0000000000000010 $d
+  R:\TEMP\cc33fNNf.s:138    .text.PWR_WakeUpPinCmd:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:143    .text.PWR_WakeUpPinCmd:0000000000000000 PWR_WakeUpPinCmd
+  R:\TEMP\cc33fNNf.s:158    .text.PWR_WakeUpPinCmd:0000000000000008 $d
+  R:\TEMP\cc33fNNf.s:163    .text.PWR_EnterSTOPMode:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:168    .text.PWR_EnterSTOPMode:0000000000000000 PWR_EnterSTOPMode
+  R:\TEMP\cc33fNNf.s:230    .text.PWR_EnterSTOPMode:000000000000002c $d
+  R:\TEMP\cc33fNNf.s:236    .text.PWR_EnterSTANDBYMode:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:241    .text.PWR_EnterSTANDBYMode:0000000000000000 PWR_EnterSTANDBYMode
+  R:\TEMP\cc33fNNf.s:273    .text.PWR_EnterSTANDBYMode:0000000000000020 $d
+  R:\TEMP\cc33fNNf.s:281    .text.PWR_GetFlagStatus:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:286    .text.PWR_GetFlagStatus:0000000000000000 PWR_GetFlagStatus
+  R:\TEMP\cc33fNNf.s:309    .text.PWR_GetFlagStatus:0000000000000010 $d
+  R:\TEMP\cc33fNNf.s:314    .text.PWR_ClearFlag:0000000000000000 $t
+  R:\TEMP\cc33fNNf.s:319    .text.PWR_ClearFlag:0000000000000000 PWR_ClearFlag
+  R:\TEMP\cc33fNNf.s:337    .text.PWR_ClearFlag:000000000000000c $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_APB1PeriphResetCmd

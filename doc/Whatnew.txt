@@ -1,3 +1,7 @@
+20130710 : 
+V13.60 Fixed over 4GB R/W Problem on SDIO Handlings.
+	   Adopted semihosting function on nanolib.
+
 20130701 : 
 V13.50 Fixed FatFs Minor Bug.
 
