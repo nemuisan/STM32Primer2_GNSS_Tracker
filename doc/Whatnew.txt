@@ -1,3 +1,8 @@
+20131009 : 
+V14.00  Adopted FatFs0.10.
+		Changed FONTX2-Files handling solution.
+          C-array into INCBIN(Relay on GCC).ChaN thanks!
+
 20130710 : 
 V13.60 Fixed over 4GB R/W Problem on SDIO Handlings.
 	   Adopted semihosting function on nanolib.

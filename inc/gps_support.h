@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2013.04.10
+    @version        9.00
+    @date           2013.10.09
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -19,13 +19,14 @@
 							Imploved Error Handlings.
 		2013.02.20  V7.00   Added Some MT3339/MT3333 Commands.
 		2013.04.10  V8.00   Changed UART-Retarget Method.
+		2013.10.09	V9.00	Adopted FatFs0.10.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __GPS_SUPPORT_H
-#define __GPS_SUPPORT_H	0x0800
+#define __GPS_SUPPORT_H	0x0900
 
 #ifdef __cplusplus
  extern "C" {
@@ -51,4 +52,4 @@ extern void ChkAckLimit(void);
 }
 #endif
 
-#endif	/*__GPS_SUPPORT_H */
+#endif	/* __GPS_SUPPORT_H */

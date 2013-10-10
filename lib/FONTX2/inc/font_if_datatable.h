@@ -2,8 +2,8 @@
 /*!
 	@file			font_if_datatable.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2012.06.30
+    @version        5.00
+    @date           2013.09.20
 	@brief          Interface of FONTX Driver								@n
                     Refered under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -14,13 +14,14 @@
 		2011.05.11	V2.00	Selectable KanjiFonts to Reduce Memory Space.
 		2012.03.12	V3.00	Add More Fonts.
 		2012.06.30	V4.00	Add External SRAM Support for KanjiFonts.
- 
+ 		2013.09.20	V5.00	Improve FONTX2 inclusion ChaN Thanks!
+
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __FONT_IF_DATATABLE_H 
-#define __FONT_IF_DATATABLE_H 0x0400
+#define __FONT_IF_DATATABLE_H 0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -41,11 +42,23 @@
 #elif  FONT12x12
  #define ANKFONT	Mplus_Ank
  #define KANJIFONT	Mplus_Kanji
- 
+
+#elif  FONT12x12D
+ #define ANKFONT	Drug_Ank
+ #define KANJIFONT	Drug_Kanji
+
 #elif  FONT12x12K
  #define ANKFONT	Kaname_Ank
  #define KANJIFONT	Kaname_Kanji
- 
+
+#elif  FONT12x12L
+ #define ANKFONT	Kodenma_Ank
+ #define KANJIFONT	Kodenma_Kanji
+
+#elif  FONT12x12M
+ #define ANKFONT	Dohgenzaka_Ank
+ #define KANJIFONT	Dohgenzaka_Kanji
+
 #elif  FONT12x12W
  #define ANKFONT	Wlma_Ank
  #define KANJIFONT	Wlma_Kanji
@@ -53,6 +66,10 @@
 #elif  FONT14x14
  #define ANKFONT	Shinonome_Ank
  #define KANJIFONT	Shinonome_Kanji
+
+#elif  FONT14x14M
+ #define ANKFONT	Dohgenzaka_Ank
+ #define KANJIFONT	Dohgenzaka_Kanji
  
 #elif  FONT14x14W
  #define ANKFONT	Wlma_Ank
@@ -61,7 +78,15 @@
 #elif  FONT16x16
  #define ANKFONT	Tanu_Ank
  #define KANJIFONT	Tanu_Kanji
- 
+
+#elif  FONT16x16K
+ #define ANKFONT	Kyoukasho_Ank
+ #define KANJIFONT	Kyoukasho_Kanji
+
+#elif  FONT16x16L
+ #define ANKFONT	Kodenma_Ank
+ #define KANJIFONT	Kodenma_Kanji
+
 #elif  FONT16x16W
  #define ANKFONT	Wlma_Ank
  #define KANJIFONT	Wlma_Kanji

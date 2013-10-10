@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2013.04.10
+    @version        9.00
+    @date           2013.10.09
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -19,6 +19,7 @@
 							Imploved Error Handlings.
 		2013.02.20  V7.00   Added Some MT3339/MT3333 Commands.
 		2013.04.10  V8.00   Changed UART-Retarget Method.
+		2013.10.09	V9.00	Adopted FatFs0.10.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -28,12 +29,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gps_support.h"
 /* check header file version for fool proof */
-#if __GPS_SUPPORT_H!= 0x0800
+#if __GPS_SUPPORT_H!= 0x0900
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
-/* GT-723F,UP-501,PA6C and Gms-g6a default baud is 9600,8,n,1 */
+/* GT-723F,UP-501,PA6C,Gms-g6a and Gms-g9 default baud is 9600,8,n,1 */
 #define GPS_UART_PORT	2
 #define GPS_UART_BAUD	9600
 /* GPS Sentences */
@@ -71,7 +72,7 @@
 
 /* Variables -----------------------------------------------------------------*/
 FF_RTC ff_rtc;						/* See ff_rtc_if.h */
-FATFS Fatfs[_VOLUMES];				/* File system object for each logical drive */
+FATFS FatFs[_VOLUMES];				/* File system object for each logical drive */
 FIL File1;							/* File objects */
 DIR Dir;							/* Directory object */
 uint8_t Buff[512]; 					/* Working buffer */
@@ -122,13 +123,11 @@ uint32_t get_fattime (void)
 /**************************************************************************/
 void ChkAckLimit(void)
 {
-
 	if(ack_limit++ > ACK_LIMIT*1000){
 		/* Wakeup(For MT333x) */
 		xSend_MTKCmd(PMTK_TEST,"");
 		ack_limit =0;
 	}
-
 }
 
 /**************************************************************************/
@@ -310,8 +309,8 @@ void gps_task(void)
 	/* Enable EASY */
 	xSend_MTKCmd(PMTK_CMD_EASY_ENABLE,"1,1");
 
-	/* Mount FatFs */
-	f_mount(0, &Fatfs[0]);
+	/* Mount Fatfs Drive */
+	f_mount(&FatFs[0], "", 0);
 
 	/* Flush UART RxBuffer for Safe */
 	Flush_RXBuffer();
@@ -398,7 +397,7 @@ startstat:
 				}
 			}
 
-			/* Gms-g6a(MT3333) Support */
+			/* MT3333 Support */
 			if (!gp_comp(Buff,"$GNGGA"))
 			{
 				p = gp_col(Buff,GPGGA_POS_TYPE);
@@ -408,7 +407,7 @@ startstat:
 				}
 			}
 
-			/* Gms-g6a(MT3333) Support */
+			/* MT3333 Support */
 			else if (!gp_comp(Buff,"$GNRMC"))
 			{
 				p = gp_col(Buff,GPRMC_COL_VALID);

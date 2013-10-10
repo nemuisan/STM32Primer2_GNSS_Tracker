@@ -2,25 +2,26 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2013.07.06
+    @version        7.00
+    @date           2013.10.09
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.				@n
 
     @section HISTORY
-		2011.01.20	V1.00 Start Here.
-		2011.03.10	V2.00 C++ Ready.
-		2012.04.17	V3.00 Added SD_GetCardStatus().
-		2012.09.22  V4.00 Updated Support grater than 32GB Cards.
-		2012.10.05  V5.00 Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
-		2013.07.06  V6.00 Fixed over 4GB R/W Problem.
+		2011.01.20	V1.00	Start Here.
+		2011.03.10	V2.00	C++ Ready.
+		2012.04.17	V3.00	Added SD_GetCardStatus().
+		2012.09.22  V4.00	Updated Support grater than 32GB Cards.
+		2012.10.05  V5.00	Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
+		2013.07.06  V6.00	Fixed over 4GB R/W Problem.
+		2013.10.09	V7.00	Integrated with diskio_sdio.c.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H
+#define __SDIO_STM32F1_H	0x0700
 
 #ifdef __cplusplus
  extern "C" {
@@ -28,7 +29,9 @@
 
 /* Generic Inclusion */
 #include <stdbool.h>
+#include <string.h>
 #include "stm32f10x.h"
+#include "diskio.h"
 
 
 /* Defines */

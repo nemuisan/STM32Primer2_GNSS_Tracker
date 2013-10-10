@@ -15,8 +15,8 @@ OCD		= openocd
 RLINK	= Cortex_pgm
 
 # Development Tools based on GNU Compiler Collection
-#DEVTOOL = LAUNCHPAD
-DEVTOOL = BLEEDING_EDGE
+DEVTOOL = LAUNCHPAD
+#DEVTOOL = BLEEDING_EDGE
 #DEVTOOL = YAGARTO
 #DEVTOOL = DEVKITARM
 #DEVTOOL = SOURCERY
@@ -25,7 +25,7 @@ DEVTOOL = BLEEDING_EDGE
 ifeq ($(DEVTOOL),LAUNCHPAD)
  TOOLDIR = C:/Devz/ARM/Launchpad
  NANOLIB = --specs=nano.specs
-  NANOLIB += -u _printf_float
+#  NANOLIB += -u _printf_float
 #  NANOLIB += -u _scanf_float
  REMOVAL = rm
 else ifeq ($(DEVTOOL),BLEEDING_EDGE)
@@ -69,7 +69,7 @@ ALIGNED_ACCESS	= -mno-unaligned-access
 
 
 # Apprication Version
-APP_VER = Version13.60
+APP_VER = Version14.00
 
 # Basic definition
 SUBMODEL		= STM32F103VET6
@@ -194,7 +194,6 @@ LIBINCDIRS += $(FATFS)
 CFILES += \
  $(FATFS)/ff.c 							\
  $(FATFS)/sdio_stm32f1.c 				\
- $(FATFS)/diskio_sdio.c 				\
  $(FATFS)/ff_rtc_if.c 					\
  $(FATFS)/option/unicode.c
 

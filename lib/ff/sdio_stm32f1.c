@@ -2,18 +2,19 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2013.07.06
+    @version        7.00
+    @date           2013.10.09
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.				@n
 
     @section HISTORY
-		2011.01.20	V1.00 Start Here.
-		2011.03.10	V2.00 C++ Ready.
-		2012.04.17	V3.00 Added SD_GetCardStatus().
-		2012.09.22  V4.00 Updated Support grater than 32GB Cards.
-		2012.10.05  V5.00 Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
-		2013.07.06  V6.00 Fixed over 4GB R/W Problem.
+		2011.01.20	V1.00	Start Here.
+		2011.03.10	V2.00	C++ Ready.
+		2012.04.17	V3.00	Added SD_GetCardStatus().
+		2012.09.22  V4.00	Updated Support grater than 32GB Cards.
+		2012.10.05  V5.00	Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
+		2013.07.06  V6.00	Fixed over 4GB R/W Problem.
+		2013.10.09	V7.00	Integrated with diskio_sdio.c.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,12 +23,16 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
+/* check header file version for fool proof */
+#if __SDIO_STM32F1_H!= 0x0700
+#error "header file version is not correspond!"
+#endif
 
 /* Defines -------------------------------------------------------------------*/
 /** 
   * @brief  SDIO Static flags, TimeOut, FIFO Address  
   */
-#define NULL 0
+#define SDIO_NULL 						0
 #define SDIO_STATIC_FLAGS               ((uint32_t)0x000005FF)
 #define SDIO_CMD0TIMEOUT                ((uint32_t)0x00010000)
 
@@ -100,6 +105,11 @@
 #define SDIO_SEND_IF_COND               ((uint32_t)0x00000008)
 
 
+/* FatFs Glue */
+#define SECTOR_SIZE 	512		/* Must be Set "512" in use of SDCARD! 		*/
+#define SDIO_DRIVE		0		/* Physical Drive Number set to 0. 			*/
+#define SOCKWP			0		/* Write Protect Switch is not Supported.	*/
+
 /* Variables -----------------------------------------------------------------*/
 static uint32_t CardType =  SDIO_STD_CAPACITY_SD_CARD_V1_1;
 static uint32_t CSD_Tab[4], CID_Tab[4], RCA = 0;
@@ -113,7 +123,13 @@ __IO uint32_t NumberOfBytes = 0;
 SD_CardInfo SDCardInfo;
 SDIO_InitTypeDef SDIO_InitStructure;
 SDIO_CmdInitTypeDef SDIO_CmdInitStructure;
-SDIO_DataInitTypeDef SDIO_DataInitStructure;   
+SDIO_DataInitTypeDef SDIO_DataInitStructure;
+
+/* FatFs Glue */
+volatile SD_Error Status = SD_OK;
+SD_CardStatus SDCardStatus;
+static volatile DSTATUS Stat = STA_NOINIT;	/* Disk status */
+static volatile uint32_t Timer1, Timer2;	/* 100Hz decrement timers */
 
 /* Constants -----------------------------------------------------------------*/
 
@@ -343,7 +359,7 @@ uint8_t SD_Detect(void)
   __IO uint8_t status = SD_PRESENT;
 
   /*!< Check GPIO to detect SD */
-  /* Nemui added: NO SD_DETECT Pport on@STM32Primer2's MicroSD Card Slot! */
+  /* Nemui added: NO SD_DETECT Port on@STM32Primer2's MicroSD Card Slot! */
   /*
   if (GPIO_ReadInputDataBit(SD_DETECT_GPIO_PORT, SD_DETECT_PIN) != Bit_RESET)
   {
@@ -960,7 +976,7 @@ SD_Error SD_ReadBlock(uint8_t *readbuff, uint64_t ReadAddr, uint16_t BlockSize)
   uint32_t count = 0, *tempbuff = (uint32_t *)readbuff;
   uint8_t power = 0;
 
-  if (NULL == readbuff)
+  if (readbuff == SDIO_NULL)
   {
     errorstatus = SD_INVALID_PARAMETER;
     return(errorstatus);
@@ -1133,7 +1149,7 @@ SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint64_t ReadAddr, uint16_t Block
   uint32_t count = 0, *tempbuff = (uint32_t *)readbuff;
   uint8_t power = 0;
 
-  if (NULL == readbuff)
+  if (readbuff == SDIO_NULL)
   {
     errorstatus = SD_INVALID_PARAMETER;
     return(errorstatus);
@@ -1339,7 +1355,7 @@ SD_Error SD_WriteBlock(uint8_t *writebuff, uint64_t WriteAddr, uint16_t BlockSiz
   uint32_t cardstatus = 0, count = 0, restwords = 0;
   uint32_t *tempbuff = (uint32_t *)writebuff;
 
-  if (writebuff == NULL)
+  if (writebuff == SDIO_NULL)
   {
     errorstatus = SD_INVALID_PARAMETER;
     return(errorstatus);
@@ -1574,7 +1590,7 @@ SD_Error SD_WriteMultiBlocks(uint8_t *writebuff, uint64_t WriteAddr, uint16_t Bl
   uint32_t *tempbuff = (uint32_t *)writebuff;
   __IO uint32_t count = 0;
   
-  if (writebuff == NULL)
+  if (writebuff == SDIO_NULL)
   {
     errorstatus = SD_INVALID_PARAMETER;
     return(errorstatus);
@@ -1989,7 +2005,7 @@ SD_Error SD_SendStatus(uint32_t *pcardstatus)
 {
   SD_Error errorstatus = SD_OK;
 
-  if (pcardstatus == NULL)
+  if (pcardstatus == SDIO_NULL)
   {
     errorstatus = SD_INVALID_PARAMETER;
     return(errorstatus);
@@ -3236,5 +3252,226 @@ SD_Error SD_GetCardStatus(SD_CardStatus *cardstatus)
  
   return(errorstatus);
 }
+
+
+
+/**************************************************************************/
+/*! 
+    Public Functions For FatFs.
+*/
+/**************************************************************************/
+/**************************************************************************/
+/*! 
+    @brief Initialize a Drive.
+	@param  drv     : Physical drive number (0..).
+    @retval DSTATUS :
+*/
+/**************************************************************************/
+DSTATUS disk_initialize(uint8_t drv)
+{ 
+	switch (drv) 
+	{
+		case SDIO_DRIVE:
+		{     
+			/* Initialize SD Card */
+			Status = SD_Init(); 
+
+			if (Status != SD_OK)
+				return STA_NOINIT;
+			else
+				return 0x00;
+		}
+  }
+  return STA_NOINIT;
+}
+
+/**************************************************************************/
+/*! 
+    @brief Return Disk Status.
+	@param  drv     : Physical drive number (0..).
+    @retval DSTATUS :
+*/
+/**************************************************************************/
+DSTATUS disk_status(uint8_t drv)
+{
+	switch (drv) 
+	{
+		case SDIO_DRIVE:
+		{
+			Status = SD_GetCardInfo(&SDCardInfo);
+
+			if (Status != SD_OK)
+				return STA_NOINIT;
+			else
+				return 0x00;
+		}
+	}
+	return STA_NOINIT;
+}
+
+/**************************************************************************/
+/*! 
+    @brief Read Sector(s).
+	@param  drv     : Physical drive number (0..).
+	@param  *buff   : Data buffer to store read data.
+	@param  sector  : Sector address (LBA).
+	@param  count   : Number of sectors to read.
+    @retval DSTATUS :
+*/
+/**************************************************************************/
+DRESULT disk_read(uint8_t drv,uint8_t *buff,uint32_t sector,unsigned int count)
+{
+	switch (drv) 
+	{
+		case SDIO_DRIVE:
+		{     
+			SD_Error status = SD_OK;
+
+			if(count==1){
+				status = SD_ReadBlock((uint8_t*)(buff), 
+									  ((uint64_t)(sector)*SECTOR_SIZE),
+									  SECTOR_SIZE);
+			}
+			else{
+				status = SD_ReadMultiBlocks((uint8_t*)(buff), 
+											((uint64_t)(sector)*SECTOR_SIZE),
+											SECTOR_SIZE
+											,count);
+			}
+
+			if (status == SD_OK)	return RES_OK;
+			else					return RES_ERROR;
+		}
+	}
+	return RES_PARERR;
+}
+
+/**************************************************************************/
+/*! 
+    @brief Write Sector(s).
+	@param  drv     : Physical drive number (0..).
+	@param  *buff   : Data to be written.
+	@param  sector  : Sector address (LBA).
+	@param  count   : Number of sectors to write.
+    @retval DSTATUS :
+*/
+/**************************************************************************/
+#if _READONLY == 0
+DRESULT disk_write(uint8_t drv,const uint8_t *buff,uint32_t sector,unsigned int count)
+{
+	switch (drv) 
+	{
+		case SDIO_DRIVE:
+		{     
+			SD_Error status = SD_OK;
+
+			if(count==1){
+				status = SD_WriteBlock((uint8_t*)(buff), 
+									  ((uint64_t)(sector)*SECTOR_SIZE),
+									  SECTOR_SIZE);
+			}
+			else{
+				status = SD_WriteMultiBlocks((uint8_t*)(buff), 
+											((uint64_t)(sector)*SECTOR_SIZE),
+											SECTOR_SIZE
+											,count);
+			}
+
+			if (status == SD_OK)	return RES_OK;
+			else					return RES_ERROR;
+		}
+	}
+	return RES_PARERR;
+}
+#endif /* _READONLY */
+
+/**************************************************************************/
+/*! 
+    @brief Miscellaneous Functions.
+	@param  drv     : Physical drive number (0..).
+	@param  ctrl    : Control code.
+	@param  *buff   : Buffer to send/receive control data.
+    @retval DSTATUS :
+*/
+/**************************************************************************/
+DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
+{
+	switch (drv) 
+	{
+		case SDIO_DRIVE:
+		{      
+		  switch (ctrl)
+		  {
+			case CTRL_SYNC:
+			  /* no synchronization to do since not buffering in this module */
+			  return RES_OK;
+			case GET_SECTOR_SIZE:
+			  *(uint16_t*)buff = SECTOR_SIZE;
+			  return RES_OK;
+			case GET_SECTOR_COUNT:
+			  *(uint32_t*)buff = SDCardInfo.CardCapacity / SECTOR_SIZE;
+			  return RES_OK;
+			case GET_BLOCK_SIZE:
+			  *(uint32_t*)buff = SDCardInfo.CardBlockSize;
+			  return RES_OK;
+			/* Following command are not used by FatFs module */
+			case MMC_GET_TYPE :		/* Get MMC/SDC type (uint8_t) */
+				*(uint8_t*)buff = SDCardInfo.CardType;
+				return RES_OK;
+			case MMC_GET_CSD :		/* Read CSD (16 bytes) */
+				memcpy((void *)buff,&SDCardInfo.SD_csd,16);
+				return RES_OK;
+			case MMC_GET_CID :		/* Read CID (16 bytes) */
+				memcpy((void *)buff,&SDCardInfo.SD_cid,16);
+				return RES_OK;
+			case MMC_GET_OCR :		/* Read OCR (4 bytes) */
+				*(uint32_t*)buff = SDCardInfo.SD_csd.MaxRdCurrentVDDMin;
+				return RES_OK;
+			case MMC_GET_SDSTAT :	/* Read SD status (64 bytes) */
+				SD_GetCardStatus(&SDCardStatus);
+				memcpy((void *)buff,&SDCardStatus,64);
+				return RES_OK;
+			default :
+				return RES_OK;
+			}
+		}
+	}
+	return RES_PARERR;
+}
+
+
+/**************************************************************************/
+/*! 
+    @brief Device Timer Interrupt Procedure.							@n
+		   This function must be called in period of 10ms.
+	@param  none
+    @retval none
+*/
+/**************************************************************************/
+/* Not used On STM32Primer2 */
+#if !defined(USE_STM32PRIMER2)
+void disk_timerproc (void)
+{
+	uint8_t n, s;
+
+	n = Timer1;					/* 100Hz decrement timer */
+	if (n) Timer1 = --n;
+	n = Timer2;
+	if (n) Timer2 = --n;
+
+
+	s = Stat;
+	if (SOCKWP)					/* WP is H (write protected) */
+		s |= STA_PROTECT;
+	else						/* WP is L (write enabled) */
+		s &= ~STA_PROTECT;
+
+	if (!SD_Detect())			/* INS = H (Socket empty) */
+		s |= (STA_NODISK | STA_NOINIT);
+	else						/* INS = L (Card inserted) */
+		s &= ~STA_NODISK;
+	Stat = s;
+}
+#endif 
 
 /* End Of File ---------------------------------------------------------------*/

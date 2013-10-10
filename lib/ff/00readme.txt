@@ -1,4 +1,4 @@
-FatFs Module Source Files R0.09b                       (C)ChaN, 2013
+FatFs Module Source Files R0.10                       (C)ChaN, 2013
 
 
 FILES
@@ -24,7 +24,7 @@ AGREEMENTS
  small embedded systems. This is a free software and is opened for education,
  research and commercial developments under license policy of following trems.
 
-  Copyright (C) 2012, ChaN, all right reserved.
+  Copyright (C) 2013, ChaN, all right reserved.
 
  * The FatFs module is a free software and there is NO WARRANTY.
  * No restriction on use. You can use, modify and redistribute it for
@@ -136,3 +136,12 @@ REVISION HISTORY
 
   Jan 23,'13 R0.09b    Added f_getlabel() and f_setlabel(). (_USE_LABEL == 1)
 
+  Oct 02,'13 R0.10     Added selection of character encoding on the file. (_STRF_ENCODE)
+                       Added f_closedir().
+                       Added forced full FAT scan for f_getfree(). (_FS_NOFSINFO)
+                       Added forced mount feature with changes of f_mount().
+                       Improved behavior of volume auto detection.
+                       Improved write throughput of f_puts() and f_printf().
+                       Changed argument of f_chdrive(), f_mkfs(), disk_read() and disk_write().
+                       Fixed f_write() can be truncated when the file size is close to 4GB.
+                       Fixed f_open(), f_mkdir() and f_setlabel() can return incorrect error code.
