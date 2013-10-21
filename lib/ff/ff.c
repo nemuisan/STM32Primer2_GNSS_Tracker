@@ -2757,40 +2757,33 @@ FRESULT f_sync (
 /*-----------------------------------------------------------------------*/
 
 FRESULT f_close (
-	FIL *fp		/* Pointer to the file object to be closed */
+    FIL *fp	    /* Pointer to the file object to be closed */
 )
 {
-	FRESULT res;
+    FRESULT res;
 
 
-#if _FS_READONLY
-	res = validate(fp);
-	{
-#if _FS_REENTRANT
-		FATFS *fs = 0;
-		if (res == FR_OK) fs = fp->fs;	/* Get corresponding file system object */
+#if !_FS_READONLY
+    res = f_sync(fp);                   /* Flush cached data */
+    if (res == FR_OK)
 #endif
-		if (res == FR_OK) fp->fs = 0;	/* Invalidate file object */
-		LEAVE_FF(fs, res);
-	}
-#else
-	res = f_sync(fp);					/* Flush cached data */
+    {
+        res = validate(fp);             /* Lock volume */
+        if (res == FR_OK) {
+#if _FS_REENTRANT
+            FATFS *fs = fp->fs;
+#endif
 #if _FS_LOCK
-	if (res == FR_OK) {					/* Decrement open counter */
+            res = dec_lock(fp->lockid); /* Decrement file open counter */
+            if (res == FR_OK)
+#endif
+                fp->fs = 0;             /* Invalidate file object */
 #if _FS_REENTRANT
-		res = validate(fp);
-		if (res == FR_OK) {
-			res = dec_lock(fp->lockid);
-			unlock_fs(fp->fs, FR_OK);
-		}
-#else
-		res = dec_lock(fp->lockid);
+            unlock_fs(fs, FR_OK);       /* Unlock volume */
 #endif
-	}
-#endif
-	if (res == FR_OK) fp->fs = 0;		/* Invalidate file object */
-	return res;
-#endif
+        }
+    }
+    return res;
 }
 
 
@@ -3150,24 +3143,28 @@ FRESULT f_opendir (
 /*-----------------------------------------------------------------------*/
 
 FRESULT f_closedir (
-	DIR *dp		/* Pointer to the directory object to be closed */
+    DIR *dp     /* Pointer to the directory object to be closed */
 )
 {
-	FRESULT res;
+    FRESULT res;
 
 
-	res = validate(dp);
-#if _FS_LOCK
-	if (res == FR_OK) {				/* Decrement open counter */
-		if (dp->lockid)
-			res = dec_lock(dp->lockid);
+    res = validate(dp);
+    if (res == FR_OK) {
 #if _FS_REENTRANT
-		unlock_fs(dp->fs, FR_OK);
+        FATFS *fs = dp->fs;
 #endif
-	}
+#if _FS_LOCK
+        if (dp->lockid)             /* Decrement sub-directory open counter */
+            res = dec_lock(dp->lockid);
+        if (res == FR_OK)
 #endif
-	if (res == FR_OK) dp->fs = 0;	/* Invalidate directory object */
-	return res;
+            dp->fs = 0;             /* Invalidate directory object */
+#if _FS_REENTRANT
+        unlock_fs(fs, FR_OK);       /* Unlock volume */
+#endif
+    }
+    return res;
 }
 
 

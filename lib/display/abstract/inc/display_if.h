@@ -137,7 +137,7 @@
 #elif	USE_HX8347x_TFT
  #include "hx8347x.h"
 
-#elif	USE_HX8352x_TFT
+#elif	USE_HX8352x_TFT || USE_HX8352x_SPI_TFT
  #include "hx8352x.h"
 
 #elif	USE_S1D19122_TFT
@@ -233,7 +233,7 @@
 #elif	USE_HX8310A_TFT
  #include "hx8310a.h"
 
-#elif	USE_HX8353x_TFT
+#elif	USE_HX8353x_TFT || USE_HX8353x_SPI_TFT
  #include "hx8353x.h"
 
 #elif	USE_S6D0154_TFT
@@ -242,6 +242,17 @@
 #elif	USE_ILI9342_TFT
  #include "ili9342.h"
 
+#elif	USE_LG4538_TFT || USE_LG4538_SPI_TFT
+ #include "lg4538.h"
+
+#elif	USE_NT35510_TFT
+ #include "nt35510.h"
+ 
+#elif	USE_BD663474_TFT || USE_BD663474_SPI_TFT
+ #include "bd663474.h"
+ 
+#elif	USE_ILI9488_TFT
+ #include "ili9488.h"
 
 #else
  #error "None of the Selected Display Device!!"

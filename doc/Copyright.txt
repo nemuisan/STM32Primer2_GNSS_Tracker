@@ -41,6 +41,7 @@
 Nemuisan uses following INTELLECTUAL PROPERTIES under each licence.
 Those sourcecode are included in this project.
 
+--- LIBRARIES ---
 * ARM Ltd. CMSIS Standard.
   See ./lib/CMSIS/CMSIS END USER LICENCE AGREEMENT.pdf.
 
@@ -55,13 +56,14 @@ Those sourcecode are included in this project.
   http://elm-chan.org/fsw/ff/en/appnote.html#license
 
 * stm32f10x_io_view.c
- Peripheral View Magic for STM32F1
- Ver.0.1 (2010/08)
- Copyright (c) 2010, audin
- All rights reserved.
- http://avr.paslog.jp
- This code is licensed under the BSD License.
+  Peripheral View Magic for STM32F1
+  Ver.0.1 (2010/08)
+  Copyright (c) 2010, audin
+  All rights reserved.
+  http://avr.paslog.jp
+  This code is licensed under the BSD License.
 
+--- FONTFILES ---
 * M+ Bitmap Fonts for FONTX2 is free font.
   http://members.at.infoseek.co.jp/yu_izumi/mplus/index.html
   Yu Izumi thanks!

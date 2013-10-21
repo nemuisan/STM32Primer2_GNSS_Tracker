@@ -2,8 +2,8 @@
 /*!
 	@file			ts.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2012.06.15
+    @version        11.00
+    @date           2013.09.20
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!
 
     @section HISTORY
@@ -20,6 +20,7 @@
 							Fixed JPEG Decompress parameter@IJG.
 		2012.04.01  V9.00   Separated to Filer & FileLoder Sections.
 		2012.06.15 V10.00   Added External SRAM Support.
+		2013.09.20 V11.00   Added more colour definitions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -30,7 +31,7 @@
 #include "ts.h"
 
 /* Defines -------------------------------------------------------------------*/
-#ifdef EXT_SRAM_SUPPORT
+#if  defined(EXT_SRAM_SUPPORT)
  #define _EXRAM  __attribute__ ((section(".extram")))
 #else
  #define _EXRAM

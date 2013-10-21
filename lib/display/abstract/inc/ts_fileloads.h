@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2012.07.10
+    @version        4.00
+    @date           2013.09.20
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -11,6 +11,7 @@
 		2012.06.12  V2.00   Added WAVE Player Handling.
 		2012.07.10  V3.00   Added GIF Decorder Handling.
 							Fixed libjpeg & libpng's Error Handlings.
+		2013.09.20  V4.00   Fixed unused functions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -20,7 +21,7 @@
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x0300
+#define __TS_FILELOADS_H 0x0400
 
 #ifdef __cplusplus
  extern "C" {

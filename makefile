@@ -60,7 +60,7 @@ INSIGHT = $(GDBDIR)/arm-none-eabi-insight
 OPTIMIZE		= s
 #OPTIMIZE		= 0
 
-# GCC4.6.x Specific Option
+# GCC LTO Specific Option
 ifneq ($(OPTIMIZE),0)
 USE_LTO			= -flto-partition=none -fipa-sra
 #USE_LTO			= -flto -fipa-sra
@@ -69,7 +69,7 @@ ALIGNED_ACCESS	= -mno-unaligned-access
 
 
 # Apprication Version
-APP_VER = Version14.00
+APP_VER = Version14.10
 
 # Basic definition
 SUBMODEL		= STM32F103VET6

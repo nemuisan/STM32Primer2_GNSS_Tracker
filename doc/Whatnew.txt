@@ -1,3 +1,6 @@
+20131020 : 
+V14.10  FatFs0.10 latest patch update.
+		  
 20131009 : 
 V14.00  Adopted FatFs0.10.
 		Changed FONTX2-Files handling solution.

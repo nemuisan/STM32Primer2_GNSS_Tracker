@@ -2,12 +2,12 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        14.00
-    @date           2013.10.09
+    @version        14.10
+    @date           2013.10.18
 	@brief          STM32 Primer2 GPS Tr@cker.
 
     @section HISTORY
-		2013.10.09	V14.00	See Whatnew.txt
+		2013.10.18	V14.10	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt

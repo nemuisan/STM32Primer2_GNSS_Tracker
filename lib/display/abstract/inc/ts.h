@@ -2,8 +2,8 @@
 /*!
 	@file			ts.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2012.06.15
+    @version        11.00
+    @date           2013.09.20
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!
 
     @section HISTORY
@@ -20,13 +20,14 @@
 							Fixed JPEG Decompress parameter@IJG.
 		2012.04.01  V9.00   Separated to Filer & FileLoder Sections.
 		2012.06.15 V10.00   Added External SRAM Support.
+		2013.09.20 V11.00   Added more colour definitions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TS_H
-#define __TS_H 0x1000
+#define __TS_H 0x1100
 
 #ifdef __cplusplus
  extern "C" {
@@ -52,8 +53,8 @@
  #define TS_FONTW	4
  #define TS_FONTH	8
 
-#elif defined(FONT10x10) || defined(FONT10x10M)
- /* Use M+ Fonts(10pt) or Rounded M+ Fonts(10pt) */
+#elif defined(FONT10x10)
+ /* Use M+ Fonts(10pt) */
  #define TS_FONTW	5
  #define TS_FONTH	10
 
@@ -62,18 +63,21 @@
  #define TS_FONTW	6
  #define TS_FONTH	10
 
-#elif defined(FONT12x12) || defined(FONT12x12K) || defined(FONT12x12W)
- /* Use M+ Fonts(12pt) or Kanamechou Fonts (12pt) or Wada Laboratry Hosomaru Fonts(12pt) */
+#elif defined(FONT12x12)  || defined(FONT12x12D) || defined(FONT12x12K) || defined(FONT12x12W) || \
+      defined(FONT12x12M) || defined(FONT12x12L)
+ /* Use M+ Fonts(12pt) or Kanamechou Fonts (12pt) or Wada Laboratry Hosomaru Fonts(12pt)
+     or MAYAKU Fonts(12pt) or Dohgenzaka Fonts(12pt) or  Kodenmacho Fonts(12pt) */
  #define TS_FONTW	6
  #define TS_FONTH	12
 
-#elif defined(FONT14x14) || defined(FONT14x14W)
- /* Use Shinnonome Gothic Fonts(14pt) or Wada Laboratry Hosomaru Fonts(14pt) */
+#elif defined(FONT14x14) || defined(FONT14x14M) || defined(FONT14x14W)
+ /* Use Shinnonome Gothic Fonts(14pt) or Wada Laboratry Hosomaru Fonts(14pt) or Dohgenzaka Fonts(14pt) */
  #define TS_FONTW	7
  #define TS_FONTH	14
 
-#elif defined(FONT16x16) || defined(FONT16x16W)
- /* Use Tanuki Fonts(16pt) or Wada Laboratry Hosomaru Fonts(16pt) */
+#elif defined(FONT16x16) || defined(FONT16x16K) || defined(FONT16x16L) || defined(FONT16x16W)
+ /* Use Tanuki Fonts(16pt) or Kyoukashotai Fonts(16pt) or Kodenma-cho Fonts(16pt)
+     or Wada Laboratry Hosomaru Fonts(16pt) */
  #define TS_FONTW	8
  #define TS_FONTH	16
 
@@ -107,6 +111,17 @@
  #define TS_FILER_HEIGHT	(TS_HEIGHT)
 #endif
 
+/* Display Fonts Colour */
+#define COL_NORMAL		COL_WHITE
+#define COL_HIDDEN		COL_BLUE
+#define COL_DIRECTORY	COL_AQUA
+#define COL_READONLY	COL_GREEN
+#define COL_TITLE		((COL_BLUE << 16) | COL_WHITE)
+#define COL_STAT		((COL_BLUE << 16) | COL_WHITE)
+#define COL_WBASE		COL_WHITE
+#define COL_WTITLE		((COL_AQUA << 16) | COL_BLACK)
+#define COL_WINPUT		((COL_GRAY << 16) | COL_WHITE)
+
 /* Used for Next Filer Ready */
 typedef struct {
 	uint8_t  fontw;
@@ -129,6 +144,23 @@ extern void ts_rtc(void);
 
 /* Array Buff[] must be declared FatFs Basic Routine! */
 extern uint8_t Buff[];
+
+/* Filer control command */
+#define KEY_UP		'\x05'	/* ^[E] */
+#define KEY_DOWN	'\x18'	/* ^[X] */
+#define KEY_LEFT	'\x13'	/* ^[S] */
+#define KEY_RIGHT	'\x04'	/* ^[D] */
+#define KEY_OK		'\x0D'	/* [Enter] */
+#define KEY_CAN		'\x1B'	/* [Esc] */
+#define KEY_BS		'\x08'	/* [BS] */
+#define KEY_SPC		' '		/* [Space] */
+#define KEY_MKDIR	'K'		/* [K] */
+#define KEY_DRIVE	'D'		/* [D] */
+#define KEY_COPY	'C'		/* [C] */
+#define KEY_REMOVE	'U'		/* [U] */
+#define KEY_RENAME	'N'		/* [N] */
+#define KEY_ALL		'A'		/* [A] */
+#define KEY_ATTRIB	'T'		/* [T] */
 
 #ifdef __cplusplus
 }
