@@ -24,7 +24,7 @@ DEVTOOL = LAUNCHPAD
 # Check BuildTools
 ifeq ($(DEVTOOL),LAUNCHPAD)
  TOOLDIR = C:/Devz/ARM/Launchpad
- NANOLIB = --specs=nano.specs
+# NANOLIB = --specs=nano.specs
 #  NANOLIB += -u _printf_float
 #  NANOLIB += -u _scanf_float
  REMOVAL = rm
@@ -65,11 +65,13 @@ ifneq ($(OPTIMIZE),0)
 USE_LTO			= -flto-partition=none -fipa-sra
 #USE_LTO			= -flto -fipa-sra
 endif
+# GCC Version Specific Options
 ALIGNED_ACCESS	= -mno-unaligned-access
+ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version14.10
+APP_VER = Version14.20
 
 # Basic definition
 SUBMODEL		= STM32F103VET6
@@ -280,7 +282,7 @@ REMOVEDIR 	= $(REMOVAL) -rf
 
 # C and ASM FLAGS
 CFLAGS  = -MD -mcpu=cortex-m3 -mtune=cortex-m3 -mfix-cortex-m3-ldrd
-CFLAGS += -mthumb -mlittle-endian $(ALIGNED_ACCESS)
+CFLAGS += -mthumb -mlittle-endian $(ALIGNED_ACCESS) $(ARMV7M_BOOST)
 CFLAGS += -mapcs-frame -mno-sched-prolog -msoft-float
 CFLAGS += -std=gnu99
 CFLAGS += -gdwarf-2 -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB)

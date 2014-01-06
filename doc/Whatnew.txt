@@ -1,3 +1,7 @@
+20140103 :
+v14.20	Adopted Launchpad GCC-ARM(GCC4.8.3).
+		 -> Added "-mslow-flash-data" option for armv7-m architecture.
+
 20131020 : 
 V14.10  FatFs0.10 latest patch update.
 		  
@@ -7,77 +11,77 @@ V14.00  Adopted FatFs0.10.
           C-array into INCBIN(Relay on GCC).ChaN thanks!
 
 20130710 : 
-V13.60 Fixed over 4GB R/W Problem on SDIO Handlings.
-	   Adopted semihosting function on nanolib.
+V13.60 	Fixed over 4GB R/W Problem on SDIO Handlings.
+		Adopted semihosting function on nanolib.
 
 20130701 : 
-V13.50 Fixed FatFs Minor Bug.
+V13.50 	Fixed FatFs Minor Bug.
 
 20130615 : 
-V13.01 Added New GCC Compiler(bleeding-edge-toolchain).
+V13.01 	Added New GCC Compiler(bleeding-edge-toolchain).
 
 20130510 : 
-V13.00 Adopted CMSIS3.20.
+V13.00 	Adopted CMSIS3.20.
 
 20130410:
-V12.00 Updated Display Libraries
+V12.00 	Updated Display Libraries
 
 20130330:
-V11.11 Fixed FatFs Minor Bug.
+V11.11 	Fixed FatFs Minor Bug.
 	   
 20130220:
-V11.10 Added MT3339/MT3333 Commands (gps_support.c)
-	   Added UART-Tx/Rx Buffer control function. (uart_support_gps.c)
+V11.10 	Added MT3339/MT3333 Commands (gps_support.c)
+		Added UART-Tx/Rx Buffer control function. (uart_support_gps.c)
 
 20130130:
-V11.00 Adopted FatFs0.09b
+V11.00 	Adopted FatFs0.09b
 
 20130107:
-V10.01 Adopted Launchpad GCC-ARM(GCC4.7.3) with nano-newlib.
+V10.01 	Adopted Launchpad GCC-ARM(GCC4.7.3) with nano-newlib.
 
 20121231:
-V10.00 Added Gms-g6a GNSS Module Support.
+V10.00 	Added Gms-g6a GNSS Module Support.
 
 20121127:
-V9.52  Minor Fix
-       #define SYNC_INTERVAL	180->90 in gps_support.c
+V9.52  	Minor Fix
+		#define SYNC_INTERVAL	180->90 in gps_support.c
 
 20121005:
-V9.51  Fixed Makefile.
-       Updated syscalls.c
+V9.51  	Fixed Makefile.
+		Updated syscalls.c
 
 20120915:
-V9.50  Updated STM32_USB-FS-Device_Driver(4.0.0).
+V9.50  	Updated STM32_USB-FS-Device_Driver(4.0.0).
 
 20120909:
-V9.10  Imploved PA6C Support.
-	   (Anti Interference & force to 9600bps for 38400bps Firmware for PA6C).
+V9.10  	Imploved PA6C Support.
+		(Anti Interference & force to 9600bps for 38400bps Firmware for PA6C).
 
 20120831:
-V9.00  Adopted Sourcery CodeBench Lite 2012.03-56  GCC4.6.3
-	   Adopted FatFs 0.09a.
-	   Imploved FatFs Support Function's Portability.
+V9.00  	Adopted Sourcery CodeBench Lite 2012.03-56  GCC4.6.3
+		Adopted FatFs 0.09a.
+		Imploved FatFs Support Function's Portability.
 
 20120714:
-V8.01  Updated STM32_USB-FS-Device_Driver(3.4.0)
+V8.01  	Updated STM32_USB-FS-Device_Driver(3.4.0)
 
 20120707:
-V8.00  Fixed Some Makefile Descriptions.
+V8.00  	Fixed Some Makefile Descriptions.
 
 20120520:
-V7.01  Updated STM32F10x_StdPeriph_Driver(3.6.1)
-V7.00  Add USB-CommunicationDeviceClass.
-       Add USB-Alternative-role Functions.
-	   Adopted Sourcery CodeBench Lite 2011.09-69 ,GCC4.6.1
-V6.00  More Reduced Power Consumption.
-       Adopted to PA6C(QZSS Supported!) Module.
-V5.00  Advenced RTC Synchronization via GPS.
-       Fixed UART Buffer structure for GPS long messages.
-	   Updated FatFs0.09.
-V4.00  Added USB-MassStorageClass
-V3.00  Internal Release
-V2.00  Internal Release
-V1.01  Internal Release
-       Updated STM32F10x_StdPeriph_Driver(3.5.0) & STM32_USB-FS-Device_Driver(3.3.0)
-V1.00  Internal Release
-       Start Here.
+V7.01  	Updated STM32F10x_StdPeriph_Driver(3.6.1)
+V7.00  	Add USB-CommunicationDeviceClass.
+		Add USB-Alternative-role Functions.
+		Adopted Sourcery CodeBench Lite 2011.09-69 ,GCC4.6.1
+V6.00  	More Reduced Power Consumption.
+		Adopted to PA6C(QZSS Supported!) Module.
+V5.00  	Advenced RTC Synchronization via GPS.
+		Fixed UART Buffer structure for GPS long messages.
+		Updated FatFs0.09.
+V4.00  	Added USB-MassStorageClass
+V3.00  	Internal Release
+V2.00  	Internal Release
+V1.01  	Internal Release
+		Updated STM32F10x_StdPeriph_Driver(3.5.0) & STM32_USB-FS-Device_Driver(3.3.0)
+V1.00  	Internal Release
+		Start Here.
