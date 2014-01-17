@@ -1,3 +1,6 @@
+20140116 : 
+V15.00  Adopted FatFs0.10a.
+
 20140103 :
 v14.20	Adopted Launchpad GCC-ARM(GCC4.8.3).
 		 -> Added "-mslow-flash-data" option for armv7-m architecture.

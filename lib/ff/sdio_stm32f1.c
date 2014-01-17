@@ -2,10 +2,10 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2013.10.09
+    @version        8.00
+    @date           2014.01.15
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
-					Based on STM32F10x_StdPeriph_Driver V3.4.0.				@n
+					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
 		2011.01.20	V1.00	Start Here.
@@ -15,6 +15,7 @@
 		2012.10.05  V5.00	Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
 		2013.07.06  V6.00	Fixed over 4GB R/W Problem.
 		2013.10.09	V7.00	Integrated with diskio_sdio.c.
+		2014.01.15  V8.00   Improved Insertion detect(configuarable).
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x0700
+#if __SDIO_STM32F1_H!= 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -213,10 +214,12 @@ SD_Error SD_Init(void)
   GPIO_Init(GPIOD, &GPIO_InitStructure);
 
   /*!< Configure SD_SPI_DETECT_PIN pin: SD Card detect pin */
+#ifdef SDIO_INS_DETECT
   GPIO_InitStructure.GPIO_Pin = SD_DETECT_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
   GPIO_Init(SD_DETECT_GPIO_PORT, &GPIO_InitStructure);
-  
+#endif
+
   /*!< Enable the SDIO AHB Clock */
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_SDIO, ENABLE);
 
@@ -358,14 +361,12 @@ uint8_t SD_Detect(void)
 {
   __IO uint8_t status = SD_PRESENT;
 
-  /*!< Check GPIO to detect SD */
-  /* Nemui added: NO SD_DETECT Port on@STM32Primer2's MicroSD Card Slot! */
-  /*
+#ifdef SDIO_INS_DETECT
   if (GPIO_ReadInputDataBit(SD_DETECT_GPIO_PORT, SD_DETECT_PIN) != Bit_RESET)
   {
     status = SD_NOT_PRESENT;
   }
-  */
+#endif
   return status;
 }
 

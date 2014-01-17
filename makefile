@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version14.20
+APP_VER = Version15.00
 
 # Basic definition
 SUBMODEL		= STM32F103VET6
@@ -107,6 +107,7 @@ DEFZ = $(SUBMODEL)   $(EVAL_BOARD)   $(MPU_DENSITY)  $(PERIF_DRIVER)    $(VECTOR
 DEFZ += $(USE_DISPLAY) $(USE_FONTSIZE) $(USE_KANJI) $(USE_TOUCH_SENCE)  $(USE_XMSTN)	   \
         $(USE_JPEG_LIB)
 SYNTHESIS_DEFS	= $(addprefix -D,$(DEFZ)) 							\
+				 -DARM_MATH_CM3										\
 				 -DPACK_STRUCT_END=__attribute\(\(packed\)\) 		\
 				 -DALIGN_STRUCT_END=__attribute\(\(aligned\(4\)\)\) \
 				 -DMPU_SUBMODEL=\"$(SUBMODEL)\"						\
@@ -197,6 +198,7 @@ CFILES += \
  $(FATFS)/ff.c 							\
  $(FATFS)/sdio_stm32f1.c 				\
  $(FATFS)/ff_rtc_if.c 					\
+ $(FATFS)/option/syscall.c				\
  $(FATFS)/option/unicode.c
 
 #/*----- USB-Function library PATH -----*/

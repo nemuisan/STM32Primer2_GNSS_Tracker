@@ -2,10 +2,11 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2013.10.09
+    @version        8.00
+    @date           2014.01.15
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.				@n
+					This Header is SDIO Driver's HAL Configure!
 
     @section HISTORY
 		2011.01.20	V1.00	Start Here.
@@ -15,13 +16,14 @@
 		2012.10.05  V5.00	Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
 		2013.07.06  V6.00	Fixed over 4GB R/W Problem.
 		2013.10.09	V7.00	Integrated with diskio_sdio.c.
+		2014.01.15  V8.00   Improved Insertion detect(configuarable).
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x0700
+#define __SDIO_STM32F1_H	0x0800
 
 #ifdef __cplusplus
  extern "C" {
@@ -32,6 +34,12 @@
 #include <string.h>
 #include "stm32f10x.h"
 #include "diskio.h"
+
+/* Uncomment the following line to Disable Incert detection */  
+/*#define SDIO_INS_DETECT	*/						/* Enable SDIO Incert Detection */
+#define SD_DETECT_PIN                    GPIO_Pin_11                 /* PF.11 */
+#define SD_DETECT_GPIO_PORT              GPIOF                       /* GPIOF */
+#define SD_DETECT_GPIO_CLK               RCC_APB2Periph_GPIOF
 
 
 /* Defines */
@@ -315,14 +323,10 @@ typedef struct
 #define SDIO_SECURE_DIGITAL_IO_COMBO_CARD          ((uint32_t)0x00000006)
 #define SDIO_HIGH_CAPACITY_MMC_CARD                ((uint32_t)0x00000007)
 
+
 /**
-  * @brief  SD FLASH SDIO Interface
-  */ 
-
-#define SD_DETECT_PIN                    GPIO_Pin_11                 /* PF.11 */
-#define SD_DETECT_GPIO_PORT              GPIOF                       /* GPIOF */
-#define SD_DETECT_GPIO_CLK               RCC_APB2Periph_GPIOF
-
+  * @brief  SDIO FIFO Address
+  */
 #define SDIO_FIFO_ADDRESS                ((uint32_t)0x40018080)
 /** 
   * @brief  SDIO Intialization Frequency (400KHz max)
