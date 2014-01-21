@@ -1,3 +1,7 @@
+20140120 : 
+V15.50  Fixed Gtop-FlashTool exec Failure from USB-CDC-ACM Problem.
+         (See usb_cdc_prop.c)
+
 20140116 : 
 V15.00  Adopted FatFs0.10a.
 

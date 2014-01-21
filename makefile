@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version15.00
+APP_VER = Version15.50
 
 # Basic definition
 SUBMODEL		= STM32F103VET6

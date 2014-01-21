@@ -2,13 +2,14 @@
 /*!
 	@file			usb_cdc_prop.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.01.18
 	@brief          All processing related to Virtual COM Port.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
+		2014.01.18	V2.00	Added SEND_BREAK into no data class specific requests.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -299,6 +300,10 @@ RESULT Virtual_Com_Port_NoData_Setup(uint8_t RequestNo)
       return USB_SUCCESS;
     }
     else if (RequestNo == SET_CONTROL_LINE_STATE)
+    {
+      return USB_SUCCESS;
+    }
+    else if (RequestNo == SEND_BREAK)
     {
       return USB_SUCCESS;
     }
