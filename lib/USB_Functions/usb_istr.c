@@ -169,7 +169,7 @@ void CDC_USB_Istr(void)
 #endif
   /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-#if (IMR_MSK & ISTR_ESOF)
+#if (CDC_IMR_MSK & ISTR_ESOF)
   if (wIstr & ISTR_ESOF & wInterrupt_Mask)
   {
     /* clear ESOF flag in ISTR */
