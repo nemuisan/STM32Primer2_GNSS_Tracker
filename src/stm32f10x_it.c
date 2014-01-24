@@ -2,8 +2,8 @@
 /*!
 	@file			stm32f10x_it.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2011.03.10
+    @version        4.00
+    @date           2014.01.23
 	@brief          Cortex-M3 Processor Exceptions Handlers.				@n
 					And STM32F10x Peripherals Interrupt Handlers.			@n
 					Device Dependent Section.
@@ -12,6 +12,7 @@
 		2010.03.17	V1.00	Restart Here.
 		2011.01.20	V2.00	Rewrite Doxygen Style.
 		2011.03.10	V3.00	C++ Ready.
+		2014.01.23	V4.00	Removed retired STM32F10X_CL Codes.
 
     @section LICENSE
 		BSD License. See Copyright.txt

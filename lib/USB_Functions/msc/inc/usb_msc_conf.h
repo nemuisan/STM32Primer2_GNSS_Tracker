@@ -68,4 +68,4 @@
 }
 #endif
 
-#endif	/*__USB_MSC_CONF_H */
+#endif	/* __USB_MSC_CONF_H */

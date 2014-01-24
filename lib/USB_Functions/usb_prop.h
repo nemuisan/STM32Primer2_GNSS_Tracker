@@ -71,4 +71,4 @@ extern void nxSetDeviceAddress(void);
 }
 #endif
 
-#endif	/*__USB_PROP_H */
+#endif	/* __USB_PROP_H */

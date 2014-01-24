@@ -104,4 +104,4 @@ extern void Mass_Storage_Out(void);
 }
 #endif
 
-#endif	/*__USB_CONF_H */
+#endif	/* __USB_CONF_H */

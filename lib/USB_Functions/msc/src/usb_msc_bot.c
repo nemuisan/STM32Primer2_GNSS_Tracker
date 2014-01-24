@@ -2,13 +2,14 @@
 /*!
 	@file			usb_msc_bot.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.01.23
 	@brief          BOT State Machine management.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
+		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -56,14 +57,7 @@ void Mass_Storage_In (void)
     case BOT_CSW_Send:
     case BOT_ERROR:
       Bot_State = BOT_IDLE;
-    #ifndef STM32F10X_CL
-      SetEPRxStatus(ENDP2, EP_RX_VALID);/* enable the Endpoint to receive the next cmd*/
-    #else
-      if (GetEPRxStatus(EP2_OUT) == EP_RX_STALL)
-      {
-        SetEPRxStatus(EP2_OUT, EP_RX_VALID);/* enable the Endpoint to receive the next cmd*/
-      }
-    #endif /* STM32F10X_CL */
+      SetEPRxStatus(ENDP2, EP_RX_VALID);/* enable the Endpoint to receive the next cmd */
       break;
     case BOT_DATA_IN:
       switch (CBW.CB[0])
@@ -75,14 +69,7 @@ void Mass_Storage_In (void)
       break;
     case BOT_DATA_IN_LAST:
       Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
-    #ifndef STM32F10X_CL
       SetEPRxStatus(ENDP2, EP_RX_VALID);
-    #else
-      if (GetEPRxStatus(EP2_OUT) == EP_RX_STALL)
-      {
-        SetEPRxStatus(EP2_OUT, EP_RX_VALID);/* enable the Endpoint to receive the next cmd*/
-      }      
-    #endif /* STM32F10X_CL */
       break;
 
     default:

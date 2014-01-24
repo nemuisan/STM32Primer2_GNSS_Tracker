@@ -76,4 +76,4 @@ extern void CDC_SetStructure(void);
 }
 #endif
 
-#endif	/*__USB_CDC_PROP_H */
+#endif	/* __USB_CDC_PROP_H */

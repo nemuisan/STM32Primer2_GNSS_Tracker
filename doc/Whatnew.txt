@@ -1,5 +1,8 @@
+20140123 : 
+V15.70  Removed retired STM32F10X_CL Codes.
+
 20140121 : 
-V15.60  Fixed IMR_MSK Definition in "usb_istr.c"
+V15.60  Fixed IMR_MSK Definition in "usb_istr.c".
 
 20140120 : 
 V15.50  Fixed Gtop-FlashTool exec Failure from USB-CDC-ACM Problem.

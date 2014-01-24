@@ -2,19 +2,20 @@
 /*!
 	@file			usb_istr.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.01.23
 	@brief          ISTR events interrupt service routine Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
+		2014.01.23	V2.00	Adopted STM32_USB-FS-Device_DriverV4.0.0.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __USB_ISTR_H
-#define __USB_ISTR_H	0x0100
+#define __USB_ISTR_H	0x0200
 
 #ifdef __cplusplus
  extern "C" {
@@ -91,4 +92,4 @@ void ESOF_Callback(void);
 }
 #endif
 
-#endif	/*__USB_ISTR_H*/
+#endif	/* __USB_ISTR_H */

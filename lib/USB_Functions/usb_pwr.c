@@ -2,12 +2,13 @@
 /*!
 	@file			usb_pwr.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.01.23
 	@brief          Connection/disconnection & power management header.
 
     @section HISTORY
-		2012.01.30	V1.00	Start Here
+		2012.01.30	V1.00	Start Here.
+		2014.01.23	V2.00	Adopted STM32_USB-FS-Device_DriverV4.0.0.
 
     @section LICENSE
 		BSD License. See Copyright.txt

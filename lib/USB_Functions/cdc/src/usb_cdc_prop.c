@@ -2,14 +2,15 @@
 /*!
 	@file			usb_cdc_prop.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.18
+    @version        3.00
+    @date           2014.01.23
 	@brief          All processing related to Virtual COM Port.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.18	V2.00	Added SEND_BREAK into no data class specific requests.
+		2014.01.23	V3.00	Removed retired STM32F10X_CL Codes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -138,19 +139,6 @@ void Virtual_Com_Port_Reset(void)
   /* Set Virtual_Com_Port DEVICE with the default Interface*/
   pInformation->Current_Interface = 0;
 
-#ifdef STM32F10X_CL     
-  /* EP0 is already configured by USB_SIL_Init() function */
-  
-  /* Init EP1 IN as Bulk endpoint */
-  OTG_DEV_EP_Init(EP1_IN, OTG_DEV_EP_TYPE_BULK, VIRTUAL_COM_PORT_DATA_SIZE);
-  
-  /* Init EP2 IN as Interrupt endpoint */
-  OTG_DEV_EP_Init(EP2_IN, OTG_DEV_EP_TYPE_INT, VIRTUAL_COM_PORT_INT_SIZE);
-
-  /* Init EP3 OUT as Bulk endpoint */
-  OTG_DEV_EP_Init(EP3_OUT, OTG_DEV_EP_TYPE_BULK, VIRTUAL_COM_PORT_DATA_SIZE);  
-#else 
-
   SetBTABLE(BTABLE_ADDRESS);
 
   /* Initialize Endpoint 0 */
@@ -194,7 +182,6 @@ void Virtual_Com_Port_Reset(void)
 
   /* Set this device to response on default address */
   SetDeviceAddress(0);
-#endif /* STM32F10X_CL */
 
   bDeviceState = ATTACHED;
 }

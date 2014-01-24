@@ -55,4 +55,4 @@ extern uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL]
 }
 #endif
 
-#endif	/*__USB_CDC_DESC_H */
+#endif	/* __USB_CDC_DESC_H */

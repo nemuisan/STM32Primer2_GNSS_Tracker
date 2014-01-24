@@ -2,13 +2,14 @@
 /*!
 	@file			usb_msc_scsi.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.01.23
 	@brief          All processing related to the SCSI commands.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
+		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -245,9 +246,7 @@ void SCSI_Write10_Cmd(uint8_t lun , uint32_t LBA , uint32_t BlockNbr)
     if ((CBW.bmFlags & 0x80) == 0)
     {
       Bot_State = BOT_DATA_OUT;
-    #ifndef STM32F10X_CL
       SetEPRxStatus(ENDP2, EP_RX_VALID);
-    #endif /* STM32F10X_CL */
     }
     else
     {

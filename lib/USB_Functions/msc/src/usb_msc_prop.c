@@ -2,13 +2,14 @@
 /*!
 	@file			usb_msc_prop.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.01.23
 	@brief          Mass Storage middle layer.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
+		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -128,18 +129,6 @@ void Mass_Reset()
   /* Current Feature initialization */
   pInformation->Current_Feature = Mass_ConfigDescriptor[7];
 
-#ifdef STM32F10X_CL   
-  
-  /* EP0 is already configured by USB_SIL_Init() function */
-
-  /* Init EP1 IN as Bulk endpoint */
-  OTG_DEV_EP_Init(EP1_IN, OTG_DEV_EP_TYPE_BULK, BULK_MAX_PACKET_SIZE);
-  
-  /* Init EP2 OUT as Bulk endpoint */
-  OTG_DEV_EP_Init(EP2_OUT, OTG_DEV_EP_TYPE_BULK, BULK_MAX_PACKET_SIZE); 
-  
-#else 
-
   SetBTABLE(BTABLE_ADDRESS);
 
   /* Initialize Endpoint 0 */
@@ -183,7 +172,6 @@ void Mass_Reset()
 
   /* Set the device to response on default address */
   SetDeviceAddress(0);
-#endif /* STM32F10X_CL */
 
   bDeviceState = ATTACHED;
 
@@ -203,16 +191,8 @@ void Mass_SetConfiguration(void)
     /* Device configured */
     bDeviceState = CONFIGURED;
 
-#ifdef STM32F10X_CL 
-    /* Init EP1 IN as Bulk endpoint */
-    OTG_DEV_EP_Init(EP1_IN, OTG_DEV_EP_TYPE_BULK, BULK_MAX_PACKET_SIZE);
-  
-    /* Init EP2 OUT as Bulk endpoint */
-    OTG_DEV_EP_Init(EP2_OUT, OTG_DEV_EP_TYPE_BULK, BULK_MAX_PACKET_SIZE);     
-#else    
     ClearDTOG_TX(ENDP1);
     ClearDTOG_RX(ENDP2);
-#endif /* STM32F10X_CL */
 
     Bot_State = BOT_IDLE; /* set the Bot state machine to the IDLE state */
   }
@@ -306,19 +286,11 @@ RESULT Mass_NoData_Setup(uint8_t RequestNo)
       && (RequestNo == MASS_STORAGE_RESET) && (pInformation->USBwValue == 0)
       && (pInformation->USBwIndex == 0) && (pInformation->USBwLength == 0x00))
   {
-   #ifdef STM32F10X_CL 
-    /* Init EP1 IN as Bulk endpoint */
-    OTG_DEV_EP_Init(EP1_IN, OTG_DEV_EP_TYPE_BULK, BULK_MAX_PACKET_SIZE);
-  
-    /* Init EP2 OUT as Bulk endpoint */
-    OTG_DEV_EP_Init(EP2_OUT, OTG_DEV_EP_TYPE_BULK, BULK_MAX_PACKET_SIZE);     
-   #else
     /* Initialize Endpoint 1 */
     ClearDTOG_TX(ENDP1);
 
     /* Initialize Endpoint 2 */
     ClearDTOG_RX(ENDP2);
-   #endif /* STM32F10X_CL */
 
     /*initialize the CBW signature to enable the clear feature*/
     CBW.dSignature = BOT_CBW_SIGNATURE;
