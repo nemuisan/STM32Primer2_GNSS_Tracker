@@ -1,3 +1,7 @@
+20140217 : 
+V16.00  Changed Linkerscript File Names.
+        Adopted FatFs0.10a latest patch update.
+
 20140123 : 
 V15.70  Removed retired STM32F10X_CL Codes.
 

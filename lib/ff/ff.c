@@ -2678,7 +2678,7 @@ FRESULT f_write (
 				if (fp->fptr == 0) {		/* On the top of the file? */
 					clst = fp->sclust;		/* Follow from the origin */
 					if (clst == 0)			/* When no cluster is allocated, */
-						fp->sclust = clst = create_chain(fp->fs, 0);	/* Create a new cluster chain */
+						clst = create_chain(fp->fs, 0);	/* Create a new cluster chain */
 				} else {					/* Middle or end of the file */
 #if _USE_FASTSEEK
 					if (fp->cltbl)
@@ -2691,6 +2691,7 @@ FRESULT f_write (
 				if (clst == 1) ABORT(fp->fs, FR_INT_ERR);
 				if (clst == 0xFFFFFFFF) ABORT(fp->fs, FR_DISK_ERR);
 				fp->clust = clst;			/* Update current cluster */
+				if (fp->sclust == 0) fp->sclust = clst;	/* Set start cluster if the first write */
 			}
 #if _FS_TINY
 			if (fp->fs->winsect == fp->dsect && sync_window(fp->fs))	/* Write-back sector cache */

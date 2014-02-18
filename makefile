@@ -71,12 +71,12 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version15.70
+APP_VER = Version16.00
 
 # Basic definition
-SUBMODEL		= STM32F103VET6
 EVAL_BOARD    	= USE_STM32PRIMER2
-MPU_DENSITY		= STM32F10X_HD
+MPU_MODEL		= STM32F10X_HD
+SUBMODEL		= STM32F103VET6
 HSE_CLOCK 		= 12000000
 VECTOR_START  	= VECT_TAB_FLASH
 PERIF_DRIVER    = USE_STDPERIPH_DRIVER
@@ -101,18 +101,19 @@ OS_SUPPORT		= BARE_METAL
 #OS_SUPPORT		= USE_FREERTOS
 
 # Synthesis makefile Defines
-DEFZ = $(SUBMODEL)   $(EVAL_BOARD)   $(MPU_DENSITY)  $(PERIF_DRIVER)    $(VECTOR_START)    \
-	   $(OS_SUPPORT) $(USE_EXT_SRAM)
-# Defines if Display and Font Drivers
+DEFZ = $(MPU_CLASS) $(MPU_MODEL) $(SUBMODEL) $(EVAL_BOARD) $(PERIF_DRIVER) $(VECTOR_START) \
+	   $(USING_HOSTAGE) $(OS_SUPPORT) $(USE_EXT_SRAM) $(USE_EXT_SDRAM) $(USE_EXT_HEAP)
+# Defines if Display and misc Drivers
 DEFZ += $(USE_DISPLAY) $(USE_FONTSIZE) $(USE_KANJI) $(USE_TOUCH_SENCE)  $(USE_XMSTN)	   \
-        $(USE_JPEG_LIB)
+        $(USE_JPEG_LIB) $(USE_PNG_LIB) $(USE_GIF_LIB) $(USE_AUDIO_LIB)  				   \
+		$(USE_SOUND_MP3)  $(USE_SOUND_WAV)
 SYNTHESIS_DEFS	= $(addprefix -D,$(DEFZ)) 							\
 				 -DARM_MATH_CM3										\
 				 -DPACK_STRUCT_END=__attribute\(\(packed\)\) 		\
 				 -DALIGN_STRUCT_END=__attribute\(\(aligned\(4\)\)\) \
 				 -DMPU_SUBMODEL=\"$(SUBMODEL)\"						\
 				 -DAPP_VERSION=\"$(APP_VER)\"						\
-				 -DHSE_VALUE=$(HSE_CLOCK)UL 
+				 -DHSE_VALUE=$(HSE_CLOCK)UL
 
 # TARGET definition
 TARGET 		= main
@@ -233,7 +234,7 @@ CFILES += \
 
 #/*----- STARTUP code PATH -----*/
 STARTUP_DIR = $(CMSIS_DEVICE)/Source/Templates/gcc_ride7
-ifeq ($(MPU_DENSITY),STM32F10X_HD)
+ifeq ($(MPU_MODEL),STM32F10X_HD)
 SFILES += \
 	$(STARTUP_DIR)/startup_stm32f10x_hd.s
 else
@@ -304,7 +305,7 @@ LDFLAGS  = -mcpu=cortex-m3 -mthumb -mfix-cortex-m3-ldrd
 LDFLAGS += -u g_pfnVectors -Wl,-static -Wl,--gc-sections -nostartfiles
 LDFLAGS += -Wl,-Map=$(TARGET).map
 LDFLAGS += $(LIBRARY_DIRS) $(LINKER_DIRS) $(MATH_LIB) 
-LDFLAGS +=-T$(LINKER_PATH)/$(MPU_DENSITY).ld
+LDFLAGS +=-T$(LINKER_PATH)/$(SUBMODEL).ld
 
 # Object Copy and dfu generation FLAGS
 OBJCPFLAGS = -O
@@ -399,6 +400,7 @@ program :
 	$(REMOVE) $(TARGET).bin
 	$(REMOVE) $(TARGET).obj
 	$(REMOVE) $(SUBMODEL)_lib.a
+	$(REMOVE) $(wildcard *_lib.a)
 	$(REMOVE) $(TARGET).map
 	$(REMOVE) $(TARGET).s19
 	$(REMOVE) $(TARGET).a90
