@@ -1,13 +1,13 @@
 /* ----------------------------------------------------------------------
-* Copyright (C) 2010-2013 ARM Limited. All rights reserved.
+* Copyright (C) 2010-2014 ARM Limited. All rights reserved.
 *
-* $Date:        17. January 2013
-* $Revision:    V1.4.1
+* $Date:        20. February 2014
+* $Revision: 	V1.4.2
 *
-* Project:      CMSIS DSP Library
-* Title:        arm_math.h
+* Project: 	    CMSIS DSP Library
+* Title:	    arm_math.h
 *
-* Description:  Public header file for CMSIS DSP Library
+* Description:	Public header file for CMSIS DSP Library
 *
 * Target Processor: Cortex-M4/Cortex-M3/Cortex-M0
 *
@@ -90,18 +90,11 @@
    *
    * <b>Building the Library</b>
    *
-   * The library installer contains project files to re build libraries on MDK Tool chain in the <code>CMSIS\\DSP_Lib\\Source\\ARM</code> folder.
-   * - arm_cortexM0b_math.uvproj
-   * - arm_cortexM0l_math.uvproj
-   * - arm_cortexM3b_math.uvproj
-   * - arm_cortexM3l_math.uvproj
-   * - arm_cortexM4b_math.uvproj
-   * - arm_cortexM4l_math.uvproj
-   * - arm_cortexM4bf_math.uvproj
-   * - arm_cortexM4lf_math.uvproj
+   * The library installer contains a project file to re build libraries on MDK-ARM Tool chain in the <code>CMSIS\\DSP_Lib\\Source\\ARM</code> folder.
+   * - arm_cortexM_math.uvproj
    *
    *
-   * The project can be built by opening the appropriate project in MDK-ARM 4.60 chain and defining the optional pre processor MACROs detailed above.
+   * The libraries can be built by opening the arm_cortexM_math.uvproj project in MDK-ARM, selecting a specific target, and defining the optional pre processor MACROs detailed above.
    *
    * <b>Pre-processor Macros</b>
    *
@@ -305,9 +298,13 @@ extern "C"
    * @brief Macros required for SINE and COSINE Fast math approximations
    */
 
-#define TABLE_SIZE			256
-#define TABLE_SPACING_Q31	0x800000
-#define TABLE_SPACING_Q15	0x80
+#define FAST_MATH_TABLE_SIZE  512
+#define FAST_MATH_Q31_SHIFT   (32 - 10)
+#define FAST_MATH_Q15_SHIFT   (16 - 10)
+#define CONTROLLER_Q31_SHIFT  (32 - 9)
+#define TABLE_SIZE  256
+#define TABLE_SPACING_Q31	   0x400000
+#define TABLE_SPACING_Q15	   0x80
 
   /**
    * @brief Macros required for SINE and COSINE Controller functions
@@ -386,6 +383,9 @@ extern "C"
 #elif defined __GNUC__
 #define __SIMD32_TYPE int32_t
 #define CMSIS_UNUSED __attribute__((unused))
+#elif defined __CSMC__			/* Cosmic */
+#define CMSIS_UNUSED
+#define __SIMD32_TYPE int32_t
 #else
 #error Unknown compiler
 #endif
@@ -730,8 +730,8 @@ extern "C"
     q31_t sum;
     q31_t r, s;
 
-    r = (short) x;
-    s = (short) y;
+    r = (q15_t) x;
+    s = (q15_t) y;
 
     r = __SSAT(r + s, 16);
     s = __SSAT(((q31_t) ((x >> 16) + (y >> 16))), 16) << 16;
@@ -753,8 +753,8 @@ extern "C"
     q31_t sum;
     q31_t r, s;
 
-    r = (short) x;
-    s = (short) y;
+    r = (q15_t) x;
+    s = (q15_t) y;
 
     r = ((r >> 1) + (s >> 1));
     s = ((q31_t) ((x >> 17) + (y >> 17))) << 16;
@@ -776,8 +776,8 @@ extern "C"
     q31_t sum;
     q31_t r, s;
 
-    r = (short) x;
-    s = (short) y;
+    r = (q15_t) x;
+    s = (q15_t) y;
 
     r = __SSAT(r - s, 16);
     s = __SSAT(((q31_t) ((x >> 16) - (y >> 16))), 16) << 16;
@@ -798,8 +798,8 @@ extern "C"
     q31_t diff;
     q31_t r, s;
 
-    r = (short) x;
-    s = (short) y;
+    r = (q15_t) x;
+    s = (q15_t) y;
 
     r = ((r >> 1) - (s >> 1));
     s = (((x >> 17) - (y >> 17)) << 16);
@@ -821,8 +821,8 @@ extern "C"
 
     sum =
       ((sum +
-        clip_q31_to_q15((q31_t) ((short) (x >> 16) + (short) y))) << 16) +
-      clip_q31_to_q15((q31_t) ((short) x - (short) (y >> 16)));
+        clip_q31_to_q15((q31_t) ((q15_t) (x >> 16) + (q15_t) y))) << 16) +
+      clip_q31_to_q15((q31_t) ((q15_t) x - (q15_t) (y >> 16)));
 
     return sum;
   }
@@ -838,8 +838,8 @@ extern "C"
     q31_t sum;
     q31_t r, s;
 
-    r = (short) x;
-    s = (short) y;
+    r = (q15_t) x;
+    s = (q15_t) y;
 
     r = ((r >> 1) - (y >> 17));
     s = (((x >> 17) + (s >> 1)) << 16);
@@ -862,8 +862,8 @@ extern "C"
 
     sum =
       ((sum +
-        clip_q31_to_q15((q31_t) ((short) (x >> 16) - (short) y))) << 16) +
-      clip_q31_to_q15((q31_t) ((short) x + (short) (y >> 16)));
+        clip_q31_to_q15((q31_t) ((q15_t) (x >> 16) - (q15_t) y))) << 16) +
+      clip_q31_to_q15((q31_t) ((q15_t) x + (q15_t) (y >> 16)));
 
     return sum;
   }
@@ -879,8 +879,8 @@ extern "C"
     q31_t sum;
     q31_t r, s;
 
-    r = (short) x;
-    s = (short) y;
+    r = (q15_t) x;
+    s = (q15_t) y;
 
     r = ((r >> 1) + (y >> 17));
     s = (((x >> 17) - (s >> 1)) << 16);
@@ -898,8 +898,8 @@ extern "C"
   q31_t y)
   {
 
-    return ((q31_t) (((short) x * (short) (y >> 16)) -
-                     ((short) (x >> 16) * (short) y)));
+    return ((q31_t) (((q15_t) x * (q15_t) (y >> 16)) -
+                     ((q15_t) (x >> 16) * (q15_t) y)));
   }
 
   /*
@@ -910,8 +910,8 @@ extern "C"
   q31_t y)
   {
 
-    return ((q31_t) (((short) x * (short) (y >> 16)) +
-                     ((short) (x >> 16) * (short) y)));
+    return ((q31_t) (((q15_t) x * (q15_t) (y >> 16)) +
+                     ((q15_t) (x >> 16) * (q15_t) y)));
   }
 
   /*
@@ -943,8 +943,8 @@ extern "C"
   q31_t sum)
   {
 
-    return (sum + ((short) (x >> 16) * (short) (y >> 16)) +
-            ((short) x * (short) y));
+    return (sum + ((q15_t) (x >> 16) * (q15_t) (y >> 16)) +
+            ((q15_t) x * (q15_t) y));
   }
 
   /*
@@ -956,8 +956,8 @@ extern "C"
   q31_t sum)
   {
 
-    return (sum + ((short) (x >> 16) * (short) (y)) +
-            ((short) x * (short) (y >> 16)));
+    return (sum + ((q15_t) (x >> 16) * (q15_t) (y)) +
+            ((q15_t) x * (q15_t) (y >> 16)));
   }
 
   /*
@@ -969,8 +969,8 @@ extern "C"
   q31_t sum)
   {
 
-    return (sum - ((short) (x >> 16) * (short) (y)) +
-            ((short) x * (short) (y >> 16)));
+    return (sum - ((q15_t) (x >> 16) * (q15_t) (y)) +
+            ((q15_t) x * (q15_t) (y >> 16)));
   }
 
   /*
@@ -982,8 +982,8 @@ extern "C"
   q63_t sum)
   {
 
-    return (sum + ((short) (x >> 16) * (short) (y >> 16)) +
-            ((short) x * (short) y));
+    return (sum + ((q15_t) (x >> 16) * (q15_t) (y >> 16)) +
+            ((q15_t) x * (q15_t) y));
   }
 
   /*
@@ -995,8 +995,8 @@ extern "C"
   q63_t sum)
   {
 
-    return (sum + ((short) (x >> 16) * (short) y)) +
-      ((short) x * (short) (y >> 16));
+    return (sum + ((q15_t) (x >> 16) * (q15_t) y)) +
+      ((q15_t) x * (q15_t) (y >> 16));
   }
 
   /*
@@ -1478,6 +1478,49 @@ extern "C"
   const arm_matrix_instance_q31 * pSrcB,
   arm_matrix_instance_q31 * pDst);
 
+  /**
+   * @brief Floating-point, complex, matrix multiplication.
+   * @param[in]       *pSrcA points to the first input matrix structure
+   * @param[in]       *pSrcB points to the second input matrix structure
+   * @param[out]      *pDst points to output matrix structure
+   * @return     The function returns either
+   * <code>ARM_MATH_SIZE_MISMATCH</code> or <code>ARM_MATH_SUCCESS</code> based on the outcome of size checking.
+   */
+
+  arm_status arm_mat_cmplx_mult_f32(
+  const arm_matrix_instance_f32 * pSrcA,
+  const arm_matrix_instance_f32 * pSrcB,
+  arm_matrix_instance_f32 * pDst);
+
+  /**
+   * @brief Q15, complex,  matrix multiplication.
+   * @param[in]       *pSrcA points to the first input matrix structure
+   * @param[in]       *pSrcB points to the second input matrix structure
+   * @param[out]      *pDst points to output matrix structure
+   * @return     The function returns either
+   * <code>ARM_MATH_SIZE_MISMATCH</code> or <code>ARM_MATH_SUCCESS</code> based on the outcome of size checking.
+   */
+
+  arm_status arm_mat_cmplx_mult_q15(
+  const arm_matrix_instance_q15 * pSrcA,
+  const arm_matrix_instance_q15 * pSrcB,
+  arm_matrix_instance_q15 * pDst,
+  q15_t * pScratch);
+
+  /**
+   * @brief Q31, complex, matrix multiplication.
+   * @param[in]       *pSrcA points to the first input matrix structure
+   * @param[in]       *pSrcB points to the second input matrix structure
+   * @param[out]      *pDst points to output matrix structure
+   * @return     The function returns either
+   * <code>ARM_MATH_SIZE_MISMATCH</code> or <code>ARM_MATH_SUCCESS</code> based on the outcome of size checking.
+   */
+
+  arm_status arm_mat_cmplx_mult_q31(
+  const arm_matrix_instance_q31 * pSrcA,
+  const arm_matrix_instance_q31 * pSrcB,
+  arm_matrix_instance_q31 * pDst);
+
 
   /**
    * @brief Floating-point matrix transpose.
@@ -1536,7 +1579,7 @@ extern "C"
    * @param[in]       *pSrcA points to the first input matrix structure
    * @param[in]       *pSrcB points to the second input matrix structure
    * @param[out]      *pDst points to output matrix structure
-   * @param[in]		  *pState points to the array for storing intermediate results
+   * @param[in]		 *pState points to the array for storing intermediate results
    * @return     The function returns either
    * <code>ARM_MATH_SIZE_MISMATCH</code> or <code>ARM_MATH_SUCCESS</code> based on the outcome of size checking.
    */
@@ -2047,7 +2090,6 @@ extern "C"
     uint16_t twidCoefModifier;       /**< twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table. */
     uint16_t bitRevFactor;           /**< bit reversal modifier that supports different size FFTs with the same bit reversal table. */
   } arm_cfft_radix4_instance_q31;
-
 
   void arm_cfft_radix4_q31(
   const arm_cfft_radix4_instance_q31 * S,
@@ -6350,7 +6392,7 @@ void arm_rfft_fast_f32(
   void arm_var_q31(
   q31_t * pSrc,
   uint32_t blockSize,
-  q63_t * pResult);
+  q31_t * pResult);
 
   /**
    * @brief  Variance of the elements of a Q15 vector.
@@ -6363,7 +6405,7 @@ void arm_rfft_fast_f32(
   void arm_var_q15(
   q15_t * pSrc,
   uint32_t blockSize,
-  q31_t * pResult);
+  q15_t * pResult);
 
   /**
    * @brief  Root Mean Square of the elements of a floating-point vector.
@@ -7285,6 +7327,24 @@ void arm_rfft_fast_f32(
   #define IAR_ONLY_LOW_OPTIMIZATION_ENTER
 
   #define IAR_ONLY_LOW_OPTIMIZATION_EXIT
+
+#elif defined(__CSMC__)		// Cosmic
+ //SMMLA
+  #define multAcc_32x32_keep32_R(a, x, y) \
+  a += (q31_t) (((q63_t) x * y) >> 32)
+
+ //SMMLS
+  #define multSub_32x32_keep32_R(a, x, y) \
+  a -= (q31_t) (((q63_t) x * y) >> 32)
+
+//SMMUL
+  #define mult_32x32_keep32_R(a, x, y) \
+  a = (q31_t) (((q63_t) x * y ) >> 32)
+
+#define LOW_OPTIMIZATION_ENTER
+#define LOW_OPTIMIZATION_EXIT
+#define IAR_ONLY_LOW_OPTIMIZATION_ENTER
+#define IAR_ONLY_LOW_OPTIMIZATION_EXIT
 
 #endif
 

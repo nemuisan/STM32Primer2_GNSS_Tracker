@@ -2,14 +2,15 @@
 /*!
 	@file			usb_msc_mass_mal.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.03.21
 	@brief          Descriptor Header for Mal.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
-
+		2014.03.21	V2.00	Adopted FatFs10.0a
+		
     @section LICENSE
 		BSD License. See Copyright.txt
 */
@@ -63,7 +64,7 @@ uint16_t MAL_Init(uint8_t lun)
     @brief  Write sectors.
 */
 /**************************************************************************/
-uint16_t MAL_Write(uint8_t lun, uint32_t Memory_Offset, uint32_t *Writebuff, uint16_t Transfer_Length)
+uint16_t MAL_Write(uint8_t lun, uint64_t Memory_Offset, uint32_t *Writebuff, uint16_t Transfer_Length)
 {
 
   switch (lun)
@@ -87,7 +88,7 @@ uint16_t MAL_Write(uint8_t lun, uint32_t Memory_Offset, uint32_t *Writebuff, uin
     @brief  Read sectors.
 */
 /**************************************************************************/
-uint16_t MAL_Read(uint8_t lun, uint32_t Memory_Offset, uint32_t *Readbuff, uint16_t Transfer_Length)
+uint16_t MAL_Read(uint8_t lun, uint64_t Memory_Offset, uint32_t *Readbuff, uint16_t Transfer_Length)
 {
 
   switch (lun)
@@ -146,13 +147,7 @@ uint16_t MAL_GetStatus (uint8_t lun)
       {
         return MAL_FAIL;
       }
-       
-      Status = SD_SetDeviceMode(SD_DMA_MODE);         
-      if ( Status != SD_OK )
-      {
-        return MAL_FAIL;
-      } 
-     
+
       Mass_Memory_Size[0] = Mass_Block_Count[0] * Mass_Block_Size[0];
 
       return MAL_OK;

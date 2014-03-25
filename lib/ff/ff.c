@@ -1499,7 +1499,7 @@ FRESULT dir_find (
 	if (res != FR_OK) return res;
 
 #if _USE_LFN
-	ord = sum = 0xFF;
+	ord = sum = 0xFF; dp->lfn_idx = 0xFFFF;	/* Reset LFN sequence */
 #endif
 	do {
 		res = move_window(dp->fs, dp->sect);
@@ -1510,7 +1510,7 @@ FRESULT dir_find (
 #if _USE_LFN	/* LFN configuration */
 		a = dir[DIR_Attr] & AM_MASK;
 		if (c == DDE || ((a & AM_VOL) && a != AM_LFN)) {	/* An entry without valid data */
-			ord = 0xFF;
+			ord = 0xFF; dp->lfn_idx = 0xFFFF;	/* Reset LFN sequence */
 		} else {
 			if (a == AM_LFN) {			/* An LFN entry is found */
 				if (dp->lfn) {
@@ -1524,8 +1524,8 @@ FRESULT dir_find (
 				}
 			} else {					/* An SFN entry is found */
 				if (!ord && sum == sum_sfn(dir)) break;	/* LFN matched? */
-				ord = 0xFF; dp->lfn_idx = 0xFFFF;	/* Reset LFN sequence */
 				if (!(dp->fn[NS] & NS_LOSS) && !mem_cmp(dir, dp->fn, 11)) break;	/* SFN matched? */
+				ord = 0xFF; dp->lfn_idx = 0xFFFF;	/* Reset LFN sequence */
 			}
 		}
 #else		/* Non LFN configuration */

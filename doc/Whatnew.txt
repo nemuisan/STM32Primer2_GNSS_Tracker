@@ -1,3 +1,10 @@
+20140321 : 
+V18.00  Optimized SourceCodes on STM32 SDIO Driver.
+		Adopted FatFs0.10a latest patch update.
+
+20140303 : 
+V17.00  Adopted CMSIS3.30.
+
 20140217 : 
 V16.00  Changed Linkerscript File Names.
         Adopted FatFs0.10a latest patch update.

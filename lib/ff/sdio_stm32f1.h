@@ -2,11 +2,10 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2014.01.15
+    @version        9.00
+    @date           2014.03.21
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
-					Based on STM32F10x_StdPeriph_Driver V3.4.0.				@n
-					This Header is SDIO Driver's HAL Configure!
+					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
 		2011.01.20	V1.00	Start Here.
@@ -17,13 +16,14 @@
 		2013.07.06  V6.00	Fixed over 4GB R/W Problem.
 		2013.10.09	V7.00	Integrated with diskio_sdio.c.
 		2014.01.15  V8.00   Improved Insertion detect(configuarable).
+		2014.03.21  V9.00   Optimized SourceCodes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x0800
+#define __SDIO_STM32F1_H	0x0900
 
 #ifdef __cplusplus
  extern "C" {
@@ -34,6 +34,11 @@
 #include <string.h>
 #include "stm32f10x.h"
 #include "diskio.h"
+
+ 
+/* Uncomment the following line to select the SDIO Data transfer mode */ 
+#define SD_DMA_MODE
+/*#define SD_POLLING_MODE*/
 
 /* Uncomment the following line to Disable Incert detection */  
 /*#define SDIO_INS_DETECT	*/						/* Enable SDIO Incert Detection */
@@ -300,10 +305,7 @@ typedef struct
 #define SD_CMD_SD_APP_SECURE_ERASE                 ((uint8_t)38) /*!< For SD Card only */
 #define SD_CMD_SD_APP_CHANGE_SECURE_AREA           ((uint8_t)49) /*!< For SD Card only */
 #define SD_CMD_SD_APP_SECURE_WRITE_MKB             ((uint8_t)48) /*!< For SD Card only */
-  
-#define SD_DMA_MODE                                ((uint32_t)0x00000000)
-#define SD_INTERRUPT_MODE                          ((uint32_t)0x00000001)
-#define SD_POLLING_MODE                            ((uint32_t)0x00000002)
+
 
 /**
   * @brief  SD detection on its memory slot
@@ -335,7 +337,11 @@ typedef struct
 /** 
   * @brief  SDIO Data Transfer Frequency (25MHz max) 
   */
-#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1) 
+#if defined(SD_POLLING_MODE)
+ #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x6)
+#else
+ #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x6) 
+#endif
 
 /* Function Prototypes */
 void SD_DeInit(void);

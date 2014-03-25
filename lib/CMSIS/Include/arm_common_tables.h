@@ -1,13 +1,13 @@
 /* ----------------------------------------------------------------------
 * Copyright (C) 2010-2013 ARM Limited. All rights reserved.
 *
-* $Date:        17. January 2013
-* $Revision:    V1.4.1
+* $Date:        16. October 2013
+* $Revision: 	V1.4.2
 *
-* Project:      CMSIS DSP Library
-* Title:        arm_common_tables.h
+* Project: 	    CMSIS DSP Library
+* Title:	    arm_common_tables.h
 *
-* Description:  This file has extern declaration for common tables like Bitreverse, reciprocal etc which are used across different functions
+* Description:	This file has extern declaration for common tables like Bitreverse, reciprocal etc which are used across different functions
 *
 * Target Processor: Cortex-M4/Cortex-M3
 *
@@ -89,5 +89,10 @@ extern const uint16_t armBitRevIndexTable512[ARMBITREVINDEXTABLE_512_TABLE_LENGT
 extern const uint16_t armBitRevIndexTable1024[ARMBITREVINDEXTABLE1024_TABLE_LENGTH];
 extern const uint16_t armBitRevIndexTable2048[ARMBITREVINDEXTABLE2048_TABLE_LENGTH];
 extern const uint16_t armBitRevIndexTable4096[ARMBITREVINDEXTABLE4096_TABLE_LENGTH];
+
+/* Tables for Fast Math Sine and Cosine */
+extern const float32_t sinTable_f32[FAST_MATH_TABLE_SIZE + 1];
+extern const q31_t sinTable_q31[FAST_MATH_TABLE_SIZE + 1];
+extern const q15_t sinTable_q15[FAST_MATH_TABLE_SIZE + 1];
 
 #endif /*  ARM_COMMON_TABLES_H */
