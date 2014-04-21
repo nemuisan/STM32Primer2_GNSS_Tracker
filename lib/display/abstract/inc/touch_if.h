@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2013.04.04
+    @version        6.00
+    @date           2013.11.30
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -13,13 +13,14 @@
 		2011.03.10	V3.00	C++ Ready.
 		2011.05.30	V4.00	Separate from Device Depend Section.
 		2013.04.04	V5.00	Added STMPE811 Device Handlings.
+		2013.11.30	V6.00	Added STM32F429I-Discovery support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TOUCH_IF_H
-#define __TOUCH_IF_H	0x0500
+#define __TOUCH_IF_H	0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -46,7 +47,15 @@
 
 
 /* Calibration Settings */
-#define TC_TP_NUM			(5)
+#if defined(USE_32F429IDISCOVERY) /* For STM32F429I-Discovery */
+ #define TC_TP_NUM			(2)
+#else
+ #define TC_TP_NUM			(5)
+#endif
+#if (TC_TP_NUM > 5) || (TC_TP_NUM < 2)
+ #error "TC_TP_NUM MUST be 2 to 5!"
+#endif
+
 #define CALIB_TEST_TIME		(2)
 #define TC_CALC_X			((MAX_X-20)/(TC_TP_NUM-1))
 #define TC_CALC_Y			((MAX_Y-20)/(TC_TP_NUM-1))

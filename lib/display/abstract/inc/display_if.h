@@ -253,6 +253,19 @@
  
 #elif	USE_ILI9488_TFT
  #include "ili9488.h"
+ 
+#elif	USE_S6D02A1_TFT || USE_S6D02A1_SPI_TFT
+ #include "s6d02a1.h"
+
+#elif	USE_S6D05A1_TFT
+ #include "s6d05a1.h"
+
+#elif	USE_ILI9341_RGB_TFT
+ #include "ili9341_rgb.h"
+
+#elif	USE_HX8369A_TFT
+ #include "hx8369a.h"
+ 
 
 #else
  #error "None of the Selected Display Device!!"

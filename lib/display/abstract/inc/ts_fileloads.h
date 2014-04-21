@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2013.09.20
+    @version        6.00
+    @date           2014.03.14
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -12,6 +12,8 @@
 		2012.07.10  V3.00   Added GIF Decorder Handling.
 							Fixed libjpeg & libpng's Error Handlings.
 		2013.09.20  V4.00   Fixed unused functions.
+		2013.12.30  V5.00   Added Performance Counter Functions for Debug.
+		2014.03.14	V6.00	Added RGB-Interface with LCD-Controller Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,7 +23,7 @@
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x0400
+#define __TS_FILELOADS_H 0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -47,7 +49,7 @@
 };
 typedef struct my_error_mgr * my_error_ptr;
 
-#ifdef STM32F4XX
+#if defined(LIBJPEG_USE_FPU)
  #define JDCT_DECODE_METHOD JDCT_FLOAT
 #else
  #define JDCT_DECODE_METHOD JDCT_ISLOW

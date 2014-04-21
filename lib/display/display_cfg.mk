@@ -18,9 +18,13 @@ LIBINCDIRS += $(DISPLAY_INC)			\
 
 CFILES += \
  $(DISPLAY_MCU_SRC)/display_if_basis.c	\
- $(DISPLAY_SRC)/display_if_support.c	\
  $(DISPLAY_SRC)/ts_fileloads.c			\
  $(DISPLAY_SRC)/ts.c
+ifeq ($(USE_DISPLAY),USE_ILI9341_RGB_TFT)
+CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
+else
+CFILES += $(DISPLAY_SRC)/display_if_support.c
+endif
 
 # Set Abstract-layer of Display Driver
 include $(DISPLAY_LIB)/display_drv.mk
@@ -28,13 +32,15 @@ include $(DISPLAY_LIB)/display_drv.mk
 # IJG JPEG Library
 ifeq ($(USE_JPEG_LIB),USE_IJG_LIB)
 
- ifeq ($(MPU_DENSITY),STM32F4XX)
+ ifeq ($(MPU_CLASS),STM32F4XX)
   SYNTHESIS_DEFS	+= -DDEFAULT_MAX_MEM=65536UL
  else
   SYNTHESIS_DEFS	+= -DDEFAULT_MAX_MEM=32768UL
  endif
  
  ifeq ($(USING_FPU),-mfloat-abi=soft)
+  SYNTHESIS_DEFS	+= -DLIBJPEG_USE_NOFPU
+ else ifeq ($(USING_FPU),-msoft-float)
   SYNTHESIS_DEFS	+= -DLIBJPEG_USE_NOFPU
  else ifeq ($(USING_FPU),)
   SYNTHESIS_DEFS	+= -DLIBJPEG_USE_NOFPU
@@ -74,7 +80,6 @@ endif
  # USE_TOUCH_CTRL is defined in display_drv.mk
 ifeq ($(USE_TOUCH_CTRL),NO_TOUCH_CTRL)
  # If select NO_TOUCH_CTRL,Doing nothing
- 
 else ifeq ($(USE_TOUCH_SENCE),USE_ADS7843)
 SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
 CFILES += \

@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2013.09.20
+    @version        6.00
+    @date           2014.03.14
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -12,6 +12,8 @@
 		2012.07.10  V3.00   Added GIF Decorder Handling.
 							Fixed libjpeg & libpng's Error Handlings.
 		2013.09.20  V4.00   Fixed unused functions.
+		2013.12.30  V5.00   Added Performance Counter Functions for Debug.
+		2014.03.14	V6.00	Added RGB-Interface with LCD-Controller Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -37,6 +39,13 @@ typedef struct {
 	uint8_t  sbuf[512];
 	uint32_t ltbl[1];
 } TXVIEW;
+
+/* Set Performance Counter(for Testing and MCU dependent) */
+#ifdef ENABLE_PERFORMANCE_MEASUREMENT
+#warning "Enable Display Performance Counter!"
+ extern void display_performance_ready_if(void);
+ extern uint32_t display_performance_result_if(void);
+#endif
 
 /* Variables -----------------------------------------------------------------*/
 /* Used for Cursor and Original Movies */
@@ -686,7 +695,11 @@ static int load_jpeg(FIL *fil,int mode)
 		xprintf("press any key\n");
 		goto jpeg_end_decode;
 	}
-	
+
+#ifdef ENABLE_PERFORMANCE_MEASUREMENT
+	display_performance_ready_if();
+#endif
+
 	/* allocate and initialize JPEG decompression object */
 	jpeg_create_decompress(&dcinfo);
 	jpeg_fatfs_src(&dcinfo, fil);
@@ -761,6 +774,9 @@ static int load_jpeg(FIL *fil,int mode)
 
 	while (dcinfo.output_scanline < dcinfo.output_height) {
 		jpeg_read_scanlines(&dcinfo, buffer, 1);
+	#if defined(USE_ILI9341_RGB_TFT)
+		Display_rect_if(x,x + dx - 1,y + dcinfo.output_scanline,y + dcinfo.output_scanline);
+	#endif
 		for(i = 0,p = buffer[0];i < dcinfo.output_width;i++) {
 
 		#if !defined(USE_SSD1332_SPI_OLED)
@@ -784,6 +800,11 @@ jpeg_end_decode:
 	/* Free all of the memory associated with the jpeg */
     jpeg_destroy_decompress(&dcinfo);
 
+#ifdef ENABLE_PERFORMANCE_MEASUREMENT
+	uint32_t end = display_performance_result_if();
+	ts_locate(TS_FILER_HEIGHT-1, 0,0);
+	xprintf("\33\x87 Decode in %duSec\n",end);
+#endif
 	/* Exit Routine */
 	/* To Rerturn to Push Any Key  */
 	wait_anyinput();
@@ -887,8 +908,7 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 		xprintf("Press any Key\n");
 		goto png_exit;
 	}
-   
-  
+
     /* If you are using replacement read functions, instead of calling
     * png_init_io() here you would call:
     */
@@ -979,6 +999,10 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 	/* Push Any Key to Start! */
 	wait_anyinput();
 
+#ifdef ENABLE_PERFORMANCE_MEASUREMENT
+	display_performance_ready_if();
+#endif
+
 	/* Setting Display Limit */
 	nx = width;
 	ny = height;
@@ -1000,9 +1024,12 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 	row_stride = (png_get_rowbytes(read_ptr, read_info_ptr) + 3) & ~3; /* 3byte alignments */
 	/*row_stride =png_get_rowbytes(read_ptr, read_info_ptr);*/
 	row_buffer = png_malloc(read_ptr,row_stride);
-   
+
    /* Diaplay PNG Data */
 	for(k = 0;k < ny;k++) {
+	#if defined(USE_ILI9341_RGB_TFT)
+		Display_rect_if(lx,lx + nx - 1,ly + k,ly + k);
+	#endif
 		png_read_row(read_ptr,row_buffer, NULL );
 	
 		for(i = 0,p = row_buffer;i < nx;i++) {
@@ -1040,6 +1067,11 @@ png_exit:
     png_destroy_read_struct(&read_ptr, &read_info_ptr, &end_read_info_ptr);
 
 	/* Exit Routine */
+#ifdef ENABLE_PERFORMANCE_MEASUREMENT
+	uint32_t end = display_performance_result_if();
+	ts_locate(TS_FILER_HEIGHT-1, 0,0);
+	xprintf("\33\x87 Decode in %duSec\n",end);
+#endif
 	/* To Rerturn to Push Any Key  */
 	wait_anyinput();
 
@@ -1193,7 +1225,10 @@ static int load_gif(FIL *fil)
 							xprintf("press any key\n");
 							goto gif_end;
 						}
-
+					#if defined(USE_ILI9341_RGB_TFT)
+						Display_rect_if(lx + Col    ,lx + Col + Width  - 1,
+										ly + Row +i ,ly + Row +i);
+					#endif
 						for (n = 0; n < Width; n++) {
 							/* Set Global or Local Colour Tables */
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
@@ -1463,7 +1498,18 @@ int load_file(char *path, char *filename, FIL *fil)
 	/* Execute MPEG2-Layer3 file */
 	if (strstr_ext(path, ".MP3")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
-		load_mp3(fil, filename, (BYTE*)Buff, BUFSIZE);
+
+		/* DMA Buffer Size Check (STM32F407 work around ) */
+	#if(BUFSIZE <= MP3_DMA_BUFFER_SIZE*2)
+			/* If didn't have enough DMA-RAM,then... */
+			/* Use heap memory as dma double buffer */
+			uint8_t* twork = malloc(MP3_DMA_BUFFER_SIZE*2);
+			if(twork == NULL)	return RES_ERROR;
+			load_mp3(fil, filename, twork, MP3_DMA_BUFFER_SIZE*2);
+			free(twork);
+	#else
+			load_mp3(fil, filename, (BYTE*)Buff, BUFSIZE);
+	#endif
 		f_close(fil);
 		return RES_OK;
 	}

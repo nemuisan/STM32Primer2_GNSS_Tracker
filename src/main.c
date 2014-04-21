@@ -2,12 +2,12 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        18.00
-    @date           2014.03.21
+    @version        19.00
+    @date           2014.04.20
 	@brief          STM32 Primer2 GPS Tr@cker.
 
     @section HISTORY
-		2014.03.21	V18.00	See Whatnew.txt
+		2014.04.20	V19.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -20,7 +20,7 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-volatile int TaskStat = GPS_LOGGING;
+volatile int TaskStat = GPS_LOGGING; /* Default State */
 
 /* Constants -----------------------------------------------------------------*/
 

@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.01
-    @date           2011.09.17
+    @version        4.00
+    @date           2014.03.31
 	@brief          Interface of FONTX Driver								@n
                     Refered under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -14,7 +14,8 @@
 		2011.03.10	V2.00	C++ Ready.
 		2011.05.11	V3.00	Selectable KanjiFonts to Reduce Memory Space.
 		2011.09.17	V3.01	Fixed handling Selectable KanjiFonts.
-		
+		2014.03.31	V4.00	Fixed hardfault error on Cortex-M0 Devices.
+
     @section LICENSE
 		BSD License. See Copyright.txt
 */

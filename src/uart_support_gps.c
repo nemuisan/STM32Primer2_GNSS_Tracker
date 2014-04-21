@@ -2,13 +2,14 @@
 /*!
 	@file			uart_support_gps.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2013.02.20
+    @version        3.00
+    @date           2014.04.20
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
 		2012.01.31	V1.00	Start Here.
 		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
+		2014.04.20	V3.00	Fixed Suitable Interruption level.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -17,6 +18,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "uart_support_gps.h"
+/* check header file version for fool proof */
+#if __UART_SUPPORT_GPS_H!= 0x0300
+#error "header file version is not correspond!"
+#endif
 
 /* Defines -------------------------------------------------------------------*/
 
@@ -99,8 +104,8 @@ void conio_init(uint32_t port, uint32_t baudrate)
 
 			/* Enable the USART2 Interrupt */
 			NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
 			NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 			NVIC_Init(&NVIC_InitStructure);
 

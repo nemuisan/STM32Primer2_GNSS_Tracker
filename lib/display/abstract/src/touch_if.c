@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2013.04.04
+    @version        6.00
+    @date           2013.11.30
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -13,6 +13,7 @@
 		2011.03.10	V3.00	C++ Ready.
 		2011.05.30	V4.00	Separate from Device Depend Section.
 		2013.04.04	V5.00	Added STMPE811 Device Handlings.
+		2013.11.30	V6.00	Added STM32F429I-Discovery support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,7 +23,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if.h"
 /* check header file version for fool proof */
-#if __TOUCH_IF_H != 0x0500
+#if __TOUCH_IF_H != 0x0600
 #error "header file version is not correspond!"
 #endif
 
@@ -56,8 +57,20 @@ long ccx, cm1x, cm2x;
 long ccy, cm1y, cm2y;
 
 /* Constants -----------------------------------------------------------------*/
-const int tc_tpx[TC_TP_NUM] = {TC_TPX(0),TC_TPX(1),TC_TPX(2),TC_TPX(3),TC_TPX(4)};
-const int tc_tpy[TC_TP_NUM] = {TC_TPY(0),TC_TPY(1),TC_TPY(2),TC_TPY(3),TC_TPY(4)};
+/* MAXIMUM elements are upto 5. */
+#if   (TC_TP_NUM == 5)	/* 25 points */
+ const int tc_tpx[TC_TP_NUM] = {TC_TPX(0),TC_TPX(1),TC_TPX(2),TC_TPX(3),TC_TPX(4)};
+ const int tc_tpy[TC_TP_NUM] = {TC_TPY(0),TC_TPY(1),TC_TPY(2),TC_TPY(3),TC_TPY(4)};
+#elif (TC_TP_NUM == 4)	/* 16 points */
+ const int tc_tpx[TC_TP_NUM] = {TC_TPX(0),TC_TPX(1),TC_TPX(2),TC_TPX(3)};
+ const int tc_tpy[TC_TP_NUM] = {TC_TPY(0),TC_TPY(1),TC_TPY(2),TC_TPY(3)};
+#elif (TC_TP_NUM == 3)	/* 9 points */
+ const int tc_tpx[TC_TP_NUM] = {TC_TPX(0),TC_TPX(1),TC_TPX(2)};
+ const int tc_tpy[TC_TP_NUM] = {TC_TPY(0),TC_TPY(1),TC_TPY(2)};
+#elif (TC_TP_NUM == 2)	/* 4 points */
+ const int tc_tpx[TC_TP_NUM] = {TC_TPX(0),TC_TPX(1)};
+ const int tc_tpy[TC_TP_NUM] = {TC_TPY(0),TC_TPY(1)};
+#endif
 
 /* Function prototypes -------------------------------------------------------*/
 
@@ -362,8 +375,8 @@ void TC_CalibScreen_If(void)
 						good_press = 1;
 					}
 				}
-				fx[i*5+j][k] = pTouch->X_Axis;
-				fy[i*5+j][k] = pTouch->Y_Axis;
+				fx[i*TC_TP_NUM+j][k] = pTouch->X_Axis;
+				fy[i*TC_TP_NUM+j][k] = pTouch->Y_Axis;
 				_delay_ms(200);
 			}
 
@@ -377,8 +390,8 @@ void TC_CalibScreen_If(void)
 
 	for (i=0;i<TC_TP_NUM*TC_TP_NUM;i++)
 	{
-        x[i] = tc_tpx[i/5] - chalfx;
-        y[i] = tc_tpy[i%5] - chalfy;
+        x[i] = tc_tpx[i/TC_TP_NUM] - chalfx;
+        y[i] = tc_tpy[i%TC_TP_NUM] - chalfy;
         xx[i] = x[i] * x[i];
         yy[i] = y[i] * y[i];
 		
@@ -657,8 +670,8 @@ void TC_CalibScreen_If(void)
 				Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_BLUE);
 				while (!TC_PenDown());
 					TC_ReadRaw();
-					fx[i*5+j][k] = pTouch->X_Axis;
-					fy[i*5+j][k] = pTouch->Y_Axis;
+					fx[i*TC_TP_NUM+j][k] = pTouch->X_Axis;
+					fy[i*TC_TP_NUM+j][k] = pTouch->Y_Axis;
 					Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_YELLOW);
 					_delay_ms(300);
 				while (TC_PenDown());
@@ -674,8 +687,8 @@ void TC_CalibScreen_If(void)
 
 	for (i=0;i<TC_TP_NUM*TC_TP_NUM;i++)
 	{
-        x[i] = tc_tpx[i/5] - chalfx;
-        y[i] = tc_tpy[i%5] - chalfy;
+        x[i] = tc_tpx[i/TC_TP_NUM] - chalfx;
+        y[i] = tc_tpy[i%TC_TP_NUM] - chalfy;
         xx[i] = x[i] * x[i];
         yy[i] = y[i] * y[i];
 		

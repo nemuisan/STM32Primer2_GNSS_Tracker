@@ -1,3 +1,6 @@
+20140420 : 
+V19.00  Fixed Suitable Interrupt-Preemption level.
+
 20140321 : 
 V18.00  Optimized SourceCodes on STM32 SDIO Driver.
 		Adopted FatFs0.10a latest patch update.

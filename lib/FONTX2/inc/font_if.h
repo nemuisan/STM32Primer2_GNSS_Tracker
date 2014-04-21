@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.01
-    @date           2011.09.17
+    @version        4.00
+    @date           2014.03.31
 	@brief          Interface of FONTX Driver								@n
                     Refered under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -14,13 +14,14 @@
 		2011.03.10	V2.00	C++ Ready.
 		2011.05.11	V3.00	Selectable KanjiFonts to Reduce Memory Space.
 		2011.09.17	V3.01	Fixed handling Selectable KanjiFonts.
-		
+		2014.03.31	V4.00	Fixed hardfault error on Cortex-M0 Devices.
+
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __FONT_IF_H 
-#define __FONT_IF_H 0x0301
+#define __FONT_IF_H 0x0400
 
 #ifdef __cplusplus
  extern "C" {
@@ -33,8 +34,8 @@
 /* Device Dependent Macros */
 
 /* To Read uC Flash Memory Little Endian */ 
-#define	READ_ADDR_UNIT8(ADDR) 	((uint8_t)*(uint32_t*)(addr_ofs+ADDR))
-#define	READ_ADDR_UNIT16(ADDR) 	((uint16_t)*(uint32_t*)(addr_ofs+ADDR))
+#define	READ_ADDR_UNIT8(ADDR) 	((uint8_t)*(uint8_t*)(addr_ofs+ADDR))
+#define	READ_ADDR_UNIT16(ADDR) 	((uint16_t)*(uint16_t*)(addr_ofs+ADDR))
 
 
 /**************************************************************************/
@@ -80,11 +81,11 @@ extern FontX_Ank* CurrentAnkDat;
 #define KANJI_DATSTART	(18)		/* 	 +18(- byte) Kanji Data offset   	  */
 
 /* Kanji DataBlock Macros */
-#define KANJI_START(n)   READ_ADDR_UNIT16( (KANJI_DATSTART+ 4*(n)) 	 )
+#define KANJI_START(n)   READ_ADDR_UNIT16( (KANJI_DATSTART+ 4*(n)) 	  )
 #define KANJI_ENDE(n)    READ_ADDR_UNIT16( (KANJI_DATSTART+ 4*(n) +2) )
 /* Kanji Font Only */
-#define	READ_ADDR_UNIT16_C(ADDR) 	((uint16_t)*(uint32_t*)(CurrentKanjiDat->KanjiFileOffset+ADDR))
-#define KANJI_START_C(n) READ_ADDR_UNIT16_C( (KANJI_DATSTART+ 4*(n)) 	 )
+#define	READ_ADDR_UNIT16_C(ADDR) 	((uint16_t)*(uint16_t*)(CurrentKanjiDat->KanjiFileOffset+ADDR))
+#define KANJI_START_C(n) READ_ADDR_UNIT16_C( (KANJI_DATSTART+ 4*(n))    )
 #define KANJI_ENDE_C(n)  READ_ADDR_UNIT16_C( (KANJI_DATSTART+ 4*(n) +2) )
 
 #define SJIS_TOOFU		(0x81A0)	/*  Toofu ga starto suru			      */ 

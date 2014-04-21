@@ -2,13 +2,14 @@
 /*!
 	@file			msc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2012.01.30
+    @version        3.00
+    @date           2014.04.20
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
 		2011.07.06	V1.00	Start Here.
 		2012.01.30	V2.00	Added Consideration CoOperate with CDC Function .
+		2014.04.20	V3.00	Fixed Suitable Interruption level.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if __MSC_SUPPORT_H!= 0x0100
+#if __MSC_SUPPORT_H!= 0x0300
 #error "header file version is not correspond!"
 #endif
 

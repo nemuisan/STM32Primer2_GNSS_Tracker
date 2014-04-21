@@ -2,8 +2,8 @@
 /*!
 	@file			ts.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2013.09.20
+    @version        12.00
+    @date           2013.11.30
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!
 
     @section HISTORY
@@ -21,13 +21,14 @@
 		2012.04.01  V9.00   Separated to Filer & FileLoder Sections.
 		2012.06.15 V10.00   Added External SRAM Support.
 		2013.09.20 V11.00   Added more colour definitions.
+		2013.11.30 V12.00   Added External SDRAM Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TS_H
-#define __TS_H 0x1100
+#define __TS_H 0x1200
 
 #ifdef __cplusplus
  extern "C" {
