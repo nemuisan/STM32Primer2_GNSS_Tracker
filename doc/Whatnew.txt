@@ -1,3 +1,7 @@
+20140717 : 
+V21.00  Adopted FatFs0.10b latest patch update.
+		Reset Systick to Suitable Frequency for cdc & msc routines.
+
 20140521 : 
 V20.00  Adopted FatFs0.10b.
 

@@ -2,8 +2,8 @@
 /*!
 	@file			syscalls.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2013.07.10
+    @version        4.00
+    @date           2014.03.03
 	@brief          Syscall support functions for newlib console I/O with stdio.
 					Based on Red Hat newlib C library examples thanks!
 					Based on under URL thanks!
@@ -12,7 +12,8 @@
     @section HISTORY
 		2012.08.27	V1.00	Start Here.
 		2013.01.07	V2.00	Adopted "--specs=nano.specs" option.
-		2013.07.10	V3.00	Adopted semihosting function on nanolib.
+		2013.07.10	V3.00	Adopted semihosting on nanolib.
+		2014.03.03	V4.00	Added _init().
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -20,6 +21,13 @@
 /********************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
+/* This is platform dependent includion */
+#include "syscalls_if.h"
+/* check header file version for fool proof */
+#if __SYSCALLS_IF_H != 0x0400
+#error "header file version is not correspond!"
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -27,9 +35,6 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-
-/* This is platform dependent includion */
-#include "syscalls_if.h"
 
 /* Defines -------------------------------------------------------------------*/
 
@@ -354,6 +359,15 @@ int _times(struct tms *buf) {
     @brief  Dummy OS Function for Newlib.
 */
 /**************************************************************************/
+int _init(struct tms *buf) {
+	return -1;
+}
+
+/**************************************************************************/
+/*! 
+    @brief  Dummy OS Function for Newlib.
+*/
+/**************************************************************************/
 int _link(char *old, char *new) {
 	errno = EMLINK;
 	return -1;
@@ -398,8 +412,8 @@ int _fork(void) {
 	errno = EAGAIN;
 	return -1;
 }
-#endif
 
+#endif
 /**************************************************************************/
 /*! 
     @brief  Dummy OS Function for Newlib.

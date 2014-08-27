@@ -2,14 +2,15 @@
 /*!
 	@file			msc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2014.04.20
+    @version        4.00
+    @date           2014.07.16
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
 		2011.07.06	V1.00	Start Here.
 		2012.01.30	V2.00	Added Consideration CoOperate with CDC Function .
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
+		2014.07.16	V4.00	Reset Systick to Suitable Frequency.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -19,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if __MSC_SUPPORT_H!= 0x0300
+#if __MSC_SUPPORT_H!= 0x0400
 #error "header file version is not correspond!"
 #endif
 
@@ -48,22 +49,21 @@ extern FontX_Ank   	ANKFONT;
 /**************************************************************************/
 static void USB_Interrupts_Config(void)
 {
-  NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;
 
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
-  NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+	NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
 
-  NVIC_InitStructure.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
-  
+	NVIC_InitStructure.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
 }
 
 /**************************************************************************/
@@ -75,8 +75,8 @@ void msc_task(void)
 {
 	/* Available USB Clock Frequency */
 	Set72();
-	/* Retrive SystemClock Frequency */
-	SystemCoreClockUpdate();
+	/* Retrive SystemClock Frequency and reset SysTick */
+	SysTickInit(INTERVAL);
 
 	/* Init Display Driver and FONTX Driver */
 	Display_init_if();

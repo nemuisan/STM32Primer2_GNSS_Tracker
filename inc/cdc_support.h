@@ -2,20 +2,21 @@
 /*!
 	@file			cdc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.04.20
+    @version        3.00
+    @date           2014.07.16
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.04.20	V2.00	Fixed Suitable Interruption level.
+		2014.07.16	V3.00	Reset Systick to Suitable Frequency.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __CDC_SUPPORT_H
-#define __CDC_SUPPORT_H	0x0200
+#define __CDC_SUPPORT_H	0x0300
 
 #ifdef __cplusplus
  extern "C" {

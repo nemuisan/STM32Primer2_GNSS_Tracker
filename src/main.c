@@ -2,12 +2,12 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        20.00
-    @date           2014.05.21
+    @version        21.00
+    @date           2014.07.17
 	@brief          STM32 Primer2 GPS Tr@cker.
 
     @section HISTORY
-		2014.05.21	V20.00	See Whatnew.txt
+		2014.07.17	V21.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -44,7 +44,7 @@ int main(void)
 	/* Set Basis System For STM32 Primer2 */
 	Set_System();
 
-	/* Set SysTickCounter for _delay_ms(); */
+	/* Set SysTickCounter for _delay_ms(); / _delay_us(); */
 	SysTickInit(INTERVAL);
 
 	/* Select GPS-LOGGER/USB-MSC/USB-CDC Mode */
