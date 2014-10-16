@@ -1,8 +1,8 @@
 /**************************************************************************//**
  * @file     core_cm3.h
  * @brief    CMSIS Cortex-M3 Core Peripheral Access Layer Header File
- * @version  V3.30
- * @date     24. February 2014
+ * @version  V4.00
+ * @date     22. August 2014
  *
  * @note
  *
@@ -68,8 +68,8 @@
  */
 
 /*  CMSIS CM3 definitions */
-#define __CM3_CMSIS_VERSION_MAIN  (0x03)                                   /*!< [31:16] CMSIS HAL main version   */
-#define __CM3_CMSIS_VERSION_SUB   (0x20)                                   /*!< [15:0]  CMSIS HAL sub version    */
+#define __CM3_CMSIS_VERSION_MAIN  (0x04)                                   /*!< [31:16] CMSIS HAL main version   */
+#define __CM3_CMSIS_VERSION_SUB   (0x00)                                   /*!< [15:0]  CMSIS HAL sub version    */
 #define __CM3_CMSIS_VERSION       ((__CM3_CMSIS_VERSION_MAIN << 16) | \
                                     __CM3_CMSIS_VERSION_SUB          )     /*!< CMSIS HAL version number         */
 
@@ -100,7 +100,7 @@
   #define __INLINE         inline                                     /*!< inline keyword for TASKING Compiler   */
   #define __STATIC_INLINE  static inline
 
-#elif defined ( __CSMC__ )	/* Cosmic */
+#elif defined ( __CSMC__ )
   #define __packed
   #define __ASM            _asm                                      /*!< asm keyword for COSMIC Compiler      */
   #define __INLINE         inline                                    /*use -pc99 on compile line !< inline keyword for COSMIC Compiler   */
@@ -108,7 +108,8 @@
 
 #endif
 
-/** __FPU_USED indicates whether an FPU is used or not. This core does not support an FPU at all
+/** __FPU_USED indicates whether an FPU is used or not.
+    This core does not support an FPU at all
 */
 #define __FPU_USED       0
 
@@ -147,12 +148,20 @@
 #include <core_cmInstr.h>                /* Core Instruction Access                         */
 #include <core_cmFunc.h>                 /* Core Function Access                            */
 
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* __CORE_CM3_H_GENERIC */
 
 #ifndef __CMSIS_GENERIC
 
 #ifndef __CORE_CM3_H_DEPENDANT
 #define __CORE_CM3_H_DEPENDANT
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* check device defines and use defaults */
 #if defined __CHECK_DEVICE_DEFINES
@@ -635,7 +644,7 @@ typedef struct
 #define SysTick_CALIB_SKEW_Msk             (1UL << SysTick_CALIB_SKEW_Pos)                /*!< SysTick CALIB: SKEW Mask */
 
 #define SysTick_CALIB_TENMS_Pos             0                                             /*!< SysTick CALIB: TENMS Position */
-#define SysTick_CALIB_TENMS_Msk            (0xFFFFFFUL << SysTick_VAL_CURRENT_Pos)        /*!< SysTick CALIB: TENMS Mask */
+#define SysTick_CALIB_TENMS_Msk            (0xFFFFFFUL << SysTick_CALIB_TENMS_Pos)        /*!< SysTick CALIB: TENMS Mask */
 
 /*@} end of group CMSIS_SysTick */
 
@@ -1448,7 +1457,7 @@ __STATIC_INLINE uint32_t NVIC_GetPriority(IRQn_Type IRQn)
     The function encodes the priority for an interrupt with the given priority group,
     preemptive priority value, and subpriority value.
     In case of a conflict between priority grouping and available
-    priority bits (__NVIC_PRIO_BITS), the samllest possible priority group is set.
+    priority bits (__NVIC_PRIO_BITS), the smallest possible priority group is set.
 
     \param [in]     PriorityGroup  Used priority group.
     \param [in]   PreemptPriority  Preemptive priority value (starting from 0).
@@ -1476,7 +1485,7 @@ __STATIC_INLINE uint32_t NVIC_EncodePriority (uint32_t PriorityGroup, uint32_t P
     The function decodes an interrupt priority value with a given priority group to
     preemptive priority value and subpriority value.
     In case of a conflict between priority grouping and available
-    priority bits (__NVIC_PRIO_BITS) the samllest possible priority group is set.
+    priority bits (__NVIC_PRIO_BITS) the smallest possible priority group is set.
 
     \param [in]         Priority   Priority value, which can be retrieved with the function \ref NVIC_GetPriority().
     \param [in]     PriorityGroup  Used priority group.
@@ -1629,10 +1638,13 @@ __STATIC_INLINE int32_t ITM_CheckChar (void) {
 
 /*@} end of CMSIS_core_DebugFunctions */
 
-#endif /* __CORE_CM3_H_DEPENDANT */
+
+
 
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* __CORE_CM3_H_DEPENDANT */
 
 #endif /* __CMSIS_GENERIC */
