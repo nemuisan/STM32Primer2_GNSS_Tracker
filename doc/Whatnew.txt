@@ -1,3 +1,7 @@
+20141118 : 
+V24.00  Adopted FatFs0.10c latest patch update.
+		Added SD High Speed Mode(optional).
+
 20141110 : 
 V23.00  Adopted FatFs0.10c.
 

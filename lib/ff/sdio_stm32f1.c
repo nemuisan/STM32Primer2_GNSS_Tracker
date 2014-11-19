@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2014.03.21
+    @version        10.00
+    @date           2014.11.18
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -17,6 +17,7 @@
 		2013.10.09	V7.00	Integrated with diskio_sdio.c.
 		2014.01.15  V8.00   Improved Insertion detect(configuarable).
 		2014.03.21  V9.00   Optimized SourceCodes.
+		2014.11.18 V10.00   Added SD High Speed Mode(optional).
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -26,7 +27,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x0900
+#if __SDIO_STM32F1_H!= 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -265,22 +266,32 @@ SD_Error SD_Init(void)
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 
+	/*----------------- Read CSD/CID MSD registers ------------------*/
 	if (errorstatus == SD_OK)
 	{
-		/*----------------- Read CSD/CID MSD registers ------------------*/
 		errorstatus = SD_GetCardInfo(&SDCardInfo);
 	}
 
+	/*----------------- Select Card --------------------------------*/
 	if (errorstatus == SD_OK)
 	{
-		/*----------------- Select Card --------------------------------*/
 		errorstatus = SD_SelectDeselect((uint32_t) (SDCardInfo.RCA << 16));
 	}
 
+	/*----------------- Enable SDC 4BitMode --------------------------------*/
 	if (errorstatus == SD_OK)
 	{
 		errorstatus = SD_EnableWideBusOperation(SDIO_BusWide_4b);
-	}  
+	}
+
+#ifdef SD_HS_MODE
+ 	/*----------------- Enable HighSpeedMode --------------------------------*/
+	#warning "Enable SD High Speed mode!"
+	if (errorstatus == SD_OK)
+	{
+		errorstatus = SD_HighSpeed();
+	}
+#endif
 
 	return(errorstatus);
 }
@@ -2945,6 +2956,138 @@ static SD_Error FindSCR(uint16_t rca, uint32_t *pscr)
 	return(errorstatus);
 }
 
+/**************************************************************************/
+/*! 
+	@brief  Switch mode High-Speed.
+	@retval None
+*/
+/**************************************************************************/
+SD_Error SD_HighSpeed (void)
+{
+	SD_Error errorstatus = SD_OK;
+	uint32_t scr[2] = {0, 0};
+	uint32_t SD_SPEC = 0 ;
+	uint8_t hs[64] = {0} ;
+	uint32_t  count = 0, *tempbuff = (uint32_t *)hs;
+	TransferError = SD_OK;
+	TransferEnd = 0;
+	StopCondition = 0;
+
+	SDIO->DCTRL = 0x0;
+
+	/*!< Get SCR Register */
+	errorstatus = FindSCR(RCA, scr);
+
+	if (errorstatus != SD_OK)
+	{
+	return(errorstatus);
+	}
+
+	/* Test the Version supported by the card*/ 
+	SD_SPEC = (scr[1]  & 0x01000000)||(scr[1]  & 0x02000000);
+
+	if (SD_SPEC != SD_ALLZERO)
+	{
+		/* Set Block Size for Card */
+		SDIO_CmdInitStructure.SDIO_Argument = (uint32_t)64;
+		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SET_BLOCKLEN;
+		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
+		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
+		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
+		SDIO_SendCommand(&SDIO_CmdInitStructure);
+		errorstatus = CmdResp1Error(SD_CMD_SET_BLOCKLEN);
+		if (errorstatus != SD_OK)
+		{
+			return(errorstatus);
+		}
+		SDIO_DataInitStructure.SDIO_DataTimeOut = SD_DATATIMEOUT;
+		SDIO_DataInitStructure.SDIO_DataLength = 64;
+		SDIO_DataInitStructure.SDIO_DataBlockSize = SDIO_DataBlockSize_64b ;
+		SDIO_DataInitStructure.SDIO_TransferDir = SDIO_TransferDir_ToSDIO;
+		SDIO_DataInitStructure.SDIO_TransferMode = SDIO_TransferMode_Block;
+		SDIO_DataInitStructure.SDIO_DPSM = SDIO_DPSM_Enable;
+		SDIO_DataConfig(&SDIO_DataInitStructure);
+
+		/*!< Send CMD6 switch mode */
+		SDIO_CmdInitStructure.SDIO_Argument = 0x80FFFF01;
+		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
+		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
+		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
+		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
+		SDIO_SendCommand(&SDIO_CmdInitStructure); 
+		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
+
+		if (errorstatus != SD_OK)
+		{
+			return(errorstatus);
+		}
+		while (!(SDIO->STA &(SDIO_FLAG_RXOVERR | SDIO_FLAG_DCRCFAIL | SDIO_FLAG_DTIMEOUT | SDIO_FLAG_DBCKEND | SDIO_FLAG_STBITERR)))
+		{
+			if (SDIO_GetFlagStatus(SDIO_FLAG_RXFIFOHF) != RESET)
+			{
+				for (count = 0; count < 8; count++)
+				{
+					*(tempbuff + count) = SDIO_ReadData();
+				}
+				tempbuff += 8;
+			}	
+		}
+
+		if (SDIO_GetFlagStatus(SDIO_FLAG_DTIMEOUT) != RESET)
+		{
+			SDIO_ClearFlag(SDIO_FLAG_DTIMEOUT);
+			errorstatus = SD_DATA_TIMEOUT;
+			return(errorstatus);
+		}
+		else if (SDIO_GetFlagStatus(SDIO_FLAG_DCRCFAIL) != RESET)
+		{
+			SDIO_ClearFlag(SDIO_FLAG_DCRCFAIL);
+			errorstatus = SD_DATA_CRC_FAIL;
+			return(errorstatus);
+		}
+		else if (SDIO_GetFlagStatus(SDIO_FLAG_RXOVERR) != RESET)
+		{
+			SDIO_ClearFlag(SDIO_FLAG_RXOVERR);
+			errorstatus = SD_RX_OVERRUN;
+			return(errorstatus);
+		}
+		else if (SDIO_GetFlagStatus(SDIO_FLAG_STBITERR) != RESET)
+		{
+			SDIO_ClearFlag(SDIO_FLAG_STBITERR);
+			errorstatus = SD_START_BIT_ERR;
+			return(errorstatus);
+		}
+		count = SD_DATATIMEOUT;
+		while ((SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET) && (count > 0))
+		{
+			*tempbuff = SDIO_ReadData();
+			tempbuff++;
+			count--;
+		}
+
+		/*!< Clear all the static flags */
+		SDIO_ClearFlag(SDIO_STATIC_FLAGS);
+
+		/* Test if the switch mode HS is ok */
+		if ((hs[13]& 0x2)==0x2)
+		{
+			/*!< Configure the SDIO peripheral */
+			SDIO_InitStructure.SDIO_ClockDiv = 0;	/* 72MHz/(0+2) = 36MHz */
+			SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Falling;	/* Falling edge at HS Mode */
+			SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
+			SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
+			SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
+			SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
+			SDIO_Init(&SDIO_InitStructure);
+			errorstatus=SD_OK;
+		}
+		else
+		{
+			errorstatus=SD_UNSUPPORTED_FEATURE ;
+		}  
+	}
+	return(errorstatus);
+}
 
 /**************************************************************************/
 /*! 

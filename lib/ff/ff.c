@@ -117,6 +117,7 @@
 /                   Fixed volume label created by Mac OS X cannot be retrieved with f_getlabel().
 /                   Fixed a potential problem of FAT access that can appear on disk error.
 /                   Fixed null pointer dereference on attempting to delete the root direcotry.
+/ Patch1 applied.
 /---------------------------------------------------------------------------*/
 
 #include "ff.h"			/* Declarations of FatFs API */
@@ -3486,22 +3487,24 @@ FRESULT f_unlink (
 				if (dir[DIR_Attr] & AM_RDO)
 					res = FR_DENIED;		/* Cannot remove R/O object */
 			}
-			if (res == FR_OK && (dir[DIR_Attr] & AM_DIR)) {	/* Is it a sub-dir? */
+			if (res == FR_OK) {
 				dclst = ld_clust(dj.fs, dir);
-				if (!dclst) {
-					res = FR_INT_ERR;
-				} else {					/* Make sure the sub-directory is empty */
-					mem_cpy(&sdj, &dj, sizeof (DIR));
-					sdj.sclust = dclst;
-					res = dir_sdi(&sdj, 2);		/* Exclude dot entries */
-					if (res == FR_OK) {
-						res = dir_read(&sdj, 0);	/* Read an item */
-						if (res == FR_OK		/* Not empty directory */
+				if (dir[DIR_Attr] & AM_DIR) {	/* Is it a sub-dir? */
+					if (!dclst) {
+						res = FR_INT_ERR;
+					} else {					/* Make sure the sub-directory is empty */
+						mem_cpy(&sdj, &dj, sizeof (DIR));
+						sdj.sclust = dclst;
+						res = dir_sdi(&sdj, 2);		/* Exclude dot entries */
+						if (res == FR_OK) {
+							res = dir_read(&sdj, 0);	/* Read an item */
+							if (res == FR_OK		/* Not empty directory */
 #if _FS_RPATH
-						|| dclst == dj.fs->cdir	/* or current directory */
+							|| dclst == dj.fs->cdir	/* or current directory */
 #endif
-						) res = FR_DENIED;
-						if (res == FR_NO_FILE) res = FR_OK;	/* It is empty */
+							) res = FR_DENIED;
+							if (res == FR_NO_FILE) res = FR_OK;	/* It is empty */
+						}
 					}
 				}
 			}

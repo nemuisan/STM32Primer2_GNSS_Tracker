@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2014.03.21
+    @version        10.00
+    @date           2014.11.18
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -17,13 +17,14 @@
 		2013.10.09	V7.00	Integrated with diskio_sdio.c.
 		2014.01.15  V8.00   Improved Insertion detect(configuarable).
 		2014.03.21  V9.00   Optimized SourceCodes.
+		2014.11.18 V10.00   Added SD High Speed Mode(optional).
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x0900
+#define __SDIO_STM32F1_H	0x1000
 
 #ifdef __cplusplus
  extern "C" {
@@ -39,6 +40,10 @@
 /* Uncomment the following line to select the SDIO Data transfer mode */ 
 #define SD_DMA_MODE
 /*#define SD_POLLING_MODE*/
+
+/* Uncomment the following line to select the SD Nomal/High Speed Mode */  
+#define SD_NS_MODE
+/*#define SD_HS_MODE*/
 
 /* Uncomment the following line to Disable Incert detection */  
 /*#define SDIO_INS_DETECT	*/						/* Enable SDIO Incert Detection */
@@ -335,12 +340,13 @@ typedef struct
   */
 #define SDIO_INIT_CLK_DIV                ((uint8_t)0xB2)
 /** 
-  * @brief  SDIO Data Transfer Frequency (25MHz max) 
+  * @brief  SDIO Data Transfer Frequency (SDIO_CK:25MHz max NomalMode)
+  * 		PCLK2=72MHz,SDIO_CK must take 72*(3/8) = 9MHz (From RM0008.pdf)
   */
 #if defined(SD_POLLING_MODE)
- #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x6)
+ #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x6)	/* 72MHz/(6+2)= 9MHz */
 #else
- #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x6) 
+ #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x6) 	/* 72MHz/(6+2)= 9MHz */
 #endif
 
 /* Function Prototypes */
@@ -367,6 +373,7 @@ SD_Error SD_Erase(uint64_t startaddr, uint64_t endaddr);
 SD_Error SD_SendStatus(uint32_t *pcardstatus);
 SD_Error SD_SendSDStatus(uint32_t *psdstatus);
 SD_Error SD_ProcessIRQSrc(void);
+SD_Error SD_HighSpeed(void);
 
 extern __IO SD_Error Status;
 extern SD_CardInfo SDCardInfo;
