@@ -1,3 +1,7 @@
+20141202 : 
+V25.00  Adopted FatFs0.10c latest patch update.
+		Added WatchdogReset for USB functions.
+
 20141118 : 
 V24.00  Adopted FatFs0.10c latest patch update.
 		Added SD High Speed Mode(optional).

@@ -2,20 +2,21 @@
 /*!
 	@file			power.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2011.03.10
+    @version        3.00
+    @date           2014.12.02
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
 		2009.12.26	V0.02	See Update.txt
 		2011.03.10	V2.00	C++ Ready.
+		2014.12.02	V3.00	Added WatchdogReset for USB functions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __POWER_H
-#define __POWER_H 0x0200
+#define __POWER_H 0x0300
 
 #ifdef __cplusplus
  extern "C" {

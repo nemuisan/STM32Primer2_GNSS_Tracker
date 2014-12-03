@@ -2,13 +2,14 @@
 /*!
 	@file			power.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2011.03.10
+    @version        3.00
+    @date           2014.12.02
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
 		2009.12.26	V0.02	See Update.txt
 		2011.03.10	V2.00	C++ Ready.
+		2014.12.02	V3.00	Added WatchdogReset for USB functions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,6 +22,8 @@
 /* include bitmap */
 
 /* Defines -------------------------------------------------------------------*/
+#define LSI_FREQ		40000UL	/* For Independent Watchdog(default:40000Hz) */
+#define WDT_INTERVAL	1000UL	/* For Independent Watchdog(default:1000mSec) */
 
 /* Variables -----------------------------------------------------------------*/
 __IO uint32_t BatState = BAT_MIDDLE;
@@ -44,6 +47,8 @@ void PWR_Mgn(void)
 {
 	ShutKey_Chk();
 	ShutVbat_Chk();
+	/* Reload IWDG counter */
+	IWDG_ReloadCounter();
 }
 
 
@@ -64,9 +69,16 @@ static void ShutKey_Chk(void)
 			/* Key Pressed sequencery 3000mSec */
 			if(++shutcounts > SHUT_TIME)
 				{
+					/* Reload IWDG counter */
+					IWDG_ReloadCounter();
+					/* FatFs File Close */
 					ShutFileClose();
+					/* Power OFF by self */
 					PWR_OFF();
-					for(;;);
+					/* Reload IWDG counter eternal */
+					for(;;){
+						IWDG_ReloadCounter();
+					}
 				}
 		}
 	else
@@ -220,6 +232,20 @@ void PWR_Configuration(void)
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_10MHz;
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_Out_PP;
 	GPIO_Init(GPIO_PWR, &GPIO_InitStructure);
+
+	/* IWDG timeout equal to 1000 ms (the timeout may varies due to LSI frequency
+	 dispersion) (for USB Functions) */
+	/* Enable write access to IWDG_PR and IWDG_RLR registers */
+	IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);
+	/* IWDG counter clock: LSI/32 */
+	IWDG_SetPrescaler(IWDG_Prescaler_32);
+	/* Set counter reload value to obtain 1000ms IWDG TimeOut.
+	 Counter Reload Value = 1000ms/IWDG counter clock period
+						  = (WDT_INTERTVAL/1000) / (LSI/32)
+	*/
+	IWDG_SetReload(LSI_FREQ/(32*(1000/WDT_INTERVAL)));
+	/* Reload IWDG counter */
+	IWDG_ReloadCounter();
 }
 
 

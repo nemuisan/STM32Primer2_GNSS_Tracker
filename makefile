@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version24.00
+APP_VER = Version25.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -256,6 +256,7 @@ LIBCFILES = \
  $(FWLIB)/src/stm32f10x_usart.c 	\
  $(FWLIB)/src/stm32f10x_bkp.c 		\
  $(FWLIB)/src/stm32f10x_pwr.c 		\
+ $(FWLIB)/src/stm32f10x_iwdg.c 		\
  $(USBLIB)/src/usb_core.c 			\
  $(USBLIB)/src/usb_init.c 			\
  $(USBLIB)/src/usb_int.c 			\

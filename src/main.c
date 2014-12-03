@@ -2,12 +2,12 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        24.00
-    @date           2014.11.18
+    @version        25.00
+    @date           2014.12.02
 	@brief          STM32 Primer2 GPS Tr@cker.
 
     @section HISTORY
-		2014.11.18	V24.00	See Whatnew.txt
+		2014.12.02	V25.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -73,6 +73,8 @@ int main(void)
 		xSOF_Callback     	= CDC_SOF_Callback;
 		xUSB_Istr	      	= CDC_USB_Istr;
 		CDC_SetStructure();
+		/* Enable IWDG */
+		IWDG_Enable();
 	}
 	/* Install USB-MSC Function */
 	else if(GPIO_ReadInputDataBit(GPIOE, KEY_R)){
@@ -85,6 +87,8 @@ int main(void)
 		xSOF_Callback     	= NOP_Process;
 		xUSB_Istr	      	= MSC_USB_Istr;
 		MSC_SetStructure();
+		/* Enable IWDG */
+		IWDG_Enable();
 	}
 	
 	else{ /* Fool Proof */
