@@ -81,9 +81,8 @@ void Read_Memory(uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length)
     }
 
     SetEPTxCount(ENDP1, BULK_MAX_PACKET_SIZE);
-#ifndef USE_STM3210C_EVAL
     SetEPTxStatus(ENDP1, EP_TX_VALID);
-#endif    
+
     Offset += BULK_MAX_PACKET_SIZE;
     Length -= BULK_MAX_PACKET_SIZE;
 

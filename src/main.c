@@ -2,12 +2,12 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        25.00
-    @date           2014.12.02
+    @version        26.00
+    @date           2014.12.17
 	@brief          STM32 Primer2 GPS Tr@cker.
 
     @section HISTORY
-		2014.12.02	V25.00	See Whatnew.txt
+		2014.12.17	V26.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -25,7 +25,7 @@ volatile int TaskStat = GPS_LOGGING; /* Default State */
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
-void (*xTask)(void);
+void (* volatile xTask)(void);
 
 /* Functions -----------------------------------------------------------------*/
 
@@ -55,8 +55,10 @@ int main(void)
 			break;
 		}
 	}
-	
-	
+
+	/* Enable IWDG */
+	IWDG_Enable();
+
 	/* Install Main GPS tracker Function */
 	if(vcnt){
 		xTask 				= gps_task;
@@ -73,8 +75,6 @@ int main(void)
 		xSOF_Callback     	= CDC_SOF_Callback;
 		xUSB_Istr	      	= CDC_USB_Istr;
 		CDC_SetStructure();
-		/* Enable IWDG */
-		IWDG_Enable();
 	}
 	/* Install USB-MSC Function */
 	else if(GPIO_ReadInputDataBit(GPIOE, KEY_R)){
@@ -87,8 +87,6 @@ int main(void)
 		xSOF_Callback     	= NOP_Process;
 		xUSB_Istr	      	= MSC_USB_Istr;
 		MSC_SetStructure();
-		/* Enable IWDG */
-		IWDG_Enable();
 	}
 	
 	else{ /* Fool Proof */

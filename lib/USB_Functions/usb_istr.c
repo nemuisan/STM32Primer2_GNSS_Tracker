@@ -2,13 +2,14 @@
 /*!
 	@file			usb_istr.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.23
+    @version        3.00
+    @date           2014.12.17
 	@brief          ISTR events interrupt service routine Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
 		2014.01.23	V2.00	Adopted STM32_USB-FS-Device_DriverV4.0.0.
+		2014.12.17	V3.00	Adopted GCC4.9.x.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -29,7 +30,7 @@ __IO uint32_t wCNTR=0;
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
-void (*pEpInt_IN[7])(void) =
+void (* volatile pEpInt_IN[7])(void) =
   {
     EP1_IN_Callback,
     EP2_IN_Callback,
@@ -40,7 +41,7 @@ void (*pEpInt_IN[7])(void) =
     EP7_IN_Callback,
   };
 
-void (*pEpInt_OUT[7])(void) =
+void (* volatile pEpInt_OUT[7])(void) =
   {
     EP1_OUT_Callback,
     EP2_OUT_Callback,
@@ -51,7 +52,7 @@ void (*pEpInt_OUT[7])(void) =
     EP7_OUT_Callback,
   };
   
-void (*xUSB_Istr)(void);
+void (* volatile xUSB_Istr)(void) = NULL;
 
 
 /* Functions -----------------------------------------------------------------*/
@@ -63,7 +64,7 @@ void (*xUSB_Istr)(void);
     @retval None.
 */
 /**************************************************************************/
-void USB_Istr(void)
+__attribute__((optimize("O0"))) void USB_Istr(void)
 {
 	xUSB_Istr();
 
@@ -344,5 +345,4 @@ void MSC_USB_Istr(void)
   }
 #endif
 }
-
 /* End Of File ---------------------------------------------------------------*/

@@ -2,19 +2,20 @@
 /*!
 	@file			usb_conf.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.12.17
 	@brief          USB Endpoint and Misc Function Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
+		2014.12.17	V2.00	Adopted GCC4.9.x.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __USB_CONF_H
-#define __USB_CONF_H	0x0100
+#define __USB_CONF_H	0x0200
 
 #ifdef __cplusplus
  extern "C" {
@@ -83,10 +84,10 @@
 #define  EP6_OUT_Callback   NOP_Process
 #define  EP7_OUT_Callback   NOP_Process
 
-extern void (*xEP1_IN_Callback)(void);
-extern void (*xEP3_OUT_Callback)(void);
-extern void (*xEP2_OUT_Callback)(void);
-extern void (*xSOF_Callback)(void);
+extern void (* volatile xEP1_IN_Callback)(void);
+extern void (* volatile xEP3_OUT_Callback)(void);
+extern void (* volatile xEP2_OUT_Callback)(void);
+extern void (* volatile xSOF_Callback)(void);
 
 /* USB-CommunicationDeviceClass Functions Externals */
 extern void CDC_EP1_IN_Callback(void);

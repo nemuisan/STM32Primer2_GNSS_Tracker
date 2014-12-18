@@ -2,12 +2,13 @@
 /*!
 	@file			usb_prop.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.12.17
 	@brief          USB Endpoint Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
+		2014.12.17	V2.00	Adopted GCC4.9.x.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -20,26 +21,26 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-void (*xinit)(void);
-void (*xReset)(void);
-void (*xStatus_In)(void);
-void (*xStatus_Out)(void);
-RESULT (*xData_Setup)(uint8_t RequestNo);
-RESULT (*xNoData_Setup)(uint8_t RequestNo);
-RESULT (*xGet_Interface_Setting)(uint8_t Interface, uint8_t AlternateSetting);
-uint8_t* (*xGetDeviceDescriptor)(uint16_t Length);
-uint8_t* (*xGetConfigDescriptor)(uint16_t Length);
-uint8_t* (*xGetStringDescriptor)(uint16_t Length);
+void (* volatile xinit)(void);
+void (* volatile xReset)(void);
+void (* volatile xStatus_In)(void);
+void (* volatile xStatus_Out)(void);
+RESULT (* volatile xData_Setup)(uint8_t RequestNo);
+RESULT (* volatile xNoData_Setup)(uint8_t RequestNo);
+RESULT (* volatile xGet_Interface_Setting)(uint8_t Interface, uint8_t AlternateSetting);
+uint8_t* (* volatile xGetDeviceDescriptor)(uint16_t Length);
+uint8_t* (* volatile xGetConfigDescriptor)(uint16_t Length);
+uint8_t* (* volatile xGetStringDescriptor)(uint16_t Length);
 
-void (*xGetConfiguration)(void);
-void (*xSetConfiguration)(void);
-void (*xGetInterface)(void);
-void (*xSetInterface)(void);
-void (*xGetStatus)(void);
-void (*xClearFeature)(void);
-void (*xSetEndPointFeature)(void);
-void (*xSetDeviceFeature)(void);
-void (*xSetDeviceAddress)(void);
+void (* volatile xGetConfiguration)(void);
+void (* volatile xSetConfiguration)(void);
+void (* volatile xGetInterface)(void);
+void (* volatile xSetInterface)(void);
+void (* volatile xGetStatus)(void);
+void (* volatile xClearFeature)(void);
+void (* volatile xSetEndPointFeature)(void);
+void (* volatile xSetDeviceFeature)(void);
+void (* volatile xSetDeviceAddress)(void);
 
 /* Constants -----------------------------------------------------------------*/
 DEVICE Device_Table =

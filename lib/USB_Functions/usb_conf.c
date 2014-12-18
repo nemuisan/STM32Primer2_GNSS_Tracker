@@ -2,12 +2,13 @@
 /*!
 	@file			usb_conf.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.12.17
 	@brief          USB Endpoint and Misc Function Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
+		2014.12.17	V2.00	Adopted GCC4.9.x.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,10 +22,10 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-void (*xEP1_IN_Callback)(void);
-void (*xEP2_OUT_Callback)(void);
-void (*xEP3_OUT_Callback)(void);
-void (*xSOF_Callback)(void);
+void (* volatile xEP1_IN_Callback)(void)  = NULL;
+void (* volatile xEP2_OUT_Callback)(void) = NULL;
+void (* volatile xEP3_OUT_Callback)(void) = NULL;
+void (* volatile xSOF_Callback)(void)     = NULL;
 
 /* Constants -----------------------------------------------------------------*/
 
@@ -48,6 +49,5 @@ void SOF_Callback(void)
 {
 	xSOF_Callback();
 }
-
 
 /* End Of File ---------------------------------------------------------------*/

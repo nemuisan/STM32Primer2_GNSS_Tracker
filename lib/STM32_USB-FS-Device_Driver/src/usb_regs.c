@@ -35,7 +35,8 @@
 /* Extern variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-
+#pragma GCC push_options	/* 20141217 Nemui Added No Optimization pragma */
+#pragma GCC optimize ("O0") /* 20141217 Nemui Added No Optimization pragma */
 /*******************************************************************************
 * Function Name  : SetCNTR.
 * Description    : Set the CNTR register value.
@@ -756,5 +757,5 @@ uint16_t ByteSwap(uint16_t wSwW)
   wRet =  (wSwW >> 8) | ((uint16_t)bTemp << 8);
   return(wRet);
 }
-
+#pragma GCC pop_options /* 20141217 Nemui Added No Optimization pragma */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

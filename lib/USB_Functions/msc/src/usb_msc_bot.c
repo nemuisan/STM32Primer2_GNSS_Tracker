@@ -287,9 +287,7 @@ void Transfer_Data_Request(uint8_t* Data_Pointer, uint16_t Data_Len)
 {
   USB_SIL_Write(EP1_IN, Data_Pointer, Data_Len);
 
-#ifndef USE_STM3210C_EVAL
-    SetEPTxStatus(ENDP1, EP_TX_VALID);
-#endif  
+  SetEPTxStatus(ENDP1, EP_TX_VALID);
   Bot_State = BOT_DATA_IN_LAST;
   CSW.dDataResidue -= Data_Len;
   CSW.bStatus = CSW_CMD_PASSED;
@@ -314,9 +312,7 @@ void Set_CSW (uint8_t CSW_Status, uint8_t Send_Permission)
   if (Send_Permission)
   {
     Bot_State = BOT_CSW_Send;
-#ifndef USE_STM3210C_EVAL
     SetEPTxStatus(ENDP1, EP_TX_VALID);
-#endif  
   }
 
 }

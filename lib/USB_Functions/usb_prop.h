@@ -2,19 +2,20 @@
 /*!
 	@file			usb_prop.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2014.12.17
 	@brief          USB Endpoint Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
+		2014.12.17	V2.00	Adopted GCC4.9.x.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __USB_PROP_H
-#define __USB_PROP_H	0x0100
+#define __USB_PROP_H	0x0200
 
 #ifdef __cplusplus
  extern "C" {
@@ -25,26 +26,26 @@
 #include "usb_core.h"
 
 /* Externals */
-extern void (*xinit)(void);
-extern void (*xReset)(void);
-extern void (*xStatus_In)(void);
-extern void (*xStatus_Out)(void);
-extern RESULT (*xData_Setup)(uint8_t RequestNo);
-extern RESULT (*xNoData_Setup)(uint8_t RequestNo);
-extern RESULT (*xGet_Interface_Setting)(uint8_t Interface, uint8_t AlternateSetting);
-extern uint8_t* (*xGetDeviceDescriptor)(uint16_t Length);
-extern uint8_t* (*xGetConfigDescriptor)(uint16_t Length);
-extern uint8_t* (*xGetStringDescriptor)(uint16_t Length);
+extern void (* volatile xinit)(void);
+extern void (* volatile xReset)(void);
+extern void (* volatile xStatus_In)(void);
+extern void (* volatile xStatus_Out)(void);
+extern RESULT (* volatile xData_Setup)(uint8_t RequestNo);
+extern RESULT (* volatile xNoData_Setup)(uint8_t RequestNo);
+extern RESULT (* volatile xGet_Interface_Setting)(uint8_t Interface, uint8_t AlternateSetting);
+extern uint8_t* (* volatile xGetDeviceDescriptor)(uint16_t Length);
+extern uint8_t* (* volatile xGetConfigDescriptor)(uint16_t Length);
+extern uint8_t* (* volatile xGetStringDescriptor)(uint16_t Length);
 
-extern void (*xGetConfiguration)(void);
-extern void (*xSetConfiguration)(void);
-extern void (*xGetInterface)(void);
-extern void (*xSetInterface)(void);
-extern void (*xGetStatus)(void);
-extern void (*xClearFeature)(void);
-extern void (*xSetEndPointFeature)(void);
-extern void (*xSetDeviceFeature)(void);
-extern void (*xSetDeviceAddress)(void);
+extern void (* volatile xGetConfiguration)(void);
+extern void (* volatile xSetConfiguration)(void);
+extern void (* volatile xGetInterface)(void);
+extern void (* volatile xSetInterface)(void);
+extern void (* volatile xGetStatus)(void);
+extern void (* volatile xClearFeature)(void);
+extern void (* volatile xSetEndPointFeature)(void);
+extern void (* volatile xSetDeviceFeature)(void);
+extern void (* volatile xSetDeviceAddress)(void);
 
 extern void nxinit(void);
 extern void nxReset(void);

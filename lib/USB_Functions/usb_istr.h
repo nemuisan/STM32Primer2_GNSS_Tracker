@@ -2,20 +2,21 @@
 /*!
 	@file			usb_istr.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.23
+    @version        3.00
+    @date           2014.12.17
 	@brief          ISTR events interrupt service routine Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
 		2014.01.23	V2.00	Adopted STM32_USB-FS-Device_DriverV4.0.0.
+		2014.12.17	V3.00	Adopted GCC4.9.x.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __USB_ISTR_H
-#define __USB_ISTR_H	0x0200
+#define __USB_ISTR_H	0x0300
 
 #ifdef __cplusplus
  extern "C" {
@@ -51,7 +52,7 @@ void EP6_OUT_Callback(void);
 void EP7_OUT_Callback(void);
 
 /* Wrapper Externals */
-extern void (*xUSB_Istr)(void);
+extern void (* volatile xUSB_Istr)(void);
 extern void CDC_USB_Istr(void);
 extern void MSC_USB_Istr(void);
 
