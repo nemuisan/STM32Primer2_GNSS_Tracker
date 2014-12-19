@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2014.03.14
+    @version        9.00
+    @date           2014.06.25
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -14,6 +14,9 @@
 		2013.09.20  V4.00   Fixed unused functions.
 		2013.12.30  V5.00   Added Performance Counter Functions for Debug.
 		2014.03.14	V6.00	Added RGB-Interface with LCD-Controller Support.
+		2014.05.01	V7.00	Added HX8369A Streaming Support.
+		2014.06.01	V8.00	Adopted giflib-5.1.0.
+		2014.06.25	V9.00   Removed Buff[] from header file.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +26,7 @@
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x0600
+#define __TS_FILELOADS_H 0x0800
 
 #ifdef __cplusplus
  extern "C" {
@@ -99,8 +102,6 @@ typedef struct my_error_mgr * my_error_ptr;
 extern int filer(char *path, FIL *fil, DIR *dir, FILINFO *fno);
 extern volatile uint32_t on_filer;	/* Used on STM32 Primer2 */ 
 
-/* Array Buff[] must be declared FatFs Basic Routine!(e.g. in ff_support.c) */
-extern uint8_t Buff[];
 
 #ifdef __cplusplus
 }

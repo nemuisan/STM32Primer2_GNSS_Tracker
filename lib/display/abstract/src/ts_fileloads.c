@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2014.03.14
+    @version        9.00
+    @date           2014.06.25
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -14,6 +14,9 @@
 		2013.09.20  V4.00   Fixed unused functions.
 		2013.12.30  V5.00   Added Performance Counter Functions for Debug.
 		2014.03.14	V6.00	Added RGB-Interface with LCD-Controller Support.
+		2014.05.01	V7.00	Added HX8369A Streaming Support.
+		2014.06.01	V8.00	Adopted giflib-5.1.0.
+		2014.06.25	V9.00   Removed Buff[] from header file.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -39,6 +42,9 @@ typedef struct {
 	uint8_t  sbuf[512];
 	uint32_t ltbl[1];
 } TXVIEW;
+
+/* Array Buff[] must be declared FatFs Basic Routine!(e.g. in ff_func_disp.c) */
+extern uint8_t Buff[];
 
 /* Set Performance Counter(for Testing and MCU dependent) */
 #ifdef ENABLE_PERFORMANCE_MEASUREMENT
@@ -455,8 +461,8 @@ static int load_img(FIL* fil)
 			d -= br;
 			Display_wr_block_if(Buff, n);
 		} while (d);
-#if USE_SSD1963_TFT
-		Display_wr_cmd_if(0x002C);	/* SSD1963 Consideration */
+#if defined(USE_SSD1963_TFT) || (USE_HX8369A_TFT)
+		Display_wr_cmd_if(0x002C);	/* SSD1963/HX8369A Consideration */
 #endif
 		tp += fd;
 		cfrm++;
@@ -550,9 +556,9 @@ static void disp_blt (
 */
 /**************************************************************************/
 static unsigned int tjd_input (
-	JDEC* jd,		/* Decoder object */
-	BYTE* buff,		/* Pointer to the read buffer (NULL:skip) */
-	unsigned int nd			/* Number of bytes to read/skip from input stream */
+	JDEC* jd,			/* Decoder object */
+	BYTE* buff,			/* Pointer to the read buffer (NULL:skip) */
+	unsigned int nd		/* Number of bytes to read/skip from input stream */
 )
 {
 	unsigned int rb;
@@ -1387,7 +1393,7 @@ gif_end:
 		free(RowBuffer);
 		RowBuffer = NULL;
 	}
-	DGifCloseFile(GifFile);
+	DGifCloseFile(GifFile,&ErrorCode);
 	/* Exit Routine */
 	/* To Rerturn to Push Any Key  */
 	wait_anyinput();
@@ -1399,7 +1405,7 @@ gif_esc:
 		free(RowBuffer);
 		RowBuffer = NULL;
 	}
-	DGifCloseFile(GifFile);
+	DGifCloseFile(GifFile,&ErrorCode);
    return 1;
  
 }

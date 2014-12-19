@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.01
-    @date           2012.04.05
+    @version        6.00
+    @date           2014.12.18
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -15,13 +15,14 @@
 		2011.10.14	V3.10	Chenged FontColour Function Name.
 		2012.01.03	V4.00	Fixed fontkanji & fontank Relations.
 		2012.04.05	V5.01	Add Draw Circle Algorithm.
+		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __DISPLAY_IF_SUPPORT_H
-#define __DISPLAY_IF_SUPPORT_H	0x0501
+#define __DISPLAY_IF_SUPPORT_H	0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -56,18 +57,18 @@ typedef struct {
 /* Function Prototypes */
 extern void Display_ChrCol(uint16_t fg, uint16_t bg);
 /* Font Relation */
-extern int Display_Puts_If(uint16_t col, uint16_t row, uint8_t* pch,uint8_t trans);
-extern int Display_Puts_If_Ex(uint16_t col, uint16_t row, uint8_t* pch, uint8_t trans, uint16_t fg,uint16_t bg);
+extern int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch,uint8_t trans);
+extern int Display_Puts_If_Ex(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans, uint16_t fg,uint16_t bg);
 /* Draw Gfx Relation */
-extern void PutPixel(uint16_t col, uint16_t row,uint16_t colour);
+extern void PutPixel(uint16_t x, uint16_t y,uint16_t colour);
 extern void Display_DrawRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour);
 extern void Display_FillRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour);
-extern void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour);
-extern void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour);
-extern void Display_DrawLine_If(int xs,int ys,int xe,int ye, uint16_t colour);
+extern void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour);
+extern void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour);
+extern void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour);
 /* For External Filer */
-extern void putank(uint16_t col, uint16_t row, uint8_t* pank, uint16_t fg,uint16_t bg);
-extern void putkanji(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t fg,uint16_t bg);
+extern void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg);
+extern void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg);
 
 #ifdef __cplusplus
 }

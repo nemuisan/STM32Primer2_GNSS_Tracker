@@ -2,8 +2,8 @@
 /*!
 	@file			ts.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2013.11.30
+    @version        14.00
+    @date           2014.11.19
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!
 
     @section HISTORY
@@ -22,13 +22,15 @@
 		2012.06.15 V10.00   Added External SRAM Support.
 		2013.09.20 V11.00   Added more colour definitions.
 		2013.11.30 V12.00   Added External SDRAM Support.
+		2014.06.25 V13.00   Removed Buff[] from header file.
+		2014.11.19 V14.00	Fixed TmrFrm declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TS_H
-#define __TS_H 0x1200
+#define __TS_H 0x1400
 
 #ifdef __cplusplus
  extern "C" {
@@ -143,8 +145,6 @@ extern void ts_rldown(uint8_t top, uint8_t left, uint8_t bottom, uint8_t right);
 extern void ts_timer(void);
 extern void ts_rtc(void);
 
-/* Array Buff[] must be declared FatFs Basic Routine! */
-extern uint8_t Buff[];
 
 /* Filer control command */
 #define KEY_UP		'\x05'	/* ^[E] */

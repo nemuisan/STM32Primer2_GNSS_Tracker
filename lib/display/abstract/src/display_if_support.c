@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.01
-    @date           2012.04.05
+    @version        6.00
+    @date           2014.12.18
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -15,7 +15,8 @@
 		2011.10.14	V3.10	Chenged FontColour Function Name.
 		2012.01.03	V4.00	Fixed fontkanji & fontank Relations.
 		2012.04.05	V5.01	Add Draw Circle Algorithm.
-	
+		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
+
     @section LICENSE
 		BSD License. See Copyright.txt
 */
@@ -71,37 +72,69 @@ inline void Display_ChrCol(uint16_t fg, uint16_t bg)
 	Put Pixel Position(Basis Function).
 */
 /**************************************************************************/
-static inline void SetPixel(uint16_t col, uint16_t row)
+static inline void SetPixel(uint16_t x, uint16_t y)
 {
-	Display_rect_if(col,col,row,row);
+	Display_rect_if(x,x,y,y);
 }
-
 
 /**************************************************************************/
 /*! 
 	Put Pixel.
 */
 /**************************************************************************/
-inline void PutPixel(uint16_t col, uint16_t row,uint16_t colour)
+inline void PutPixel(uint16_t x, uint16_t y,uint16_t colour)
 {
-	SetPixel(col,row);
+	SetPixel(x,y);
 	Display_wr_dat_if(colour);
 }
 
 
 /**************************************************************************/
 /*! 
-	Fill Rectangle.
+	DRAW Rectangle Line with no Filler.
 */
 /**************************************************************************/
-inline void Display_FillRect_If(uint32_t x, uint32_t width, uint32_t y, uint32_t height, uint16_t colour)
+inline void Display_DrawRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour)
 {
 	volatile uint32_t n;
 
-	if((width < x) || (height < y) ) return;
+	if((xe < xs) || (ye < ys) ) return;
+
+	n = xe - xs;
+	do{
+		PutPixel((xe-n),ys,colour);
+	} while (n--);
+
+	n = xe - xs;
+	do{
+		PutPixel((xe-n),ye,colour);
+	} while (n--);
+
+	n = ye - ys;
+	do{
+		PutPixel(xs,(ye-n),colour);
+	} while (n--);
+
+	n = ye - ys;
+	do{
+		PutPixel(xe,(ye-n),colour);
+	} while (n--);
 	
-	Display_rect_if(x,width,y,height);
-	n = (width-x+1) * (height-y+1);
+}
+
+/**************************************************************************/
+/*! 
+	Fill Rectangle.
+*/
+/**************************************************************************/
+inline void Display_FillRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour)
+{
+	volatile uint32_t n;
+
+	if((xe < xs) || (ye < ys) ) return;
+	
+	Display_rect_if(xs,xe,ys,ye);
+	n = (xe-xs+1) * (ye-ys+1);
 	
 	do {
 		Display_wr_dat_if(colour);
@@ -115,55 +148,53 @@ inline void Display_FillRect_If(uint32_t x, uint32_t width, uint32_t y, uint32_t
 	DRAW Line Function(There is no cripper yet).
 */
 /**************************************************************************/
-inline void Display_DrawLine_If(int xs,int ys,int xe,int ye, uint16_t colour)
+inline void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour)
 {
-	/* Bresenham Algorithum */
-	int  hhy,wwx,x,y,n,sx,sy;
-	int  e,x_ct,y_ct;
-	
-	hhy = ye - ys;
-	wwx = xe - xs;
-	x_ct  = ABS(wwx);
-	y_ct  = ABS(hhy);
-	
-	if (wwx) sx = 1; else	 sx =-1;
-	if (hhy) sy = 1; else	 sy =-1;
+	/* Bresenham Algorithm */
+	int  wwx,hhy,x,y,n,sx,sy,e;
+	uint16_t dx,dy;
+
+	wwx = (int)(xe - xs);
+	hhy = (int)(ye - ys);
+	dx  = ABS(wwx);
+	dy  = ABS(hhy);
+
+	if (wwx > 0) sx = 1; else sx = -1;
+	if (hhy > 0) sy = 1; else sy = -1;
 
 	x = xs;
 	y = ys;
 
-	if ( x_ct >= y_ct )
+	if ( dx >= dy )
 	{
-	
-		e=wwx;
+		e = dx;
 
-		for(n=0; n<=x_ct;++n ){
+		for(n=0; n<=dx; ++n){
 
 			PutPixel(x,y,colour);
-			x +=sx;
-			e += 2*hhy;
+			x += sx;
+			e += 2*dy;
 
-			if (e>=2*wwx){
-				e -= 2*wwx;
-				y +=sy;
+			if (e >= 2*dx){
+				e -= 2*dx;
+				y += sy;
 			}
 		}
 
 	}
 	else
 	{
-		
-		e=hhy;
+		e = dy;
 
-		for(n=0; n<=y_ct;++n ){
-		
+		for(n=0; n<=dy; ++n){
+
 			PutPixel(x,y,colour);
-			y +=sy;
-			e += 2*wwx;
+			y += sy;
+			e += 2*dx;
 
-			if (e>=2*hhy){
-				e -= 2*hhy;
-				x +=sx;
+			if (e>=2*dy){
+				e -= 2*dy;
+				x += sx;
 			}
 		}
 	}
@@ -176,7 +207,7 @@ inline void Display_DrawLine_If(int xs,int ys,int xe,int ye, uint16_t colour)
 */
 /**************************************************************************/
 #if 1 /* More Accuracy method by http://dencha.ojaru.jp thanks! */
-inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour)
 {
     PLOT_XY center;
     center.x=x_ct;
@@ -319,9 +350,9 @@ inline void Display_DrawCircle_If(int x_ct,int y_ct,long diameter, uint16_t colo
 }
 
 #else
-inline void Display_DrawCircle_If(int x_ct,int y_ct,int radius, uint16_t colour)
+inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour)
 {
-	/* Bresenham Midpoint Algorithum */
+	/* Bresenham Midpoint Algorithm */
    long cx, cy, d, dH, dD;
 
     d   = 1 - radius;
@@ -359,9 +390,9 @@ inline void Display_DrawCircle_If(int x_ct,int y_ct,int radius, uint16_t colour)
 	DRAW Circle with Filler.
 */
 /**************************************************************************/
-inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colour)
+inline void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour)
 {
-	/* Bresenham Midpoint Algorithum */
+	/* Bresenham Midpoint Algorithm */
 	long cx, cy, d, dH, dD, n;
 	long radius= diameter/2;
 	
@@ -410,40 +441,6 @@ inline void Display_FillCircle_If(int x_ct,int y_ct,long diameter, uint16_t colo
     }
 }
 
-/**************************************************************************/
-/*! 
-	DRAW Rectangle Line with no Filler.
-*/
-/**************************************************************************/
-inline void Display_DrawRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour)
-{
-	volatile uint32_t n;
-	
-	n = xe - xs;
-	do{
-		PutPixel((xe-n),ys,colour);
-	} while (n--);
-
-	n = xe - xs;
-	do{
-		PutPixel((xe-n),ye,colour);
-	} while (n--);
-
-	n = ye - ys;
-	do{
-		PutPixel(xs,(ye-n),colour);
-	} while (n--);
-
-	n = ye - ys;
-	do{
-		PutPixel(xe,(ye-n),colour);
-	} while (n--);
-	
-}
-
-
-
-
 
 
 /**************************************************************************/
@@ -451,7 +448,7 @@ inline void Display_DrawRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t 
 	Put SJIS Kanji Font With Transparency.
 */
 /**************************************************************************/
-static void putkanji_t(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t colour)
+static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 {
 
 	uint8_t*	ptemp;
@@ -470,7 +467,7 @@ static void putkanji_t(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t col
 			for(j=0; j< 8;j++){
 
 				if((*(ptemp)<<j)&0x80){
-						SetPixel(col +j +(k*8),row +i);
+						SetPixel((x+j+(k*8)),(y+i));
 						Display_wr_dat_if(colour);
 					}
 			}
@@ -480,7 +477,7 @@ static void putkanji_t(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t col
 		for(j=0; j< m ;j++){
 
 			if((*(ptemp)<<j)&0x80){
-					SetPixel(col +j +(k*8),row +i);
+					SetPixel((x+j+(k*8)),(y+i));
 					Display_wr_dat_if(colour);
 				}
 				
@@ -498,7 +495,7 @@ static void putkanji_t(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t col
 	Put SJIS ANK Font With Transparency.
 */
 /**************************************************************************/
-static void putank_t(uint16_t col, uint16_t row, uint8_t* pank, uint16_t colour)
+static void putank_t(uint16_t x, uint16_t y, uint8_t* pank, uint16_t colour)
 {
 
 	uint8_t*	ptemp;
@@ -517,7 +514,7 @@ static void putank_t(uint16_t col, uint16_t row, uint8_t* pank, uint16_t colour)
 			for(j=0; j< 8;j++){
 
 				if((*(ptemp)<<j)&0x80){
-						SetPixel(col +j +(k*8),row +i);
+						SetPixel((x+j+(k*8)),(y+i));
 						Display_wr_dat_if(colour);
 					}
 			}
@@ -527,7 +524,7 @@ static void putank_t(uint16_t col, uint16_t row, uint8_t* pank, uint16_t colour)
 		for(j=0; j< m ;j++){
 
 			if((*(ptemp)<<j)&0x80){
-					SetPixel(col +j +(k*8),row +i);
+					SetPixel((x+j+(k*8)),(y+i));
 					Display_wr_dat_if(colour);
 				}
 		}
@@ -542,7 +539,7 @@ static void putank_t(uint16_t col, uint16_t row, uint8_t* pank, uint16_t colour)
 	Put SJIS Kanji Font With Occupy.
 */
 /**************************************************************************/
-void putkanji(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t fg,uint16_t bg)
+void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg)
 {
 
 	uint8_t*	ptemp;
@@ -555,8 +552,8 @@ void putkanji(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t fg,uint16_t 
 
 	ptemp = GetPtr_Kanji(((*pkanji) << 8) | *(pkanji+1));
 	
-	Display_rect_if(col, col + CurrentKanjiDat->X_Size - 1,
-					row, row + CurrentKanjiDat->Y_Size - 1);
+	Display_rect_if(x, x + CurrentKanjiDat->X_Size - 1,
+					y, y + CurrentKanjiDat->Y_Size - 1);
 
 
 	for(i=0; i<CurrentKanjiDat->Y_Size;i++)
@@ -566,7 +563,7 @@ void putkanji(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t fg,uint16_t 
 			for(j=0; j< 8;j++){
 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
 			#if defined(DISABLE_FASTWRITE)
-				SetPixel(col +j +(k*8),row +i);
+				SetPixel((x+j+(k*8)),(y+i));
 			#endif
 				Display_wr_dat_if(wd);
 			}
@@ -576,7 +573,7 @@ void putkanji(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t fg,uint16_t 
 		for(j=0; j< m ;j++){
 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
 			#if defined(DISABLE_FASTWRITE)
-				SetPixel(col +j +(k*8),row +i);
+				SetPixel((x+j+(k*8)),(y+i));
 			#endif
 				Display_wr_dat_if(wd);
 		}
@@ -592,7 +589,7 @@ void putkanji(uint16_t col, uint16_t row, uint8_t* pkanji, uint16_t fg,uint16_t 
 	Put SJIS ANK Font With Occupy.
 */
 /**************************************************************************/
-void putank(uint16_t col, uint16_t row, uint8_t* pank, uint16_t fg,uint16_t bg)
+void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg)
 {
 
 	uint8_t*	ptemp;
@@ -605,8 +602,8 @@ void putank(uint16_t col, uint16_t row, uint8_t* pank, uint16_t fg,uint16_t bg)
 
 	ptemp = GetPtr_Ank(*pank);
 
-	Display_rect_if(col, col + CurrentAnkDat->X_Size - 1,
-					row, row + CurrentAnkDat->Y_Size - 1);
+	Display_rect_if(x, x + CurrentAnkDat->X_Size - 1,
+					y, y + CurrentAnkDat->Y_Size - 1);
 
 
 	for(i=0; i<CurrentAnkDat->Y_Size;i++)
@@ -616,7 +613,7 @@ void putank(uint16_t col, uint16_t row, uint8_t* pank, uint16_t fg,uint16_t bg)
 			for(j=0; j< 8;j++){
 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
 			#if defined(DISABLE_FASTWRITE)
-				SetPixel(col +j +(k*8),row +i);
+				SetPixel((x+j+(k*8)),(y+i));
 			#endif
 				Display_wr_dat_if(wd);
 			}
@@ -626,7 +623,7 @@ void putank(uint16_t col, uint16_t row, uint8_t* pank, uint16_t fg,uint16_t bg)
 		for(j=0; j< m ;j++){
 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
 			#if defined(DISABLE_FASTWRITE)
-				SetPixel(col +j +(k*8),row +i);
+				SetPixel((x+j+(k*8)),(y+i));
 			#endif
 				Display_wr_dat_if(wd);
 		}
@@ -642,28 +639,28 @@ void putank(uint16_t col, uint16_t row, uint8_t* pank, uint16_t fg,uint16_t bg)
 	Put SJIS Fonts Basic.
 */
 /**************************************************************************/
-int Display_Puts_If(uint16_t col, uint16_t row, uint8_t* pch, uint8_t trans)
+int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans)
 {
 
 	while(*pch){
 
-		if (col >= MAX_X || row >= MAX_Y) return 0;
+		if (x >= MAX_X || y >= MAX_Y) return 0;
 
 		if(((*pch >= 0x80)&&(*pch < 0xA0))||((*pch >= 0xE0)&&(*pch <= 0xFF)))
 	  		{
-				if(trans == TRANSPARENT) putkanji_t(col,row,pch,pScrCol->Fg);
-				else					 putkanji  (col,row,pch,pScrCol->Fg,pScrCol->Bg);
+				if(trans == TRANSPARENT) putkanji_t(x,y,pch,pScrCol->Fg);
+				else					 putkanji  (x,y,pch,pScrCol->Fg,pScrCol->Bg);
 				
 				pch +=2;
-				col += CurrentKanjiDat->X_Size;
+				x += CurrentKanjiDat->X_Size;
 	  		}
 		else
 			{
-				if(trans == TRANSPARENT) putank_t(col,row,pch,pScrCol->Fg);
-				else					 putank  (col,row,pch,pScrCol->Fg,pScrCol->Bg);
+				if(trans == TRANSPARENT) putank_t(x,y,pch,pScrCol->Fg);
+				else					 putank  (x,y,pch,pScrCol->Fg,pScrCol->Bg);
 
 				pch +=1;
-				col += CurrentAnkDat->X_Size;
+				x += CurrentAnkDat->X_Size;
 			}
 	}
 
@@ -675,28 +672,28 @@ int Display_Puts_If(uint16_t col, uint16_t row, uint8_t* pch, uint8_t trans)
 	Put SJIS Fonts Advanced.
 */
 /**************************************************************************/
-int Display_Puts_If_Ex(uint16_t col, uint16_t row, uint8_t* pch, uint8_t trans, uint16_t fg,uint16_t bg)
+int Display_Puts_If_Ex(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans, uint16_t fg,uint16_t bg)
 {
 
 	while(*pch){
 
-		if (col >= MAX_X || row >= MAX_Y) return 0;
+		if (x >= MAX_X || y >= MAX_Y) return 0;
 
 		if(((*pch >= 0x80)&&(*pch < 0xA0))||((*pch >= 0xE0)&&(*pch <= 0xFF)))
 	  		{
-				if(trans == TRANSPARENT) putkanji_t(col,row,pch,fg);
-				else					 putkanji  (col,row,pch,fg,bg);
+				if(trans == TRANSPARENT) putkanji_t(x,y,pch,fg);
+				else					 putkanji  (x,y,pch,fg,bg);
 				
 				pch +=2;
-				col += CurrentKanjiDat->X_Size;
+				x += CurrentKanjiDat->X_Size;
 	  		}
 		else
 			{
-				if(trans == TRANSPARENT) putank_t(col,row,pch,fg);
-				else					 putank  (col,row,pch,fg,bg);
+				if(trans == TRANSPARENT) putank_t(x,y,pch,fg);
+				else					 putank  (x,y,pch,fg,bg);
 
 				pch +=1;
-				col += CurrentAnkDat->X_Size;
+				x += CurrentAnkDat->X_Size;
 			}
 	}
 

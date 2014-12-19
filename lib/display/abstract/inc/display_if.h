@@ -265,7 +265,21 @@
 
 #elif	USE_HX8369A_TFT
  #include "hx8369a.h"
- 
+
+#elif	USE_OTM8009A_TFT
+ #include "otm8009a.h"
+
+#elif	USE_LGDP4551_TFT
+ #include "lgdp4551.h"
+
+#elif	USE_S6D04D1_TFT
+ #include "s6d04d1.h"
+
+#elif	USE_TL1763_TFT
+ #include "tl1763.h"
+
+#elif	USE_RM68110_SPI_TFT
+ #include "rm68110.h"
 
 #else
  #error "None of the Selected Display Device!!"
