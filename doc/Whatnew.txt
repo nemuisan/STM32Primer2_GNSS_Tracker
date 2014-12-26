@@ -1,3 +1,6 @@
+20141222 : 
+V28.00	Enforce WatchdogReset handlings.
+
 20141218 : 
 V27.00	Fixed GFX-Draw libraries.
 

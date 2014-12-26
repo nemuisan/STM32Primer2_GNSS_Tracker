@@ -2,12 +2,12 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        26.00
-    @date           2014.12.17
+    @version        28.00
+    @date           2014.12.22
 	@brief          STM32 Primer2 GPS Tr@cker.
 
     @section HISTORY
-		2014.12.17	V26.00	See Whatnew.txt
+		2014.12.22	V28.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -63,6 +63,11 @@ int main(void)
 	if(vcnt){
 		xTask 				= gps_task;
 		xUART_IRQ			= conio_IRQ;
+		xEP1_IN_Callback  	= NOP_Process;
+		xEP2_OUT_Callback 	= NOP_Process;
+		xEP3_OUT_Callback 	= NOP_Process;
+		xSOF_Callback     	= NOP_Process;
+		xUSB_Istr	      	= NOP_Process;
 	}
 	/* Install USB-CDC VirtualCOM Function */
 	else if(GPIO_ReadInputDataBit(GPIOE, KEY_L)){
@@ -92,6 +97,11 @@ int main(void)
 	else{ /* Fool Proof */
 		xTask 				= gps_task;
 		xUART_IRQ			= conio_IRQ;
+		xEP1_IN_Callback  	= NOP_Process;
+		xEP2_OUT_Callback 	= NOP_Process;
+		xEP3_OUT_Callback 	= NOP_Process;
+		xSOF_Callback     	= NOP_Process;
+		xUSB_Istr	      	= NOP_Process;
 	}
 
 	/* Main Loop */

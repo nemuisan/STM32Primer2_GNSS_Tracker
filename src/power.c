@@ -2,14 +2,15 @@
 /*!
 	@file			power.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2014.12.02
+    @version        3.01
+    @date           2014.12.22
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
 		2009.12.26	V0.02	See Update.txt
 		2011.03.10	V2.00	C++ Ready.
 		2014.12.02	V3.00	Added WatchdogReset for USB functions.
+		2014.12.22	V3.01	Enforce Watchdog handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -123,9 +124,16 @@ static void ShutVbat_Chk(void)
 			{
 				if(++vbatlow > LOWER_FILT) 
 				{
+					/* Reload IWDG counter */
+					IWDG_ReloadCounter();
+					/* FatFs File Close */
 					ShutFileClose();
+					/* Power OFF by self */
 					PWR_OFF();
-					for(;;);
+					/* Reload IWDG counter eternal */
+					for(;;){
+						IWDG_ReloadCounter();
+					}
 				}
 			}
 			else
