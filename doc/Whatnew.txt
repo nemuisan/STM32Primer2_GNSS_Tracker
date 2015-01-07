@@ -1,3 +1,6 @@
+20150106 : 
+V29.00	Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
+
 20141222 : 
 V28.00	Enforce WatchdogReset handlings.
 

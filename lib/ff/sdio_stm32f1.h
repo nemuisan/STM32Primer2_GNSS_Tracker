@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2014.11.18
+    @version        11.00
+    @date           2015.01.07
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -18,13 +18,14 @@
 		2014.01.15  V8.00   Improved Insertion detect(configuarable).
 		2014.03.21  V9.00   Optimized SourceCodes.
 		2014.11.18 V10.00   Added SD High Speed Mode(optional).
+		2015.01.06 V11.00   Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x1000
+#define __SDIO_STM32F1_H	0x1100
 
 #ifdef __cplusplus
  extern "C" {
@@ -47,6 +48,7 @@
 
 /* Uncomment the following line to Disable Incert detection */  
 /*#define SDIO_INS_DETECT	*/						/* Enable SDIO Incert Detection */
+/* SDCARD Incert detection I/O Defninitions */
 #define SD_DETECT_PIN                    GPIO_Pin_11                 /* PF.11 */
 #define SD_DETECT_GPIO_PORT              GPIOF                       /* GPIOF */
 #define SD_DETECT_GPIO_CLK               RCC_APB2Periph_GPIOF
@@ -340,13 +342,17 @@ typedef struct
   */
 #define SDIO_INIT_CLK_DIV                ((uint8_t)0xB2)
 /** 
-  * @brief  SDIO Data Transfer Frequency (SDIO_CK:25MHz max NomalMode)
-  * 		PCLK2=72MHz,SDIO_CK must take 72*(3/8) = 9MHz (From RM0008.pdf)
+  * @brief  SDIO Data Transfer Frequency 
+  *         (SDIO_CK:24MHz in NomalMode,48MHz in HighSpeedMode)
+  *			PCLK2,SDIO_CK frequency must meets below equation.
+  *           PCLK2 >= SDIO_CK * (3/8)
+  * 		PCLK2=72MHz,SDIO_CK can take upto 48MHz(72MHz>=(3/8)*48MHz=18MHz).
+  *  		PCLK2=24MHz,SDIO_CK can take upto 48MHz(24MHz>=(3/8)*48MHz=18MHz).       
   */
 #if defined(SD_POLLING_MODE)
- #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x6)	/* 72MHz/(6+2)= 9MHz */
+ #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1)	/* 72MHz/(1+2)= 24MHz */
 #else
- #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x6) 	/* 72MHz/(6+2)= 9MHz */
+ #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1) 	/* 72MHz/(1+2)= 24MHz */
 #endif
 
 /* Function Prototypes */
