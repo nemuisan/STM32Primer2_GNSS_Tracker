@@ -2,7 +2,7 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
+    @version        12.00
     @date           2015.01.07
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
@@ -19,6 +19,7 @@
 		2014.03.21  V9.00   Optimized SourceCodes.
 		2014.11.18 V10.00   Added SD High Speed Mode(optional).
 		2015.01.06 V11.00   Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
+		2015.01.07 V12.00   Added Handling SD High Speed Mode description.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -28,7 +29,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x1100
+#if __SDIO_STM32F1_H!= 0x1200
 #error "header file version is not correspond!"
 #endif
 
@@ -3073,9 +3074,9 @@ SD_Error SD_HighSpeed (void)
 		if ((hs[13]& 0x2)==0x2)
 		{
 			/*!< Configure the SDIO peripheral */
-			SDIO_InitStructure.SDIO_ClockDiv = 0; /* Set to ZERO(but divider does not used) */
-			SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Falling;	/* Falling edge at HS Mode */
-			SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable; /* Attatch SDIO_CK direct(48MHz) */
+			SDIO_InitStructure.SDIO_ClockDiv = 0; /* Set 0 to SDIO_CK =36MHz MAX */
+			SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Falling;	/* This is a work around */
+			SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
 			SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
 			SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
 			SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
@@ -3364,21 +3365,21 @@ DRESULT disk_read(uint8_t drv,uint8_t *buff,uint32_t sector,unsigned int count)
 	{
 		case SDIO_DRIVE:
 		{     
-			SD_Error status = SD_OK;
+			Status = SD_OK;
 
 			if(count==1){
-				status = SD_ReadBlock((uint8_t*)(buff), 
+				Status = SD_ReadBlock((uint8_t*)(buff), 
 									  ((uint64_t)(sector)*SECTOR_SIZE),
 									  SECTOR_SIZE);
 			}
 			else{
-				status = SD_ReadMultiBlocks((uint8_t*)(buff), 
+				Status = SD_ReadMultiBlocks((uint8_t*)(buff), 
 											((uint64_t)(sector)*SECTOR_SIZE),
 											SECTOR_SIZE
 											,count);
 			}
 
-			if (status == SD_OK)	return RES_OK;
+			if (Status == SD_OK)	return RES_OK;
 			else					return RES_ERROR;
 		}
 	}
@@ -3402,21 +3403,21 @@ DRESULT disk_write(uint8_t drv,const uint8_t *buff,uint32_t sector,unsigned int 
 	{
 		case SDIO_DRIVE:
 		{     
-			SD_Error status = SD_OK;
+			Status = SD_OK;
 
 			if(count==1){
-				status = SD_WriteBlock((uint8_t*)(buff), 
+				Status = SD_WriteBlock((uint8_t*)(buff), 
 									  ((uint64_t)(sector)*SECTOR_SIZE),
 									  SECTOR_SIZE);
 			}
 			else{
-				status = SD_WriteMultiBlocks((uint8_t*)(buff), 
+				Status = SD_WriteMultiBlocks((uint8_t*)(buff), 
 											((uint64_t)(sector)*SECTOR_SIZE),
 											SECTOR_SIZE
 											,count);
 			}
 
-			if (status == SD_OK)	return RES_OK;
+			if (Status == SD_OK)	return RES_OK;
 			else					return RES_ERROR;
 		}
 	}

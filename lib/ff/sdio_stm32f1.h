@@ -2,7 +2,7 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
+    @version        12.00
     @date           2015.01.07
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
@@ -19,13 +19,14 @@
 		2014.03.21  V9.00   Optimized SourceCodes.
 		2014.11.18 V10.00   Added SD High Speed Mode(optional).
 		2015.01.06 V11.00   Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
+		2015.01.07 V12.00   Added Handling SD High Speed Mode description.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x1100
+#define __SDIO_STM32F1_H	0x1200
 
 #ifdef __cplusplus
  extern "C" {
@@ -42,9 +43,18 @@
 #define SD_DMA_MODE
 /*#define SD_POLLING_MODE*/
 
-/* Uncomment the following line to select the SD Nomal/High Speed Mode */  
+/* Uncomment the following line to select the SD Nomal/High Speed Mode */ 
+/* Notice !
+   STM32F1 Series can also set ClockBypass Enable.
+   But when CPU running at 72MHz, SDIO_CK reaches 72MHz.
+   This is excess over clocking!(SDIOCLK=HCLK=SDIO_CK on ClockBypass Enable)
+
+   Nemuisan set SDIO_CK to 36MHz MAX and ClockBypass Disable,and falling edge
+   when change into highspeedmode. 
+   Of cource this procedure is irregal situation.But works almost SDHC cards!. 
+*/
 #define SD_NS_MODE
-/*#define SD_HS_MODE*/
+//#define SD_HS_MODE
 
 /* Uncomment the following line to Disable Incert detection */  
 /*#define SDIO_INS_DETECT	*/						/* Enable SDIO Incert Detection */
@@ -343,17 +353,15 @@ typedef struct
 #define SDIO_INIT_CLK_DIV                ((uint8_t)0xB2)
 /** 
   * @brief  SDIO Data Transfer Frequency 
-  *         (SDIO_CK:24MHz in NomalMode,48MHz in HighSpeedMode)
+  *         (SDIO_CK:24MHz in NomalMode,36MHz in HighSpeedMode)
   *			PCLK2,SDIO_CK frequency must meets below equation.
   *           PCLK2 >= SDIO_CK * (3/8)
-  * 		PCLK2=72MHz,SDIO_CK can take upto 48MHz(72MHz>=(3/8)*48MHz=18MHz).
-  *  		PCLK2=24MHz,SDIO_CK can take upto 48MHz(24MHz>=(3/8)*48MHz=18MHz).       
+  * 		PCLK2=72MHz,SDIO_CK can take upto 36MHz(72MHz>=(3/8)*36MHz=13.5MHz).
+  *  		PCLK2=24MHz,SDIO_CK can take upto 36MHz(24MHz>=(3/8)*36MHz=13.5MHz).       
   */
-#if defined(SD_POLLING_MODE)
- #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1)	/* 72MHz/(1+2)= 24MHz */
-#else
- #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1) 	/* 72MHz/(1+2)= 24MHz */
-#endif
+/* On STM32F1, SDIOCLK=HCLK.And SDIO_CK = SDIOCLK/(CLK_DIV+2). */
+#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1) 	/* 72MHz(HCLK MAX Value)/(1+2)= 24MHz MAX in Nomal Mode */
+
 
 /* Function Prototypes */
 void SD_DeInit(void);

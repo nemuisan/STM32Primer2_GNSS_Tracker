@@ -1,5 +1,8 @@
+20150108 : 
+V30.00	Improved SD_HighSpeed Mode description(see sdio_stm32f1.c,h).
+
 20150106 : 
-V29.00	Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
+V29.00	Fixed SDIO_CK for suitable value(refered from RM0008_rev14).
 
 20141222 : 
 V28.00	Enforce WatchdogReset handlings.
