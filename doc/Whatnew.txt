@@ -1,5 +1,8 @@
+20150111 : 
+V31.00	Added buffered UART information(see uart_support_gps.c,h).
+
 20150108 : 
-V30.00	Improved SD_HighSpeed Mode description(see sdio_stm32f1.c,h).
+V30.00	Improved SD_HighSpeedMode description(see sdio_stm32f4c,h).
 
 20150106 : 
 V29.00	Fixed SDIO_CK for suitable value(refered from RM0008_rev14).

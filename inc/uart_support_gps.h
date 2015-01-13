@@ -2,21 +2,22 @@
 /*!
 	@file			uart_support_gps.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2014.04.20
+    @version        4.00
+    @date           2015.01.11
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
 		2012.01.31	V1.00	Start Here.
 		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
+		2015.01.11	V4.00	Added buffered UART information.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __UART_SUPPORT_GPS_H
-#define __UART_SUPPORT_GPS_H	0x0300
+#define __UART_SUPPORT_GPS_H	0x0400
 
 #ifdef __cplusplus
  extern "C" {
@@ -35,12 +36,13 @@
 #include "stm32f10x_conf.h"
 
 /* USART Definition */
-#define UART_BUFSIZE		256
+#define UART_BUFSIZE		512		/* Buffer size MUST Takes power of 2(64,128,256,512...) */
 #define UART_BAUDLATE		230400UL
 /*#define UART_HANDLING		UART_POLLING_MODE*/
 #define UART_HANDLING		UART_INTERRUPT_MODE
 
 #define UART_DEFAULT_NUM	2
+#define USARTx_Buf			USART2_Buf
 
 
 /* General Definition */
@@ -58,7 +60,7 @@ extern void (*xUART_IRQ)(void);
 extern void Flush_RXBuffer(void);
 extern uint8_t WaitTxBuffer(void);
 
-/* Structs of UART(This is From AVRX uC Sample!!!) */
+/* Structs of UART(This is Based on AVRX uC Sample!!!) */
 /* @brief USART transmit and receive ring buffer. */
 typedef struct USART_Buffer
 {
@@ -67,19 +69,18 @@ typedef struct USART_Buffer
 	/* @brief Transmit buffer. */
 	volatile uint8_t TX[UART_BUFSIZE];
 	/* @brief Receive buffer head. */
-	volatile uint16_t RX_Head;
+	volatile unsigned int RX_Head;
 	/* @brief Receive buffer tail. */
-	volatile uint16_t RX_Tail;
+	volatile unsigned int RX_Tail;
 	/* @brief Transmit buffer head. */
-	volatile uint16_t TX_Head;
+	volatile unsigned int TX_Head;
 	/* @brief Transmit buffer tail. */
-	volatile uint16_t TX_Tail;
+	volatile unsigned int TX_Tail;
 } USART_Buffer_t;
 
 /* Externs */
 extern USART_InitTypeDef USART_InitStructure;
-extern USART_Buffer_t USART1_Buf;
-extern USART_Buffer_t USART2_Buf;
+extern USART_Buffer_t USARTx_Buf;
 
 
 #ifdef __cplusplus

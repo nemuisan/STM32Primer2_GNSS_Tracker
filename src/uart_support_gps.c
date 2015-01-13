@@ -2,14 +2,15 @@
 /*!
 	@file			uart_support_gps.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2014.04.20
+    @version        4.00
+    @date           2015.01.11
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
 		2012.01.31	V1.00	Start Here.
 		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
+		2015.01.11	V4.00	Added buffered UART information.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -19,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "uart_support_gps.h"
 /* check header file version for fool proof */
-#if __UART_SUPPORT_GPS_H!= 0x0300
+#if __UART_SUPPORT_GPS_H!= 0x0400
 #error "header file version is not correspond!"
 #endif
 
@@ -29,7 +30,7 @@
 USART_InitTypeDef USART_InitStructure;
 static USART_TypeDef* UART;
 static USART_Buffer_t* pUSART_Buf;
-USART_Buffer_t USART2_Buf;
+USART_Buffer_t USARTx_Buf;
 
 /* Constants -----------------------------------------------------------------*/
 
@@ -114,11 +115,11 @@ void conio_init(uint32_t port, uint32_t baudrate)
 			USART_Init(UART, &USART_InitStructure);
 
 			/* Init Ring Buffer */
-			pUSART_Buf = &USART2_Buf;
-			USART2_Buf.RX_Tail = 0;
-			USART2_Buf.RX_Head = 0;
-			USART2_Buf.TX_Tail = 0;
-			USART2_Buf.TX_Head = 0;
+			pUSART_Buf = &USARTx_Buf;
+			USARTx_Buf.RX_Tail = 0;
+			USARTx_Buf.RX_Head = 0;
+			USARTx_Buf.TX_Tail = 0;
+			USARTx_Buf.TX_Head = 0;
 
 			/* Enable USART2 Receive interrupts */
 			USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
@@ -142,8 +143,8 @@ void conio_init(uint32_t port, uint32_t baudrate)
 bool USART_TXBuffer_FreeSpace(USART_Buffer_t* USART_buf)
 {
 	/* Make copies to make sure that volatile access is specified. */
-	uint8_t tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
-	uint8_t tempTail = USART_buf->TX_Tail;
+	unsigned int tempHead = (USART_buf->TX_Head + 1) & (UART_BUFSIZE-1);
+	unsigned int tempTail = USART_buf->TX_Tail;
 
 	/* There are data left in the buffer unless Head and Tail are equal. */
 	return (tempHead != tempTail);
@@ -157,7 +158,7 @@ bool USART_TXBuffer_FreeSpace(USART_Buffer_t* USART_buf)
 bool USART_TXBuffer_PutByte(USART_Buffer_t* USART_buf, uint8_t data)
 {
 
-	uint8_t tempTX_Head;
+	unsigned int tempTX_Head;
 	bool TXBuffer_FreeSpace;
 
 	TXBuffer_FreeSpace = USART_TXBuffer_FreeSpace(USART_buf);
@@ -187,8 +188,8 @@ bool USART_TXBuffer_PutByte(USART_Buffer_t* USART_buf, uint8_t data)
 bool USART_RXBufferData_Available(USART_Buffer_t* USART_buf)
 {
 	/* Make copies to make sure that volatile access is specified. */
-	uint8_t tempHead = USART_buf->RX_Head;
-	uint8_t tempTail = USART_buf->RX_Tail;
+	unsigned int tempHead = USART_buf->RX_Head;
+	unsigned int tempTail = USART_buf->RX_Tail;
 
 	/* There are data left in the buffer unless Head and Tail are equal. */
 	return (tempHead != tempTail);
@@ -247,7 +248,7 @@ uint8_t getch(void)
 #else
 	/* Polling version */
 	while (!(UART->SR & USART_FLAG_RXNE));
-	return (uint8_t)(USART->DR);
+	return (uint8_t)(UART->DR);
 #endif
 }
 
@@ -260,9 +261,9 @@ uint8_t getch(void)
 uint8_t keypressed(void)
 {
 #if (UART_HANDLING == UART_INTERRUPT_MODE)
-  return (USART_RXBufferData_Available(pUSART_Buf));
+	return (USART_RXBufferData_Available(pUSART_Buf));
 #else
-  return (UART->SR & USART_FLAG_RXNE);
+	return (UART->SR & USART_FLAG_RXNE);
 #endif
 }
 
@@ -274,8 +275,8 @@ uint8_t keypressed(void)
 /* Send a string */
 void cputs(char *s)
 {
-  while (*s)
-    putch(*s++);
+	while (*s)
+		putch(*s++);
 }
 
 /**************************************************************************/
@@ -286,50 +287,50 @@ void cputs(char *s)
 /* Receive a string, with rudimentary line editing */
 void cgets(char *s, int bufsize)
 {
-  char *p;
-  int c;
+	char *p;
+	int c;
 
-  memset(s, 0, bufsize);
+	memset(s, 0, bufsize);
 
-  p = s;
+	p = s;
 
-  for (p = s; p < s + bufsize-1;)
-  {
-    /* 20090521Nemui */
-	do{		
-		c = getch();
-	}while(c == false);
-	/* 20090521Nemui */
-    switch (c)
-    {
-      case '\r' :
-      case '\n' :
-        putch('\r');
-        putch('\n');
-        *p = '\n';
-        return;
+	for (p = s; p < s + bufsize-1;)
+	{
+		/* 20090521Nemui */
+		do{		
+			c = getch();
+		}while(c == false);
+		/* 20090521Nemui */
+		switch (c)
+		{
+		  case '\r' :
+		  case '\n' :
+			putch('\r');
+			putch('\n');
+			*p = '\n';
+			return;
 
-      case '\b' :
-        if (p > s)
-        {
-          *p-- = 0;
-          putch('\b');
-          putch(' ');
-          putch('\b');
-        }
-        break;
+		  case '\b' :
+			if (p > s)
+			{
+			  *p-- = 0;
+			  putch('\b');
+			  putch(' ');
+			  putch('\b');
+			}
+			break;
 
-      default :
-        putch(c);
-        *p++ = c;
-        break;
-    }
-  }
+		  default :
+			putch(c);
+			*p++ = c;
+			break;
+		}
+	}
 
-  return;
 }
 
 
+#if (UART_HANDLING == UART_INTERRUPT_MODE)
 /**************************************************************************/
 /*! 
     Interrupt handlers.
@@ -340,18 +341,18 @@ void conio_IRQ(void)
 	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
 	{
 		/* Advance buffer head. */
-		uint16_t tempRX_Head = ((&USART2_Buf)->RX_Head + 1) & (UART_BUFSIZE-1);
+		unsigned int tempRX_Head = ((&USARTx_Buf)->RX_Head + 1) & (UART_BUFSIZE-1);
 
 		/* Check for overflow. */
-		uint16_t tempRX_Tail = (&USART2_Buf)->RX_Tail;
+		unsigned int tempRX_Tail = (&USARTx_Buf)->RX_Tail;
 		uint8_t data =  USART_ReceiveData(USART2);
 
 		if (tempRX_Head == tempRX_Tail) {
 			/* Disable the USART2 Receive interrupt */
 			USART_ITConfig(USART2, USART_IT_RXNE, DISABLE);
 		}else{
-			(&USART2_Buf)->RX[(&USART2_Buf)->RX_Head] = data;
-			(&USART2_Buf)->RX_Head = tempRX_Head;
+			(&USARTx_Buf)->RX[(&USARTx_Buf)->RX_Head] = data;
+			(&USARTx_Buf)->RX_Head = tempRX_Head;
 		}
 	}
 
@@ -359,23 +360,22 @@ void conio_IRQ(void)
 	{   
 
 		/* Check if all data is transmitted. */
-		uint16_t tempTX_Tail = (&USART2_Buf)->TX_Tail;
-		if ((&USART2_Buf)->TX_Head == tempTX_Tail){
+		unsigned int tempTX_Tail = (&USARTx_Buf)->TX_Tail;
+		if ((&USARTx_Buf)->TX_Head == tempTX_Tail){
 			/* Overflow MAX size Situation */
 			/* Disable the USART2 Transmit interrupt */
 			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
 		}else{
 			/* Start transmitting. */
-			uint8_t data = (&USART2_Buf)->TX[(&USART2_Buf)->TX_Tail];
+			uint8_t data = (&USARTx_Buf)->TX[(&USARTx_Buf)->TX_Tail];
 			USART2->DR = data;
 
 			/* Advance buffer tail. */
-			(&USART2_Buf)->TX_Tail = ((&USART2_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
+			(&USARTx_Buf)->TX_Tail = ((&USARTx_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
 		}
 
 	}
 }
-
 
 /**************************************************************************/
 /*! 
@@ -388,6 +388,7 @@ void USART2_IRQHandler(void)
 {
 	xUART_IRQ();
 }
+#endif
 
 /**************************************************************************/
 /*! 
@@ -416,7 +417,7 @@ void Flush_RXBuffer(void)
 uint8_t WaitTxBuffer(void)
 {
 	/* Return 1 If All Character send */
-	uint16_t tempTX_Tail = pUSART_Buf->TX_Tail;
+	unsigned int tempTX_Tail = pUSART_Buf->TX_Tail;
 	return (pUSART_Buf->TX_Head == tempTX_Tail);
 }
 
