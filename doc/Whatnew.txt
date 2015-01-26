@@ -1,3 +1,7 @@
+20150123 : 
+V32.00	Improved SDIO_CK's description(see sdio_stm32f1.c,h
+         only added comments, only date swap).
+
 20150115 : 
 V31.50	Fixed typo some documents.
 

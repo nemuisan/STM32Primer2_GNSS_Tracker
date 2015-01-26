@@ -3,7 +3,7 @@
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
     @version        12.00
-    @date           2015.01.07
+    @date           2015.01.23
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -19,7 +19,7 @@
 		2014.03.21  V9.00   Optimized SourceCodes.
 		2014.11.18 V10.00   Added SD High Speed Mode(optional).
 		2015.01.06 V11.00   Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
-		2015.01.07 V12.00   Added Handling SD High Speed Mode description.
+		2015.01.23 V12.00   Added Handling SD High Speed Mode description.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -350,7 +350,7 @@ typedef struct
 /** 
   * @brief  SDIO Intialization Frequency (400KHz max)
   */
-#define SDIO_INIT_CLK_DIV                ((uint8_t)0xB2)
+#define SDIO_INIT_CLK_DIV                ((uint8_t)0xB2)	/* 72MHz(HCLK MAX Value)/(178+2)= 0.4MHz */
 /** 
   * @brief  SDIO Data Transfer Frequency 
   *         (SDIO_CK:24MHz in NomalMode,36MHz in HighSpeedMode)
