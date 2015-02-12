@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2015.01.23
+    @version        13.00
+    @date           2015.02.14
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -20,6 +20,7 @@
 		2014.11.18 V10.00   Added SD High Speed Mode(optional).
 		2015.01.06 V11.00   Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
 		2015.01.23 V12.00   Added Handling SD High Speed Mode description.
+		2015.02.14 V13.00	Optimized global structures.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -29,7 +30,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x1200
+#if __SDIO_STM32F1_H!= 0x1300
 #error "header file version is not correspond!"
 #endif
 
@@ -124,14 +125,19 @@ uint32_t *SrcBuffer, *DestBuffer;
 __IO SD_Error TransferError = SD_OK;
 __IO uint32_t TransferEnd = 0;
 __IO uint32_t NumberOfBytes = 0;
+
+/* SDCard Structures */
 SD_CardInfo SDCardInfo;
+SD_CardStatus SDCardStatus;
 SDIO_InitTypeDef SDIO_InitStructure;
 SDIO_CmdInitTypeDef SDIO_CmdInitStructure;
 SDIO_DataInitTypeDef SDIO_DataInitStructure;
-
+#if defined(SD_DMA_MODE)
+DMA_InitTypeDef SDDMA_InitStructure;
+#endif
+	
 /* FatFs Glue */
 volatile SD_Error Status = SD_OK;
-SD_CardStatus SDCardStatus;
 static volatile DSTATUS Stat = STA_NOINIT;	/* Disk status */
 static volatile uint32_t Timer1, Timer2;	/* 100Hz decrement timers */
 
@@ -228,10 +234,23 @@ SD_Error SD_Init(void)
 	/*!< Enable the SDIO AHB Clock */
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_SDIO, ENABLE);
 
+#if defined(SD_DMA_MODE)
 	/*!< Enable the DMA2 Clock */
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE);
+	/* Initialize SDDMA Structure */
+	SDDMA_InitStructure.DMA_PeripheralBaseAddr 	= (uint32_t)SDIO_FIFO_ADDRESS;
+	SDDMA_InitStructure.DMA_MemoryBaseAddr 		= 0;
+	SDDMA_InitStructure.DMA_DIR 				= DMA_DIR_PeripheralSRC;
+	SDDMA_InitStructure.DMA_BufferSize 			= 0;
+	SDDMA_InitStructure.DMA_PeripheralInc 		= DMA_PeripheralInc_Disable;
+	SDDMA_InitStructure.DMA_MemoryInc 			= DMA_MemoryInc_Enable;
+	SDDMA_InitStructure.DMA_PeripheralDataSize 	= DMA_PeripheralDataSize_Word;
+	SDDMA_InitStructure.DMA_MemoryDataSize 		= DMA_MemoryDataSize_Word;
+	SDDMA_InitStructure.DMA_Mode 				= DMA_Mode_Normal;
+	SDDMA_InitStructure.DMA_Priority 			= DMA_Priority_High;
+	SDDMA_InitStructure.DMA_M2M 				= DMA_M2M_Disable;
+#endif
 	/* End of LowLevel Init */
-
 
 	SDIO_DeInit();
 
@@ -3122,26 +3141,16 @@ static uint8_t convert_from_bytes_to_power_of_two(uint16_t NumberOfBytes)
 /**************************************************************************/
 void SD_LowLevel_DMA_TxConfig(uint32_t *BufferSRC, uint32_t BufferSize)
 {
-	DMA_InitTypeDef DMA_InitStructure;
-
 	DMA_ClearFlag(DMA2_FLAG_TC4 | DMA2_FLAG_TE4 | DMA2_FLAG_HT4 | DMA2_FLAG_GL4);
 
 	/*!< DMA2 Channel4 disable */
 	DMA_Cmd(DMA2_Channel4, DISABLE);
 
 	/*!< DMA2 Channel4 Config */
-	DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SDIO_FIFO_ADDRESS;
-	DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)BufferSRC;
-	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
-	DMA_InitStructure.DMA_BufferSize = BufferSize / 4;
-	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
-	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
-	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;
-	DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
-	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
-	DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-	DMA_Init(DMA2_Channel4, &DMA_InitStructure);
+	SDDMA_InitStructure.DMA_MemoryBaseAddr 	= (uint32_t)BufferSRC;
+	SDDMA_InitStructure.DMA_DIR 			= DMA_DIR_PeripheralDST;
+	SDDMA_InitStructure.DMA_BufferSize 		= BufferSize / 4;
+	DMA_Init(DMA2_Channel4, &SDDMA_InitStructure);
 
 	/*!< DMA2 Channel4 enable */
 	DMA_Cmd(DMA2_Channel4, ENABLE);  
@@ -3158,26 +3167,16 @@ void SD_LowLevel_DMA_TxConfig(uint32_t *BufferSRC, uint32_t BufferSize)
 /**************************************************************************/
 void SD_LowLevel_DMA_RxConfig(uint32_t *BufferDST, uint32_t BufferSize)
 {
-	DMA_InitTypeDef DMA_InitStructure;
-
 	DMA_ClearFlag(DMA2_FLAG_TC4 | DMA2_FLAG_TE4 | DMA2_FLAG_HT4 | DMA2_FLAG_GL4);
 
 	/*!< DMA2 Channel4 disable */
 	DMA_Cmd(DMA2_Channel4, DISABLE);
 
 	/*!< DMA2 Channel4 Config */
-	DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SDIO_FIFO_ADDRESS;
-	DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)BufferDST;
-	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-	DMA_InitStructure.DMA_BufferSize = BufferSize / 4;
-	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
-	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
-	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;
-	DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
-	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
-	DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-	DMA_Init(DMA2_Channel4, &DMA_InitStructure);
+	SDDMA_InitStructure.DMA_MemoryBaseAddr 	= (uint32_t)BufferDST;
+	SDDMA_InitStructure.DMA_DIR 			= DMA_DIR_PeripheralSRC;
+	SDDMA_InitStructure.DMA_BufferSize 		= BufferSize / 4;
+	DMA_Init(DMA2_Channel4, &SDDMA_InitStructure);
 
 	/*!< DMA2 Channel4 enable */
 	DMA_Cmd(DMA2_Channel4, ENABLE); 
@@ -3456,7 +3455,25 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 			  return RES_OK;
 			/* Following command are not used by FatFs module */
 			case MMC_GET_TYPE :		/* Get MMC/SDC type (uint8_t) */
-				*(uint8_t*)buff = SDCardInfo.CardType;
+				switch (SDCardInfo.CardType)
+				{
+					case SDIO_STD_CAPACITY_SD_CARD_V1_1:
+						*(uint8_t*)buff = CT_SD1;
+						break;
+					case SDIO_STD_CAPACITY_SD_CARD_V2_0:
+						*(uint8_t*)buff = CT_SD2;
+						break;
+					case SDIO_HIGH_CAPACITY_SD_CARD:
+						*(uint8_t*)buff = CT_SD2 | CT_BLOCK;
+						break;
+					case SDIO_MULTIMEDIA_CARD:
+					case SDIO_HIGH_SPEED_MULTIMEDIA_CARD:
+					case SDIO_HIGH_CAPACITY_MMC_CARD:
+						*(uint8_t*)buff = CT_MMC;
+						break;
+					default:
+						*(uint8_t*)buff = 0;
+				}
 				return RES_OK;
 			case MMC_GET_CSD :		/* Read CSD (16 bytes) */
 				memcpy((void *)buff,&SDCardInfo.SD_csd,16);

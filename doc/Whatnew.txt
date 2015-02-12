@@ -1,3 +1,7 @@
+20150214 : 
+V33.00	Adopted FatFs0.11.
+		Optimized global structures(see sdio_stm32f1.c,h).
+
 20150123 : 
 V32.00	Improved SDIO_CK's description(see sdio_stm32f1.c,h
          only added comments, only date swap).
