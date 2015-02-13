@@ -37,7 +37,7 @@
 
 /* USART Definition */
 #define UART_BUFSIZE		512		/* Buffer size MUST Takes power of 2(64,128,256,512...) */
-#define UART_BAUDLATE		230400UL
+#define UART_BAUDRATE		230400UL
 /*#define UART_HANDLING		UART_POLLING_MODE*/
 #define UART_HANDLING		UART_INTERRUPT_MODE
 
