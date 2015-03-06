@@ -26,7 +26,7 @@
 */
 /********************************************************************************/
 #ifndef __GPS_SUPPORT_H
-#define __GPS_SUPPORT_H	0x0900
+#define __GPS_SUPPORT_H	0x1000
 
 #ifdef __cplusplus
  extern "C" {

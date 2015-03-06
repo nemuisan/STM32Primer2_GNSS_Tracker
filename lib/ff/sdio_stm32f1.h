@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        13.00
-    @date           2015.02.14
+    @version        14.00
+    @date           2015.03.14
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -21,13 +21,14 @@
 		2015.01.06 V11.00   Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
 		2015.01.23 V12.00   Added Handling SD High Speed Mode description.
 		2015.02.14 V13.00	Optimized global structures.
+		2015.03.14 V14.00	Removed unused code and improve stability on polling/dma mode.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x1300
+#define __SDIO_STM32F1_H	0x1400
 
 #ifdef __cplusplus
  extern "C" {
@@ -38,11 +39,10 @@
 #include <string.h>
 #include "stm32f10x.h"
 #include "diskio.h"
-
  
 /* Uncomment the following line to select the SDIO Data transfer mode */ 
 #define SD_DMA_MODE
-/*#define SD_POLLING_MODE*/
+//#define SD_POLLING_MODE
 
 /* Uncomment the following line to select the SD Nomal/High Speed Mode */ 
 /* Notice !
@@ -361,8 +361,11 @@ typedef struct
   *  		PCLK2=24MHz,SDIO_CK can take upto 36MHz(24MHz>=(3/8)*36MHz=13.5MHz).       
   */
 /* On STM32F1, SDIOCLK=HCLK.And SDIO_CK = SDIOCLK/(CLK_DIV+2). */
-#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1) 	/* 72MHz(HCLK MAX Value)/(1+2)= 24MHz MAX in Nomal Mode */
-
+#ifdef SD_DMA_MODE
+ #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1) 	/* 72MHz(HCLK MAX Value)/(1+2)= 24MHz MAX in Nomal Mode */
+#else /* SD_POLLING_MODE */
+ #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x4) 	/* 72MHz(HCLK MAX Value)/(4+2)= 12MHz MAX in PollingMode(due to TX/RX OVERRUN) */
+#endif
 
 /* Function Prototypes */
 void SD_DeInit(void);

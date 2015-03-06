@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version33.00
+APP_VER = Version34.00
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
 MPU_MODEL		= STM32F10X_HD
@@ -200,6 +200,7 @@ CFILES += \
  $(FATFS)/ff_rtc_if.c 					\
  $(FATFS)/option/syscall.c				\
  $(FATFS)/option/unicode.c
+SFILES += $(FATFS)/up_memcpy.s
 
 #/*----- USB-Function library PATH -----*/
 USBFUNC = ./lib/USB_Functions

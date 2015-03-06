@@ -63,6 +63,13 @@ Those sourcecode are included in this project.
   http://avr.paslog.jp
   This code is licensed under the BSD License.
 
+* up_memcpy.S
+  An optimized memcpy() function for the ARMv7-M family
+   contributed by Mike Smith.
+  This code is licensed under the BSD License.
+  see ./lib/ff/up_memcpy.s.
+
+
 --- FONTFILES ---
 * M+ Bitmap Fonts for FONTX2 is free font.
   http://members.at.infoseek.co.jp/yu_izumi/mplus/index.html

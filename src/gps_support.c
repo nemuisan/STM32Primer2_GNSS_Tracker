@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2013.10.09
+    @version        10.00
+    @date           2015.02.28
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -20,6 +20,7 @@
 		2013.02.20  V7.00   Added Some MT3339/MT3333 Commands.
 		2013.04.10  V8.00   Changed UART-Retarget Method.
 		2013.10.09	V9.00	Adopted FatFs0.10.
+		2015.02.28 V10.00	Buffer aligned by 4Byte.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -29,7 +30,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gps_support.h"
 /* check header file version for fool proof */
-#if __GPS_SUPPORT_H!= 0x0900
+#if __GPS_SUPPORT_H!= 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -70,12 +71,16 @@
 #define PMTK_API_SET_SUPPORT_QZSS_NMEA		"$PMTK351"
 #define PMTK_API_SET_STOP_QZSS				"$PMTK352"
 
+/* STM32 SDIO+DMA Transfer MUST need 4byte alignmanet */
+/* and MUST need 4byte-packed alignment */
+#define __ATTR_MEM	__attribute__ ((aligned (4)))
+
 /* Variables -----------------------------------------------------------------*/
 FF_RTC ff_rtc;						/* See ff_rtc_if.h */
 FATFS FatFs[_VOLUMES];				/* File system object for each logical drive */
 FIL File1;							/* File objects */
 DIR Dir;							/* Directory object */
-uint8_t Buff[512]; 					/* Working buffer */
+uint8_t Buff[512] __ATTR_MEM; 		/* Working buffer(MUST be 4byte aligned) */
 volatile UINT Timer;				/* Performance timer (1kHz increment) */
 volatile UINT l_stat=STBY_STATE;	/* Avoid f_close() Foolproof */
 volatile UINT ack_limit;			/* Acklowledge Limit */
@@ -201,6 +206,7 @@ static uint8_t get_line_GPS(void)
 		if (c == '\n') break;
 		if (i >= sizeof(Buff)) i = 0;
 	}
+
 	return i;
 }
 
