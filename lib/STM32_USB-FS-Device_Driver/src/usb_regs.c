@@ -30,13 +30,15 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+#define OPT_OUT	__attribute__((optimize("O0")))	/* 20150320 Nemui Added instead of No-Optimization pragma */
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Extern variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-#pragma GCC push_options	/* 20141217 Nemui Added No Optimization pragma */
-#pragma GCC optimize ("O0") /* 20141217 Nemui Added No Optimization pragma */
+//#pragma GCC push_options	/* 20141217 Nemui Added No Optimization pragma */
+//#pragma GCC optimize ("O0") /* 20141217 Nemui Added No Optimization pragma */
 /*******************************************************************************
 * Function Name  : SetCNTR.
 * Description    : Set the CNTR register value.
@@ -44,7 +46,7 @@
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetCNTR(uint16_t wRegValue)
+void OPT_OUT SetCNTR(uint16_t wRegValue)
 {
   _SetCNTR(wRegValue);
 }
@@ -56,7 +58,7 @@ void SetCNTR(uint16_t wRegValue)
 * Output         : None.
 * Return         : CNTR register Value.
 *******************************************************************************/
-uint16_t GetCNTR(void)
+uint16_t OPT_OUT GetCNTR(void)
 {
   return(_GetCNTR());
 }
@@ -68,7 +70,7 @@ uint16_t GetCNTR(void)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetISTR(uint16_t wRegValue)
+void OPT_OUT SetISTR(uint16_t wRegValue)
 {
   _SetISTR(wRegValue);
 }
@@ -80,7 +82,7 @@ void SetISTR(uint16_t wRegValue)
 * Output         : None.
 * Return         : ISTR register Value
 *******************************************************************************/
-uint16_t GetISTR(void)
+uint16_t OPT_OUT GetISTR(void)
 {
   return(_GetISTR());
 }
@@ -92,7 +94,7 @@ uint16_t GetISTR(void)
 * Output         : None.
 * Return         : FNR register Value
 *******************************************************************************/
-uint16_t GetFNR(void)
+uint16_t OPT_OUT GetFNR(void)
 {
   return(_GetFNR());
 }
@@ -104,7 +106,7 @@ uint16_t GetFNR(void)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetDADDR(uint16_t wRegValue)
+void OPT_OUT SetDADDR(uint16_t wRegValue)
 {
   _SetDADDR(wRegValue);
 }
@@ -116,7 +118,7 @@ void SetDADDR(uint16_t wRegValue)
 * Output         : None.
 * Return         : DADDR register Value
 *******************************************************************************/
-uint16_t GetDADDR(void)
+uint16_t OPT_OUT GetDADDR(void)
 {
   return(_GetDADDR());
 }
@@ -128,7 +130,7 @@ uint16_t GetDADDR(void)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetBTABLE(uint16_t wRegValue)
+void OPT_OUT SetBTABLE(uint16_t wRegValue)
 {
   _SetBTABLE(wRegValue);
 }
@@ -140,7 +142,7 @@ void SetBTABLE(uint16_t wRegValue)
 * Output         : None.
 * Return         : BTABLE address.
 *******************************************************************************/
-uint16_t GetBTABLE(void)
+uint16_t OPT_OUT GetBTABLE(void)
 {
   return(_GetBTABLE());
 }
@@ -153,7 +155,7 @@ uint16_t GetBTABLE(void)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetENDPOINT(uint8_t bEpNum, uint16_t wRegValue)
+void OPT_OUT SetENDPOINT(uint8_t bEpNum, uint16_t wRegValue)
 {
   _SetENDPOINT(bEpNum, wRegValue);
 }
@@ -165,7 +167,7 @@ void SetENDPOINT(uint8_t bEpNum, uint16_t wRegValue)
 * Output         : None.
 * Return         : Endpoint register value.
 *******************************************************************************/
-uint16_t GetENDPOINT(uint8_t bEpNum)
+uint16_t OPT_OUT GetENDPOINT(uint8_t bEpNum)
 {
   return(_GetENDPOINT(bEpNum));
 }
@@ -178,7 +180,7 @@ uint16_t GetENDPOINT(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPType(uint8_t bEpNum, uint16_t wType)
+void OPT_OUT SetEPType(uint8_t bEpNum, uint16_t wType)
 {
   _SetEPType(bEpNum, wType);
 }
@@ -190,7 +192,7 @@ void SetEPType(uint8_t bEpNum, uint16_t wType)
 * Output         : None.
 * Return         : Endpoint Type
 *******************************************************************************/
-uint16_t GetEPType(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPType(uint8_t bEpNum)
 {
   return(_GetEPType(bEpNum));
 }
@@ -203,7 +205,7 @@ uint16_t GetEPType(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPTxStatus(uint8_t bEpNum, uint16_t wState)
+void OPT_OUT SetEPTxStatus(uint8_t bEpNum, uint16_t wState)
 {
   _SetEPTxStatus(bEpNum, wState);
 }
@@ -216,7 +218,7 @@ void SetEPTxStatus(uint8_t bEpNum, uint16_t wState)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPRxStatus(uint8_t bEpNum, uint16_t wState)
+void OPT_OUT SetEPRxStatus(uint8_t bEpNum, uint16_t wState)
 {
   _SetEPRxStatus(bEpNum, wState);
 }
@@ -229,7 +231,7 @@ void SetEPRxStatus(uint8_t bEpNum, uint16_t wState)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetDouBleBuffEPStall(uint8_t bEpNum, uint8_t bDir)
+void OPT_OUT SetDouBleBuffEPStall(uint8_t bEpNum, uint8_t bDir)
 {
   uint16_t Endpoint_DTOG_Status;
   Endpoint_DTOG_Status = GetENDPOINT(bEpNum);
@@ -250,7 +252,7 @@ void SetDouBleBuffEPStall(uint8_t bEpNum, uint8_t bDir)
 * Output         : None.
 * Return         : Endpoint TX Status
 *******************************************************************************/
-uint16_t GetEPTxStatus(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPTxStatus(uint8_t bEpNum)
 {
   return(_GetEPTxStatus(bEpNum));
 }
@@ -262,7 +264,7 @@ uint16_t GetEPTxStatus(uint8_t bEpNum)
 * Output         : None.
 * Return         : Endpoint RX Status
 *******************************************************************************/
-uint16_t GetEPRxStatus(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPRxStatus(uint8_t bEpNum)
 {
   return(_GetEPRxStatus(bEpNum));
 }
@@ -274,7 +276,7 @@ uint16_t GetEPRxStatus(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPTxValid(uint8_t bEpNum)
+void OPT_OUT SetEPTxValid(uint8_t bEpNum)
 {
   _SetEPTxStatus(bEpNum, EP_TX_VALID);
 }
@@ -286,7 +288,7 @@ void SetEPTxValid(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPRxValid(uint8_t bEpNum)
+void OPT_OUT SetEPRxValid(uint8_t bEpNum)
 {
   _SetEPRxStatus(bEpNum, EP_RX_VALID);
 }
@@ -298,7 +300,7 @@ void SetEPRxValid(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEP_KIND(uint8_t bEpNum)
+void OPT_OUT SetEP_KIND(uint8_t bEpNum)
 {
   _SetEP_KIND(bEpNum);
 }
@@ -310,7 +312,7 @@ void SetEP_KIND(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void ClearEP_KIND(uint8_t bEpNum)
+void OPT_OUT ClearEP_KIND(uint8_t bEpNum)
 {
   _ClearEP_KIND(bEpNum);
 }
@@ -321,7 +323,7 @@ void ClearEP_KIND(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void Clear_Status_Out(uint8_t bEpNum)
+void OPT_OUT Clear_Status_Out(uint8_t bEpNum)
 {
   _ClearEP_KIND(bEpNum);
 }
@@ -332,7 +334,7 @@ void Clear_Status_Out(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void Set_Status_Out(uint8_t bEpNum)
+void OPT_OUT Set_Status_Out(uint8_t bEpNum)
 {
   _SetEP_KIND(bEpNum);
 }
@@ -343,7 +345,7 @@ void Set_Status_Out(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPDoubleBuff(uint8_t bEpNum)
+void OPT_OUT SetEPDoubleBuff(uint8_t bEpNum)
 {
   _SetEP_KIND(bEpNum);
 }
@@ -354,7 +356,7 @@ void SetEPDoubleBuff(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void ClearEPDoubleBuff(uint8_t bEpNum)
+void OPT_OUT ClearEPDoubleBuff(uint8_t bEpNum)
 {
   _ClearEP_KIND(bEpNum);
 }
@@ -365,7 +367,7 @@ void ClearEPDoubleBuff(uint8_t bEpNum)
 * Output         : None.
 * Return         : Tx Stall status.
 *******************************************************************************/
-uint16_t GetTxStallStatus(uint8_t bEpNum)
+uint16_t OPT_OUT GetTxStallStatus(uint8_t bEpNum)
 {
   return(_GetTxStallStatus(bEpNum));
 }
@@ -376,7 +378,7 @@ uint16_t GetTxStallStatus(uint8_t bEpNum)
 * Output         : None.
 * Return         : Rx Stall status.
 *******************************************************************************/
-uint16_t GetRxStallStatus(uint8_t bEpNum)
+uint16_t OPT_OUT GetRxStallStatus(uint8_t bEpNum)
 {
   return(_GetRxStallStatus(bEpNum));
 }
@@ -387,7 +389,7 @@ uint16_t GetRxStallStatus(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void ClearEP_CTR_RX(uint8_t bEpNum)
+void OPT_OUT ClearEP_CTR_RX(uint8_t bEpNum)
 {
   _ClearEP_CTR_RX(bEpNum);
 }
@@ -398,7 +400,7 @@ void ClearEP_CTR_RX(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void ClearEP_CTR_TX(uint8_t bEpNum)
+void OPT_OUT ClearEP_CTR_TX(uint8_t bEpNum)
 {
   _ClearEP_CTR_TX(bEpNum);
 }
@@ -409,7 +411,7 @@ void ClearEP_CTR_TX(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void ToggleDTOG_RX(uint8_t bEpNum)
+void OPT_OUT ToggleDTOG_RX(uint8_t bEpNum)
 {
   _ToggleDTOG_RX(bEpNum);
 }
@@ -420,7 +422,7 @@ void ToggleDTOG_RX(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void ToggleDTOG_TX(uint8_t bEpNum)
+void OPT_OUT ToggleDTOG_TX(uint8_t bEpNum)
 {
   _ToggleDTOG_TX(bEpNum);
 }
@@ -431,7 +433,7 @@ void ToggleDTOG_TX(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void ClearDTOG_RX(uint8_t bEpNum)
+void OPT_OUT ClearDTOG_RX(uint8_t bEpNum)
 {
   _ClearDTOG_RX(bEpNum);
 }
@@ -442,7 +444,7 @@ void ClearDTOG_RX(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void ClearDTOG_TX(uint8_t bEpNum)
+void OPT_OUT ClearDTOG_TX(uint8_t bEpNum)
 {
   _ClearDTOG_TX(bEpNum);
 }
@@ -454,7 +456,7 @@ void ClearDTOG_TX(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPAddress(uint8_t bEpNum, uint8_t bAddr)
+void OPT_OUT SetEPAddress(uint8_t bEpNum, uint8_t bAddr)
 {
   _SetEPAddress(bEpNum, bAddr);
 }
@@ -465,7 +467,7 @@ void SetEPAddress(uint8_t bEpNum, uint8_t bAddr)
 * Output         : None.
 * Return         : Endpoint address.
 *******************************************************************************/
-uint8_t GetEPAddress(uint8_t bEpNum)
+uint8_t OPT_OUT GetEPAddress(uint8_t bEpNum)
 {
   return(_GetEPAddress(bEpNum));
 }
@@ -477,7 +479,7 @@ uint8_t GetEPAddress(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPTxAddr(uint8_t bEpNum, uint16_t wAddr)
+void OPT_OUT SetEPTxAddr(uint8_t bEpNum, uint16_t wAddr)
 {
   _SetEPTxAddr(bEpNum, wAddr);
 }
@@ -489,7 +491,7 @@ void SetEPTxAddr(uint8_t bEpNum, uint16_t wAddr)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPRxAddr(uint8_t bEpNum, uint16_t wAddr)
+void OPT_OUT SetEPRxAddr(uint8_t bEpNum, uint16_t wAddr)
 {
   _SetEPRxAddr(bEpNum, wAddr);
 }
@@ -500,7 +502,7 @@ void SetEPRxAddr(uint8_t bEpNum, uint16_t wAddr)
 * Output         : None.
 * Return         : Rx buffer address. 
 *******************************************************************************/
-uint16_t GetEPTxAddr(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPTxAddr(uint8_t bEpNum)
 {
   return(_GetEPTxAddr(bEpNum));
 }
@@ -511,7 +513,7 @@ uint16_t GetEPTxAddr(uint8_t bEpNum)
 * Output         : None.
 * Return         : Rx buffer address.
 *******************************************************************************/
-uint16_t GetEPRxAddr(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPRxAddr(uint8_t bEpNum)
 {
   return(_GetEPRxAddr(bEpNum));
 }
@@ -523,7 +525,7 @@ uint16_t GetEPRxAddr(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPTxCount(uint8_t bEpNum, uint16_t wCount)
+void OPT_OUT SetEPTxCount(uint8_t bEpNum, uint16_t wCount)
 {
   _SetEPTxCount(bEpNum, wCount);
 }
@@ -535,7 +537,7 @@ void SetEPTxCount(uint8_t bEpNum, uint16_t wCount)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPCountRxReg(uint32_t *pdwReg, uint16_t wCount)
+void OPT_OUT SetEPCountRxReg(uint32_t *pdwReg, uint16_t wCount)
 {
   _SetEPCountRxReg(dwReg, wCount);
 }
@@ -547,7 +549,7 @@ void SetEPCountRxReg(uint32_t *pdwReg, uint16_t wCount)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPRxCount(uint8_t bEpNum, uint16_t wCount)
+void OPT_OUT SetEPRxCount(uint8_t bEpNum, uint16_t wCount)
 {
   _SetEPRxCount(bEpNum, wCount);
 }
@@ -558,7 +560,7 @@ void SetEPRxCount(uint8_t bEpNum, uint16_t wCount)
 * Output         : None
 * Return         : Tx count value.
 *******************************************************************************/
-uint16_t GetEPTxCount(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPTxCount(uint8_t bEpNum)
 {
   return(_GetEPTxCount(bEpNum));
 }
@@ -569,7 +571,7 @@ uint16_t GetEPTxCount(uint8_t bEpNum)
 * Output         : None.
 * Return         : Rx count value.
 *******************************************************************************/
-uint16_t GetEPRxCount(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPRxCount(uint8_t bEpNum)
 {
   return(_GetEPRxCount(bEpNum));
 }
@@ -582,7 +584,7 @@ uint16_t GetEPRxCount(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPDblBuffAddr(uint8_t bEpNum, uint16_t wBuf0Addr, uint16_t wBuf1Addr)
+void OPT_OUT SetEPDblBuffAddr(uint8_t bEpNum, uint16_t wBuf0Addr, uint16_t wBuf1Addr)
 {
   _SetEPDblBuffAddr(bEpNum, wBuf0Addr, wBuf1Addr);
 }
@@ -594,7 +596,7 @@ void SetEPDblBuffAddr(uint8_t bEpNum, uint16_t wBuf0Addr, uint16_t wBuf1Addr)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPDblBuf0Addr(uint8_t bEpNum, uint16_t wBuf0Addr)
+void OPT_OUT SetEPDblBuf0Addr(uint8_t bEpNum, uint16_t wBuf0Addr)
 {
   _SetEPDblBuf0Addr(bEpNum, wBuf0Addr);
 }
@@ -606,7 +608,7 @@ void SetEPDblBuf0Addr(uint8_t bEpNum, uint16_t wBuf0Addr)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPDblBuf1Addr(uint8_t bEpNum, uint16_t wBuf1Addr)
+void OPT_OUT SetEPDblBuf1Addr(uint8_t bEpNum, uint16_t wBuf1Addr)
 {
   _SetEPDblBuf1Addr(bEpNum, wBuf1Addr);
 }
@@ -617,7 +619,7 @@ void SetEPDblBuf1Addr(uint8_t bEpNum, uint16_t wBuf1Addr)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-uint16_t GetEPDblBuf0Addr(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPDblBuf0Addr(uint8_t bEpNum)
 {
   return(_GetEPDblBuf0Addr(bEpNum));
 }
@@ -628,7 +630,7 @@ uint16_t GetEPDblBuf0Addr(uint8_t bEpNum)
 * Output         : None.
 * Return         : Address of the Buffer 1.
 *******************************************************************************/
-uint16_t GetEPDblBuf1Addr(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPDblBuf1Addr(uint8_t bEpNum)
 {
   return(_GetEPDblBuf1Addr(bEpNum));
 }
@@ -640,7 +642,7 @@ uint16_t GetEPDblBuf1Addr(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPDblBuffCount(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
+void OPT_OUT SetEPDblBuffCount(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
 {
   _SetEPDblBuffCount(bEpNum, bDir, wCount);
 }
@@ -652,7 +654,7 @@ void SetEPDblBuffCount(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPDblBuf0Count(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
+void OPT_OUT SetEPDblBuf0Count(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
 {
   _SetEPDblBuf0Count(bEpNum, bDir, wCount);
 }
@@ -664,7 +666,7 @@ void SetEPDblBuf0Count(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void SetEPDblBuf1Count(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
+void OPT_OUT SetEPDblBuf1Count(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
 {
   _SetEPDblBuf1Count(bEpNum, bDir, wCount);
 }
@@ -676,7 +678,7 @@ void SetEPDblBuf1Count(uint8_t bEpNum, uint8_t bDir, uint16_t wCount)
 * Output         : None.
 * Return         : Endpoint Buffer 0 count
 *******************************************************************************/
-uint16_t GetEPDblBuf0Count(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPDblBuf0Count(uint8_t bEpNum)
 {
   return(_GetEPDblBuf0Count(bEpNum));
 }
@@ -688,7 +690,7 @@ uint16_t GetEPDblBuf0Count(uint8_t bEpNum)
 * Output         : None.
 * Return         : Endpoint Buffer 1 count.
 *******************************************************************************/
-uint16_t GetEPDblBuf1Count(uint8_t bEpNum)
+uint16_t OPT_OUT GetEPDblBuf1Count(uint8_t bEpNum)
 {
   return(_GetEPDblBuf1Count(bEpNum));
 }
@@ -700,7 +702,7 @@ uint16_t GetEPDblBuf1Count(uint8_t bEpNum)
 * Return         : EP_DBUF_OUT, EP_DBUF_IN,
 *                  EP_DBUF_ERR if the endpoint counter not yet programmed.
 *******************************************************************************/
-EP_DBUF_DIR GetEPDblBufDir(uint8_t bEpNum)
+EP_DBUF_DIR OPT_OUT GetEPDblBufDir(uint8_t bEpNum)
 {
   if ((uint16_t)(*_pEPRxCount(bEpNum) & 0xFC00) != 0)
     return(EP_DBUF_OUT);
@@ -717,7 +719,7 @@ EP_DBUF_DIR GetEPDblBufDir(uint8_t bEpNum)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void FreeUserBuffer(uint8_t bEpNum, uint8_t bDir)
+void OPT_OUT FreeUserBuffer(uint8_t bEpNum, uint8_t bDir)
 {
   if (bDir == EP_DBUF_OUT)
   { /* OUT double buffered endpoint */
@@ -757,5 +759,5 @@ uint16_t ByteSwap(uint16_t wSwW)
   wRet =  (wSwW >> 8) | ((uint16_t)bTemp << 8);
   return(wRet);
 }
-#pragma GCC pop_options /* 20141217 Nemui Added No Optimization pragma */
+//#pragma GCC pop_options /* 20141217 Nemui Added No Optimization pragma */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

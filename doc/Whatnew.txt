@@ -1,3 +1,6 @@
+20150320 : 
+V35.00	Exchanged Optimization level setting(see usb_regs.c).
+
 20150314 : 
 V34.00	Removed unused code and improve stability on polling/dma mode.(see sdio_stm32f1.c,h).
 
