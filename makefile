@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version35.00
+APP_VER = Version36.00
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
 MPU_MODEL		= STM32F10X_HD
@@ -287,7 +287,7 @@ REMOVEDIR 	= $(REMOVAL) -rf
 # C and ASM FLAGS
 CFLAGS  = -MD -mcpu=cortex-m3 -mtune=cortex-m3 -mfix-cortex-m3-ldrd
 CFLAGS += -mthumb -mlittle-endian $(ALIGNED_ACCESS) $(ARMV7M_BOOST)
-CFLAGS += -mapcs-frame -mno-sched-prolog -msoft-float
+CFLAGS += -mno-sched-prolog -msoft-float
 CFLAGS += -std=gnu99
 CFLAGS += -gdwarf-2 -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB)
 CFLAGS += -fno-strict-aliasing -fsigned-char

@@ -1,3 +1,6 @@
+20150629 : 
+V36.00	Retired "-mapcs-frame" switch.
+
 20150320 : 
 V35.00	Exchanged Optimization level setting(see usb_regs.c).
 
