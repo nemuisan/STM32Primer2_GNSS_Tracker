@@ -78,9 +78,11 @@
  #define TS_FONTW	7
  #define TS_FONTH	14
 
-#elif defined(FONT16x16) || defined(FONT16x16K) || defined(FONT16x16L) || defined(FONT16x16W)
+#elif defined(FONT16x16)  || defined(FONT16x16K) || defined(FONT16x16L) || defined(FONT16x16W) || \
+      defined(FONT16x16F) || defined(FONT16x16H) || defined(FONT16x16I) 
  /* Use Tanuki Fonts(16pt) or Kyoukashotai Fonts(16pt) or Kodenma-cho Fonts(16pt)
-     or Wada Laboratry Hosomaru Fonts(16pt) */
+     or Wada Laboratry Hosomaru Fonts(16pt) or Honoka-Maru Gothic Fonts(16pt)
+     or Hanazono Fonts(16pt) or IL Gothic Fonts(16pt) */
  #define TS_FONTW	8
  #define TS_FONTH	16
 
@@ -88,6 +90,11 @@
  /* Use Tanuki Fonts(20pt) */
  #define TS_FONTW	10
  #define TS_FONTH	20
+
+#elif defined(FONT24x24I)
+ /* Use IL Gothic Font(24pt) */
+ #define TS_FONTW	12
+ #define TS_FONTH	24
 
 #else
  #error "U MUST select font size in use of FONTX2! "

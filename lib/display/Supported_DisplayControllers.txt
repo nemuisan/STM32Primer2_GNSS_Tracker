@@ -137,3 +137,5 @@
 	->OTM8009A,OTM8012A
 <nt35510.c>
 	->NT35510
+<rk043fn48h_rgb.c>
+	->RK043FN48H RGB Interface(STM32F746G-Discovery Special)

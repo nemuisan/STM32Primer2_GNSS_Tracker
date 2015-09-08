@@ -22,6 +22,8 @@ CFILES += \
  $(DISPLAY_SRC)/ts.c
 ifeq ($(USE_DISPLAY),USE_ILI9341_RGB_TFT)
 CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
+else ifeq ($(USE_DISPLAY),USE_RK043FN48H_RGB_TFT)
+CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
 else
 CFILES += $(DISPLAY_SRC)/display_if_support.c
 endif
@@ -34,6 +36,8 @@ ifeq ($(USE_JPEG_LIB),USE_IJG_LIB)
 
  ifeq ($(MPU_CLASS),STM32F4XX)
   SYNTHESIS_DEFS	+= -DDEFAULT_MAX_MEM=65536UL
+ else ifeq ($(MPU_CLASS),STM32F7XX)
+  SYNTHESIS_DEFS	+= -DDEFAULT_MAX_MEM=131072UL
  else
   SYNTHESIS_DEFS	+= -DDEFAULT_MAX_MEM=32768UL
  endif
@@ -91,5 +95,8 @@ CFILES += \
  $(DISPLAY_MCU_SRC)/touch_if_basis.c	\
  $(DISPLAY_SRC)/touch_if.c				\
  $(DISPLAY_SRC)/stmpe811.c
+else ifeq ($(USE_TOUCH_SENCE),USE_FT5336_I2C)
+SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
+CFILES += \
+ $(DISPLAY_MCU_SRC)/touch_if_basis.c
 endif
-

@@ -1,3 +1,9 @@
+20150906 : 
+V37.00	Adopted CMSIS4.10.
+		Fixed Wrong Expression in uart_support_gps.c/h.
+		Updated FONTX2 Driver.
+        Adopted FatFs0.11a.
+
 20150629 : 
 V36.00	Retired "-mapcs-frame" switch.
 

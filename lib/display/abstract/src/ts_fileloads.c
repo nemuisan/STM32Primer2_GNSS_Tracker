@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2014.06.25
+    @version        11.00
+    @date           2015.08.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -17,6 +17,8 @@
 		2014.05.01	V7.00	Added HX8369A Streaming Support.
 		2014.06.01	V8.00	Adopted giflib-5.1.0.
 		2014.06.25	V9.00   Removed Buff[] from header file.
+		2015.01.15 V10.00   Added AAC Player Handling.
+		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -67,6 +69,13 @@ extern uint16_t Vram[TS_HEIGHT][TS_WIDTH];
  extern char Lfname[_MAX_LFN+1];
 #else
  char Sfname[13];
+#endif
+
+#if defined(USE_TFT_FRAMEBUFFER)
+#if ((MAX_X*MAX_Y*2) > BUFSIZE)
+	#define VBUFSIZE (MAX_X*MAX_Y*2)
+	uint8_t vbuffer[VBUFSIZE] __attribute__ ((section(".extram"))) __attribute__ ((aligned (4)));
+#endif
 #endif
 
 /* Constants -----------------------------------------------------------------*/
@@ -431,6 +440,10 @@ static int load_img(FIL* fil)
 	uint32_t d, szfrm, nfrm, cfrm;
 	long fd, tp;
 
+#if defined(USE_TFT_FRAMEBUFFER)
+	uint8_t* tbuf;
+	unsigned int vsize;
+#endif
 
 	if (LD_WORD(Buff+6) != 16) return 0;
 
@@ -448,6 +461,16 @@ static int load_img(FIL* fil)
 	Display_rect_if((MAX_X - x) / 2, (MAX_X - x) / 2 + x - 1, (MAX_Y - y) / 2, (MAX_Y - y) / 2 + y - 1);
 	szfrm = x * y * 2;
 
+#if defined(USE_TFT_FRAMEBUFFER)
+	if(szfrm > BUFSIZE) {
+		tbuf = vbuffer;
+		vsize = VBUFSIZE;
+	}else{
+		tbuf = Buff;
+		vsize = BUFSIZE;
+	}
+#endif
+
 	fd = (long)LD_DWORD(Buff+16);
 	nfrm = LD_DWORD(Buff+12);
 	cfrm = 0;
@@ -456,10 +479,16 @@ static int load_img(FIL* fil)
 	for (;;) {
 		d = szfrm;
 		do {
+		#if defined(USE_TFT_FRAMEBUFFER)
+			if (f_read(fil, tbuf, d, &br) || d != br) goto li_exit;
+			d -= br;
+			Display_wr_block_if(tbuf, d);
+		#else
 			n = (d > BUFSIZE) ? BUFSIZE : d;
 			if (f_read(fil, Buff, n, &br) || n != br) goto li_exit;
 			d -= br;
 			Display_wr_block_if(Buff, n);
+		#endif
 		} while (d);
 #if defined(USE_SSD1963_TFT) || (USE_HX8369A_TFT)
 		Display_wr_cmd_if(0x002C);	/* SSD1963/HX8369A Consideration */
@@ -780,7 +809,7 @@ static int load_jpeg(FIL *fil,int mode)
 
 	while (dcinfo.output_scanline < dcinfo.output_height) {
 		jpeg_read_scanlines(&dcinfo, buffer, 1);
-	#if defined(USE_ILI9341_RGB_TFT)
+	#if defined(USE_TFT_FRAMEBUFFER)
 		Display_rect_if(x,x + dx - 1,y + dcinfo.output_scanline,y + dcinfo.output_scanline);
 	#endif
 		for(i = 0,p = buffer[0];i < dcinfo.output_width;i++) {
@@ -1027,13 +1056,13 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 	Display_rect_if(lx,lx + nx - 1,ly,ly + ny - 1);
 
 	/* Allocate row stride buffer */
-	row_stride = (png_get_rowbytes(read_ptr, read_info_ptr) + 3) & ~3; /* 3byte alignments */
+	row_stride = (png_get_rowbytes(read_ptr, read_info_ptr) + 3) & ~3; /* 4byte alignments */
 	/*row_stride =png_get_rowbytes(read_ptr, read_info_ptr);*/
 	row_buffer = png_malloc(read_ptr,row_stride);
 
    /* Diaplay PNG Data */
 	for(k = 0;k < ny;k++) {
-	#if defined(USE_ILI9341_RGB_TFT)
+	#if defined(USE_TFT_FRAMEBUFFER)
 		Display_rect_if(lx,lx + nx - 1,ly + k,ly + k);
 	#endif
 		png_read_row(read_ptr,row_buffer, NULL );
@@ -1231,7 +1260,7 @@ static int load_gif(FIL *fil)
 							xprintf("press any key\n");
 							goto gif_end;
 						}
-					#if defined(USE_ILI9341_RGB_TFT)
+					#if defined(USE_TFT_FRAMEBUFFER)
 						Display_rect_if(lx + Col    ,lx + Col + Width  - 1,
 										ly + Row +i ,ly + Row +i);
 					#endif
@@ -1515,6 +1544,27 @@ int load_file(char *path, char *filename, FIL *fil)
 			free(twork);
 	#else
 			load_mp3(fil, filename, (BYTE*)Buff, BUFSIZE);
+	#endif
+		f_close(fil);
+		return RES_OK;
+	}
+#endif
+
+#if defined(USE_AAC_HELIX)
+	/* Execute MPEG4 file */
+	if (strstr_ext(path, ".AAC")) {
+		fil->fptr=0;  /* retrive file pointer to 0 offset */
+
+		/* DMA Buffer Size Check (STM32F407 work around ) */
+	#if(BUFSIZE <= AAC_DMA_BUFFER_SIZE*2)
+			/* If didn't have enough DMA-RAM,then... */
+			/* Use heap memory as dma double buffer */
+			uint8_t* twork = malloc(AAC_DMA_BUFFER_SIZE*2);
+			if(twork == NULL)	return RES_ERROR;
+			load_aac(fil, filename, twork, AAC_DMA_BUFFER_SIZE*2);
+			free(twork);
+	#else
+			load_aac(fil, filename, (BYTE*)Buff, BUFSIZE);
 	#endif
 		f_close(fil);
 		return RES_OK;

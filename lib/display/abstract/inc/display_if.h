@@ -2,8 +2,8 @@
 /*!
 	@file			display_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2011.03.10
+    @version        5.00
+    @date           2015.08.01
 	@brief          Interface of Display Device
 
     @section HISTORY
@@ -12,13 +12,14 @@
 		2010.12.31	V3.00	Add Some Display Modules.
 		2011.03.10	V4.00	C++ Ready.
 		2013.03.31	V5.00	Added STMPE811 Device Handlings.
+		2015.08.01	V6.00	Changed Frame Buffered TFT Handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __DISPLAY_IF_H
-#define __DISPLAY_IF_H	0x0500
+#define __DISPLAY_IF_H	0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -262,6 +263,7 @@
 
 #elif	USE_ILI9341_RGB_TFT
  #include "ili9341_rgb.h"
+ #define USE_TFT_FRAMEBUFFER
 
 #elif	USE_HX8369A_TFT
  #include "hx8369a.h"
@@ -281,6 +283,17 @@
 #elif	USE_RM68110_SPI_TFT
  #include "rm68110.h"
 
+#elif	USE_NT35582_TFT
+ #include "nt35582.h"
+ 
+#elif	USE_HX8367A_SPI_TFT
+ #include "hx8367a.h"
+ 
+#elif	USE_RK043FN48H_RGB_TFT
+ #include "rk043fn48h_rgb.h"
+ #define USE_TFT_FRAMEBUFFER
+
+ 
 #else
  #error "None of the Selected Display Device!!"
 #endif
@@ -290,6 +303,7 @@
  #undef USE_TOUCH_CTRL
  #undef USE_ADS7843
  #undef USE_STMPE811_I2C
+ #undef USE_FT5336_I2C
 #endif
 
 #ifdef __cplusplus

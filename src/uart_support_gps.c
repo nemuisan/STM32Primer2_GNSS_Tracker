@@ -2,8 +2,8 @@
 /*!
 	@file			uart_support_gps.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2015.01.11
+    @version        5.00
+    @date           2015.08.25
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
@@ -11,6 +11,7 @@
 		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
 		2015.01.11	V4.00	Added buffered UART information.
+		2015.08.25	V5.00	Fixed Wrong Expression.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -20,7 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "uart_support_gps.h"
 /* check header file version for fool proof */
-#if __UART_SUPPORT_GPS_H!= 0x0400
+#if __UART_SUPPORT_GPS_H!= 0x0500
 #error "header file version is not correspond!"
 #endif
 
@@ -99,7 +100,7 @@ void conio_init(uint32_t port, uint32_t baudrate)
 			GPIO_Init(GPIOA, &GPIO_InitStructure);
 #endif
 
-#if (UART_HANDLING == UART_INTERRUPT_MODE)
+#if defined(UART_INTERRUPT_MODE)
 			/* Configure one bit for preemption priority */
 			NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
@@ -223,7 +224,7 @@ uint8_t USART_RXBuffer_GetByte(USART_Buffer_t* USART_buf)
 /* Send 1 character */
 inline void putch(uint8_t data)
 {
-#if (UART_HANDLING == UART_INTERRUPT_MODE)
+#if defined(UART_INTERRUPT_MODE)
 	/* Interrupt Version */
 	while(!USART_TXBuffer_FreeSpace(pUSART_Buf));
 	USART_TXBuffer_PutByte(pUSART_Buf,data);
@@ -242,7 +243,7 @@ inline void putch(uint8_t data)
 /* Receive 1 character */
 uint8_t getch(void)
 {
-#if (UART_HANDLING == UART_INTERRUPT_MODE)
+#if defined(UART_INTERRUPT_MODE)
 	if (USART_RXBufferData_Available(pUSART_Buf))  return USART_RXBuffer_GetByte(pUSART_Buf);
 	else										   return false;
 #else
@@ -260,7 +261,7 @@ uint8_t getch(void)
 /* Return 1 if key pressed */
 uint8_t keypressed(void)
 {
-#if (UART_HANDLING == UART_INTERRUPT_MODE)
+#if defined(UART_INTERRUPT_MODE)
 	return (USART_RXBufferData_Available(pUSART_Buf));
 #else
 	return (UART->SR & USART_FLAG_RXNE);
@@ -330,7 +331,7 @@ void cgets(char *s, int bufsize)
 }
 
 
-#if (UART_HANDLING == UART_INTERRUPT_MODE)
+#if defined(UART_INTERRUPT_MODE)
 /**************************************************************************/
 /*! 
     Interrupt handlers.

@@ -2,8 +2,8 @@
 /*!
 	@file			font_if_datatable.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2013.09.20
+    @version        7.00
+    @date           2015.09.01
 	@brief          Interface of FONTX Driver								@n
                     Refered under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -15,6 +15,8 @@
 		2012.03.12	V3.00	Add More Fonts.
 		2012.06.30	V4.00	Add External SRAM Support for KanjiFonts.
  		2013.09.20	V5.00	Improve FONTX2 inclusion ChaN Thanks!
+		2015.08.01	V6.00	Add External SDRAM Support for KanjiFonts.
+		2015.09.01	V7.00	Optimized KANJI Constructors for Specific MPU.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -25,12 +27,25 @@
 #include "font_if.h"
 
 /* Defines   -----------------------------------------------------------------*/
-#ifdef EXT_SRAM_SUPPORT
- #define _EXRAM  __attribute__ ((section(".extram")))
+#if defined(EXT_SRAM_SUPPORT) || defined(EXT_SDRAM_SUPPORT)
+ #define _EXRAM  __attribute__ ((section(".extram"))) __attribute__ ((aligned (4)))
 #else
  #define _EXRAM
 #endif
 
+#if   defined(STM32F7XX)
+ #define _KANJIRAM  __attribute__ ((section(".dtcm")))
+#elif defined(STM32F4XX)
+ #define _KANJIRAM  __attribute__ ((section(".ccram")))
+#else
+ #define _KANJIRAM
+#endif
+
+#if defined(EXT_QSPIROM_SUPPORT) || defined(EXT_SPIFI_SUPPORT)
+#define	IMPORT_BIN(sect, file, sym)	
+#define	IMPORT_BIN_PART(sect, file, ofs, siz, sym)
+	
+#else
 /* Import FONTX2 files as byte array */
 /* incbin example ChaN Thanks! */
 #define	IMPORT_BIN(sect, file, sym) __asm__ (\
@@ -55,6 +70,7 @@
 		".balign 4\n"\
 		".section \".text\"\n")
 
+#endif
 
 /* Variables -----------------------------------------------------------------*/
 
@@ -65,7 +81,7 @@
 	const char font_table_kanji[] = {
 		#include "misaki.h"
 	};
-	FontX_Kanji Misaki_Kanji _EXRAM;
+	FontX_Kanji Misaki_Kanji _KANJIRAM;
 #endif
 const char font_table_ank[] = { 
 	#include "4x8.h" 
@@ -76,7 +92,7 @@ FontX_Ank   Misaki_Ank;
  #warning "USE M+ FONTS(10x10)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "mplusfx2/MPLZN10X.FNT", font_table_kanji);
-	FontX_Kanji Mplus_Kanji _EXRAM;
+	FontX_Kanji Mplus_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "mplusfx2/MPLHN10X.FNT",  font_table_ank);
  FontX_Ank   Mplus_Ank;
@@ -85,7 +101,7 @@ FontX_Ank   Misaki_Ank;
 #warning "USE K12x10 FONTS(12x10)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "k12x10x/k12x10.fnt", font_table_kanji);
-	FontX_Kanji K12x10_Kanji _EXRAM;
+	FontX_Kanji K12x10_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "k12x10x/k6x10.fnt",  font_table_ank);
  FontX_Ank   K12x10_Ank;
@@ -94,7 +110,7 @@ FontX_Ank   Misaki_Ank;
 #warning "USE M+ FONTS(12x12)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "mplusfx2/MPLZN12X.FNT", font_table_kanji);
-	FontX_Kanji Mplus_Kanji _EXRAM;
+	FontX_Kanji Mplus_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "mplusfx2/MPLHN12X.FNT",  font_table_ank);
  FontX_Ank   Mplus_Ank;
@@ -103,7 +119,7 @@ FontX_Ank   Misaki_Ank;
 #warning "USE MAYAKU FONTS(12x12)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "drug12/DRUG12Z1.FEF", font_table_kanji);
-	FontX_Kanji Drug_Kanji _EXRAM;
+	FontX_Kanji Drug_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "drug12/DRUG12HN.FEF",  font_table_ank);
  FontX_Ank   Drug_Ank;
@@ -112,7 +128,7 @@ FontX_Ank   Misaki_Ank;
 #warning "USE KANAMECHOU FONTS(12x12)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "KANAME/KNMZN12X.MNF", font_table_kanji);
-	FontX_Kanji Kaname_Kanji _EXRAM;
+	FontX_Kanji Kaname_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "KANAME/KNMHN12X.MNF",  font_table_ank);
  FontX_Ank   Kaname_Ank;
@@ -121,7 +137,7 @@ FontX_Ank   Misaki_Ank;
 #warning "USE KODENMA-CHO FONTS(12x12)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "VGOL12/GOTZN12X.TLF", font_table_kanji);
-	FontX_Kanji Kodenma_Kanji _EXRAM;
+	FontX_Kanji Kodenma_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "VGOL12/GOTHN12X.TLF",  font_table_ank);
  FontX_Ank   Kodenma_Ank;
@@ -130,7 +146,7 @@ FontX_Ank   Misaki_Ank;
 #warning "USE DOHGEN-ZAKA FONTS(12x12)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "VMNB12/MINZN12X.TLF", font_table_kanji);
-	FontX_Kanji Dohgenzaka_Kanji _EXRAM;
+	FontX_Kanji Dohgenzaka_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "VMNB12/MINHN12X.TLF",  font_table_ank);
  FontX_Ank   Dohgenzaka_Ank;
@@ -139,7 +155,7 @@ FontX_Ank   Misaki_Ank;
 #warning "USE WADA-KEN HOSOMARU GOTHIC FONTS(12x12)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "wlma2fnt/Wlma212k.fnt", font_table_kanji);
-	FontX_Kanji Wlma_Kanji _EXRAM;
+	FontX_Kanji Wlma_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "wlma2fnt/Wlma212a.fnt",  font_table_ank);
  FontX_Ank   Wlma_Ank;
@@ -148,7 +164,7 @@ FontX_Ank   Misaki_Ank;
 #warning "USE SHINONOME GOTHIC FONTS(14x14)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "shn14fx2/SHGZN14X.FNT", font_table_kanji);
-	FontX_Kanji Shinonome_Kanji _EXRAM;
+	FontX_Kanji Shinonome_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "shn14fx2/SHNHN14X.FNT",  font_table_ank);
 FontX_Ank   Shinonome_Ank;
@@ -157,7 +173,7 @@ FontX_Ank   Shinonome_Ank;
 #warning "USE DOHGEN-ZAKA FONTS(14x14)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "VMNB12/MINZN14X.TLF", font_table_kanji);
-	FontX_Kanji Dohgenzaka_Kanji _EXRAM;
+	FontX_Kanji Dohgenzaka_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "VMNB12/MINHN14X.TLF",  font_table_ank);
  FontX_Ank   Dohgenzaka_Ank;
@@ -166,7 +182,7 @@ FontX_Ank   Shinonome_Ank;
 #warning "USE WADA-KEN HOSOMARU GOTHIC FONTS(14x14)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "wlma2fnt/Wlma214k.fnt", font_table_kanji);
-	FontX_Kanji Wlma_Kanji _EXRAM;
+	FontX_Kanji Wlma_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "wlma2fnt/Wlma214a.fnt",  font_table_ank);
  FontX_Ank   Wlma_Ank;
@@ -175,7 +191,7 @@ FontX_Ank   Shinonome_Ank;
 #warning "USE TANUKI MAGIC FONTS(16x16)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "TANU/TANUZN16.fnt", font_table_kanji);
-	FontX_Kanji Tanu_Kanji _EXRAM;
+	FontX_Kanji Tanu_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "TANU/TANUHN16.fnt",  font_table_ank);
 FontX_Ank   Tanu_Ank;
@@ -184,7 +200,7 @@ FontX_Ank   Tanu_Ank;
 #warning "USE NINGYOUCHOU FONTS(16x16)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "VKYO16/KYOZN16X.TLF", font_table_kanji);
-	FontX_Kanji Kyoukasho_Kanji _EXRAM;
+	FontX_Kanji Kyoukasho_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "VKYO16/KYOHN16X.TLF",  font_table_ank);
  FontX_Ank   Kyoukasho_Ank;
@@ -193,7 +209,7 @@ FontX_Ank   Tanu_Ank;
 #warning "USE KODENMA-CHO FONTS(16x16)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "VGON16/GONZN16X.TLF", font_table_kanji);
-	FontX_Kanji Kodenma_Kanji _EXRAM;
+	FontX_Kanji Kodenma_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "VGON16/GONHN16X.TLF",  font_table_ank);
  FontX_Ank   Kodenma_Ank;
@@ -202,20 +218,55 @@ FontX_Ank   Tanu_Ank;
 #warning "USE WADA-KEN HOSOMARU GOTHIC FONTS(16x16)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "wlma2fnt/Wlma216k.fnt", font_table_kanji);
-	FontX_Kanji Wlma_Kanji _EXRAM;
+	FontX_Kanji Wlma_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "wlma2fnt/Wlma216a.fnt",  font_table_ank);
  FontX_Ank   Wlma_Ank;
+
+#elif defined(FONT16x16F)
+#warning "USE HONOKA-MARU GOTHIC FONTS(16x16)"
+ #ifdef USE_KANJIFONT
+	IMPORT_BIN(".rodata", "honoka-marugo/HNMZN16.fnt", font_table_kanji);
+	FontX_Kanji Honoka_Kanji _KANJIRAM;
+ #endif
+ IMPORT_BIN(".rodata", "honoka-marugo/HNMHN16.fnt",  font_table_ank);
+ FontX_Ank   Honoka_Ank;
+
+#elif defined(FONT16x16H)
+#warning "USE HANAZONO FONTS(16x16)"
+ #ifdef USE_KANJIFONT
+	IMPORT_BIN(".rodata", "hanazono/HNZNZN16.fnt", font_table_kanji);
+	FontX_Kanji Hanazono_Kanji _KANJIRAM;
+ #endif
+ IMPORT_BIN(".rodata", "hanazono/HNZNHN16.fnt",  font_table_ank);
+ FontX_Ank   Hanazono_Ank;
+
+#elif defined(FONT16x16I)
+#warning "USE IL FONTS(16x16)"
+ #ifdef USE_KANJIFONT
+	IMPORT_BIN(".rodata", "ILFONT/ILGZ16XF.FNT", font_table_kanji);
+	FontX_Kanji IL_Kanji _KANJIRAM;
+ #endif
+ IMPORT_BIN(".rodata", "ILFONT/ILGH16XB.FNT",  font_table_ank);
+ FontX_Ank   IL_Ank;
 
 #elif defined(FONT20x20)
 #warning "USE TANUKI MAGIC FONTS(20x20)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", "TANU/TANUZN20.fnt", font_table_kanji);
-	FontX_Kanji Tanu_Kanji _EXRAM;
+	FontX_Kanji Tanu_Kanji _KANJIRAM;
  #endif
  IMPORT_BIN(".rodata", "TANU/TANUHN20.fnt",  font_table_ank);
 FontX_Ank   Tanu_Ank;
 
+#elif defined(FONT24x24I)
+#warning "USE IL FONTS(24x24)"
+ #ifdef USE_KANJIFONT
+	IMPORT_BIN(".rodata", "ILFONT/ILGZ24XF.FNT", font_table_kanji);
+	FontX_Kanji IL_Kanji _KANJIRAM;
+ #endif
+ IMPORT_BIN(".rodata", "ILFONT/ILGH24XF.FNT",  font_table_ank);
+ FontX_Ank   IL_Ank;
 
 #elif defined(FONT_DIGIT)
 #warning "USE DIGIT FONT "

@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2014.06.25
+    @version        11.00
+    @date           2015.08.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -17,6 +17,8 @@
 		2014.05.01	V7.00	Added HX8369A Streaming Support.
 		2014.06.01	V8.00	Adopted giflib-5.1.0.
 		2014.06.25	V9.00   Removed Buff[] from header file.
+		2015.01.15 V10.00   Added AAC Player Handling.
+		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -26,7 +28,7 @@
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x0800
+#define __TS_FILELOADS_H 0x1100
 
 #ifdef __cplusplus
  extern "C" {
@@ -86,6 +88,11 @@ typedef struct my_error_mgr * my_error_ptr;
  #include "gif_lib.h"
  #include "gif_lib_private.h"
  #define GIF_TRANSPARENT_SUPPORT
+#endif
+
+/* AAC Decording */
+#ifdef USE_AAC_HELIX
+ #include "aac_support.h"
 #endif
 
 /* MP3 Decording */

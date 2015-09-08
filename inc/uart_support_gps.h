@@ -2,8 +2,8 @@
 /*!
 	@file			uart_support_gps.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2015.01.11
+    @version        5.00
+    @date           2015.08.25
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
@@ -11,13 +11,14 @@
 		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
 		2015.01.11	V4.00	Added buffered UART information.
+		2015.08.25	V5.00	Fixed Wrong Expression.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __UART_SUPPORT_GPS_H
-#define __UART_SUPPORT_GPS_H	0x0400
+#define __UART_SUPPORT_GPS_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -38,15 +39,14 @@
 /* USART Definition */
 #define UART_BUFSIZE		512		/* Buffer size MUST Takes power of 2(64,128,256,512...) */
 #define UART_BAUDRATE		230400UL
-/*#define UART_HANDLING		UART_POLLING_MODE*/
-#define UART_HANDLING		UART_INTERRUPT_MODE
+#define UART_INTERRUPT_MODE			/* If u want polling mode, uncomment this */
 
 #define UART_DEFAULT_NUM	2
 #define USARTx_Buf			USART2_Buf
 
 
 /* General Definition */
-#define countof(a)   (sizeof(a) / sizeof(*(a)))
+#define countof(a)			(sizeof(a) / sizeof(*(a)))
 
 /* Funcion Prototypes */
 extern void conio_init(uint32_t port, uint32_t baudrate);
