@@ -1,3 +1,6 @@
+20150918 : 
+V38.00	Adopted CMSIS4.20.
+
 20150906 : 
 V37.00	Adopted CMSIS4.10.
 		Fixed Wrong Expression in uart_support_gps.c/h.
