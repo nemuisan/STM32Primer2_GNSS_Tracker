@@ -1,3 +1,7 @@
+20151130 : 
+V39.00	Adopted CMSIS4.30.
+        Fixed Read CSD/CID registers on sdio_stm32f1.c.
+
 20150918 : 
 V38.00	Adopted CMSIS4.20.
 

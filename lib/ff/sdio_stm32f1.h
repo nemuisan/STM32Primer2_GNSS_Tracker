@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        14.00
-    @date           2015.03.14
+    @version        15.00
+    @date           2015.11.30
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -22,13 +22,14 @@
 		2015.01.23 V12.00   Added Handling SD High Speed Mode description.
 		2015.02.14 V13.00	Optimized global structures.
 		2015.03.14 V14.00	Removed unused code and improve stability on polling/dma mode.
+		2015.11.28 V15.00	Fixed Read CSD/CID registers for SD_ioctl().
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x1400
+#define __SDIO_STM32F1_H	0x1500
 
 #ifdef __cplusplus
  extern "C" {

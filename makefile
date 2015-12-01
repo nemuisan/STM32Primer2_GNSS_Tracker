@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version38.00
+APP_VER = Version39.00
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
 MPU_MODEL		= STM32F10X_HD

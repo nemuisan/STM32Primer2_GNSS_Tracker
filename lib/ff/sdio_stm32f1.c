@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        14.00
-    @date           2015.03.14
+    @version        15.00
+    @date           2015.11.30
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -22,6 +22,7 @@
 		2015.01.23 V12.00   Added Handling SD High Speed Mode description.
 		2015.02.14 V13.00	Optimized global structures.
 		2015.03.14 V14.00	Removed unused code and improve stability on polling/dma mode.
+		2015.11.28 V15.00	Fixed Read CSD/CID registers for SD_ioctl().
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -31,7 +32,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x1400
+#if __SDIO_STM32F1_H!= 0x1500
 #error "header file version is not correspond!"
 #endif
 
@@ -3470,21 +3471,44 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 	switch (drv) 
 	{
 		case SDIO_DRIVE:
-		{      
+		{
+		  SD_GetCardInfo(&SDCardInfo);
+		  SD_GetCardStatus(&SDCardStatus);
+
 		  switch (ctrl)
 		  {
+		  	/* Make sure that no pending write process */
 			case CTRL_SYNC:
 			  /* no synchronization to do since not buffering in this module */
 			  return RES_OK;
-			case GET_SECTOR_SIZE:
-			  *(uint16_t*)buff = SECTOR_SIZE;
-			  return RES_OK;
+
+			/* Get number of sectors on the disk (DWORD) */
 			case GET_SECTOR_COUNT:
+		#if _MAX_SS != _MIN_SS
+			  *(uint32_t*)buff = SDCardInfo.CardCapacity / SDCardInfo.CardBlockSize;
+		#else
 			  *(uint32_t*)buff = SDCardInfo.CardCapacity / SECTOR_SIZE;
+		#endif
 			  return RES_OK;
-			case GET_BLOCK_SIZE:
-			  *(uint32_t*)buff = SDCardInfo.CardBlockSize;
+
+			/* Get R/W sector size (WORD) (needed at _MAX_SS != _MIN_SS) */
+			case GET_SECTOR_SIZE :
+			  *(uint16_t*)buff = SDCardInfo.CardBlockSize;
 			  return RES_OK;
+
+			/* Get erase block size in unit of sector (DWORD) */
+			case GET_BLOCK_SIZE :
+				if ((SDCardInfo.CardType == SDIO_STD_CAPACITY_SD_CARD_V2_0) || (SDCardInfo.CardType == SDIO_HIGH_CAPACITY_SD_CARD)){	/* SDC ver 2.00 */
+					*(uint32_t*)buff = 16UL << (SDCardStatus.AU_SIZE);
+				} else {					/* SDC ver 1.XX or MMC */
+					if (SDCardInfo.CardType == SDIO_STD_CAPACITY_SD_CARD_V1_1) {	/* SDC ver 1.XX */
+						*(uint32_t*)buff = (((CSD_Tab[2] & 0x00003F80) >> 7) + 1)  << (((CSD_Tab[3] & 0x00FF0000) >> 22) - 1);
+					} else {					/* MMC */
+						*(uint32_t*)buff = ((uint16_t)((CSD_Tab[2] & 0x00007C00) >> 10) + 1) * (((CSD_Tab[2] & 0x00000003) << 3) + ((CSD_Tab[2] & 0x000000E0) >> 5) + 1);
+					}
+				}
+			  return RES_OK;
+
 			/* Following command are not used by FatFs module */
 			case MMC_GET_TYPE :		/* Get MMC/SDC type (uint8_t) */
 				switch (SDCardInfo.CardType)
@@ -3507,21 +3531,35 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 						*(uint8_t*)buff = 0;
 				}
 				return RES_OK;
+
 			case MMC_GET_CSD :		/* Read CSD (16 bytes) */
-				memcpy((void *)buff,&SDCardInfo.SD_csd,16);
+				/* STM32F1 Manual RM0008 says...
+				   The most significant bit of the card status is received first.
+                   The SDIO_RESP4 register(CSD_Tab[3]) LSB is always 0b.
+				*/
+				*((uint32_t *) buff + 0) = __REV(CSD_Tab[0]);
+				*((uint32_t *) buff + 1) = __REV(CSD_Tab[1]);
+				*((uint32_t *) buff + 2) = __REV(CSD_Tab[2]);
+				*((uint32_t *) buff + 3) = __REV(CSD_Tab[3] | 0x00000001);
 				return RES_OK;
+
 			case MMC_GET_CID :		/* Read CID (16 bytes) */
-				memcpy((void *)buff,&SDCardInfo.SD_cid,16);
+				*((uint32_t *) buff + 0) = __REV(CID_Tab[0]);
+				*((uint32_t *) buff + 1) = __REV(CID_Tab[1]);
+				*((uint32_t *) buff + 2) = __REV(CID_Tab[2]);
+				*((uint32_t *) buff + 3) = __REV(CID_Tab[3] | 0x00000001);
 				return RES_OK;
-			case MMC_GET_OCR :		/* Read OCR (4 bytes) */
-				*(uint32_t*)buff = SDCardInfo.SD_csd.MaxRdCurrentVDDMin;
-				return RES_OK;
+
 			case MMC_GET_SDSTAT :	/* Read SD status (64 bytes) */
-				SD_GetCardStatus(&SDCardStatus);
-				memcpy((void *)buff,&SDCardStatus,64);
-				return RES_OK;
+				if(SD_SendSDStatus((uint32_t*)buff) == SD_OK){
+					return RES_OK;
+				} else {
+					return RES_ERROR;
+				}
+			break;
+
 			default :
-				return RES_OK;
+				return RES_PARERR;
 			}
 		}
 	}
