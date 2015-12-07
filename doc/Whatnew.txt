@@ -1,3 +1,6 @@
+20151203 : 
+V40.00	Added Read OCR registers on sdio_stm32f1.c.
+
 20151130 : 
 V39.00	Adopted CMSIS4.30.
         Fixed Read CSD/CID registers on sdio_stm32f1.c.

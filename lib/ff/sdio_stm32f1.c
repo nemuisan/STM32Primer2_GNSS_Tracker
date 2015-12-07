@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        15.00
-    @date           2015.11.30
+    @version        16.00
+    @date           2015.12.03
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -22,7 +22,8 @@
 		2015.01.23 V12.00   Added Handling SD High Speed Mode description.
 		2015.02.14 V13.00	Optimized global structures.
 		2015.03.14 V14.00	Removed unused code and improve stability on polling/dma mode.
-		2015.11.28 V15.00	Fixed Read CSD/CID registers for SD_ioctl().
+		2015.11.28 V15.00	Fixed Read CSD/CID registers for disk_ioctl().
+		2015.12.03 V16.00	Added Read OCR registers for disk_ioctl().
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -32,7 +33,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x1500
+#if __SDIO_STM32F1_H!= 0x1600
 #error "header file version is not correspond!"
 #endif
 
@@ -127,7 +128,7 @@
 
 /* Variables -----------------------------------------------------------------*/
 static uint32_t CardType =  SDIO_STD_CAPACITY_SD_CARD_V1_1;
-static uint32_t CSD_Tab[4], CID_Tab[4], RCA = 0;
+static uint32_t CSD_Tab[4], CID_Tab[4], RCA = 0, OCR = 0;
 static uint8_t SDSTATUS_Tab[16];
 static uint32_t TotalNumberOfBytes = 0, StopCondition = 0;
 __IO SD_Error TransferError = SD_OK;
@@ -540,6 +541,7 @@ SD_Error SD_PowerON(void)
 
 			response = SDIO_GetResponse(SDIO_RESP1);
 			validvoltage = (((response >> 31) == 1) ? 1 : 0);
+			OCR = response;
 			count++;
 		}
 		if (count >= SD_MAX_VOLT_TRIAL)
@@ -3548,6 +3550,10 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 				*((uint32_t *) buff + 1) = __REV(CID_Tab[1]);
 				*((uint32_t *) buff + 2) = __REV(CID_Tab[2]);
 				*((uint32_t *) buff + 3) = __REV(CID_Tab[3] | 0x00000001);
+				return RES_OK;
+
+			case MMC_GET_OCR :		/* Read OCR (4 bytes) */
+				*((uint32_t *)buff) = __REV(OCR);
 				return RES_OK;
 
 			case MMC_GET_SDSTAT :	/* Read SD status (64 bytes) */
