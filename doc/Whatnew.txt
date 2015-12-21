@@ -1,3 +1,7 @@
+20151218 : 
+V41.00	Added Read SCR registers on sdio_stm32f1.c.
+		Fixed Read Status registers on sdio_stm32f1.c.
+
 20151203 : 
 V40.00	Added Read OCR registers on sdio_stm32f1.c.
 

@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        16.00
-    @date           2015.12.03
+    @version        17.00
+    @date           2015.12.18
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -24,6 +24,7 @@
 		2015.03.14 V14.00	Removed unused code and improve stability on polling/dma mode.
 		2015.11.28 V15.00	Fixed Read CSD/CID registers for disk_ioctl().
 		2015.12.03 V16.00	Added Read OCR registers for disk_ioctl().
+		2015.12.18 V17.00	Added Read SCR registers for disk_ioctl().
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -33,13 +34,19 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x1600
+#if __SDIO_STM32F1_H!= 0x1700
 #error "header file version is not correspond!"
 #endif
 
-/* Transfer Mode Check */
-#if defined(SD_DMA_MODE) && defined(SD_POLLING_MODE)
-#error "YOU MUST SELECT EITHER ONE!"
+/* Duplicate definition warning */
+#if defined(SD_DMA_MODE) && !defined(SD_POLLING_MODE)
+ #warning "Enable DMA Transfer Handling."
+#else
+ #warning "Enable FIFO-Polling Transfer Handling."
+#endif
+
+#if defined(SD_HS_MODE) && !defined(SD_NS_MODE)
+ #warning "Enable SD HighSpeed Mode."
 #endif
 
 /* Defines -------------------------------------------------------------------*/
@@ -128,8 +135,8 @@
 
 /* Variables -----------------------------------------------------------------*/
 static uint32_t CardType =  SDIO_STD_CAPACITY_SD_CARD_V1_1;
-static uint32_t CSD_Tab[4], CID_Tab[4], RCA = 0, OCR = 0;
-static uint8_t SDSTATUS_Tab[16];
+static uint32_t CSD_Tab[4], CID_Tab[4], SCR_Tab[2], RCA = 0, OCR = 0;
+static uint8_t SDSTATUS_Tab[64];
 static uint32_t TotalNumberOfBytes = 0, StopCondition = 0;
 __IO SD_Error TransferError = SD_OK;
 __IO uint32_t TransferEnd = 0;
@@ -316,9 +323,8 @@ SD_Error SD_Init(void)
 		errorstatus = SD_EnableWideBusOperation(SDIO_BusWide_4b);
 	}
 
-#ifdef SD_HS_MODE
- 	/*----------------- Enable HighSpeedMode --------------------------------*/
-	#warning "Enable SD High Speed mode!"
+#if defined(SD_HS_MODE) && !defined(SD_NS_MODE)
+	/* Configure to HighSpeed mode,if card can drive HS Mode. */
 	if (errorstatus == SD_OK)
 	{
 		errorstatus = SD_HighSpeed();
@@ -2580,16 +2586,18 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 
 	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED)
 	{
-	errorstatus = SD_LOCK_UNLOCK_FAILED;
-	return(errorstatus);
+		errorstatus = SD_LOCK_UNLOCK_FAILED;
+		return(errorstatus);
 	}
 
 	/*!< Get SCR Register */
 	errorstatus = FindSCR(RCA, scr);
+	SCR_Tab[0] = scr[0];
+	SCR_Tab[1] = scr[1];
 
 	if (errorstatus != SD_OK)
 	{
-	return(errorstatus);
+		return(errorstatus);
 	}
 
 	/*!< If wide bus operation to be enabled */
@@ -3546,6 +3554,10 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 				return RES_OK;
 
 			case MMC_GET_CID :		/* Read CID (16 bytes) */
+				/* STM32F1 Manual RM0008 says...
+				   The most significant bit of the card status is received first.
+                   The SDIO_RESP4 register(CID_Tab[3]) LSB is always 0b.
+				*/
 				*((uint32_t *) buff + 0) = __REV(CID_Tab[0]);
 				*((uint32_t *) buff + 1) = __REV(CID_Tab[1]);
 				*((uint32_t *) buff + 2) = __REV(CID_Tab[2]);
@@ -3562,6 +3574,11 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 				} else {
 					return RES_ERROR;
 				}
+
+			case SD_GET_SCR :	/* Read SCR (2 bytes) */
+				*((uint32_t *) buff + 0) = __REV(SCR_Tab[1]);
+				*((uint32_t *) buff + 1) = __REV(SCR_Tab[0]);
+				return RES_OK;
 			break;
 
 			default :
