@@ -1,3 +1,6 @@
+20160115 : 
+V42.00	Chanegd definition compatibility in USB mass-storage mode.
+
 20151218 : 
 V41.00	Added Read SCR registers on sdio_stm32f1.c.
 		Fixed Read Status registers on sdio_stm32f1.c.

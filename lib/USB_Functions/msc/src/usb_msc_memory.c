@@ -2,19 +2,21 @@
 /*!
 	@file			usb_msc_memory.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.23
+    @version        3.00
+    @date           2016.01.15
 	@brief          Memory management layer.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
-
+		2016.01.15	V3.00	Changed definition compatibility.
+		
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
+
 /* Includes ------------------------------------------------------------------*/
 #include "usb_msc_memory.h"
 
@@ -33,8 +35,8 @@ extern uint16_t Data_Len;
 extern uint8_t Bot_State;
 extern Bulk_Only_CBW CBW;
 extern Bulk_Only_CSW CSW;
-extern uint32_t Mass_Memory_Size[2];
-extern uint32_t Mass_Block_Size[2];
+extern uint64_t Mass_Memory_Size[MAX_LUN];
+extern uint32_t Mass_Block_Size[MAX_LUN];
 
 /* Constants -----------------------------------------------------------------*/
 

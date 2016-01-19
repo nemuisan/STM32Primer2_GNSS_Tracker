@@ -5,7 +5,7 @@
      http://nemuisan.blog.bai.ne.jp
      nemuisan_kawausogasuki@live.jp
 ******************************************************************************
-   Copyright (c) 2010-2015
+   Copyright (c) 2010-2016
    - Nemui Trinomius (add STM32Primer2 Compatibility support.
 					  add SDIO FatFs HAL for STM32F1 Support.
 					  and TFT-LCD Module Controller drivers Support. )
