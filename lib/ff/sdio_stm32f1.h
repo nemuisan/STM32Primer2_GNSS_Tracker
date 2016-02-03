@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        17.00
-    @date           2015.12.18
+    @version        18.00
+    @date           2016.01.30
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -25,13 +25,14 @@
 		2015.11.28 V15.00	Fixed Read CSD/CID registers for disk_ioctl().
 		2015.12.03 V16.00	Added Read OCR registers for disk_ioctl().
 		2015.12.18 V17.00	Added Read SCR registers for disk_ioctl().
+		2016.01.30 V18.00	Added MMCv4.x Cards PreSupport.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x1700
+#define __SDIO_STM32F1_H	0x1800
 
 #ifdef __cplusplus
  extern "C" {
@@ -119,7 +120,7 @@ typedef enum
   SD_UNSUPPORTED_FEATURE,  
   SD_UNSUPPORTED_HW,  
   SD_ERROR,  
-  SD_OK  
+  SD_OK = 0 
 } SD_Error;
 
 /** 
@@ -194,6 +195,145 @@ typedef struct
 } SD_CSD;
 
 /** 
+  * @brief  Card Specific Data: ExtCSD Register for MMCv4.x
+  */ 
+typedef union
+{
+		struct _EXT_CSD
+		{
+			__IO uint8_t  Reserved26[32];
+			__IO uint8_t  FLUSH_CACHE;
+			__IO uint8_t  CACHE_CTRL;
+			__IO uint8_t  POWER_OFF_NOTIFICATION;
+			__IO uint8_t  PACKED_FAILURE_INDEX;
+			__IO uint8_t  PACKED_COMMAND_STATUS;
+			__IO uint8_t  CONTEXT_CONF[15];
+			__IO uint8_t  EXT_PARTITIONS_ATTRIBUTE[2];
+			__IO uint8_t  EXCEPTION_EVENTS_STATUS[2];
+			__IO uint8_t  EXCEPTION_EVENTS_CTRL[2];
+			__IO uint8_t  DYNCAP_NEEDED;
+			__IO uint8_t  CLASS_6_CTRL;
+			__IO uint8_t  INI_TIMEOUT_EMU;
+			__IO uint8_t  DATA_SECTOR_SIZE;
+			__IO uint8_t  USE_NATIVE_SECTOR;
+			__IO uint8_t  NATIVE_SECTOR_SIZE;
+			__IO uint8_t  VENDOR_SPECIFIC_FIELD[64];
+			__IO uint8_t  Reserved25;
+			__IO uint8_t  PROGRAM_CID_CSD_DDR_SUPPORT;
+			__IO uint8_t  PERIODIC_WAKEUP;
+			__IO uint8_t  TCASE_SUPPORT;
+			__IO uint8_t  Reserved24;
+			__IO uint8_t  SEC_BAD_BLK_MGMNT;
+			__IO uint8_t  Reserved23;
+			__IO uint8_t  ENH_START_ADDR[4];
+			__IO uint8_t  ENH_SIZE_MULT[3];
+			__IO uint8_t  GP_SIZE_MULT[12];
+			__IO uint8_t  PARTITION_SETTING_COMPLETED;
+			__IO uint8_t  PARTITIONS_ATTRIBUTE;
+			__IO uint8_t  MAX_ENH_SIZE_MULT[3];
+			__IO uint8_t  PARTITIONING_SUPPORT;
+			__IO uint8_t  HPI_MGMT;
+			__IO uint8_t  RST_n_FUNCTION;
+			__IO uint8_t  BKOPS_EN;
+			__IO uint8_t  BKOPS_START;
+			__IO uint8_t  SANITIZE_START;
+			__IO uint8_t  WR_REL_PARAM;
+			__IO uint8_t  WR_REL_SET;
+			__IO uint8_t  RPMB_SIZE_MULT;
+			__IO uint8_t  FW_CONFIG;
+			__IO uint8_t  Reserved22;
+			__IO uint8_t  USER_WP;
+			__IO uint8_t  Reserved21;
+			__IO uint8_t  BOOT_WP;
+			__IO uint8_t  BOOT_WP_STATUS;
+			__IO uint8_t  ERASE_GROUP_DEF;
+			__IO uint8_t  Reserved20;
+			__IO uint8_t  BOOT_BUS_CONDITIONS;
+			__IO uint8_t  BOOT_CONFIG_PROT;
+			__IO uint8_t  PARTITION_CONFIG;
+			__IO uint8_t  Reserved19;
+			__IO uint8_t  ERASED_MEM_CONT;
+			__IO uint8_t  Reserved18;
+			__IO uint8_t  BUS_WIDTH;
+			__IO uint8_t  Reserved17;
+			__IO uint8_t  HS_TIMING;
+			__IO uint8_t  Reserved16;
+			__IO uint8_t  POWER_CLASS;
+			__IO uint8_t  Reserved15;
+			__IO uint8_t  CMD_SET_REV;
+			__IO uint8_t  Reserved14;
+			__IO uint8_t  CMD_SET;
+			__IO uint8_t  Reserved13;
+			__IO uint8_t  EXT_CSD_REV;
+			__IO uint8_t  Reserved12;
+			__IO uint8_t  Reserved11;
+			__IO uint8_t  Reserved10;
+			__IO uint8_t  DEVICE_TYPE;
+			__IO uint8_t  DRIVER_STRENGTH;
+			__IO uint8_t  OUT_OF_INTERRUPT_TIME;
+			__IO uint8_t  PARTITION_SWITCH_TIME;
+			__IO uint8_t  PWR_CL_52_195;
+			__IO uint8_t  PWR_CL_26_195;
+			__IO uint8_t  PWR_CL_52_360;
+			__IO uint8_t  PWR_CL_26_360;
+			__IO uint8_t  Reserved9;
+			__IO uint8_t  MIN_PERF_R_4_26;
+			__IO uint8_t  MIN_PERF_W_4_26;
+			__IO uint8_t  MIN_PERF_R_8_26_4_52;
+			__IO uint8_t  MIN_PERF_W_8_26_4_52;
+			__IO uint8_t  MIN_PERF_R_8_52;
+			__IO uint8_t  MIN_PERF_W_8_52;
+			__IO uint8_t  Reserved8;
+			__IO uint8_t  SEC_COUNT[4];
+			__IO uint8_t  Reserved7;
+			__IO uint8_t  S_A_TIMEOUT;
+			__IO uint8_t  Reserved6;
+			__IO uint8_t  S_C_VCCQ;
+			__IO uint8_t  S_C_VCC;
+			__IO uint8_t  HC_WP_GRP_SIZE;
+			__IO uint8_t  REL_WR_SEC_C;
+			__IO uint8_t  ERASE_TIMEOUT_MULT;
+			__IO uint8_t  HC_ERASE_GRP_SIZE;
+			__IO uint8_t  ACC_SIZE;
+			__IO uint8_t  BOOT_SIZE_MULTI;
+			__IO uint8_t  Reserved5;
+			__IO uint8_t  BOOT_INFO;
+			__IO uint8_t  obsolete2;
+			__IO uint8_t  obsolete1;
+			__IO uint8_t  SEC_FEATURE_SUPPORT;
+			__IO uint8_t  TRIM_MULT;
+			__IO uint8_t  Reserved4;
+			__IO uint8_t  MIN_PERF_DDR_R_8_52;
+			__IO uint8_t  MIN_PERF_DDR_W_8_52;
+			__IO uint8_t  PWR_CL_200_195;
+			__IO uint8_t  PWR_CL_200_360;
+			__IO uint8_t  PWR_CL_DDR_52_195;
+			__IO uint8_t  PWR_CL_DDR_52_360;
+			__IO uint8_t  Reserved3;
+			__IO uint8_t  INI_TIMEOUT_AP;
+			__IO uint8_t  CORRECTLY_PRG_SECTORS_NUM[4];
+			__IO uint8_t  BKOPS_STATUS[2];
+			__IO uint8_t  POWER_OFF_LONG_TIME;
+			__IO uint8_t  GENERIC_CMD6_TIME;
+			__IO uint8_t  CACHE_SIZE[4];
+			__IO uint8_t  Reserved2[255];
+			__IO uint8_t  EXT_SUPPORT;
+			__IO uint8_t  LARGE_UNIT_SIZE_M1;
+			__IO uint8_t  CONTEXT_CAPABILITIES;
+			__IO uint8_t  TAG_RES_SIZE;
+			__IO uint8_t  TAG_UNIT_SIZE;
+			__IO uint8_t  DATA_TAG_SUPPORT;
+			__IO uint8_t  MAX_PACKED_WRITES;
+			__IO uint8_t  MAX_PACKED_READS;
+			__IO uint8_t  BKOPS_SUPPORT;
+			__IO uint8_t  HPI_FEATURES;
+			__IO uint8_t  S_CMD_SET;
+			__IO uint8_t  Reserved1[7];
+		} EXT_CSD;
+   __IO uint8_t CsdBuf[512];
+} MMCEXT_CSD;
+
+/** 
   * @brief  Card Identification Data: CID Register   
   */
 typedef struct
@@ -226,6 +366,7 @@ typedef struct
   __IO uint8_t ERASE_TIMEOUT;
   __IO uint8_t ERASE_OFFSET;
 } SD_CardStatus;
+
 
 /** 
   * @brief SD Card information 
@@ -296,6 +437,7 @@ typedef struct
 #define SD_CMD_LOCK_UNLOCK                         ((uint8_t)42)
 #define SD_CMD_APP_CMD                             ((uint8_t)55)
 #define SD_CMD_GEN_CMD                             ((uint8_t)56)
+#define SD_CMD_READ_OCR                            ((uint8_t)58)
 #define SD_CMD_NO_CMD                              ((uint8_t)64)
 
 /** 
@@ -327,6 +469,14 @@ typedef struct
 #define SD_CMD_SD_APP_CHANGE_SECURE_AREA           ((uint8_t)49) /*!< For SD Card only */
 #define SD_CMD_SD_APP_SECURE_WRITE_MKB             ((uint8_t)48) /*!< For SD Card only */
 
+/**
+  * @}
+  */ 
+#define MMC_OCR_REG             0x40FF8080
+#define MMC_POWER_REG           0x03BB0800
+#define MMC_HIGHSPEED_REG       0x03B90100
+#define MMC_4BIT_REG            0x03B70100
+#define MMC_8BIT_REG            0x03B70200
 
 /**
   * @brief  SD detection on its memory slot
@@ -394,11 +544,11 @@ SD_Error SD_Erase(uint64_t startaddr, uint64_t endaddr);
 SD_Error SD_SendStatus(uint32_t *pcardstatus);
 SD_Error SD_SendSDStatus(uint32_t *psdstatus);
 SD_Error SD_ProcessIRQSrc(void);
-SD_Error SD_HighSpeed(void);
+SD_Error SD_EnableHighSpeed(void);
 
 extern __IO SD_Error Status;
 extern SD_CardInfo SDCardInfo;
-
+extern void _delay_ms(__IO uint32_t mSec);
 
 #ifdef __cplusplus
 }

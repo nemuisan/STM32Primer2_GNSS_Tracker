@@ -1,3 +1,6 @@
+20160130 : 
+V43.00	Added MMCv4.x cards PreSupport on sdio_stm32f1.c.
+
 20160115 : 
 V42.00	Chanegd definition compatibility in USB mass-storage mode.
 
