@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        18.00
-    @date           2016.01.30
+    @version        19.00
+    @date           2016.02.21
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -26,6 +26,7 @@
 		2015.12.03 V16.00	Added Read OCR registers for disk_ioctl().
 		2015.12.18 V17.00	Added Read SCR registers for disk_ioctl().
 		2016.01.30 V18.00	Added MMCv4.x Cards PreSupport.
+		2016.02.21 V19.00	Added MMCv3.x Cards(MMC Native 1-bit Mode) Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -35,7 +36,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x1800
+#if __SDIO_STM32F1_H!= 0x1900
 #error "header file version is not correspond!"
 #endif
 
@@ -187,6 +188,7 @@ static uint8_t convert_from_bytes_to_power_of_two(uint16_t NumberOfBytes);
  static void SD_LowLevel_DMA_RxConfig(uint32_t *BufferDST, uint32_t BufferSize);
  static uint32_t SD_DMAEndOfTransferStatus(void);
 #endif
+
 /* Functions -----------------------------------------------------------------*/
 
 /**************************************************************************/
@@ -234,7 +236,7 @@ void SD_DeInit(void)
 SD_Error SD_Init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
-	NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_InitTypeDef  NVIC_InitStructure;
 	SD_Error errorstatus = SD_OK;
 
 	/* SDIO Peripheral Low Level Init */
@@ -335,7 +337,7 @@ SD_Error SD_Init(void)
 			MMCEXT_CSD ext_csd;
 			MMC_ReadExtCsd(&ext_csd);
 			SDCardInfo.CardBlockSize = 1 << (SDCardInfo.SD_csd.RdBlockLen);
-			SDCardInfo.CardCapacity = (uint64_t)((uint64_t)(ext_csd.EXT_CSD.SEC_COUNT[3] << 24 | \
+			SDCardInfo.CardCapacity = (uint64_t)((uint32_t)(ext_csd.EXT_CSD.SEC_COUNT[3] << 24 | \
 															ext_csd.EXT_CSD.SEC_COUNT[2] << 16 | \
 															ext_csd.EXT_CSD.SEC_COUNT[1] << 8  | \
 															ext_csd.EXT_CSD.SEC_COUNT[0]));
@@ -993,7 +995,6 @@ SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo)
 	cardinfo->SD_csd.CSD_CRC = (tmp & 0xFE) >> 1;
 	cardinfo->SD_csd.Reserved4 = 1;
 
-
 	if ((CardType == SDIO_STD_CAPACITY_SD_CARD_V1_1)  || \
         (CardType == SDIO_STD_CAPACITY_SD_CARD_V2_0)  || \
 		(CardType == SDIO_HIGH_CAPACITY_SD_CARD))
@@ -1167,18 +1168,22 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode)
 		}
 		else if (SDIO_BusWide_4b == WideMode)
 		{
-			errorstatus = MMCEnWideBus(ENABLE);
+			/* MMC WideBus Mode Supports above v4 cards! */
+			if(SDCardInfo.SD_csd.SysSpecVersion >= 4){
+				
+				errorstatus = MMCEnWideBus(ENABLE);
 
-			if (SD_OK == errorstatus)
-			{
-				/*!< Configure the SDIO peripheral */
-				SDIO_InitStructure.SDIO_ClockDiv = SDIO_TRANSFER_CLK_DIV; 
-				SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
-				SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
-				SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
-				SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
-				SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
-				SDIO_Init(&SDIO_InitStructure);
+				if (SD_OK == errorstatus)
+				{
+					/*!< Configure the SDIO peripheral */
+					SDIO_InitStructure.SDIO_ClockDiv = SDIO_TRANSFER_CLK_DIV; 
+					SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
+					SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
+					SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
+					SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
+					SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
+					SDIO_Init(&SDIO_InitStructure);
+				}
 			}
 		}
 		else
@@ -2235,15 +2240,15 @@ SD_Error SD_Erase(uint64_t startaddr, uint64_t endaddr)
 		return(errorstatus);
 	}
 
-	for (delay = 0; delay < maxdelay; delay++)
-	{}
+	for (delay = 0; delay < maxdelay; delay++){}
 
 	/*!< Wait till the card is in programming state */
 	errorstatus = IsCardProgramming(&cardstate);
-
-	while ((errorstatus == SD_OK) && ((SD_CARD_PROGRAMMING == cardstate) || (SD_CARD_RECEIVING == cardstate)))
+	delay = SD_DATATIMEOUT;
+	while ((delay > 0) && (errorstatus == SD_OK) && ((SD_CARD_PROGRAMMING == cardstate) || (SD_CARD_RECEIVING == cardstate)))
 	{
 		errorstatus = IsCardProgramming(&cardstate);
+		delay--;
 	}
 
 	return(errorstatus);
@@ -2396,12 +2401,13 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
 		return(errorstatus);
 	}
 
-	while (SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET)
+	count = SD_DATATIMEOUT;
+	while ((SDIO_GetFlagStatus(SDIO_FLAG_RXDAVL) != RESET) && (count > 0))
 	{
 		*psdstatus = SDIO_ReadData();
 		psdstatus++;
+		count--;
 	}
-
 	/*!< Clear all the static status flags*/
 	SDIO_ClearFlag(SDIO_STATIC_FLAGS);
 	psdstatus -= 16;
@@ -3347,8 +3353,8 @@ static SD_Error SD_HighSpeed (void)
 {
 	SD_Error errorstatus = SD_OK;
 	uint32_t scr[2] = {0, 0};
-	uint32_t SD_SPEC = 0 ;
-	uint8_t hs[64] = {0} ;
+	uint32_t SD_SPEC = 0;
+	uint8_t hs[64] = {0};
 	uint32_t  count = 0, *tempbuff = (uint32_t *)hs;
 	TransferError = SD_OK;
 	TransferEnd = 0;
@@ -3543,6 +3549,7 @@ static SD_Error MMC_HighSpeed (void)
 
 	return(errorstatus);
 }
+
 /**************************************************************************/
 /*! 
 	@brief  Switch mode High-SpeedMode.
@@ -3914,7 +3921,7 @@ DRESULT disk_read(uint8_t drv,uint8_t *buff,uint32_t sector,unsigned int count)
 		{     
 			Status = SD_OK;
 
-		#if defined(SD_DMA_MODE) && (NO_ALIGN4CHK == 0)
+		#if defined(SD_DMA_MODE) && (NO_ALIGN4CHK == 0) && !defined(SD_POLLING_MODE)
 			if((uint32_t)buff & 3)	/* Check 4-Byte Alignment */
 			{	/* Unaligned Buffer Address Case (Slower) */
 				for (unsigned int secNum = 0; secNum < count && Status == SD_OK; secNum++){
@@ -3979,7 +3986,7 @@ DRESULT disk_write(uint8_t drv,const uint8_t *buff,uint32_t sector,unsigned int 
 		{     
 			Status = SD_OK;
 
-		#if defined(SD_DMA_MODE) && (NO_ALIGN4CHK == 0)
+		#if defined(SD_DMA_MODE) && (NO_ALIGN4CHK == 0) && !defined(SD_POLLING_MODE)
 			if((uint32_t)buff & 3)	/* Check 4-Byte Alignment */
 			{	/* Unaligned Buffer Address Case (Slower) */
 				for (unsigned int secNum = 0; secNum < count && Status == SD_OK; secNum++){
@@ -4006,7 +4013,7 @@ DRESULT disk_write(uint8_t drv,const uint8_t *buff,uint32_t sector,unsigned int 
 
 		#else	/* POLLING MODE or NO Aligned Check DMA MODE */
 		#if defined(SD_DMA_MODE) && (NO_ALIGN4CHK == 1)
-		 #warning "You are about to DMA without unaligned check! Write data may be result in corruption!"
+		 #warning "You are about to DMA Tx without unaligned check!"
 		#endif
 			if(count==1){
 				Status = SD_WriteBlock((uint8_t*)(buff), 
@@ -4096,8 +4103,10 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 						break;
 					case SDIO_MULTIMEDIA_CARD:
 					case SDIO_HIGH_SPEED_MULTIMEDIA_CARD:
-					case SDIO_HIGH_CAPACITY_MMC_CARD:
 						*(uint8_t*)buff = CT_MMC;
+						break;
+					case SDIO_HIGH_CAPACITY_MMC_CARD:
+						*(uint8_t*)buff = CT_MMC | CT_BLOCK;
 						break;
 					default:
 						*(uint8_t*)buff = 0;

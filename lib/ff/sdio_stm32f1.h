@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        18.00
-    @date           2016.01.30
+    @version        19.00
+    @date           2016.02.21
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -26,13 +26,14 @@
 		2015.12.03 V16.00	Added Read OCR registers for disk_ioctl().
 		2015.12.18 V17.00	Added Read SCR registers for disk_ioctl().
 		2016.01.30 V18.00	Added MMCv4.x Cards PreSupport.
+		2016.02.21 V19.00	Added MMCv3.x Cards(MMC Native 1-bit Mode) Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x1800
+#define __SDIO_STM32F1_H	0x1900
 
 #ifdef __cplusplus
  extern "C" {
