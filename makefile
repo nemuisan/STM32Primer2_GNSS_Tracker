@@ -71,7 +71,8 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = Version44.00
+APP_VER = 45.00
+
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
 MPU_MODEL		= STM32F10X_HD
@@ -264,11 +265,13 @@ LIBCFILES = \
  $(USBLIB)/src/usb_regs.c 			\
  $(USBLIB)/src/usb_sil.c
  
-#/*----- STM32 Debug library -----*/
+#/*----- I/O Debug library -----*/
 ifeq ($(OPTIMIZE),0)
 CFILES += \
  ./lib/IOView/stm32f10x_io_view.c
-else
+else ifeq ($(OPTIMIZE),g)
+CFILES += \
+ ./lib/IOView/stm32f10x_io_view.c
 endif
 
 

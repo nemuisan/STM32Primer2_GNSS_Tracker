@@ -1,3 +1,7 @@
+20160320 : 
+V45.00	Fixed MMCv3.x Cards stability on sdio_stm32f1.c.
+		Added MMCv5.x Card Support.
+
 20160221 : 
 V44.00	Added MMCv3.x Cards(MMC Native 1-bit Mode) Support.
 		Fixed 64bit Miscast Problem on sdio_stm32f1.c.

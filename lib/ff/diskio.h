@@ -74,6 +74,7 @@ void disk_timerproc (void);
 #define MMC_GET_OCR			53	/* Get OCR */
 #define MMC_GET_SDSTAT		54	/* Get SD status */
 #define SD_GET_SCR			55	/* Get SCR (Nemui Added) */
+#define MMC_GET_EXTCSDREV	56	/* Get ExtCSD Version (Nemui Added) */
 
 /* ATA/CF specific ioctl command (Not used by FatFs) */
 #define ATA_GET_REV			60	/* Get F/W revision */
