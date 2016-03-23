@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        20.00
-    @date           2016.03.16
+    @version        21.00
+    @date           2016.03.24
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -27,14 +27,15 @@
 		2015.12.18 V17.00	Added Read SCR registers for disk_ioctl().
 		2016.01.30 V18.00	Added MMCv4.x Cards PreSupport.
 		2016.02.21 V19.00	Added MMCv3.x Cards(MMC Native 1-bit Mode) Support.
-		2016.03.16 V20.00	Fixed MMCv3.x for stability problem.
+		2016.03.20 V20.00	Fixed MMCv3.x for stability problem.
+		2016.03.24 V21.00	Added MMCv5.x Devices Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x2000
+#define __SDIO_STM32F1_H	0x2100
 
 #ifdef __cplusplus
  extern "C" {
@@ -508,8 +509,9 @@ typedef struct
   */
 #define SDIO_INIT_CLK_DIV                ((uint8_t)0xB2)	/* 72MHz(HCLK MAX Value)/(178+2)= 0.4MHz */
 /** 
-  * @brief  SDIO Data Transfer Frequency 
-  *         (SDIO_CK:24MHz in NomalMode,36MHz in HighSpeedMode)
+  * @brief  SDIO Data Transfer Frequency
+  *         NomalMode     25MHz(SD Card)/26MHz(MMCv4.x or above)/20MHz(MMCv3.x)
+  *         HighSpeedMode 50MHz(SD Card)/52MHz(MMCv4.x or above)
   *			PCLK2,SDIO_CK frequency must meets below equation.
   *           PCLK2 >= SDIO_CK * (3/8)
   * 		PCLK2=72MHz,SDIO_CK can take upto 36MHz(72MHz>=(3/8)*36MHz=13.5MHz).

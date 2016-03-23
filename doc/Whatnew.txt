@@ -1,3 +1,6 @@
+20160324 : 
+V46.00	Added MMCv5.x Devices Support.
+
 20160320 : 
 V45.00	Fixed MMCv3.x Cards stability on sdio_stm32f1.c.
 		Added MMCv5.x Card Support.

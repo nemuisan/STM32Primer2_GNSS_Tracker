@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        20.00
-    @date           2016.03.20
+    @version        21.00
+    @date           2016.03.24
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -28,6 +28,7 @@
 		2016.01.30 V18.00	Added MMCv4.x Cards PreSupport.
 		2016.02.21 V19.00	Added MMCv3.x Cards(MMC Native 1-bit Mode) Support.
 		2016.03.20 V20.00	Fixed MMCv3.x for stability problem.
+		2016.03.24 V21.00	Added MMCv5.x Devices Support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -37,7 +38,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x2000
+#if __SDIO_STM32F1_H!= 0x2100
 #error "header file version is not correspond!"
 #endif
 
@@ -332,7 +333,7 @@ SD_Error SD_Init(void)
 	}
 
 	/* Read ExtCSD register and get total sector count
-      for HighCapacity MMC & eMMC (above 4GB,block addressing) */
+       for HighCapacity MMC & eMMC (above 4GB,block addressing) */
     if(CardType == SDIO_HIGH_CAPACITY_MMC_CARD)
 	{
 		if(SDCardInfo.SD_csd.SysSpecVersion >= 4){
@@ -558,7 +559,6 @@ SD_Error SD_PowerON(void)
 		/*!< Send ACMD41 SD_APP_OP_COND with Argument 0x80100000 */
 		while ((!validvoltage) && (count < SD_MAX_VOLT_TRIAL))
 		{
-
 			/*!< SEND CMD55 APP_CMD with RCA as 0 */
 			SDIO_CmdInitStructure.SDIO_Argument = 0x00;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
@@ -624,7 +624,7 @@ SD_Error SD_PowerON(void)
 			/*!< CMD Response TimeOut (wait for CMDSENT flag) */
 			return(errorstatus);
 		}
-		
+
 		/*!< Re-issue CMD0 to reset card */
 		SDIO_CmdInitStructure.SDIO_Argument = 0x0;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_GO_IDLE_STATE;
@@ -655,11 +655,16 @@ SD_Error SD_PowerON(void)
 			SDIO_SendCommand(&SDIO_CmdInitStructure);
 
 			errorstatus = CmdResp3Error();
-
+			if (errorstatus != SD_OK)
+			{
+				return(errorstatus);
+			}
+	
 			response = SDIO_GetResponse(SDIO_RESP1);
 			OCR = response;
 			validvoltage = (((response >> 31) == 1) ? 1 : 0);
 			count++;
+			_delay_ms(1); /* Need for MMCv5 devices */
 		}
 		
 		if (count >= SD_MAX_VOLT_TRIAL)
@@ -955,12 +960,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo)
 		   to get total sector count. 
 		   To read ExtCSD correctly,throw CMD7 at first.
 		   Thus on s**kly SPD libraries,cannot execute CMD8 in this function scope.
-		*/ 
-		/* Retrive total sector count but temporary */
-		cardinfo->CardCapacity = (cardinfo->SD_csd.DeviceSize + 1) ;
-		cardinfo->CardCapacity *= (1 << (cardinfo->SD_csd.DeviceSizeMul + 2));
-		cardinfo->CardBlockSize = 1 << (cardinfo->SD_csd.RdBlockLen);
-		cardinfo->CardCapacity *= cardinfo->CardBlockSize; 
+		*/
 	}
 
 	cardinfo->SD_csd.EraseGrSize = (tmp & 0x40) >> 6;
@@ -1431,7 +1431,6 @@ SD_Error SD_ReadBlock(uint8_t *readbuff, uint64_t ReadAddr, uint16_t BlockSize)
 
 	/*!< Clear all the static flags */
 	SDIO_ClearFlag(SDIO_STATIC_FLAGS);
-
 
 #elif defined(SD_DMA_MODE)
 	/*!< DMA mode */
@@ -3907,12 +3906,13 @@ DSTATUS disk_status(uint8_t drv)
 	{
 		case SDIO_DRIVE:
 		{
-			Status = SD_GetCardInfo(&SDCardInfo);
+			Stat = STA_NOINIT;
 
-			if (Status != SD_OK)
-				return STA_NOINIT;
-			else
-				return 0x00;
+			if(SD_GetStatus() == SD_TRANSFER_OK)
+			{
+				Stat &= ~STA_NOINIT;
+			}
+			return Stat;
 		}
 	}
   
@@ -4067,8 +4067,6 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 	{
 		case SDIO_DRIVE:
 		{
-		  SD_GetCardInfo(&SDCardInfo);
-		  
 		  /*!< SDCARD */
 	      if((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) || \
              (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) || \
