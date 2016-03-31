@@ -1,3 +1,6 @@
+20160325 : 
+V47.00	Fixed block erase size calculation for SDXC.
+
 20160324 : 
 V46.00	Added MMCv5.x Devices Support.
 

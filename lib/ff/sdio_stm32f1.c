@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        21.00
-    @date           2016.03.24
+    @version        22.00
+    @date           2016.03.25
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -29,6 +29,7 @@
 		2016.02.21 V19.00	Added MMCv3.x Cards(MMC Native 1-bit Mode) Support.
 		2016.03.20 V20.00	Fixed MMCv3.x for stability problem.
 		2016.03.24 V21.00	Added MMCv5.x Devices Support.
+		2015.03.25 V22.00	Fixed block erase size calculation for SDXC.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -38,7 +39,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x2100
+#if __SDIO_STM32F1_H!= 0x2200
 #error "header file version is not correspond!"
 #endif
 
@@ -4098,7 +4099,18 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 			/* Get erase block size in unit of sector (DWORD) */
 			case GET_BLOCK_SIZE :
 				if ((SDCardInfo.CardType == SDIO_STD_CAPACITY_SD_CARD_V2_0) || (SDCardInfo.CardType == SDIO_HIGH_CAPACITY_SD_CARD)){	/* SDC ver 2.00 */
-					*(uint32_t*)buff = 16UL << (SDCardStatus.AU_SIZE);
+					if(SDCardStatus.AU_SIZE <= 10) {
+						*(uint32_t*)buff = 16UL << (SDCardStatus.AU_SIZE);
+					}
+					else if((SDCardStatus.AU_SIZE == 11) || (SDCardStatus.AU_SIZE == 12))  {
+						*(uint32_t*)buff = 16384UL + 8192UL*(SDCardStatus.AU_SIZE-10);
+					}
+					else if((SDCardStatus.AU_SIZE == 13) || (SDCardStatus.AU_SIZE == 14))  {
+						*(uint32_t*)buff = 32768UL + 16384UL*(SDCardStatus.AU_SIZE-12);
+					}
+					else { /* SDCardStatus.AU_SIZE == 15 */
+						*(uint32_t*)buff = 131072UL; /* 131072(sector) * 512(byte :SDv2 blocksize) = 64MiB */
+					}
 				} else {					/* SDC ver 1.XX or MMC */
 					if (SDCardInfo.CardType == SDIO_STD_CAPACITY_SD_CARD_V1_1) {	/* SDC ver 1.XX */
 						*(uint32_t*)buff = (((CSD_Tab[2] & 0x00003F80) >> 7) + 1)  << (((CSD_Tab[3] & 0x00FF0000) >> 22) - 1);

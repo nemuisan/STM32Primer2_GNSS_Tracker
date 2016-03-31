@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        21.00
-    @date           2016.03.24
+    @version        22.00
+    @date           2016.03.25
 	@brief          SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -29,13 +29,14 @@
 		2016.02.21 V19.00	Added MMCv3.x Cards(MMC Native 1-bit Mode) Support.
 		2016.03.20 V20.00	Fixed MMCv3.x for stability problem.
 		2016.03.24 V21.00	Added MMCv5.x Devices Support.
+		2015.03.25 V22.00	Fixed block erase size calculation for SDXC.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x2100
+#define __SDIO_STM32F1_H	0x2200
 
 #ifdef __cplusplus
  extern "C" {
