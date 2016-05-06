@@ -24,6 +24,15 @@ UP-501  (FASTRAX CO., LTD.)
 GT-723F (CANMORE ELECTRONICS CO., LTD.)
  Supports Venus6,9600bps,AGPS With PC-Software.
 
+
+========== Support Memory Cards ==========
+SDSC : FAT16 Format,Up to 2GB.
+SDHC : FAT32 Format,Up to 32GB.
+SDXC : FAT32(exFAT doesn't support,use FAT32),Up to 2TB.
+MMC  : FAT16 Format,Up to 2GB.
+eMMC : FAT32 Format,Up to 2TB.
+
+
 /* ATTENTION!! */
 If you use UP501 o rPA6C or Gms-g6a,
 U MUST connect module-VBAT pin to Li+ion battery or VCC!

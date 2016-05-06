@@ -1,3 +1,7 @@
+20160501 : 
+V48.00	Adopted FatFs0.12.
+		Adopted FatFs0.12 latest patch update.
+
 20160325 : 
 V47.00	Fixed block erase size calculation for SDXC.
 

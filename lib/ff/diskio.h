@@ -9,8 +9,8 @@
 extern "C" {
 #endif
 
-#define _USE_WRITE	1	/* 1: Enable disk_write function */
-#define _USE_IOCTL	1	/* 1: Enable disk_ioctl fucntion */
+#define _USE_WRITE	1	/* 1: Enable disk_write() function */
+#define _USE_IOCTL	1	/* 1: Enable disk_ioctl() fucntion */
 
 #include "integer.h"
 
@@ -30,6 +30,7 @@ typedef enum {
 
 /*---------------------------------------*/
 /* Prototypes for disk control functions */
+/*---------------------------------------*/
 
 
 DSTATUS disk_initialize (BYTE pdrv);
@@ -67,7 +68,7 @@ void disk_timerproc (void);
 #define CTRL_UNLOCK			9	/* Unlock media removal */
 #define CTRL_EJECT			10	/* Eject media */
 
-/* MMC/SDC specific ioctl command (Not used by FatFs) */
+/* MMC/SDC specific command (Not used by FatFs) */
 #define MMC_GET_TYPE		50	/* Get card type */
 #define MMC_GET_CSD			51	/* Get CSD */
 #define MMC_GET_CID			52	/* Get CID */
@@ -76,7 +77,7 @@ void disk_timerproc (void);
 #define SD_GET_SCR			55	/* Get SCR (Nemui Added) */
 #define MMC_GET_EXTCSDREV	56	/* Get ExtCSD Version (Nemui Added) */
 
-/* ATA/CF specific ioctl command (Not used by FatFs) */
+/* ATA/CF specific command (Not used by FatFs) */
 #define ATA_GET_REV			60	/* Get F/W revision */
 #define ATA_GET_MODEL		61	/* Get model name */
 #define ATA_GET_SN			62	/* Get serial number */

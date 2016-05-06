@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2015.02.28
+    @version        11.00
+    @date           2016.04.15
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -21,6 +21,7 @@
 		2013.04.10  V8.00   Changed UART-Retarget Method.
 		2013.10.09	V9.00	Adopted FatFs0.10.
 		2015.02.28 V10.00	Buffer aligned by 4Byte.
+		2016.04.15 V11.00	Adopted FatFs0.12.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -30,7 +31,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gps_support.h"
 /* check header file version for fool proof */
-#if __GPS_SUPPORT_H!= 0x1000
+#if __GPS_SUPPORT_H!= 0x1100
 #error "header file version is not correspond!"
 #endif
 
@@ -379,7 +380,7 @@ startstat:
 
 		/* Open or Create logfile */
 		if (f_open(&File1, (const char*)Buff, FA_OPEN_ALWAYS | FA_WRITE) ||
-		    f_lseek(&File1, File1.fsize)) {goto errstat;}
+		    f_lseek(&File1, File1.obj.objsize)) {goto errstat;}
 
 		/* Logging GPS Data */
 		while ((b = get_line_GPS()) > 0)

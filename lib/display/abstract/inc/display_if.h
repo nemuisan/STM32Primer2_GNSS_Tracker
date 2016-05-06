@@ -283,6 +283,9 @@
 #elif	USE_RM68110_SPI_TFT
  #include "rm68110.h"
 
+#elif	USE_RM68110_TFT
+ #include "rm68110.h"
+
 #elif	USE_NT35582_TFT
  #include "nt35582.h"
  
@@ -292,6 +295,9 @@
 #elif	USE_RK043FN48H_RGB_TFT
  #include "rk043fn48h_rgb.h"
  #define USE_TFT_FRAMEBUFFER
+
+#elif	USE_ILI9806H_TFT
+ #include "ili9806h.h"
 
  
 #else

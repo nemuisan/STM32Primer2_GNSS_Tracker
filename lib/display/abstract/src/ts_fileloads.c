@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2015.08.01
+    @version        12.00
+    @date           2016.04.20
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -19,6 +19,7 @@
 		2014.06.25	V9.00   Removed Buff[] from header file.
 		2015.01.15 V10.00   Added AAC Player Handling.
 		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
+		2016.04.20 V12.00	Adopted FatFs0.12.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -30,13 +31,42 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
+/* check header file version for fool proof */
+#if __TS_FILELOADS_H != 0x1200
+#error "header file version is not correspond!"
+#endif
 
 /* Defines -------------------------------------------------------------------*/
+/* Load a 2-byte little-endian word */
+static inline  WORD LD_WORD (const BYTE* ptr)
+{
+	WORD rv;
+
+	rv = ptr[1];
+	rv = rv << 8 | ptr[0];
+	return rv;
+}
+/* Load a 4-byte little-endian word */
+static inline DWORD LD_DWORD(const BYTE* ptr)	
+{
+	DWORD rv;
+
+	rv = ptr[3];
+	rv = rv << 8 | ptr[2];
+	rv = rv << 8 | ptr[1];
+	rv = rv << 8 | ptr[0];
+	return rv;
+}
+
 /* Used for Filer */
 typedef struct {
 	uint32_t fsize;
 	uint8_t  fattr;
+#if _USE_LFN
+	char fname[_MAX_LFN+1];
+#else
 	char fname[13];
+#endif
 } DIRITEM;
 
 /* Used for TEXT Viewer */
@@ -64,12 +94,6 @@ extern uint16_t Row, Col, Attr;
 /* Used for Filer VRAM */
 extern uint16_t Vram[TS_HEIGHT][TS_WIDTH];
 
-/* Used for Getting Filenames */
-#if _USE_LFN
- extern char Lfname[_MAX_LFN+1];
-#else
- char Sfname[13];
-#endif
 
 #if defined(USE_TFT_FRAMEBUFFER)
 #if ((MAX_X*MAX_Y*2) > BUFSIZE)
@@ -99,9 +123,9 @@ static const char* GetLFN(char* path, char* filename, DIR* dir, FILINFO* fno)
 
 	if ( (f_opendir(dir, path) == FR_OK) ) {
 		while (f_readdir(dir, fno) == FR_OK && i < 256) {
-			if(strcmp(filename, fno->fname)==0){
-				if(*(fno->lfname)) return (const char*)fno->lfname;
-				else 			   return (const char*)fno->fname;
+			if(strcmp(filename, fno->altname)==0){
+				if(*(fno->fname)) return (const char*)fno->fname;
+				else 			  return (const char*)fno->altname;
 			}
 			i++;
 		}
@@ -1675,7 +1699,16 @@ static int filer_load_dir (
 	while (f_readdir(dir, fno) == FR_OK && fno->fname[0] && i < 200) {
 		diritem[i].fsize = fno->fsize;
 		diritem[i].fattr = fno->fattrib;
+#if _USE_LFN
+		if(fno->altname[0]){
+			if(strlen(fno->fname)>11) strcpy(diritem[i].fname, fno->altname);
+			else					  strcpy(diritem[i].fname, fno->fname);
+		} else {
+			sprintf(diritem[i].fname,"%s",fno->fname); /* In cace of exFAT */
+		}
+#else
 		strcpy(diritem[i].fname, fno->fname);
+#endif
 		i++;
 	}
 	return i;
@@ -1700,12 +1733,8 @@ int filer(
 	char k;
 	char* filenames;
 
+
 	while (xgetc_n());
-	
-#if _USE_LFN
-	fno->lfname = Lfname;
-	fno->lfsize = sizeof(Lfname);
-#endif
 
 	for (;;) {
 		items = filer_load_dir(path, dir, fno);
@@ -1743,8 +1772,7 @@ int filer(
 #if _USE_LFN
 				filenames = (char*)GetLFN(path,diritem[item].fname,dir,fno);
 #else
-				strcpy(Sfname, diritem[item].fname);
-				filenames = Sfname;
+				filenames = diritem[item].fname;
 #endif
 
 				path[i] = '/';

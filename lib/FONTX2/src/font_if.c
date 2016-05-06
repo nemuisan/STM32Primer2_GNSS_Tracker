@@ -5,7 +5,7 @@
     @version        4.00
     @date           2014.03.31
 	@brief          Interface of FONTX Driver								@n
-                    Refered under URL thanks!								@n
+                    Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
 					http://hp.vector.co.jp/authors/VA007110/technicalworkshop
 
