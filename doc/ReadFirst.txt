@@ -28,7 +28,7 @@ GT-723F (CANMORE ELECTRONICS CO., LTD.)
 ========== Support Memory Cards ==========
 SDSC : FAT16 Format,Up to 2GB.
 SDHC : FAT32 Format,Up to 32GB.
-SDXC : FAT32(exFAT doesn't support,use FAT32),Up to 2TB.
+SDXC : FAT32(exFAT doesn't support,use FAT32 format),Up to 2TB.
 MMC  : FAT16 Format,Up to 2GB.
 eMMC : FAT32 Format,Up to 2TB.
 

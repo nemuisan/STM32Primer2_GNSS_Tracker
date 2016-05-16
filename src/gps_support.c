@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2016.04.15
+    @version        12.00
+    @date           2016.05.13
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -20,8 +20,9 @@
 		2013.02.20  V7.00   Added Some MT3339/MT3333 Commands.
 		2013.04.10  V8.00   Changed UART-Retarget Method.
 		2013.10.09	V9.00	Adopted FatFs0.10.
-		2015.02.28 V10.00	Buffer aligned by 4Byte.
+		2015.02.28 V10.00	Buffer alignment set by 4Byte.
 		2016.04.15 V11.00	Adopted FatFs0.12.
+		2016.05.13 V12.00	Adopted Gms-g9(Titan3) new firmware.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -31,7 +32,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gps_support.h"
 /* check header file version for fool proof */
-#if __GPS_SUPPORT_H!= 0x1100
+#if __GPS_SUPPORT_H!= 0x1200
 #error "header file version is not correspond!"
 #endif
 
@@ -341,7 +342,8 @@ startstat:
 			LED_GRN_ON();
 	
 			/* Get GPRMC & GNRMC Valid Flag Column */ 
-			if (!gp_comp(Buff, "$GPRMC") || !gp_comp(Buff, "$GNRMC")){
+			if (!gp_comp(Buff,"$GPRMC") || !gp_comp(Buff,"$GNRMC"))
+			{
 				/* Skip this execution When not a GPRMC or GNRMC Sentence */
 				p = gp_col(Buff,GPRMC_COL_VALID);
 				LED_GRN_OFF();
@@ -385,8 +387,8 @@ startstat:
 		/* Logging GPS Data */
 		while ((b = get_line_GPS()) > 0)
 		{
-
-			if (!gp_comp(Buff,"$GPGGA"))
+			/* Get GPGGA & GNGGA Valid Flag Column */ 
+			if (!gp_comp(Buff,"$GPGGA") || !gp_comp(Buff,"$GNGGA"))
 			{
 				p = gp_col(Buff,GPGGA_POS_TYPE);
 				if(*p != '0'){ /* 0 is invalid tracking data */
@@ -395,27 +397,8 @@ startstat:
 				}
 			}
 
-			else if (!gp_comp(Buff,"$GPRMC"))
-			{
-				p = gp_col(Buff,GPRMC_COL_VALID);
-				if(*p == 'A'){
-					LED_RED_ON();
-					if (f_write(&File1, Buff, b, &s) || b != s) {goto errstat;}
-				}
-			}
-
-			/* MT3333 Support */
-			if (!gp_comp(Buff,"$GNGGA"))
-			{
-				p = gp_col(Buff,GPGGA_POS_TYPE);
-				if(*p != '0'){ /* 0 is invalid tracking data */
-					LED_RED_ON();
-					if (f_write(&File1, Buff, b, &s) || b != s) {goto errstat;}
-				}
-			}
-
-			/* MT3333 Support */
-			else if (!gp_comp(Buff,"$GNRMC"))
+			/* Get GPRMC & GNRMC Valid Flag Column */ 
+			else if (!gp_comp(Buff,"$GPRMC") || !gp_comp(Buff,"$GNRMC"))
 			{
 				p = gp_col(Buff,GPRMC_COL_VALID);
 				if(*p == 'A'){
@@ -425,7 +408,8 @@ startstat:
 			}
 
 #if defined(ENABLE_SATELLITE_ID_LOGGING)
-			else if (!gp_comp(Buff,"$GPGSV"))
+			/* Get GPGSV & GLGSV & GAGSV Valid Flag Column */ 
+			else if (!gp_comp(Buff,"$GPGSV") || !gp_comp(Buff,"$GLGSV") || !gp_comp(Buff,"$GAGSV"))
 			{
 				char it;
 				p = gp_col(Buff,GPGSV_NUM_VIEW);
