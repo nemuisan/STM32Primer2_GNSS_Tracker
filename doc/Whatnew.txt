@@ -1,3 +1,7 @@
+20160810 : 
+V51.00	Adopted FatFs0.12a.
+		Adopted FatFs0.12a latest patch update.
+
 20160513 : 
 V50.00	Adopted Gms-g9(a.k.a Titan3) new firmware AXN3.80 (gps_support.c).
 

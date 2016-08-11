@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2016.04.20
+    @version        13.00
+    @date           2016.08.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -20,6 +20,7 @@
 		2015.01.15 V10.00   Added AAC Player Handling.
 		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
 		2016.04.20 V12.00	Adopted FatFs0.12.
+		2016.08.01 V13.00	Adopted FatFs0.12a.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -32,32 +33,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if __TS_FILELOADS_H != 0x1200
+#if __TS_FILELOADS_H != 0x1300
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
-/* Load a 2-byte little-endian word */
-static inline  WORD LD_WORD (const BYTE* ptr)
-{
-	WORD rv;
-
-	rv = ptr[1];
-	rv = rv << 8 | ptr[0];
-	return rv;
-}
-/* Load a 4-byte little-endian word */
-static inline DWORD LD_DWORD(const BYTE* ptr)	
-{
-	DWORD rv;
-
-	rv = ptr[3];
-	rv = rv << 8 | ptr[2];
-	rv = rv << 8 | ptr[1];
-	rv = rv << 8 | ptr[0];
-	return rv;
-}
-
 /* Used for Filer */
 typedef struct {
 	uint32_t fsize;
@@ -94,7 +74,6 @@ extern uint16_t Row, Col, Attr;
 /* Used for Filer VRAM */
 extern uint16_t Vram[TS_HEIGHT][TS_WIDTH];
 
-
 #if defined(USE_TFT_FRAMEBUFFER)
 #if ((MAX_X*MAX_Y*2) > BUFSIZE)
 	#define VBUFSIZE (MAX_X*MAX_Y*2)
@@ -105,9 +84,31 @@ extern uint16_t Vram[TS_HEIGHT][TS_WIDTH];
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
+/* Load a 2-byte little-endian word */
+static inline  WORD LD_WORD (const BYTE* ptr)
+{
+	WORD rv;
+
+	rv = ptr[1];
+	rv = rv << 8 | ptr[0];
+	return rv;
+}
+/* Load a 4-byte little-endian word */
+static inline DWORD LD_DWORD(const BYTE* ptr)	
+{
+	DWORD rv;
+
+	rv = ptr[3];
+	rv = rv << 8 | ptr[2];
+	rv = rv << 8 | ptr[1];
+	rv = rv << 8 | ptr[0];
+	return rv;
+}
+
 #ifdef USE_IJG_LIB /* JPEG */
  extern void jpeg_fatfs_src (j_decompress_ptr cinfo, FIL * infile);
 #endif
+
 
 /* Functions -----------------------------------------------------------------*/
 #if _USE_LFN
@@ -455,7 +456,7 @@ static int load_bmp(FIL *fil)
     Play Streaming ChaN's Original Format VideoFile.
 */
 /**************************************************************************/
-static int load_img(FIL* fil)
+static int load_img(FIL* fil, const char *filename)
 {
 	uint8_t f, stat;
 	char k;
@@ -467,6 +468,9 @@ static int load_img(FIL* fil)
 #if defined(USE_TFT_FRAMEBUFFER)
 	uint8_t* tbuf;
 	unsigned int vsize;
+#if defined(ENABLE_PERFORMANCE_MEASUREMENT)
+	unsigned int x1,x2,y1,y2;
+#endif
 #endif
 
 	if (LD_WORD(Buff+6) != 16) return 0;
@@ -482,7 +486,19 @@ static int load_img(FIL* fil)
 	CsrFlag = 0;
 
 	Display_clear_if();
+	ts_locate(0, 0 ,0);
+	xprintf("\33\x87\f");
+	xprintf("Playing Original stream img File\n");
+	xprintf("->%s\n", filename);
+
 	Display_rect_if((MAX_X - x) / 2, (MAX_X - x) / 2 + x - 1, (MAX_Y - y) / 2, (MAX_Y - y) / 2 + y - 1);
+#if defined(ENABLE_PERFORMANCE_MEASUREMENT)
+	x1 = (MAX_X - x) / 2;
+	x2 = (MAX_X - x) / 2 + x - 1;
+	y1 = (MAX_Y - y) / 2;
+	y2 = (MAX_Y - y) / 2 + y - 1;
+#endif
+
 	szfrm = x * y * 2;
 
 #if defined(USE_TFT_FRAMEBUFFER)
@@ -520,6 +536,11 @@ static int load_img(FIL* fil)
 		tp += fd;
 		cfrm++;
 
+#if defined(USE_TFT_FRAMEBUFFER) && defined(ENABLE_PERFORMANCE_MEASUREMENT)
+		ts_locate(2, 0 ,0);
+		xprintf("%d/%d frames", cfrm, nfrm);
+		Display_rect_if(x1, x2, y1, y2);
+#endif
 		for (;;) {
 			k = xgetc_n();
 			if (k == BTN_CAN) goto li_exit;
@@ -1484,7 +1505,7 @@ int load_file(char *path, char *filename, FIL *fil)
 
 	/* Execute Original Video File */ 
 	if (!memcmp(Buff, "IM", 2)) {
-		load_img(fil);
+		load_img(fil, filename);
 		f_close(fil);
 		return RES_OK;
 	}

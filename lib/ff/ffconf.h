@@ -1,8 +1,8 @@
 /*---------------------------------------------------------------------------/
-/  FatFs - FAT file system module configuration file  R0.12  (C)ChaN, 2016
+/  FatFs - FAT file system module configuration file
 /---------------------------------------------------------------------------*/
 
-#define _FFCONF 88100	/* Revision ID */
+#define _FFCONF 80186	/* Revision ID */
 
 /*---------------------------------------------------------------------------/
 / Function Configurations
@@ -34,7 +34,7 @@
 /  2: Enable with LF-CRLF conversion. */
 
 
-#define _USE_FIND		0
+#define _USE_FIND		1
 /* This option switches filtered directory read functions, f_findfirst() and
 /  f_findnext(). (0:Disable, 1:Enable 2:Enable with matching altname[] too) */
 
@@ -62,8 +62,7 @@
 
 
 #define	_USE_FORWARD	1
-/* This option switches f_forward() function. (0:Disable or 1:Enable)
-/  To enable it, also _FS_TINY need to be 1. */
+/* This option switches f_forward() function. (0:Disable or 1:Enable) */
 
 
 /*---------------------------------------------------------------------------/
@@ -118,13 +117,13 @@
 
 
 #define	_LFN_UNICODE	0
-/* This option switches character encoding on the API. (0:ANSI/OEM or 1:Unicode)
+/* This option switches character encoding on the API. (0:ANSI/OEM or 1:UTF-16)
 /  To use Unicode string for the path name, enable LFN and set _LFN_UNICODE = 1.
 /  This option also affects behavior of string I/O functions. */
 
 
 #define _STRF_ENCODE	3
-/* When _LFN_UNICODE == 1, this option selects the character encoding on the file to
+/* When _LFN_UNICODE == 1, this option selects the character encoding ON THE FILE to
 /  be read/written via string I/O functions, f_gets(), f_putc(), f_puts and f_printf().
 /
 /  0: ANSI/OEM
@@ -217,7 +216,7 @@
 
 
 #define _FS_NORTC	0
-#define _NORTC_MON	3
+#define _NORTC_MON	5
 #define _NORTC_MDAY	1
 #define _NORTC_YEAR	2016
 /* The option _FS_NORTC switches timestamp functiton. If the system does not have

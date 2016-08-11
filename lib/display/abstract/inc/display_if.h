@@ -299,7 +299,17 @@
 #elif	USE_ILI9806H_TFT
  #include "ili9806h.h"
 
+#elif	USE_RM68120_TFT
+ #include "rm68120.h"
  
+#elif	USE_OTM8009A_DSI_TFT
+ #include "otm8009a_dsi.h"
+ #define USE_TFT_FRAMEBUFFER
+
+#elif	USE_ILI9806G_TFT
+ #include "ili9806g.h"
+
+
 #else
  #error "None of the Selected Display Device!!"
 #endif
@@ -310,6 +320,7 @@
  #undef USE_ADS7843
  #undef USE_STMPE811_I2C
  #undef USE_FT5336_I2C
+ #undef USE_FT6x06_I2C
 #endif
 
 #ifdef __cplusplus

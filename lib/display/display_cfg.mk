@@ -24,6 +24,8 @@ ifeq ($(USE_DISPLAY),USE_ILI9341_RGB_TFT)
 CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
 else ifeq ($(USE_DISPLAY),USE_RK043FN48H_RGB_TFT)
 CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
+else ifeq ($(USE_DISPLAY),USE_OTM8009A_DSI_TFT)
+CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
 else
 CFILES += $(DISPLAY_SRC)/display_if_support.c
 endif
@@ -46,10 +48,17 @@ ifeq ($(USE_JPEG_LIB),USE_IJG_LIB)
   SYNTHESIS_DEFS	+= -DLIBJPEG_USE_NOFPU
  else ifeq ($(USING_FPU),-msoft-float)
   SYNTHESIS_DEFS	+= -DLIBJPEG_USE_NOFPU
+ else ifeq ($(USING_FPU),-mfloat-abi=hard -mfpu=fpv5-d16)
+  SYNTHESIS_DEFS	+= -DLIBJPEG_USE_DFPU
+  SYNTHESIS_DEFS	+= -DLIBPNG_USE_DFPU
+ else ifeq ($(USING_FPU),-mfloat-abi=hard -mfpu=fpv5-sp-d16)
+  SYNTHESIS_DEFS	+= -DLIBJPEG_USE_FPU
+ else ifeq ($(USING_FPU),-mfloat-abi=hard -mfpu=fpv4-sp-d16)
+  SYNTHESIS_DEFS	+= -DLIBJPEG_USE_FPU
  else ifeq ($(USING_FPU),)
   SYNTHESIS_DEFS	+= -DLIBJPEG_USE_NOFPU
  else
-  SYNTHESIS_DEFS	+= -DLIBJPEG_USE_FPU
+  SYNTHESIS_DEFS	+= -DLIBJPEG_USE_NOFPU
  endif
 
  JPEGLIB = $(DISPLAY_LIB)/jpeg/libjpeg
@@ -84,19 +93,35 @@ endif
  # USE_TOUCH_CTRL is defined in display_drv.mk
 ifeq ($(USE_TOUCH_CTRL),NO_TOUCH_CTRL)
  # If select NO_TOUCH_CTRL,Doing nothing
+
 else ifeq ($(USE_TOUCH_SENCE),USE_ADS7843)
 SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
 CFILES += \
  $(DISPLAY_MCU_SRC)/touch_if_basis.c	\
  $(DISPLAY_SRC)/touch_if.c
+
 else ifeq ($(USE_TOUCH_SENCE),USE_STMPE811_I2C)
 SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
 CFILES += \
  $(DISPLAY_MCU_SRC)/touch_if_basis.c	\
  $(DISPLAY_SRC)/touch_if.c				\
  $(DISPLAY_SRC)/stmpe811.c
-else ifeq ($(USE_TOUCH_SENCE),USE_FT5336_I2C)
+
+else ifeq ($(USE_TOUCH_SENCE),USE_FT5336_BSP_I2C)
 SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
 CFILES += \
  $(DISPLAY_MCU_SRC)/touch_if_basis.c
+
+else ifeq ($(USE_TOUCH_SENCE),USE_FT6x06_BSP_I2C)
+SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
+CFILES += \
+ $(DISPLAY_MCU_SRC)/touch_if_basis.c
+
+else ifeq ($(USE_TOUCH_SENCE),USE_FT6x06_I2C)
+SYNTHESIS_DEFS	+= -DUSE_TOUCH_CTRL
+CFILES += \
+ $(DISPLAY_MCU_SRC)/touch_if_basis.c	\
+ $(DISPLAY_SRC)/touch_if.c				\
+ $(DISPLAY_SRC)/ft6x06.c
+
 endif

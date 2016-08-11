@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2013.11.30
+    @version        7.00
+    @date           2016.06.01
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -14,13 +14,14 @@
 		2011.05.30	V4.00	Separate from Device Depend Section.
 		2013.04.04	V5.00	Added STMPE811 Device Handlings.
 		2013.11.30	V6.00	Added STM32F429I-Discovery support.
+		2016.06.01	V7.00	Added FT6x06 Device Handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TOUCH_IF_H
-#define __TOUCH_IF_H	0x0600
+#define __TOUCH_IF_H	0x0700
 
 #ifdef __cplusplus
  extern "C" {
@@ -63,6 +64,7 @@
 #define TC_TPY(x)			(10+(TC_CALC_Y)*(x))
 
 /* Valid Touch Point */
+#if (MAX_Y < 480)
 #define TOUCH_MIGI			((((MAX_X-40)   < pPos->X_Axis) && (pPos->X_Axis < MAX_X)) && \
 							((((MAX_Y/2)-20)< pPos->Y_Axis) && (pPos->Y_Axis < ((MAX_Y/2)+20))))
 							
@@ -75,6 +77,19 @@
 #define TOUCH_SHITA			(((((MAX_X/2)-20)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+20))) && \
 							(((MAX_Y-50) < pPos->Y_Axis) && (pPos->Y_Axis < MAX_Y)))
 
+#else
+#define TOUCH_MIGI			((((MAX_X-80)   < pPos->X_Axis) && (pPos->X_Axis < MAX_X)) && \
+							((((MAX_Y/2)-40)< pPos->Y_Axis) && (pPos->Y_Axis < ((MAX_Y/2)+40))))
+							
+#define TOUCH_HIDARI		(((0 < pPos->X_Axis) && (pPos->X_Axis < 40 )) && \
+							((((MAX_Y/2)-40)< pPos->Y_Axis) && (pPos->Y_Axis < ((MAX_Y/2)+40))))
+							
+#define TOUCH_UE			(((((MAX_X/2)-40)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+40))) && \
+							((0 < pPos->Y_Axis) && (pPos->Y_Axis < 80 )))
+
+#define TOUCH_SHITA			(((((MAX_X/2)-40)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+40))) && \
+							(((MAX_Y-80) < pPos->Y_Axis) && (pPos->Y_Axis < MAX_Y)))
+#endif
 
 /* Pen Status High Side */
 typedef enum TC_STAT_enum

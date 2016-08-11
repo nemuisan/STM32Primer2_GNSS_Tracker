@@ -1,0 +1,193 @@
+== *nemui_san's supported TFT/OLED/CSTN Display Modules ===
+
+See Also ./lib/display/Supported_DisplayControllers.txt!
+
+*16bit/8bit-bus access
+	-KTFT4605FPC-B3-E			1.44inch  128x160 TFT module  (LGDP4511).
+	-KTFT1500QQGH08				1.44inch  128x160 TFT module  (ILI9160).
+	-CMI-35						1.5 inch  128x128 TFT module  (ILI9132).
+	-UG12D245A					1.5 inch  128x128 CSTN module (S6B33B6x).
+	-H016IN01 V3				1.6 inch  128x128 TFT module  (S6D0117).
+	-TFT2P0327-E				1.77inch  128x160 TFT module  (S6D0151).
+	-LTS182QQ-F0				1.8 inch  128x160 TFT module  (TL1771).
+	-TX05D99VM1AAA				1.8 inch  128x160 &
+	                            1.0 inch   96x 64 Dual module (HD66772).   
+	-H018IN01_V8				1.8 inch  128x160 TFT module  (NT3915/HD66773).
+    -CM2111						1.8 inch  128x160 TFT module  (HX8345A).
+    -MT240TMA7B-04				1.8 inch  128x160 TFT module  (HX8310A).
+    -TXDT180A-17				1.8 inch  128x160 TFT module  (SPFD54124B).
+    -BBM018027C1-F8				1.8 inch  128x160 TFT module  (RM68110).
+	-LSG020-117NA0-FPC			2.0 inch  176x220 TFT module  (LGDP4524).
+	-S95068						2.0 inch  176x220 TFT module  (HX8309A).
+	-MF_LCM2.0_V3				2.0 inch  176x220 TFT module  (SPFD54126B).
+	-C0200QILC-C				2.0 inch  176x220 OLED module (HX5051).
+	-OPFPCT0634-V0				2.0 inch  240x320 TFT module  (ILI9320).
+ 	-AS021350D 	      			2.1 inch  176x220 TFT module  (S6D0128).
+	-KXM220HS-V05				2.2 inch  176x220 TFT module  (ILI9225G).
+	-TFT1P2407-E				2.2 inch  176x220 TFT module  (LGDP4525).
+	-EP-T022QCW1R1-T03			2.2 inch  176x220 TFT module  (R61503U).
+ 	-WSTTN03-S220A 				2.2 inch  240x320 TFT module  (HX8312A).
+	-REL225L01					2.2 inch  240x320 TFT module  (???).
+	-SDT022ATFT					2.2 inch  240x320 TFT module  (ILI9340).
+	-DST1003PH					2.2 inch  240x320 TFT module  (ILI9320).
+	-LTM022A69B					2.2 inch  240x320 TFT module  (uPD161704A).
+ 	-YHY024006A 				2.4 inch  240x320 TFT module  (ILI9325).
+	-MR024-9325-51P-TP-B 		2.4 inch  240x320 TFT module  (ILI9325C).
+	-NHD-2.4-240320SF-CTXI#-T1  2.4 inch  240x320 TFT module  (ILI9340).
+	-KD024B-3-TP				2.4 inch  240x320 TFT module  (R61526).
+	-S95417						2.4 inch  240x320 TFT module  (ST7787).
+	-CH24Q304-LCM-A				2.4 inch  240x320 TFT module  (LGDP4535).
+    -TFT1P0913-E				2.4 inch  240x320 TFT module  (S6D1121).
+	-BL024ACRNB$ 				2.4 inch  240x320 OLED module (S6E63D6).
+	-DST2401PH					2.4 inch  240x320 TFT module  (R61580).
+	-SF-TC240G-9366A-N			2.4 inch  240x320 TFT module  (LG4538).
+	-FPC-SH9705					2.4 inch  240x320 TFT module  (TL1763).
+	-FGD240P3735				2.4 inch  240x320 TFT module  (NT35702).
+	-INANBO-T24IPS-8347I-V15	2.4 inch  240x320 TFT module  (HX8347I).
+	-TFT1P2181-E				2.6 inch  240x320 TFT module  (S6D0154)
+	-DST6007					2.6 inch  240x320 TFT module  (HX8347D).
+	-TFT1P3204-E				2.6 inch  240x320 TFT module  (R61505W).
+ 	-EGO028Q02-F05 				2.8 inch  240x320 TFT module  (ILI9325).
+	-WBX280V009 				2.8 inch  240x320 TFT module  (ILI9325).
+	-MR028-9325-51P-TP-A 		2.8 inch  240x320 TFT module  (ILI9328).
+	-TFT-GG1N4198UTSW-W-TP-E 	2.8 inch  240x320 TFT module  (LGDP4531).
+	-TFT1P2158-E 				2.8 inch  240x320 TFT module  (LGDP4535).
+	-S95300 					2.8 inch  240x320 TFT module  (HX8347A).
+	-SDT028ATFT					2.8 inch  240x320 TFT module  (ILI9341).
+	-CD028THT22V2				2.8 inch  240x320 TFT module  (HX8347G(T)).
+	-KFM529B21-1A				2.8 inch  240x320 TFT module  (SPFD5408B).
+	-KXM280H-T09				2.8 inch  240x320 TFT module  (ILI9331).
+	-DJN 15-12378-18251			2.8 inch  240x320 TFT module  (ILI9338B).
+	-AR240320A7NFWUG2			2.8 inch  240x320 TFT module  (ST7785).
+	-C0283QGLH-T				2.83inch  240x320 OLED module (S6E63D6).
+	-MI0283QT-2					2.83inch  240x320 TFT module  (HX8347D).
+	-VS3206A					3.2 inch  240x320 TFT module  (RM68050).
+	-STM032QVT-003 				3.2 inch  240x320 TFT module  (HX8347A).
+	-TFT8K0943FPC-A1-E			3.2 inch  240x320 TFT module  (HX8346A).
+	-KFM597A01-1A	 		 	3.2 inch  240x320 TFT module  (SSD1289).
+	-FPC-Y80216	 		 		3.2 inch  240x320 TFT module  (SSD1298)
+	-V320P243282WSI7TB 			3.2 inch  240x320 TFT module  (ILI9320).
+	-PH240320T-030-XP1Q			3.2 inch  240x320 TFT module  (R61505U).
+	-KD032C-2-TP				3.2 inch  240x320 TFT module  (ILI9325C).
+	-AT32Q02					3.2 inch  240x320 TFT module  (FT1505C).
+
+	-XYL62291B-2B				2.2 inch  320x240 TFT module  (ILI9342).
+	-STM025QVT-001				2.5 inch  320x240 TFT module  (S1D19122).
+	-CFAF320240F-T-TS 		 	3.5 inch  320x240 TFT module  (SSD2119).
+
+	-FL260WQC01-A1T(KD156)		2.6 inch  240x400 TFT module  (R61509).
+	-QDTFT2600LB				2.6 inch  240x400 TFT module  (HX8352C).
+	-BLC280-07D-1				2.8 inch  240x400 TFT module  (SPFD5420A).
+	-BY-T28WB05P3-V05			2.8 inch  240x400 TFT module  (OTM4001A).
+	-BLC300-02B-2				3.0 inch  240x400 TFT module  (SPFD5420A).
+	-KIC30108-A				 	3.0 inch  240x400 TFT module  (R61509V).
+	-S95361						3.0 inch  240x400 TFT module  (ILI9326).
+	-S95361A					3.0 inch  240x400 TFT module  (ILI9327).
+	-TFT1P3520-E				3.0 inch  240x400 TFT module  (S6D04D1).
+	-QD-ET3207ABT				3.2 inch  240x400 TFT module  (HX8352A).
+	-DST9901A-NH				3.2 inch  240x400 TFT module  (ILI9327).
+	-TFT8K3162			 		3.2 inch  240x400 TFT module  (R61509V).
+	-S95461C			 		3.2 inch  240x400 TFT module  (HX8352B).
+
+	-TFT1N3277-E				3.0 inch  320x480 TFT module  (HX8357A).
+	-TFT1P2797-E				3.1 inch  320x480 TFT module  (ILI9481).
+	-TFT1P3925-E				3.2 inch  320x480 TFT module  (A6D05A1).
+	-S95517-AAA					3.5 inch  320x480 TFT module  (ILI9481).
+	-TFT1P4705-E				3.5 inch  320x480 TFT module  (D51E5TA7601(Half-RAM)).
+	-XC-T0353701				3.5 inch  320x480 TFT module  (HX8357B).
+	-FTN35P02N-01				3.5 inch  320x480 TFT module  (ILI9481).
+	-CNKT0350T37-11001A			3.5 inch  320x480 TFT module  (R61581B0).
+	-WK35039V0					3.5 inch  320x480 TFT module  (RM68042).
+	-TM035PDZ48					3.5 inch  320x480 TFT module  (ILI9486L).
+	-TFT1P3925-E				3.5 inch  320x480 TFT module  (S6D05A1).
+	-TS7235Q(IMx Customized)	3.5 inch  320x480 TFT module  (HX8357D).
+	-INANBO-T35CST-ILI9488-V1	3.5 inch  320x480 TFT module  (ILI9488).
+	-HTHV3802					3.8 inch  320x480 TFT module  (ILI9486L).
+
+	-AT043TN24  				4.3 inch  480x272 RAW-TFT module  (Contoroller IC= SSD1963).
+	-HSD043-BOO 				4.3 inch  480x272 RAW-TFT module  (Contoroller IC= SSD1963).
+    -RK043FN48H					4.3 inch  480x272 RAW-TFT module  (STM32F746G-Discovery Only).
+
+	-BBM397003I4				3.97inch  480x800 TFT module  (OTM8012A(Half-RAM)).
+	-NSF397WV4402				4.0 inch  480x800 TFT module  (OTM8009A).
+	-TK040FH001					4.0 inch  480x800 TFT module  (ILI9806H(Half-RAM)).
+	-INANBO-T43C-8009-V2		4.3 inch  480x800 TFT module  (OTM8009A).
+	-KD043FM-1					4.3 inch  480x800 TFT module  (HX8369A).
+	-LT043ANYB02				4.3 inch  480x800 TFT module  (NT35582).
+	-KGM1066A0					4.3 inch  480x800 TFT module  (RM68120).
+
+	-SF-TC500H-9658A-N			5.0 inch  480x800 TFT module  (NT35510).
+	-XT5003910PB				5.0 inch  480x800 TFT module  (NT35510).
+
+	-TK050F5590					5.0 inch  480x864 TFT module  (ILI9806G).
+
+	-QSH-030-01-F-D-A-K-TR		4.0 inch  800x480 TFT module  (OTM8009A-DSI/STM32F769I-Discovery Only).
+
+*8bit-bus only access
+	-ZY-FGD1442701V1 			1.44inch  128x128 TFT module  (ST7735).
+	-S93160			 			1.44inch  128x128 TFT module  (ILI9163B).
+	-UG-6028GDEAF01				1.45inch  160x128 OLED module (SEPS525).
+	-UG-2828GFEFF01 			1.5inch   128x128 OLED module (SSD1339).
+	-UG-2828GDEDF11 			1.5inch   128x128 OLED module (SSD1351).
+	-HD177P2501					1.77inch  128x160 TFT module  (ST7735).
+	-DST5012B-NH				1.8 inch  128x160 TFT module  (R61514S).
+	-CM06834					1.8 inch  128x160 TFT module  (SSD1286A).
+	-CS1802						1.8 inch  128x160 TFT module  (C1L5-06).
+	-NHD-1.8-128160TF-CTXI#		1.8 inch  128x160 TFT module  (HX8353D).
+	-FPC071-2A					1.8 inch  176x220 TFT module  (ILI9222).
+	-KD020C-1					2.0 inch  176x220 TFT module  (S6D0164X1).
+	-TXDT200A-15V13				2.0 inch  176x220 TFT module  (ILI9225).
+	-FPC-SH9516-11A				2.0 inch  176x220 TFT module  (S1D19105).
+	-S95311						2.0 inch  176x220 TFT module  (HX8340A).
+	-Nokia6300					2.0 inch  240x320 TFT module  (MC2PA8201).
+    -SLN2025A-FPC				2.0 inch  240x320 TFT module  (ILI9335).
+	-S95215A-1		 			2.2 inch  176x220 TFT module  (HX8340B).
+	-LH220Q01		 			2.2 inch  176x220 TFT module  (LGDP4522).
+	-TM176220CNFWG13 			2.2 inch  176x220 TFT module  (C1E2-04).
+	-S95591-AAA 	 			2.2 inch  240x320 TFT module  (S6D0129).
+	-TFT1P2477-E				2.2 inch  240x320 TFT module  (R61505V).
+	-FP-SQV28002A00				2.8 inch  240x320 TFT module  (SSD1297).
+	-JLX320-002					3.2 inch  240x320 TFT module  (RM68090).
+	-WS-TFT30L05T-3B			3.0 inch  240x400 TFT module  (LGDP4551).
+	-PRD35200P					3.5 inch  320x480 TFT module  (HX8357C).
+
+*SPI-bus access
+	-ALO-095BWNN-J9 			0.96inch  96x64	  OLED module (SSD1332).
+	-UG-2828GFEFF01 			1.5inch   128x128 OLED module (SSD1339).
+	-UG-2828GDEDF11 			1.5inch   128x128 OLED module (SSD1351).
+	-S95235						1.44inch  128x128 OLED module (ILI9163B).
+	-UG-6028GDEAF01				1.45inch  160x128 OLED module (SEPS525).
+	-UG12D245A					1.5 inch  128x128 CSTN module (S6B33B6x).
+	-H016IT01 					1.6 inch  130x130 TFT module  (SSD1283A).
+	-JD-T18003-T01				1.77inch  128x160 TFT module  (ST7735/ST7735R).
+	-TFT2P0327-E				1.77inch  128x160 TFT module  (S6D0151).
+	-H179IT01(Nokia1600)		1.79inch  128x160 TFT module  (SPFD54124B).
+	-Nokia1600					1.8 inch  128x160 CSTN module (SPFD54124B Compatible???).
+	-SGP18T-00					1.8 inch  128x160 TFT module  (ILI9163B).
+	-SDT018ATFT					1.8 inch  128x160 TFT module  (ILI9163C).
+	-QDTFT1800LA				1.8 inch  128x160 TFT module  (HX8353C).
+	-UT18022B0-00				1.8 inch  128x160 TFT module  (S6D02A1).
+	-DT18QQ003-B1R2				1.8 inch  128x160 TFT module  (RM68110).
+	-Nokia6070					1.8 inch  132x162 TFT module  (SPFD54124B).
+	-FPC20061A-V0				2.0 inch  176x220 TFT module  (RM68130).
+	-TFT1P3440-W-E				2.0 inch  220x176 TFT module  (HX8367A).
+	-BTL221722-276L 			2.2 inch  176x220 TFT module  (HX8340B(N)).
+	-BTL221722-276LP	 		2.2 inch  176x220 TFT module  (ILI9225B).
+	-LTM022A69B					2.2 inch  240x320 TFT module  (uPD161704A).
+	-MZTX06A					2.2 inch  240x320 TFT module  (BD663474).
+	-TM022HDH26					2.2 inch  240x320 TFT module  (ILI9341).
+	-MR024-9325-51P-TP-B 		2.4 inch  240x320 TFT module  (ILI9325C).
+	-BL024ACRNB$ 				2.4 inch  240x320 OLED module (S6E63D6).
+    -TFT1P0913-E				2.4 inch  240x320 TFT module  (S6D1121).
+    -JXS2451WA00				2.4 inch  240x320 TFT module  (ILI9325C).
+    -STM32F429I-Discovery		2.4 inch  240x320 TFT module  (ILI9341).	
+	-FL260WQC01-A1T(KD156)		2.6 inch  240x400 TFT module  (R61509).
+	-TFT-GG1N4198UTSW-W-TP-E 	2.8 inch  240x320 TFT module  (LGDP4531).
+	-MR028-9325-51P-TP-A 	 	2.8 inch  240x320 TFT module  (ILI9328).
+	-SDT028ATFT					2.8 inch  240x320 TFT module  (ILI9341).
+	-CD028THT22V2				2.8 inch  240x320 TFT module  (HX8347G(T)).
+	-C0283QGLH-T				2.83inch  240x320 OLED module (S6E63D6).
+	-MI0283QT-2					2.83inch  240x320 TFT module  (HX8347D).
+	-KD032C-2-TP				3.2 inch  240x320 TFT module  (ILI9325C).
+	-CFAF320240F-T-TS 		 	3.5 inch  320x240 TFT module  (SSD2119).
+	-FTN35P02N-01				3.5 inch  320x480 TFT module  (ILI9481).

@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2013.11.30
+    @version        7.00
+    @date           2016.06.01
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -14,6 +14,7 @@
 		2011.05.30	V4.00	Separate from Device Depend Section.
 		2013.04.04	V5.00	Added STMPE811 Device Handlings.
 		2013.11.30	V6.00	Added STM32F429I-Discovery support.
+		2016.06.01	V7.00	Added FT6x06 Device Handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if.h"
 /* check header file version for fool proof */
-#if __TOUCH_IF_H != 0x0600
+#if __TOUCH_IF_H != 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -50,7 +51,7 @@ uint8_t tc_stat 	= TC_STAT_NONE;
 
 /* Touch Calculate Value */
 const long chalfx 	= MAX_X/2;
-const long chalfy 	= MAX_Y/2;	
+const long chalfy 	= MAX_Y/2;
 
 /* Calibrated Position Value Relations */
 long ccx, cm1x, cm2x;
@@ -88,6 +89,8 @@ inline static void _delay_ms (uint32_t ms)
 	while (ticktime < ms);
 }
 #endif
+
+#if defined(USE_STMPE811_I2C) || defined(USE_ADS7843)
 /**************************************************************************/
 /*! 
 	Calculate Relative Position X.
@@ -119,6 +122,7 @@ static uint16_t cal_posy(uint16_t y)
 	if(buf<0) buf =0;
 	return (buf);
 }
+#endif
 #endif
 
 #if defined(USE_ADS7843)
@@ -762,6 +766,124 @@ void TC_CalibScreen_If(void)
 
 	Display_Puts_If_Ex(CENTER_X2,CENTER_Y1,(uint8_t*)"Calibration Completed!!",OPAQUE,COL_RED,COL_WHITE);
 	_delay_ms(400);
+}
+
+#elif defined(USE_FT6x06_I2C)
+volatile ft6x06_strct pkt_touch = {0};
+#define TOUCH_PACKETS 7
+/**************************************************************************/
+/*! 
+	TouchScreen Low Level.
+	Downed  :	return 1.
+	Released:	return 0.
+*/
+/**************************************************************************/
+uint8_t TC_PenINT(void) 
+{
+	return (!PENIRQ_CHK()); 
+/*
+	if(!PENIRQ_CHK()){
+		int tmp = FT6x06_ReadByte(FT6x06_TSC_CTRL) & FT6x06_TSC_STA;
+		if(tmp==0)	return 0;
+		else 	 	return 1;
+	}
+	else{
+		return 0;
+	}
+*/
+}
+
+/**************************************************************************/
+/*! 
+	TouchScreen Low Level.
+	Downed  :	return 1.
+	Released:	return 0.
+*/
+/**************************************************************************/
+uint8_t TC_PenDown(void)
+{
+	return (!(PENIRQ_CHK()));
+}
+
+
+/**************************************************************************/
+/*! 
+	TouchScreen Low Level.
+*/
+/**************************************************************************/
+inline void TC_ReadRaw(void) 
+{	
+	/* Read CTP Registers 0~7 */
+	FT6x06_ReadNBytes(FT6x06_DEV_MODE_REG,(uint8_t*)&pkt_touch,TOUCH_PACKETS);
+}
+
+/**************************************************************************/
+/*! 
+	TouchScreen Low Level.
+*/
+/**************************************************************************/
+inline void TC_ScanPen(void)
+{
+	if (TC_PenDown())	/* Downed Pen */
+	{
+		TC_ReadRaw();
+		
+		/* Check Touch Detect and Single Point */
+		if((pkt_touch.td_status & 0x0F) == 1){
+			pPos->X_Axis = ((uint16_t)(pkt_touch.xh & 0x0F)<<8 | (uint16_t)pkt_touch.xl);
+			pPos->Y_Axis = ((uint16_t)(pkt_touch.yh & 0x0F)<<8 | (uint16_t)pkt_touch.yl);
+			
+			if (last_pen)  /* last_pen:1->1 */
+			{
+				tc_stat = TC_STAT_HOLD;
+			}
+			else		   /* last_pen:0->1 */
+			{
+				tc_stat = TC_STAT_DOWN;
+			}
+			last_pen = 1;
+		}
+
+	}
+	else
+	{
+		if (last_pen)  /* last_pen:1->0 */
+		{
+			tc_stat = TC_STAT_UP;
+		}
+		else		   /* last_pen:0->0 */
+		{
+			tc_stat = TC_STAT_NONE;
+		}
+		last_pen = 0;
+	}
+}
+
+/**************************************************************************/
+/*! 
+	Calibrate and Init TouchScreen.
+*/
+/**************************************************************************/
+void TC_CalibScreen_If(void)
+{
+	uint8_t str_id[20] = {0};
+	uint8_t ft6x06_id = FT6x06_Init();
+
+	/* Device Life Sign Check */
+	if(ft6x06_id == 0)
+	{
+		Display_FillRect_If(0,MAX_X-1,0,MAX_Y-1,COL_WHITE);
+		for(;;){
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"FT6x06 is NOT Init!",OPAQUE,COL_RED,COL_WHITE);
+			_delay_ms(300);
+			Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"                   ",OPAQUE,COL_RED,COL_WHITE);
+			_delay_ms(300);
+		}
+	}
+	sprintf((char*)str_id,"Chip ID:0x%02X",ft6x06_id);
+	Display_Puts_If_Ex(CENTER_X2,CENTER_Y1,(uint8_t*)"Capacitive Touch Input!",TRANSPARENT,COL_BLUE,COL_WHITE);
+	Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,str_id,TRANSPARENT,COL_BLUE,COL_WHITE);
+	_delay_ms(1000);
 }
 #endif
 

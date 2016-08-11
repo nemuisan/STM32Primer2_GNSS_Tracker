@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2016.04.20
+    @version        13.00
+    @date           2016.08.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -20,6 +20,7 @@
 		2015.01.15 V10.00   Added AAC Player Handling.
 		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
 		2016.04.20 V12.00	Adopted FatFs0.12.
+		2016.08.01 V13.00	Adopted FatFs0.12a.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -29,7 +30,7 @@
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x1200
+#define __TS_FILELOADS_H 0x1300
 
 #ifdef __cplusplus
  extern "C" {
@@ -55,7 +56,7 @@
 };
 typedef struct my_error_mgr * my_error_ptr;
 
-#if defined(LIBJPEG_USE_FPU)
+#if defined(LIBJPEG_USE_FPU) || defined(LIBJPEG_USE_DFPU)
  #define JDCT_DECODE_METHOD JDCT_FLOAT
 #else
  #define JDCT_DECODE_METHOD JDCT_ISLOW
