@@ -117,13 +117,13 @@
 
 
 #define	_LFN_UNICODE	0
-/* This option switches character encoding on the API. (0:ANSI/OEM or 1:UTF-16)
+/* This option switches character encoding on the API. (0:ANSI/OEM or 1:Unicode)
 /  To use Unicode string for the path name, enable LFN and set _LFN_UNICODE = 1.
 /  This option also affects behavior of string I/O functions. */
 
 
 #define _STRF_ENCODE	3
-/* When _LFN_UNICODE == 1, this option selects the character encoding ON THE FILE to
+/* When _LFN_UNICODE == 1, this option selects the character encoding on the file to
 /  be read/written via string I/O functions, f_gets(), f_putc(), f_puts and f_printf().
 /
 /  0: ANSI/OEM

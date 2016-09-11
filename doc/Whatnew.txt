@@ -1,3 +1,6 @@
+20160906 : 
+V54.00	Adopted FatFs0.12b.
+
 20160825 : 
 V53.00	Adopted FatFs0.12a latest patch update(patch7).
 
