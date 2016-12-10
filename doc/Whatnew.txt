@@ -1,3 +1,6 @@
+20161201 : 
+V56.00	Fixed ACMD41 Arguments for SDXC(sdio_stm32f1.c).
+
 20161016 : 
 V55.00	Adopted FatFs0.12b latest patch update(patch1).
 

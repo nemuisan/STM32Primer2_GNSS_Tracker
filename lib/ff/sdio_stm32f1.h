@@ -1,25 +1,25 @@
 /********************************************************************************/
 /*!
 	@file			sdio_stm32f1.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        22.00
-    @date           2016.03.25
-	@brief          SDIO Driver For STM32 HighDensity Devices				@n
+	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+	@version		23.00
+	@date			2016.12.01
+	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
-    @section HISTORY
-		2011.01.20	V1.00	Start Here.
-		2011.03.10	V2.00	C++ Ready.
-		2012.04.17	V3.00	Added SD_GetCardStatus().
+	@section HISTORY
+		2011.01.20  V1.00	Start Here.
+		2011.03.10  V2.00	C++ Ready.
+		2012.04.17  V3.00	Added SD_GetCardStatus().
 		2012.09.22  V4.00	Updated Support grater than 32GB Cards.
 		2012.10.05  V5.00	Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
 		2013.07.06  V6.00	Fixed over 4GB R/W Problem.
-		2013.10.09	V7.00	Integrated with diskio_sdio.c.
-		2014.01.15  V8.00   Improved Insertion detect(configuarable).
-		2014.03.21  V9.00   Optimized SourceCodes.
-		2014.11.18 V10.00   Added SD High Speed Mode(optional).
-		2015.01.06 V11.00   Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
-		2015.01.23 V12.00   Added Handling SD High Speed Mode description.
+		2013.10.09  V7.00	Integrated with diskio_sdio.c.
+		2014.01.15  V8.00	Improved Insertion detect(configuarable).
+		2014.03.21  V9.00	Optimized SourceCodes.
+		2014.11.18 V10.00	Added SD High Speed Mode(optional).
+		2015.01.06 V11.00	Fixed SDIO_CK into suitable value(refered from RM0008_rev14).
+		2015.01.23 V12.00	Added Handling SD High Speed Mode description.
 		2015.02.14 V13.00	Optimized global structures.
 		2015.03.14 V14.00	Removed unused code and improve stability on polling/dma mode.
 		2015.11.28 V15.00	Fixed Read CSD/CID registers for disk_ioctl().
@@ -30,13 +30,14 @@
 		2016.03.20 V20.00	Fixed MMCv3.x for stability problem.
 		2016.03.24 V21.00	Added MMCv5.x Devices Support.
 		2015.03.25 V22.00	Fixed block erase size calculation for SDXC.
+		2016.12.01 V23.00	Fixed ACMD41 Argument to detect UHS.
 
-    @section LICENSE
+	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x2200
+#define __SDIO_STM32F1_H	0x2300
 
 #ifdef __cplusplus
  extern "C" {
