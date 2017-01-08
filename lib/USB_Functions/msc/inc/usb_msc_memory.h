@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_memory.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2016.01.15
+    @version        4.00
+    @date           2016.12.28
 	@brief          Memory management layer.
 					Based On STMicro's Sample Thanks!
 
@@ -11,13 +11,14 @@
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 		2016.01.15	V3.00	Changed definition compatibility.
-		
+		2016.12.28	V4.00	Fixed address calculation above 4GB.
+
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __USB_MSC_MEMORY_H
-#define __USB_MSC_MEMORY_H	0x0300
+#define __USB_MSC_MEMORY_H	0x0400
 
 #ifdef __cplusplus
  extern "C" {

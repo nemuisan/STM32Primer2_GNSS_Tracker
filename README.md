@@ -11,8 +11,6 @@ This program can build following compilers
  https://launchpad.net/gcc-arm-embedded/+download  
 -Freddie Choppin's Bleeding Edge Compiler(Recommend)  
  http://www.freddiechopin.info/en/download/category/11-bleeding-edge-toolchain  
--devkitPRO ARM  
- http://sourceforge.jp/projects/sfnet_devkitpro/releases  
 
 And MUST need Coreutils/GNUMake for windows to build this projects.  
  http://gnuwin32.sourceforge.net/packages/coreutils.htm  

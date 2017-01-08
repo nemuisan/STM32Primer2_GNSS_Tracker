@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 56.00
+APP_VER = 57.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2

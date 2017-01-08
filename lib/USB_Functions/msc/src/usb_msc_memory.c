@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_memory.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2016.01.15
+    @version        4.00
+    @date           2016.12.28
 	@brief          Memory management layer.
 					Based On STMicro's Sample Thanks!
 
@@ -11,7 +11,8 @@
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 		2016.01.15	V3.00	Changed definition compatibility.
-		
+		2016.12.28	V4.00	Fixed address calculation above 4GB.
+
     @section LICENSE
 		BSD License. See Copyright.txt
 */
@@ -51,11 +52,12 @@ extern uint32_t Mass_Block_Size[MAX_LUN];
 /**************************************************************************/
 void Read_Memory(uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length)
 {
-  static uint32_t Offset, Length;
+  static uint64_t Offset;
+  static uint32_t Length;
 
   if (TransferState == TXFR_IDLE )
   {
-    Offset = Memory_Offset * Mass_Block_Size[lun];
+    Offset = (uint64_t)Memory_Offset * Mass_Block_Size[lun];
     Length = Transfer_Length * Mass_Block_Size[lun];
     TransferState = TXFR_ONGOING;
   }
@@ -110,13 +112,14 @@ void Read_Memory(uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length)
 void Write_Memory (uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length)
 {
 
-  static uint32_t W_Offset, W_Length;
+  static uint64_t W_Offset;
+  static uint32_t W_Length;
 
   uint32_t temp =  Counter + 64;
 
   if (TransferState == TXFR_IDLE )
   {
-    W_Offset = Memory_Offset * Mass_Block_Size[lun];
+    W_Offset = (uint64_t)Memory_Offset * Mass_Block_Size[lun];
     W_Length = Transfer_Length * Mass_Block_Size[lun];
     TransferState = TXFR_ONGOING;
   }
