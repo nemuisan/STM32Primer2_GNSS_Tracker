@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		23.00
-	@date			2016.12.01
+	@version		25.00
+	@date			2017.02.24
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -31,6 +31,8 @@
 		2016.03.24 V21.00	Added MMCv5.x Devices Support.
 		2015.03.25 V22.00	Fixed block erase size calculation for SDXC.
 		2016.12.01 V23.00	Fixed ACMD41 Argument to detect UHS.
+		2017.01.14 V24.00	Added MMC_CMD6_WAIT().
+		2017.02.14 V25.00	Fixed Block Address detection on larger eMMC.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -40,7 +42,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x2300
+#if __SDIO_STM32F1_H!= 0x2500
 #error "header file version is not correspond!"
 #endif
 
@@ -97,12 +99,13 @@
 #define SD_R6_COM_CRC_FAILED            ((uint32_t)0x00008000)
 
 #define SD_VOLTAGE_WINDOW_SD            ((uint32_t)0x80100000)
-#define SD_VOLTAGE_WINDOW_MMC           ((uint32_t)0x80FF8000)
 #define SD_OCR_XPC                      ((uint32_t)0x10000000)	/* Nemui added SDXC power ctrl (bit28) */
 #define SD_OCR_S18                      ((uint32_t)0x01000000)	/* Nemui added Signaling 1.8V req&ans (bit24) */
 #define SD_OCR_UHS2                     ((uint32_t)0x20000000)	/* Nemui added UHS-ii card detect (bit29) */
 #define SD_HIGH_CAPACITY                ((uint32_t)0x40000000)
-#define MMC_HIGH_CAPACITY_MASK          ((uint32_t)0x60000000)
+#define MMC_VOLTAGE_WINDOW	            ((uint32_t)0x80FF8000)
+#define MMC_HIGH_CAPACITY	            ((uint32_t)0x40000000)	/* Bits[30:29]=1,0 is new host argument */
+#define MMC_HIGH_CAPACITY_MASK          ((uint32_t)0x60000000)	/* Bits[30:29]=1,0 suggests block address */
 #define SD_STD_CAPACITY                 ((uint32_t)0x00000000)
 #define SD_CHECK_PATTERN                ((uint32_t)0x000001AA)
 
@@ -486,6 +489,10 @@ SD_Error SD_PowerON(void)
 	/*!< Enable SDIO Clock */
 	SDIO_ClockCmd(ENABLE);
 
+	/*!< 2mSec Delay: To get at least 74 initial clocks. */
+	/*!< use _delay_us() instead _delay_ms() to avoid HardFault. */
+	_delay_us(2000);
+
 	/*!< CMD0: GO_IDLE_STATE ---------------------------------------------------*/
 	/*!< No CMD response required */
 	SDIO_CmdInitStructure.SDIO_Argument = 0x0;
@@ -643,13 +650,13 @@ SD_Error SD_PowerON(void)
 			return(errorstatus);
 		}
 	
-		/*!< Send CMD1 SEND_OP_COND with Argument 0x80FF8000 */
+		/*!< Send CMD1 SEND_OP_COND with Argument 0x80FF8000 + Bits[30:29]=1,0 */
 		while ((!validvoltage) && (count < SD_MAX_VOLT_TRIAL))
 		{
 			/*!< CMD1: SEND_OP_COND ----------------------------------------------------*/
 			/*!< Send CMD1 to receive the contents of the Operating Conditions Register */
 			/*!< CMD Response: R3 */
-			SDIO_CmdInitStructure.SDIO_Argument = SD_VOLTAGE_WINDOW_MMC | SD_HIGH_CAPACITY;
+			SDIO_CmdInitStructure.SDIO_Argument = MMC_VOLTAGE_WINDOW | MMC_HIGH_CAPACITY;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SEND_OP_COND;
 			SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 			SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -666,16 +673,48 @@ SD_Error SD_PowerON(void)
 			OCR = response;
 			validvoltage = (((response >> 31) == 1) ? 1 : 0);
 			count++;
-			_delay_ms(1); /* Need for MMCv5 devices */
+			MMC_CMD6_WAIT(); /* Need for MMCv5 devices */
 		}
 		
 		if (count >= SD_MAX_VOLT_TRIAL)
 		{
-			errorstatus = SD_INVALID_VOLTRANGE;
-			return(errorstatus);
+			/* Retry as non-MMC_HIGH_CAPACITY argument */
+			response = 0, count = 0, validvoltage = 0;
+			
+			/*!< Send CMD1 SEND_OP_COND with Argument 0x80FF8000 */
+			while ((!validvoltage) && (count < SD_MAX_VOLT_TRIAL))
+			{
+				/*!< CMD1: SEND_OP_COND ----------------------------------------------------*/
+				/*!< Send CMD1 to receive the contents of the Operating Conditions Register */
+				/*!< CMD Response: R3 */
+				SDIO_CmdInitStructure.SDIO_Argument = MMC_VOLTAGE_WINDOW;
+				SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SEND_OP_COND;
+				SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
+				SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
+				SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
+				SDIO_SendCommand(&SDIO_CmdInitStructure);
+
+				errorstatus = CmdResp3Error();
+				if (errorstatus != SD_OK)
+				{
+					return(errorstatus);
+				}
+		
+				response = SDIO_GetResponse(SDIO_RESP1);
+				OCR = response;
+				validvoltage = (((response >> 31) == 1) ? 1 : 0);
+				count++;
+				MMC_CMD6_WAIT(); /* Need for MMCv5 devices */
+			}
+			
+			if (count >= SD_MAX_VOLT_TRIAL)
+			{
+				errorstatus = SD_INVALID_VOLTRANGE;
+				return(errorstatus);
+			}
 		}
 
-		if (response &= SD_HIGH_CAPACITY)
+		if ((response & MMC_HIGH_CAPACITY_MASK) == MMC_HIGH_CAPACITY)
 		{
 			CardType = SDIO_HIGH_CAPACITY_MMC_CARD;
 		}
@@ -3034,7 +3073,7 @@ static SD_Error MMCEnWideBus(FunctionalState NewState)
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(1);
+		MMC_CMD6_WAIT();
 		
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
@@ -3049,7 +3088,7 @@ static SD_Error MMCEnWideBus(FunctionalState NewState)
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(1);
+		MMC_CMD6_WAIT();
 
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
@@ -3064,7 +3103,7 @@ static SD_Error MMCEnWideBus(FunctionalState NewState)
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(1);
+		MMC_CMD6_WAIT();
 
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
@@ -3514,7 +3553,7 @@ static SD_Error MMC_HighSpeed (void)
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(1);
+		MMC_CMD6_WAIT();
 		
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
@@ -3529,7 +3568,7 @@ static SD_Error MMC_HighSpeed (void)
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(1);
+		MMC_CMD6_WAIT();
 
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
@@ -3544,7 +3583,7 @@ static SD_Error MMC_HighSpeed (void)
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(1);
+		MMC_CMD6_WAIT();
 
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)

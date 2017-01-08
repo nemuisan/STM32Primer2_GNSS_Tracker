@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_mass_mal.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2016.01.15
+    @version        4.00
+    @date           2017.01.15
 	@brief          Descriptor Header for Mal.
 					Based On STMicro's Sample Thanks!
 
@@ -11,6 +11,7 @@
 		2012.01.30	V1.00	Start Here.
 		2014.03.21	V2.00	Adopted FatFs10.0a
 		2016.01.15	V3.00	Changed definition compatibility.
+		2017.01.15	V4.00	Fixed return correct disk capacity on eMMC.
 		
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -135,7 +136,14 @@ uint16_t MAL_GetStatus (uint8_t lun)
 		/* nemui  calculate highest LBA */
 		Mass_Block_Count[LUN_SDCARD] = (dwDevSize - 1) / 512;
       }
-      else
+      else if(SDCardInfo.CardType == SDIO_HIGH_CAPACITY_MMC_CARD)
+      {
+		/* nemui */
+		dwDevSize  = SDCardInfo.CardCapacity;
+		/* nemui  calculate highest LBA */
+		Mass_Block_Count[LUN_SDCARD] = dwDevSize / 512;
+      }
+      else /* SDv1,MMC */
       {
         NumberOfBlocks  = ((1 << (SDCardInfo.SD_csd.RdBlockLen)) / 512);
         Mass_Block_Count[LUN_SDCARD] = ((SDCardInfo.SD_csd.DeviceSize + 1) * (1 << DeviceSizeMul) << (NumberOfBlocks/2));

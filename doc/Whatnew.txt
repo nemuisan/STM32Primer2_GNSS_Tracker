@@ -1,11 +1,17 @@
-20170201 :
-V57.00	Adopted CMSIS Header Files V5.00 latest repository.
+20170301 :
+V58.00	Adopted CMSIS Header Files V5.0.2 latest repository.
+             -> https://github.com/ARM-software/CMSIS_5/commit/300c170b3c6f77970d984abae6ba1eb526b6052f
+		Changed CMSIS directory structure for latest.
+		Fixed MMC/eMMC block address detection routine (on sdio_stm32f1.c).
+
+20170102 :
+V57.00	Adopted CMSIS Header Files V5.0.0 latest repository.
          -> https://github.com/ARM-software/CMSIS_5/commit/cec7ea463b580e2fca24be5ff7d18fbfacc336f4
 		Adopted Launchpad GCC-ARM(GCC6.2.1).
 		Fixed address calculation above 4GB for USB-MSC(on usb_msc_memory.x).
 
 20161201 : 
-V56.00	Fixed ACMD41 Arguments for SDXC(sdio_stm32f1.c).
+V56.00	Fixed ACMD41 Arguments for SDXC(on sdio_stm32f1.c).
 
 20161016 : 
 V55.00	Adopted FatFs0.12b latest patch update(patch1).

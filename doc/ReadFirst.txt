@@ -1,5 +1,5 @@
 ========== What is this ? ==========
-This is "The GPS Tr@cker for STM32Primer2"!
+This is "THE GNSS Tr@cker for STM32Primer2"!
 
 
 ========== To Build and Debug ==========

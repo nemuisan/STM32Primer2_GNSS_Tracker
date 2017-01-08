@@ -43,7 +43,8 @@ Those sourcecode are included in this project.
 
 --- LIBRARIES ---
 * ARM Ltd. CMSIS Standard.
-  See ./lib/CMSIS/CMSIS END USER LICENCE AGREEMENT.pdf.
+  ARM CMSIS is licensed under Apache-2.0.
+  See ./lib/CMSIS/LICENSE.txt.
 
 * STMicroelectronics CMSIS Libraries
   STM32F10x standard peripheral library
@@ -62,12 +63,6 @@ Those sourcecode are included in this project.
   All rights reserved.
   http://avr.paslog.jp
   This code is licensed under the BSD License.
-
-* up_memcpy.S
-  An optimized memcpy() function for the ARMv7-M family
-   contributed by Mike Smith.
-  This code is licensed under the BSD License.
-  see ./lib/ff/up_memcpy.s.
 
 
 --- FONTFILES ---

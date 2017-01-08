@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 57.00
+APP_VER = 58.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -125,11 +125,12 @@ TARGET_LSS  = $(TARGET).lss
 TARGET_SYM  = $(TARGET).sym
 
 # define CMSIS LIBRARY PATH
-FWLIB  			= ./lib/STM32F10x_StdPeriph_Driver
-USBLIB 			= ./lib/STM32_USB-FS-Device_Driver
 CMSISLIB 		= ./lib/CMSIS
 CMSIS_DEVICE 	= $(CMSISLIB)/Device/ST/STM32F10x
-CMSIS_CORE		= $(CMSISLIB)/Include
+CMSIS_CORE		= $(CMSISLIB)/Core
+# define HAL and BSP LIBRARY PATH
+FWLIB  			= ./lib/STM32F10x_StdPeriph_Driver
+USBLIB 			= ./lib/STM32_USB-FS-Device_Driver
 
 
 # include PATH
@@ -138,12 +139,12 @@ INCPATHS	 = 	./							\
 				$(FWLIB)/inc  				\
 				$(USBLIB)/inc				\
 				$(CMSIS_DEVICE)/Include		\
-				$(CMSIS_CORE)				\
+				$(CMSIS_CORE)/Include		\
 				$(LIBINCDIRS)
 INCLUDES     = $(addprefix -I ,$(INCPATHS))
 
 # Set library PATH
-LIBPATHS     = $(FWLIB) $(USBLIB) $(CMSISLIB)
+LIBPATHS     = $(FWLIB) $(USBLIB)
 LIBRARY_DIRS = $(addprefix -L,$(LIBPATHS))
 # if you use math-library, put "-lm" 
 MATH_LIB	 =	-lm
@@ -201,7 +202,6 @@ CFILES += \
  $(FATFS)/ff_rtc_if.c 					\
  $(FATFS)/option/syscall.c				\
  $(FATFS)/option/unicode.c
-SFILES += $(FATFS)/up_memcpy.s
 
 #/*----- USB-Function library PATH -----*/
 USBFUNC = ./lib/USB_Functions
@@ -438,5 +438,6 @@ program :
 	@$(MSGECHO)
 
 # Listing of phony targets.
-.PHONY : all begin finish end sizebefore sizeafter gccversion \
-build elf hex bin lss sym clean clean_list program
+.PHONY : all build clean begin finish end sizebefore sizeafter \
+		 gccversion buildinform elf hex bin lss sym \
+		 build_target clean_list program debug

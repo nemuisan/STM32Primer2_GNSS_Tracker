@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		23.00
-	@date			2016.12.01
+	@version		25.00
+	@date			2017.02.24
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -31,13 +31,15 @@
 		2016.03.24 V21.00	Added MMCv5.x Devices Support.
 		2015.03.25 V22.00	Fixed block erase size calculation for SDXC.
 		2016.12.01 V23.00	Fixed ACMD41 Argument to detect UHS.
+		2017.01.14 V24.00	Added MMC_CMD6_WAIT().
+		2017.02.14 V25.00	Fixed Block Address detection on larger eMMC.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x2300
+#define __SDIO_STM32F1_H	0x2500
 
 #ifdef __cplusplus
  extern "C" {
@@ -475,13 +477,14 @@ typedef struct
 #define SD_CMD_SD_APP_SECURE_WRITE_MKB             ((uint8_t)48) /*!< For SD Card only */
 
 /**
-  * @}
+  * @brief  MultiMediaCards and eMMC Relations
   */ 
-#define MMC_OCR_REG             0x40FF8080
-#define MMC_POWER_REG           0x03BB0800
-#define MMC_HIGHSPEED_REG       0x03B90100
-#define MMC_4BIT_REG            0x03B70100
-#define MMC_8BIT_REG            0x03B70200
+#define MMC_OCR_REG             					0x40FF8080
+#define MMC_POWER_REG           					0x03BB0800
+#define MMC_HIGHSPEED_REG      						0x03B90100
+#define MMC_4BIT_REG            					0x03B70100
+#define MMC_8BIT_REG            					0x03B70200
+#define MMC_CMD6_WAIT()								_delay_us(5000)
 
 /**
   * @brief  SD detection on its memory slot
@@ -555,6 +558,7 @@ SD_Error SD_EnableHighSpeed(void);
 extern __IO SD_Error Status;
 extern SD_CardInfo SDCardInfo;
 extern void _delay_ms(__IO uint32_t mSec);
+extern void _delay_us(__IO uint16_t uSec);
 
 #ifdef __cplusplus
 }

@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_mass_mal.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2016.01.15
+    @version        4.00
+    @date           2017.01.15
 	@brief          Descriptor Header for Mal.
 					Based On STMicro's Sample Thanks!
 
@@ -11,13 +11,14 @@
 		2012.01.30	V1.00	Start Here.
 		2014.03.21	V2.00	Adopted FatFs10.0a
 		2016.01.15	V3.00	Changed definition compatibility.
+		2017.01.15	V4.00	Fixed return correct disk capacity on eMMC.
 		
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __MASS_MAL_H
-#define __MASS_MAL_H	0x0300
+#define __MASS_MAL_H	0x0400
 
 #ifdef __cplusplus
  extern "C" {
