@@ -2,7 +2,7 @@
 /  FatFs - FAT file system module configuration file
 /---------------------------------------------------------------------------*/
 
-#define _FFCONF 68020	/* Revision ID */
+#define _FFCONF 68300	/* Revision ID */
 
 /*---------------------------------------------------------------------------/
 / Function Configurations
@@ -73,7 +73,7 @@
 /* This option specifies the OEM code page to be used on the target system.
 /  Incorrect setting of the code page can cause a file open failure.
 /
-/   1   - ASCII (No extended character. Non-LFN cfg. only)
+/   1   - ASCII (No support of extended character. Non-LFN cfg. only)
 /   437 - U.S.
 /   720 - Arabic
 /   737 - Greek
@@ -117,13 +117,13 @@
 
 
 #define	_LFN_UNICODE	0
-/* This option switches character encoding on the API. (0:ANSI/OEM or 1:Unicode)
+/* This option switches character encoding on the API. (0:ANSI/OEM or 1:UTF-16)
 /  To use Unicode string for the path name, enable LFN and set _LFN_UNICODE = 1.
 /  This option also affects behavior of string I/O functions. */
 
 
 #define _STRF_ENCODE	3
-/* When _LFN_UNICODE == 1, this option selects the character encoding on the file to
+/* When _LFN_UNICODE == 1, this option selects the character encoding ON THE FILE to
 /  be read/written via string I/O functions, f_gets(), f_putc(), f_puts and f_printf().
 /
 /  0: ANSI/OEM
@@ -148,11 +148,11 @@
 /---------------------------------------------------------------------------*/
 
 #define _VOLUMES	1
-/* Number of volumes (logical drives) to be used. */
+/* Number of volumes (logical drives) to be used. (1-10) */
 
 
 #define _STR_VOLUME_ID	0
-#define _VOLUME_STRS	"RAM","NAND","CF","SD1","SD2","USB1","USB2","USB3"
+#define _VOLUME_STRS	"RAM","NAND","CF","SD","SD2","USB","USB2","USB3"
 /* _STR_VOLUME_ID switches string support of volume ID.
 /  When _STR_VOLUME_ID is set to 1, also pre-defined strings can be used as drive
 /  number in the path name. _VOLUME_STRS defines the drive ID strings for each
@@ -172,11 +172,11 @@
 #define	_MIN_SS		512
 #define	_MAX_SS		512
 /* These options configure the range of sector size to be supported. (512, 1024,
-/  2048 or 4096) Always set both 512 for most systems, all type of memory cards and
+/  2048 or 4096) Always set both 512 for most systems, generic memory card and
 /  harddisk. But a larger value may be required for on-board flash memory and some
 /  type of optical media. When _MAX_SS is larger than _MIN_SS, FatFs is configured
-/  to variable sector size and GET_SECTOR_SIZE command must be implemented to the
-/  disk_ioctl() function. */
+/  to variable sector size and GET_SECTOR_SIZE command needs to be implemented to
+/  the disk_ioctl() function. */
 
 
 #define	_USE_TRIM	0
@@ -204,19 +204,19 @@
 
 #define	_FS_TINY	1
 /* This option switches tiny buffer configuration. (0:Normal or 1:Tiny)
-/  At the tiny configuration, size of the file object (FIL) is reduced _MAX_SS bytes.
+/  At the tiny configuration, size of file object (FIL) is shrinked _MAX_SS bytes.
 /  Instead of private sector buffer eliminated from the file object, common sector
 /  buffer in the file system object (FATFS) is used for the file data transfer. */
 
 
 #define _FS_EXFAT	0
-/* This option switches support of exFAT file system in addition to the traditional
-/  FAT file system. (0:Disable or 1:Enable) To enable exFAT, also LFN must be enabled.
-/  Note that enabling exFAT discards C89 compatibility. */
+/* This option switches support of exFAT file system. (0:Disable or 1:Enable)
+/  When enable exFAT, also LFN needs to be enabled. (_USE_LFN >= 1)
+/  Note that enabling exFAT discards ANSI C (C89) compatibility. */
 
 
 #define _FS_NORTC	0
-#define _NORTC_MON	5
+#define _NORTC_MON	1
 #define _NORTC_MDAY	1
 #define _NORTC_YEAR	2016
 /* The option _FS_NORTC switches timestamp functiton. If the system does not have
@@ -225,7 +225,7 @@
 /  defined by _NORTC_MON, _NORTC_MDAY and _NORTC_YEAR in local time.
 /  To enable timestamp function (_FS_NORTC = 0), get_fattime() function need to be
 /  added to the project to get current time form real-time clock. _NORTC_MON,
-/  _NORTC_MDAY and _NORTC_YEAR have no effect. 
+/  _NORTC_MDAY and _NORTC_YEAR have no effect.
 /  These options have no effect at read-only configuration (_FS_READONLY = 1). */
 
 
@@ -258,10 +258,11 @@
 /
 /  The _FS_TIMEOUT defines timeout period in unit of time tick.
 /  The _SYNC_t defines O/S dependent sync object type. e.g. HANDLE, ID, OS_EVENT*,
-/  SemaphoreHandle_t and etc.. A header file for O/S definitions needs to be
+/  SemaphoreHandle_t and etc. A header file for O/S definitions needs to be
 /  included somewhere in the scope of ff.h. */
 
 /* #include <windows.h>	// O/S definitions  */
+
 
 
 /*--- End of configuration options ---*/
