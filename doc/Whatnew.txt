@@ -1,3 +1,7 @@
+20160317 :
+V60.00	Adopted FatFs0.12c latest patch update(patch1).
+		Adopted Launchpad GCC-ARM(GCC6.2.1).
+
 20160306 : 
 V59.00	Adopted FatFs0.12c.
 
