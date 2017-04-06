@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		25.00
-	@date			2017.02.24
+	@version		26.00
+	@date			2017.03.30
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -33,6 +33,7 @@
 		2016.12.01 V23.00	Fixed ACMD41 Argument to detect UHS.
 		2017.01.14 V24.00	Added MMC_CMD6_WAIT().
 		2017.02.14 V25.00	Fixed Block Address detection on larger eMMC.
+		2017.03.30 V26.00	Add error chack on reading ExtCSD for eMMC.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -42,7 +43,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x2500
+#if __SDIO_STM32F1_H!= 0x2600
 #error "header file version is not correspond!"
 #endif
 
@@ -344,14 +345,17 @@ SD_Error SD_Init(void)
 	{
 		if(SDCardInfo.SD_csd.SysSpecVersion >= 4){
 			MMCEXT_CSD ext_csd;
-			MMC_ReadExtCsd(&ext_csd);
-			SDCardInfo.CardBlockSize = 1 << (SDCardInfo.SD_csd.RdBlockLen);
-			SDCardInfo.CardCapacity = (uint64_t)((uint32_t)(ext_csd.EXT_CSD.SEC_COUNT[3] << 24 | \
-															ext_csd.EXT_CSD.SEC_COUNT[2] << 16 | \
-															ext_csd.EXT_CSD.SEC_COUNT[1] << 8  | \
-															ext_csd.EXT_CSD.SEC_COUNT[0]));
-			SDCardInfo.CardCapacity *= 512; /* Fixed to 512 byte for block addressing */
-			MMC_EXTCSDREV = ext_csd.EXT_CSD.EXT_CSD_REV;
+			errorstatus = MMC_ReadExtCsd(&ext_csd);
+			if(errorstatus == SD_OK)
+			{
+				SDCardInfo.CardBlockSize = 1 << (SDCardInfo.SD_csd.RdBlockLen);
+				SDCardInfo.CardCapacity = (uint64_t)((uint32_t)(ext_csd.EXT_CSD.SEC_COUNT[3] << 24 | \
+																ext_csd.EXT_CSD.SEC_COUNT[2] << 16 | \
+																ext_csd.EXT_CSD.SEC_COUNT[1] << 8  | \
+																ext_csd.EXT_CSD.SEC_COUNT[0]));
+				SDCardInfo.CardCapacity *= 512; /* Fixed to 512 byte for block addressing */
+				MMC_EXTCSDREV = ext_csd.EXT_CSD.EXT_CSD_REV;
+			}
 		}
 	}
 
@@ -1001,7 +1005,10 @@ SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo)
 		   to get total sector count. 
 		   To read ExtCSD correctly,throw CMD7 at first.
 		   Thus on s**kly SPD libraries,cannot execute CMD8 in this function scope.
+		   Anyway,I set SDCardInfo value for USB-MSC Example.
 		*/
+		cardinfo->CardCapacity  = SDCardInfo.CardCapacity;
+		cardinfo->CardBlockSize = SDCardInfo.CardBlockSize;
 	}
 
 	cardinfo->SD_csd.EraseGrSize = (tmp & 0x40) >> 6;

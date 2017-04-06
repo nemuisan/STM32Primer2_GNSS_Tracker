@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_mass_mal.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2017.01.15
+    @version        5.00
+    @date           2017.03.29
 	@brief          Descriptor Header for Mal.
 					Based On STMicro's Sample Thanks!
 
@@ -12,6 +12,7 @@
 		2014.03.21	V2.00	Adopted FatFs10.0a
 		2016.01.15	V3.00	Changed definition compatibility.
 		2017.01.15	V4.00	Fixed return correct disk capacity on eMMC.
+		2017.03.29	V5.00	Fixed capacity calculation.
 		
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -43,22 +44,21 @@ uint32_t Mass_Block_Count[MAX_LUN];
 /**************************************************************************/
 uint16_t MAL_Init(uint8_t lun)
 {
-  uint16_t status = MAL_OK;
 
   switch (lun)
   {
     case LUN_SDCARD:
       Status = SD_Init();
+      if ( Status != SD_OK )
+      {
+        return MAL_FAIL;
+      } 
       break;
-#ifdef USE_STM3210E_EVAL
-    case 1:
-      NAND_Init();
-      break;
-#endif
+	
     default:
       return MAL_FAIL;
   }
-  return status;
+  return MAL_OK;
 }
 
 /**************************************************************************/
@@ -76,7 +76,7 @@ uint16_t MAL_Write(uint8_t lun, uint64_t Memory_Offset, uint32_t *Writebuff, uin
       if ( Status != SD_OK )
       {
         return MAL_FAIL;
-      } 
+      }
       break;
 	
     default:
@@ -96,7 +96,6 @@ uint16_t MAL_Read(uint8_t lun, uint64_t Memory_Offset, uint32_t *Readbuff, uint1
   switch (lun)
   {
     case LUN_SDCARD:
-	
       Status = SD_ReadBlock((uint8_t*)Readbuff, Memory_Offset, Transfer_Length);
       if ( Status != SD_OK )
       {
@@ -118,50 +117,22 @@ uint16_t MAL_Read(uint8_t lun, uint64_t Memory_Offset, uint32_t *Readbuff, uint1
 uint16_t MAL_GetStatus (uint8_t lun)
 {
 
-  uint32_t DeviceSizeMul = 0, NumberOfBlocks = 0;
-  uint64_t dwDevSize;  /* nemui */
-
   if (lun == LUN_SDCARD)
   {
-    if (SD_Init() == SD_OK)
+    Status = SD_GetCardInfo(&SDCardInfo);
+    if ( Status != SD_OK )
     {
-      SD_GetCardInfo(&SDCardInfo);
-      SD_SelectDeselect((uint32_t) (SDCardInfo.RCA << 16));
-      DeviceSizeMul = (SDCardInfo.SD_csd.DeviceSizeMul + 2);
-
-      if(SDCardInfo.CardType == SDIO_HIGH_CAPACITY_SD_CARD)
-      {
-		/* nemui */
-		dwDevSize  = (uint64_t)(SDCardInfo.SD_csd.DeviceSize + 1) * 512 * 1024;
-		/* nemui  calculate highest LBA */
-		Mass_Block_Count[LUN_SDCARD] = (dwDevSize - 1) / 512;
-      }
-      else if(SDCardInfo.CardType == SDIO_HIGH_CAPACITY_MMC_CARD)
-      {
-		/* nemui */
-		dwDevSize  = SDCardInfo.CardCapacity;
-		/* nemui  calculate highest LBA */
-		Mass_Block_Count[LUN_SDCARD] = dwDevSize / 512;
-      }
-      else /* SDv1,MMC */
-      {
-        NumberOfBlocks  = ((1 << (SDCardInfo.SD_csd.RdBlockLen)) / 512);
-        Mass_Block_Count[LUN_SDCARD] = ((SDCardInfo.SD_csd.DeviceSize + 1) * (1 << DeviceSizeMul) << (NumberOfBlocks/2));
-      }
-      Mass_Block_Size[LUN_SDCARD]  = 512;
-
-      Status = SD_SelectDeselect((uint32_t) (SDCardInfo.RCA << 16)); 
-      Status = SD_EnableWideBusOperation(SDIO_BusWide_4b); 
-      if ( Status != SD_OK )
-      {
-        return MAL_FAIL;
-      }
-
-      Mass_Memory_Size[LUN_SDCARD] = (uint64_t)Mass_Block_Count[LUN_SDCARD] * Mass_Block_Size[LUN_SDCARD];
-
-      return MAL_OK;
-
+       return MAL_FAIL;
     }
+
+	/* Set Block Number & Size (BlockSize Fixed to 512Byte) */
+	Mass_Block_Count[LUN_SDCARD] = SDCardInfo.CardCapacity / 512;
+    Mass_Block_Size[LUN_SDCARD]  = 512;
+
+	/* Set Total Memory Size */
+    Mass_Memory_Size[LUN_SDCARD] = (uint64_t)Mass_Block_Count[LUN_SDCARD] * Mass_Block_Size[LUN_SDCARD];
+
+    return MAL_OK;
   }
   return MAL_FAIL;
 }

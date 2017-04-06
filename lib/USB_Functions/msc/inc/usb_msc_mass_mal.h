@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_mass_mal.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2017.01.15
+    @version        5.00
+    @date           2017.03.29
 	@brief          Descriptor Header for Mal.
 					Based On STMicro's Sample Thanks!
 
@@ -12,13 +12,14 @@
 		2014.03.21	V2.00	Adopted FatFs10.0a
 		2016.01.15	V3.00	Changed definition compatibility.
 		2017.01.15	V4.00	Fixed return correct disk capacity on eMMC.
+		2017.03.29	V5.00	Fixed capacity calculation.
 		
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __MASS_MAL_H
-#define __MASS_MAL_H	0x0400
+#define __MASS_MAL_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -33,8 +34,8 @@
 #define LUN_SDCARD	0
 
 /* Externals */
-uint16_t MAL_Init (uint8_t lun);
-uint16_t MAL_GetStatus (uint8_t lun);
+uint16_t MAL_Init(uint8_t lun);
+uint16_t MAL_GetStatus(uint8_t lun);
 uint16_t MAL_Read(uint8_t lun, uint64_t Memory_Offset, uint32_t *Readbuff, uint16_t Transfer_Length);
 uint16_t MAL_Write(uint8_t lun, uint64_t Memory_Offset, uint32_t *Writebuff, uint16_t Transfer_Length);
 

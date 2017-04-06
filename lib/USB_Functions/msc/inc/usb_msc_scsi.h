@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_scsi.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2016.01.15
+    @version        4.00
+    @date           2017.03.29
 	@brief          All processing related to the SCSI commands.
 					Based On STMicro's Sample Thanks!
 
@@ -11,13 +11,14 @@
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 		2016.01.15	V3.00	Changed definition compatibility.
-		
+		2017.03.29	V4.00	Removed retired variables.
+
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __USB_MSC_SCSI_H
-#define __USB_MSC_SCSI_H	0x0300
+#define __USB_MSC_SCSI_H	0x0400
 
 #ifdef __cplusplus
  extern "C" {
