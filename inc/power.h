@@ -35,7 +35,7 @@
 #define MID_BAT_VOLTAGE	3600  /* 3600mV */
 #define LOWER_FILT		12    /* 12Sec  */
 
-#define SHUT_TIME		3000  /* 3000Sec */
+#define SHUT_TIME		3000  /* 3000mSec */
 
 enum
 {

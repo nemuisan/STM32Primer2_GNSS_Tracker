@@ -33,7 +33,7 @@
 		2016.12.01 V23.00	Fixed ACMD41 Argument to detect UHS.
 		2017.01.14 V24.00	Added MMC_CMD6_WAIT().
 		2017.02.14 V25.00	Fixed Block Address detection on larger eMMC.
-		2017.03.30 V26.00	Add error chack on reading ExtCSD for eMMC.
+		2017.03.30 V26.00	Add error check on reading ExtCSD for eMMC.
 
 	@section LICENSE
 		BSD License. See Copyright.txt

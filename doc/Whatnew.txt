@@ -1,6 +1,11 @@
+20160420 :
+V63.00	Adopted FatFs0.12c latest patch update(patch2).
+		Adopted CMSIS Header Files V5.0.2 latest repository.
+         -> https://github.com/ARM-software/CMSIS_5/commit/49c8b1588fc0559d6513617b1cc57ee0bf1c47b1
+
 20160330 :
 V62.00	Fixed capacity calculation on USB-MSC.
-		Add error chack on reading ExtCSD (on sdio_stm32f1.c).
+		Add error check on reading ExtCSD (on sdio_stm32f1.c).
 
 20160323 :
 V61.00	Adopted FatFs0.12c latest patch update(patch2).
