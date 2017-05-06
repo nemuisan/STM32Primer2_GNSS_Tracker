@@ -53,6 +53,7 @@
  */
 #elif defined ( __ICCARM__ )
 
+
   #ifndef   __ASM
     #define __ASM                                  __asm
   #endif
@@ -64,6 +65,21 @@
   #endif
 
   #include <cmsis_iar.h>
+
+  /* CMSIS compiler control architecture macros */
+  #if (__CORE__ == __ARM6M__) || (__CORE__ == __ARM6SM__)
+    #ifndef __ARM_ARCH_6M__
+      #define __ARM_ARCH_6M__                      1
+    #endif
+  #elif (__CORE__ == __ARM7M__)
+    #ifndef __ARM_ARCH_7M__
+      #define __ARM_ARCH_7M__                      1
+    #endif
+  #elif (__CORE__ == __ARM7EM__)
+    #ifndef __ARM_ARCH_7EM__
+      #define __ARM_ARCH_7EM__                     1
+    #endif
+  #endif
 
   #ifndef   __NO_RETURN
     #define __NO_RETURN                            __noreturn
@@ -103,6 +119,26 @@
   #ifndef   __ALIGNED
     #warning No compiler specific solution for __ALIGNED. __ALIGNED is ignored.
     #define __ALIGNED(x)
+  #endif
+
+  // Workaround for missing __CLZ intrinsic in
+  // IAR compilers prior 8.0
+  #if (__CORE__ == __ARM6M__) && (__VER__ < 8000000)
+    __STATIC_INLINE uint32_t __CLZ(uint32_t data)
+    {
+      if (data == 0u) { return 32u; }
+      
+      uint32_t count = 0;
+      uint32_t mask = 0x80000000;
+      
+      while ((data & mask) == 0)
+      {
+        count += 1u;
+        mask = mask >> 1u;
+      }
+      
+      return (count);
+    }
   #endif
 
 
