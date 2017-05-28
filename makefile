@@ -197,11 +197,11 @@ endif
 FATFS = ./lib/ff
 LIBINCDIRS += $(FATFS)
 CFILES += \
- $(FATFS)/ff.c 							\
- $(FATFS)/sdio_stm32f1.c 				\
- $(FATFS)/ff_rtc_if.c 					\
- $(FATFS)/option/syscall.c				\
- $(FATFS)/option/unicode.c
+ $(FATFS)/ff.c 						\
+ $(FATFS)/ffunicode.c				\
+ $(FATFS)/ffsystem.c				\
+ $(FATFS)/ff_rtc_if.c				\
+ $(FATFS)/sdio_stm32f1.c
 
 #/*----- USB-Function library PATH -----*/
 USBFUNC = ./lib/USB_Functions
@@ -299,7 +299,7 @@ CFLAGS += -fno-schedule-insns2
 CFLAGS += --param max-inline-insns-single=1000
 CFLAGS += -fno-common -fno-hosted
 CFLAGS += -Wall -Wno-array-bounds
-#CFLAGS += -Wdouble-promotion
+CFLAGS += -Wdouble-promotion
 #CFLAGS += -Wredundant-decls -Wreturn-type -Wshadow -Wunused
 CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<) 
 CFLAGS += $(SYNTHESIS_DEFS)  

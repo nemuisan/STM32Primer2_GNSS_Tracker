@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2016.06.01
+    @version        8.00
+    @date           2016.07.03
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -15,6 +15,7 @@
 		2013.04.04	V5.00	Added STMPE811 Device Handlings.
 		2013.11.30	V6.00	Added STM32F429I-Discovery support.
 		2016.06.01	V7.00	Added FT6x06 Device Handlings.
+		2016.07.03	V8.00	Added SWAP or Reverse XY exec.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if.h"
 /* check header file version for fool proof */
-#if __TOUCH_IF_H != 0x0700
+#if __TOUCH_IF_H != 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -36,11 +37,11 @@
 
 /* Variables -----------------------------------------------------------------*/
 /* Raw Value */
-Touch_t  TouchVal 	= {0,0};
+Touch_t  TouchVal 	= {0xFFFF,0xFFFF};
 Touch_t* pTouch 	= &TouchVal;
 
 /* Calibrated Value */
-Touch_t  PosVal 	= {0,0};
+Touch_t  PosVal 	= {0xFFFF,0xFFFF};
 Touch_t* pPos 		= &PosVal;
 
 /* Touch State Value */
@@ -771,6 +772,17 @@ void TC_CalibScreen_If(void)
 #elif defined(USE_FT6x06_I2C)
 volatile ft6x06_strct pkt_touch = {0};
 #define TOUCH_PACKETS 7
+
+//void EXTI9_5_IRQHandler(void)
+//{
+//	if(EXTI_GetITStatus(TOUCH_SRC_EXTI) != RESET)
+//	{
+//		hold_okes_tc=1;
+//
+//		/* Clear the EXTI line 15 pending bit */
+//		EXTI_ClearITPendingBit(TOUCH_SRC_EXTI);
+//	}
+//}
 /**************************************************************************/
 /*! 
 	TouchScreen Low Level.
@@ -802,9 +814,14 @@ uint8_t TC_PenINT(void)
 /**************************************************************************/
 uint8_t TC_PenDown(void)
 {
-	return (!(PENIRQ_CHK()));
+	if(EXTI_GetITStatus(TOUCH_SRC_EXTI) != RESET)
+	{
+		/* Clear the EXTI line pending bit */
+		EXTI_ClearITPendingBit(TOUCH_SRC_EXTI);
+		return 1;
+	}
+	else return 0;
 }
-
 
 /**************************************************************************/
 /*! 
@@ -829,10 +846,14 @@ inline void TC_ScanPen(void)
 		TC_ReadRaw();
 		
 		/* Check Touch Detect and Single Point */
-		if((pkt_touch.td_status & 0x0F) == 1){
+		if((pkt_touch.td_status & 0x0F) >0){
+		#if defined(TOUCH_REV_XY)
+			pPos->Y_Axis = ((uint16_t)(pkt_touch.xh & 0x0F)<<8 | (uint16_t)pkt_touch.xl);
+			pPos->X_Axis = (MAX_X-((uint16_t)(pkt_touch.yh & 0x0F)<<8 | (uint16_t)pkt_touch.yl));
+		#else
 			pPos->X_Axis = ((uint16_t)(pkt_touch.xh & 0x0F)<<8 | (uint16_t)pkt_touch.xl);
 			pPos->Y_Axis = ((uint16_t)(pkt_touch.yh & 0x0F)<<8 | (uint16_t)pkt_touch.yl);
-			
+		#endif
 			if (last_pen)  /* last_pen:1->1 */
 			{
 				tc_stat = TC_STAT_HOLD;
@@ -843,7 +864,20 @@ inline void TC_ScanPen(void)
 			}
 			last_pen = 1;
 		}
-
+		else /* pkt_touch.td_status == 0 */
+		{
+			pPos->Y_Axis = 0xFFFF;
+			pPos->X_Axis = 0xFFFF;
+			if (last_pen)  /* last_pen:1->0 */
+			{
+				tc_stat = TC_STAT_UP;
+			}
+			else		   /* last_pen:0->0 */
+			{
+				tc_stat = TC_STAT_NONE;
+			}
+			last_pen = 0;
+		}
 	}
 	else
 	{

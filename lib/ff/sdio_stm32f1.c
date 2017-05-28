@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		26.00
-	@date			2017.03.30
+	@version		27.00
+	@date			2017.05.23
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -34,6 +34,7 @@
 		2017.01.14 V24.00	Added MMC_CMD6_WAIT().
 		2017.02.14 V25.00	Fixed Block Address detection on larger eMMC.
 		2017.03.30 V26.00	Add error check on reading ExtCSD for eMMC.
+		2017.05.23 V27.00	Adopted FatFs0.13.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -43,7 +44,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x2600
+#if __SDIO_STM32F1_H!= 0x2700
 #error "header file version is not correspond!"
 #endif
 
@@ -4041,7 +4042,7 @@ DRESULT disk_read(uint8_t drv,uint8_t *buff,uint32_t sector,unsigned int count)
     @retval DSTATUS :
 */
 /**************************************************************************/
-#if _READONLY == 0
+#if FF_FS_READONLY == 0
 DRESULT disk_write(uint8_t drv,const uint8_t *buff,uint32_t sector,unsigned int count)
 {
 	switch (drv) 
@@ -4098,7 +4099,7 @@ DRESULT disk_write(uint8_t drv,const uint8_t *buff,uint32_t sector,unsigned int 
 	}
 	return RES_PARERR;
 }
-#endif /* _READONLY */
+#endif /* FF_FS_READONLY */
 
 /**************************************************************************/
 /*! 
@@ -4131,14 +4132,14 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 
 			/* Get number of sectors on the disk (DWORD) */
 			case GET_SECTOR_COUNT:
-		#if _MAX_SS != _MIN_SS
+		#if FF_MAX_SS != FF_MIN_SS
 			  *(uint32_t*)buff = SDCardInfo.CardCapacity / SDCardInfo.CardBlockSize;
 		#else
 			  *(uint32_t*)buff = SDCardInfo.CardCapacity / SECTOR_SIZE;
 		#endif
 			  return RES_OK;
 
-			/* Get R/W sector size (WORD) (needed at _MAX_SS != _MIN_SS) */
+			/* Get R/W sector size (WORD) (needed at FF_MAX_SS != FF_MIN_SS) */
 			case GET_SECTOR_SIZE :
 			  *(uint16_t*)buff = SDCardInfo.CardBlockSize;
 			  return RES_OK;

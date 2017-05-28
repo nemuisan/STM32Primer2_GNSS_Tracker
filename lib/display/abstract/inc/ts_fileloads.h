@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        13.00
-    @date           2016.08.01
+    @version        15.00
+    @date           2017.05.22
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -21,6 +21,8 @@
 		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
 		2016.04.20 V12.00	Adopted FatFs0.12.
 		2016.08.01 V13.00	Adopted FatFs0.12a.
+		2016.12.01 V14.00	Fixed filename display bug on file load.
+		2017.05.22 V15.00	Adopted FatFs0.13.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -30,7 +32,7 @@
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x1300
+#define __TS_FILELOADS_H 0x1500
 
 #ifdef __cplusplus
  extern "C" {

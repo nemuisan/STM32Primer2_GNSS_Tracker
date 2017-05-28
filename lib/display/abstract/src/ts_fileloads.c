@@ -2,8 +2,8 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        13.00
-    @date           2016.08.01
+    @version        15.00
+    @date           2017.05.22
 	@brief          Filer and File Loaders.
 
     @section HISTORY
@@ -21,6 +21,8 @@
 		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
 		2016.04.20 V12.00	Adopted FatFs0.12.
 		2016.08.01 V13.00	Adopted FatFs0.12a.
+		2016.12.01 V14.00	Fixed filename display bug on file load.
+		2017.05.22 V15.00	Adopted FatFs0.13.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -33,7 +35,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if __TS_FILELOADS_H != 0x1300
+#if __TS_FILELOADS_H != 0x1500
 #error "header file version is not correspond!"
 #endif
 
@@ -42,8 +44,8 @@
 typedef struct {
 	uint32_t fsize;
 	uint8_t  fattr;
-#if _USE_LFN
-	char fname[_MAX_LFN+1];
+#if FF_USE_LFN
+	char fname[FF_MAX_LFN+1];
 #else
 	char fname[13];
 #endif
@@ -111,7 +113,7 @@ static inline DWORD LD_DWORD(const BYTE* ptr)
 
 
 /* Functions -----------------------------------------------------------------*/
-#if _USE_LFN
+#if FF_USE_LFN
 /**************************************************************************/
 /*! 
 	ts_fileloads Support Function
@@ -460,16 +462,21 @@ static int load_img(FIL* fil, const char *filename)
 {
 	uint8_t f, stat;
 	char k;
-	unsigned int n, br;
+	unsigned int br;
 	volatile uint32_t x,y;
 	uint32_t d, szfrm, nfrm, cfrm;
 	long fd, tp;
 
+#if !defined(USE_TFT_FRAMEBUFFER)
+	unsigned int n;
+#endif
+
 #if defined(USE_TFT_FRAMEBUFFER)
 	uint8_t* tbuf;
 	unsigned int vsize;
-#if defined(ENABLE_PERFORMANCE_MEASUREMENT)
 	unsigned int x1,x2,y1,y2;
+#if defined(ENABLE_PERFORMANCE_MEASUREMENT)
+	unsigned int fcount;
 #endif
 #endif
 
@@ -492,11 +499,15 @@ static int load_img(FIL* fil, const char *filename)
 	xprintf("->%s\n", filename);
 
 	Display_rect_if((MAX_X - x) / 2, (MAX_X - x) / 2 + x - 1, (MAX_Y - y) / 2, (MAX_Y - y) / 2 + y - 1);
-#if defined(ENABLE_PERFORMANCE_MEASUREMENT)
+#if defined(USE_TFT_FRAMEBUFFER)
 	x1 = (MAX_X - x) / 2;
 	x2 = (MAX_X - x) / 2 + x - 1;
 	y1 = (MAX_Y - y) / 2;
 	y2 = (MAX_Y - y) / 2 + y - 1;
+#if defined(ENABLE_PERFORMANCE_MEASUREMENT)
+	Timer = 0;
+	fcount = 0;
+#endif
 #endif
 
 	szfrm = x * y * 2;
@@ -537,10 +548,20 @@ static int load_img(FIL* fil, const char *filename)
 		cfrm++;
 
 #if defined(USE_TFT_FRAMEBUFFER) && defined(ENABLE_PERFORMANCE_MEASUREMENT)
+		fcount++;
+		if(Timer >= 1000){
+			ts_locate(2, 0 ,0);
+			xprintf("%d.%dfps", fcount*1000/Timer,fcount*1000%Timer);
+			fcount = 0;
+			Timer = 0;
+			Display_rect_if(x1, x2, y1, y2);
+		}
+#elif defined(USE_TFT_FRAMEBUFFER) && !defined(ENABLE_PERFORMANCE_MEASUREMENT)
 		ts_locate(2, 0 ,0);
 		xprintf("%d/%d frames", cfrm, nfrm);
 		Display_rect_if(x1, x2, y1, y2);
 #endif
+
 		for (;;) {
 			k = xgetc_n();
 			if (k == BTN_CAN) goto li_exit;
@@ -1493,19 +1514,28 @@ gif_esc:
 int load_file(char *path, char *filename, FIL *fil)
 {
 	unsigned int n;
-	/*FRESULT res;*/
 
+	/* Store filename buffer */
+	/* Because "char *filename" address is equal to Buff[]. */
+#if FF_USE_LFN
+	char fname[FF_MAX_LFN+1];
+#else
+	char fname[13];
+#endif
 
 	/* Check File Read Valid */
 	if (f_open(fil, path, FA_READ)) return 0;
 	
+	/* Store Filename */
+	strcpy(fname, filename);
+
 	/* Read File Header */
 	/*if (f_read(fil, Buff, 256, &n) || n != 256) return 0;*/
 	f_read(fil, Buff, 256, &n);
 
 	/* Execute Original Video File */ 
 	if (!memcmp(Buff, "IM", 2)) {
-		load_img(fil, filename);
+		load_img(fil, fname);
 		f_close(fil);
 		return RES_OK;
 	}
@@ -1526,8 +1556,8 @@ int load_file(char *path, char *filename, FIL *fil)
 	}
 
 #if defined(USE_IJG_LIB)
-	uint8_t JPEG_SOI[] = {0xFF,0xD8,0}; /* JPEG Merker */
 	/* Execute JPEG File Using IJG JPEG Library(libjpeg) */
+	uint8_t JPEG_SOI[] = {0xFF,0xD8,0}; /* JPEG Merker */
 	if (!memcmp(Buff,JPEG_SOI,2)) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 		load_jpeg(fil,1);
@@ -1545,10 +1575,10 @@ int load_file(char *path, char *filename, FIL *fil)
 #endif
 
 #if defined(USE_LIBPNG)
-	/* Execute PNG File Using libpng  */
+	/* Execute PNG File Using libpng */
 	if (strstr_ext(path, ".PNG")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
-		load_png(fil, filename);
+		load_png(fil, fname);
 		f_close(fil);
 		return RES_OK;
 	}
@@ -1568,7 +1598,7 @@ int load_file(char *path, char *filename, FIL *fil)
 	/* Execute RIFF-WAV file */
 	if (strstr_ext(path, ".WAV")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
-		load_wav(fil, filename, (BYTE*)Buff, BUFSIZE);
+		load_wav(fil, fname, (BYTE*)Buff, BUFSIZE);
 		f_close(fil);
 		return RES_OK;
 	}
@@ -1585,10 +1615,10 @@ int load_file(char *path, char *filename, FIL *fil)
 			/* Use heap memory as dma double buffer */
 			uint8_t* twork = malloc(MP3_DMA_BUFFER_SIZE*2);
 			if(twork == NULL)	return RES_ERROR;
-			load_mp3(fil, filename, twork, MP3_DMA_BUFFER_SIZE*2);
+			load_mp3(fil, fname, twork, MP3_DMA_BUFFER_SIZE*2);
 			free(twork);
 	#else
-			load_mp3(fil, filename, (BYTE*)Buff, BUFSIZE);
+			load_mp3(fil, fname, (BYTE*)Buff, BUFSIZE);
 	#endif
 		f_close(fil);
 		return RES_OK;
@@ -1606,10 +1636,10 @@ int load_file(char *path, char *filename, FIL *fil)
 			/* Use heap memory as dma double buffer */
 			uint8_t* twork = malloc(AAC_DMA_BUFFER_SIZE*2);
 			if(twork == NULL)	return RES_ERROR;
-			load_aac(fil, filename, twork, AAC_DMA_BUFFER_SIZE*2);
+			load_aac(fil, fname, twork, AAC_DMA_BUFFER_SIZE*2);
 			free(twork);
 	#else
-			load_aac(fil, filename, (BYTE*)Buff, BUFSIZE);
+			load_aac(fil, fname, (BYTE*)Buff, BUFSIZE);
 	#endif
 		f_close(fil);
 		return RES_OK;
@@ -1682,6 +1712,17 @@ static void filer_put_item (
 	xputc(c);
 
 	ts_locate(tblofs + 1, 0, 0);
+#if FF_USE_LFN
+	xprintf(" %s", item->fname);
+	if(strlen(item->fname) < 13){
+		for (n = strlen(item->fname); n < 12; n++) xputc(' ');
+		if (item->fattr & AM_DIR) {
+			xputs("   <DIR>   ");
+		} else {
+			xprintf("%10u", item->fsize);
+		}
+	}
+#else
 	xprintf(" %s", item->fname);
 	for (n = strlen(item->fname); n < 12; n++) xputc(' ');
 #if !defined(USE_SSD1332_SPI_OLED)
@@ -1690,6 +1731,7 @@ static void filer_put_item (
 	} else {
 		xprintf("%10u", item->fsize);
 	}
+#endif
 #endif
 }
 
@@ -1720,9 +1762,9 @@ static int filer_load_dir (
 	while (f_readdir(dir, fno) == FR_OK && fno->fname[0] && i < 200) {
 		diritem[i].fsize = fno->fsize;
 		diritem[i].fattr = fno->fattrib;
-#if _USE_LFN
+#if FF_USE_LFN
 		if(fno->altname[0]){
-			if(strlen(fno->fname)>11) strcpy(diritem[i].fname, fno->altname);
+			if(strlen(fno->fname)>12) strcpy(diritem[i].fname, fno->altname);
 			else					  strcpy(diritem[i].fname, fno->fname);
 		} else {
 			sprintf(diritem[i].fname,"%s",fno->fname); /* In cace of exFAT */
@@ -1790,7 +1832,7 @@ int filer(
 			if (k == BTN_OK) {
 				i = strlen(path);
 				
-#if _USE_LFN
+#if FF_USE_LFN
 				filenames = (char*)GetLFN(path,diritem[item].fname,dir,fno);
 #else
 				filenames = diritem[item].fname;

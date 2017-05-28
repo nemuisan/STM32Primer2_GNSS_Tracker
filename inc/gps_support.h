@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2016.05.13
+    @version        13.00
+    @date           2017.05.23
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -23,13 +23,14 @@
 		2015.02.28 V10.00	Buffer alignment set by 4Byte.
 		2016.04.15 V11.00	Adopted FatFs0.12.
 		2016.05.13 V12.00	Adopted Gms-g9(Titan3) new firmware.
+		2017.05.23 V11.00	Adopted FatFs0.13.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __GPS_SUPPORT_H
-#define __GPS_SUPPORT_H	0x1200
+#define __GPS_SUPPORT_H	0x1300
 
 #ifdef __cplusplus
  extern "C" {

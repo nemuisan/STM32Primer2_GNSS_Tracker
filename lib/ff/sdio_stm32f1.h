@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		26.00
-	@date			2017.03.30
+	@version		27.00
+	@date			2017.05.23
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -34,13 +34,14 @@
 		2017.01.14 V24.00	Added MMC_CMD6_WAIT().
 		2017.02.14 V25.00	Fixed Block Address detection on larger eMMC.
 		2017.03.30 V26.00	Add error check on reading ExtCSD for eMMC.
+		2017.05.23 V27.00	Adopted FatFs0.13.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x2600
+#define __SDIO_STM32F1_H	0x2700
 
 #ifdef __cplusplus
  extern "C" {

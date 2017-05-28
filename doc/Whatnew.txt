@@ -1,3 +1,6 @@
+20160523 :
+V65.00	Adopted FatFs0.13.
+
 20160424 :
 V64.00	Adopted FatFs0.12c latest patch update(patch3).
 		Adopted CMSIS Header Files V5.0.2 latest repository.
