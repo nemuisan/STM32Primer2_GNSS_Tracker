@@ -2,10 +2,10 @@
 /*!
 	@file			font_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2014.03.31
+    @version        5.00
+    @date           2017.06.07
 	@brief          Interface of FONTX Driver								@n
-                    Refered under URL thanks!								@n
+                    Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
 					http://hp.vector.co.jp/authors/VA007110/technicalworkshop
 
@@ -13,15 +13,15 @@
 		2010.12.31	V1.00	Stable Release.
 		2011.03.10	V2.00	C++ Ready.
 		2011.05.11	V3.00	Selectable KanjiFonts to Reduce Memory Space.
-		2011.09.17	V3.01	Fixed handling Selectable KanjiFonts.
 		2014.03.31	V4.00	Fixed hardfault error on Cortex-M0 Devices.
+		2017.06.07	V5.00	Added signature validation function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __FONT_IF_H 
-#define __FONT_IF_H 0x0400
+#define __FONT_IF_H 0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -29,13 +29,15 @@
 
 /* Include Basis */
 #include <inttypes.h>
+#include <string.h>
 #include "font_if_datatable.h"
 
 /* Device Dependent Macros */
-
 /* To Read uC Flash Memory Little Endian */ 
 #define	READ_ADDR_UNIT8(ADDR) 	((uint8_t)*(uint8_t*)(addr_ofs+ADDR))
 #define	READ_ADDR_UNIT16(ADDR) 	((uint16_t)*(uint16_t*)(addr_ofs+ADDR))
+/* Retrive 8bit datas from Current pointer */
+#define	READ_ADDR_UNIT8_C(ADDR) ((uint8_t)*(uint8_t*)(ADDR))
 
 
 /**************************************************************************/
@@ -63,6 +65,8 @@ typedef struct {
 extern void InitFont_Ank(FontX_Ank* AnkDat,const char* addr_ofs);
 extern uint8_t* GetPtr_Ank(uint8_t AnkCode);
 extern void ChangeCurrentAnk(FontX_Ank* AnkDat);
+extern uint8_t ChkFontSig_Ank(FontX_Ank* AnkDat);
+extern void GetFontName_Ank(char* name);
 extern FontX_Ank* CurrentAnkDat;
 
 
@@ -88,7 +92,7 @@ extern FontX_Ank* CurrentAnkDat;
 #define KANJI_START_C(n) READ_ADDR_UNIT16_C( (KANJI_DATSTART+ 4*(n))    )
 #define KANJI_ENDE_C(n)  READ_ADDR_UNIT16_C( (KANJI_DATSTART+ 4*(n) +2) )
 
-#define SJIS_TOOFU		(0x81A0)	/*  Toofu ga starto suru			      */ 
+#define SJIS_TOOFU		(0x81A0)	/*  Toofu ga starto suru            */ 
 
 /* Structs */
 typedef struct {
@@ -97,7 +101,7 @@ typedef struct {
 	uint8_t  KanjiSize;				/* Size of Kanji Font (in byte) 	*/
 	uint8_t  X_Size;				/* Xsize(in pixel) 					*/
 	uint8_t  Y_Size;				/* Ysize(in pixel)					*/
-	uint8_t  KanjiTableNum;			/* Kanji Font Table	 Number  		*/ 
+	uint8_t  KanjiTableNum;			/* Kanji Font Table Number  		*/ 
 	uint16_t KanjiSearchTable[256]; /* Kanji Font Search Table	   		*/ 
 } FontX_Kanji;
 
@@ -105,8 +109,12 @@ typedef struct {
 extern void InitFont_Kanji(FontX_Kanji* KanjiDat,const char* addr_ofs);
 extern uint8_t* GetPtr_Kanji(uint16_t SjisCode);
 extern void ChangeCurrentKanji(FontX_Kanji* KanjiDat);
+extern uint8_t ChkFontSig_Kanji(FontX_Kanji* KanjiDat);
+extern void GetFontName_Kanji(char* name);
 extern FontX_Kanji* CurrentKanjiDat;
 
+
+/* This is example valiables,U can increase more font-tables! */
 /* See "font_if_datatable.h" !*/
 extern FontX_Ank   ANKFONT;
 extern FontX_Kanji KANJIFONT;

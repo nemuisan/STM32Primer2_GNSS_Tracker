@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2014.03.31
+    @version        5.00
+    @date           2017.06.07
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -13,8 +13,8 @@
 		2010.12.31	V1.00	Stable Release.
 		2011.03.10	V2.00	C++ Ready.
 		2011.05.11	V3.00	Selectable KanjiFonts to Reduce Memory Space.
-		2011.09.17	V3.01	Fixed handling Selectable KanjiFonts.
 		2014.03.31	V4.00	Fixed hardfault error on Cortex-M0 Devices.
+		2017.06.07	V5.00	Added signature validation function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -40,7 +40,11 @@ FontX_Kanji* CurrentKanjiDat;
 /* Function prototypes -------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
-
+/**************************************************************************/
+/*! 
+   FontX2 Ank Routines
+*/
+/**************************************************************************/
 /**************************************************************************/
 /*! 
     FontX2 Ank Initialize
@@ -65,17 +69,15 @@ void InitFont_Ank(FontX_Ank* AnkDat,const char* addr_ofs)
 
 }
 
-
 /**************************************************************************/
 /*! 
-    Change Ank Fonts Pointe
+    Change Ank Fonts Pointer
 */
 /**************************************************************************/
 void ChangeCurrentAnk(FontX_Ank* AnkDat){
 
 	CurrentAnkDat = AnkDat;
 }
-
 
 /**************************************************************************/
 /*! 
@@ -87,7 +89,50 @@ uint8_t* GetPtr_Ank(uint8_t AnkCode){
 	return ( (uint8_t*)((CurrentAnkDat->AnkFileOffset + ANK_DATSTART) + (AnkCode * CurrentAnkDat->AnkSize)) );
 }
 
+/**************************************************************************/
+/*! 
+    Check FONTX2 Signature Validation for Ank
+*/
+/**************************************************************************/
+uint8_t ChkFontSig_Ank(FontX_Ank* AnkDat)
+{
+	int i =0;
+	char chkstr[7];
+	
+	/* Retrive Signature */
+	for(; i < 6; i++){
+		chkstr[i] = READ_ADDR_UNIT8_C(CurrentAnkDat->AnkFileOffset + ANK_HEADER + i);
+	}
+	chkstr[i] = 0; /* zero padding 6th byte */
 
+	if(strncmp(chkstr,"FONTX2",6) == 0) return 1;
+	else								return 0;
+}
+
+/**************************************************************************/
+/*! 
+    Check FONTX2 Name Ank
+	"char* name" strings should be at least 9bytes capacity.
+*/
+/**************************************************************************/
+void GetFontName_Ank(char* name)
+{
+	int i=0;
+
+	/* Retrive FONTX2 Name */
+	for(;i<8;i++){
+		*(name + i) = READ_ADDR_UNIT8_C(CurrentAnkDat->AnkFileOffset + ANK_FONTNAME + i);
+	}
+	*(name + i) = 0; /* zero padding 9th byte */
+}
+
+
+
+/**************************************************************************/
+/*! 
+   FontX2 Kanji Routines
+*/
+/**************************************************************************/
 /**************************************************************************/
 /*! 
    FontX2 Kanji Initialize
@@ -125,7 +170,6 @@ void InitFont_Kanji(FontX_Kanji* KanjiDat,const char* addr_ofs)
 	}
 }
 
-
 /**************************************************************************/
 /*! 
    Change Kanji Fonts Pointer 
@@ -135,7 +179,6 @@ void ChangeCurrentKanji(FontX_Kanji* KanjiDat){
 
 	CurrentKanjiDat = KanjiDat;
 }
-
 
 /**************************************************************************/
 /*! 
@@ -153,7 +196,6 @@ static int SearchKanjiBlock(uint16_t SjisCode){
 	}
 	return (-1);
 }
-
 
 /**************************************************************************/
 /*! 
@@ -182,5 +224,43 @@ uint8_t* GetPtr_Kanji(uint16_t SjisCode){
 	return((uint8_t*)(CurrentKanjiDat->KanjiStartOffset + KanjiDatOfs));
 
 }
+
+/**************************************************************************/
+/*! 
+    Check FONTX2 Validation for Kanji
+*/
+/**************************************************************************/
+uint8_t ChkFontSig_Kanji(FontX_Kanji* KanjiDat)
+{
+	int i =0;
+	char chkstr[7];
+	
+	/* Retrive Signature */
+	for(; i < 6; i++){
+		chkstr[i] = READ_ADDR_UNIT8_C(CurrentKanjiDat->KanjiFileOffset + KANJI_HEADER + i);
+	}
+	chkstr[i] = 0; /* zero padding 6th byte */
+
+	if(strncmp(chkstr,"FONTX2",6) == 0) return 1;
+	else								return 0;
+}
+
+/**************************************************************************/
+/*! 
+    Check FONTX2 Name Kanji
+	"char* name" strings should be at least 9bytes capacity.
+*/
+/**************************************************************************/
+void GetFontName_Kanji(char* name)
+{
+	int i=0;
+
+	/* Retrive FONTX2 Name */
+	for(;i<8;i++){
+		*(name + i) = READ_ADDR_UNIT8_C(CurrentKanjiDat->KanjiFileOffset + KANJI_FONTNAME + i);
+	}
+	*(name + i) = 0; /* zero padding 9th byte */
+}
+
 
 /* End Of File ---------------------------------------------------------------*/

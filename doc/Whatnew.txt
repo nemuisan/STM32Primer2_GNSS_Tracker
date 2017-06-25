@@ -1,3 +1,8 @@
+20160612 :
+V66.00	Updated FONTX2 Driver.
+		Adopted CMSIS Header Files V5.0.2 latest repository.
+         -> https://github.com/ARM-software/CMSIS_5/commit/97c25ae7c82a6bccda4d128132f3db7ef4b13466
+
 20160523 :
 V65.00	Adopted FatFs0.13.
 
