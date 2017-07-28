@@ -1,34 +1,40 @@
-20160612 :
+20170722 :
+V67.00	Adopted CMSIS Header Files V5.0.2 latest repository.
+			-> https://github.com/ARM-software/CMSIS_5/commit/ea12c6666bc4ae0b9e80093d48faa94c71e828c5
+		Adopted FatFs0.13 latest patch update(patch1).
+		Adopted GNU Tools for ARM Embedded Processors 6-2017-q2-update (6.3.1 20170620)
+
+20170612 :
 V66.00	Updated FONTX2 Driver.
 		Adopted CMSIS Header Files V5.0.2 latest repository.
          -> https://github.com/ARM-software/CMSIS_5/commit/97c25ae7c82a6bccda4d128132f3db7ef4b13466
 
-20160523 :
+20170523 :
 V65.00	Adopted FatFs0.13.
 
-20160424 :
+20170424 :
 V64.00	Adopted FatFs0.12c latest patch update(patch3).
 		Adopted CMSIS Header Files V5.0.2 latest repository.
          -> https://github.com/ARM-software/CMSIS_5/commit/18ec0c27df88c79a5c4a6939861be3afdf2a6901
 		 
-20160420 :
+20170420 :
 V63.00	Adopted CMSIS Header Files V5.0.2 latest repository.
          -> https://github.com/ARM-software/CMSIS_5/commit/49c8b1588fc0559d6513617b1cc57ee0bf1c47b1
 
-20160330 :
+20170330 :
 V62.00	Fixed capacity calculation on USB-MSC.
 		Add error check on reading ExtCSD (on sdio_stm32f1.c).
 
-20160323 :
+20170323 :
 V61.00	Adopted FatFs0.12c latest patch update(patch2).
 		Adopted CMSIS Header Files V5.0.2 latest repository.
          -> https://github.com/ARM-software/CMSIS_5/commit/e318ba8c8329352586c6232e0186f9d9cd815e7d
 
-20160317 :
+20170317 :
 V60.00	Adopted FatFs0.12c latest patch update(patch1).
 		Adopted Launchpad GCC-ARM(GCC6.3.1).
 
-20160306 : 
+20170306 : 
 V59.00	Adopted FatFs0.12c.
 
 20170301 :
