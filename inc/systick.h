@@ -2,23 +2,24 @@
 /*!
 	@file			systick.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2012.04.25
+    @version        5.00
+    @date           2017.07.31
 	@brief          delay mSec-order routine using systick timer			@n
-					delay uSec-order routine using Timer5;
+					delay uSec-order routine using TIM3~5;
 
     @section HISTORY
 		2010.03.05	V1.00	Restart Here.
 		2011.01.20	V2.00	Using Timer5 for _delay_us(); instead of __NOP();.
 		2011.03.10	V3.00	C++ Ready.
 		2014.04.25  V4.00	Fixed Timer5 Clock definition fot _delay_us();
+		2017.07.31  V4.00	Fixed portability for uSec timer;
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SYSTICK_H
-#define __SYSTICK_H 0x0400
+#define __SYSTICK_H 0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -31,6 +32,9 @@
 #define INTERVAL		1000UL
 /* Timer Interval MicroSecond order (in Hz) */
 #define USEC_INTERVAL 	1000000UL
+#define USEC_TIMx			TIM5
+#define USEC_TIMx_CNT		TIM5->CNT
+#define USEC_TIMx_CLKEN()	RCC->APB1ENR |= (RCC_APB1Periph_TIM5)
 
 /* Inline Static Function */
 extern __IO uint32_t TimingDelay;

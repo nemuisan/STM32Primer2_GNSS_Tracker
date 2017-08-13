@@ -2,15 +2,17 @@
 /*!
 	@file			systick.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2011.03.10
+    @version        5.00
+    @date           2017.07.31
 	@brief          delay mSec-order routine using systick timer			@n
-					delay uSec-order routine using Timer5;
+					delay uSec-order routine using TIM3~5;
 
     @section HISTORY
 		2010.03.05	V1.00	Restart Here.
 		2011.01.20	V2.00	Using Timer5 for _delay_us(); instead of __NOP();.
 		2011.03.10	V3.00	C++ Ready.
+		2014.04.25  V4.00	Fixed Timer5 Clock definition fot _delay_us();
+		2017.07.31  V4.00	Fixed portability for uSec timer;
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -19,6 +21,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "systick.h"
+/* check header file version for fool proof */
+#if __SYSTICK_H!= 0x0500
+#error "header file version is not correspond!"
+#endif
 
 /* Defines -------------------------------------------------------------------*/
 
@@ -53,19 +59,19 @@ void SysTickInit(__IO uint32_t interval)
 	
 	/* Making MicroSecond-Order Timer */
 	/* Enable timer clock */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
+	USEC_TIMx_CLKEN();
 
 	/* Time base configuration */
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 	TIM_TimeBaseStructInit(&TIM_TimeBaseStructure); 
-	TIM_TimeBaseStructure.TIM_Prescaler = (SystemCoreClock / USEC_INTERVAL) - 1;
-	TIM_TimeBaseStructure.TIM_Period = UINT16_MAX; 
+	TIM_TimeBaseStructure.TIM_Prescaler 	= ((SystemCoreClock)/USEC_INTERVAL) - 1;
+	TIM_TimeBaseStructure.TIM_Period 		= UINT16_MAX; 
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStructure);
+	TIM_TimeBaseStructure.TIM_CounterMode 	= TIM_CounterMode_Up;
+	TIM_TimeBaseInit(USEC_TIMx, &TIM_TimeBaseStructure);
 
 	/* Enable counter */
-	TIM_Cmd(TIM5, ENABLE);
+	TIM_Cmd(USEC_TIMx, ENABLE);
 }
 
 
@@ -92,12 +98,16 @@ void _delay_ms(__IO uint32_t mSec)
 /**************************************************************************/
 void _delay_us(__IO uint16_t uSec)
 {
-	uint16_t start = TIM5->CNT;
-	/* use 16 bit count wrap around */
-	while((uint16_t)(TIM5->CNT - start) <= uSec);
-	
+
+#if 1
+	if(uSec){
+		USEC_TIMx_CNT = 0;
+		/* use 16 bit count wrap around */
+		while((uint16_t)(USEC_TIMx_CNT) <= uSec);
+	}
+
+#else
 	/* This is the stupid method */
-	/*
 	while(uSec--){ 
 					__NOP();
 					__NOP();
@@ -106,7 +116,7 @@ void _delay_us(__IO uint16_t uSec)
 					__NOP();
 					__NOP();
 					}
-	*/
+#endif
 }
 
 /**************************************************************************/

@@ -1,3 +1,8 @@
+20170810 :
+V68.00	Adopted CMSIS Header Files V5.0.3 latest repository.
+			-> https://github.com/ARM-software/CMSIS_5/commit/8474866a214ab22aadde633e918a35043650aae0
+		Fixed code portability for uSec timer.
+
 20170722 :
 V67.00	Adopted CMSIS Header Files V5.0.2 latest repository.
 			-> https://github.com/ARM-software/CMSIS_5/commit/ea12c6666bc4ae0b9e80093d48faa94c71e828c5
