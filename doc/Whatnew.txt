@@ -1,11 +1,16 @@
+20170926 :
+V69.00	Adopted FatFs0.13 latest patch update(patch2).
+		Adopted CMSIS Header Files V5.0.3 latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/ad1f99f58fe2c06a1c1812198b1a06615dec00fd
+
 20170810 :
 V68.00	Adopted CMSIS Header Files V5.0.3 latest repository.
-			-> https://github.com/ARM-software/CMSIS_5/commit/8474866a214ab22aadde633e918a35043650aae0
+		 -> https://github.com/ARM-software/CMSIS_5/commit/8474866a214ab22aadde633e918a35043650aae0
 		Fixed code portability for uSec timer.
 
 20170722 :
 V67.00	Adopted CMSIS Header Files V5.0.2 latest repository.
-			-> https://github.com/ARM-software/CMSIS_5/commit/ea12c6666bc4ae0b9e80093d48faa94c71e828c5
+		 -> https://github.com/ARM-software/CMSIS_5/commit/ea12c6666bc4ae0b9e80093d48faa94c71e828c5
 		Adopted FatFs0.13 latest patch update(patch1).
 		Adopted GNU Tools for ARM Embedded Processors 6-2017-q2-update (6.3.1 20170620)
 

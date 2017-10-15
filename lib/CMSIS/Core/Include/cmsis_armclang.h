@@ -684,36 +684,24 @@ __attribute__((always_inline)) __STATIC_INLINE void __TZ_set_MSPLIM_NS(uint32_t 
   \details Returns the current value of the Floating Point Status/Control register.
   \return               Floating Point Status/Control register value
  */
-/* #define __get_FPSCR      __builtin_arm_get_fpscr */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __get_FPSCR(void)
-{
 #if ((defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)) && \
      (defined (__FPU_USED   ) && (__FPU_USED    == 1U))     )
-  uint32_t result;
-
-  __ASM volatile ("VMRS %0, fpscr" : "=r" (result) );
-  return(result);
+#define __get_FPSCR      (uint32_t)__builtin_arm_get_fpscr
 #else
-  return(0U);
+#define __get_FPSCR()      ((uint32_t)0U)
 #endif
-}
-
 
 /**
   \brief   Set FPSCR
   \details Assigns the given value to the Floating Point Status/Control register.
   \param [in]    fpscr  Floating Point Status/Control value to set
  */
-/* #define __set_FPSCR      __builtin_arm_set_fpscr */
-__attribute__((always_inline)) __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
-{
 #if ((defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)) && \
      (defined (__FPU_USED   ) && (__FPU_USED    == 1U))     )
-  __ASM volatile ("VMSR fpscr, %0" : : "r" (fpscr) : "memory");
+#define __set_FPSCR      __builtin_arm_set_fpscr
 #else
-  (void)fpscr;
+#define __set_FPSCR(x)      ((void)(x))
 #endif
-}
 
 #endif /* ((defined (__ARM_ARCH_7EM__     ) && (__ARM_ARCH_7EM__     == 1)) || \
            (defined (__ARM_ARCH_8M_MAIN__ ) && (__ARM_ARCH_8M_MAIN__ == 1))    ) */
@@ -798,7 +786,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
   \param [in]    value  Value to reverse
   \return               Reversed value
  */
-#define __REV          __builtin_bswap32
+#define __REV          (uint32_t)__builtin_bswap32
 
 
 /**
@@ -807,16 +795,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
   \param [in]    value  Value to reverse
   \return               Reversed value
  */
-#define __REV16          __builtin_bswap16                /* ToDo ARMCLANG: check if __builtin_bswap16 could be used */
-#if 0
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __REV16(uint32_t value)
-{
-  uint32_t result;
-
-  __ASM volatile ("rev16 %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
-  return(result);
-}
-#endif
+#define __REV16          (uint16_t)__builtin_bswap16
 
 
 /**
@@ -825,13 +804,13 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __REV16(uint32_t value)
   \param [in]    value  Value to reverse
   \return               Reversed value
  */
-                                                          /* ToDo ARMCLANG: check if __builtin_bswap16 could be used */
-__attribute__((always_inline)) __STATIC_INLINE int32_t __REVSH(int32_t value)
+__attribute__((always_inline)) __STATIC_INLINE int16_t __REVSH(int16_t value)
 {
-  int32_t result;
+  int16_t result;
 
   __ASM volatile ("revsh %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
-  return(result);
+  
+  return result;
 }
 
 
@@ -855,7 +834,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint
   \param [in]    value  is ignored by the processor.
                  If required, a debugger can use it to store additional information about the breakpoint.
  */
-#define __BKPT(value)                       __ASM volatile ("bkpt "#value)
+#define __BKPT(value)     __ASM volatile ("bkpt "#value)
 
 
 /**
@@ -864,30 +843,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint
   \param [in]    value  Value to reverse
   \return               Reversed value
  */
-                                                          /* ToDo ARMCLANG: check if __builtin_arm_rbit is supported */
-__attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
-{
-  uint32_t result;
-
-#if ((defined (__ARM_ARCH_7M__      ) && (__ARM_ARCH_7M__      == 1)) || \
-     (defined (__ARM_ARCH_7EM__     ) && (__ARM_ARCH_7EM__     == 1)) || \
-     (defined (__ARM_ARCH_8M_MAIN__ ) && (__ARM_ARCH_8M_MAIN__ == 1))    )
-   __ASM volatile ("rbit %0, %1" : "=r" (result) : "r" (value) );
-#else
-  int32_t s = (4 /*sizeof(v)*/ * 8) - 1; /* extra shift needed at end */
-
-  result = value;                      /* r will be reversed bits of v; first get LSB of v */
-  for (value >>= 1U; value; value >>= 1U)
-  {
-    result <<= 1U;
-    result |= value & 1U;
-    s--;
-  }
-  result <<= s;                        /* shift when v's highest bits are zero */
-#endif
-  return(result);
-}
-
+#define __RBIT            (uint32_t)__builtin_arm_rbit
 
 /**
   \brief   Count leading zeros
@@ -977,6 +933,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
 #if ((defined (__ARM_ARCH_7M__      ) && (__ARM_ARCH_7M__      == 1)) || \
      (defined (__ARM_ARCH_7EM__     ) && (__ARM_ARCH_7EM__     == 1)) || \
      (defined (__ARM_ARCH_8M_MAIN__ ) && (__ARM_ARCH_8M_MAIN__ == 1))    )
+
 /**
   \brief   Signed Saturate
   \details Saturates a signed value.
@@ -1091,6 +1048,51 @@ __attribute__((always_inline)) __STATIC_INLINE void __STRHT(uint16_t value, vola
 __attribute__((always_inline)) __STATIC_INLINE void __STRT(uint32_t value, volatile uint32_t *ptr)
 {
   __ASM volatile ("strt %1, %0" : "=Q" (*ptr) : "r" (value) );
+}
+
+#else  /* ((defined (__ARM_ARCH_7M__      ) && (__ARM_ARCH_7M__      == 1)) || \
+           (defined (__ARM_ARCH_7EM__     ) && (__ARM_ARCH_7EM__     == 1)) || \
+           (defined (__ARM_ARCH_8M_MAIN__ ) && (__ARM_ARCH_8M_MAIN__ == 1))    ) */
+
+/**
+  \brief   Signed Saturate
+  \details Saturates a signed value.
+  \param [in]  value  Value to be saturated
+  \param [in]    sat  Bit position to saturate to (1..32)
+  \return             Saturated value
+ */
+__attribute__((always_inline)) __STATIC_INLINE int32_t __SSAT(int32_t val, uint32_t sat)
+{
+  if ((sat >= 1U) && (sat <= 32U)) {
+    const int32_t max = (int32_t)((1U << (sat - 1U)) - 1U);
+    const int32_t min = -1 - max ;
+    if (val > max) {
+      return max;
+    } else if (val < min) {
+      return min;
+    }
+  }
+  return val;
+}
+
+/**
+  \brief   Unsigned Saturate
+  \details Saturates an unsigned value.
+  \param [in]  value  Value to be saturated
+  \param [in]    sat  Bit position to saturate to (0..31)
+  \return             Saturated value
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __USAT(int32_t val, uint32_t sat)
+{
+  if (sat <= 31U) {
+    const uint32_t max = ((1U << sat) - 1U);
+    if (val > (int32_t)max) {
+      return max;
+    } else if (val < 0) {
+      return 0U;
+    }
+  }
+  return (uint32_t)val;
 }
 
 #endif /* ((defined (__ARM_ARCH_7M__      ) && (__ARM_ARCH_7M__      == 1)) || \
