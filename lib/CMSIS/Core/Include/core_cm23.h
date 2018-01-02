@@ -23,8 +23,8 @@
  */
 
 #if   defined ( __ICCARM__ )
- #pragma system_include         /* treat file as system include file for MISRA check */
-#elif defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
+  #pragma system_include         /* treat file as system include file for MISRA check */
+#elif defined (__clang__)
   #pragma clang system_header   /* treat file as system include file */
 #endif
 
@@ -748,8 +748,11 @@ typedef struct
 } TPI_Type;
 
 /* TPI Asynchronous Clock Prescaler Register Definitions */
-#define TPI_ACPR_PRESCALER_Pos              0U                                         /*!< TPI ACPR: PRESCALER Position */
-#define TPI_ACPR_PRESCALER_Msk             (0x1FFFUL /*<< TPI_ACPR_PRESCALER_Pos*/)    /*!< TPI ACPR: PRESCALER Mask */
+#define TPI_ACPR_PRESCALER_Pos              0U                                         /*!< @Deprecated TPI ACPR: PRESCALER Position */
+#define TPI_ACPR_PRESCALER_Msk             (0x1FFFUL /*<< TPI_ACPR_PRESCALER_Pos*/)    /*!< @Deprecated TPI ACPR: PRESCALER Mask */
+
+#define TPI_ACPR_SWOSCALER_Pos              0U                                         /*!< TPI ACPR: SWOSCALER Position */
+#define TPI_ACPR_SWOSCALER_Msk             (0xFFFFUL /*<< TPI_ACPR_SWOSCALER_Pos*/)    /*!< TPI ACPR: SWOSCALER Mask */
 
 /* TPI Selected Pin Protocol Register Definitions */
 #define TPI_SPPR_TXMODE_Pos                 0U                                         /*!< TPI SPPR: TXMODE Position */

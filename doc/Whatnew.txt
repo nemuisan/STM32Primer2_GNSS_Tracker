@@ -1,3 +1,14 @@
+20171212 :
+V71.00	Adopted CMSIS Header Files V5.0.3 latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/17b53ef2a297ef73d0fb0d720cf2a3458d6127e2
+
+20171114 :
+V70.00	Adopted FatFs0.13a.
+		Adopted FatFs0.13a latest patch update(patch1).
+		Adopted CMSIS Header Files V5.0.3 latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/829b88912478b70a5c51135bec590ffc61c33704
+		Add and fix more MTK Commands(gps_support.c/h).
+
 20170926 :
 V69.00	Adopted FatFs0.13 latest patch update(patch2).
 		Adopted CMSIS Header Files V5.0.3 latest repository.

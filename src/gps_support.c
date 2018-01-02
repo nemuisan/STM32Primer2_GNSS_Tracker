@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        13.00
-    @date           2017.05.23
+    @version        14.00
+    @date           2017.11.01
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -23,7 +23,8 @@
 		2015.02.28 V10.00	Buffer alignment set by 4Byte.
 		2016.04.15 V11.00	Adopted FatFs0.12.
 		2016.05.13 V12.00	Adopted Gms-g9(Titan3) new firmware.
-		2017.05.23 V11.00	Adopted FatFs0.13.
+		2017.05.23 V13.00	Adopted FatFs0.13.
+		2017.11.01 V14.00	Add and fix more MTK Commands.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -33,7 +34,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gps_support.h"
 /* check header file version for fool proof */
-#if __GPS_SUPPORT_H!= 0x1300
+#if __GPS_SUPPORT_H!= 0x1400
 #error "header file version is not correspond!"
 #endif
 
@@ -60,19 +61,22 @@
 #define LOGGING_STATE 	1
 
 /* Acklowledge Limit in Second */
-#define ACK_LIMIT		5
+#define ACK_LIMIT		7
 
 /* MTK Commands */
 #define PMTK_TEST							"$PMTK000"
-#define PMTK_CMD_AIC_MODE					"$PMTK286"
-#define PMTK_CMD_EASY_ENABLE				"$PMTK869"
-#define PMTK_CMD_PERIODIC_MODE				"$PMTK225"
+#define PMTK_SET_AIC_MODE					"$PMTK286"
+#define PMTK_SET_PERIODIC_MODE				"$PMTK225"
 #define PMTK_SET_NMEA_BAUDRATE				"$PMTK251"
+#define PMTK_SET_TUNNEL_SCENARIO			"$PMTK257"
 #define PMTK_API_SET_SBAS_ENABLED			"$PMTK313"
 #define PMTK_API_SET_SBAS_MODE				"$PMTK319"
 #define PMTK_API_SET_DGPS_MODE				"$PMTK301"
 #define PMTK_API_SET_SUPPORT_QZSS_NMEA		"$PMTK351"
 #define PMTK_API_SET_STOP_QZSS				"$PMTK352"
+#define PMTK_EASY_ENABLE					"$PMTK869"
+#define PMTK_FR_MODE						"$PMTK886"
+
 
 /* STM32 SDIO+DMA Transfer MUST need 4byte alignmanet */
 /* and MUST need 4byte-packed alignment */
@@ -294,12 +298,12 @@ void gps_task(void)
 	conio_init(GPS_UART_PORT,38400);
 	/* Set to 9600 bps forcely in 38400bps */
 	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
-	_delay_ms(100);		/* Need Some Wait */
+	_delay_ms(100);		/* Need Break Time */
 	
 	conio_init(GPS_UART_PORT,115200);
 	/* Set to 9600 bps forcely in 115200bps */
 	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
-	_delay_ms(100);		/* Need Some Wait */
+	_delay_ms(100);		/* Need Break Time */
 
 	/* Set UART to 9600bps and redirect to stdio */
 	conio_init(GPS_UART_PORT,GPS_UART_BAUD);
@@ -310,13 +314,18 @@ void gps_task(void)
 	xSend_MTKCmd(PMTK_API_SET_SBAS_MODE,"1");
 	xSend_MTKCmd(PMTK_API_SET_DGPS_MODE,"2");
 
-	/*----- For MT3339/MT3333 Specific Commands -----*/
+	/*----- For MT3339/MT3333 Specific Commands(avobe AXN3.8) -----*/
 	/* Disable AlwaysLocate & Periodic Power Mode */
-	xSend_MTKCmd(PMTK_CMD_PERIODIC_MODE,"0");
+	xSend_MTKCmd(PMTK_SET_PERIODIC_MODE,"0");
+	/* Enter high accuracy out of tunnnel */
+	xSend_MTKCmd(PMTK_SET_TUNNEL_SCENARIO,"1");
 	/* Enable Anti Interference Control */
-	xSend_MTKCmd(PMTK_CMD_AIC_MODE,"1");
+	xSend_MTKCmd(PMTK_SET_AIC_MODE,"1");
 	/* Enable EASY */
-	xSend_MTKCmd(PMTK_CMD_EASY_ENABLE,"1,1");
+	xSend_MTKCmd(PMTK_EASY_ENABLE,"1,1");
+	/* Enter Pedestorian mode */
+	xSend_MTKCmd(PMTK_FR_MODE,"1");
+
 
 	/* Mount Fatfs Drive */
 	f_mount(&FatFs[0], "", 0);
@@ -402,7 +411,7 @@ startstat:
 			else if (!gp_comp(Buff,"$GPRMC") || !gp_comp(Buff,"$GNRMC"))
 			{
 				p = gp_col(Buff,GPRMC_COL_VALID);
-				if(*p == 'A'){
+				if(*p == 'A'){ /* A is valid tracking data */
 					LED_RED_ON();
 					if (f_write(&File1, Buff, b, &s) || b != s) {goto errstat;}
 				}
@@ -415,7 +424,7 @@ startstat:
 				char it;
 				p = gp_col(Buff,GPGSV_NUM_VIEW);
 				it = gp_val(p);
-				if(it >= 5){
+				if(it >= 5){ /* Total sattelites in view */
 					LED_RED_ON();
 					if (f_write(&File1, Buff, b, &s) || b != s) {goto errstat;}
 				}

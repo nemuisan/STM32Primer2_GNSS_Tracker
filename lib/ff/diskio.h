@@ -1,5 +1,5 @@
-/*-----------------------------------------------------------------------
-/  Low level disk interface modlue include file   (C)ChaN, 2014
+/*-----------------------------------------------------------------------/
+/  Low level disk interface modlue include file   (C)ChaN, 2014          /
 /-----------------------------------------------------------------------*/
 
 #ifndef _DISKIO_DEFINED
@@ -39,6 +39,7 @@ void disk_timerproc (void);
 
 
 /* Disk Status Bits (DSTATUS) */
+
 #define STA_NOINIT		0x01	/* Drive not initialized */
 #define STA_NODISK		0x02	/* No medium in the drive */
 #define STA_PROTECT		0x04	/* Write protected */
