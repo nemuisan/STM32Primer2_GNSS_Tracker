@@ -1,3 +1,8 @@
+20180223 :
+V72.00	Adopted CMSIS Header Files V5.0.5 latest repository.
+			 -> https://github.com/ARM-software/CMSIS_5/commit/c886b8b68183e107252479ff46a069537d022c5e
+		Adopted GNU Tools for ARM Embedded Processors 6-2017-q2-update (6.3.1 20170620)
+
 20171212 :
 V71.00	Adopted CMSIS Header Files V5.0.3 latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/17b53ef2a297ef73d0fb0d720cf2a3458d6127e2
