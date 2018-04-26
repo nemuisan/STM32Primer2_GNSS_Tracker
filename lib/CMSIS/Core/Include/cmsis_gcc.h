@@ -1,11 +1,11 @@
 /**************************************************************************//**
  * @file     cmsis_gcc.h
  * @brief    CMSIS compiler GCC header file
- * @version  V5.0.3
- * @date     16. January 2018
+ * @version  V5.0.4
+ * @date     09. April 2018
  ******************************************************************************/
 /*
- * Copyright (c) 2009-2017 ARM Limited. All rights reserved.
+ * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -770,7 +770,9 @@ __STATIC_FORCEINLINE uint32_t __get_FPSCR(void)
 {
 #if ((defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)) && \
      (defined (__FPU_USED   ) && (__FPU_USED    == 1U))     )
-#if __has_builtin(__builtin_arm_get_fpscr) || (__GNUC__ > 7) || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2)
+#if __has_builtin(__builtin_arm_get_fpscr) 
+// Re-enable using built-in when GCC has been fixed
+// || (__GNUC__ > 7) || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2)
   /* see https://gcc.gnu.org/ml/gcc-patches/2017-04/msg00443.html */
   return __builtin_arm_get_fpscr();
 #else
@@ -794,7 +796,9 @@ __STATIC_FORCEINLINE void __set_FPSCR(uint32_t fpscr)
 {
 #if ((defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)) && \
      (defined (__FPU_USED   ) && (__FPU_USED    == 1U))     )
-#if __has_builtin(__builtin_arm_set_fpscr) || (__GNUC__ > 7) || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2)
+#if __has_builtin(__builtin_arm_set_fpscr)
+// Re-enable using built-in when GCC has been fixed
+// || (__GNUC__ > 7) || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2)
   /* see https://gcc.gnu.org/ml/gcc-patches/2017-04/msg00443.html */
   __builtin_arm_set_fpscr(fpscr);
 #else
