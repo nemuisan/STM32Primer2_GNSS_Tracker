@@ -1,3 +1,8 @@
+20181016 :
+V74.00	Adopted FatFs0.13c
+		Adopted CMSIS Header Files V5.2.1 latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/3362e5e5ec395e190e792cd329ccbb03dc29b70d
+
 20180413 :
 V73.00	Adopted FatFs0.13b.
 		Adopted CMSIS Header Files V5.0.5 latest repository.

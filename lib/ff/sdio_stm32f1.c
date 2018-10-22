@@ -2,8 +2,8 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		27.00
-	@date			2017.05.23
+	@version		28.00
+	@date			2018.10.16
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
@@ -35,6 +35,7 @@
 		2017.02.14 V25.00	Fixed Block Address detection on larger eMMC.
 		2017.03.30 V26.00	Add error check on reading ExtCSD for eMMC.
 		2017.05.23 V27.00	Adopted FatFs0.13.
+		2018.10.16 V28.00	Adopted FatFs0.13c.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -44,7 +45,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x2700
+#if __SDIO_STM32F1_H!= 0x2800
 #error "header file version is not correspond!"
 #endif
 
