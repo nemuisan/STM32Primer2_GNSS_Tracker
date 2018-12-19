@@ -1,3 +1,9 @@
+20181212 :
+V75.00	Fixed ExtCSD value retrieval problem for MMCv4.x or above cards.(at sdio_stm32f1.c).
+		Added XA1110(AXN5.x.x new firmware) support.
+		Adopted CMSIS Header Files V5.2.1 latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/ec920fbb4c6432bb7387d37aac64d88dc05b7ced
+
 20181016 :
 V74.00	Adopted FatFs0.13c
 		Adopted CMSIS Header Files V5.2.1 latest repository.
@@ -6,11 +12,11 @@ V74.00	Adopted FatFs0.13c
 20180413 :
 V73.00	Adopted FatFs0.13b.
 		Adopted CMSIS Header Files V5.0.5 latest repository.
-			 -> https://github.com/ARM-software/CMSIS_5/commit/2b8d4259bdcee11a3e5a19093507611e53e39906
+		 -> https://github.com/ARM-software/CMSIS_5/commit/2b8d4259bdcee11a3e5a19093507611e53e39906
 
 20180223 :
 V72.00	Adopted CMSIS Header Files V5.0.5 latest repository.
-			 -> https://github.com/ARM-software/CMSIS_5/commit/c886b8b68183e107252479ff46a069537d022c5e
+		 -> https://github.com/ARM-software/CMSIS_5/commit/c886b8b68183e107252479ff46a069537d022c5e
 		Adopted GNU Tools for ARM Embedded Processors 6-2017-q2-update (6.3.1 20170620)
 
 20171212 :

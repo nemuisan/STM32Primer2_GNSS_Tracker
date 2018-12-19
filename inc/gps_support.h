@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        14.00
-    @date           2017.11.01
+    @version        15.00
+    @date           2018.12.12
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -25,13 +25,14 @@
 		2016.05.13 V12.00	Adopted Gms-g9(Titan3) new firmware.
 		2017.05.23 V13.00	Adopted FatFs0.13.
 		2017.11.01 V14.00	Add and fix more MTK Commands.
+		2018.12.12 V15.00	Adopted XA1110 AXN5.x.x new firmware.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __GPS_SUPPORT_H
-#define __GPS_SUPPORT_H	0x1400
+#define __GPS_SUPPORT_H	0x1500
 
 #ifdef __cplusplus
  extern "C" {

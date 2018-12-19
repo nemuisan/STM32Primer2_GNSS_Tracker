@@ -5,7 +5,7 @@
      http://nemuisan.blog.bai.ne.jp
      nemuisan_kawausogasuki@live.jp
 ******************************************************************************
-   Copyright (c) 2010-2017
+   Copyright (c) 2010-2018
    - Nemui Trinomius (add STM32Primer2 Compatibility support.
 					  add SDIO FatFs HAL for STM32F1 Support.
 					  and TFT-LCD Module Controller drivers Support. )
@@ -61,7 +61,7 @@ Those sourcecode are included in this project.
   Ver.0.1 (2010/08)
   Copyright (c) 2010, audin
   All rights reserved.
-  http://avr.paslog.jp
+  http://mpu.seesaa.net
   This code is licensed under the BSD License.
 
 
@@ -73,4 +73,3 @@ Those sourcecode are included in this project.
 * Misaki Fonts for FONTX2 is free font.
   http://www.geocities.jp/littlimi/misaki.htm
   Num Kadoma thanks!
- 

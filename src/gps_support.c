@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        14.00
-    @date           2017.11.01
+    @version        15.00
+    @date           2018.12.12
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -25,6 +25,7 @@
 		2016.05.13 V12.00	Adopted Gms-g9(Titan3) new firmware.
 		2017.05.23 V13.00	Adopted FatFs0.13.
 		2017.11.01 V14.00	Add and fix more MTK Commands.
+		2018.12.12 V15.00	Adopted XA1110 AXN5.x.x new firmware.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -34,14 +35,16 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gps_support.h"
 /* check header file version for fool proof */
-#if __GPS_SUPPORT_H!= 0x1400
+#if __GPS_SUPPORT_H!= 0x1500
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
 /* GT-723F,UP-501,PA6C,Gms-g6a and Gms-g9 default baud is 9600,8,n,1 */
+/* (XA1110 default baud is 115200,8,n,1) */
 #define GPS_UART_PORT	2
 #define GPS_UART_BAUD	9600
+
 /* GPS Sentences */
 #define GPRMC_COL_VALID	2
 #define GPRMC_COL_DATE  9 /*  obsoleted */
@@ -53,7 +56,7 @@
 /* Synchronize the file in interval of 90Sec */
 #define SYNC_INTERVAL	90
 
-/* To Enable GPGSV Logging, Uncomment this */
+/* To Enable GxGSV Logging, Uncomment this */
 /*#define ENABLE_SATELLITE_ID_LOGGING*/
 
 /* Avoid f_close() Foolproof */
@@ -67,15 +70,25 @@
 #define PMTK_TEST							"$PMTK000"
 #define PMTK_SET_AIC_MODE					"$PMTK286"
 #define PMTK_SET_PERIODIC_MODE				"$PMTK225"
-#define PMTK_SET_NMEA_BAUDRATE				"$PMTK251"
+#define PMTK_SET_NMEA_BAUDRATE				"$PMTK251"		/* Unavaileble AXN5.x firmware,use $PGCMD,232 */
 #define PMTK_SET_TUNNEL_SCENARIO			"$PMTK257"
 #define PMTK_API_SET_SBAS_ENABLED			"$PMTK313"
 #define PMTK_API_SET_SBAS_MODE				"$PMTK319"
 #define PMTK_API_SET_DGPS_MODE				"$PMTK301"
 #define PMTK_API_SET_SUPPORT_QZSS_NMEA		"$PMTK351"
 #define PMTK_API_SET_STOP_QZSS				"$PMTK352"
+#define PMTK_API_SET_GNSS_SEARCH_MODE		"$PMTK353"		/* Unavaileble AXN5.x firmware,use $PGCMD,229 */
 #define PMTK_EASY_ENABLE					"$PMTK869"
 #define PMTK_FR_MODE						"$PMTK886"
+#define PGCMD_NMEA_BAUDRATE 				"$PGCMD,232"	/* Need for AXN5.x firmware */
+#define PGCMD_SATELLITE_SEARCHMODE			"$PGCMD,229"	/* Need for AXN5.x firmware */
+
+/* AXN5.x.x Functions */
+/* YOU MUST RE-POWER AFTER THIS COMMAND */
+/* Flash to changed baudrate */
+/*#define MTK_FLASH_BAUDRATE*/
+/* Flash to changed satellite searchmode */
+/*#define MTK_FLASH_SATELLITE*/
 
 
 /* STM32 SDIO+DMA Transfer MUST need 4byte alignmanet */
@@ -305,9 +318,16 @@ void gps_task(void)
 	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
 	_delay_ms(100);		/* Need Break Time */
 
+#if defined(MTK_FLASH_BAUDRATE)
+	/* Set to 9600 bps forcely in 115200bps for XA1110 */
+	/* 1:9600bps,4:38400bps,6:115200bps(default) */
+	/* Need Re-Power module */
+	xSend_MTKCmd(PGCMD_NMEA_BAUDRATE ,"1");
+	_delay_ms(100);		/* Need Break Time */
+#endif
+
 	/* Set UART to 9600bps and redirect to stdio */
 	conio_init(GPS_UART_PORT,GPS_UART_BAUD);
-
 
 	/* Enable WAAS/SBAS */
 	xSend_MTKCmd(PMTK_API_SET_SBAS_ENABLED,"1");
@@ -325,7 +345,14 @@ void gps_task(void)
 	xSend_MTKCmd(PMTK_EASY_ENABLE,"1,1");
 	/* Enter Pedestorian mode */
 	xSend_MTKCmd(PMTK_FR_MODE,"1");
+	/* Enable GPS/QZS/GLONASS/GALILEO */
+	xSend_MTKCmd(PMTK_API_SET_GNSS_SEARCH_MODE,"1,1,1,0,0");
 
+#if defined(MTK_FLASH_SATELLITE)
+	/* Enable GPS/QZS/GLONASS/GALILEO */
+	/* Need Re-Power module */
+	xSend_MTKCmd(PGCMD_SATELLITE_SEARCHMODE,"1,1,0,1,1");
+#endif
 
 	/* Mount Fatfs Drive */
 	f_mount(&FatFs[0], "", 0);
