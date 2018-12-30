@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 75.00
+APP_VER = 76.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -108,7 +108,6 @@ DEFZ += $(USE_DISPLAY) $(USE_FONTSIZE) $(USE_KANJI) $(USE_TOUCH_SENCE)  $(USE_XM
         $(USE_JPEG_LIB) $(USE_PNG_LIB) $(USE_GIF_LIB) $(USE_AUDIO_LIB)  				   \
 		$(USE_SOUND_MP3)  $(USE_SOUND_WAV)
 SYNTHESIS_DEFS	= $(addprefix -D,$(DEFZ)) 							\
-				 -DARM_MATH_CM3										\
 				 -DPACK_STRUCT_END=__attribute\(\(packed\)\) 		\
 				 -DALIGN_STRUCT_END=__attribute\(\(aligned\(4\)\)\) \
 				 -DMPU_SUBMODEL=\"$(SUBMODEL)\"						\
