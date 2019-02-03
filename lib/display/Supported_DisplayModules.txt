@@ -170,7 +170,9 @@ See Also ./lib/display/Supported_DisplayControllers.txt!
 	-DT18QQ003-B1R2				1.8 inch  128x160 TFT module  (RM68110).
 	-Nokia6070					1.8 inch  132x162 TFT module  (SPFD54124B).
 	-FPC20061A-V0				2.0 inch  176x220 TFT module  (RM68130).
+	-H20TM114A-V0				2.0 inch  176x220 TFT module  (GC9201/ST7775R).
 	-TFT1P3440-W-E				2.0 inch  220x176 TFT module  (HX8367A).
+	-YB020C01-40				2.0 inch  320x240 TFT module  (ILI9340C).
 	-BTL221722-276L 			2.2 inch  176x220 TFT module  (HX8340B(N)).
 	-BTL221722-276LP	 		2.2 inch  176x220 TFT module  (ILI9225B).
 	-LTM022A69B					2.2 inch  240x320 TFT module  (uPD161704A).

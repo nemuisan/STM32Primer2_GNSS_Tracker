@@ -2,37 +2,19 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        15.00
-    @date           2017.05.22
+    @version        16.00
+    @date           2019.02.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2012.04.15	V1.01	Start here.
-		2012.06.12  V2.00   Added WAVE Player Handling.
-		2012.07.10  V3.00   Added GIF Decorder Handling.
-							Fixed libjpeg & libpng's Error Handlings.
-		2013.09.20  V4.00   Fixed unused functions.
-		2013.12.30  V5.00   Added Performance Counter Functions for Debug.
-		2014.03.14	V6.00	Added RGB-Interface with LCD-Controller Support.
-		2014.05.01	V7.00	Added HX8369A Streaming Support.
-		2014.06.01	V8.00	Adopted giflib-5.1.0.
-		2014.06.25	V9.00   Removed Buff[] from header file.
-		2015.01.15 V10.00   Added AAC Player Handling.
-		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
-		2016.04.20 V12.00	Adopted FatFs0.12.
-		2016.08.01 V13.00	Adopted FatFs0.12a.
-		2016.12.01 V14.00	Fixed filename display bug on file load.
-		2017.05.22 V15.00	Adopted FatFs0.13.
+		2019.02.01	See ts_ver.txt.
 
     @section LICENSE
-		BSD License. See Copyright.txt
-		
-		---IJG JPEGLIB Notice---
-		"this software is based in part on the work ofthe Independent JPEG Group".
+		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x1500
+#define __TS_FILELOADS_H 0x1600
 
 #ifdef __cplusplus
  extern "C" {

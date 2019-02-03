@@ -2,8 +2,8 @@
 /*!
 	@file			font_if_datatable.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2015.09.01
+    @version        8.00
+    @date           2019.02.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -17,6 +17,7 @@
  		2013.09.20	V5.00	Improve FONTX2 inclusion ChaN Thanks!
 		2015.08.01	V6.00	Add External SDRAM Support for KanjiFonts.
 		2015.09.01	V7.00	Optimized KANJI Constructors for Specific MPU.
+		2019.02.01	V8.00	Fixed some compiler warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt

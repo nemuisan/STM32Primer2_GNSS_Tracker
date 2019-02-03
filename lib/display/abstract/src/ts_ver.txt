@@ -1,0 +1,44 @@
+********************* ts_.x update history ********************
+
+	2019.02.01 V15.00	Fixed cosmetic expressions.
+
+	2014.11.19 V14.00	Fixed TmrFrm declaration.
+	2014.06.25 V13.00	Removed Buff[] from header file.
+	2013.11.30 V12.00	Added External SDRAM Support.
+	2013.09.20 V11.00	Added more colour definitions.
+	2012.06.15 V10.00	Added External SRAM Support.
+	2012.04.01  V9.00	Separated to Filer & FileLoder Sections.
+						Fixed JPEG Decompress parameter@IJG.
+	2012.03.12  V8.00   Added More FontSize.
+	2012.02.21	V7.00	Added Chan's Text Viewer Support.
+	2012.01.31	V6.00	Fixed Pointer bugfix on IJG Decoding.
+	2011.12.01  V5.00	Use FPU on IJG Decoding in use of STM32F4xx. 
+	2011.10.14  V4.00	Added Chan's Tiny JPEG Decoder Support.
+							  and Fixed Parent/Current Directory return bug.
+							  and X clipper for some display's limitations
+	2011.06.18  V3.00	Added SSD1963 Consideration 
+	2011.03.10	V2.00	C++ Ready.
+	2010.12.31	V1.00	ReStart here.
+
+
+
+********************* ts_fileloads.x update history ********************
+
+	2019.02.01 V16.00	Fixed cosmetic expressions.
+
+	2017.05.22 V15.00	Adopted FatFs0.13.
+	2016.12.01 V14.00	Fixed filename display bug on file load.
+	2016.08.01 V13.00	Adopted FatFs0.12a.
+	2016.04.20 V12.00	Adopted FatFs0.12.
+	2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller support.
+	2015.01.15 V10.00	Added AAC Player handling.
+	2014.06.25	V9.00	Removed Buff[] from header file.
+	2014.06.01	V8.00	Adopted giflib-5.1.0.
+	2014.05.01	V7.00	Added HX8369A streaming support.
+	2014.03.14	V6.00	Added RGB-Interface with LCD-Controller support.
+	2013.12.30  V5.00	Added Performance counter functions for debug.
+	2013.09.20  V4.00	Fixed unused functions.
+	2012.07.10  V3.00	Added GIF decorder handling.
+						Fixed libjpeg & libpng's error handlings.
+	2012.06.12  V2.00	Added WAVE player handling.
+	2012.04.15  V1.01	Start here.

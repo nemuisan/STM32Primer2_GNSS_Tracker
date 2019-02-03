@@ -2,40 +2,22 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        15.00
-    @date           2017.05.22
+    @version        16.00
+    @date           2019.02.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2012.04.15	V1.01	Start here.
-		2012.06.12  V2.00   Added WAVE Player Handling.
-		2012.07.10  V3.00   Added GIF Decorder Handling.
-							Fixed libjpeg & libpng's Error Handlings.
-		2013.09.20  V4.00   Fixed unused functions.
-		2013.12.30  V5.00   Added Performance Counter Functions for Debug.
-		2014.03.14	V6.00	Added RGB-Interface with LCD-Controller Support.
-		2014.05.01	V7.00	Added HX8369A Streaming Support.
-		2014.06.01	V8.00	Adopted giflib-5.1.0.
-		2014.06.25	V9.00   Removed Buff[] from header file.
-		2015.01.15 V10.00   Added AAC Player Handling.
-		2015.08.01 V11.00	Changed RGB-Interface with LCD-Controller Support.
-		2016.04.20 V12.00	Adopted FatFs0.12.
-		2016.08.01 V13.00	Adopted FatFs0.12a.
-		2016.12.01 V14.00	Fixed filename display bug on file load.
-		2017.05.22 V15.00	Adopted FatFs0.13.
+		2019.02.01	See ts_ver.txt.
 
     @section LICENSE
-		BSD License. See Copyright.txt
-		
-		---IJG JPEGLIB Notice---
-		"this software is based in part on the work ofthe Independent JPEG Group".
+		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if __TS_FILELOADS_H != 0x1500
+#if __TS_FILELOADS_H != 0x1600
 #error "header file version is not correspond!"
 #endif
 
@@ -87,18 +69,18 @@ extern uint16_t Vram[TS_HEIGHT][TS_WIDTH];
 
 /* Function prototypes -------------------------------------------------------*/
 /* Load a 2-byte little-endian word */
-static inline  WORD LD_WORD (const BYTE* ptr)
+static inline uint16_t LD_WORD (const uint8_t* ptr)
 {
-	WORD rv;
+	uint16_t rv;
 
 	rv = ptr[1];
 	rv = rv << 8 | ptr[0];
 	return rv;
 }
 /* Load a 4-byte little-endian word */
-static inline DWORD LD_DWORD(const BYTE* ptr)	
+static inline uint32_t LD_DWORD(const uint8_t* ptr)	
 {
-	DWORD rv;
+	uint32_t rv;
 
 	rv = ptr[3];
 	rv = rv << 8 | ptr[2];
@@ -199,6 +181,29 @@ static inline void wait_anyinput(void)
 
 
 
+
+
+
+
+
+
+
+/**************************************************************************/
+/*! 
+	TXT/BMP/JPEG/PNG/GIF/IMG LODER SECTIONS
+*/
+/**************************************************************************/
+
+
+
+
+
+/**************************************************************************/
+/*! 
+	S-JIS/Ascii TEXT file loader sections
+*/
+/**************************************************************************/
+
 /**************************************************************************/
 /*! 
 	TEXT file loader Subfunction.
@@ -275,7 +280,7 @@ static void load_txt (
 
 	/* Display Text On Screen */
 	for (;;) {
-		/* Adjust Charactor Rocation */
+		/* Adjust Character Rocation */
 		ts_locate(0, 0 ,0);
 		for (i = line; i < line + TS_HEIGHT && i < lines; i++) {
 			f_lseek(fp, tv->ltbl[i]);
@@ -327,11 +332,18 @@ static void load_txt (
 		default:
 			k = 0;
 		}
-
 	}
-
 }
 
+
+
+
+
+/**************************************************************************/
+/*! 
+	24bit BITMAP file loader section
+*/
+/**************************************************************************/
 
 /**************************************************************************/
 /*! 
@@ -452,6 +464,14 @@ static int load_bmp(FIL *fil)
 }
 
 
+
+
+
+/**************************************************************************/
+/*! 
+	IMG movie loader section
+*/
+/**************************************************************************/
 /**************************************************************************/
 /*! 
 	IMG Loader.
@@ -589,7 +609,15 @@ li_exit:
 }
 
 
-#ifdef USE_TINYJPEG_LIB
+
+
+
+/**************************************************************************/
+/*! 
+	JPEG file loader section
+*/
+/**************************************************************************/
+#if defined(USE_TINYJPEG_LIB)
 /**************************************************************************/
 /*! 
     JPEG file loader Lower-Side Using ChaN's JPEG file Decorder
@@ -604,8 +632,11 @@ static void disp_blt (
 	const uint16_t *pat		/* Pattern data */
 )
 {
-	int yc, xc, xl, xs;
+	int yc, xc, xs;
+#if !defined(USE_TFT_FRAMEBUFFER)
+	int xl;
 	uint16_t pd;
+#endif
 
 	if (left > right || top > bottom) return; 	/* Check varidity */
 	if (left > MaskR || right < MaskL  || top > MaskB || bottom < MaskT) return;	/* Check if in active area */
@@ -634,6 +665,9 @@ static void disp_blt (
 		right = MaskR;
 	}
 	Display_rect_if(left, right, top, bottom);	/* Set rectangular area to fill */
+#if defined(USE_TFT_FRAMEBUFFER)
+	Display_wr_block_if((uint8_t*)pat, xc*yc);
+#else
 	do {	/* Send image data */
 		xl = xc;
 		do {
@@ -642,7 +676,7 @@ static void disp_blt (
 		} while (--xl);
 		pat += xs;
 	} while (--yc);
-	
+#endif
 }
 /**************************************************************************/
 /*! 
@@ -690,6 +724,7 @@ static unsigned int tjd_output (
 
 	return 1;	/* Continue decompression */
 }
+
 /**************************************************************************/
 /*! 
     JPEG file loader Upper-Side Using Chan's JPEG file Decorder
@@ -710,7 +745,7 @@ static void load_jpg (
 	Display_clear_if();
 
 	/* Prepare to decompress the file */
-	rc = jd_prepare(&jd, tjd_input, work, sz_work, fp);
+	rc = jd_prepare(&jd, (void*)tjd_input, work, sz_work, fp);
 	if (rc == JDR_OK) {
 
 		/* Determine scale factor */
@@ -723,7 +758,7 @@ static void load_jpg (
 		xprintf("\33\x87%ux%u 1/%u", jd.width, jd.height, 1 << scale);
 
 		/* Start to decompress the JPEG file */
-		rc = jd_decomp(&jd, tjd_output, scale);	/* Start to decompress */
+		rc = jd_decomp(&jd, (void*)tjd_output, scale);	/* Start to decompress */
 
 	} else {
 
@@ -736,10 +771,8 @@ static void load_jpg (
 	/* To Rerturn to Push Any Key  */
 	wait_anyinput();
 }
-#endif
 
-
-#ifdef USE_IJG_LIB
+#elif defined(USE_IJG_LIB)
 /**************************************************************************/
 /*! 
 	JPEGFileLoader using IJG JPEG Library.
@@ -916,6 +949,13 @@ jpeg_end_decode:
 
 
 
+
+
+/**************************************************************************/
+/*! 
+	PNG file loader section
+*/
+/**************************************************************************/
 #ifdef USE_LIBPNG
 /**************************************************************************/
 /*! 
@@ -1181,6 +1221,15 @@ png_exit:
 #endif
 
 
+
+
+
+
+/**************************************************************************/
+/*! 
+	GIF file loader section
+*/
+/**************************************************************************/
 #ifdef USE_GIFLIB
 /**************************************************************************/
 /*! 
@@ -1222,7 +1271,7 @@ static int load_gif(FIL *fil)
 	ColorMap = (GifFile->Image.ColorMap ? GifFile->Image.ColorMap : GifFile->SColorMap);
 
 	/* Check Over Lange */
-	if((GifFile->SWidth >MAX_X)||(GifFile->SHeight>MAX_Y))  {
+	if((GifFile->SWidth > MAX_X)||(GifFile->SHeight > MAX_Y))  {
 		ts_locate(0, 0 ,0);
 		xprintf("\33\x87\fOOPS Screen Size Over!\n");
 		xprintf("press any key\n");
@@ -1506,12 +1555,21 @@ gif_esc:
 }
 #endif
 
+
+
+
+
+/**************************************************************************/
+/*! 
+	Fileloader function section
+*/
+/**************************************************************************/
 /**************************************************************************/
 /*! 
     Execute IMG,JPEG,BMP,PNG,TXT and WAVE Files.
 */
 /**************************************************************************/
-int load_file(char *path, char *filename, FIL *fil)
+static int load_file(char *path, char *filename, FIL *fil)
 {
 	unsigned int n;
 
@@ -1531,7 +1589,7 @@ int load_file(char *path, char *filename, FIL *fil)
 
 	/* Read File Header */
 	/*if (f_read(fil, Buff, 256, &n) || n != 256) return 0;*/
-	f_read(fil, Buff, 256, &n);
+	if(f_read(fil, Buff, 256, &n)) return 0;
 
 	/* Execute Original Video File */ 
 	if (!memcmp(Buff, "IM", 2)) {
@@ -1540,17 +1598,17 @@ int load_file(char *path, char *filename, FIL *fil)
 		return RES_OK;
 	}
 
-	/* Execute SJIS-Style Text File */
-	if (strstr_ext(path, ".TXT")) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
-		load_txt(fil, (BYTE*)Buff, BUFSIZE);
+	/* Execute Windows 24BITMAP File */
+	if (!memcmp(Buff, "BM", 2)) {
+		load_bmp(fil);
 		f_close(fil);
 		return RES_OK;
 	}
 
-	/* Execute Windows 24BITMAP File */
-	if (!memcmp(Buff, "BM", 2)) {
-		load_bmp(fil);
+	/* Execute SJIS/Ascii Style Text File */
+	if (strstr_ext(path, ".TXT")) {
+		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		load_txt(fil, (BYTE*)Buff, BUFSIZE);
 		f_close(fil);
 		return RES_OK;
 	}
@@ -1568,7 +1626,12 @@ int load_file(char *path, char *filename, FIL *fil)
 	/* Execute JPEG File Using ChaN's JPEG Decorder */
 	if (strstr_ext(path, ".JPG")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
+	#if (BUFSIZE > 32*1024)
+	#warning "ChaN's JPEG library have 32kByte buffersize restriction"
+		load_jpg(fil, (BYTE*)Buff, 32768);
+	#else
 		load_jpg(fil, (BYTE*)Buff, BUFSIZE);
+	#endif
 		f_close(fil);
 		return RES_OK;
 	}

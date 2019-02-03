@@ -2,8 +2,8 @@
 /*!
 	@file			font_if_datatable.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2015.09.01
+    @version        8.00
+    @date           2019.02.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -17,6 +17,7 @@
  		2013.09.20	V5.00	Improve FONTX2 inclusion ChaN Thanks!
 		2015.08.01	V6.00	Add External SDRAM Support for KanjiFonts.
 		2015.09.01	V7.00	Optimized KANJI Constructors for Specific MPU.
+		2019.02.01	V8.00	Fixed some compiler warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -25,14 +26,12 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "font_if.h"
-
-/* Defines   -----------------------------------------------------------------*/
-#if defined(EXT_SRAM_SUPPORT) || defined(EXT_SDRAM_SUPPORT)
- #define _EXRAM  __attribute__ ((section(".extram"))) __attribute__ ((aligned (4)))
-#else
- #define _EXRAM
+/* check header file version for fool proof */
+#if __FONT_IF_H != 0x0600
+#error "header file version is not correspond!"
 #endif
 
+/* Defines   -----------------------------------------------------------------*/
 #if   defined(STM32F7XX)
  #define _KANJIRAM  __attribute__ ((section(".dtcm")))
 #elif defined(STM32F4XX)
@@ -42,9 +41,11 @@
 #endif
 
 #if defined(EXT_QSPIROM_SUPPORT) || defined(EXT_SPIFI_SUPPORT)
+/* Assume FONTX2 files is in ExternalROM */
+/* IMPORT_BIN Macros are not necessary */
 #define	IMPORT_BIN(sect, file, sym)	
 #define	IMPORT_BIN_PART(sect, file, ofs, siz, sym)
-	
+
 #else
 /* Import FONTX2 files as byte array */
 /* incbin example ChaN Thanks! */

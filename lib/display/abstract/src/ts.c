@@ -1,38 +1,25 @@
 /********************************************************************************/
 /*!
 	@file			ts.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        14.00
-    @date           2014.11.19
-	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!
+    @version        15.00
+    @date           2019.02.01
+	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2010.12.31	V1.00	ReStart here.
-		2011.03.10	V2.00	C++ Ready.
-		2011.06.18  V3.00	Added SSD1963 Consideration 
-							      and X clipper for some display's limitations
-								  and Fixed Parent/Current Directory return bug.
-		2011.10.14  V4.00   Added Chan's Tiny JPEG Decoder Support.
-		2011.12.01  V5.00   Use FPU on IJG Decoding in use of STM32F4xx. 
-		2012.01.31	V6.00	Fixed Pointer bugfix on IJG Decoding.
-		2012.02.21	V7.00	Added Chan's Text Viewer Support.
-		2012.03.12  V8.00   Added More FontSize.
-							Fixed JPEG Decompress parameter@IJG.
-		2012.04.01  V9.00   Separated to Filer & FileLoder Sections.
-		2012.06.15 V10.00   Added External SRAM Support.
-		2013.09.20 V11.00   Added more colour definitions.
-		2013.11.30 V12.00   Added External SDRAM Support.
-		2014.06.25 V13.00   Removed Buff[] from header file.
-		2014.11.19 V14.00	Fixed TmrFrm declaration.
+		2019.02.01	See ts_ver.txt.
 
     @section LICENSE
-		BSD License. See Copyright.txt
+		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
 #include "ts.h"
-
+/* check header file version for fool proof */
+#if __TS_H != 0x1500
+#error "header file version is not correspond!"
+#endif
+		
 /* Defines -------------------------------------------------------------------*/
 #if defined(EXT_SRAM_SUPPORT) || defined(EXT_SDRAM_SUPPORT) 
  #define _EXRAM  __attribute__ ((section(".extram")))
@@ -63,6 +50,7 @@ uint16_t Vram[TS_HEIGHT][TS_WIDTH] _EXRAM;
 
 /* Constants -----------------------------------------------------------------*/
 #if !USE_FILER_FONTX
+/* use filer builtin fonts */
 const uint8_t font[128][8] = {
 	{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
 	{0xA8,0x54,0xA8,0x54,0xA8,0x54,0xA8,0x54},
@@ -249,13 +237,11 @@ void ts_write(
 	uint8_t ankode;
 	static uint8_t col_r,row_r;
 	static uint16_t unk;
-
 #else
 	int x, y;
 	uint8_t pat;
 	uint16_t wd;
 	const uint8_t *fnt;
-
 #endif
 
 	static const uint16_t color[8] = {

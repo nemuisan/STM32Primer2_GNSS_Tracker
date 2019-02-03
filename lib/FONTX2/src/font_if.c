@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2017.06.07
+    @version        6.00
+    @date           2019.02.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -15,6 +15,7 @@
 		2011.05.11	V3.00	Selectable KanjiFonts to Reduce Memory Space.
 		2014.03.31	V4.00	Fixed hardfault error on Cortex-M0 Devices.
 		2017.06.07	V5.00	Added signature validation function.
+		2019.02.01	V6.00	Fixed some compiler warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,12 +24,17 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "font_if.h"
+/* check header file version for fool proof */
+#if __FONT_IF_H != 0x0600
+#error "header file version is not correspond!"
+#endif
 
 /* Defines   -----------------------------------------------------------------*/
+/* Using FONTX2 File notification */
 #ifdef USE_KANJIFONT
- #warning "USE_KANJIFONTX2"
+ #warning "Use FontX2 AnkFont and KanjiFont"
 #else
- #warning "USE_ANKFONTX2 ONLY"
+ #warning "Use FontX2 AnkFont Only!"
 #endif
 
 /* Variables -----------------------------------------------------------------*/
@@ -52,7 +58,7 @@ FontX_Kanji* CurrentKanjiDat;
 /**************************************************************************/
 void InitFont_Ank(FontX_Ank* AnkDat,const char* addr_ofs)
 {
-	/* Store ANK Addres Offset */
+	/* Store ANK Address Offset */
 	AnkDat->AnkFileOffset = addr_ofs;
 	
 	/* Store ANK Pixel Size */
@@ -142,7 +148,7 @@ void InitFont_Kanji(FontX_Kanji* KanjiDat,const char* addr_ofs)
 {
 	int i;
 
-	/* Store Kanji Addres Offset */
+	/* Store Kanji Address Offset */
 	KanjiDat->KanjiFileOffset = addr_ofs;
 
 	/* Store Kanji Pixel Size */
