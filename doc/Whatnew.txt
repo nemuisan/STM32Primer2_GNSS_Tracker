@@ -1,6 +1,10 @@
+20190417 :
+V80.00	Adopted FatFs0.13c latest patch update(patch4).
+
 20190331 :
 V79.00	Adopted CMSIS Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/4b6254a8d0cc577b11e01d54d01a59191a34f7de
+
 20190220 :
 V78.00	Adopted CMSIS Header Files V5.2.1 latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/14a31915bd913853e1040be1f433fb0ed9059434
