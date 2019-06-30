@@ -1,13 +1,20 @@
 /*------------------------------------------------------------------------/
-/  Universal string handler for user console interface
+/  Universal String Handler for Console Input and Output
 /-------------------------------------------------------------------------/
 /
-/  Copyright (C) 2011, ChaN, all right reserved.
+/ Copyright (C) 2014, ChaN, all right reserved.
 /
-/ * This software is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
+/ xprintf module is an open source software. Redistribution and use of
+/ xprintf module in source and binary forms, with or without modification,
+/ are permitted provided that the following condition is met:
+/
+/ 1. Redistributions of source code must retain the above copyright notice,
+/    this condition and the following disclaimer.
+/
+/ This software is provided by the copyright holder and contributors "AS IS"
+/ and any warranties related to this software are DISCLAIMED.
+/ The copyright owner or contributors be NOT LIABLE for any damages caused
+/ by use of this software.
 /
 /-------------------------------------------------------------------------*/
 
@@ -27,12 +34,28 @@ void xputc (char c)
 {
 	if (_CR_CRLF && c == '\n') xputc('\r');		/* CR -> CRLF */
 
-	if (outptr) {
+	if (outptr) {		/* Destination is memory */
 		*outptr++ = (unsigned char)c;
 		return;
 	}
+	if (xfunc_out) {	/* Destination is device */
+		xfunc_out((unsigned char)c);
+	}
+}
 
-	if (xfunc_out) xfunc_out((unsigned char)c);
+
+void xfputc (					/* Put a character to the specified device */
+	void(*func)(unsigned char),	/* Pointer to the output function */
+	char chr					/* Character to be put */
+)
+{
+	void (*pf)(unsigned char);
+
+
+	pf = xfunc_out;		/* Save current output device */
+	xfunc_out = func;	/* Switch output to specified device */
+	xputc(chr);
+	xfunc_out = pf;		/* Restore output device */
 }
 
 
@@ -45,8 +68,9 @@ void xputs (					/* Put a string to the default device */
 	const char* str				/* Pointer to the string */
 )
 {
-	while (*str)
+	while (*str) {
 		xputc(*str++);
+	}
 }
 
 
@@ -60,8 +84,9 @@ void xfputs (					/* Put a string to the specified device */
 
 	pf = xfunc_out;		/* Save current output device */
 	xfunc_out = func;	/* Switch output to specified device */
-	while (*str)		/* Put the string */
+	while (*str) {		/* Put the string */
 		xputc(*str++);
+	}
 	xfunc_out = pf;		/* Restore output device */
 }
 
@@ -73,15 +98,17 @@ void xfputs (					/* Put a string to the specified device */
 /*  xprintf("%d", 1234);			"1234"
     xprintf("%6d,%3d%%", -200, 5);	"  -200,  5%"
     xprintf("%-6u", 100);			"100   "
-    xprintf("%ld", 12345678L);		"12345678"
+    xprintf("%ld", 12345678);		"12345678"
+    xprintf("%llu", 0x100000000);	"4294967296"	<_USE_LONGLONG>
     xprintf("%04x", 0xA3);			"00a3"
-    xprintf("%08LX", 0x123ABC);		"00123ABC"
+    xprintf("%08lX", 0x123ABC);		"00123ABC"
     xprintf("%016b", 0x550F);		"0101010100001111"
+    xprintf("%*d", 6, 100);			"   100"
     xprintf("%s", "String");		"String"
-    xprintf("%-4s", "abc");			"abc "
-    xprintf("%4s", "abc");			" abc"
+    xprintf("%-5s", "abc");			"abc  "
+    xprintf("%5s", "abc");			"  abc"
     xprintf("%c", 'a');				"a"
-    xprintf("%f", 10.0);            <xprintf lacks floating point support>
+    xprintf("%f", 10.0);            <xprintf lacks floating point support. Use regular printf.>
 */
 
 static
@@ -91,29 +118,47 @@ void xvprintf (
 )
 {
 	unsigned int r, i, j, w, f;
-	unsigned long v;
-	char s[16], c, d, *p;
+	char s[32], c, d, *p;
+#if _USE_LONGLONG
+	_LONGLONG_t v;
+	unsigned _LONGLONG_t vs;
+#else
+	long v;
+	unsigned long vs;
+#endif
 
 
 	for (;;) {
-		c = *fmt++;					/* Get a char */
+		c = *fmt++;					/* Get a format character */
 		if (!c) break;				/* End of format? */
-		if (c != '%') {				/* Pass through it if not a % sequense */
+		if (c != '%') {				/* Pass it through if not a % sequense */
 			xputc(c); continue;
 		}
-		f = 0;
+		f = w = 0;					/* Clear parms */
 		c = *fmt++;					/* Get first char of the sequense */
-		if (c == '0') {				/* Flag: '0' padded */
+		if (c == '0') {				/* Flag: left '0' padded */
 			f = 1; c = *fmt++;
 		} else {
 			if (c == '-') {			/* Flag: left justified */
 				f = 2; c = *fmt++;
 			}
 		}
-		for (w = 0; c >= '0' && c <= '9'; c = *fmt++)	/* Minimum width */
-			w = w * 10 + c - '0';
-		if (c == 'l' || c == 'L') {	/* Prefix: Size is long int */
+		if (c == '*') {				/* Minimum width from an argument */
+			w = va_arg(arp, int);
+			c = *fmt++;
+		} else {
+			while (c >= '0' && c <= '9') {	/* Minimum width */
+				w = w * 10 + c - '0';
+				c = *fmt++;
+			}
+		}
+		if (c == 'l' || c == 'L') {	/* Prefix: Size is long */
 			f |= 4; c = *fmt++;
+#if _USE_LONGLONG
+			if (c == 'l' || c == 'L') {	/* Prefix: Size is long long */
+				f |= 8; c = *fmt++;
+			}
+#endif
 		}
 		if (!c) break;				/* End of format? */
 		d = c;
@@ -142,21 +187,36 @@ void xvprintf (
 		}
 
 		/* Get an argument and put it in numeral */
-		v = (f & 4) ? va_arg(arp, long) : ((d == 'D') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int));
-		if (d == 'D' && (v & 0x80000000)) {
-			v = 0 - v;
-			f |= 8;
+#if _USE_LONGLONG
+		if (f & 8) {	/* long long argument? */
+			v = va_arg(arp, _LONGLONG_t);
+		} else {
+			if (f & 4) {	/* long argument? */
+				v = (d == 'D') ? (long)va_arg(arp, long) : (long)va_arg(arp, unsigned long);
+			} else {		/* int/short/char argument */
+				v = (d == 'D') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int);
+			}
 		}
-		i = 0;
+#else
+		if (f & 4) {	/* long argument? */
+			v = va_arg(arp, long);
+		} else {		/* int/short/char argument */
+			v = (d == 'D') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int);
+		}
+#endif
+		if (d == 'D' && v < 0) {	/* Negative value? */
+			v = 0 - v; f |= 16;
+		}
+		i = 0; vs = v;
 		do {
-			d = (char)(v % r); v /= r;
+			d = (char)(vs % r); vs /= r;
 			if (d > 9) d += (c == 'x') ? 0x27 : 0x07;
 			s[i++] = d + '0';
-		} while (v && i < sizeof(s));
-		if (f & 8) s[i++] = '-';
+		} while (vs != 0 && i < sizeof s);
+		if (f & 16) s[i++] = '-';
 		j = i; d = (f & 1) ? '0' : ' ';
 		while (!(f & 2) && j++ < w) xputc(d);
-		do xputc(s[--i]); while(i);
+		do xputc(s[--i]); while (i != 0);
 		while (j++ < w) xputc(' ');
 	}
 }
@@ -226,7 +286,7 @@ void put_dump (
 	const void* buff,		/* Pointer to the array to be dumped */
 	unsigned long addr,		/* Heading address value */
 	int len,				/* Number of items to be dumped */
-	int width				/* Size of the items (DW_CHAR, DW_SHORT, DW_LONG) */
+	int width				/* Size of the items (DF_CHAR, DF_SHORT, DF_LONG) */
 )
 {
 	int i;
@@ -244,7 +304,7 @@ void put_dump (
 			xprintf(" %02X", bp[i]);
 		xputc(' ');
 		for (i = 0; i < len; i++)		/* ASCII dump */
-			xputc((bp[i] >= ' ' && bp[i] <= '~') ? bp[i] : '.');
+			xputc((unsigned char)((bp[i] >= ' ' && bp[i] <= '~') ? bp[i] : '.'));
 		break;
 	case DW_SHORT:
 		sp = buff;
@@ -291,12 +351,12 @@ int xgets (		/* 0:End of stream, 1:A line arrived */
 		if (c == '\r') break;		/* End of line? */
 		if (c == '\b' && i) {		/* Back space? */
 			i--;
-			if (_LINE_ECHO) xputc(c);
+			if (_LINE_ECHO) xputc((unsigned char)c);
 			continue;
 		}
 		if (c >= ' ' && i < len - 1) {	/* Visible chars */
 			buff[i++] = c;
-			if (_LINE_ECHO) xputc(c);
+			if (_LINE_ECHO) xputc((unsigned char)c);
 		}
 	}
 	buff[i] = 0;	/* Terminate with a \0 */

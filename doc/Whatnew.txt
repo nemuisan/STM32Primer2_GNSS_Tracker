@@ -1,3 +1,8 @@
+20190624 :
+V81.00	Adopted ChaN's xprintf library latest update.
+		Adopted CMSIS Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/d7cec9a85ca7e8aeb62cb496abb28f0e088a7637
+
 20190417 :
 V80.00	Adopted FatFs0.13c latest patch update(patch4).
 

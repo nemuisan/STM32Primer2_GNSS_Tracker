@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------*/
-/* Universal string handler for user console interface  (C)ChaN, 2011     */
+/* Universal string handler for user console interface  (C)ChaN, 2012     */
 /*------------------------------------------------------------------------*/
 
 #ifndef _STRFUNC
@@ -7,6 +7,8 @@
 
 #define _USE_XFUNC_OUT	1	/* 1: Use output functions */
 #define	_CR_CRLF		1	/* 1: Convert \n ==> \r\n in the output char */
+#define	_USE_LONGLONG	0	/* 1: Enable long long integer in type "ll". */
+#define	_LONGLONG_t		long long	/* Platform dependent long long integer type */
 
 #define _USE_XFUNC_IN	1	/* 1: Use input function */
 #define	_LINE_ECHO		1	/* 1: Echo back input chars in xgets function */
@@ -16,6 +18,7 @@
 #define xdev_out(func) xfunc_out = (void(*)(unsigned char))(func)
 extern void (*xfunc_out)(unsigned char);
 void xputc (char c);
+void xfputc (void (*func)(unsigned char), char c);
 void xputs (const char* str);
 void xfputs (void (*func)(unsigned char), const char* str);
 void xprintf (const char* fmt, ...);
