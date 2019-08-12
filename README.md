@@ -8,9 +8,7 @@ Build
 ------
 This program can build following compilers  
 -GNU Tools for ARM Embedded Processors(Recommend)  
- https://developer.arm.com/open-source/gnu-toolchain/gnu-rm  
--Freddie Choppin's Bleeding Edge Compiler  
- http://www.freddiechopin.info/en/download/category/11-bleeding-edge-toolchain  
+ https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm  
 
 And MUST need Coreutils/GNUMake for windows to build this projects.  
  http://gnuwin32.sourceforge.net/packages/coreutils.htm  

@@ -1,3 +1,9 @@
+20190808 :
+V82.00	Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/74141a11296721f43405f3dd206a282310997a44
+		Adopted arm-gcc toolchain updates
+		 -> (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 8.3.1 20190703 (release) [gcc-8-branch revision 273027]
+
 20190624 :
 V81.00	Adopted ChaN's xprintf library latest update.
 		Adopted CMSIS Header Files into latest repository.
