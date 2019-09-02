@@ -2,11 +2,11 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        82.00
-    @date           2019.08.08
+    @version        83.00
+    @date           2019.08.29
 
     @section HISTORY
-		2019.08.08	V82.00	See Whatnew.txt
+		2019.08.29	V83.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt

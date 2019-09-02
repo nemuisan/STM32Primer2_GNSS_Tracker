@@ -1,19 +1,19 @@
 /********************************************************************************/
 /*!
 	@file			ts.h
-    @version        15.00
-    @date           2019.02.01
+    @version        16.00
+    @date           2019.09.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.02.01	See ts_ver.txt.
+		2019.09.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TS_H
-#define __TS_H 0x1500
+#define __TS_H 0x1600
 
 #ifdef __cplusplus
  extern "C" {
@@ -133,6 +133,7 @@ extern void ts_rlup(uint8_t top, uint8_t left, uint8_t bottom, uint8_t right);
 extern void ts_rldown(uint8_t top, uint8_t left, uint8_t bottom, uint8_t right);
 
 extern void ts_timer(void);
+extern void ts_csrblink(void);
 extern void ts_rtc(void);
 
 

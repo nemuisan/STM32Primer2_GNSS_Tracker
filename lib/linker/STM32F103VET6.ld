@@ -1,6 +1,6 @@
-/* Linker script UpperSide for STM32F103VET6! 			*/
-/* (c) Nemui Trinomius (http://nemuisan.blog.bai.ne.jp) */
-/* Based on STMicro's RIDE Project Sample thanks!		*/
+/* Linker script UpperSide for STM32F103VET6! 		*/
+/* Nemui Trinomius (http://nemuisan.blog.bai.ne.jp) */
+/* Based on STMicro's RIDE Project Sample thanks!	*/
 
 OUTPUT_FORMAT ("elf32-littlearm")
 
@@ -12,11 +12,11 @@ MEMORY
 	ROM (rx)	: ORIGIN = 0x08000000, LENGTH = 1024K	/* Main Embedded FlashROM	*/
 }
 
-/* higher address of the stack bottom */
-_estack = ORIGIN(RAM1)+LENGTH(RAM1);
+/* higher address of the stack bottom,AAPCS said "stack MUST BE 8byte alignment". */
+_estack = (ORIGIN(RAM1)+LENGTH(RAM1)) & ~ 0x7;
 
 /* higher address of the heap end */
-/*_heap_end = ORIGIN(RAM1)+LENGTH(RAM1)-4;*/	/* due to 4byte alignments */
+/*_eheap = ORIGIN(RAM1)+LENGTH(RAM1);*/ /* SP register as heap end */
 
 
 /* include the section management sub-script */

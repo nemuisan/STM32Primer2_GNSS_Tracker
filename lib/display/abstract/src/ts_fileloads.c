@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        16.00
-    @date           2019.02.01
+    @version        17.00
+    @date           2019.09.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.02.01	See ts_ver.txt.
+		2019.09.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if __TS_FILELOADS_H != 0x1600
+#if __TS_FILELOADS_H != 0x1700
 #error "header file version is not correspond!"
 #endif
 
@@ -51,8 +51,8 @@ extern uint8_t Buff[];
 
 /* Variables -----------------------------------------------------------------*/
 /* Used for Cursor and Original Movies */
-extern uint8_t  CsrFlag, TmrCsr;
-extern uint32_t TmrFrm;
+extern uint8_t  CsrFlag;
+extern uint32_t TmrFrm,TmrCsr;
 extern uint16_t Row, Col, Attr;
 
 /* Used for Filer VRAM */
@@ -1860,7 +1860,7 @@ int filer(
 	char* filenames;
 
 
-	while (xgetc_n());
+	/*while (xgetc_n());*/
 
 	for (;;) {
 		items = filer_load_dir(path, dir, fno);
@@ -1869,7 +1869,8 @@ int filer(
 			ts_locate(0,0,1);
 			xputs("\33\x87\fDisk error or No file system.\nSet a microSD card and push (A) to continue...");
 			do {
-				k = xgetc();
+				ts_csrblink();
+				k = xgetc_n();
 				if (k == BTN_CAN) return BTN_CAN;
 				if (k == BTN_ESC) return BTN_ESC;
 			} while (k != BTN_OK);

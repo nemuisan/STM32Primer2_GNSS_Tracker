@@ -1,6 +1,6 @@
-/* Linker script Lowerside for STM32F1 Series! 			*/
-/* (c) Nemui Trinomius (http://nemuisan.blog.bai.ne.jp) */
-/* Based on Mathin' Thomas's sample thanks !			*/
+/* Linker script Lowerside for STM32F1 Series! 		*/
+/* Nemui Trinomius (http://nemuisan.blog.bai.ne.jp) */
+/* Based on Martin Thomas's sample thanks !			*/
 
 /* Sections And Definitions */
 SECTIONS
@@ -28,7 +28,6 @@ SECTIONS
         *(.gnu.linkonce.r.*)
 		*(.ARM.extab* .gnu.linkonce.armextab.*)
 	    . = ALIGN(4);
-        
     } >ROM
 
 	/* .ctors .dtors are used for c++ constructors/destructors */
@@ -108,7 +107,6 @@ SECTIONS
 		KEEP(*(.init_array))
 		PROVIDE_HIDDEN (__init_array_end = .);
 
-
 		. = ALIGN(4);
 		/* finit data */
 		PROVIDE_HIDDEN (__fini_array_start = .);
@@ -120,14 +118,12 @@ SECTIONS
 	
         . = ALIGN(4); 	/* 20090714 Nemui */
         *(.ramfunc*) 	/* 20090714 Nemui */
+        *(.RAMtext) 	/* 20090714 Nemui */
         . = ALIGN(4); 	/* 20090714 Nemui */
 
-        *(.RAMtext)
-	    . = ALIGN(4);
 	    /* This is used by the startup in order to initialize the .data secion */
-   	 _edata = . ;
+		_edata = . ;
     } >RAM1
-		
 
     /* This is the uninitialized data section */
     .bss (NOLOAD) :
@@ -142,48 +138,37 @@ SECTIONS
         *(COMMON)
         . = ALIGN(4);
         _ebss = . ;
+        __bss_end = . ;
+        __bss_end__ = . ;
     } >RAM1
-    __bss_end__ = _end ;
-    PROVIDE (__bss_end = _end);
   
     /* This is the heap data section */
-	/* stack bottom is at end of RAM. */
 	.heap (NOLOAD) :
 	{
-		_end = . ;					/* This is used by the syscalls */
-		end = _end ;				/* This is used by the syscalls */
+		. = ALIGN(4);
 		PROVIDE (_end = .);			/* This is used by the syscalls */
-		PROVIDE (end = _end);		/* This is used by the syscalls */
+		PROVIDE (end = .);			/* This is used by the syscalls */
 		PROVIDE (_heap = .);
 		*(.heap .heap.*)  
 		*(.HEAP)
 		. = ALIGN(4);
 	} >RAM1
-	. = ALIGN(4);
-	__heap_end = . ;
-	PROVIDE (__heap_end = .);
+	PROVIDE (_heap_end = _eheap);
 
-    /* This is the Stack section */
-	/* .stack section which is used for auto variable */
+	/* This is the stack section which is used for auto variable,MUST BE 8-byte alignment due to AAPCS said so. */
 	.stack (NOLOAD) :
 	{
 		_stack_top = . ;
-		PROVIDE (_stack_top = .);
 		*(.stack .stack.*)  
 		*(.STACK)
-		_stack = . ;
-		PROVIDE (_stack = .);
+		. = ALIGN(8);
 	} >RAM1
-	. = ALIGN(8);
-	_stack_end = _estack;
 	PROVIDE (_stack_end = _estack);
 
 
     /* This is the External RAM section */
 	.extram (NOLOAD) :
 	{
-		_extram = . ;
-		extram = . ;
 		PROVIDE (extram = .);
 		PROVIDE (_extram = .);
 		*(.extram .extram.*)  
@@ -191,17 +176,14 @@ SECTIONS
 		. = ALIGN(4);
 	} >RAM5
 
-
     /* after that it's only debugging information. */
     /* remove the debugging information from the standard libraries */
-	
     /DISCARD/ :
     {
 		libc.a ( * )
 		libm.a ( * )
 		libgcc.a ( * )
     }
-
     /* Stabs debugging sections.  */
     .stab          0 : { *(.stab) }
     .stabstr       0 : { *(.stabstr) }

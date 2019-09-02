@@ -1,7 +1,8 @@
 ********************* ts_.x update history ********************
 
-	2019.02.01 V15.00	Fixed cosmetic expressions.
+	2019.09.01 V16.00	Split cursor blink routine from ts_timer().
 
+	2019.02.01 V15.00	Fixed cosmetic expressions.
 	2014.11.19 V14.00	Fixed TmrFrm declaration.
 	2014.06.25 V13.00	Removed Buff[] from header file.
 	2013.11.30 V12.00	Added External SDRAM Support.
@@ -24,8 +25,9 @@
 
 ********************* ts_fileloads.x update history ********************
 
-	2019.02.01 V16.00	Fixed cosmetic expressions.
+	2019.09.01 V17.00	Split cursor blink routine from ts_timer().
 
+	2019.02.01 V16.00	Fixed cosmetic expressions.
 	2017.05.22 V15.00	Adopted FatFs0.13.
 	2016.12.01 V14.00	Fixed filename display bug on file load.
 	2016.08.01 V13.00	Adopted FatFs0.12a.

@@ -1,12 +1,12 @@
 /********************************************************************************/
 /*!
 	@file			ts.c
-    @version        15.00
-    @date           2019.02.01
+    @version        16.00
+    @date           2019.09.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.02.01	See ts_ver.txt.
+		2019.09.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -16,7 +16,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts.h"
 /* check header file version for fool proof */
-#if __TS_H != 0x1500
+#if __TS_H != 0x1600
 #error "header file version is not correspond!"
 #endif
 		
@@ -29,8 +29,8 @@
 
 /* Variables -----------------------------------------------------------------*/
 /* Used for Cursor and Original Movies */
-volatile uint8_t  CsrFlag, TmrCsr;
-volatile uint32_t TmrFrm;
+volatile uint8_t  CsrFlag;
+volatile uint32_t TmrFrm,TmrCsr;
 volatile uint16_t Attr _EXRAM;
 volatile uint16_t Col _EXRAM;
 volatile uint16_t Row _EXRAM;
@@ -528,21 +528,20 @@ void ts_putc(
 	csr_release();
 }
 
+
 /**************************************************************************/
 /*! 
-    MUST Execute 1mSec Every.
+    Brink Cursor execute every 1mSec.
 */
 /**************************************************************************/
-void ts_timer(void)
+void ts_csrblink(void)
 {
 	uint8_t f;
 	uint16_t c;
 
-
-	TmrFrm += 1000;
-
 	f = CsrFlag;
-	if (((f & 6) == 6) && ++TmrCsr >= 250) {
+	
+	if (((f & 6) == 6) && TmrCsr >= 250) {
 		TmrCsr = 0;
 		f ^= 1;
 		CsrFlag = f;
@@ -550,7 +549,17 @@ void ts_timer(void)
 		if (f & 1) c ^= 0x7700;
 		ts_write(Row, Col, c);
 	}
+}
 
+/**************************************************************************/
+/*! 
+    MUST Execute 1mSec Every.
+*/
+/**************************************************************************/
+ __attribute__((weak)) void ts_timer(void)
+{
+	TmrFrm += 1000; /* Video frame counter */
+	TmrCsr++;		/* ts cursor counter */
 }
 
 

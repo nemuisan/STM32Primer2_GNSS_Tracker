@@ -2,19 +2,19 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        16.00
-    @date           2019.02.01
+    @version        17.00
+    @date           2019.09.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.02.01	See ts_ver.txt.
+		2019.09.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x1600
+#define __TS_FILELOADS_H 0x1700
 
 #ifdef __cplusplus
  extern "C" {
