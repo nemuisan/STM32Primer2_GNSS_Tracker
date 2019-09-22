@@ -2,18 +2,16 @@
 /*!
 	@file			syscalls.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2014.03.03
-	@brief          Syscall support functions for newlib console I/O with stdio.
-					Based on Red Hat newlib C library examples thanks!
-					Based on under URL thanks!
-					 http://sourceware.org/newlib/libc.html#Syscalls
+    @version        5.00
+    @date           2019.10.01
+	@brief          syscall.c's Device Dependent Header Section.
 
     @section HISTORY
-		2012.08.27	V1.00	Start Here.
-		2013.01.07	V2.00	Adopted "--specs=nano.specs" option.
-		2013.07.10	V3.00	Adopted semihosting on nanolib.
-		2014.03.03	V4.00	Added _init().
+		2010.12.31	V1.00	ReStart Here.
+		2011.03.10	V2.00	C++ Ready.
+		2012.06.15  V3.00	Fixed _heap_end Definition.
+		2014.06.26	V4.00	Added Version Check.
+		2014.06.26	V4.00	Removed isatty() on GCC build.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +22,7 @@
 /* This is platform dependent includion */
 #include "syscalls_if.h"
 /* check header file version for fool proof */
-#if __SYSCALLS_IF_H != 0x0400
+#if __SYSCALLS_IF_H != 0x0500
 #error "header file version is not correspond!"
 #endif
 
@@ -172,7 +170,7 @@ int _fstat_r(
 
 /**************************************************************************/
 /*! 
-    @brief  Memory Allocator Clue Function.								@n
+    @brief  Memory Allocator Glue Function.								@n
 			Adjusts end of heap to provide more memory to				@n
 			memory allocator, With Simple sanity checks.				@n
 																		@n
@@ -224,13 +222,12 @@ void * _sbrk_r(
     @brief  Dummy OS Function for Newlib.
 */
 /**************************************************************************/
-#ifdef __GNUC__
- int isatty(int file); /* avoid warning */
-#endif
+#ifndef __GNUC__
 int isatty(int file)
 {
 	return 1;
 }
+#endif
 
 /**************************************************************************/
 /*! 

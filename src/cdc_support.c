@@ -2,14 +2,15 @@
 /*!
 	@file			cdc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2014.07.16
+    @version        4.00
+    @date           2019.09.20
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.04.20	V2.00	Fixed Suitable Interruption level.
 		2014.07.16	V3.00	Reset Systick to Suitable Frequency.
+		2019.09.20	V4.00	Fixed redundant declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -19,22 +20,19 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if __CDC_SUPPORT_H!= 0x0300
+#if __CDC_SUPPORT_H!= 0x0400
 #error "header file version is not correspond!"
 #endif
 
 #include "display_if.h"
 #include "display_if_support.h"
+#include "font_if.h"
 
 /* Defines -------------------------------------------------------------------*/
-/* Set FONTX */
-#define ANKFONT					Mplus_Ank
 /* Set USB-CDC RX-Buffer Size */
 #define USART_RX_DATA_SIZE   	2048
 
 /* Variables -----------------------------------------------------------------*/
-extern FontX_Ank   ANKFONT;
-extern USART_InitTypeDef USART_InitStructure;
 extern LINE_CODING linecoding;
 
 uint8_t  USART_Rx_Buffer [USART_RX_DATA_SIZE]; 

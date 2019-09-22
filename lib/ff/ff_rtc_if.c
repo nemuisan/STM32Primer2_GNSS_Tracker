@@ -36,28 +36,28 @@
     @retval : 1
 */
 /**************************************************************************/
-int rtc_gettime(FF_RTC *ff_rtc)
+int rtc_gettime(FF_RTC *f_rtc)
 {
 
 #ifdef USE_STM32RTC
 	/* See rtc_support.h */
 	rtc = Time_GetCalendarTime();
 
-	ff_rtc->sec   = ts_sec;
-	ff_rtc->min   = ts_min;
-	ff_rtc->hour  = ts_hour;
-	ff_rtc->mday  = ts_mday;
-	ff_rtc->month = ts_mon+1;
-	ff_rtc->year  = ts_year;
+	f_rtc->sec   = ts_sec;
+	f_rtc->min   = ts_min;
+	f_rtc->hour  = ts_hour;
+	f_rtc->mday  = ts_mday;
+	f_rtc->month = ts_mon+1;
+	f_rtc->year  = ts_year;
 
 #else
 	/* 2011/11/13 22:23:24 */
-	ff_rtc->sec   = 24;
-	ff_rtc->min   = 23;
-	ff_rtc->hour  = 22;
-	ff_rtc->mday  = 13;
-	ff_rtc->month = 11;
-	ff_rtc->year  = 2011;
+	f_rtc->sec   = 24;
+	f_rtc->min   = 23;
+	f_rtc->hour  = 22;
+	f_rtc->mday  = 13;
+	f_rtc->month = 11;
+	f_rtc->year  = 2011;
 #endif
 
 	return 1;
@@ -70,17 +70,17 @@ int rtc_gettime(FF_RTC *ff_rtc)
     @retval : 1
 */
 /**************************************************************************/
-int rtc_settime(const FF_RTC *ff_rtc)
+int rtc_settime(const FF_RTC *f_rtc)
 {
 
 #ifdef USE_STM32RTC
 	/* See rtc_support.h */
-	ts_sec	= ff_rtc->sec;
-	ts_min  = ff_rtc->min;
-	ts_hour = ff_rtc->hour;
-	ts_mday = ff_rtc->mday;
-	ts_mon  = ff_rtc->month-1;
-	ts_year = ff_rtc->year;
+	ts_sec	= f_rtc->sec;
+	ts_min  = f_rtc->min;
+	ts_hour = f_rtc->hour;
+	ts_mday = f_rtc->mday;
+	ts_mon  = f_rtc->month-1;
+	ts_year = f_rtc->year;
 
 	Time_SetCalendarTime(rtc);
 #else

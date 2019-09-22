@@ -40,8 +40,8 @@ typedef struct {
 } FF_RTC;
 
 /* Function Prototypes */
-int rtc_settime(const FF_RTC *ff_rtc);
-int rtc_gettime(FF_RTC *ff_rtc);
+int rtc_settime(const FF_RTC *f_rtc);
+int rtc_gettime(FF_RTC *f_rtc);
 extern FF_RTC ff_rtc;
 
 #ifdef __cplusplus

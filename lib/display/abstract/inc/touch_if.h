@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2016.07.03
+    @version        9.00
+    @date           2019.10.01
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -16,13 +16,14 @@
 		2013.11.30	V6.00	Added STM32F429I-Discovery support.
 		2016.06.01	V7.00	Added FT6x06 Device Handlings.
 		2016.07.03	V8.00	Added SWAP or Reverse XY exec.
+		2019.10.01	V9.00	Fixed some variable inclusion.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TOUCH_IF_H
-#define __TOUCH_IF_H	0x0800
+#define __TOUCH_IF_H	0x0900
 
 #ifdef __cplusplus
  extern "C" {
@@ -114,11 +115,11 @@ extern Touch_t* pTouch;
 /* Calibrated Value */
 extern Touch_t  PosVal;
 extern Touch_t* pPos;
-
 /* TouchScreen Related Flags */
 extern uint8_t scaned_tc;
-extern uint8_t tc_stat;
+extern uint8_t hold_okes_tc;
 extern uint8_t last_pen;
+extern uint8_t tc_stat;
 
 /* Extern Functions */
 extern void TC_IoInit_If(void);

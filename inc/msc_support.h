@@ -2,8 +2,8 @@
 /*!
 	@file			msc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2014.07.16
+    @version        5.00
+    @date           2019.09.20
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -11,13 +11,14 @@
 		2012.01.30	V2.00	Added Consideration CoOperate with CDC Function .
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
 		2014.07.16	V4.00	Reset Systick to Suitable Frequency.
+		2019.09.20	V5.00	Fixed redundant declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __MSC_SUPPORT_H
-#define __MSC_SUPPORT_H	0x0400
+#define __MSC_SUPPORT_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {

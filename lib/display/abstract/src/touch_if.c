@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2016.07.03
+    @version        9.00
+    @date           2019.10.01
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -16,6 +16,7 @@
 		2013.11.30	V6.00	Added STM32F429I-Discovery support.
 		2016.06.01	V7.00	Added FT6x06 Device Handlings.
 		2016.07.03	V8.00	Added SWAP or Reverse XY exec.
+		2019.10.01	V9.00	Fixed some variable inclusion.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -25,7 +26,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if.h"
 /* check header file version for fool proof */
-#if __TOUCH_IF_H != 0x0800
+#if __TOUCH_IF_H != 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -773,16 +774,6 @@ void TC_CalibScreen_If(void)
 volatile ft6x06_strct pkt_touch = {0};
 #define TOUCH_PACKETS 7
 
-//void EXTI9_5_IRQHandler(void)
-//{
-//	if(EXTI_GetITStatus(TOUCH_SRC_EXTI) != RESET)
-//	{
-//		hold_okes_tc=1;
-//
-//		/* Clear the EXTI line 15 pending bit */
-//		EXTI_ClearITPendingBit(TOUCH_SRC_EXTI);
-//	}
-//}
 /**************************************************************************/
 /*! 
 	TouchScreen Low Level.

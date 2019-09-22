@@ -2,8 +2,8 @@
 /*!
 	@file			usb_cdc_prop.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2014.01.23
+    @version        4.00
+    @date           2019.09.20
 	@brief          All processing related to Virtual COM Port.
 					Based On STMicro's Sample Thanks!
 
@@ -11,6 +11,7 @@
 		2012.01.30	V1.00	Start Here.
 		2014.01.18	V2.00	Added SEND_BREAK into no data class specific requests.
 		2014.01.23	V3.00	Removed retired STM32F10X_CL Codes.
+		2019.09.20	V4.00	Fixed shadowed variable.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -61,9 +62,6 @@ ONE_DESCRIPTOR CDC_String_Descriptor[4] =
   };
 
 /* Function prototypes -------------------------------------------------------*/
-extern void Get_SerialNum(uint8_t* string0,uint8_t* string1);
-extern bool USART_Config(void);
-extern void USART_Config_Default(void);
 
 /* Functions -----------------------------------------------------------------*/
 

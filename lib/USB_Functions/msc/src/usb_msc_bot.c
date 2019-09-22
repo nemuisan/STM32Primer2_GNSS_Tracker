@@ -2,14 +2,15 @@
 /*!
 	@file			usb_msc_bot.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.23
+    @version        3.00
+    @date           2019.09.20
 	@brief          BOT State Machine management.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
+		2019.09.20	V3.00	Fixed shadowed variable.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -283,13 +284,13 @@ void CBW_Decode(void)
     @retval None.
 */
 /**************************************************************************/
-void Transfer_Data_Request(uint8_t* Data_Pointer, uint16_t Data_Len)
+void Transfer_Data_Request(uint8_t* Data_Pointer, uint16_t Data_Length)
 {
-  USB_SIL_Write(EP1_IN, Data_Pointer, Data_Len);
+  USB_SIL_Write(EP1_IN, Data_Pointer, Data_Length);
 
   SetEPTxStatus(ENDP1, EP_TX_VALID);
   Bot_State = BOT_DATA_IN_LAST;
-  CSW.dDataResidue -= Data_Len;
+  CSW.dDataResidue -= Data_Length;
   CSW.bStatus = CSW_CMD_PASSED;
 }
 

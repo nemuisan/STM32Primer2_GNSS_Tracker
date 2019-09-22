@@ -36,20 +36,20 @@ void USB_Istr(void);
 
 /* function prototypes Automatically built defining related macros */
 void EP1_IN_Callback(void);
-void EP2_IN_Callback(void);
-void EP3_IN_Callback(void);
-void EP4_IN_Callback(void);
-void EP5_IN_Callback(void);
-void EP6_IN_Callback(void);
-void EP7_IN_Callback(void);
+//void EP2_IN_Callback(void);
+//void EP3_IN_Callback(void);
+//void EP4_IN_Callback(void);
+//void EP5_IN_Callback(void);
+//void EP6_IN_Callback(void);
+//void EP7_IN_Callback(void);
 
-void EP1_OUT_Callback(void);
+//void EP1_OUT_Callback(void);
 void EP2_OUT_Callback(void);
 void EP3_OUT_Callback(void);
-void EP4_OUT_Callback(void);
-void EP5_OUT_Callback(void);
-void EP6_OUT_Callback(void);
-void EP7_OUT_Callback(void);
+//void EP4_OUT_Callback(void);
+//void EP5_OUT_Callback(void);
+//void EP6_OUT_Callback(void);
+//void EP7_OUT_Callback(void);
 
 /* Wrapper Externals */
 extern void (* volatile xUSB_Istr)(void);

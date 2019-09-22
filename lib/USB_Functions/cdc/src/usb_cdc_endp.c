@@ -2,13 +2,14 @@
 /*!
 	@file			usb_cdc_endp.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2019.09.20
 	@brief          Endpoint routines.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
+		2019.09.20	V2.00	Fixed shadowed variable.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -39,10 +40,6 @@ extern uint32_t USART_Rx_ptr_in;
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
-extern void USART_Config_Default(void);
-extern bool USART_Config(void);
-extern void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes);
-extern void Handle_USBAsynchXfer(void);
 
 /* Functions -----------------------------------------------------------------*/
 

@@ -2,20 +2,20 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		29.00
-	@date			2018.11.07
+	@version		30.00
+	@date			2019.09.20
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2018.11.07	V29.00	See sdio_stm32f1_ver.txt.
+		2019.09.20	V30.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __SDIO_STM32F1_H
-#define __SDIO_STM32F1_H	0x2900
+#define __SDIO_STM32F1_H	0x3000
 
 #ifdef __cplusplus
  extern "C" {
@@ -25,6 +25,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "stm32f10x.h"
+#include "systick.h"
 #include "ff.h"
 #include "diskio.h"
  
@@ -532,10 +533,8 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus);
 SD_Error SD_ProcessIRQSrc(void);
 SD_Error SD_EnableHighSpeed(void);
 
-extern __IO SD_Error Status;
 extern SD_CardInfo SDCardInfo;
-extern void _delay_ms(__IO uint32_t mSec);
-extern void _delay_us(__IO uint16_t uSec);
+
 
 #ifdef __cplusplus
 }

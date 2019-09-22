@@ -2,20 +2,21 @@
 /*!
 	@file			adc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2011.03.10
+    @version        3.00
+    @date           2019.09.20
 	@brief          Based on Keil's Sample Thanks!
 
     @section HISTORY
 		2010.12.31	V1.00	Restart Here.
 		2011.03.10	V2.00	C++ Ready.
+		2019.09.20	V3.00	Fixed redundant declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __ADC_SUPPORT_H
-#define __ADC_SUPPORT_H 0x0200
+#define __ADC_SUPPORT_H 0x0300
 
 #ifdef __cplusplus
  extern "C" {

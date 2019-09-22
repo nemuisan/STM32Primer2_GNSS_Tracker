@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        17.00
-    @date           2019.09.01
+    @version        18.00
+    @date           2019.10.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.09.01	See ts_ver.txt.
+		2019.10.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if __TS_FILELOADS_H != 0x1700
+#if __TS_FILELOADS_H != 0x1800
 #error "header file version is not correspond!"
 #endif
 
@@ -571,14 +571,14 @@ static int load_img(FIL* fil, const char *filename)
 		fcount++;
 		if(Timer >= 1000){
 			ts_locate(2, 0 ,0);
-			xprintf("%d.%dfps", fcount*1000/Timer,fcount*1000%Timer);
+			xprintf("%d.%03dfps    ", fcount*1000/Timer,fcount*1000%Timer);
 			fcount = 0;
 			Timer = 0;
 			Display_rect_if(x1, x2, y1, y2);
 		}
 #elif defined(USE_TFT_FRAMEBUFFER) && !defined(ENABLE_PERFORMANCE_MEASUREMENT)
 		ts_locate(2, 0 ,0);
-		xprintf("%d/%d frames", cfrm, nfrm);
+		xprintf("%d/%d frames    ", cfrm, nfrm);
 		Display_rect_if(x1, x2, y1, y2);
 #endif
 
@@ -665,6 +665,9 @@ static void disp_blt (
 		right = MaskR;
 	}
 	Display_rect_if(left, right, top, bottom);	/* Set rectangular area to fill */
+#if defined(STM32F7XX) || defined(STM32H7XX) /* Flush Cache Datas */
+	SCB_CleanDCache_by_Addr((uint32_t*)pat, xc*yc*2);
+#endif
 #if defined(USE_TFT_FRAMEBUFFER)
 	Display_wr_block_if((uint8_t*)pat, xc*yc);
 #else
@@ -1250,7 +1253,7 @@ static int load_gif(FIL *fil)
 	/* Scribe Relation */
 	uint8_t  c;
 	uint16_t d,DelayTime=0;
-    volatile unsigned int i,j,n,lx,ly,Size,Row,Col,Width,Height;
+    volatile unsigned int i,j,n,lx,ly,Size,Left,Top,Width,Height;
 	int ErrorCode,ExtCode,TranCol=0;
 	
 	/* Interlace relation */
@@ -1313,12 +1316,12 @@ static int load_gif(FIL *fil)
 				goto gif_end;
 			}
 
-			Col 	= GifFile->Image.Left;
+			Left 	= GifFile->Image.Left;
 			Width 	= GifFile->Image.Width;
-			Row 	= GifFile->Image.Top;
+			Top 	= GifFile->Image.Top;
 			Height 	= GifFile->Image.Height;
-			if (GifFile->Image.Left + GifFile->Image.Width > GifFile->SWidth ||
-			  GifFile->Image.Top + GifFile->Image.Height > GifFile->SHeight) {
+			if (GifFile->Image.Left + GifFile->Image.Width  > GifFile->SWidth   ||
+			    GifFile->Image.Top  + GifFile->Image.Height > GifFile->SHeight) {
 				ts_locate(0, 0 ,0);
 				xprintf("\33\x87\fImage %d is not confined to screen dimension, aborted.\n", GifFile->ImageCount);
 				xprintf("press any key\n");
@@ -1330,8 +1333,8 @@ static int load_gif(FIL *fil)
 				if(GifFile->Image.Interlace) {
 					/* Need to perform 4 passes on the images: */
 					for (i = 0; i < 4; i++)
-					for (j = Row + InterlacedOffset[i]; j < Row + Height; j += InterlacedJumps[i]) {
-						if (DGifGetLine(GifFile, &RowBuffer[Col], Width) == GIF_ERROR) {
+					for (j = Top + InterlacedOffset[i]; j < Top + Height; j += InterlacedJumps[i]) {
+						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
 							ts_locate(0, 0 ,0);
 							xprintf("\33\x87\fDGifGetLine Error!\n");
 							xprintf("press any key\n");
@@ -1339,7 +1342,7 @@ static int load_gif(FIL *fil)
 						}
 
 						/* Set Rectangle For Virtual Window */
-						Display_rect_if(lx + Col,lx + Col + Width  - 1,
+						Display_rect_if(lx + Left,lx + Left + Width  - 1,
 										ly + j  ,ly + j);
 
 						for (n = 0; n < Width; n++) {
@@ -1364,20 +1367,20 @@ static int load_gif(FIL *fil)
 				else {
 
 					/* Set Rectangle For Virtual Window */
-					Display_rect_if(lx + Col,lx + Col + Width  - 1,
-									ly + Row,ly + Row + Height - 1);
+					Display_rect_if(lx + Left,lx + Left + Width  - 1,
+									ly + Top ,ly + Top  + Height - 1);
 								
 					for (i = 0; i < Height; i++) {
 
-						if (DGifGetLine(GifFile, &RowBuffer[Col], Width) == GIF_ERROR) {
+						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
 							ts_locate(0, 0 ,0);
 							xprintf("\33\x87\fDGifGetLine Error!\n");
 							xprintf("press any key\n");
 							goto gif_end;
 						}
 					#if defined(USE_TFT_FRAMEBUFFER)
-						Display_rect_if(lx + Col    ,lx + Col + Width  - 1,
-										ly + Row +i ,ly + Row +i);
+						Display_rect_if(lx + Left   ,lx + Left + Width  - 1,
+										ly + Top +i ,ly + Top  + i);
 					#endif
 						for (n = 0; n < Width; n++) {
 							/* Set Global or Local Colour Tables */
@@ -1416,8 +1419,8 @@ static int load_gif(FIL *fil)
 				if(GifFile->Image.Interlace) {
 					/* Need to perform 4 passes on the images: */
 					for (i = 0; i < 4; i++)
-					for (j = Row + InterlacedOffset[i]; j < Row + Height; j += InterlacedJumps[i]) {
-						if (DGifGetLine(GifFile, &RowBuffer[Col], Width) == GIF_ERROR) {
+					for (j = Top + InterlacedOffset[i]; j < Top + Height; j += InterlacedJumps[i]) {
+						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
 							ts_locate(0, 0 ,0);
 							xprintf("\33\x87\fDGifGetLine Error!\n");
 							xprintf("press any key\n");
@@ -1447,7 +1450,7 @@ static int load_gif(FIL *fil)
 					}
 				else {
 					for (i = 0; i < Height; i++) {
-						if (DGifGetLine(GifFile, &RowBuffer[Col], Width) == GIF_ERROR) {
+						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
 							ts_locate(0, 0 ,0);
 							xprintf("\33\x87\fDGifGetLine Error!\n");
 							xprintf("press any key\n");
@@ -1460,7 +1463,7 @@ static int load_gif(FIL *fil)
 							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
 
-							Display_rect_if(lx + n,lx + n,ly + Row + i,ly + Row + i);
+							Display_rect_if(lx + n,lx + n,ly + Top + i,ly +Top + i);
 
 							#if !defined(USE_SSD1332_SPI_OLED)
 								d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */

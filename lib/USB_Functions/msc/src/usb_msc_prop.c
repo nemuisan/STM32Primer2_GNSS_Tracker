@@ -1,15 +1,15 @@
 /********************************************************************************/
 /*!
 	@file			usb_msc_prop.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.23
+    @version        3.00
+    @date           2019.09.20
 	@brief          Mass Storage middle layer.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
+		2019.09.20	V6.00	Fixed shadowed variable.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -56,7 +56,6 @@ ONE_DESCRIPTOR MSC_String_Descriptor[5] =
   };
 
 /* Function prototypes -------------------------------------------------------*/
-extern void Get_SerialNum(uint8_t* string0,uint8_t* string1);
 extern unsigned char Bot_State;
 extern Bulk_Only_CBW CBW;
 

@@ -1,3 +1,9 @@
+20190920 :
+V84.00	Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/61af53da168f561b33023f2ff6d73d90f1229dff
+		Adopted FatFs0.13c latest patch update(patch5).
+		Fixed some codes for additional mpu support(on font_if_datatable.x and fatfs drivers and others).
+
 20190829 :
 V83.00	Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/2cf84a33e94d7cc4e7812979cb5a2a4ad121e9cb

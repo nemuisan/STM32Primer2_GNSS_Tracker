@@ -2,21 +2,22 @@
 /*!
 	@file			cdc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2014.07.16
+    @version        4.00
+    @date           2019.09.20
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.04.20	V2.00	Fixed Suitable Interruption level.
 		2014.07.16	V3.00	Reset Systick to Suitable Frequency.
+		2019.09.20	V4.00	Fixed redundant declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __CDC_SUPPORT_H
-#define __CDC_SUPPORT_H	0x0300
+#define __CDC_SUPPORT_H	0x0400
 
 #ifdef __cplusplus
  extern "C" {
@@ -37,7 +38,6 @@
 /* Function Prototypes */
 extern void cdc_task(void);
 
-extern void (*xUART_IRQ)(void);
 extern void CDC_IRQ(void);
 extern void USART_Config_Default(void);
 extern bool USART_Config(void);

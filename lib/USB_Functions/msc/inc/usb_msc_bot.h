@@ -2,21 +2,22 @@
 /*!
 	@file			usb_msc_bot.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.23
+    @version        3.00
+    @date           2019.09.20
 	@brief          BOT State Machine management.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
+		2019.09.20	V3.00	Fixed shadowed variable.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __USB_MSC_BOT_H
-#define __USB_MSC_BOT_H	0x0200
+#define __USB_MSC_BOT_H	0x0300
 
 #ifdef __cplusplus
  extern "C" {
@@ -78,8 +79,6 @@ Bulk_Only_CSW;
 #define BOTH_DIR                      2
 
 /* Externals */
-void Mass_Storage_In (void);
-void Mass_Storage_Out (void);
 void CBW_Decode(void);
 void Transfer_Data_Request(uint8_t* Data_Pointer, uint16_t Data_Len);
 void Set_CSW (uint8_t CSW_Status, uint8_t Send_Permission);

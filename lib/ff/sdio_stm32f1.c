@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		29.00
-	@date			2018.11.07
+	@version		30.00
+	@date			2019.09.20
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2018.11.07	V29.00	See sdio_stm32f1_ver.txt.
+		2019.09.20	V30.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x2900
+#if __SDIO_STM32F1_H!= 0x3000
 #error "header file version is not correspond!"
 #endif
 
@@ -3621,17 +3621,17 @@ SD_Error SD_EnableHighSpeed(void)
 /**************************************************************************/
 /*! 
 	@brief  Converts the number of bytes in power of two and returns the power.
-	@param  NumberOfBytes: number of bytes.
+	@param  nBytes: number of bytes.
 	@retval None
 */
 /**************************************************************************/
-static uint8_t convert_from_bytes_to_power_of_two(uint16_t NumberOfBytes)
+static uint8_t convert_from_bytes_to_power_of_two(uint16_t nBytes)
 {
 	uint8_t count = 0;
 
-	while (NumberOfBytes != 1)
+	while (nBytes != 1)
 	{
-		NumberOfBytes >>= 1;
+		nBytes >>= 1;
 		count++;
 	}
 	return(count);
@@ -3965,13 +3965,12 @@ DRESULT disk_read(uint8_t drv,uint8_t *buff,uint32_t sector,unsigned int count)
 			Status = SD_OK;
 
 		#if defined(SD_DMA_MODE) && (NO_ALIGN4CHK == 0) && !defined(SD_POLLING_MODE)
-			if((uint32_t)buff & 3)	/* Check 4-Byte Alignment */
+			if((uintptr_t)buff & 3)	/* Check 4-Byte Alignment */
 			{	/* Unaligned Buffer Address Case (Slower) */
 				for (unsigned int secNum = 0; secNum < count && Status == SD_OK; secNum++){
 					Status =  SD_ReadBlock(dmabuf,
 								  (uint64_t)(sector+secNum)*SECTOR_SIZE, 
 								  (uint8_t)SECTOR_SIZE);
-					/* Use optimized memcpy for ARMv7-M, std memcpy was override by optimized one. */
 					memcpy(buff+SECTOR_SIZE*secNum, dmabuf, SECTOR_SIZE);
 				}
 			} else {
@@ -4030,10 +4029,9 @@ DRESULT disk_write(uint8_t drv,const uint8_t *buff,uint32_t sector,unsigned int 
 			Status = SD_OK;
 
 		#if defined(SD_DMA_MODE) && (NO_ALIGN4CHK == 0) && !defined(SD_POLLING_MODE)
-			if((uint32_t)buff & 3)	/* Check 4-Byte Alignment */
+			if((uintptr_t)buff & 3)	/* Check 4-Byte Alignment */
 			{	/* Unaligned Buffer Address Case (Slower) */
 				for (unsigned int secNum = 0; secNum < count && Status == SD_OK; secNum++){
-					/* Use optimized memcpy for ARMv7-M, std memcpy was override by optimized one. */
 					memcpy(dmabuf, buff+SECTOR_SIZE*secNum, SECTOR_SIZE);
 					Status = SD_WriteBlock(dmabuf,
 								  (uint64_t)(sector+secNum)*SECTOR_SIZE, 

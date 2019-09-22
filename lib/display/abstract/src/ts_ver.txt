@@ -25,8 +25,10 @@
 
 ********************* ts_fileloads.x update history ********************
 
-	2019.09.01 V17.00	Split cursor blink routine from ts_timer().
+	2019.10.01 V18.00	Add cache maintenance for STM32H7.
+						Fixed shadowed value on gif functions.
 
+	2019.09.01 V17.00	Split cursor blink routine from ts_timer().
 	2019.02.01 V16.00	Fixed cosmetic expressions.
 	2017.05.22 V15.00	Adopted FatFs0.13.
 	2016.12.01 V14.00	Fixed filename display bug on file load.

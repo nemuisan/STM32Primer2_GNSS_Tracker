@@ -2,8 +2,8 @@
 /*!
 	@file			msc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2014.07.16
+    @version        5.00
+    @date           2019.09.20
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -11,6 +11,7 @@
 		2012.01.30	V2.00	Added Consideration CoOperate with CDC Function .
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
 		2014.07.16	V4.00	Reset Systick to Suitable Frequency.
+		2019.09.20	V5.00	Fixed redundant declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -20,19 +21,17 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if __MSC_SUPPORT_H!= 0x0400
+#if __MSC_SUPPORT_H!= 0x0500
 #error "header file version is not correspond!"
 #endif
 
 #include "display_if.h"
 #include "display_if_support.h"
+#include "font_if.h"
 
 /* Defines -------------------------------------------------------------------*/
-/* FONTX */
-#define ANKFONT		Mplus_Ank
 
 /* Variables -----------------------------------------------------------------*/
-extern FontX_Ank   	ANKFONT;
 
 /* Constants -----------------------------------------------------------------*/
 

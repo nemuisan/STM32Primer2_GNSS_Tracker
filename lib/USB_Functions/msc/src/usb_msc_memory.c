@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_memory.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2017.03.29
+    @version        6.00
+    @date           2019.09.20
 	@brief          Memory management layer.
 					Based On STMicro's Sample Thanks!
 
@@ -13,6 +13,7 @@
 		2016.01.15	V3.00	Changed definition compatibility.
 		2016.12.28	V4.00	Fixed address calculation above 4GB.
 		2017.03.29	V5.00	Removed retired variables.
+		2019.09.20	V6.00	Fixed shadowed variable.
 
     @section LICENSE
 		BSD License. See Copyright.txt
