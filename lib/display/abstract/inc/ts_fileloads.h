@@ -2,19 +2,19 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        18.00
-    @date           2019.10.01
+    @version        19.00
+    @date           2019.11.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.10.01	See ts_ver.txt.
+		2019.11.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x1800
+#define __TS_FILELOADS_H 0x1900
 
 #ifdef __cplusplus
  extern "C" {
@@ -93,7 +93,7 @@ typedef struct my_error_mgr * my_error_ptr;
 
 /* Terminal Screen Prototypes */
 extern int filer(char *path, FIL *fil, DIR *dir, FILINFO *fno);
-extern volatile uint32_t on_filer;	/* Used on STM32 Primer2 */ 
+extern volatile uint32_t on_filer;	/* Used on STM32 Primer2 */
 
 
 #ifdef __cplusplus

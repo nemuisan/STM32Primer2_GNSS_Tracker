@@ -2,11 +2,11 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        84.00
-    @date           2019.09.12
+    @version        86.00
+    @date           2019.10.22
 
     @section HISTORY
-		2019.09.12	V84.00	See Whatnew.txt
+		2019.10.22	V86.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -29,7 +29,7 @@ void (* volatile xTask)(void);
 /* Functions -----------------------------------------------------------------*/
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Main Program.
 	@param  None.
     @retval None.
@@ -92,7 +92,7 @@ int main(void)
 		xUSB_Istr	      	= MSC_USB_Istr;
 		MSC_SetStructure();
 	}
-	
+
 	else{ /* Fool Proof */
 		xTask 				= gps_task;
 		xUART_IRQ			= conio_IRQ;

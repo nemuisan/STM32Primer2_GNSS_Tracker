@@ -71,7 +71,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 84.00
+APP_VER = 86.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -145,15 +145,15 @@ INCLUDES     = $(addprefix -I ,$(INCPATHS))
 # Set library PATH
 LIBPATHS     = $(FWLIB) $(USBLIB)
 LIBRARY_DIRS = $(addprefix -L,$(LIBPATHS))
-# if you use math-library, put "-lm" 
+# if you use math-library, put "-lm"
 MATH_LIB	 =	-lm
 
 # LinkerScript PATH
 LINKER_PATH =  ./lib/linker
-LINKER_DIRS = $(addprefix -L,$(LINKER_PATH)) 
+LINKER_DIRS = $(addprefix -L,$(LINKER_PATH))
 
 # Object definition
-OBJS 	 = $(CFILES:%.c=%.o) 
+OBJS 	 = $(CFILES:%.c=%.o)
 LIBOBJS  = $(LIBCFILES:%.c=%.o) $(SFILES:%.s=%.o)
 
 # C code PATH
@@ -174,25 +174,25 @@ CFILES = \
  $(SOURCE)/uart_support_gps.c		\
  $(SOURCE)/xprintf.c
 
-#/*----- Display library PATH -----*/	
+#/*----- Display library PATH -----*/
 DISPLAY_LIB	= ./lib/display
 ifneq ($(USE_DISPLAY),)
 include ./display_cfg_ex.mk
 endif
 
-#/*----- FONX2 Driver library PATH -----*/	
+#/*----- FONX2 Driver library PATH -----*/
 FONTX2_LIB	= ./lib/FONTX2
 ifneq ($(USE_FONTSIZE),)
 include $(FONTX2_LIB)/fontx2_drv.mk
 endif
 
-#/*----- xMSTN Display library PATH -----*/	
+#/*----- xMSTN Display library PATH -----*/
 xMSTN_LIB	= ./lib/xMSTN
 ifneq ($(USE_XMSTN),)
 include $(xMSTN_LIB)/xmstn_drv.mk
 endif
 
-#/*----- FatFs library PATH -----*/	
+#/*----- FatFs library PATH -----*/
 FATFS = ./lib/ff
 LIBINCDIRS += $(FATFS)
 CFILES += \
@@ -210,14 +210,14 @@ CFILES += \
  $(USBFUNC)/usb_istr.c 					\
  $(USBFUNC)/usb_conf.c 					\
  $(USBFUNC)/usb_prop.c
- 
+
 #/*----- USB-CDC library PATH -----*/
 USBCDC =  $(USBFUNC)/cdc
 LIBINCDIRS += $(USBCDC)/inc
 CFILES += \
  $(USBCDC)/src/usb_cdc_desc.c 			\
  $(USBCDC)/src/usb_cdc_prop.c 			\
- $(USBCDC)/src/usb_cdc_endp.c 				
+ $(USBCDC)/src/usb_cdc_endp.c
 
 #/*----- USB-MSC library PATH -----*/
 USBMSC =  $(USBFUNC)/msc
@@ -229,7 +229,7 @@ CFILES += \
  $(USBMSC)/src/usb_msc_scsi.c			\
  $(USBMSC)/src/usb_msc_bot.c 			\
  $(USBMSC)/src/usb_msc_desc.c 			\
- $(USBMSC)/src/usb_msc_prop.c 			
+ $(USBMSC)/src/usb_msc_prop.c
 
 
 #/*----- STARTUP code PATH -----*/
@@ -263,7 +263,7 @@ LIBCFILES = \
  $(USBLIB)/src/usb_mem.c 			\
  $(USBLIB)/src/usb_regs.c 			\
  $(USBLIB)/src/usb_sil.c
- 
+
 #/*----- I/O Debug library -----*/
 ifeq ($(OPTIMIZE),0)
 CFILES += \
@@ -300,14 +300,14 @@ CFLAGS += -fno-common -fno-hosted
 CFLAGS += -Wall -Wdouble-promotion
 CFLAGS += -Wno-unused-but-set-variable -Wno-maybe-uninitialized
 CFLAGS += -Wredundant-decls -Wreturn-type -Wshadow -Wunused
-CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<) 
-CFLAGS += $(SYNTHESIS_DEFS)  
+CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<)
+CFLAGS += $(SYNTHESIS_DEFS)
 
 # Linker FLAGS
 LDFLAGS  = -mcpu=cortex-m3 -mthumb -mfix-cortex-m3-ldrd
 LDFLAGS += -u g_pfnVectors -Wl,-static -Wl,--gc-sections -nostartfiles
 LDFLAGS += -Wl,-Map=$(TARGET).map
-LDFLAGS += $(LIBRARY_DIRS) $(LINKER_DIRS) $(MATH_LIB) 
+LDFLAGS += $(LIBRARY_DIRS) $(LINKER_DIRS) $(MATH_LIB)
 LDFLAGS +=-T$(LINKER_PATH)/$(SUBMODEL).ld
 
 # Object Copy and dfu generation FLAGS
@@ -321,12 +321,12 @@ DFLAGS = -w
 all: gccversion clean build buildinform sizeafter
 build: $(TARGET_ELF) $(TARGET_LSS) $(TARGET_SYM) $(TARGET_HEX) $(TARGET_SREC) $(TARGET_BIN)
 
-.SUFFIXES: .o .c .s   
+.SUFFIXES: .o .c .s
 
 $(TARGET_LSS): $(TARGET_ELF)
 	@$(MSGECHO)
 	@$(MSGECHO) Disassemble: $@
-	$(OBJDUMP) $(OBJDUMPFLAGS) $< > $@ 
+	$(OBJDUMP) $(OBJDUMPFLAGS) $< > $@
 $(TARGET_SYM): $(TARGET_ELF)
 	@$(MSGECHO)
 	@$(MSGECHO) Symbol: $@
@@ -334,15 +334,15 @@ $(TARGET_SYM): $(TARGET_ELF)
 $(TARGET).hex: $(TARGET).elf
 	@$(MSGECHO)
 	@$(MSGECHO) Objcopy: $@
-	$(OBJCOPY) $(OBJCPFLAGS) ihex $^ $@    
+	$(OBJCOPY) $(OBJCPFLAGS) ihex $^ $@
 $(TARGET).s19: $(TARGET).elf
 	@$(MSGECHO)
 	@$(MSGECHO) Objcopy: $@
-	$(OBJCOPY) $(OBJCPFLAGS) srec $^ $@ 
+	$(OBJCOPY) $(OBJCPFLAGS) srec $^ $@
 $(TARGET).bin: $(TARGET).elf
 	@$(MSGECHO)
 	@$(MSGECHO) Objcopy: $@
-	$(OBJCOPY) $(OBJCPFLAGS) binary $< $@ 
+	$(OBJCOPY) $(OBJCPFLAGS) binary $< $@
 $(TARGET).dfu: $(TARGET).hex
 	@$(MSGECHO)
 	@$(MSGECHO) Make STM32 dfu: $@
@@ -355,7 +355,7 @@ $(TARGET).elf: $(OBJS) $(SUBMODEL)_lib.a
 
 $(SUBMODEL)_lib.a: $(LIBOBJS)
 	@$(MSGECHO) Archive: $@
-	$(AR) cr $@ $(LIBOBJS)    
+	$(AR) cr $@ $(LIBOBJS)
 	@$(MSGECHO)
 .c.o:
 	@$(MSGECHO) Compile: $<
@@ -368,7 +368,7 @@ $(SUBMODEL)_lib.a: $(LIBOBJS)
 
 # Object Size Informations
 sizeafter:
-	@$(MSGECHO) 
+	@$(MSGECHO)
 	@$(MSGECHO) Built Object Informations:
 	@$(MSGECHO) === Total Binary Size ===
 	@$(SIZE) $(TARGET).hex
@@ -377,13 +377,13 @@ sizeafter:
 	@$(SIZE) -A -x $(TARGET).elf
 
 # Display compiler version information.
-gccversion : 
+gccversion :
 	@$(CC) --version
-	@$(MSGECHO) 
+	@$(MSGECHO)
 
 buildinform :
-	@$(MSGECHO) 
-	@$(MSGECHO) 
+	@$(MSGECHO)
+	@$(MSGECHO)
 	@$(MSGECHO) Built Informations:
 	@$(MSGECHO) USING_SYSTEM = $(OS_SUPPORT)
 	@$(MSGECHO) USING_DISPLAY = $(USE_DISPLAY)

@@ -1,3 +1,11 @@
+20191023 :
+V86.00	Adopted FatFs0.14.
+		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+			 -> https://github.com/ARM-software/CMSIS_5/commit/3f3d41155fc9603d16ffdca202b5918acfad3ba4
+
+20190929 :
+V85.00	Adopted ts abstraction layer update(ts.x,ts_fileloads.x).
+
 20190920 :
 V84.00	Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/61af53da168f561b33023f2ff6d73d90f1229dff
@@ -105,7 +113,7 @@ V65.00	Adopted FatFs0.13.
 V64.00	Adopted FatFs0.12c latest patch update(patch3).
 		Adopted CMSIS Header Files V5.0.2 latest repository.
          -> https://github.com/ARM-software/CMSIS_5/commit/18ec0c27df88c79a5c4a6939861be3afdf2a6901
-		 
+
 20170420 :
 V63.00	Adopted CMSIS Header Files V5.0.2 latest repository.
          -> https://github.com/ARM-software/CMSIS_5/commit/49c8b1588fc0559d6513617b1cc57ee0bf1c47b1
@@ -123,7 +131,7 @@ V61.00	Adopted FatFs0.12c latest patch update(patch2).
 V60.00	Adopted FatFs0.12c latest patch update(patch1).
 		Adopted Launchpad GCC-ARM(GCC6.3.1).
 
-20170306 : 
+20170306 :
 V59.00	Adopted FatFs0.12c.
 
 20170301 :
@@ -138,181 +146,181 @@ V57.00	Adopted CMSIS Header Files V5.0.0 latest repository.
 		Adopted Launchpad GCC-ARM(GCC6.2.1).
 		Fixed address calculation above 4GB for USB-MSC(on usb_msc_memory.x).
 
-20161201 : 
+20161201 :
 V56.00	Fixed ACMD41 Arguments for SDXC(on sdio_stm32f1.c).
 
-20161016 : 
+20161016 :
 V55.00	Adopted FatFs0.12b latest patch update(patch1).
 
-20160911 : 
+20160911 :
 V54.00	Adopted FatFs0.12b.
 
-20160825 : 
+20160825 :
 V53.00	Adopted FatFs0.12a latest patch update(patch7).
 
-20160813 : 
+20160813 :
 V52.00	Adopted FatFs0.12a latest patch update.
 
-20160810 : 
+20160810 :
 V51.00	Adopted FatFs0.12a.
 		Adopted FatFs0.12a latest patch update.
 
-20160513 : 
+20160513 :
 V50.00	Adopted Gms-g9(a.k.a Titan3) new firmware AXN3.80 (gps_support.c).
 
-20160501 : 
+20160501 :
 V48.00	Adopted FatFs0.12.
 		Adopted FatFs0.12 latest patch update.
 
-20160325 : 
+20160325 :
 V47.00	Fixed block erase size calculation for SDXC.
 
-20160324 : 
+20160324 :
 V46.00	Added MMCv5.x Devices Support.
 
-20160320 : 
+20160320 :
 V45.00	Fixed MMCv3.x Cards stability on sdio_stm32f1.c.
 		Added MMCv5.x Card Support.
 
-20160221 : 
+20160221 :
 V44.00	Added MMCv3.x Cards(MMC Native 1-bit Mode) Support.
 		Fixed 64bit Miscast Problem on sdio_stm32f1.c.
 
-20160130 : 
+20160130 :
 V43.00	Added MMCv4.x cards PreSupport on sdio_stm32f1.c.
 
-20160115 : 
+20160115 :
 V42.00	Chanegd definition compatibility in USB mass-storage mode.
 
-20151218 : 
+20151218 :
 V41.00	Added Read SCR registers on sdio_stm32f1.c.
 		Fixed Read Status registers on sdio_stm32f1.c.
 
-20151203 : 
+20151203 :
 V40.00	Added Read OCR registers on sdio_stm32f1.c.
 
-20151130 : 
+20151130 :
 V39.00	Adopted CMSIS4.30.
         Fixed Read CSD/CID registers on sdio_stm32f1.c.
 
-20150918 : 
+20150918 :
 V38.00	Adopted CMSIS4.20.
 
-20150906 : 
+20150906 :
 V37.00	Adopted CMSIS4.10.
 		Fixed Wrong Expression in uart_support_gps.c/h.
 		Updated FONTX2 Driver.
         Adopted FatFs0.11a.
 
-20150629 : 
+20150629 :
 V36.00	Retired "-mapcs-frame" switch.
 
-20150320 : 
+20150320 :
 V35.00	Exchanged Optimization level setting(see usb_regs.c).
 
-20150314 : 
+20150314 :
 V34.00	Removed unused code and improve stability on polling/dma mode.(see sdio_stm32f1.c,h).
 
-20150214 : 
+20150214 :
 V33.00	Adopted FatFs0.11.
 		Optimized global structures(see sdio_stm32f1.c,h).
 
-20150123 : 
+20150123 :
 V32.00	Improved SDIO_CK's description(see sdio_stm32f1.c,h
          only added comments, only date swap).
 
-20150115 : 
+20150115 :
 V31.50	Fixed typo some documents.
 
-20150111 : 
+20150111 :
 V31.00	Added buffered UART information(see uart_support_gps.c,h).
 
-20150108 : 
+20150108 :
 V30.00	Improved SD_HighSpeedMode description(see sdio_stm32f1.c,h).
 
-20150106 : 
+20150106 :
 V29.00	Fixed SDIO_CK for suitable value(refered from RM0008_rev14).
 
-20141222 : 
+20141222 :
 V28.00	Enforce WatchdogReset handlings.
 
-20141218 : 
+20141218 :
 V27.00	Fixed GFX-Draw libraries.
 
-20141217 : 
+20141217 :
 V26.00	Adopted Launchpad GCC-ARM(GCC4.9.3).
 
-20141202 : 
+20141202 :
 V25.00  Adopted FatFs0.10c latest patch update.
 		Added WatchdogReset for USB functions.
 
-20141118 : 
+20141118 :
 V24.00  Adopted FatFs0.10c latest patch update.
 		Added SD High Speed Mode(optional).
 
-20141110 : 
+20141110 :
 V23.00  Adopted FatFs0.10c.
 
-20140929 : 
+20140929 :
 V22.00  Adopted CMSIS4.00.
 
-20140717 : 
+20140717 :
 V21.00  Adopted FatFs0.10b latest patch update.
 		Reset Systick to Suitable Frequency for cdc & msc routines.
 
-20140521 : 
+20140521 :
 V20.00  Adopted FatFs0.10b.
 
-20140420 : 
+20140420 :
 V19.00  Fixed Suitable Interrupt-Preemption level.
 
-20140321 : 
+20140321 :
 V18.00  Optimized SourceCodes on STM32 SDIO Driver.
 		Adopted FatFs0.10a latest patch update.
 
-20140303 : 
+20140303 :
 V17.00  Adopted CMSIS3.30.
 
-20140217 : 
+20140217 :
 V16.00  Changed Linkerscript File Names.
         Adopted FatFs0.10a latest patch update.
 
-20140123 : 
+20140123 :
 V15.70  Removed retired STM32F10X_CL Codes.
 
-20140121 : 
+20140121 :
 V15.60  Fixed IMR_MSK Definition in "usb_istr.c".
 
-20140120 : 
+20140120 :
 V15.50  Fixed Gtop-FlashTool exec Failure from USB-CDC-ACM Problem.
          (See usb_cdc_prop.c)
 
-20140116 : 
+20140116 :
 V15.00  Adopted FatFs0.10a.
 
 20140103 :
 v14.20	Adopted Launchpad GCC-ARM(GCC4.8.3).
 		 -> Added "-mslow-flash-data" option for armv7-m architecture.
 
-20131020 : 
+20131020 :
 V14.10  FatFs0.10 latest patch update.
-		  
-20131009 : 
+
+20131009 :
 V14.00  Adopted FatFs0.10.
 		Changed FONTX2-Files handling solution.
           C-array into INCBIN(Relay on GCC).ChaN thanks!
 
-20130710 : 
+20130710 :
 V13.60 	Fixed over 4GB R/W Problem on SDIO Handlings.
 		Adopted semihosting function on nanolib.
 
-20130701 : 
+20130701 :
 V13.50 	Fixed FatFs Minor Bug.
 
-20130615 : 
+20130615 :
 V13.01 	Added New GCC Compiler(bleeding-edge-toolchain).
 
-20130510 : 
+20130510 :
 V13.00 	Adopted CMSIS3.20.
 
 20130410:
@@ -320,7 +328,7 @@ V12.00 	Updated Display Libraries
 
 20130330:
 V11.11 	Fixed FatFs Minor Bug.
-	   
+
 20130220:
 V11.10 	Added MT3339/MT3333 Commands (gps_support.c)
 		Added UART-Tx/Rx Buffer control function. (uart_support_gps.c)

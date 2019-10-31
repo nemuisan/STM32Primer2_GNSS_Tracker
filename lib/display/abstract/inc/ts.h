@@ -1,19 +1,20 @@
 /********************************************************************************/
 /*!
 	@file			ts.h
-    @version        16.00
-    @date           2019.09.01
+	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+    @version        18.00
+    @date           2019.11.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.09.01	See ts_ver.txt.
+		2019.11.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __TS_H
-#define __TS_H 0x1600
+#define __TS_H 0x1800
 
 #ifdef __cplusplus
  extern "C" {
@@ -32,7 +33,7 @@
 /* Determine Filer Font Size */
 #if USE_FILER_FONTX
  #include "display_if_support.h"
- 
+
 /* Terminal Screen Definitions */
 #if defined(FONT8x8)
  /* Use Misaki Fonts(8pt) */
@@ -62,7 +63,7 @@
  #define TS_FONTH	14
 
 #elif defined(FONT16x16)  || defined(FONT16x16K) || defined(FONT16x16L) || defined(FONT16x16W) || \
-      defined(FONT16x16F) || defined(FONT16x16H) || defined(FONT16x16I) 
+      defined(FONT16x16F) || defined(FONT16x16H) || defined(FONT16x16I)
  /* Use Tanuki Fonts(16pt) or Kyoukashotai Fonts(16pt) or Kodenma-cho Fonts(16pt)
      or Wada Laboratry Hosomaru Fonts(16pt) or Honoka-Maru Gothic Fonts(16pt)
      or Hanazono Fonts(16pt) or IL Gothic Fonts(16pt) */
@@ -93,7 +94,7 @@
 #if (((MAX_X/TS_FONTW)*TS_FONTW)==MAX_X)
  #define TS_WIDTH	((MAX_X)/(TS_FONTW))
 #else
- #define TS_WIDTH	(((MAX_X)/(TS_FONTW))+TS_FONTW)
+ #define TS_WIDTH	(((MAX_X)/(TS_FONTW))+1)
 #endif
 #define TS_HEIGHT	((MAX_Y)/(TS_FONTH))
 

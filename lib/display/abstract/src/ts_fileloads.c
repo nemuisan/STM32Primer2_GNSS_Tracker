@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        18.00
-    @date           2019.10.01
+    @version        19.00
+    @date           2019.11.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.10.01	See ts_ver.txt.
+		2019.11.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if __TS_FILELOADS_H != 0x1800
+#if __TS_FILELOADS_H != 0x1900
 #error "header file version is not correspond!"
 #endif
 
@@ -32,6 +32,12 @@ typedef struct {
 	char fname[13];
 #endif
 } DIRITEM;
+
+#if FF_USE_LFN
+ #define MAX_DIR_ITEM (((BUFSIZE/sizeof(DIRITEM)) > 200) ? 200 : (BUFSIZE/sizeof(DIRITEM)) )
+#else
+ #define MAX_DIR_ITEM (200)
+#endif
 
 /* Used for TEXT Viewer */
 typedef struct {
@@ -78,7 +84,7 @@ static inline uint16_t LD_WORD (const uint8_t* ptr)
 	return rv;
 }
 /* Load a 4-byte little-endian word */
-static inline uint32_t LD_DWORD(const uint8_t* ptr)	
+static inline uint32_t LD_DWORD(const uint8_t* ptr)
 {
 	uint32_t rv;
 
@@ -97,7 +103,7 @@ static inline uint32_t LD_DWORD(const uint8_t* ptr)
 /* Functions -----------------------------------------------------------------*/
 #if FF_USE_LFN
 /**************************************************************************/
-/*! 
+/*!
 	ts_fileloads Support Function
 	Get LongFileName String.
 */
@@ -124,7 +130,7 @@ static const char* GetLFN(char* path, char* filename, DIR* dir, FILINFO* fno)
 #endif
 
 /**************************************************************************/
-/*! 
+/*!
 	ts_fileloads Support Function
 	Extract File extention.
 */
@@ -152,7 +158,7 @@ static int strstr_ext (
 
 
 /**************************************************************************/
-/*! 
+/*!
 	ts_fileloads Support Function
 	Key/TouchPanel-Press and UART-Input Wait Subroutine.
 */
@@ -176,7 +182,7 @@ static inline void wait_anyinput(void)
 			c = 0;
 		}
 	}while(!c);
-	
+
 }
 
 
@@ -189,7 +195,7 @@ static inline void wait_anyinput(void)
 
 
 /**************************************************************************/
-/*! 
+/*!
 	TXT/BMP/JPEG/PNG/GIF/IMG LODER SECTIONS
 */
 /**************************************************************************/
@@ -199,13 +205,13 @@ static inline void wait_anyinput(void)
 
 
 /**************************************************************************/
-/*! 
+/*!
 	S-JIS/Ascii TEXT file loader sections
 */
 /**************************************************************************/
 
 /**************************************************************************/
-/*! 
+/*!
 	TEXT file loader Subfunction.
     Put a character into Text Buffer.
 */
@@ -235,8 +241,8 @@ static void txt_putc(uint8_t chr)
 
 }
 /**************************************************************************/
-/*! 
-    TEXT file loader 
+/*!
+    TEXT file loader
 	User defined call-back function to Sjis Style Text Files.
 */
 /**************************************************************************/
@@ -258,7 +264,7 @@ static void load_txt (
 	/* Init File Pointers */
 	cfp = br = i = 0;
 	tv->ltbl[0] = 0;
-	
+
 	/* Get Maximum Charactor-amount Per Lines */
 	for (line = 0; line < max_lines - 1; ) {
 		if (i >= br) {
@@ -273,7 +279,7 @@ static void load_txt (
 	/* Init Line Pointers */
 	lines = line;
 	line = col = 0;
-	
+
 	/* Display TXT File Ready */
 	Display_clear_if();
 	Attr = '\x87';
@@ -306,7 +312,7 @@ static void load_txt (
 		}
 
 		k = xgetc();
-		
+
 		for (;;) {
 			c = xgetc_n();
 			if (!c) break;
@@ -340,13 +346,13 @@ static void load_txt (
 
 
 /**************************************************************************/
-/*! 
+/*!
 	24bit BITMAP file loader section
 */
 /**************************************************************************/
 
 /**************************************************************************/
-/*! 
+/*!
 	BitMapFile Loader.
     Display Windows24bit Style BMP.
 */
@@ -375,7 +381,7 @@ static int load_bmp(FIL *fil)
 	bh = LD_DWORD(Buff+22);
 	/* Check BMP width under 1280px */
 	if (!bw || bw > 1280 || !bh) return 0;
-	
+
 	/* Calculate Data byte count per holizontal line */
 	iw = ((bw * 3) + 3) & ~3;
 
@@ -431,13 +437,13 @@ static int load_bmp(FIL *fil)
 		} while (m-- > ys);
 
 		k = xgetc();
-		
+
 		for (;;) {
 			c = xgetc_n();
 			if (!c) break;
 			k = c;
 		}
-		
+
 		switch (k) {
 		case BTN_RIGHT:
 			if (bw <= MAX_X) break;
@@ -459,7 +465,7 @@ static int load_bmp(FIL *fil)
 			k = 0;
 		}
 	} while (k);
-	
+
 	return 1;
 }
 
@@ -468,12 +474,12 @@ static int load_bmp(FIL *fil)
 
 
 /**************************************************************************/
-/*! 
+/*!
 	IMG movie loader section
 */
 /**************************************************************************/
 /**************************************************************************/
-/*! 
+/*!
 	IMG Loader.
     Play Streaming ChaN's Original Format VideoFile.
 */
@@ -613,13 +619,13 @@ li_exit:
 
 
 /**************************************************************************/
-/*! 
+/*!
 	JPEG file loader section
 */
 /**************************************************************************/
 #if defined(USE_TINYJPEG_LIB)
 /**************************************************************************/
-/*! 
+/*!
     JPEG file loader Lower-Side Using ChaN's JPEG file Decorder
     Copy image data to the display.
 */
@@ -682,7 +688,7 @@ static void disp_blt (
 #endif
 }
 /**************************************************************************/
-/*! 
+/*!
     JPEG file loader Lower-Side Using Chan's JPEG file Decorder
 	User defined call-back function to input JPEG data
 */
@@ -706,9 +712,9 @@ static unsigned int tjd_input (
 	}
 }
 /**************************************************************************/
-/*! 
+/*!
     JPEG file loader Lower-Side Using Chan's JPEG file Decorder
-	User defined call-back function to output RGB bitmap. 
+	User defined call-back function to output RGB bitmap.
 */
 /**************************************************************************/
 static unsigned int tjd_output (
@@ -729,7 +735,7 @@ static unsigned int tjd_output (
 }
 
 /**************************************************************************/
-/*! 
+/*!
     JPEG file loader Upper-Side Using Chan's JPEG file Decorder
     Display JPEG Data.
 */
@@ -777,7 +783,7 @@ static void load_jpg (
 
 #elif defined(USE_IJG_LIB)
 /**************************************************************************/
-/*! 
+/*!
 	JPEGFileLoader using IJG JPEG Library.
     Custom Error Handling for IJG JPEG Library.
 */
@@ -797,7 +803,7 @@ my_error_exit (j_common_ptr cinfo)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     JPEG file loader Upper-Side Using IJG JPEG Library.
     Display JPEG File.
 */
@@ -841,12 +847,12 @@ static int load_jpeg(FIL *fil,int mode)
 	jpeg_create_decompress(&dcinfo);
 	jpeg_fatfs_src(&dcinfo, fil);
 	jpeg_read_header(&dcinfo, TRUE);
-	
+
 	/* Calculate Scalling */
 	denom = 8;
 	dcinfo.scale_denom = 8;
 	dcinfo.scale_num = 8;
-	
+
 	w = dcinfo.image_width;
 	h = dcinfo.image_height;
 
@@ -860,7 +866,7 @@ static int load_jpeg(FIL *fil,int mode)
 
     dcinfo.scale_denom = dcinfo.scale_num = 8;
     denom = 8;
-	
+
 	/* Set Byte Boundery */
 	for (scale = 8; scale > 1; scale--) {
 		if (w / denom * scale <= MAX_X)
@@ -877,7 +883,7 @@ static int load_jpeg(FIL *fil,int mode)
 		xprintf("press any key\n");
 		goto jpeg_end_decode;
 	}
-	
+
 	/* Check Upper Limit (1280 pixel width) */
 	if((dcinfo.image_width > dcinfo.image_height) && (dcinfo.image_width > 1280)){
 		ts_locate(0, 0 ,0);
@@ -885,17 +891,17 @@ static int load_jpeg(FIL *fil,int mode)
 		xprintf("press any key\n");
 		goto jpeg_end_decode;
 	}
-	
+
 	/* Decoding */
 	dcinfo.two_pass_quantize 	= FALSE;
 	dcinfo.dither_mode 			= JDITHER_ORDERED;
 	dcinfo.scale_num 			= scale;
 	dcinfo.out_color_space 		= JCS_RGB;
 	dcinfo.dct_method 			= JDCT_DECODE_METHOD; /* See ts_fileloads.h */
-	
+
 	jpeg_calc_output_dimensions(&dcinfo);
 	jpeg_start_decompress(&dcinfo);
-	
+
 	/* Centering */
 	dx = dcinfo.output_width;
 	dy = dcinfo.output_height;
@@ -931,7 +937,7 @@ static int load_jpeg(FIL *fil,int mode)
 	}
 
 	jpeg_finish_decompress(&dcinfo);
-		
+
 jpeg_end_decode:
 
 	/* Free all of the memory associated with the jpeg */
@@ -955,15 +961,15 @@ jpeg_end_decode:
 
 
 /**************************************************************************/
-/*! 
+/*!
 	PNG file loader section
 */
 /**************************************************************************/
 #ifdef USE_LIBPNG
 /**************************************************************************/
-/*! 
+/*!
     PNG File Loader Lower-Side Using libpng.
-    Retarget FatFs's Filesystem to libpng. 
+    Retarget FatFs's Filesystem to libpng.
 */
 /**************************************************************************/
 static void fatfs_read_data(png_structp read_ptr, png_bytep data, png_size_t length)
@@ -979,7 +985,7 @@ static void fatfs_read_data(png_structp read_ptr, png_bytep data, png_size_t len
 }
 
 /**************************************************************************/
-/*! 
+/*!
     PNG file loader Upper-Side Using libpng.
     Decode and Display PNG Data.
 */
@@ -1175,19 +1181,19 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 		Display_rect_if(lx,lx + nx - 1,ly + k,ly + k);
 	#endif
 		png_read_row(read_ptr,row_buffer, NULL );
-	
+
 		for(i = 0,p = row_buffer;i < nx;i++) {
 		#if !defined(USE_SSD1332_SPI_OLED)
 			d  = (*p++ >> 3) << 11;	/* R	 */
-			d |= (*p++ >> 2) << 5;	/* G 	 */	
+			d |= (*p++ >> 2) << 5;	/* G 	 */
 			d |=  *p++ >> 3;		/* B 	 */
 		#else
 			d =   *p++ >> 3;		/* B	 */
-			d |= (*p++ >> 2) << 5;	/* G 	 */	
+			d |= (*p++ >> 2) << 5;	/* G 	 */
 			d |= (*p++ >> 3) << 11;	/* R	 */
 		#endif
 			p++;					/* Alpha Channel is Discarded... */
-			
+
 			Display_wr_dat_if(d);
 		}
 	}
@@ -1229,13 +1235,13 @@ png_exit:
 
 
 /**************************************************************************/
-/*! 
+/*!
 	GIF file loader section
 */
 /**************************************************************************/
 #ifdef USE_GIFLIB
 /**************************************************************************/
-/*! 
+/*!
     GIF file loader Upper-Side Using GIFLib.
     Display GIF & Animation GIF Data.
 */
@@ -1249,13 +1255,13 @@ static int load_gif(FIL *fil)
     GifFileType*	GifFile;
 	GifColorType*	ColorMapEntry;
 	ColorMapObject* ColorMap;
-	
+
 	/* Scribe Relation */
 	uint8_t  c;
 	uint16_t d,DelayTime=0;
     volatile unsigned int i,j,n,lx,ly,Size,Left,Top,Width,Height;
 	int ErrorCode,ExtCode,TranCol=0;
-	
+
 	/* Interlace relation */
     int
 	InterlacedOffset[] = { 0, 4, 2, 1 }, 	/* The way Interlaced image should. */
@@ -1306,7 +1312,7 @@ static int load_gif(FIL *fil)
 			xprintf("press any key\n");
 			goto gif_end;
 		}
-	
+
 	switch (RecordType) {
 	    case IMAGE_DESC_RECORD_TYPE:
 			if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
@@ -1327,7 +1333,7 @@ static int load_gif(FIL *fil)
 				xprintf("press any key\n");
 				goto gif_end;
 			}
-	
+
 			if(TranCol == NO_TRANSPARENT_COLOR) {
 
 				if(GifFile->Image.Interlace) {
@@ -1353,11 +1359,11 @@ static int load_gif(FIL *fil)
 
 					    #if !defined(USE_SSD1332_SPI_OLED)
 							d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */	
+							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
 							d |=  ColorMapEntry->Blue  >> 3;		/* B 	 */
 						#else
 							d =   ColorMapEntry->Blue  >> 3;		/* B	 */
-							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */	
+							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
 							d |= (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
 						#endif
 							Display_wr_dat_if(d);
@@ -1369,7 +1375,7 @@ static int load_gif(FIL *fil)
 					/* Set Rectangle For Virtual Window */
 					Display_rect_if(lx + Left,lx + Left + Width  - 1,
 									ly + Top ,ly + Top  + Height - 1);
-								
+
 					for (i = 0; i < Height; i++) {
 
 						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
@@ -1387,14 +1393,14 @@ static int load_gif(FIL *fil)
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
-				
+
 						#if !defined(USE_SSD1332_SPI_OLED)
 							d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */	
+							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
 							d |=  ColorMapEntry->Blue  >> 3;		/* B 	 */
 						#else
 							d =   ColorMapEntry->Blue  >> 3;		/* B	 */
-							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */	
+							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
 							d |= (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
 						#endif
 							Display_wr_dat_if(d);
@@ -1408,11 +1414,11 @@ static int load_gif(FIL *fil)
 				GifColorType ct = ColorMap->Colors[TranCol];
 				#if !defined(USE_SSD1332_SPI_OLED)
 					tc  = (ct.Red   >> 3) << 11;	/* R	 */
-					tc |= (ct.Green >> 2) << 5;		/* G 	 */	
+					tc |= (ct.Green >> 2) << 5;		/* G 	 */
 					tc |=  ct.Blue  >> 3;			/* B 	 */
 				#else
 					tc =   ct.Blue  >> 3;			/* B	 */
-					tc |= (ct.Green >> 2) << 5;		/* G 	 */	
+					tc |= (ct.Green >> 2) << 5;		/* G 	 */
 					tc |= (ct.Red   >> 3) << 11;	/* R	 */
 				#endif
 
@@ -1434,14 +1440,14 @@ static int load_gif(FIL *fil)
 							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
 
 							Display_rect_if(lx + n,lx + n,ly + j,ly + j);
-							
+
 							#if !defined(USE_SSD1332_SPI_OLED)
 								d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */	
+								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
 								d |=  ColorMapEntry->Blue  >> 3;		/* B 	 */
 							#else
 								d =   ColorMapEntry->Blue  >> 3;		/* B	 */
-								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */	
+								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
 								d |= (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
 							#endif
 								if(tc != d) Display_wr_dat_if(d);
@@ -1456,7 +1462,7 @@ static int load_gif(FIL *fil)
 							xprintf("press any key\n");
 							goto gif_end;
 						}
-		
+
 						for (n = 0; n < Width; n++) {
 							/* Set Global or Local Colour Tables */
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
@@ -1467,11 +1473,11 @@ static int load_gif(FIL *fil)
 
 							#if !defined(USE_SSD1332_SPI_OLED)
 								d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */	
+								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
 								d |=  ColorMapEntry->Blue  >> 3;		/* B 	 */
 							#else
 								d =   ColorMapEntry->Blue  >> 3;		/* B	 */
-								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */	
+								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
 								d |= (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
 							#endif
 								if(tc != d) Display_wr_dat_if(d);
@@ -1495,7 +1501,7 @@ static int load_gif(FIL *fil)
 				}
 			}
 		break;
-		
+
 	    case EXTENSION_RECORD_TYPE:
 			/* Skip any extension blocks in file except comments: */
 			if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
@@ -1525,7 +1531,7 @@ static int load_gif(FIL *fil)
 					goto gif_end;
 				}
 			}
-	
+
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
@@ -1554,7 +1560,7 @@ gif_esc:
 	}
 	DGifCloseFile(GifFile,&ErrorCode);
    return 1;
- 
+
 }
 #endif
 
@@ -1563,12 +1569,12 @@ gif_esc:
 
 
 /**************************************************************************/
-/*! 
+/*!
 	Fileloader function section
 */
 /**************************************************************************/
 /**************************************************************************/
-/*! 
+/*!
     Execute IMG,JPEG,BMP,PNG,TXT and WAVE Files.
 */
 /**************************************************************************/
@@ -1586,7 +1592,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 
 	/* Check File Read Valid */
 	if (f_open(fil, path, FA_READ)) return 0;
-	
+
 	/* Store Filename */
 	strcpy(fname, filename);
 
@@ -1594,7 +1600,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 	/*if (f_read(fil, Buff, 256, &n) || n != 256) return 0;*/
 	if(f_read(fil, Buff, 256, &n)) return 0;
 
-	/* Execute Original Video File */ 
+	/* Execute Original Video File */
 	if (!memcmp(Buff, "IM", 2)) {
 		load_img(fil, fname);
 		f_close(fil);
@@ -1717,7 +1723,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 
 
 /**************************************************************************/
-/*! 
+/*!
     Filer Functions.
 */
 /**************************************************************************/
@@ -1754,7 +1760,7 @@ static void filer_draw_screen (
 
 
 /**************************************************************************/
-/*! 
+/*!
     Filer Functions.
 */
 /**************************************************************************/
@@ -1779,7 +1785,15 @@ static void filer_put_item (
 
 	ts_locate(tblofs + 1, 0, 0);
 #if FF_USE_LFN
-	xprintf(" %s", item->fname);
+	if(strlen(item->fname) > (TS_WIDTH-2)) {
+		char* str = malloc(TS_WIDTH);
+		strlcpy(str,item->fname,TS_WIDTH-2); /* round down within screen width */
+		xprintf(" %s", str);
+		if(str != NULL) free(str);
+	}
+	else {
+		xprintf(" %s", item->fname);
+	}
 	if(strlen(item->fname) < 13){
 		for (n = strlen(item->fname); n < 12; n++) xputc(' ');
 		if (item->fattr & AM_DIR) {
@@ -1801,9 +1815,8 @@ static void filer_put_item (
 #endif
 }
 
-
 /**************************************************************************/
-/*! 
+/*!
     Filer Functions.
 */
 /**************************************************************************/
@@ -1822,10 +1835,10 @@ static int filer_load_dir (
 		if (!(f_opendir(dir, path))) break;
 		if (i==2) return -1;
 	}
-	
+
 	i = 0;
 	diritem = (DIRITEM*)(void*)Buff;
-	while (f_readdir(dir, fno) == FR_OK && fno->fname[0] && i < 200) {
+	while (f_readdir(dir, fno) == FR_OK && fno->fname[0] && i < MAX_DIR_ITEM) {
 		diritem[i].fsize = fno->fsize;
 		diritem[i].fattr = fno->fattrib;
 #if FF_USE_LFN
@@ -1845,7 +1858,7 @@ static int filer_load_dir (
 
 
 /**************************************************************************/
-/*! 
+/*!
     Filer Main Functions.
 */
 /**************************************************************************/
@@ -1888,7 +1901,7 @@ int filer(
 		for (;;) {
 			k = xgetc();
 			if (k == BTN_ESC) return BTN_ESC;
-			if (k == BTN_CAN) 
+			if (k == BTN_CAN)
 			{
 #if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
 				on_filer =0;
@@ -1898,7 +1911,7 @@ int filer(
 			if (item >= items) continue;
 			if (k == BTN_OK) {
 				i = strlen(path);
-				
+
 #if FF_USE_LFN
 				filenames = (char*)GetLFN(path,diritem[item].fname,dir,fno);
 #else
@@ -1918,7 +1931,7 @@ int filer(
 						filer(path, fil, dir, fno);
 						lv--;
 					}
-					
+
 				} else {
 
 #if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)

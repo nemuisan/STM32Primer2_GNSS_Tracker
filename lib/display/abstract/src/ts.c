@@ -1,12 +1,13 @@
 /********************************************************************************/
 /*!
 	@file			ts.c
-    @version        16.00
-    @date           2019.09.01
+	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+    @version        18.00
+    @date           2019.11.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.09.01	See ts_ver.txt.
+		2019.11.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -16,12 +17,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts.h"
 /* check header file version for fool proof */
-#if __TS_H != 0x1600
+#if __TS_H != 0x1800
 #error "header file version is not correspond!"
 #endif
-		
+
 /* Defines -------------------------------------------------------------------*/
-#if defined(EXT_SRAM_SUPPORT) || defined(EXT_SDRAM_SUPPORT) 
+#if defined(EXT_SRAM_SUPPORT) || defined(EXT_SDRAM_SUPPORT)
  #define _EXRAM  __attribute__ ((section(".extram")))
 #else
  #define _EXRAM
@@ -187,7 +188,7 @@ const uint8_t font[128][8] = {
 
 /* Functions -----------------------------------------------------------------*/
 /**************************************************************************/
-/*! 
+/*!
     Display RTC Timeline.
 */
 /**************************************************************************/
@@ -212,7 +213,7 @@ inline void ts_rtc(void)
 	#ifdef USE_STM32PRIMER2
 		}
 	#endif
-	
+
 		TimeDisplay = 0;
 	}
 }
@@ -221,7 +222,7 @@ inline void ts_rtc(void)
 
 
 /**************************************************************************/
-/*! 
+/*!
     Terminal Screen Write Function Lowest Side.
 */
 /**************************************************************************/
@@ -250,7 +251,7 @@ void ts_write(
 
 
 	if (row >= TS_HEIGHT || col >= TS_WIDTH) return;
-	
+
 	/* X clipper if U need */
 	xclip = col * TS_FONTW + TS_FONTW - 1;
     if (xclip > MAX_X) xclip = MAX_X-1;
@@ -285,7 +286,7 @@ void ts_write(
 	}
 
 #else
-	
+
 	fnt = font[chr & 127];
 
 	for (y = 0; y < TS_FONTH; y++) {
@@ -301,7 +302,7 @@ void ts_write(
 
 
 /**************************************************************************/
-/*! 
+/*!
     Terminal Screen Cursor Hold.
 */
 /**************************************************************************/
@@ -316,7 +317,7 @@ static void csr_hold(void)
 
 
 /**************************************************************************/
-/*! 
+/*!
     Terminal Screen Cursor Release.
 */
 /**************************************************************************/
@@ -328,7 +329,7 @@ static void csr_release(void)
 
 
 /**************************************************************************/
-/*! 
+/*!
     Terminal Screen Reflesh ALL.
 */
 /**************************************************************************/
@@ -354,7 +355,7 @@ void ts_rfsh(
 
 
 /**************************************************************************/
-/*! 
+/*!
     Terminal Screen Rollup Row.
 */
 /**************************************************************************/
@@ -375,10 +376,8 @@ void ts_rlup(
 	for (y = top; y < bottom; y++) {
 		for (x = left; x < right; x++) {
 			c = Vram[y + 1][x];
-			if (Vram[y][x] != c) {
 				Vram[y][x] = c;
 				ts_write(y, x, c);
-			}
 		}
 	}
 	c = ((uint16_t)Attr << 8) | 0x20;
@@ -390,7 +389,7 @@ void ts_rlup(
 
 
 /**************************************************************************/
-/*! 
+/*!
     Terminal Screen Rolludown Row.
 */
 /**************************************************************************/
@@ -411,10 +410,8 @@ void ts_rldown(
 	for (y = bottom; y != top; y--) {
 		for (x = left; x < right; x++) {
 			c = Vram[y - 1][x];
-			if (Vram[y][x] != c) {
 				Vram[y][x] = c;
 				ts_write(y, x, c);
-			}
 		}
 	}
 	c = ((uint16_t)Attr << 8) | 0x20;
@@ -426,7 +423,7 @@ void ts_rldown(
 
 
 /**************************************************************************/
-/*! 
+/*!
     Terminal Screen Set Charactor location.
 */
 /**************************************************************************/
@@ -450,7 +447,7 @@ void ts_locate(
 
 
 /**************************************************************************/
-/*! 
+/*!
     Put a character into TTY screen
 */
 /**************************************************************************/
@@ -459,6 +456,7 @@ void ts_putc(
 )
 {
 	int x, y;
+	uint16_t c;
 	static char esc;
 
 
@@ -503,10 +501,11 @@ void ts_putc(
 		return;
 	}
 	if (chr == '\f') {
+		c = ((uint16_t)Attr << 8) | 0x20;
 		for (y = 0; y < TS_HEIGHT; y++) {
 			for (x = 0; x < TS_WIDTH; x++) {
-				Vram[y][x] = ((uint16_t)Attr << 8) | 0x20;
-				ts_write(y, x, ((uint16_t)Attr << 8) | 0x20);
+				Vram[y][x] = c;
+				ts_write(y, x, c);
 			}
 		}
 		Row = 0; Col = 0;
@@ -514,8 +513,9 @@ void ts_putc(
 		return;
 	}
 
-	Vram[Row][Col] = ((uint16_t)Attr << 8) | chr;
-	ts_write(Row, Col, ((uint16_t)Attr << 8) | chr);
+	c = ((uint16_t)Attr << 8) | chr;
+	Vram[Row][Col] = c;
+	ts_write(Row, Col, c);
 
 	if (++Col >= TS_WIDTH) {
 		if (++Row >= TS_HEIGHT) {
@@ -530,7 +530,7 @@ void ts_putc(
 
 
 /**************************************************************************/
-/*! 
+/*!
     Brink Cursor execute every 1mSec.
 */
 /**************************************************************************/
@@ -540,7 +540,7 @@ void ts_csrblink(void)
 	uint16_t c;
 
 	f = CsrFlag;
-	
+
 	if (((f & 6) == 6) && TmrCsr >= 250) {
 		TmrCsr = 0;
 		f ^= 1;
@@ -552,7 +552,7 @@ void ts_csrblink(void)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     MUST Execute 1mSec Every.
 */
 /**************************************************************************/

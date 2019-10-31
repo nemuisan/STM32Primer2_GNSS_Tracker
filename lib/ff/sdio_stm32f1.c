@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		30.00
-	@date			2019.09.20
+	@version		31.00
+	@date			2019.10.23
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2019.09.20	V30.00	See sdio_stm32f1_ver.txt.
+		2019.10.23	V31.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if __SDIO_STM32F1_H!= 0x3000
+#if __SDIO_STM32F1_H!= 0x3100
 #error "header file version is not correspond!"
 #endif
 
@@ -126,7 +126,10 @@
 /* Variables -----------------------------------------------------------------*/
 static uint32_t CardType = SDIO_STD_CAPACITY_SD_CARD_V1_1;
 static uint32_t CSD_Tab[4], CID_Tab[4], SCR_Tab[2], RCA = 0, OCR = 0;
-static uint8_t MMC_EXTCSDREV = 0;
+static uint8_t  MMC_EXTCSDREV = 0;
+static uint8_t  MMC_EXTCSDLIFE[2] = {0};
+static uint8_t  MMC_EXTCSDEOL = 0;
+
 static uint8_t SDSTATUS_Tab[64];
 __IO uint64_t TotalNumberOfBytes = 0;
 __IO uint32_t StopCondition = 0;
@@ -4207,8 +4210,11 @@ DRESULT disk_ioctl(uint8_t drv,uint8_t ctrl,void *buff)
 				*((uint32_t *) buff + 1) = __REV(SCR_Tab[0]);
 				return RES_OK;
 
-			case MMC_GET_EXTCSDREV :	/* Read ExtCSD Revision (1 byte) */
+			case MMC_GET_EXTCSDREV :	/* Read ExtCSD Rev/Life Datas (4 bytes) */
 				*((uint8_t *) buff + 0) = MMC_EXTCSDREV;
+				*((uint8_t *) buff + 1) = MMC_EXTCSDLIFE[0];
+				*((uint8_t *) buff + 2) = MMC_EXTCSDLIFE[1];
+				*((uint8_t *) buff + 3) = MMC_EXTCSDEOL;
 				return RES_OK;
 			break;
 
