@@ -51,9 +51,10 @@
 /* Macros */
 #define countof(a)   	(sizeof(a) / sizeof(*(a)))
 enum{ 
-		GPS_LOGGING,
-		STM32_MSC,
-		STM32_VCOM,
+		NO_SELECTED,
+		GNSS_LOGGING,
+		USB_MSC,
+		USB_VCOM
 	};
 
 /* Power */

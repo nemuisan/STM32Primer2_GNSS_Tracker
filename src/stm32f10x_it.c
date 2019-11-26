@@ -164,11 +164,11 @@ void SysTick_Handler(void)
 	/* used for power managements */
 	PWR_Mgn();
 	/* GPS Logger Mode Special */
-	if(TaskStat == GPS_LOGGING) ChkAckLimit();
+	if(TaskStat == GNSS_LOGGING) ChkAckLimit();
 	
 	/* key inputs */
 	/* JoyInp_Chk(); */
-	/* FatFs ralation inputs */
+	/* FatFs relation inputs */
 	/*ff_support_timerproc();*/
 }
 

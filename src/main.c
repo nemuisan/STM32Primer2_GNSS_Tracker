@@ -2,11 +2,11 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        86.00
-    @date           2019.10.22
+    @version        87.00
+    @date           2019.11.22
 
     @section HISTORY
-		2019.10.22	V86.00	See Whatnew.txt
+		2019.11.22	V87.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -19,7 +19,7 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-volatile int TaskStat = GPS_LOGGING; /* Default State */
+volatile int TaskStat = NO_SELECTED; /* Default State */
 
 /* Constants -----------------------------------------------------------------*/
 
@@ -37,29 +37,33 @@ void (* volatile xTask)(void);
 /**************************************************************************/
 int main(void)
 {
-	volatile int vcnt=0;
-	volatile int mscnt=0;
-
 	/* Set Basis System For STM32 Primer2 */
 	Set_System();
 
 	/* Set SysTickCounter for _delay_ms(); / _delay_us(); */
 	SysTickInit(INTERVAL);
 
-	/* Select GPS-LOGGER/USB-MSC/USB-CDC Mode */
-	for(; mscnt<3; mscnt++){
+	/* Select GNSS-LOGGER/USB-MSC/USB-CDC Mode */
+	/* No Key input,then goes GNSS Logger */
+	for(int mscnt=0; mscnt<3; mscnt++){
 		_delay_ms(1000);
 		if(!(GPIO_ReadInputDataBit(GPIOE, KEY_R) | GPIO_ReadInputDataBit(GPIOE, KEY_L))){
-			vcnt = 1;
+			TaskStat = GNSS_LOGGING;
 			break;
 		}
+	}
+
+	/* Select USB-MSC/USB-CDC Mode */
+	if(TaskStat == NO_SELECTED) {
+		if     (GPIO_ReadInputDataBit(GPIOE, KEY_L)) TaskStat = USB_VCOM;
+		else if(GPIO_ReadInputDataBit(GPIOE, KEY_R)) TaskStat = USB_MSC;
 	}
 
 	/* Enable IWDG */
 	IWDG_Enable();
 
-	/* Install Main GPS tracker Function */
-	if(vcnt){
+	/* Install Main GNSS tracker Function */
+	if(TaskStat == GNSS_LOGGING){
 		xTask 				= gps_task;
 		xUART_IRQ			= conio_IRQ;
 		xEP1_IN_Callback  	= NOP_Process;
@@ -69,8 +73,7 @@ int main(void)
 		xUSB_Istr	      	= NOP_Process;
 	}
 	/* Install USB-CDC VirtualCOM Function */
-	else if(GPIO_ReadInputDataBit(GPIOE, KEY_L)){
-		TaskStat 			= STM32_VCOM;
+	else if(TaskStat == USB_VCOM){
 		xTask 				= cdc_task;
 		xUART_IRQ			= CDC_IRQ;
 		xEP1_IN_Callback  	= CDC_EP1_IN_Callback;
@@ -81,8 +84,7 @@ int main(void)
 		CDC_SetStructure();
 	}
 	/* Install USB-MSC Function */
-	else if(GPIO_ReadInputDataBit(GPIOE, KEY_R)){
-		TaskStat 			= STM32_MSC;
+	else if(TaskStat == USB_MSC){
 		xTask 				= msc_task;
 		xUART_IRQ			= conio_IRQ;
 		xEP1_IN_Callback  	= MSC_EP1_IN_Callback;
@@ -92,8 +94,9 @@ int main(void)
 		xUSB_Istr	      	= MSC_USB_Istr;
 		MSC_SetStructure();
 	}
-
-	else{ /* Fool Proof */
+	/* Fool Proof Anyway GNSS-Logger */
+	else{
+		TaskStat 			= GNSS_LOGGING;
 		xTask 				= gps_task;
 		xUART_IRQ			= conio_IRQ;
 		xEP1_IN_Callback  	= NOP_Process;
