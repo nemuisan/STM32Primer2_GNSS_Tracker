@@ -1,5 +1,10 @@
+20191129 :
+V88.00	Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/d76d5e3acb87cf089daf50b31f991026149ecb6c
+
 20191122 :
 V87.00	Adopted FatFs0.14 latest patch update(patch1).
+		Fixed function statemachine routine.
 		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/288c17aeba698036c09f760a62a59221a017c281
 
