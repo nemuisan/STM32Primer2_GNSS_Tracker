@@ -1,3 +1,7 @@
+20191224 :
+V89.00	Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/73ed0410119f500ec5025c79c04f46379c46620e
+
 20191129 :
 V88.00	Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/d76d5e3acb87cf089daf50b31f991026149ecb6c
