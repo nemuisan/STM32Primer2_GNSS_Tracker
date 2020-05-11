@@ -1,3 +1,8 @@
+20200422 :
+V91.00	Adopted FatFs0.14 latest patch update(patch2).
+		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+			 -> https://github.com/ARM-software/CMSIS_5/commit/c46f152041ed0589716e7085e177b2d435643e83
+
 20200221 :
 V90.00	Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/bd8a0f19565656af0b7128178f5386e44988995a

@@ -1,5 +1,5 @@
-/* Linker script Lowerside for STM32F1 Series! 		*/
-/* Nemui Trinomius (http://nemuisan.blog.bai.ne.jp) */
+/* Linker script Lowerside for STM32F1 Series!		*/
+/* Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)	*/
 /* Based on Martin Thomas's sample thanks !			*/
 
 /* Sections And Definitions */
@@ -72,19 +72,19 @@ SECTIONS
 		*(.ARM.exidx* .gnu.linkonce.armexidx.*)
 	} >ROM
 	PROVIDE_HIDDEN (__exidx_end = .);
-
 	. = ALIGN(4);
 	/* nemui - end */
-	
-	/* This is used by the startup in order to initialize the .data secion */
+
     _etext = . ;
     PROVIDE (etext = .);
     _sidata = _etext;
-    
+
+	/* This is used by the startup in order to initialize the .data secion */
+	_sidata = LOADADDR(.data);
     /* This is the initialized data section
-    The program executes knowing that the data is in the RAM
-    but the loader puts the initial values in the FLASH (inidata).
-    It is one task of the startup to copy the initial values from FLASH to RAM. */
+       The program executes knowing that the data is in the RAM
+       but the loader puts the initial values in the FLASH (inidata).
+       It is one task of the startup to copy the initial values from FLASH to RAM. */
     .data  : AT ( _sidata )
     {
 	    . = ALIGN(4);
@@ -116,16 +116,16 @@ SECTIONS
 
 		KEEP(*(.jcr*))
 	
-        . = ALIGN(4); 	/* 20090714 Nemui */
-        *(.ramfunc*) 	/* 20090714 Nemui */
-        *(.RAMtext) 	/* 20090714 Nemui */
-        . = ALIGN(4); 	/* 20090714 Nemui */
+		. = ALIGN(4); 	/* 20090714 Nemui */
+		*(.ramfunc*) 	/* 20090714 Nemui */
+		*(.RAMtext) 	/* 20090714 Nemui */
+		. = ALIGN(4); 	/* 20090714 Nemui */
 
-	    /* This is used by the startup in order to initialize the .data secion */
+		/* This is used by the startup in order to initialize the .data secion */
 		_edata = . ;
     } >RAM1
 
-    /* This is the uninitialized data section */
+	/* This is the uninitialized but zero cleared data section */
     .bss (NOLOAD) :
     {
         . = ALIGN(4);
@@ -141,8 +141,8 @@ SECTIONS
         __bss_end = . ;
         __bss_end__ = . ;
     } >RAM1
-  
-    /* This is the heap data section */
+
+    /* This is the heap data section,need 4-byte alignment. */
 	.heap (NOLOAD) :
 	{
 		. = ALIGN(4);
@@ -164,7 +164,6 @@ SECTIONS
 		. = ALIGN(8);
 	} >RAM1
 	PROVIDE (_stack_end = _estack);
-
 
     /* This is the External RAM section */
 	.extram (NOLOAD) :

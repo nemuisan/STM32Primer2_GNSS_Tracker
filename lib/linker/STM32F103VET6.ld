@@ -1,6 +1,6 @@
 /* Linker script UpperSide for STM32F103VET6! 		*/
 /* Nemui Trinomius (http://nemuisan.blog.bai.ne.jp) */
-/* Based on STMicro's RIDE Project Sample thanks!	*/
+/* Based on Martin Thomas's sample thanks !			*/
 
 OUTPUT_FORMAT ("elf32-littlearm")
 
@@ -16,7 +16,7 @@ MEMORY
 _estack = (ORIGIN(RAM1)+LENGTH(RAM1)) & ~ 0x7;
 
 /* higher address of the heap end */
-/*_eheap = ORIGIN(RAM1)+LENGTH(RAM1);*/ /* SP register as heap end */
+/* _eheap = ORIGIN(RAM1)+LENGTH(RAM1); */
 
 
 /* include the section management sub-script */
