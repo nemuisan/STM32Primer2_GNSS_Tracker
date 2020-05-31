@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2019.09.20
+    @version        5.00
+    @date           2020.05.30
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -11,13 +11,14 @@
 		2014.04.20	V2.00	Fixed Suitable Interruption level.
 		2014.07.16	V3.00	Reset Systick to Suitable Frequency.
 		2019.09.20	V4.00	Fixed redundant declaration.
+		2020.05.30	V5.00	Display system version string.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __CDC_SUPPORT_H
-#define __CDC_SUPPORT_H	0x0400
+#define __CDC_SUPPORT_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {

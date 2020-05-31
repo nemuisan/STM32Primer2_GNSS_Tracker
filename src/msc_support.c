@@ -2,8 +2,8 @@
 /*!
 	@file			msc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2019.09.20
+    @version        6.00
+    @date           2020.05.30
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -12,6 +12,7 @@
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
 		2014.07.16	V4.00	Reset Systick to Suitable Frequency.
 		2019.09.20	V5.00	Fixed redundant declaration.
+		2020.05.30	V6.00	Display system version string.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,7 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if __MSC_SUPPORT_H!= 0x0500
+#if __MSC_SUPPORT_H!= 0x0600
 #error "header file version is not correspond!"
 #endif
 
@@ -40,7 +41,7 @@
 /* Functions -----------------------------------------------------------------*/
 
 /**************************************************************************/
-/*! 
+/*!
     @brief	Configures the USB interrupts.
 	@param	None.
     @retval	None.
@@ -66,7 +67,7 @@ static void USB_Interrupts_Config(void)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     Main Mass Storage Class Task Routine.
 */
 /**************************************************************************/
@@ -84,7 +85,8 @@ void msc_task(void)
 
 	/* Diaplay MSC mode message */
 	Display_clear_if();
-	Display_Puts_If(0,0,(uint8_t*)"Start Mass Storage",OPAQUE);
+	Display_Puts_If(0,0,(uint8_t*)"Start Mass Storage",TRANSPARENT);
+	Display_Puts_If(0,1*CurrentAnkDat->Y_Size,(uint8_t*)("System Version:"APP_VERSION),TRANSPARENT);
 
 	/* USB-MSC Configurations */
   	USB_Disconnect_Config();
