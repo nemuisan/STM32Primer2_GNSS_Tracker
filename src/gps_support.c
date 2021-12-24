@@ -2,8 +2,8 @@
 /*!
 	@file			gps_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        15.00
-    @date           2018.12.12
+    @version        17.00
+    @date           2021.10.31
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GPS-Logger Program Thanks!
 
@@ -26,6 +26,8 @@
 		2017.05.23 V13.00	Adopted FatFs0.13.
 		2017.11.01 V14.00	Add and fix more MTK Commands.
 		2018.12.12 V15.00	Adopted XA1110 AXN5.x.x new firmware.
+		2021.02.05 V16.00	Adopted xprintf update.
+		2021.10.31 V17.00	Fixed MTK Commands parameter.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -35,12 +37,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gps_support.h"
 /* check header file version for fool proof */
-#if __GPS_SUPPORT_H!= 0x1500
+#if __GPS_SUPPORT_H!= 0x1700
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
-/* GT-723F,UP-501,PA6C,Gms-g6a and Gms-g9 default baud is 9600,8,n,1 */
+/* GT-723F,UP-501,PA6C,Gms-g6a,Gms-g9 and CD-PA1616 default baud is 9600,8,n,1 */
 /* (XA1110 default baud is 115200,8,n,1) */
 #define GPS_UART_PORT	2
 #define GPS_UART_BAUD	9600
@@ -83,7 +85,7 @@
 #define PGCMD_NMEA_BAUDRATE 				"$PGCMD,232"	/* Need for AXN5.x firmware */
 #define PGCMD_SATELLITE_SEARCHMODE			"$PGCMD,229"	/* Need for AXN5.x firmware */
 
-/* AXN5.x.x Functions */
+/* ATTENSION FOR AXN5.x.x Functions */
 /* YOU MUST RE-POWER AFTER THIS COMMAND */
 /* Flash to changed baudrate */
 /*#define MTK_FLASH_BAUDRATE*/
@@ -220,7 +222,7 @@ static uint8_t get_line_GPS(void)
 
 	for (;;) {
 		/* Get a char from the incoming stream */
-		c = xfunc_in();
+		c = xfunc_input();
 		if (!c || (i == 0 && c != '$')) continue;
 		Buff[i++] = c;
 		if (c == '\n') break;
@@ -337,21 +339,22 @@ void gps_task(void)
 	/*----- For MT3339/MT3333 Specific Commands(avobe AXN3.8) -----*/
 	/* Disable AlwaysLocate & Periodic Power Mode */
 	xSend_MTKCmd(PMTK_SET_PERIODIC_MODE,"0");
-	/* Enter high accuracy out of tunnnel */
-	xSend_MTKCmd(PMTK_SET_TUNNEL_SCENARIO,"1");
-	/* Enable Anti Interference Control */
-	xSend_MTKCmd(PMTK_SET_AIC_MODE,"1");
+	/* GNSS FAST TTFF:0 HIGH ACCURACY:1 */
+	xSend_MTKCmd(PMTK_SET_TUNNEL_SCENARIO,"0");
+	/* Enable Anti Interference Control ON:1 OFF:0 */
+	xSend_MTKCmd(PMTK_SET_AIC_MODE,"0");
 	/* Enable EASY */
 	xSend_MTKCmd(PMTK_EASY_ENABLE,"1,1");
-	/* Enter Pedestorian mode */
+	/* Set 1 to Fitness(<5m/s) mode */
 	xSend_MTKCmd(PMTK_FR_MODE,"1");
 	/* Enable GPS/QZS/GLONASS/GALILEO */
 	xSend_MTKCmd(PMTK_API_SET_GNSS_SEARCH_MODE,"1,1,1,0,0");
 
 #if defined(MTK_FLASH_SATELLITE)
 	/* Enable GPS/QZS/GLONASS/GALILEO */
+	/* Enable PMTK353 */
 	/* Need Re-Power module */
-	xSend_MTKCmd(PGCMD_SATELLITE_SEARCHMODE,"1,1,0,1,1");
+	xSend_MTKCmd(PGCMD_SATELLITE_SEARCHMODE,"1,1,0,1,0");
 #endif
 
 	/* Mount Fatfs Drive */

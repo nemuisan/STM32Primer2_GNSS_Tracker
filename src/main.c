@@ -2,11 +2,19 @@
 /*!
 	@file			main.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+<<<<<<< HEAD
     @version        93.00
     @date           2021.01.01
 
     @section HISTORY
 		2021.01.01	V93.00	See Whatnew.txt
+=======
+    @version        96.00
+    @date           2021.12.12
+
+    @section HISTORY
+		2021.12.12	V96.00	See Whatnew.txt
+>>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 
     @section LICENSE
 		BSD License. See Copyright.txt

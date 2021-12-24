@@ -1,41 +1,51 @@
 /*------------------------------------------------------------------------*/
-/* Universal string handler for user console interface  (C)ChaN, 2012     */
+/* Universal string handler for user console interface  (C)ChaN, 2021     */
 /*------------------------------------------------------------------------*/
 
-#ifndef _STRFUNC
-#define _STRFUNC
+#ifndef XPRINTF_DEF
+#define XPRINTF_DEF
 
-#define _USE_XFUNC_OUT	1	/* 1: Use output functions */
-#define	_CR_CRLF		1	/* 1: Convert \n ==> \r\n in the output char */
-#define	_USE_LONGLONG	0	/* 1: Enable long long integer in type "ll". */
-#define	_LONGLONG_t		long long	/* Platform dependent long long integer type */
-
-#define _USE_XFUNC_IN	1	/* 1: Use input function */
-#define	_LINE_ECHO		1	/* 1: Echo back input chars in xgets function */
-
-
-#if _USE_XFUNC_OUT
-#define xdev_out(func) xfunc_out = (void(*)(unsigned char))(func)
-extern void (*xfunc_out)(unsigned char);
-void xputc (char c);
-void xfputc (void (*func)(unsigned char), char c);
-void xputs (const char* str);
-void xfputs (void (*func)(unsigned char), const char* str);
-void xprintf (const char* fmt, ...);
-void xsprintf (char* buff, const char* fmt, ...);
-void xfprintf (void (*func)(unsigned char), const char*	fmt, ...);
-void put_dump (const void* buff, unsigned long addr, int len, int width);
-#define DW_CHAR		sizeof(char)
-#define DW_SHORT	sizeof(short)
-#define DW_LONG		sizeof(long)
+#ifdef __cplusplus
+extern "C" {
 #endif
 
-#if _USE_XFUNC_IN
-#define xdev_in(func) xfunc_in = (unsigned char(*)(void))(func)
-extern unsigned char (*xfunc_in)(void);
+#define XF_USE_OUTPUT	1	/* 1: Enable output functions */
+#define	XF_CRLF			1	/* 1: Convert \n ==> \r\n in the output char */
+#define	XF_USE_DUMP		1	/* 1: Enable put_dump function */
+#define	XF_USE_LLI		1	/* 1: Enable long long integer in size prefix ll */
+#define	XF_LLI_t		long long	/* Platform dependent long long integer type */
+#define	XF_USE_FP		1	/* 1: Enable support for floating point in type 'e' and 'f' */
+#define XF_DPC			'.'	/* Decimal separator for floating point */
+#define XF_USE_INPUT	1	/* 1: Enable input functions */
+#define	XF_INPUT_ECHO	1	/* 1: Echo back input chars in xgets function */
+
+#if defined(__GNUC__) && __GNUC__ >= 10
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+#endif
+
+#if XF_USE_OUTPUT
+#define xdev_out(func) xfunc_output = (void(*)(int))(func)
+extern void (*xfunc_output)(int);
+void xputc (int chr);
+void xfputc (void (*func)(int), int chr);
+void xputs (const char* str);
+void xfputs (void (*func)(int), const char* str);
+void xprintf (const char* fmt, ...);
+void xsprintf (char* buff, const char* fmt, ...);
+void xfprintf (void (*func)(int), const char* fmt, ...);
+void put_dump (const void* buff, unsigned long addr, int len, int width);
+#endif
+
+#if XF_USE_INPUT
+#define xdev_in(func) xfunc_input = (int(*)(void))(func)
+extern int (*xfunc_input)(void);
 int xgets (char* buff, int len);
-int xfgets (unsigned char (*func)(void), char* buff, int len);
 int xatoi (char** str, long* res);
+int xatof (char** str, double* res);
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif

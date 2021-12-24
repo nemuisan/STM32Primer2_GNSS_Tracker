@@ -71,7 +71,11 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
+<<<<<<< HEAD
 APP_VER = 93.00
+=======
+APP_VER = 96.00
+>>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2

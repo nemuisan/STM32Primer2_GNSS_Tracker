@@ -2,7 +2,7 @@
 /  Universal String Handler for Console Input and Output
 /-------------------------------------------------------------------------/
 /
-/ Copyright (C) 2014, ChaN, all right reserved.
+/ Copyright (C) 2021, ChaN, all right reserved.
 /
 / xprintf module is an open source software. Redistribution and use of
 / xprintf module in source and binary forms, with or without modification,
@@ -20,42 +20,159 @@
 
 #include "xprintf.h"
 
+#define SZB_OUTPUT	32
 
-#if _USE_XFUNC_OUT
+
+#if XF_USE_OUTPUT
+#include <string.h>
 #include <stdarg.h>
-void (*xfunc_out)(unsigned char);	/* Pointer to the output stream */
-static char *outptr;
+void (*xfunc_output)(int);	/* Pointer to the default output device */
+static char *strptr;		/* Pointer to the output memory (used by xsprintf) */
+
+
+#if XF_USE_FP
+/*----------------------------------------------*/
+/* Floating point output                        */
+/*----------------------------------------------*/
+#include <math.h>
+
+
+static int ilog10 (double n)	/* Calculate log10(n) in integer output */
+{
+	int rv = 0;
+
+	while (n >= 10) {	/* Decimate digit in right shift */
+		if (n >= 100000) {
+			n /= 100000; rv += 5;
+		} else {
+			n /= 10; rv++;
+		}
+	}
+	while (n < 1) {		/* Decimate digit in left shift */
+		if (n < 0.00001) {
+			n *= 100000; rv -= 5;
+		} else {
+			n *= 10; rv--;
+		}
+	}
+	return rv;
+}
+
+
+static double i10x (int n)	/* Calculate 10^n */
+{
+	double rv = 1;
+
+	while (n > 0) {		/* Left shift */
+		if (n >= 5) {
+			rv *= 100000; n -= 5;
+		} else {
+			rv *= 10; n--;
+		}
+	}
+	while (n < 0) {		/* Right shift */
+		if (n <= -5) {
+			rv /= 100000; n += 5;
+		} else {
+			rv /= 10; n++;
+		}
+	}
+	return rv;
+}
+
+
+static void ftoa (
+	char* buf,	/* Buffer to output the generated string */
+	double val,	/* Real number to output */
+	int prec,	/* Number of fractinal digits */
+	char fmt	/* Notation */
+)
+{
+	int d;
+	int e = 0, m = 0;
+	double w;
+	const char *er = 0;
+
+
+	if (isnan(val)) {			/* Not a number? */
+		er = "NaN";
+	} else {
+		if (prec < 0) prec = 6;	/* Default precision (6 fractional digits) */
+		if (val < 0) {			/* Nagative? */
+			val = -val; *buf++ = '-';
+		}
+		if (isinf(val)) {		/* Infinite? */
+			er = "INF";
+		} else {
+			if (fmt != 'f') {	/* E notation? */
+				if (val != 0) {		/* Not true zero? */
+					val += i10x(ilog10(val) - prec) / 2;	/* Round */
+					e = ilog10(val);
+					if (e > 99 || prec + 6 >= SZB_OUTPUT) {	/* Buffer overflow or E > +99? */
+						er = "OV";
+					} else {
+						if (e < -99) e = -99;
+						val /= i10x(e);	/* Normalize */
+					}
+				}
+			} else {			/* Decimal notation */
+				val += i10x(-prec) / 2;	/* Round */
+				m = ilog10(val);
+				if (m < 0) m = 0;
+				if (m + prec + 3 >= SZB_OUTPUT) er = "OV";		/* Buffer overflow? */
+			}
+		}
+		if (!er) {	/* Not error condition */
+			do {				/* Put decimal number */
+				w = i10x(m);				/* Snip the highest digit d */
+				d = val / w; val -= d * w;
+				if (m == -1) *buf++ = XF_DPC;	/* Into fractional part? */
+				*buf++ = '0' + d;			/* Put the digit */
+			} while (--m >= -prec);			/* Output all digits specified by prec */
+			if (fmt != 'f') {	/* Put exponent if needed */
+				*buf++ = fmt;
+				if (e < 0) {
+					e = -e; *buf++ = '-';
+				} else {
+					*buf++ = '+';
+				}
+				*buf++ = '0' + e / 10;
+				*buf++ = '0' + e % 10;
+			}
+		}
+	}
+	if (er) {	/* Error condition? */
+		do *buf++ = *er++; while (*er);
+	}
+	*buf = 0;	/* Term */
+}
+#endif	/* XF_USE_FLOAT */
+
 
 /*----------------------------------------------*/
 /* Put a character                              */
 /*----------------------------------------------*/
 
-void xputc (char c)
+void xputc (
+	int chr				/* Character to be output */
+)
 {
-	if (_CR_CRLF && c == '\n') xputc('\r');		/* CR -> CRLF */
-
-	if (outptr) {		/* Destination is memory */
-		*outptr++ = (unsigned char)c;
-		return;
-	}
-	if (xfunc_out) {	/* Destination is device */
-		xfunc_out((unsigned char)c);
-	}
+	xfputc(xfunc_output, chr);	/* Output it to the default output device */
 }
 
 
-void xfputc (					/* Put a character to the specified device */
-	void(*func)(unsigned char),	/* Pointer to the output function */
-	char chr					/* Character to be put */
+void xfputc (			/* Put a character to the specified device */
+	void(*func)(int),	/* Pointer to the output function (null:strptr) */
+	int chr				/* Character to be output */
 )
 {
-	void (*pf)(unsigned char);
+	if (XF_CRLF && chr == '\n') xfputc(func, '\r');	/* CR -> CRLF */
 
-
-	pf = xfunc_out;		/* Save current output device */
-	xfunc_out = func;	/* Switch output to specified device */
-	xputc(chr);
-	xfunc_out = pf;		/* Restore output device */
+	if (func) {
+		func((unsigned char)chr);			/* Write a character to the output device */ /* Nemui Fixed */
+	} else if (strptr) {
+		 *strptr++ = (unsigned char)chr;	/* Write a character to the memory */ /* Nemui Fixed */
+	}
 }
 
 
@@ -64,30 +181,22 @@ void xfputc (					/* Put a character to the specified device */
 /* Put a null-terminated string                 */
 /*----------------------------------------------*/
 
-void xputs (					/* Put a string to the default device */
-	const char* str				/* Pointer to the string */
+void xputs (			/* Put a string to the default device */
+	const char* str		/* Pointer to the string */
 )
 {
-	while (*str) {
-		xputc(*str++);
-	}
+	xfputs(xfunc_output, str);
 }
 
 
-void xfputs (					/* Put a string to the specified device */
-	void(*func)(unsigned char),	/* Pointer to the output function */
-	const char*	str				/* Pointer to the string */
+void xfputs (			/* Put a string to the specified device */
+	void(*func)(int),	/* Pointer to the output function */
+	const char*	str		/* Pointer to the string */
 )
 {
-	void (*pf)(unsigned char);
-
-
-	pf = xfunc_out;		/* Save current output device */
-	xfunc_out = func;	/* Switch output to specified device */
-	while (*str) {		/* Put the string */
-		xputc(*str++);
+	while (*str) {			/* Put the string */
+		xfputc(func, *str++);
 	}
-	xfunc_out = pf;		/* Restore output device */
 }
 
 
@@ -99,125 +208,155 @@ void xfputs (					/* Put a string to the specified device */
     xprintf("%6d,%3d%%", -200, 5);	"  -200,  5%"
     xprintf("%-6u", 100);			"100   "
     xprintf("%ld", 12345678);		"12345678"
-    xprintf("%llu", 0x100000000);	"4294967296"	<_USE_LONGLONG>
+    xprintf("%llu", 0x100000000);	"4294967296"	<XF_USE_LLI>
+    xprintf("%lld", -1LL);			"-1"			<XF_USE_LLI>
     xprintf("%04x", 0xA3);			"00a3"
     xprintf("%08lX", 0x123ABC);		"00123ABC"
     xprintf("%016b", 0x550F);		"0101010100001111"
     xprintf("%*d", 6, 100);			"   100"
     xprintf("%s", "String");		"String"
-    xprintf("%-5s", "abc");			"abc  "
     xprintf("%5s", "abc");			"  abc"
+    xprintf("%-5s", "abc");			"abc  "
+    xprintf("%-5s", "abcdefg");		"abcdefg"
+    xprintf("%-5.5s", "abcdefg");	"abcde"
+    xprintf("%-.5s", "abcdefg");	"abcde"
+    xprintf("%-5.5s", "abc");		"abc  "
     xprintf("%c", 'a');				"a"
-    xprintf("%f", 10.0);            <xprintf lacks floating point support. Use regular printf.>
+    xprintf("%12f", 10.0);			"   10.000000"	<XF_USE_FP>
+    xprintf("%.4E", 123.45678);		"1.2346E+02"	<XF_USE_FP>
 */
 
-static
-void xvprintf (
+static void xvfprintf (
+	void(*func)(int),	/* Pointer to the output function */
 	const char*	fmt,	/* Pointer to the format string */
 	va_list arp			/* Pointer to arguments */
 )
 {
 	unsigned int r, i, j, w, f;
-	char s[32], c, d, *p;
-#if _USE_LONGLONG
-	_LONGLONG_t v;
-	unsigned _LONGLONG_t vs;
+	int n, prec;
+	char str[SZB_OUTPUT], c, d, *p, pad;
+#if XF_USE_LLI
+	XF_LLI_t v;
+	unsigned XF_LLI_t vs;
 #else
 	long v;
 	unsigned long vs;
 #endif
 
-
 	for (;;) {
 		c = *fmt++;					/* Get a format character */
 		if (!c) break;				/* End of format? */
 		if (c != '%') {				/* Pass it through if not a % sequense */
-			xputc(c); continue;
+			xfputc(func, c); continue;
 		}
-		f = w = 0;					/* Clear parms */
+		f = w = 0;			 		/* Clear parms */
+		pad = ' '; prec = -1;
 		c = *fmt++;					/* Get first char of the sequense */
 		if (c == '0') {				/* Flag: left '0' padded */
-			f = 1; c = *fmt++;
+			pad = '0'; c = *fmt++;
 		} else {
 			if (c == '-') {			/* Flag: left justified */
 				f = 2; c = *fmt++;
 			}
 		}
 		if (c == '*') {				/* Minimum width from an argument */
-			w = va_arg(arp, int);
-			c = *fmt++;
+			n = va_arg(arp, int);
+			if (n < 0) {			/* Flag: left justified */
+				n = 0 - n; f = 2;
+			}
+			w = n; c = *fmt++;
 		} else {
 			while (c >= '0' && c <= '9') {	/* Minimum width */
 				w = w * 10 + c - '0';
 				c = *fmt++;
 			}
 		}
-		if (c == 'l' || c == 'L') {	/* Prefix: Size is long */
+		if (c == '.') {				/* Precision */
+			c = *fmt++;
+			if (c == '*') {				/* Precision from an argument */
+				prec = va_arg(arp, int);
+				c = *fmt++;
+			} else {
+				prec = 0;
+				while (c >= '0' && c <= '9') {
+					prec = prec * 10 + c - '0';
+					c = *fmt++;
+				}
+			}
+		}
+		if (c == 'l') {		/* Prefix: Size is long */
 			f |= 4; c = *fmt++;
-#if _USE_LONGLONG
-			if (c == 'l' || c == 'L') {	/* Prefix: Size is long long */
+#if XF_USE_LLI
+			if (c == 'l') {	/* Prefix: Size is long long */
 				f |= 8; c = *fmt++;
 			}
 #endif
 		}
 		if (!c) break;				/* End of format? */
-		d = c;
-		if (d >= 'a') d -= 0x20;
-		switch (d) {				/* Type is... */
-		case 'S' :					/* String */
-			p = va_arg(arp, char*);
-			for (j = 0; p[j]; j++) ;
-			while (!(f & 2) && j++ < w) xputc(' ');
-			xputs(p);
-			while (j++ < w) xputc(' ');
-			continue;
-		case 'C' :					/* Character */
-			xputc((char)va_arg(arp, int)); continue;
-		case 'B' :					/* Binary */
+		switch (c) {				/* Type is... */
+		case 'b':					/* Unsigned binary */
 			r = 2; break;
-		case 'O' :					/* Octal */
+		case 'o':					/* Unsigned octal */
 			r = 8; break;
-		case 'D' :					/* Signed decimal */
-		case 'U' :					/* Unsigned decimal */
+		case 'd':					/* Signed decimal */
+		case 'u':					/* Unsigned decimal */
 			r = 10; break;
-		case 'X' :					/* Hexdecimal */
+		case 'x':					/* Hexdecimal (abc) */
+		case 'X':					/* Hexdecimal (ABC) */
 			r = 16; break;
+		case 'c':					/* A character */
+			xfputc(func, (char)va_arg(arp, int)); continue;
+		case 's':					/* String */
+			p = va_arg(arp, char*);
+			for (j = strlen(p); !(f & 2) && j < w; j++) xfputc(func, pad);	/* Left pads */
+			while (*p && prec--) xfputc(func, *p++);/* String */
+			while (j++ < w) xfputc(func, ' ');		/* Right pads */
+			continue;
+#if XF_USE_FP
+		case 'f':					/* Float (decimal) */
+		case 'e':					/* Float (e) */
+		case 'E':					/* Float (E) */
+			ftoa(p = str, va_arg(arp, double), prec, c);	/* Make fp string */
+			for (j = strlen(p); !(f & 2) && j < w; j++) xfputc(func, pad);	/* Left pads */
+			do xfputc(func, *p++); while (*p);	/* Value */
+			while (j++ < w) xfputc(func, ' ');	/* Right pads */
+			continue;
+#endif
 		default:					/* Unknown type (passthrough) */
-			xputc(c); continue;
+			xfputc(func, c); continue;
 		}
 
 		/* Get an argument and put it in numeral */
-#if _USE_LONGLONG
+#if XF_USE_LLI
 		if (f & 8) {	/* long long argument? */
-			v = va_arg(arp, _LONGLONG_t);
+			v = va_arg(arp, XF_LLI_t);
 		} else {
 			if (f & 4) {	/* long argument? */
-				v = (d == 'D') ? (long)va_arg(arp, long) : (long)va_arg(arp, unsigned long);
+				v = (c == 'd') ? (XF_LLI_t)va_arg(arp, long) : (XF_LLI_t)va_arg(arp, unsigned long);
 			} else {		/* int/short/char argument */
-				v = (d == 'D') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int);
+				v = (c == 'd') ? (XF_LLI_t)va_arg(arp, int) : (XF_LLI_t)va_arg(arp, unsigned int);
 			}
 		}
 #else
 		if (f & 4) {	/* long argument? */
 			v = va_arg(arp, long);
 		} else {		/* int/short/char argument */
-			v = (d == 'D') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int);
+			v = (c == 'd') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int);
 		}
 #endif
-		if (d == 'D' && v < 0) {	/* Negative value? */
-			v = 0 - v; f |= 16;
+		if (c == 'd' && v < 0) {	/* Negative value? */
+			v = 0 - v; f |= 1;
 		}
 		i = 0; vs = v;
-		do {
+		do {	/* Make value string */
 			d = (char)(vs % r); vs /= r;
 			if (d > 9) d += (c == 'x') ? 0x27 : 0x07;
-			s[i++] = d + '0';
-		} while (vs != 0 && i < sizeof s);
-		if (f & 16) s[i++] = '-';
-		j = i; d = (f & 1) ? '0' : ' ';
-		while (!(f & 2) && j++ < w) xputc(d);
-		do xputc(s[--i]); while (i != 0);
-		while (j++ < w) xputc(' ');
+			str[i++] = d + '0';
+		} while (vs != 0 && i < sizeof str);
+		if (f & 1) str[i++] = '-';				/* Sign */
+		for (j = i; !(f & 2) && j < w; j++) xfputc(func, pad);	/* Left pads */
+		do xfputc(func, str[--i]); while (i != 0);	/* Value */
+		while (j++ < w) xfputc(func, ' ');			/* Right pads */
 	}
 }
 
@@ -231,7 +370,22 @@ void xprintf (			/* Put a formatted string to the default device */
 
 
 	va_start(arp, fmt);
-	xvprintf(fmt, arp);
+	xvfprintf(xfunc_output, fmt, arp);
+	va_end(arp);
+}
+
+
+void xfprintf (			/* Put a formatted string to the specified device */
+	void(*func)(int),	/* Pointer to the output function */
+	const char*	fmt,	/* Pointer to the format string */
+	...					/* Optional arguments */
+)
+{
+	va_list arp;
+
+
+	va_start(arp, fmt);
+	xvfprintf(func, fmt, arp);
 	va_end(arp);
 }
 
@@ -245,39 +399,17 @@ void xsprintf (			/* Put a formatted string to the memory */
 	va_list arp;
 
 
-	outptr = buff;		/* Switch destination for memory */
-
+	strptr = buff;		/* Enable destination for memory */
 	va_start(arp, fmt);
-	xvprintf(fmt, arp);
+	xvfprintf(0, fmt, arp);
 	va_end(arp);
-
-	*outptr = 0;		/* Terminate output string with a \0 */
-	outptr = 0;			/* Switch destination for device */
-}
-
-
-void xfprintf (					/* Put a formatted string to the specified device */
-	void(*func)(unsigned char),	/* Pointer to the output function */
-	const char*	fmt,			/* Pointer to the format string */
-	...							/* Optional arguments */
-)
-{
-	va_list arp;
-	void (*pf)(unsigned char);
-
-
-	pf = xfunc_out;		/* Save current output device */
-	xfunc_out = func;	/* Switch output to specified device */
-
-	va_start(arp, fmt);
-	xvprintf(fmt, arp);
-	va_end(arp);
-
-	xfunc_out = pf;		/* Restore output device */
+	*strptr = 0;		/* Terminate output string */
+	strptr = 0;			/* Disable destination for memory */
 }
 
 
 
+#if XF_USE_DUMP
 /*----------------------------------------------*/
 /* Dump a line of binary dump                   */
 /*----------------------------------------------*/
@@ -286,7 +418,7 @@ void put_dump (
 	const void* buff,		/* Pointer to the array to be dumped */
 	unsigned long addr,		/* Heading address value */
 	int len,				/* Number of items to be dumped */
-	int width				/* Size of the items (DF_CHAR, DF_SHORT, DF_LONG) */
+	int width				/* Size of buff[0] (1, 2, 4) */
 )
 {
 	int i;
@@ -298,94 +430,81 @@ void put_dump (
 	xprintf("%08lX ", addr);		/* address */
 
 	switch (width) {
-	case DW_CHAR:
+	case 1:
 		bp = buff;
-		for (i = 0; i < len; i++)		/* Hexdecimal dump */
+		for (i = 0; i < len; i++) {		/* Hexdecimal dump */
 			xprintf(" %02X", bp[i]);
-		xputc(' ');
-		for (i = 0; i < len; i++)		/* ASCII dump */
+		}
+		xputs("  ");
+		for (i = 0; i < len; i++) {		/* ASCII dump */
 			xputc((unsigned char)((bp[i] >= ' ' && bp[i] <= '~') ? bp[i] : '.'));
+		}
 		break;
-	case DW_SHORT:
+	case 2:
 		sp = buff;
-		do								/* Hexdecimal dump */
+		do {							/* Hexdecimal dump */
 			xprintf(" %04X", *sp++);
-		while (--len);
+		} while (--len);
 		break;
-	case DW_LONG:
+	case 4:
 		lp = buff;
-		do								/* Hexdecimal dump */
+		do {							/* Hexdecimal dump */
 			xprintf(" %08LX", *lp++);
-		while (--len);
+		} while (--len);
 		break;
 	}
 
 	xputc('\n');
 }
+#endif	/* XF_USE_DUMP */
 
-#endif /* _USE_XFUNC_OUT */
+#endif	/* XF_USE_OUTPUT */
 
 
 
-#if _USE_XFUNC_IN
-unsigned char (*xfunc_in)(void);	/* Pointer to the input stream */
+#if XF_USE_INPUT
+int (*xfunc_input)(void);	/* Pointer to the default input stream */
 
 /*----------------------------------------------*/
 /* Get a line from the input                    */
 /*----------------------------------------------*/
 
-int xgets (		/* 0:End of stream, 1:A line arrived */
-	char* buff,	/* Pointer to the buffer */
-	int len		/* Buffer length */
+
+int xgets (			/* 0:End of stream, 1:A line arrived */
+	char* buff,		/* Pointer to the buffer */
+	int len			/* Buffer length */
 )
 {
 	int c, i;
 
 
-	if (!xfunc_in) return 0;		/* No input function specified */
+	if (!xfunc_input) return 0;	/* No input function is specified */
 
 	i = 0;
 	for (;;) {
-		c = xfunc_in();				/* Get a char from the incoming stream */
-		if (!c) return 0;			/* End of stream? */
-		if (c == '\r') break;		/* End of line? */
-		if (c == '\b' && i) {		/* Back space? */
+		c = xfunc_input();			/* Get a char from the incoming stream */
+		if (c < 0 || c == '\r') break;	/* End of stream or CR? */
+		if (c == '\b' && i) {		/* BS? */
 			i--;
-			if (_LINE_ECHO) xputc((unsigned char)c);
+			if (XF_INPUT_ECHO) xputc(c);
 			continue;
 		}
-		if (c >= ' ' && i < len - 1) {	/* Visible chars */
+		if (c >= ' ' && i < len - 1) {	/* Visible chars? */
 			buff[i++] = c;
-			if (_LINE_ECHO) xputc((unsigned char)c);
+			if (XF_INPUT_ECHO) xputc(c);
 		}
 	}
+	if (XF_INPUT_ECHO) {
+		xputc('\r');
+		xputc('\n');
+	}
 	buff[i] = 0;	/* Terminate with a \0 */
-	if (_LINE_ECHO) xputc('\n');
-	return 1;
-}
-
-
-int xfgets (	/* 0:End of stream, 1:A line arrived */
-	unsigned char (*func)(void),	/* Pointer to the input stream function */
-	char* buff,	/* Pointer to the buffer */
-	int len		/* Buffer length */
-)
-{
-	unsigned char (*pf)(void);
-	int n;
-
-
-	pf = xfunc_in;			/* Save current input device */
-	xfunc_in = func;		/* Switch input to specified device */
-	n = xgets(buff, len);	/* Get a line */
-	xfunc_in = pf;			/* Restore input device */
-
-	return n;
+	return (int)(c == '\r');
 }
 
 
 /*----------------------------------------------*/
-/* Get a value of the string                    */
+/* Get a value of integer string                */
 /*----------------------------------------------*/
 /*	"123 -5   0x3ff 0b1111 0377  w "
 	    ^                           1st call returns 123 and next ptr
@@ -451,4 +570,78 @@ int xatoi (			/* 0:Failed, 1:Successful */
 	return 1;
 }
 
-#endif /* _USE_XFUNC_IN */
+
+#if XF_USE_FP
+/*----------------------------------------------*/
+/* Get a value of the real number string        */
+/*----------------------------------------------*/
+/* Float version of xatoi
+*/
+
+int xatof (			/* 0:Failed, 1:Successful */
+	char **str,		/* Pointer to pointer to the string */
+	double *res		/* Pointer to the valiable to store the value */
+)
+{
+	double val;
+	int s, f, e;
+	unsigned char c;
+
+
+	*res = 0;
+	s = f = 0;
+
+	while ((c = **str) == ' ') (*str)++;	/* Skip leading spaces */
+	if (c == '-') {			/* Negative? */
+		c = *(++(*str)); s = 1; 
+	} else if (c == '+') {	/* Positive? */
+		c = *(++(*str));
+	}
+	if (c == XF_DPC) {		/* Leading dp? */
+		f = -1; 			/* Start at fractional part */
+		c = *(++(*str));
+	}
+	if (c <= ' ') return 0;	/* Wrong termination? */
+	val = 0;
+	while (c > ' ') {		/* Get a value of decimal */
+		if (c == XF_DPC) {	/* Embedded dp? */
+			if (f < 0) return 0;	/* Wrong dp? */
+			f = -1;			/* Enter fractional part */
+		} else {
+			if (c < '0' || c > '9') break;	/* End of decimal? */
+			c -= '0';
+			if (f == 0) {	/* In integer part */
+				val = val * 10 + c;
+			} else {		/* In fractional part */
+				val += i10x(f--) * c;
+			}
+		}
+		c = *(++(*str));
+	}
+	if (c > ' ') {	/* It may be an exponent */
+		if (c != 'e' && c != 'E') return 0;	/* Wrong character? */
+		c = *(++(*str));
+		if (c == '-') {
+			c = *(++(*str)); s |= 2;	/* Negative exponent */
+		} else if (c == '+') {
+			c = *(++(*str));			/* Positive exponent */
+		}
+		if (c <= ' ') return 0;	/* Wrong termination? */
+		e = 0;
+		while (c > ' ') {		/* Get value of exponent */
+			c -= '0';
+			if (c > 9) return 0;	/* Not a numeral? */
+			e = e * 10 + c;
+			c = *(++(*str));
+		}
+		val *= i10x((s & 2) ? -e : e);	/* Apply exponent */
+	}
+
+	if (s & 1) val = -val;	/* Negate sign if needed */
+
+	*res = val;
+	return 1;
+}
+#endif /* XF_USE_FP */
+
+#endif /* XF_USE_INPUT */

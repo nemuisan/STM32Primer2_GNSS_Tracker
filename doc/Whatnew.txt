@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+=======
+20211212 :
+V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.
+		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/dc9372e8c96e11682518682af6dbb10f3d6eef95
+		Adopted arm-gcc toolchain updates
+		 -> (GNU Arm Embedded Toolchain 10.3-2021.10) 10.3.1 20210824 (release)
+
+20210429 :
+V95.00	Adopted FatFs0.14b.
+		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/5bc9e87a4f830093dad200ce41704c984453a74e
+
+20210331 :
+V94.00	Adopted xprintf update.
+		Adopted FatFs0.14a latest patch update(patch1).
+		Adopted FatFs0.14a latest patch update(patch2).
+		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/f627007b756f114f4af31f2d9fb0a87f7091d8f9
+
+>>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 20210101 :
 V93.00	Adopted FatFs0.14a.
 		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
