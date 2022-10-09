@@ -2,11 +2,7 @@
 /  FatFs Functional Configurations
 /---------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-#define FFCONF_DEF	80196	/* Revision ID */
-=======
 #define FFCONF_DEF	86631	/* Revision ID */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 
 /*---------------------------------------------------------------------------/
 / Function Configurations

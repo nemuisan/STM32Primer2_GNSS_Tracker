@@ -1,15 +1,8 @@
 /*----------------------------------------------------------------------------/
-<<<<<<< HEAD
-/  FatFs - Generic FAT Filesystem module  R0.14a                              /
-/-----------------------------------------------------------------------------/
-/
-/ Copyright (C) 2020, ChaN, all right reserved.
-=======
 /  FatFs - Generic FAT Filesystem module  R0.14b                              /
 /-----------------------------------------------------------------------------/
 /
 / Copyright (C) 2021, ChaN, all right reserved.
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 /
 / FatFs module is an open source software. Redistribution and use of FatFs in
 / source and binary forms, with or without modification, are permitted provided
@@ -27,11 +20,7 @@
 
 
 #ifndef FF_DEFINED
-<<<<<<< HEAD
-#define FF_DEFINED	80196	/* Revision ID */
-=======
 #define FF_DEFINED	86631	/* Revision ID */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 
 #ifdef __cplusplus
 extern "C" {

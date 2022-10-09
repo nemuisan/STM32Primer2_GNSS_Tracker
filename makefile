@@ -17,10 +17,6 @@ RLINK	= Cortex_pgm
 # Development Tools based on GNU Compiler Collection
 DEVTOOL = LAUNCHPAD
 #DEVTOOL = BLEEDING_EDGE
-#DEVTOOL = YAGARTO
-#DEVTOOL = DEVKITARM
-#DEVTOOL = SOURCERY
-
 # Check BuildTools
 ifeq ($(DEVTOOL),LAUNCHPAD)
  TOOLDIR = C:/Devz/ARM/Launchpad
@@ -30,15 +26,6 @@ ifeq ($(DEVTOOL),LAUNCHPAD)
  REMOVAL = rm
 else ifeq ($(DEVTOOL),BLEEDING_EDGE)
  TOOLDIR = C:/Devz/ARM/Bleeding-edge
- REMOVAL = rm
-else ifeq ($(DEVTOOL),YAGARTO)
- TOOLDIR = C:/Devz/ARM/Yagarto
- REMOVAL = rm
-else ifeq ($(DEVTOOL),DEVKITARM)
- TOOLDIR = C:/Devz/ARM/devkitARM
- REMOVAL = rm
-else ifeq ($(DEVTOOL),SOURCERY)
- TOOLDIR = C:/Devz/ARM/Sourcery
  REMOVAL = rm
 else
  $(error SET BUILD-TOOLS AT FIRST!!)
@@ -71,11 +58,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-<<<<<<< HEAD
-APP_VER = 93.00
-=======
-APP_VER = 96.00
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
+APP_VER = 97.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2

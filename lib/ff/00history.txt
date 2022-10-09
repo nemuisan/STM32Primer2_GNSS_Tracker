@@ -344,8 +344,6 @@ R0.14a (December 5, 2020)
   Fixed old floppy disks formatted with MS-DOS 2.x and 3.x cannot be mounted.
   Fixed some compiler warnings.
 
-<<<<<<< HEAD
-=======
 
 
 R0.14b (April 17, 2021)
@@ -359,4 +357,3 @@ R0.14b (April 17, 2021)
   Fixed some compiler warnings.
 
 
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)

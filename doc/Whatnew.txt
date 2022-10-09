@@ -1,7 +1,16 @@
-<<<<<<< HEAD
-=======
+2022.10.08 :
+V97.00	Adopted FatFs0.14b latest patch update(patch2).
+		Fixed incorrect integer cast on FatFs SDIO Library(on sdio_stm32f1.c).
+		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/977abe9849781a2e788b02282986480ff4e25ea6
+		Adopted CMSIS DSP Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS-DSP/commit/6f0f63a3beb22b937cd1b54cad010e2eebe39687
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 11.3.Rel1) 11.3.1 20220712
+
 20211212 :
 V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.
+		Adopted FatFs0.14b.
 		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/dc9372e8c96e11682518682af6dbb10f3d6eef95
 		Adopted arm-gcc toolchain updates
@@ -19,7 +28,6 @@ V94.00	Adopted xprintf update.
 		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/f627007b756f114f4af31f2d9fb0a87f7091d8f9
 
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 20210101 :
 V93.00	Adopted FatFs0.14a.
 		Adopted CMSIS Core(M) Version 5.0.4 Header Files into latest repository.

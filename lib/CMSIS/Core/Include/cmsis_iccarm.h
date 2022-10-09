@@ -7,13 +7,8 @@
 
 //------------------------------------------------------------------------------
 //
-<<<<<<< HEAD
-// Copyright (c) 2017-2020 IAR Systems
-// Copyright (c) 2017-2019 Arm Limited. All rights reserved.
-=======
 // Copyright (c) 2017-2021 IAR Systems
 // Copyright (c) 2017-2021 Arm Limited. All rights reserved.
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 //
 // SPDX-License-Identifier: Apache-2.0
 //

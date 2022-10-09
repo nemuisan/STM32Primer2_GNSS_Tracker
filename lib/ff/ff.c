@@ -1,15 +1,8 @@
 /*----------------------------------------------------------------------------/
-<<<<<<< HEAD
-/  FatFs - Generic FAT Filesystem Module  R0.14a                              /
-/-----------------------------------------------------------------------------/
-/
-/ Copyright (C) 2020, ChaN, all right reserved.
-=======
 /  FatFs - Generic FAT Filesystem Module  R0.14b                              /
 /-----------------------------------------------------------------------------/
 /
 / Copyright (C) 2021, ChaN, all right reserved.
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 /
 / FatFs module is an open source software. Redistribution and use of FatFs in
 / source and binary forms, with or without modification, are permitted provided
@@ -37,11 +30,7 @@
 
 ---------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-#if FF_DEFINED != 80196	/* Revision ID */
-=======
 #if FF_DEFINED != 86631	/* Revision ID */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 #error Wrong include file (ff.h).
 #endif
 
@@ -1097,11 +1086,7 @@ static FRESULT sync_fs (	/* Returns FR_OK or FR_DISK_ERR */
 	if (res == FR_OK) {
 		if (fs->fs_type == FS_FAT32 && fs->fsi_flag == 1) {	/* FAT32: Update FSInfo sector if needed */
 			/* Create FSInfo structure */
-<<<<<<< HEAD
-			mem_set(fs->win, 0, sizeof fs->win);
-=======
 			memset(fs->win, 0, sizeof fs->win);
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 			st_word(fs->win + BS_55AA, 0xAA55);					/* Boot signature */
 			st_dword(fs->win + FSI_LeadSig, 0x41615252);		/* Leading signature */
 			st_dword(fs->win + FSI_StrucSig, 0x61417272);		/* Structure signature */
@@ -2011,13 +1996,7 @@ static void gen_numname (
 		c = (BYTE)((seq % 16) + '0'); seq /= 16;
 		if (c > '9') c += 7;
 		ns[i--] = c;
-<<<<<<< HEAD
-		seq /= 16;
-		if(i==0) break; /* Nemui */
-	} while (seq);
-=======
 	} while (i && seq);
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 	ns[i] = '~';
 
 	/* Append the suffix to the SFN body */
@@ -3256,11 +3235,7 @@ static DWORD make_rand (
 
 /* Check what the sector is */
 
-<<<<<<< HEAD
-static UINT check_fs (	/* 0:FAT VBR, 1:exFAT VBR, 2:Not FAT and valid BS, 3:Not FAT and invalid BS, 4:Disk error */
-=======
 static UINT check_fs (	/* 0:FAT/FAT32 VBR, 1:exFAT VBR, 2:Not FAT and valid BS, 3:Not FAT and invalid BS, 4:Disk error */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 	FATFS* fs,			/* Filesystem object */
 	LBA_t sect			/* Sector to load and check if it is an FAT-VBR or not */
 )
@@ -3685,11 +3660,7 @@ FRESULT f_open (
 	DIR dj;
 	FATFS *fs;
 #if !FF_FS_READONLY
-<<<<<<< HEAD
-	DWORD cl, bcs, clst,  tm;
-=======
 	DWORD cl, bcs, clst, tm;
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 	LBA_t sc;
 	FSIZE_t ofs;
 #endif
@@ -5675,11 +5646,7 @@ FRESULT f_forward (
 
 #if !FF_FS_READONLY && FF_USE_MKFS
 /*-----------------------------------------------------------------------*/
-<<<<<<< HEAD
-/* Create FAT/exFAT volume                                               */
-=======
 /* Create FAT/exFAT volume (with sub-functions)                          */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 /*-----------------------------------------------------------------------*/
 
 #define N_SEC_TRACK 63			/* Sectors per track for determination of drive CHS */
@@ -5796,21 +5763,6 @@ static FRESULT create_partition (
 
 		memset(buf, 0, FF_MAX_SS);		/* Clear MBR */
 		pte = buf + MBR_Table;	/* Partition table in the MBR */
-<<<<<<< HEAD
-		for (i = 0, s_lba32 = n_sc; i < 4 && s_lba32 != 0 && s_lba32 < sz_drv32; i++, s_lba32 += n_lba32) {
-			n_lba32 = (DWORD)plst[i];	/* Get partition size */
-			if (n_lba32 <= 100) n_lba32 = (n_lba32 == 100) ? sz_drv32 : sz_drv32 / 100 * n_lba32;	/* Size in percentage? */
-			if (s_lba32 + n_lba32 > sz_drv32 || s_lba32 + n_lba32 < s_lba32) n_lba32 = sz_drv32 - s_lba32;	/* Clip at drive size */
-			if (n_lba32 == 0) break;	/* End of table or no sector to allocate? */
-
-			st_dword(pte + PTE_StLba, s_lba32);		/* Start LBA */
-			st_dword(pte + PTE_SizLba, n_lba32);	/* Number of sectors */
-			pte[PTE_System] = sys;					/* System type */
-
-			cy = (UINT)(s_lba32 / n_sc / n_hd);		/* Start cylinder */
-			hd = (BYTE)(s_lba32 / n_sc % n_hd);		/* Start head */
-			sc = (BYTE)(s_lba32 % n_sc + 1);		/* Start sector */
-=======
 		for (i = 0, nxt_alloc32 = n_sc; i < 4 && nxt_alloc32 != 0 && nxt_alloc32 < sz_drv32; i++, nxt_alloc32 += sz_part32) {
 			sz_part32 = (DWORD)plst[i];	/* Get partition size */
 			if (sz_part32 <= 100) sz_part32 = (sz_part32 == 100) ? sz_drv32 : sz_drv32 / 100 * sz_part32;	/* Size in percentage? */
@@ -5824,7 +5776,6 @@ static FRESULT create_partition (
 			cy = (UINT)(nxt_alloc32 / n_sc / n_hd);	/* Start cylinder */
 			hd = (BYTE)(nxt_alloc32 / n_sc % n_hd);	/* Start head */
 			sc = (BYTE)(nxt_alloc32 % n_sc + 1);	/* Start sector */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 			pte[PTE_StHead] = hd;
 			pte[PTE_StSec] = (BYTE)((cy >> 2 & 0xC0) | sc);
 			pte[PTE_StCyl] = (BYTE)cy;
@@ -6006,7 +5957,7 @@ FRESULT f_mkfs (
 		sz_fat = (DWORD)((sz_vol / sz_au + 2) * 4 + ss - 1) / ss;	/* Number of FAT sectors */
 		b_data = (b_fat + sz_fat + sz_blk - 1) & ~((LBA_t)sz_blk - 1);	/* Align data area to the erase block boundary */
 		if (b_data - b_vol >= sz_vol / 2) LEAVE_MKFS(FR_MKFS_ABORTED);	/* Too small volume? */
-		n_clst = (DWORD)(sz_vol - (b_data - b_vol)) / sz_au;	/* Number of clusters */
+		n_clst = (DWORD)((sz_vol - (b_data - b_vol)) / sz_au); /* Number of clusters */
 		if (n_clst <16) LEAVE_MKFS(FR_MKFS_ABORTED);			/* Too few clusters? */
 		if (n_clst > MAX_EXFAT) LEAVE_MKFS(FR_MKFS_ABORTED);	/* Too many clusters? */
 
@@ -6055,11 +6006,7 @@ FRESULT f_mkfs (
 		sect = b_data; nsect = (szb_bit + ss - 1) / ss;	/* Start of bitmap and number of bitmap sectors */
 		nbit = clen[0] + clen[1] + clen[2];				/* Number of clusters in-use by system (bitmap, up-case and root-dir) */
 		do {
-<<<<<<< HEAD
-			mem_set(buf, 0, sz_buf * ss);				/* Initialize bitmap buffer */
-=======
 			memset(buf, 0, sz_buf * ss);				/* Initialize bitmap buffer */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 			for (i = 0; nbit != 0 && i / 8 < sz_buf * ss; buf[i / 8] |= 1 << (i % 8), i++, nbit--) ;	/* Mark used clusters */
 			n = (nsect > sz_buf) ? sz_buf : nsect;		/* Write the buffered data */
 			if (disk_write(pdrv, buf, sect, n) != RES_OK) LEAVE_MKFS(FR_DISK_ERR);
@@ -6070,11 +6017,7 @@ FRESULT f_mkfs (
 		sect = b_fat; nsect = sz_fat;	/* Start of FAT and number of FAT sectors */
 		j = nbit = clu = 0;
 		do {
-<<<<<<< HEAD
-			mem_set(buf, 0, sz_buf * ss); i = 0;	/* Clear work area and reset write offset */
-=======
 			memset(buf, 0, sz_buf * ss); i = 0;	/* Clear work area and reset write offset */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 			if (clu == 0) {	/* Initialize FAT [0] and FAT[1] */
 				st_dword(buf + i, 0xFFFFFFF8); i += 4; clu++;
 				st_dword(buf + i, 0xFFFFFFFF); i += 4; clu++;
@@ -6092,17 +6035,6 @@ FRESULT f_mkfs (
 		} while (nsect);
 
 		/* Initialize the root directory */
-<<<<<<< HEAD
-		mem_set(buf, 0, sz_buf * ss);
-		buf[SZDIRE * 0 + 0] = ET_VLABEL;					/* Volume label entry (no label) */
-		buf[SZDIRE * 1 + 0] = ET_BITMAP;					/* Bitmap entry */
-		st_dword(buf + SZDIRE * 1 + 20, 2);					/*  cluster */
-		st_dword(buf + SZDIRE * 1 + 24, szb_bit);			/*  size */
-		buf[SZDIRE * 2 + 0] = ET_UPCASE;					/* Up-case table entry */
-		st_dword(buf + SZDIRE * 2 + 4, sum);				/*  sum */
-		st_dword(buf + SZDIRE * 2 + 20, 2 + clen[0]);		/*  cluster */
-		st_dword(buf + SZDIRE * 2 + 24, szb_case);			/*  size */
-=======
 		memset(buf, 0, sz_buf * ss);
 		buf[SZDIRE * 0 + 0] = ET_VLABEL;				/* Volume label entry (no label) */
 		buf[SZDIRE * 1 + 0] = ET_BITMAP;				/* Bitmap entry */
@@ -6112,16 +6044,11 @@ FRESULT f_mkfs (
 		st_dword(buf + SZDIRE * 2 + 4, sum);			/*  sum */
 		st_dword(buf + SZDIRE * 2 + 20, 2 + clen[0]);	/*  cluster */
 		st_dword(buf + SZDIRE * 2 + 24, szb_case);		/*  size */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 		sect = b_data + sz_au * (clen[0] + clen[1]); nsect = sz_au;	/* Start of the root directory and number of sectors */
 		do {	/* Fill root directory sectors */
 			n = (nsect > sz_buf) ? sz_buf : nsect;
 			if (disk_write(pdrv, buf, sect, n) != RES_OK) LEAVE_MKFS(FR_DISK_ERR);
-<<<<<<< HEAD
-			mem_set(buf, 0, ss);	/* Rest of entries are filled with zero */
-=======
 			memset(buf, 0, ss);	/* Rest of entries are filled with zero */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 			sect += n; nsect -= n;
 		} while (nsect);
 
@@ -6138,11 +6065,7 @@ FRESULT f_mkfs (
 			st_dword(buf + BPB_DataOfsEx, (DWORD)(b_data - b_vol));	/* Data offset [sector] */
 			st_dword(buf + BPB_NumClusEx, n_clst);					/* Number of clusters */
 			st_dword(buf + BPB_RootClusEx, 2 + clen[0] + clen[1]);	/* Root dir cluster # */
-<<<<<<< HEAD
-			st_dword(buf + BPB_VolIDEx, GET_FATTIME());				/* VSN */
-=======
 			st_dword(buf + BPB_VolIDEx, vsn);						/* VSN */
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 			st_word(buf + BPB_FSVerEx, 0x100);						/* Filesystem version (1.00) */
 			for (buf[BPB_BytsPerSecEx] = 0, i = ss; i >>= 1; buf[BPB_BytsPerSecEx]++) ;	/* Log2 of sector size [byte] */
 			for (buf[BPB_SecPerClusEx] = 0, i = sz_au; i >>= 1; buf[BPB_SecPerClusEx]++) ;	/* Log2 of cluster size [sector] */
@@ -6601,7 +6524,7 @@ static void putc_bfd (putbuff* pb, TCHAR c)
 			if ((BYTE)c < 0x80) break;					/* Single byte? */
 			if (((BYTE)c & 0xE0) == 0xC0) pb->ct = 1;	/* 2-byte sequence? */
 			if (((BYTE)c & 0xF0) == 0xE0) pb->ct = 2;	/* 3-byte sequence? */
-			if (((BYTE)c & 0xF1) == 0xF0) pb->ct = 3;	/* 4-byte sequence? */
+			if (((BYTE)c & 0xF8) == 0xF0) pb->ct = 3;	/* 4-byte sequence? */
 			return;
 		} else {				/* In the multi-byte sequence */
 			if (((BYTE)c & 0xC0) != 0x80) {	/* Broken sequence? */
@@ -6917,51 +6840,6 @@ int f_printf (
 			w = va_arg(arp, int);
 			tc = *fmt++;
 		} else {
-<<<<<<< HEAD
-			while (IsDigit(c)) {	/* Minimum width */
-				w = w * 10 + c - '0';
-				c = *fmt++;
-			}
-		}
-		if (c == 'l' || c == 'L') {	/* Type prefix: Size is long int */
-			f |= 4; c = *fmt++;
-		}
-		if (c == 0) break;
-		d = c;
-		if (IsLower(d)) d -= 0x20;
-		switch (d) {				/* Atgument type is... */
-		case 'S':					/* String */
-			p = va_arg(arp, TCHAR*);
-			for (j = 0; p[j]; j++) ;
-			if (!(f & 2)) {						/* Right padded */
-				while (j++ < w) putc_bfd(&pb, ' ') ;
-			}
-			while (*p) putc_bfd(&pb, *p++) ;		/* String body */
-			while (j++ < w) putc_bfd(&pb, ' ') ;	/* Left padded */
-			continue;
-
-		case 'C':					/* Character */
-			putc_bfd(&pb, (TCHAR)va_arg(arp, int));
-			continue;
-
-		case 'B':					/* Unsigned binary */
-			r = 2;
-			break;
-
-		case 'O':					/* Unsigned octal */
-			r = 8; 
-			break;
-
-		case 'D':					/* Signed decimal */
-		case 'U':					/* Unsigned decimal */
-			r = 10;
-			break;
-
-		case 'X':					/* Unsigned hexdecimal */
-			r = 16;
-			break;
-
-=======
 			while (IsDigit(tc)) {	/* Minimum width */
 				w = w * 10 + tc - '0';
 				tc = *fmt++;
@@ -7022,7 +6900,6 @@ int f_printf (
 			while (j++ < w) putc_bfd(&pb, ' ');	/* Right pads */
 			continue;
 #endif
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 		default:					/* Unknown type (pass-through) */
 			putc_bfd(&pb, tc); continue;
 		}

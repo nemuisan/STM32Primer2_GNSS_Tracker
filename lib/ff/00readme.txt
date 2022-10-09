@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-FatFs Module Source Files R0.14a
-=======
 FatFs Module Source Files R0.14b
->>>>>>> 6f51407 (V96.00	Adopted CD-PA1616(AXN5.1.6 new firmware) support.)
 
 
 FILES

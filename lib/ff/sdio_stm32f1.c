@@ -3,12 +3,12 @@
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
 	@version		31.00
-	@date			2019.10.23
+	@date			2022.09.03
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2019.10.23	V31.00	See sdio_stm32f1_ver.txt.
+		2022.09.03	V31.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -3973,7 +3973,7 @@ DRESULT disk_read(uint8_t drv,uint8_t *buff,uint32_t sector,unsigned int count)
 				for (unsigned int secNum = 0; secNum < count && Status == SD_OK; secNum++){
 					Status =  SD_ReadBlock(dmabuf,
 								  (uint64_t)(sector+secNum)*SECTOR_SIZE, 
-								  (uint8_t)SECTOR_SIZE);
+								  SECTOR_SIZE);
 					memcpy(buff+SECTOR_SIZE*secNum, dmabuf, SECTOR_SIZE);
 				}
 			} else {
@@ -4038,7 +4038,7 @@ DRESULT disk_write(uint8_t drv,const uint8_t *buff,uint32_t sector,unsigned int 
 					memcpy(dmabuf, buff+SECTOR_SIZE*secNum, SECTOR_SIZE);
 					Status = SD_WriteBlock(dmabuf,
 								  (uint64_t)(sector+secNum)*SECTOR_SIZE, 
-								  (uint8_t)SECTOR_SIZE);
+								  SECTOR_SIZE);
 				}
 			} else {
 				/* Aligned Buffer Address Case (Faster) */
