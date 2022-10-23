@@ -1,5 +1,5 @@
 ******************************************************************************
-  STM32 Primer2 BARE-METAL Project GPS Tr@cker.
+  STM32 Primer2 BARE-METAL Project GNSS-Tr@cker.
   Since : 20100901
   by Nemui Trinomius
      http://nemuisan.blog.bai.ne.jp

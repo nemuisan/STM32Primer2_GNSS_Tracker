@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2020.05.30
+    @version        6.00
+    @date           2022.10.10
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -12,6 +12,7 @@
 		2014.07.16	V3.00	Reset Systick to Suitable Frequency.
 		2019.09.20	V4.00	Fixed redundant declaration.
 		2020.05.30	V5.00	Display system version string.
+		2022.10.10	V6.00	Purge UART buffer on connect.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,7 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if __CDC_SUPPORT_H!= 0x0500
+#if __CDC_SUPPORT_H!= 0x0600
 #error "header file version is not correspond!"
 #endif
 
@@ -195,12 +196,22 @@ bool USART_Config(void)
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
+	/* Purge UART Buffer */
+	USART_ITConfig(USART2, USART_IT_RXNE, DISABLE);
+	USART_Rx_ptr_in  = 0;
+	USART_Rx_ptr_out = 0;
+	USART_Rx_length  = 0;
+	USB_Tx_State     = 0;
+	USB_xMutex       = 0;
 
 	/* Init USART */
 	USART_Init(USART2, &USART_InitStructure);
 
 	/* Enable USART */
 	USART_Cmd(USART2, ENABLE);
+	
+	/* Enable the USART Receive interrupt */
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 
 	return (true);
 }

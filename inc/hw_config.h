@@ -2,20 +2,21 @@
 /*!
 	@file			hw_config.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2011.03.10
+    @version        3.00
+    @date           2022.10.15
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
 		2010.12.31	V1.00	Restart Here.
 		2011.03.10	V2.00	C++ Ready.
+		2022.10.15	V3.00	Fixed cosmetic bugfixes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __HW_CONFIG_H
-#define __HW_CONFIG_H 0x0200
+#define __HW_CONFIG_H 0x0300
 
 #ifdef __cplusplus
  extern "C" {
@@ -33,7 +34,7 @@
 
 /* Function Inclusion */
 #include "systick.h"
-#include "power.h"
+#include "pwr_support.h"
 #include "adc_support.h"
 #include "rtc_support.h"
 #include "uart_support_gps.h"
@@ -43,20 +44,20 @@
 /* High Level Function */
 #include "ff.h"
 #include "diskio.h"
-#include "gps_support.h"
+#include "gnss_support.h"
 #include "cdc_support.h"
 #include "msc_support.h"
 
 
 /* Macros */
 #define countof(a)   	(sizeof(a) / sizeof(*(a)))
+/* Function modes enumeration */
 enum{ 
 		NO_SELECTED,
 		GNSS_LOGGING,
 		USB_MSC,
 		USB_VCOM
 	};
-
 /* Power */
 #define PWR_ON()		GPIO_ResetBits(GPIO_PWR, SHUTDOWN)
 #define PWR_OFF()		GPIO_SetBits(GPIO_PWR, SHUTDOWN)

@@ -1,6 +1,6 @@
 ========== What is this ? ==========
-This is "THE GNSS Tr@cker for STM32Primer2"!
-
+This is "THE GNSS-Tr@cker for STM32Primer2"!
+In other words, ChaNg-GURU's FatFs GOODEST SDIO implementation for STM32F1!
 
 ========== To Build and Debug ==========
 Supported Only ARM-GCC(EABI)!
@@ -12,25 +12,29 @@ http://nemuisan.blog.bai.ne.jp/?eid=188402
 
 
 ========== Support Modules ==========
-appricable GPS modules, you can use....
+appricable GNSS modules, you can use....
 
+PA1010D         (CDTop(former GlobalTOP))
+PA1616D
+PA1616S
+ Supports MT3333 9600bps(default),38400bps,AIC Setting,AGPS With PC-Software.
+
+
+
+////// NOT RECOMMENDATION DEPREACATED MODULES(but works...) //////
 XA1110          (SierraWireless)
  Supports MT3333 115200bps(default),38400bps,9600bps,AIC Setting,AGPS With PC-Software.
-
 Gms-g9(Titan3)  (SierraWireless(former GlobalTOP))
  Supports MT3333 9600bps(default),38400bps,AIC Setting,AGPS With PC-Software.
-
 Gms-g6a         (SierraWireless(former GlobalTOP))
  Supports MT3333 9600bps(default),38400bps,AIC Setting,AGPS With PC-Software.
-
 PA6C            (SierraWireless(former GlobalTOP))
  Supports MT3339 9600bps(default),38400bps,AIC Setting,AGPS With PC-Software.
-
 UP-501          (FASTRAX)
  Supports MT3329 9600bps,38400bps,AGPS With PC-Software.
-
 GT-723F         (CANMORE ELECTRONICS)
  Supports Venus6 9600bps,AGPS With PC-Software.
+
 
 
 
@@ -64,7 +68,7 @@ http://nemuisan.blog.bai.ne.jp/?eid=192946
 
 
 /* for nemuisan only information */
-power.*
+pwr_support.*
 term_io.*
 hw_config.*
 and makefile

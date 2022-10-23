@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2020.05.30
+    @version        6.00
+    @date           2022.10.10
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -12,13 +12,14 @@
 		2014.07.16	V3.00	Reset Systick to Suitable Frequency.
 		2019.09.20	V4.00	Fixed redundant declaration.
 		2020.05.30	V5.00	Display system version string.
+		2022.10.10	V6.00	Purge UART buffer on connect.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __CDC_SUPPORT_H
-#define __CDC_SUPPORT_H	0x0500
+#define __CDC_SUPPORT_H	0x0600
 
 #ifdef __cplusplus
  extern "C" {

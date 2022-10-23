@@ -2,8 +2,8 @@
 /*!
 	@file			uart_support_gps.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2015.08.25
+    @version        6.00
+    @date           2022.10.10
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
@@ -12,13 +12,14 @@
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
 		2015.01.11	V4.00	Added buffered UART information.
 		2015.08.25	V5.00	Fixed Wrong Expression.
+		2022.10.10	V6.00	Fiexed more robustness.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef __UART_SUPPORT_GPS_H
-#define __UART_SUPPORT_GPS_H	0x0500
+#define __UART_SUPPORT_GPS_H	0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -43,6 +44,7 @@
 
 #define UART_DEFAULT_NUM	2
 #define USARTx_Buf			USART2_Buf
+#define USARTx_IRQHandler	USART2_IRQHandler
 
 
 /* General Definition */

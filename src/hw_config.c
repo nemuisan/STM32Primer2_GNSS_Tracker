@@ -2,13 +2,14 @@
 /*!
 	@file			hw_config.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2011.03.10
+    @version        3.00
+    @date           2022.10.15
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
 		2010.12.31	V1.00	Restart Here.
 		2011.03.10	V2.00	C++ Ready.
+		2022.10.15	V3.00	Fixed cosmetic bugfixes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -16,8 +17,11 @@
 /********************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"
 #include "hw_config.h"
+/* check header file version for fool proof */
+#if __HW_CONFIG_H!= 0x0300
+#error "header file version is not correspond!"
+#endif
 
 /* Defines -------------------------------------------------------------------*/
 
@@ -62,7 +66,6 @@ void Set_System(void)
 
 	/* Configure the ADCControl on STM32Primer2. */
 	ADC_DMA_Configuration();
-
 }
 
 
@@ -144,7 +147,6 @@ void KEY_Configuration(void)
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
 }
 
 
@@ -215,10 +217,9 @@ void JoyInp_Chk(void)
 }
 
 
-
 /**************************************************************************/
 /*! 
-    @brief	Set Available USB Clock Frequency.
+    @brief	Set Available SystemClock to 72MHz for USB Functions.
 	@param	None.
     @retval	None.
 */

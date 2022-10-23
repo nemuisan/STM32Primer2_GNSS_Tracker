@@ -2,12 +2,12 @@
 /*!
 	@file			ts.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        18.00
-    @date           2019.11.01
+    @version        19.00
+    @date           2022.10.15
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.11.01	See ts_ver.txt.
+		2022.10.15	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts.h"
 /* check header file version for fool proof */
-#if __TS_H != 0x1800
+#if __TS_H != 0x1900
 #error "header file version is not correspond!"
 #endif
 
@@ -200,7 +200,7 @@ inline void ts_rtc(void)
 		ts_locate(TS_FILER_HEIGHT,0,0);
 		rtc = Time_GetCalendarTime();
 	#ifdef USE_STM32PRIMER2
-		if(LOWBATT_ALARM)
+		if(LOWBATT_ALARM())
 		{
 			xprintf("\33\x87 %04u/%02u/%02u %02u:%02u:%02u LOW  ",\
 			rtc.tm_year, rtc.tm_mon+1, rtc.tm_mday, rtc.tm_hour, rtc.tm_min, rtc.tm_sec);

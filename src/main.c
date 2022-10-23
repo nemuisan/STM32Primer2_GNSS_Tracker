@@ -1,12 +1,12 @@
 /********************************************************************************/
 /*!
-	@file			main.c
+	@file			main.c (STM32Primer2 GNSS-Tr@cker main file)
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        97.00
-    @date           2022.10.08
+    @version        98.00
+    @date           2022.10.21
 
     @section HISTORY
-		2022.10.08	V97.00	See Whatnew.txt
+		2022.10.21	V98.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -60,6 +60,7 @@ int main(void)
 	}
 
 	/* Enable IWDG */
+	/* The Independent watchdog can not be stopped once started in any processor mode! */
 	IWDG_Enable();
 
 	/* Install Main GNSS tracker Function */

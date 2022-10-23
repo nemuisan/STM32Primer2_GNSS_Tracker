@@ -1,3 +1,14 @@
+2022.10.21 :
+V98.00	Changed Power management routine(on power.c,h).
+        Fixed cosmetic bugfixes(on hw_config.c,h).
+		Fixed UART robustness(on uart_support_gps.c,h and cdc_support.c,h).
+		Changed file name(power.c,h -> pwr_support.c,h).
+		Changed file name(gps_support.c,h -> gnss_support.c,h).
+		Adopted CMSIS Core(M) Version 5.0.5 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/085ec6abdf59816a9151a9e4ff7b55617c680873
+		Adopted CMSIS DSP Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS-DSP/commit/302897a523f5abae63fae9bdb3bbfc1e3089a55a
+			
 2022.10.08 :
 V97.00	Adopted FatFs0.14b latest patch update(patch2).
 		Fixed incorrect integer cast on FatFs SDIO Library(on sdio_stm32f1.c).

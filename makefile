@@ -6,7 +6,7 @@
 
 # Environment Dependent!!! This Environment assure under WINDOWS !!
 # Throw path into YOUR environments
-export PATH = %SYSTEMROOT%;$(TOOLDIR)/arm-gcc/bin;$(TOOLDIR)/bin;$(MAKEDIR);$(RIDEDIR)
+export PATH = %SYSTEMROOT%;$(TOOLDIR)/bin;$(OCDIR);$(DBGDIR);$(MAKEDIR);$(RIDEDIR)
 
 # Environment Dependent!!!
 # Toolchain prefix (i.e arm-none-eabi -> arm-none-eabi-gcc.exe)
@@ -20,7 +20,7 @@ DEVTOOL = LAUNCHPAD
 # Check BuildTools
 ifeq ($(DEVTOOL),LAUNCHPAD)
  TOOLDIR = C:/Devz/ARM/Launchpad
-# NANOLIB = --specs=nano.specs
+ NANOLIB = --specs=nano.specs
 #  NANOLIB += -u _printf_float
 #  NANOLIB += -u _scanf_float
  REMOVAL = rm
@@ -34,13 +34,19 @@ endif
 
 # Set UNIX-Like tools (Coreutils)
 MAKEDIR = C:/Devz/Coreutils/bin
+
 # Set RIDE Directory
 RIDEDIR  = C:/Devz/ARM/Raisonance/Ride/bin
 
+#Set Shell Definitions
 WSHELL  = cmd
 MSGECHO = echo.exe
-GDBDIR  = C:/Devz/ARM/insight/bin
-INSIGHT = $(GDBDIR)/arm-none-eabi-insight
+#MSGECHO = /bin/echo
+
+#Set Debugger Directory
+#DBGDIR  = C:/Devz/ARM/CodeLite
+#DBG_BIN = codelite.exe
+#BG_CMD = ./lib/codelite_dbg/codelite_dbg.workspace
 # Environment Dependent!!!
 
 # OPTIMIZE definition
@@ -58,7 +64,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 97.00
+APP_VER = 98.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -152,10 +158,10 @@ CFILES = \
  $(SOURCE)/syscalls.c				\
  $(SOURCE)/stm32f10x_it.c			\
  $(SOURCE)/hw_config.c 				\
- $(SOURCE)/power.c 					\
+ $(SOURCE)/pwr_support.c 			\
  $(SOURCE)/adc_support.c 			\
  $(SOURCE)/rtc_support.c 			\
- $(SOURCE)/gps_support.c 			\
+ $(SOURCE)/gnss_support.c 			\
  $(SOURCE)/cdc_support.c 			\
  $(SOURCE)/msc_support.c 			\
  $(SOURCE)/uart_support_gps.c		\
@@ -424,6 +430,6 @@ program :
 	@$(MSGECHO)
 
 # Listing of phony targets.
-.PHONY : all build clean begin finish end sizebefore sizeafter \
-		 gccversion buildinform elf hex bin lss sym \
+.PHONY : all build clean begin finish end sizebefore sizeafter	\
+		 gccversion buildinform elf hex bin lss sym 			\
 		 build_target clean_list program debug
