@@ -1,3 +1,11 @@
+2022.12.16 :
+V99.00	Adopted FatFs0.15.
+		Adopted FatFs0.15 latest patch update(patch2).
+		Adopted CMSIS Core(M) Version 5.0.5 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/e7392e4c04adcf8c9e83da16d6a4330f52272683
+		Adopted CMSIS DSP Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS-DSP/commit/258f31c5e6617ad97dab9bb0d61837fe80cb8a43
+
 2022.10.21 :
 V98.00	Changed Power management routine(on power.c,h).
         Fixed cosmetic bugfixes(on hw_config.c,h).
