@@ -2,26 +2,26 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        19.00
-    @date           2019.11.01
+    @version        21.00
+    @date           2023.03.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.11.01	See ts_ver.txt.
+		2023.03.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __TS_FILELOADS_H
-#define __TS_FILELOADS_H 0x1900
+#ifndef TS_FILELOADS_H
+#define TS_FILELOADS_H 0x2100
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 /* basic includes */
-#include "ts.h"
+#include "ts_basis.h"
 
 /* JPEG Decorder Definitions */
 #ifdef USE_IJG_LIB
@@ -100,4 +100,4 @@ extern volatile uint32_t on_filer;	/* Used on STM32 Primer2 */
 }
 #endif
 
-#endif /* __TS_FILELOADS_H */
+#endif /* TS_FILELOADS_H */

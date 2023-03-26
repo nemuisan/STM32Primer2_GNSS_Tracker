@@ -2,8 +2,8 @@
 /*!
 	@file			pwr_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2022.10.15
+    @version        3.00
+    @date           2023.03.08
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
@@ -12,16 +12,16 @@
 		2014.12.02	V3.00	Added WatchdogReset for USB functions.
 		2014.12.22	V3.01	Enforce Watchdog handlings.
 		2022.10.15	V4.00	Changed power-handlings,some codes and filename.
+		2023.03.08	V5.00	Fixed lipo battery lower voltage limit.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-
 /* Includes ------------------------------------------------------------------*/
 #include "pwr_support.h"
 /* check header file version for fool proof */
-#if __PWR_SUPPORT_H!= 0x0400
+#if PWR_SUPPORT_H!= 0x0500
 #error "header file version is not correspond!"
 #endif
 
@@ -116,14 +116,15 @@ static void ShutVbat_Chk(void)
 		vbatcounts =0;
 		CurrentVbat =  ((CurrentVbat * 3) + (GetVbat()) ) / 4;
 		
+		 /* Bad battery or USB powered only detection */
 		if(CurrentVbat > NO_BAT_VOLTAGE)
 		{
 			if(CurrentVbat < MID_BAT_VOLTAGE) 	{BatState = BAT_LOW;}
 			else 								{BatState = BAT_MIDDLE;}
 			
-			if(CurrentVbat < LIPO_LOWER_VOLT)
+			if(CurrentVbat < LOWER_BAT_VOLTAGE)
 			{
-				if(++vbatlow > LOWER_FILT) 
+				if(++vbatlow > LOWER_FILT_TIME) 
 				{
 					/* Reload IWDG counter */
 					IWDG_ReloadCounter();
@@ -142,7 +143,7 @@ static void ShutVbat_Chk(void)
 				vbatlow =0;
 			}
 		}
-		else
+		else /* In case of USB Powered only */
 		{
 				vbatlow =0;
 		}
@@ -159,23 +160,24 @@ static void ShutVbat_Chk(void)
 /**************************************************************************/
 int16_t GetVbat()
 {
-    uint16_t vbat;
-	static int16_t VBat=-1; /* signed 16bit int */
+    uint32_t vbat;
+	static int16_t VBat=-1; /* signed 16bit int static */
 
+	/* Averaging */
     vbat = 0;
     for (int i=0; i<ADC_NB_SAMPLES; i++)
         {
-			vbat += ADC_RegularConvertedValueTab[0 + i*ADC_NB_CHANNELS];
+			vbat += ADC_RegularConvertedValueTab[ADC_VBAT_CH_OFS + i*ADC_NB_CHANNELS];
         }
     vbat = vbat / ADC_NB_SAMPLES;
 
-    vbat = vbat & 0xFFF;						// clip12bit
-    vbat = ( vbat * VDD_VOLTAGE_MV ) / 0x1000;	// finds mV
+    vbat = vbat & 0xFFF;						/* clip12bit */
 	
 	/* Divider bridge  Vbat <-> 1M -<--|-->- 1M <-> Gnd,@STM32 Primer2. */
-    vbat *= 2;
+    vbat = ( vbat * ADC_VREF_MV ) / (4096/2);	/* finds mV,divide by 4096(12bit) and *2(due to divide by2) */
 
-    if (VBat == -1)  VBat = (int16_t)vbat;
+	/* Baby flag check */
+    if (VBat == -1)  VBat = (int16_t)vbat;			
     else             VBat = (VBat>>1) + (vbat>>1);
 
     return VBat;
@@ -204,11 +206,11 @@ double GetTemp()
     temp = 0;
     for (int i=0; i<ADC_NB_SAMPLES; i++)
         {
-			temp += ADC_RegularConvertedValueTab[i];
+			temp += ADC_RegularConvertedValueTab[ADC_TEMP_CH_OFS + i*ADC_NB_CHANNELS];
         }
     temp = temp / ADC_NB_SAMPLES;
     temp = temp & 0xFFF;
-    temp = ( temp * VDD_VOLTAGE_MV ) / 0x1000;  		   //finds mV
+    temp = ( temp * ADC_VREF_MV ) / 0x1000;  		   //finds mV
     temp = (((V25_MV-temp)*100000)/AVG_SLOPE_UV)+25000;    //gives approx temp x 1000 degrees C
 
 

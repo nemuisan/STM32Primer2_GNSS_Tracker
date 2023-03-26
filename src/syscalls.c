@@ -2,8 +2,8 @@
 /*!
 	@file			syscalls.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2019.10.01
+    @version        6.00
+    @date           2023.01.24
 	@brief          syscall.c's Device Dependent Header Section.
 
     @section HISTORY
@@ -11,7 +11,8 @@
 		2011.03.10	V2.00	C++ Ready.
 		2012.06.15  V3.00	Fixed _heap_end Definition.
 		2014.06.26	V4.00	Added Version Check.
-		2014.06.26	V4.00	Removed isatty() on GCC build.
+		2019.10.01	V5.00	Removed isatty() on GCC build.
+		2023.01.24	V6.00	Fixed different signedness.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,7 +23,7 @@
 /* This is platform dependent includion */
 #include "syscalls_if.h"
 /* check header file version for fool proof */
-#if __SYSCALLS_IF_H != 0x0500
+#if SYSCALLS_IF_H != 0x0600
 #error "header file version is not correspond!"
 #endif
 
@@ -61,7 +62,7 @@ _ssize_t _read_r(
 	size_t len)
 {
 	char c;
-	int  i;
+	size_t  i;
 	unsigned char *p;
 
 	p = (unsigned char*)ptr;
@@ -103,7 +104,7 @@ _ssize_t _write_r (
     const void *ptr, 
     size_t len)
 {
-	int i;
+	size_t i;
 	const unsigned char *p;
 	
 	p = (const unsigned char*) ptr;
@@ -215,8 +216,6 @@ void * _sbrk_r(
 	return base;		/*  Return pointer to start of new heap area.	*/
 }
 
-
-
 /**************************************************************************/
 /*! 
     @brief  Dummy OS Function for Newlib.
@@ -229,15 +228,6 @@ int isatty(int file)
 }
 #endif
 
-/**************************************************************************/
-/*! 
-    @brief  Dummy OS Function for Newlib.
-*/
-/**************************************************************************/
-int _getpid(int file)
-{
-	return 1;
-}
 
 /**************************************************************************/
 /*! 
@@ -334,7 +324,7 @@ int _read(int fd, char *buf, size_t cnt)
 /**************************************************************************/
 int _write(int fd, const char *buf, size_t cnt)
 {
-	int i;
+	size_t i;
 
 	for (i = 0; i < cnt; i++)
 		putch(buf[i]);
@@ -410,14 +400,25 @@ int _fork(void) {
 	return -1;
 }
 
-#endif
 /**************************************************************************/
 /*! 
     @brief  Dummy OS Function for Newlib.
 */
 /**************************************************************************/
-void _exit(int n) {
+void _exit(int n){
 label:  goto label; /* endless loop */
+}
+#endif
+
+/**************************************************************************/
+/*! 
+    @brief  Dummy OS Function for Newlib.
+*/
+/**************************************************************************/
+int _kill(int pid, int sig) __attribute__((weak));
+int _kill(int pid, int sig) {
+	errno = EINVAL;
+	return -1;
 }
 
 /**************************************************************************/
@@ -425,9 +426,10 @@ label:  goto label; /* endless loop */
     @brief  Dummy OS Function for Newlib.
 */
 /**************************************************************************/
-int _kill(int pid, int sig) {
-	errno = EINVAL;
-	return -1;
+int _getpid(int file) __attribute__((weak));
+int _getpid(int file)
+{
+	return 1;
 }
 
 /* Override fgets() in newlib with a version that does line editing */

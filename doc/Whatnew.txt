@@ -1,3 +1,34 @@
+2023.03.23 :
+V100.00	"THE Great Fix"
+		Renamed ts.c,h -> ts_basis.c,h.
+		Fixed some graphic display handlings(on ts_basis.c & ts_fileloads.c).
+		Fixed different signedness (on syscalls.c,h).
+		Fixed wrong flash size on STM32Primer2.(on STM32F103VET6.ld).
+		Fixed battery monitoring routine(on pwr_support.c,h and adc_support.c,h).
+		Fixed wrong functional connection at xSetDeviceAddress(on usb_prop.c,h).
+		Fixed cosmetic bugfixes(on uart_support_gps.c,h).
+		Fixed EP register buffers 8Byte-Aligned.(on usb_pwr.c,h).
+		Fixed incorrect EP register buffers declaration.(on usb_istr.c,h).
+		Fixed data_buffer capacity(on usb_msc_memory.c,h).
+		Removed redundant declaration(on usb_msc_prop.c,h and usb_msc_scsi.c,h).
+		Re-arranged endpoint address(on usb_cdc_conf.h).
+		Fixed USB Rx buffer size(on usb_cdc_endp.c).
+		Fixed detect and send zero length packet(on usb_cdc_endp.c).
+		Fixed BOT data buffer to 4byte-alignment(on usb_msc_bot.c,h).
+		Added MAL_Init() successful check(on msc_support.c,h).
+		Enable UART Rx interrupt on connect(on cdc_support.c,h).
+		All descriptors are 4byte-alignment(on usb_cdc_desc.c,h and usb_msc_desc.c,h and usb_msc_scsi_data.c).
+		Added external declaration(on usb_conf.c,h).
+		Disabled fixed optimization level(on usb_regs.c).
+		Adopted CMSIS Core(M) Version 5.0.5 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/b4193bf147971b3b8ab85712d15d21822e7dceb5
+		Adopted CMSIS-DSP Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS-DSP/commit/d7e4dea51ad19724adcd2c9f82eb42af12e0f5fc
+		Adopted CMSIS-NN Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS-NN/commit/d071e9f70195559e7242709b8df3adeb7c50d0fb
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 12.2.Rel1 (Build arm-12.24)) 12.2.1 20221205
+
 2022.12.16 :
 V99.00	Adopted FatFs0.15.
 		Adopted FatFs0.15 latest patch update(patch2).
@@ -7,7 +38,7 @@ V99.00	Adopted FatFs0.15.
 		 -> https://github.com/ARM-software/CMSIS-DSP/commit/258f31c5e6617ad97dab9bb0d61837fe80cb8a43
 
 2022.10.21 :
-V98.00	Changed Power management routine(on power.c,h).
+V98.00	Changed power management routine(on power.c,h).
         Fixed cosmetic bugfixes(on hw_config.c,h).
 		Fixed UART robustness(on uart_support_gps.c,h and cdc_support.c,h).
 		Changed file name(power.c,h -> pwr_support.c,h).

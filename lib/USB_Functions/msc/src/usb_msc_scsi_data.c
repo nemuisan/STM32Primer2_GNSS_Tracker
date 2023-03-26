@@ -2,18 +2,20 @@
 /*!
 	@file			usb_msc_scsi_data.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2023.03.20
 	@brief          Initialization of the SCSI data.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
+		2023.03.20	V2.00	All descriptors are aligned by 4-byte.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
+
 
 /* Includes ------------------------------------------------------------------*/
 #include "usb_msc_scsi.h"
@@ -22,7 +24,7 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-uint8_t Page00_Inquiry_Data[] =
+uint8_t Page00_Inquiry_Data[] __attribute__ ((aligned (4))) =
   {
     0x00, /* PERIPHERAL QUALIFIER & PERIPHERAL DEVICE TYPE*/
     0x00,
@@ -30,7 +32,7 @@ uint8_t Page00_Inquiry_Data[] =
     0x00,
     0x00 /* Supported Pages 00*/
   };
-uint8_t Standard_Inquiry_Data[] =
+uint8_t Standard_Inquiry_Data[] __attribute__ ((aligned (4))) =
   {
     0x00,          /* Direct Access Device */
     0x80,          /* RMB = 1: Removable Medium */
@@ -51,7 +53,7 @@ uint8_t Standard_Inquiry_Data[] =
   };
  
 /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-uint8_t Mode_Sense6_data[] =
+uint8_t Mode_Sense6_data[] __attribute__ ((aligned (4))) =
   {
     0x03,
     0x00,
@@ -61,7 +63,7 @@ uint8_t Mode_Sense6_data[] =
 
 /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-uint8_t Mode_Sense10_data[] =
+uint8_t Mode_Sense10_data[] __attribute__ ((aligned (4))) =
   {
     0x00,
     0x06,
@@ -72,7 +74,7 @@ uint8_t Mode_Sense10_data[] =
     0x00,
     0x00
   };
-uint8_t Scsi_Sense_Data[] =
+uint8_t Scsi_Sense_Data[]  __attribute__ ((aligned (4))) =
   {
     0x70, /*RespCode*/
     0x00, /*SegmentNumber*/
@@ -93,7 +95,7 @@ uint8_t Scsi_Sense_Data[] =
     0x00,
     0x00 /*SenseKeySpecific*/
   };
-uint8_t ReadCapacity10_Data[] =
+uint8_t ReadCapacity10_Data[] __attribute__ ((aligned (4))) =
   {
     /* Last Logical Block */
     0,
@@ -108,7 +110,7 @@ uint8_t ReadCapacity10_Data[] =
     0
   };
 
-uint8_t ReadFormatCapacity_Data [] =
+uint8_t ReadFormatCapacity_Data [] __attribute__ ((aligned (4))) =
   {
     0x00,
     0x00,

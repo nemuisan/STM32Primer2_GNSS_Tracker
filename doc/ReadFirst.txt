@@ -1,6 +1,6 @@
 ========== What is this ? ==========
 This is "THE GNSS-Tr@cker for STM32Primer2"!
-In other words, ChaNg-GURU's FatFs GOODEST SDIO implementation for STM32F1!
+In other words, "GURU"-ChaN's FatFs GOODEST SDIO implementation for STM32F1!
 
 ========== To Build and Debug ==========
 Supported Only ARM-GCC(EABI)!
@@ -21,7 +21,7 @@ PA1616S
 
 
 
-////// NOT RECOMMENDATION DEPREACATED MODULES(but works...) //////
+////// NOT RECOMMENDATION DEPREACATED MODULES(but may be works...) //////
 XA1110          (SierraWireless)
  Supports MT3333 115200bps(default),38400bps,9600bps,AIC Setting,AGPS With PC-Software.
 Gms-g9(Titan3)  (SierraWireless(former GlobalTOP))
@@ -42,7 +42,7 @@ GT-723F         (CANMORE ELECTRONICS)
 ========== Support Memory Cards ==========
 SDSC : FAT16 Format,Up to 2GB.
 SDHC : FAT32 Format,Up to 32GB.
-SDXC : FAT32(exFAT doesn't support by ffconf.h ,use FAT32 format),Up to 2TB.
+SDXC : exFAT Format,Up to 2TB.
 MMC  : FAT16 Format,Up to 2GB.
 eMMC : FAT32 Format,Up to 2TB.
 

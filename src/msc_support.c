@@ -2,17 +2,18 @@
 /*!
 	@file			msc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2020.05.30
+    @version        7.00
+    @date           2023.03.23
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
 		2011.07.06	V1.00	Start Here.
-		2012.01.30	V2.00	Added Consideration CoOperate with CDC Function .
+		2012.01.30	V2.00	Added Consideration Co-Operate with CDC Function .
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
-		2014.07.16	V4.00	Reset Systick to Suitable Frequency.
+		2014.07.16	V4.00	Reset Systick to suitable Frequency.
 		2019.09.20	V5.00	Fixed redundant declaration.
 		2020.05.30	V6.00	Display system version string.
+		2023.03.23	V7.00	Added MAL_Init() successful check.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,7 +23,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if __MSC_SUPPORT_H!= 0x0600
+#if MSC_SUPPORT_H!= 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -33,7 +34,7 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-
+extern __IO long StableCount;
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
@@ -85,20 +86,34 @@ void msc_task(void)
 
 	/* Diaplay MSC mode message */
 	Display_clear_if();
-	Display_Puts_If(0,0,(uint8_t*)"Start Mass Storage",TRANSPARENT);
 	Display_Puts_If(0,1*CurrentAnkDat->Y_Size,(uint8_t*)("System Version:"APP_VERSION),TRANSPARENT);
-
+	
 	/* USB-MSC Configurations */
-  	USB_Disconnect_Config();
-	USB_Cable_Config(DISABLE); /* fool ploof */
-	MAL_Init(0);
-	Set_USBClock();
-	USB_Interrupts_Config();
-	USB_Init();
-	USB_Cable_Config(ENABLE);
-	while (bDeviceState != CONFIGURED);
+	if(MAL_Init(LUN_SDCARD) == MAL_OK) {
+		Display_Puts_If(0,0,(uint8_t*)"Start Mass Storage",TRANSPARENT);
+		
+		/* USB MSC Setting */
+		USB_Disconnect_Config();
+		USB_Cable_Config(DISABLE); /* fool ploof */
 
-	while (1){}
+		Set_USBClock();
+		USB_Interrupts_Config();
+		USB_Init();
+		USB_Cable_Config(ENABLE);
+		while (bDeviceState != CONFIGURED);
+
+#if 0 /* MSC Debug */
+		Display_Puts_If(0,2*CurrentAnkDat->Y_Size,(uint8_t*)"Connected!",TRANSPARENT);
+		while (StableCount > 0);
+		Display_Puts_If(0,3*CurrentAnkDat->Y_Size,(uint8_t*)"Stabled!",TRANSPARENT);
+#endif
+		while (1){__WFI();}
+	}
+	else {
+		Display_Puts_If(0,2*CurrentAnkDat->Y_Size,(uint8_t*)"SD Card Init Failed!",TRANSPARENT);
+		Display_Puts_If(0,3*CurrentAnkDat->Y_Size,(uint8_t*)"Press Center Key to Power OFF!",TRANSPARENT);
+		while (1){__WFI();}
+	}
 
 }
 

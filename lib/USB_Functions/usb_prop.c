@@ -2,13 +2,14 @@
 /*!
 	@file			usb_prop.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.12.17
+    @version        3.00
+    @date           2023.03.07
 	@brief          USB Endpoint Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
 		2014.12.17	V2.00	Adopted GCC4.9.x.
+		2023.03.07	V3.00	Fixed wrong functional connection at xSetDeviceAddress.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -62,7 +63,7 @@ DEVICE_PROP Device_Property =
   	nxGetConfigDescriptor,
   	nxGetStringDescriptor,
     0,
-    0x40 /*MAX PACKET SIZE*/
+    0x40 /* MAX PACKET SIZE 64Bytes */
   };
 
 USER_STANDARD_REQUESTS User_Standard_Requests =
@@ -263,7 +264,7 @@ void nxSetDeviceFeature(void){
 */
 /**************************************************************************/
 void nxSetDeviceAddress(void){
-	xSetDeviceFeature();
+	xSetDeviceAddress();
 }
 
 /* End Of File ---------------------------------------------------------------*/

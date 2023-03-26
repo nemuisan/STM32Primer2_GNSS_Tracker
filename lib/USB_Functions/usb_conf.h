@@ -2,21 +2,22 @@
 /*!
 	@file			usb_conf.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2019.09.20
+    @version        4.00
+    @date           2023.03.14
 	@brief          USB Endpoint and Misc Function Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
 		2014.12.17	V2.00	Adopted GCC4.9.x.
 		2019.09.20	V3.00	Fixed shadowed variable.
+		2023.03.14	V4.00	Added external declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __USB_CONF_H
-#define __USB_CONF_H	0x0300
+#ifndef USB_CONF_H
+#define USB_CONF_H	0x0400
 
 #ifdef __cplusplus
  extern "C" {
@@ -96,13 +97,11 @@ extern void CDC_EP3_OUT_Callback(void);
 extern void CDC_SOF_Callback(void);
 
 /* USB-MassStorageClass Functions Externals */
-#define MSC_EP1_IN_Callback  Mass_Storage_In
-#define MSC_EP2_OUT_Callback Mass_Storage_Out
-extern void Mass_Storage_In(void);
-extern void Mass_Storage_Out(void);
+extern void MSC_EP1_IN_Callback(void);
+extern void MSC_EP2_OUT_Callback(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* __USB_CONF_H */
+#endif	/* USB_CONF_H */

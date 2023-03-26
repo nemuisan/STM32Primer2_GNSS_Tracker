@@ -2,8 +2,8 @@
 /*!
 	@file			uart_support_gps.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2022.10.10
+    @version        7.00
+    @date           2023.03.07
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
@@ -11,8 +11,9 @@
 		2013.02.20	V2.00	Added RX/TX Buffer Consideration.
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
 		2015.01.11	V4.00	Added buffered UART information.
-		2015.08.25	V5.00	Fixed Wrong Expression.
-		2022.10.10	V6.00	Fiexed more robustness.
+		2015.08.25	V5.00	Fixed wrong expression.
+		2022.10.10	V6.00	Fixed more robustness.
+		2023.03.07	V7.00	Fixed cosmetic bugfixes.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,7 +23,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "uart_support_gps.h"
 /* check header file version for fool proof */
-#if __UART_SUPPORT_GPS_H!= 0x0600
+#if UART_SUPPORT_GPS_H!= 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -105,7 +106,7 @@ void conio_init(uint32_t port, uint32_t baudrate)
 			/* Configure one bit for preemption priority */
 			NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
-			/* Enable the USART2 Interrupt */
+			/* Enable the UART Interrupt */
 			NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
 			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
 			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
@@ -123,7 +124,7 @@ void conio_init(uint32_t port, uint32_t baudrate)
 			USARTx_Buf.TX_Tail = 0;
 			USARTx_Buf.TX_Head = 0;
 
-			/* Enable USART2 Receive interrupts */
+			/* Enable UART Receive interrupts */
 			USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
 #endif
 			/* Enable UART */
@@ -340,36 +341,36 @@ void cgets(char *s, int bufsize)
 /**************************************************************************/
 void conio_IRQ(void)
 {
-	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
+	if(USART_GetITStatus(UART, USART_IT_RXNE) != RESET)
 	{
 		/* Advance buffer head. */
 		unsigned int tempRX_Head = ((&USARTx_Buf)->RX_Head + 1) & (UART_BUFSIZE-1);
 
 		/* Check for overflow. */
 		unsigned int tempRX_Tail = (&USARTx_Buf)->RX_Tail;
-		uint8_t data =  USART_ReceiveData(USART2);
+		uint8_t data =  USART_ReceiveData(UART);
 
 		if (tempRX_Head == tempRX_Tail) {
-			/* Disable the USART2 Receive interrupt */
-			USART_ITConfig(USART2, USART_IT_RXNE, DISABLE);
+			/* Disable the UART Receive interrupt */
+			USART_ITConfig(UART, USART_IT_RXNE, DISABLE);
 		}else{
 			(&USARTx_Buf)->RX[(&USARTx_Buf)->RX_Head] = data;
 			(&USARTx_Buf)->RX_Head = tempRX_Head;
 		}
 	}
 
-	if(USART_GetITStatus(USART2, USART_IT_TXE) != RESET)
+	if(USART_GetITStatus(UART, USART_IT_TXE) != RESET)
 	{   
 		/* Check if all data is transmitted. */
 		unsigned int tempTX_Tail = (&USARTx_Buf)->TX_Tail;
 		if ((&USARTx_Buf)->TX_Head == tempTX_Tail){
 			/* Overflow MAX size Situation */
-			/* Disable the USART2 Transmit interrupt */
-			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
+			/* Disable the UART Transmit interrupt */
+			USART_ITConfig(UART, USART_IT_TXE, DISABLE);
 		}else{
 			/* Start transmitting. */
 			uint8_t data = (&USARTx_Buf)->TX[(&USARTx_Buf)->TX_Tail];
-			USART2->DR = data;
+			UART->DR = data;
 
 			/* Advance buffer tail. */
 			(&USARTx_Buf)->TX_Tail = ((&USARTx_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
@@ -402,7 +403,7 @@ void Flush_RXBuffer(void)
 	pUSART_Buf->RX_Tail = 0;
 	pUSART_Buf->RX_Head = 0;
 
-	/* Re-Enable USART2 Receive interrupts */
+	/* Re-Enable UART Receive interrupts */
 	USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
 }
 

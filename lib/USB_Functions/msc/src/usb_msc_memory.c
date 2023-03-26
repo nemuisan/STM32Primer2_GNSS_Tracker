@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_memory.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2019.09.20
+    @version        7.00
+    @date           2023.03.23
 	@brief          Memory management layer.
 					Based On STMicro's Sample Thanks!
 
@@ -14,6 +14,7 @@
 		2016.12.28	V4.00	Fixed address calculation above 4GB.
 		2017.03.29	V5.00	Removed retired variables.
 		2019.09.20	V6.00	Fixed shadowed variable.
+		2023.03.23	V7.00	Fixed data_buffer capacity.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -29,16 +30,11 @@
 __IO uint32_t Block_Read_count = 0;
 __IO uint32_t Block_offset;
 __IO uint32_t Counter = 0;
-uint32_t Idx;
-uint32_t Data_Buffer[BULK_MAX_PACKET_SIZE *2]; /* 512 bytes*/
-uint8_t TransferState = TXFR_IDLE;
+/* Data buffer MUST BE 4byte-alignment */
+/* Multiple of 64byte and SD Sector size 512byte */
+uint8_t Data_Buffer[512] __attribute__ ((aligned (4)));
+__IO uint8_t TransferState = TXFR_IDLE;
 
-extern uint8_t Bulk_Data_Buff[BULK_MAX_PACKET_SIZE];  /* data buffer*/
-extern uint16_t Data_Len;
-extern uint8_t Bot_State;
-extern Bulk_Only_CBW CBW;
-extern Bulk_Only_CSW CSW;
-extern uint32_t Mass_Block_Size[MAX_LUN];
 
 /* Constants -----------------------------------------------------------------*/
 
@@ -62,24 +58,24 @@ void Read_Memory(uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length)
     R_Length = Transfer_Length * Mass_Block_Size[lun];
     TransferState = TXFR_ONGOING;
   }
-
+  
   if (TransferState == TXFR_ONGOING )
   {
-    if (!Block_Read_count)
+    if(Block_Read_count==0)
     {
       MAL_Read(lun ,
                R_Offset ,
-               Data_Buffer,
+               (uint32_t*)Data_Buffer,
                Mass_Block_Size[lun]);
 
-      USB_SIL_Write(EP1_IN, (uint8_t *)Data_Buffer, BULK_MAX_PACKET_SIZE);
+      USB_SIL_Write(EP1_IN, Data_Buffer, BULK_MAX_PACKET_SIZE);
 
       Block_Read_count = Mass_Block_Size[lun] - BULK_MAX_PACKET_SIZE;
       Block_offset = BULK_MAX_PACKET_SIZE;
     }
     else
     {
-      USB_SIL_Write(EP1_IN, (uint8_t *)Data_Buffer + Block_offset, BULK_MAX_PACKET_SIZE);
+      USB_SIL_Write(EP1_IN, Data_Buffer + Block_offset, BULK_MAX_PACKET_SIZE);
 
       Block_Read_count -= BULK_MAX_PACKET_SIZE;
       Block_offset += BULK_MAX_PACKET_SIZE;
@@ -94,6 +90,7 @@ void Read_Memory(uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length)
     CSW.dDataResidue -= BULK_MAX_PACKET_SIZE;
     Led_RW_ON();
   }
+  
   if (R_Length == 0)
   {
     Block_Read_count = 0;
@@ -124,24 +121,25 @@ void Write_Memory (uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length
     W_Length = Transfer_Length * Mass_Block_Size[lun];
     TransferState = TXFR_ONGOING;
   }
-
+  
   if (TransferState == TXFR_ONGOING )
   {
 
-    for (Idx = 0 ; Counter < temp; Counter++)
+    for (int idx = 0 ; Counter < temp; Counter++)
     {
-      *((uint8_t *)Data_Buffer + Counter) = Bulk_Data_Buff[Idx++];
+      *(Data_Buffer + Counter) = Bulk_Data_Buff[idx++];
     }
 
     W_Offset += Data_Len;
     W_Length -= Data_Len;
-
+	
+	/* Doing Single block write */
     if (!(W_Length % Mass_Block_Size[lun]))
     {
       Counter = 0;
       MAL_Write(lun ,
                 W_Offset - Mass_Block_Size[lun],
-                Data_Buffer,
+                (uint32_t*)Data_Buffer,
                 Mass_Block_Size[lun]);
     }
 

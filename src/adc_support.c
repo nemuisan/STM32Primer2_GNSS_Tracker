@@ -2,14 +2,15 @@
 /*!
 	@file			adc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2019.09.20
+    @version        4.00
+    @date           2023.03.02
 	@brief          Based on Keil's Sample Thanks!
 
     @section HISTORY
 		2010.12.31	V1.00	Restart Here.
 		2011.03.10	V2.00	C++ Ready.
 		2019.09.20	V3.00	Fixed redundant declaration.
+		2023.03.02	V4.00	Added voltage declarations.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -18,6 +19,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "adc_support.h"
+/* check header file version for fool proof */
+#if ADC_SUPPORT_H!= 0x0400
+#error "header file version is not correspond!"
+#endif
 
 /* Defines -------------------------------------------------------------------*/
 
@@ -119,17 +124,15 @@ void ADC_DMA_Configuration(void){
 
     /* Start ADC1 calibaration */
     ADC_StartCalibration(ADC1);
+	
     /* Check the end of ADC1 calibration */
     while(ADC_GetCalibrationStatus(ADC1));
- 
   
     /* Enable ADC1's DMA interface */
     ADC_DMACmd( ADC1, ENABLE );
 
     /* Start ADC1 Software Conversion */
     ADC_SoftwareStartConvCmd( ADC1, ENABLE );
-  
 }
-
 
 /* End Of File ---------------------------------------------------------------*/

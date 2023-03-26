@@ -2,14 +2,15 @@
 /*!
 	@file			usb_conf.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2019.09.20
+    @version        4.00
+    @date           2023.03.14
 	@brief          USB Endpoint and Misc Function Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
 		2014.12.17	V2.00	Adopted GCC4.9.x.
 		2019.09.20	V3.00	Fixed shadowed variable.
+		2023.03.14	V4.00	Added external declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt

@@ -2,20 +2,21 @@
 /*!
 	@file			usb_msc_desc.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2023.03.20
 	@brief          Descriptor Header for Mass Storage Device.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
+		2023.03.20	V2.00	All descriptors are aligned by 4-byte.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __USB_MSC_DESC_H
-#define __USB_MSC_DESC_H	0x0100
+#ifndef USB_MSC_DESC_H
+#define USB_MSC_DESC_H	0x0200
 
 #ifdef __cplusplus
  extern "C" {
@@ -47,4 +48,4 @@ extern const uint8_t Mass_StringInterface[MASS_SIZ_STRING_INTERFACE];
 }
 #endif
 
-#endif /* __USB_MSC_DESC_H */
+#endif /* USB_MSC_DESC_H */

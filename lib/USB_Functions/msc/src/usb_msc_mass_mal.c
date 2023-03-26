@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_mass_mal.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2019.09.20
+    @version        7.00
+    @date           2023.03.08
 	@brief          Descriptor Header for Mal.
 					Based On STMicro's Sample Thanks!
 
@@ -14,6 +14,7 @@
 		2017.01.15	V4.00	Fixed return correct disk capacity on eMMC.
 		2017.03.29	V5.00	Fixed capacity calculation.
 		2019.09.20	V6.00	Fixed shadowed variable.
+		2023.03.08	V7.00	Added external declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,8 +22,6 @@
 /********************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
-#include "platform_config.h"
-#include "sdio_stm32f1.h"
 #include "usb_msc_mass_mal.h"
 
 /* Defines -------------------------------------------------------------------*/

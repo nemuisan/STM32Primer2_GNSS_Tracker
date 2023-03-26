@@ -2,20 +2,21 @@
 /*!
 	@file			usb_pwr.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.23
+    @version        3.00
+    @date           2023.03.07
 	@brief          Connection/disconnection & power management header.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Adopted STM32_USB-FS-Device_DriverV4.0.0.
+		2023.03.07	V3.00	Fixed EP Buffer 8byte-boundery.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __USB_PWR_H
-#define __USB_PWR_H		0x0200
+#ifndef USB_PWR_H
+#define USB_PWR_H	0x0300
 
 #ifdef __cplusplus
  extern "C" {
@@ -54,11 +55,12 @@ void Resume_Init(void);
 void Resume(RESUME_STATE eResumeSetVal);
 RESULT PowerOn(void);
 RESULT PowerOff(void);
-extern __IO uint32_t bDeviceState; /* USB device status */
-extern __IO bool fSuspendEnabled;  /* true when suspend is possible */
+extern __IO uint32_t bDeviceState;	/* USB device status */
+extern __IO bool fSuspendEnabled;	/* True when suspend is possible */
+extern __IO uint16_t EP[8];			/* USB Endpoint Buffer */
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* __USB_PWR_H */
+#endif	/* USB_PWR_H */

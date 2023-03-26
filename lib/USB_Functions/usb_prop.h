@@ -2,20 +2,21 @@
 /*!
 	@file			usb_prop.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.12.17
+    @version        3.00
+    @date           2023.03.07
 	@brief          USB Endpoint Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
 		2014.12.17	V2.00	Adopted GCC4.9.x.
+		2023.03.07	V3.00	Fixed wrong functional connection at xSetDeviceAddress.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __USB_PROP_H
-#define __USB_PROP_H	0x0200
+#ifndef USB_PROP_H
+#define USB_PROP_H	0x0300
 
 #ifdef __cplusplus
  extern "C" {
@@ -72,4 +73,4 @@ extern void nxSetDeviceAddress(void);
 }
 #endif
 
-#endif	/* __USB_PROP_H */
+#endif	/* USB_PROP_H */

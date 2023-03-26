@@ -2,21 +2,22 @@
 /*!
 	@file			usb_cdc_desc.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2019.09.20
+    @version        3.00
+    @date           2023.03.20
 	@brief          Endpoint routines.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2019.09.20	V2.00	Fixed shadowed variable.
+		2023.03.20	V3.00	All descriptors are aligned by 4-byte.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __USB_CDC_DESC_H
-#define __USB_CDC_DESC_H	0x0200
+#ifndef USB_CDC_DESC_H
+#define USB_CDC_DESC_H	0x0300
 
 #ifdef __cplusplus
  extern "C" {
@@ -56,4 +57,4 @@ extern uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL]
 }
 #endif
 
-#endif	/* __USB_CDC_DESC_H */
+#endif	/* USB_CDC_DESC_H */

@@ -1,7 +1,7 @@
 GPS/GNSS Tracker for STM32Primer2
 ====================================
 
-Logging GNSS NMEA Datas using STM32Primer2 hardware!
+Logging GNSS NMEA Datas using STM32 Primer2 hardware!
 
 
 Build

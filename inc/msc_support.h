@@ -2,24 +2,25 @@
 /*!
 	@file			msc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2020.05.30
+    @version        7.00
+    @date           2023.03.23
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
 		2011.07.06	V1.00	Start Here.
-		2012.01.30	V2.00	Added Consideration CoOperate with CDC Function .
+		2012.01.30	V2.00	Added Consideration Co-Operate with CDC Function .
 		2014.04.20	V3.00	Fixed Suitable Interruption level.
-		2014.07.16	V4.00	Reset Systick to Suitable Frequency.
+		2014.07.16	V4.00	Reset Systick to suitable Frequency.
 		2019.09.20	V5.00	Fixed redundant declaration.
 		2020.05.30	V6.00	Display system version string.
+		2023.03.23	V7.00	Added MAL_Init() successful check.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __MSC_SUPPORT_H
-#define __MSC_SUPPORT_H	0x0600
+#ifndef MSC_SUPPORT_H
+#define MSC_SUPPORT_H	0x0700
 
 #ifdef __cplusplus
  extern "C" {
@@ -39,11 +40,10 @@
 #include "hw_config.h"
 
 /* Function Prototypes */
-#define BULK_MAX_PACKET_SIZE  0x00000040
 extern void msc_task(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/*__MSC_SUPPORT_H */
+#endif	/* MSC_SUPPORT_H */

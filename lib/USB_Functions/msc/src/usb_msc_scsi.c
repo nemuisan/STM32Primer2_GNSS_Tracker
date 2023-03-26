@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_scsi.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2017.03.29
+    @version        5.00
+    @date           2023.03.08
 	@brief          All processing related to the SCSI commands.
 					Based On STMicro's Sample Thanks!
 
@@ -12,6 +12,7 @@
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 		2016.01.15	V3.00	Changed definition compatibility.
 		2017.03.29	V4.00	Removed retired variables.
+		2023.03.08	V5.00	Removed redundant declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -31,12 +32,6 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-extern uint8_t Bulk_Data_Buff[BULK_MAX_PACKET_SIZE];  /* data buffer*/
-extern uint8_t Bot_State;
-extern Bulk_Only_CBW CBW;
-extern Bulk_Only_CSW CSW;
-extern uint32_t Mass_Block_Size[MAX_LUN];
-extern uint32_t Mass_Block_Count[MAX_LUN];
 
 /* Constants -----------------------------------------------------------------*/
 

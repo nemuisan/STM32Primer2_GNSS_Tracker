@@ -49,12 +49,24 @@ MSGECHO = echo.exe
 #BG_CMD = ./lib/codelite_dbg/codelite_dbg.workspace
 # Environment Dependent!!!
 
+
+
+# GDB DEBUG MODE Setting
+# If set to 1,FORCE to change OPTIMIZE into "-Og -g -ggdb".
+DEBUG_MODE		= 0
+
 # OPTIMIZE definition
 OPTIMIZE		= s
-#OPTIMIZE		= 0
+
+# Force to Optimize level in debug
+ifeq ($(DEBUG_MODE),1)
+ OPTIMIZE		= 0 -g -ggdb
+# OPTIMIZE		= g -g -ggdb
+endif
+
 
 # GCC LTO Specific Option
-ifneq ($(OPTIMIZE),0)
+ifeq ($(DEBUG_MODE),0)
 USE_LTO			= -flto-partition=none -fipa-sra
 #USE_LTO			= -flto -fipa-sra
 endif
@@ -64,7 +76,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 99.00
+APP_VER = 100.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -258,10 +270,7 @@ LIBCFILES = \
  $(USBLIB)/src/usb_sil.c
 
 #/*----- I/O Debug library -----*/
-ifeq ($(OPTIMIZE),0)
-CFILES += \
- ./lib/IOView/stm32f10x_io_view.c
-else ifeq ($(OPTIMIZE),g)
+ifeq ($(DEBUG_MODE),1)
 CFILES += \
  ./lib/IOView/stm32f10x_io_view.c
 endif
@@ -300,6 +309,7 @@ CFLAGS += $(SYNTHESIS_DEFS)
 LDFLAGS  = -mcpu=cortex-m3 -mthumb -mfix-cortex-m3-ldrd
 LDFLAGS += -u g_pfnVectors -Wl,-static -Wl,--gc-sections -nostartfiles
 LDFLAGS += -Wl,-Map=$(TARGET).map
+LDFLAGS += -Wl,--print-memory-usage
 LDFLAGS += $(LIBRARY_DIRS) $(LINKER_DIRS) $(MATH_LIB)
 LDFLAGS +=-T$(LINKER_PATH)/$(SUBMODEL).ld
 

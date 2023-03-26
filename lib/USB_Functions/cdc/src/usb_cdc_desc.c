@@ -2,14 +2,15 @@
 /*!
 	@file			usb_cdc_desc.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2019.09.20
+    @version        3.00
+    @date           2023.03.20
 	@brief          Endpoint routines.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2019.09.20	V2.00	Fixed shadowed variable.
+		2023.03.20	V3.00	All descriptors are aligned by 4-byte.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -27,7 +28,7 @@
 /* Constants -----------------------------------------------------------------*/
 
 /* USB Standard Device Descriptor */
-const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
+const uint8_t Virtual_Com_Port_DeviceDescriptor[] __attribute__ ((aligned (4))) =
   {
     0x12,   /* bLength */
     USB_DEVICE_DESCRIPTOR_TYPE,     /* bDescriptorType */
@@ -49,7 +50,7 @@ const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
     0x01    /* bNumConfigurations */
   };
 
-const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
+const uint8_t Virtual_Com_Port_ConfigDescriptor[] __attribute__ ((aligned (4))) =
   {
     /*Configuration Descriptor*/
     0x09,   /* bLength: Configuration Descriptor size */
@@ -132,7 +133,7 @@ const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
   };
 
 /* USB String Descriptors */
-const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] =
+const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] __attribute__ ((aligned (4))) =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_LANGID,
     USB_STRING_DESCRIPTOR_TYPE,
@@ -140,7 +141,7 @@ const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] 
     0x04 /* LangID = 0x0409: U.S. English */
   };
 
-const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] =
+const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] __attribute__ ((aligned (4))) =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_VENDOR,     /* Size of Vendor string */
     USB_STRING_DESCRIPTOR_TYPE,             /* bDescriptorType*/
@@ -150,7 +151,7 @@ const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] 
     'c', 0, 's', 0
   };
 
-const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT] =
+const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT] __attribute__ ((aligned (4))) =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT,          /* bLength */
     USB_STRING_DESCRIPTOR_TYPE,        /* bDescriptorType */
@@ -160,7 +161,7 @@ const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT
     'M', 0, ' ', 0, 'P', 0, 'o', 0, 'r', 0, 't', 0, ' ', 0, ' ', 0
   };
 
-uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
+uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] __attribute__ ((aligned (4))) =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_SERIAL,           /* bLength */
     USB_STRING_DESCRIPTOR_TYPE,                   /* bDescriptorType */
@@ -171,6 +172,5 @@ uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
 /* Function prototypes -------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
-
 
 /* End Of File ---------------------------------------------------------------*/

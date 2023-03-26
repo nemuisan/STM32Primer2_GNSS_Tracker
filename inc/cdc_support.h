@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2022.10.10
+    @version        7.00
+    @date           2023.03.13
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -13,13 +13,14 @@
 		2019.09.20	V4.00	Fixed redundant declaration.
 		2020.05.30	V5.00	Display system version string.
 		2022.10.10	V6.00	Purge UART buffer on connect.
+		2023.03.13	V7.00	Enable UART Rx interrupt on connect.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __CDC_SUPPORT_H
-#define __CDC_SUPPORT_H	0x0600
+#ifndef CDC_SUPPORT_H
+#define CDC_SUPPORT_H	0x0700
 
 #ifdef __cplusplus
  extern "C" {
@@ -37,12 +38,18 @@
 #include "usb_istr.h"
 #include "hw_config.h"
 
+/* CDC-USART Definition */
+#define CDC_UART			USART2
+#define CDC_UART_IRQ		USART2_IRQn
+
 /* Function Prototypes */
 extern void cdc_task(void);
 
 extern void CDC_IRQ(void);
 extern void USART_Config_Default(void);
 extern bool USART_Config(void);
+extern void USART_EnableRXInt(void);
+extern void USART_DisableRXInt(void);
 extern void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes);
 extern void Handle_USBAsynchXfer(void);
 
@@ -50,4 +57,4 @@ extern void Handle_USBAsynchXfer(void);
 }
 #endif
 
-#endif	/*__CDC_SUPPORT_H */
+#endif	/* CDC_SUPPORT_H */

@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2022.10.10
+    @version        7.00
+    @date           2023.03.22
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -13,6 +13,7 @@
 		2019.09.20	V4.00	Fixed redundant declaration.
 		2020.05.30	V5.00	Display system version string.
 		2022.10.10	V6.00	Purge UART buffer on connect.
+		2023.03.22	V7.00	Enable UART Rx interrupt on connect.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,7 +23,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if __CDC_SUPPORT_H!= 0x0600
+#if CDC_SUPPORT_H!= 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -44,12 +45,38 @@ uint32_t USART_Rx_length  = 0;
 uint8_t  USB_Tx_State     = 0;
 uint8_t  USB_xMutex       = 0;
 
+extern __IO uint8_t cdc_zpf; /* Zero-length packet flag */
+
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
-
+/**************************************************************************/
+/*!
+    @brief	Configure of UART Specific CDC.
+	@param	None.
+    @retval	None.
+*/
+/**************************************************************************/
+void USART_EnableRXInt(void)
+{
+	/* Enable the USART Receive interrupt */
+	USART_ITConfig(CDC_UART, USART_IT_RXNE, ENABLE);
+}
+/**************************************************************************/
+/*!
+    @brief	Configure of UART Specific CDC.
+	@param	None.
+    @retval	None.
+*/
+/**************************************************************************/
+void USART_DisableRXInt(void)
+{
+	/* Enable the USART Receive interrupt */
+	USART_ITConfig(CDC_UART, USART_IT_RXNE, DISABLE);
+}
+	
 /**************************************************************************/
 /*!
     @brief	Configure of UART Specific CDC.
@@ -92,13 +119,10 @@ void USART_Config_Default(void)
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 	/* Init USART */
-	USART_Init(USART2, &USART_InitStructure);
+	USART_Init(CDC_UART, &USART_InitStructure);
 
 	/* Enable USART */
-	USART_Cmd(USART2, ENABLE);
-
-	/* Enable the USART Receive interrupt */
-	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+	USART_Cmd(CDC_UART, ENABLE);
 }
 
 
@@ -209,9 +233,6 @@ bool USART_Config(void)
 
 	/* Enable USART */
 	USART_Cmd(USART2, ENABLE);
-	
-	/* Enable the USART Receive interrupt */
-	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 
 	return (true);
 }
@@ -240,7 +261,7 @@ void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes)
 
 /**************************************************************************/
 /*!
-    @brief	Send data to USB.
+    @brief	Send data to USB.Executed in USBInterrupt Handler(SOF Callback).
 	@param	None.
     @retval	None.
 */
@@ -250,58 +271,77 @@ void Handle_USBAsynchXfer (void)
 	uint16_t USB_Tx_ptr;
 	uint16_t USB_Tx_length;
 
-	USB_xMutex =0;
+	/* Release Mutex */
+	USB_xMutex = 0;
+
 	if(USB_Tx_State != 1)
 	{
-		if (USART_Rx_ptr_out == USART_RX_DATA_SIZE)
+		/* Overflow */
+		if (USART_Rx_ptr_out >= USART_RX_DATA_SIZE)
 		{
 			USART_Rx_ptr_out = 0;
 		}
 
-    if(USART_Rx_ptr_out == USART_Rx_ptr_in)
-    {
-      USB_Tx_State = 0;
-      return;
-    }
+		/* If Rx buffer is empty */
+		if(USART_Rx_ptr_out == USART_Rx_ptr_in)
+		{
+			USB_Tx_State = 0;
+			
+			if(cdc_zpf == 1){
+				/* Send zero-length packet */
+				cdc_zpf = 0;
+				USB_Tx_length = 0;
+				USB_Tx_ptr = 0;
+				UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], CDC_ENDP1_TXADDR, USB_Tx_length);
+				SetEPTxCount(ENDP1, USB_Tx_length);
+				SetEPTxValid(ENDP1);
+			}
+			return;
+		}
 
-    if(USART_Rx_ptr_out > USART_Rx_ptr_in) /* rollback */
-    {
-		USART_Rx_length = USART_RX_DATA_SIZE - USART_Rx_ptr_out;
-    }
-    else
-    {
-		USART_Rx_length = USART_Rx_ptr_in - USART_Rx_ptr_out;
-    }
+		/* Pointer rollback */
+		if(USART_Rx_ptr_out > USART_Rx_ptr_in) 
+		{
+			USART_Rx_length = USART_RX_DATA_SIZE - USART_Rx_ptr_out;
+		}
+		else
+		{
+			USART_Rx_length = USART_Rx_ptr_in - USART_Rx_ptr_out;
+		}
 
-    if(USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE)
-    {
-		USB_Tx_ptr = USART_Rx_ptr_out;
-		USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
+		/* Larger than Max PacketSize */
+		if(USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE)
+		{
+			USB_Tx_ptr = USART_Rx_ptr_out;
+			USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
 
-		USART_Rx_ptr_out += VIRTUAL_COM_PORT_DATA_SIZE;
-		USART_Rx_length -= VIRTUAL_COM_PORT_DATA_SIZE;
-    }
-    else
-    {
-		USB_Tx_ptr = USART_Rx_ptr_out;
-		USB_Tx_length = USART_Rx_length;
+			USART_Rx_ptr_out += VIRTUAL_COM_PORT_DATA_SIZE;
+			USART_Rx_length -= VIRTUAL_COM_PORT_DATA_SIZE;
+		}
+		else /* Smaller than Max PacketSize or equal */
+		{
+			USB_Tx_ptr = USART_Rx_ptr_out;
+			USB_Tx_length = USART_Rx_length;
 
-		USART_Rx_ptr_out += USART_Rx_length;
-		USART_Rx_length = 0;
-    }
-    USB_Tx_State = 1;
+			USART_Rx_ptr_out += USART_Rx_length;
+			USART_Rx_length = 0;
+			
+			/* Make zero-length packet flag if needed */
+			if(USB_Tx_length == VIRTUAL_COM_PORT_DATA_SIZE) cdc_zpf =1;
+		}
+		
+		/* Set USB Transfer State */
+		USB_Tx_State = 1;
 
-    UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], CDC_ENDP1_TXADDR, USB_Tx_length);
-    SetEPTxCount(ENDP1, USB_Tx_length);
-    SetEPTxValid(ENDP1);
-
-  }
-
+		UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], CDC_ENDP1_TXADDR, USB_Tx_length);
+		SetEPTxCount(ENDP1, USB_Tx_length);
+		SetEPTxValid(ENDP1);
+	}
 }
 
 /**************************************************************************/
 /*!
-    @brief	Send the received data from UART 0 to USB.
+    @brief	Send the received data from UART to USB.
 	@param	None.
     @retval	None.
 */
@@ -321,7 +361,7 @@ void USART_To_USB_Send_Data(void)
 	USART_Rx_ptr_in++;
 
 	/* To avoid buffer overflow */
-	if(USART_Rx_ptr_in == USART_RX_DATA_SIZE)
+	if(USART_Rx_ptr_in >= USART_RX_DATA_SIZE)
 	{
 		USART_Rx_ptr_in = 0;
 	}
@@ -348,10 +388,9 @@ static void USB_Interrupts_Config(void)
 	NVIC_Init(&NVIC_InitStructure);
 
 	/* Enable USART Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannel = CDC_UART_IRQ;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 	NVIC_Init(&NVIC_InitStructure);
-
 }
 
 
@@ -362,16 +401,16 @@ static void USB_Interrupts_Config(void)
 /**************************************************************************/
 void CDC_IRQ(void)
 {
-	if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
+	if (USART_GetITStatus(CDC_UART, USART_IT_RXNE) != RESET)
 	{
 		/* Send the received data to the PC Host*/
 		USART_To_USB_Send_Data();
 	}
 
 	/* If overrun condition occurs, clear the ORE flag and recover communication */
-	if (USART_GetFlagStatus(USART2, USART_FLAG_ORE) != RESET)
+	if (USART_GetFlagStatus(CDC_UART, USART_FLAG_ORE) != RESET)
 	{
-		(void)USART_ReceiveData(USART2);
+		(void)USART_ReceiveData(CDC_UART);
 	}
  }
 
@@ -408,7 +447,7 @@ void cdc_task(void)
 	USB_Cable_Config(ENABLE);
 	while (bDeviceState != CONFIGURED);
 
-	while (1){}
+	while (1){__WFI();}
 
 }
 

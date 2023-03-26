@@ -1,20 +1,20 @@
 /********************************************************************************/
 /*!
-	@file			ts.h
+	@file			ts_basis.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
     @version        19.00
-    @date           2022.10.15
+    @date           2023.03.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2022.10.15	See ts_ver.txt.
+		2023.03.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __TS_H
-#define __TS_H 0x1900
+#ifndef TS_BASIS_H
+#define TS_BASIS_H 0x1900
 
 #ifdef __cplusplus
  extern "C" {
@@ -99,7 +99,7 @@
 #define TS_HEIGHT	((MAX_Y)/(TS_FONTH))
 
 /* Display Current Time or not */
-#if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
+#if defined(USE_TIME_DISPLAY)
  #define TS_FILER_HEIGHT	(TS_HEIGHT-1)
 #else
  #define TS_FILER_HEIGHT	(TS_HEIGHT)
@@ -159,4 +159,4 @@ extern void ts_rtc(void);
 }
 #endif
 
-#endif /* __TS_H */
+#endif /* TS_BASIS_H */

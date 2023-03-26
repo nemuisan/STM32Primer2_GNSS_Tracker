@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        19.00
-    @date           2019.11.01
+    @version        21.00
+    @date           2023.03.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2019.11.01	See ts_ver.txt.
+		2023.03.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if __TS_FILELOADS_H != 0x1900
+#if TS_FILELOADS_H != 0x2100
 #error "header file version is not correspond!"
 #endif
 
@@ -93,6 +93,36 @@ static inline uint32_t LD_DWORD(const uint8_t* ptr)
 	rv = rv << 8 | ptr[1];
 	rv = rv << 8 | ptr[0];
 	return rv;
+}
+/* Make RGB888 to RGB565 Colour format for PNG,JPEG Files */
+static inline uint16_t MAKE_RGB888_TO_RGB565(uint8_t** pt)
+{
+	uint16_t d;
+	#if !defined(USE_SSD1332_SPI_OLED)
+		d =  ((*(*pt)++) >> 3) << 11;	/* R */
+		d |= ((*(*pt)++) >> 2) << 5;	/* G */
+		d |=  (*(*pt)++) >> 3;			/* B */
+	#else                            
+		d =   (*(*pt++)) >> 3;			/* R */
+		d |= ((*(*pt++)) >> 2) << 5;	/* G */
+		d |= ((*(*pt++)) >> 3) << 11;	/* B */
+	#endif
+	return d;
+}
+/* Make BGR888 to RGB565 Colour format for BMP Files */
+static inline uint16_t MAKE_BGR888_TO_RGB565(uint8_t** pt)
+{
+	uint16_t d;
+	#if !defined(USE_SSD1332_SPI_OLED)
+		d =   (*(*pt)++) >> 3;			/* B */
+		d |= ((*(*pt)++) >> 2) << 5;	/* G */
+		d |= ((*(*pt)++) >> 3) << 11;	/* R */
+	#else                            
+		d =  ((*(*pt)++) >> 3) << 11;	/* B */
+		d |= ((*(*pt)++) >> 2) << 5;	/* G */
+		d |=  (*(*pt)++) >> 3; 			/* R */
+	#endif
+	return d;
 }
 
 #ifdef USE_IJG_LIB /* JPEG */
@@ -363,7 +393,6 @@ static int load_bmp(FIL *fil)
 	unsigned int bx;
 	uint32_t xs, xe, ys, ye, i;
 	uint8_t *p;
-	uint16_t d;
 	char k, c;
 
 
@@ -422,16 +451,7 @@ static int load_bmp(FIL *fil)
 			n = 0; p = &Buff[i + l * 3];
 			do {
 				n++;
-#if !defined(USE_SSD1332_SPI_OLED)
-				d = *p++ >> 3;
-				d |= (*p++ >> 2) << 5;
-				d |= (*p++ >> 3) << 11;
-#else
-				d = (*p++ >> 3) << 11;
-				d |= (*p++ >> 2) << 5;
-				d |= *p++ >> 3;
-#endif
-				Display_wr_dat_if(d);
+				Display_wr_dat_if(MAKE_BGR888_TO_RGB565(&p));	/* BMP is BGR layout */
 			} while (n < w);
 			i += iw;
 		} while (m-- > ys);
@@ -671,7 +691,7 @@ static void disp_blt (
 		right = MaskR;
 	}
 	Display_rect_if(left, right, top, bottom);	/* Set rectangular area to fill */
-#if defined(STM32F7XX) || defined(STM32H7XX) /* Flush Cache Datas */
+#if defined(__DCACHE_PRESENT) /* Flush Cache Datas */
 	SCB_CleanDCache_by_Addr((uint32_t*)pat, xc*yc*2);
 #endif
 #if defined(USE_TFT_FRAMEBUFFER)
@@ -818,7 +838,7 @@ static int load_jpeg(FIL *fil,int mode)
 
 	/* Scribe Relation */
 	uint8_t	 *p;
-	uint16_t  x,y,dx,dy,d,i;
+	uint16_t  x,y,dx,dy,i;
 	uint32_t  w,h;
 
 	/* Clear Screen Anyway */
@@ -921,18 +941,7 @@ static int load_jpeg(FIL *fil,int mode)
 		Display_rect_if(x,x + dx - 1,y + dcinfo.output_scanline,y + dcinfo.output_scanline);
 	#endif
 		for(i = 0,p = buffer[0];i < dcinfo.output_width;i++) {
-
-		#if !defined(USE_SSD1332_SPI_OLED)
-			d =  (*p++ >> 3) << 11;
-			d |= (*p++ >> 2) << 5;
-			d |=  *p++ >> 3;
-		#else
-			d =   *p++ >> 3;
-			d |= (*p++ >> 2) << 5;
-			d |= (*p++ >> 3) << 11;
-		#endif
-
-			Display_wr_dat_if(d);
+			Display_wr_dat_if(MAKE_RGB888_TO_RGB565(&p));
 		}
 	}
 
@@ -993,7 +1002,7 @@ static void fatfs_read_data(png_structp read_ptr, png_bytep data, png_size_t len
 static int load_png(FIL *fil, const char *title)  /* File is already open */
 {
 	/* Scribe Relation */
-	uint16_t lx,ly,d;
+	uint16_t lx,ly;
 	uint32_t i,k=0;
 	UINT	 nb;
 
@@ -1172,7 +1181,6 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 
 	/* Allocate row stride buffer */
 	row_stride = (png_get_rowbytes(read_ptr, read_info_ptr) + 3) & ~3; /* 4byte alignments */
-	/*row_stride =png_get_rowbytes(read_ptr, read_info_ptr);*/
 	row_buffer = png_malloc(read_ptr,row_stride);
 
    /* Diaplay PNG Data */
@@ -1183,26 +1191,8 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 		png_read_row(read_ptr,row_buffer, NULL );
 
 		for(i = 0,p = row_buffer;i < nx;i++) {
-		#if !defined(USE_SSD1332_SPI_OLED)
-			d  = (*p++ >> 3) << 11;	/* R	 */
-			d |= (*p++ >> 2) << 5;	/* G 	 */
-			d |=  *p++ >> 3;		/* B 	 */
-		#else
-			d =   *p++ >> 3;		/* B	 */
-			d |= (*p++ >> 2) << 5;	/* G 	 */
-			d |= (*p++ >> 3) << 11;	/* R	 */
-		#endif
-			p++;					/* Alpha Channel is Discarded... */
-
-			Display_wr_dat_if(d);
-		}
-	}
-
-	/* Discard Rest Data if u need. */
-	if(height > ny){
-		i= height-ny;
-			for(k = 0;k < i;k++) {
-			png_read_row(read_ptr,row_buffer, NULL );
+			Display_wr_dat_if(MAKE_RGB888_TO_RGB565(&p));
+			p++;/* Alpha-Channel is discarded */
 		}
 	}
 
@@ -1240,6 +1230,21 @@ png_exit:
 */
 /**************************************************************************/
 #ifdef USE_GIFLIB
+/* Exchange into BGR565 Colour format */
+static inline uint16_t MAKE_GIFBGR565(GifColorType* p)
+{
+	uint16_t d;
+    #if !defined(USE_SSD1332_SPI_OLED)
+		d  = (p->Red   >> 3) << 11;	/* R	 */
+		d |= (p->Green >> 2) << 5;	/* G 	 */
+		d |=  p->Blue  >> 3;		/* B 	 */
+	#else
+		d =   p->Red   >> 3;		/* B	 */
+		d |= (p->Green >> 2) << 5;	/* G 	 */
+		d |= (p->Blue  >> 3) << 11;	/* R	 */
+	#endif
+	return d;
+}
 /**************************************************************************/
 /*!
     GIF file loader Upper-Side Using GIFLib.
@@ -1356,17 +1361,7 @@ static int load_gif(FIL *fil)
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
-
-					    #if !defined(USE_SSD1332_SPI_OLED)
-							d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
-							d |=  ColorMapEntry->Blue  >> 3;		/* B 	 */
-						#else
-							d =   ColorMapEntry->Blue  >> 3;		/* B	 */
-							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
-							d |= (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-						#endif
-							Display_wr_dat_if(d);
+							Display_wr_dat_if(MAKE_GIFBGR565(ColorMapEntry));
 						}
 					}
 				}
@@ -1393,67 +1388,40 @@ static int load_gif(FIL *fil)
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
-
-						#if !defined(USE_SSD1332_SPI_OLED)
-							d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
-							d |=  ColorMapEntry->Blue  >> 3;		/* B 	 */
-						#else
-							d =   ColorMapEntry->Blue  >> 3;		/* B	 */
-							d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
-							d |= (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-						#endif
-							Display_wr_dat_if(d);
+							Display_wr_dat_if(MAKE_GIFBGR565(ColorMapEntry));
 						}
 					}
 				}
 
 			}
 			else{
-				uint16_t tc;
 				GifColorType ct = ColorMap->Colors[TranCol];
-				#if !defined(USE_SSD1332_SPI_OLED)
-					tc  = (ct.Red   >> 3) << 11;	/* R	 */
-					tc |= (ct.Green >> 2) << 5;		/* G 	 */
-					tc |=  ct.Blue  >> 3;			/* B 	 */
-				#else
-					tc =   ct.Blue  >> 3;			/* B	 */
-					tc |= (ct.Green >> 2) << 5;		/* G 	 */
-					tc |= (ct.Red   >> 3) << 11;	/* R	 */
-				#endif
+				uint16_t tc = MAKE_GIFBGR565(&ct);
 
 				if(GifFile->Image.Interlace) {
 					/* Need to perform 4 passes on the images: */
-					for (i = 0; i < 4; i++)
-					for (j = Top + InterlacedOffset[i]; j < Top + Height; j += InterlacedJumps[i]) {
-						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
-							ts_locate(0, 0 ,0);
-							xprintf("\33\x87\fDGifGetLine Error!\n");
-							xprintf("press any key\n");
-							goto gif_end;
-						}
+					for (i = 0; i < 4; i++){
+						for (j = Top + InterlacedOffset[i]; j < Top + Height; j += InterlacedJumps[i]) {
+							if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
+								ts_locate(0, 0 ,0);
+								xprintf("\33\x87\fDGifGetLine Error!\n");
+								xprintf("press any key\n");
+								goto gif_end;
+							}
 
-						for (n = 0; n < Width; n++) {
-							/* Set Global or Local Colour Tables */
-							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
-							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
-							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
-
-							Display_rect_if(lx + n,lx + n,ly + j,ly + j);
-
-							#if !defined(USE_SSD1332_SPI_OLED)
-								d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
-								d |=  ColorMapEntry->Blue  >> 3;		/* B 	 */
-							#else
-								d =   ColorMapEntry->Blue  >> 3;		/* B	 */
-								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
-								d |= (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-							#endif
+							for (n = 0; n < Width; n++) {
+								/* Set Global or Local Colour Tables */
+								if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
+								else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
+								
+								ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
+								Display_rect_if(lx + n,lx + n,ly + j,ly + j);
+								d= MAKE_GIFBGR565(ColorMapEntry);
 								if(tc != d) Display_wr_dat_if(d);
 							}
 						}
 					}
+				}
 				else {
 					for (i = 0; i < Height; i++) {
 						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
@@ -1467,20 +1435,11 @@ static int load_gif(FIL *fil)
 							/* Set Global or Local Colour Tables */
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
+							
 							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
-
 							Display_rect_if(lx + n,lx + n,ly + Top + i,ly +Top + i);
-
-							#if !defined(USE_SSD1332_SPI_OLED)
-								d  = (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
-								d |=  ColorMapEntry->Blue  >> 3;		/* B 	 */
-							#else
-								d =   ColorMapEntry->Blue  >> 3;		/* B	 */
-								d |= (ColorMapEntry->Green >> 2) << 5;	/* G 	 */
-								d |= (ColorMapEntry->Red   >> 3) << 11;	/* R	 */
-							#endif
-								if(tc != d) Display_wr_dat_if(d);
+							d= MAKE_GIFBGR565(ColorMapEntry);
+							if(tc != d) Display_wr_dat_if(d);
 						}
 					}
 				}
@@ -1637,7 +1596,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 	#if (BUFSIZE > 32*1024)
 	#warning "ChaN's JPEG library have 32kByte buffersize restriction"
-		load_jpg(fil, (BYTE*)Buff, 32768);
+		load_jpg(fil, (BYTE*)Buff, BUFSIZE);
 	#else
 		load_jpg(fil, (BYTE*)Buff, BUFSIZE);
 	#endif
@@ -1892,7 +1851,7 @@ int filer(
 			} while (k != BTN_OK);
 			continue;
 		}
-#if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
+#if defined(USE_TIME_DISPLAY)
 		on_filer =1;
 #endif
 		filer_draw_screen(path, items);
@@ -1903,7 +1862,7 @@ int filer(
 			if (k == BTN_ESC) return BTN_ESC;
 			if (k == BTN_CAN)
 			{
-#if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
+#if defined(USE_TIME_DISPLAY)
 				on_filer =0;
 #endif
 				return BTN_CAN;
@@ -1934,7 +1893,7 @@ int filer(
 
 				} else {
 
-#if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
+#if defined(USE_TIME_DISPLAY)
 					on_filer =0;
 					load_file(path, filenames, fil);
 					on_filer =1;

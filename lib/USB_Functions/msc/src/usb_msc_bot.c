@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_bot.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2019.09.20
+    @version        4.00
+    @date           2023.03.23
 	@brief          BOT State Machine management.
 					Based On STMicro's Sample Thanks!
 
@@ -11,6 +11,7 @@
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 		2019.09.20	V3.00	Fixed shadowed variable.
+		2023.03.23	V4.00	Fixed BOT data buffer to 4byte-alignment.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -30,13 +31,14 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-uint8_t Bot_State;
-uint8_t Bulk_Data_Buff[BULK_MAX_PACKET_SIZE];  /* data buffer*/
+__IO uint8_t Bot_State;
+uint8_t Bulk_Data_Buff[BULK_MAX_PACKET_SIZE]  __attribute__ ((aligned (4)));
 uint16_t Data_Len;
-Bulk_Only_CBW CBW;
-Bulk_Only_CSW CSW;
-uint32_t SCSI_LBA , SCSI_BlkLen;
+__IO Bulk_Only_CBW CBW;
+__IO Bulk_Only_CSW CSW;
+__IO uint32_t SCSI_LBA , SCSI_BlkLen;
 extern uint32_t Max_Lun;
+__IO long StableCount = BOT_STABLE_COUNT;
 
 /* Constants -----------------------------------------------------------------*/
 
@@ -46,88 +48,93 @@ extern uint32_t Max_Lun;
 
 /**************************************************************************/
 /*! 
-    @brief  Mass Storage IN transfer.
+    @brief  Mass Storage IN transfer callback.
 	@param  None.
     @retval None.
 */
 /**************************************************************************/
-void Mass_Storage_In (void)
+void MSC_EP1_IN_Callback(void)
 {
-  switch (Bot_State)
-  {
-    case BOT_CSW_Send:
-    case BOT_ERROR:
-      Bot_State = BOT_IDLE;
-      SetEPRxStatus(ENDP2, EP_RX_VALID);/* enable the Endpoint to receive the next cmd */
-      break;
-    case BOT_DATA_IN:
-      switch (CBW.CB[0])
-      {
-        case SCSI_READ10:
-          SCSI_Read10_Cmd(CBW.bLUN , SCSI_LBA , SCSI_BlkLen);
-          break;
-      }
-      break;
-    case BOT_DATA_IN_LAST:
-      Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
-      SetEPRxStatus(ENDP2, EP_RX_VALID);
-      break;
-
-    default:
-      break;
-  }
+	switch (Bot_State)
+	{
+		case BOT_CSW_Send:
+		case BOT_ERROR:
+			if(StableCount > 0){
+				StableCount--; 		/* About1~2sec */
+				LED_RED_ON();
+				_delay_us(15000);	/* why does this delay need??? anyway that stable it */
+				LED_RED_OFF();
+			}
+			Bot_State = BOT_IDLE;
+			break;
+		case BOT_DATA_IN:
+			switch (CBW.CB[0])
+			{
+				case SCSI_READ10:
+					SCSI_Read10_Cmd(CBW.bLUN , SCSI_LBA , SCSI_BlkLen);
+					break;
+			}
+			break;
+		case BOT_DATA_IN_LAST:
+			Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+			SetEPRxStatus(ENDP2, EP_RX_VALID);
+			break;
+		default:
+			break;
+	}
 }
 
 /**************************************************************************/
 /*! 
-    @brief  Mass Storage OUT transfer.
+    @brief  Mass Storage OUT transfer callback.
 	@param  None.
     @retval None.
 */
 /**************************************************************************/
-void Mass_Storage_Out (void)
+void MSC_EP2_OUT_Callback(void)
 {
-  uint8_t CMD;
-  CMD = CBW.CB[0];
-  /* Nemui Changed  */
-  /* Data_Len = USB_SIL_Read(EP2_OUT, Bulk_Data_Buff); */
-  /* Nemui Added */
-  
-  SetEPRxStatus(ENDP2, EP_RX_VALID); /* enable the next transaction */
-  
-  if (GetENDPOINT(ENDP2) & EP_DTOG_TX)
-  { 
-    FreeUserBuffer(ENDP2, EP_DBUF_OUT);
-    Data_Len = GetEPDblBuf0Count(ENDP2);
-    PMAToUserBufferCopy(Bulk_Data_Buff, MSC_ENDP2_BUF0Addr, Data_Len); 
-  } 
-  else   { 
-    FreeUserBuffer(ENDP2, EP_DBUF_OUT);  
-    Data_Len= GetEPDblBuf1Count(ENDP2); 
-    PMAToUserBufferCopy(Bulk_Data_Buff, MSC_ENDP2_BUF1Addr, Data_Len); 
-  }
- 
-  switch (Bot_State)
-  {
-    case BOT_IDLE:
-      CBW_Decode();
-      break;
-    case BOT_DATA_OUT:
-      if (CMD == SCSI_WRITE10)
-      {
-        SCSI_Write10_Cmd(CBW.bLUN , SCSI_LBA , SCSI_BlkLen);
-        break;
-      }
-      Bot_Abort(DIR_OUT);
-      Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
-      Set_CSW (CSW_PHASE_ERROR, SEND_CSW_DISABLE);
-      break;
-    default:
-      Bot_Abort(BOTH_DIR);
-      Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
-      Set_CSW (CSW_PHASE_ERROR, SEND_CSW_DISABLE);
-      break;
-  }
+	uint8_t CMD;
+	CMD = CBW.CB[0];
+
+	/* Double Buffered RX */
+	if (GetENDPOINT(ENDP2) & EP_DTOG_TX)
+	{ 
+		Data_Len = GetEPDblBuf0Count(ENDP2);
+		if(Data_Len == 0) return; /* Detect zero length packet */
+		FreeUserBuffer(ENDP2, EP_DBUF_OUT);	/* Toggles EP_DTOG_TX / SW_BUF soon */
+		PMAToUserBufferCopy(Bulk_Data_Buff, MSC_ENDP2_BUF0Addr, Data_Len); 
+	} 
+	else
+	{ 
+		Data_Len= GetEPDblBuf1Count(ENDP2);
+		if(Data_Len == 0) return; /* Detect zero length packet */
+		FreeUserBuffer(ENDP2, EP_DBUF_OUT);	/* Toggles EP_DTOG_TX / SW_BUF soon */
+		PMAToUserBufferCopy(Bulk_Data_Buff, MSC_ENDP2_BUF1Addr, Data_Len); 
+	}
+
+
+	/* BOT State Machine */
+	switch (Bot_State)
+	{
+		case BOT_IDLE:
+			CBW_Decode();
+			break;
+		case BOT_DATA_OUT:
+			if (CMD == SCSI_WRITE10)
+			{
+				SCSI_Write10_Cmd(CBW.bLUN , SCSI_LBA , SCSI_BlkLen);
+				break;
+			}
+			Bot_Abort(DIR_OUT);
+			Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
+			Set_CSW (CSW_PHASE_ERROR, SEND_CSW_DISABLE);
+			break;
+		default:
+			Bot_Abort(BOTH_DIR);
+			Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
+			Set_CSW (CSW_PHASE_ERROR, SEND_CSW_DISABLE);
+			break;
+	}
 }
 
 /**************************************************************************/
@@ -286,12 +293,12 @@ void CBW_Decode(void)
 /**************************************************************************/
 void Transfer_Data_Request(uint8_t* Data_Pointer, uint16_t Data_Length)
 {
-  USB_SIL_Write(EP1_IN, Data_Pointer, Data_Length);
+	USB_SIL_Write(EP1_IN, Data_Pointer, Data_Length);
 
-  SetEPTxStatus(ENDP1, EP_TX_VALID);
-  Bot_State = BOT_DATA_IN_LAST;
-  CSW.dDataResidue -= Data_Length;
-  CSW.bStatus = CSW_CMD_PASSED;
+	SetEPTxStatus(ENDP1, EP_TX_VALID);
+	Bot_State = BOT_DATA_IN_LAST;
+	CSW.dDataResidue -= Data_Length;
+	CSW.bStatus = CSW_CMD_PASSED;
 }
 
 /**************************************************************************/
@@ -304,18 +311,17 @@ void Transfer_Data_Request(uint8_t* Data_Pointer, uint16_t Data_Length)
 /**************************************************************************/
 void Set_CSW (uint8_t CSW_Status, uint8_t Send_Permission)
 {
-  CSW.dSignature = BOT_CSW_SIGNATURE;
-  CSW.bStatus = CSW_Status;
+	CSW.dSignature = BOT_CSW_SIGNATURE;
+	CSW.bStatus = CSW_Status;
 
-  USB_SIL_Write(EP1_IN, ((uint8_t *)& CSW), CSW_DATA_LENGTH);
+	USB_SIL_Write(EP1_IN, ((uint8_t *)& CSW), CSW_DATA_LENGTH);
 
-  Bot_State = BOT_ERROR;
-  if (Send_Permission)
-  {
-    Bot_State = BOT_CSW_Send;
-    SetEPTxStatus(ENDP1, EP_TX_VALID);
-  }
-
+	Bot_State = BOT_ERROR;
+	if (Send_Permission)
+	{
+		Bot_State = BOT_CSW_Send;
+		SetEPTxStatus(ENDP1, EP_TX_VALID);
+	}
 }
 
 /**************************************************************************/
@@ -333,11 +339,13 @@ void Bot_Abort(uint8_t Direction)
       SetEPTxStatus(ENDP1, EP_TX_STALL);
       break;
     case DIR_OUT :
-      SetEPRxStatus(ENDP2, EP_RX_STALL);
+	  SetDouBleBuffEPStall(ENDP2, EP_DBUF_OUT);
+	  FreeUserBuffer(ENDP2, EP_DBUF_OUT);
       break;
     case BOTH_DIR :
       SetEPTxStatus(ENDP1, EP_TX_STALL);
-      SetEPRxStatus(ENDP2, EP_RX_STALL);
+	  SetDouBleBuffEPStall(ENDP2, EP_DBUF_OUT);
+	  FreeUserBuffer(ENDP2, EP_DBUF_OUT);
       break;
     default:
       break;

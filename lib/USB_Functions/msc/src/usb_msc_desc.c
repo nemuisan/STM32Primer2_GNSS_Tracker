@@ -2,13 +2,14 @@
 /*!
 	@file			usb_msc_desc.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.01.30
+    @version        2.00
+    @date           2023.03.20
 	@brief          Descriptor Header for Mass Storage Device.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
+		2023.03.20	V2.00	All descriptors are aligned by 4-byte.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* Variables -----------------------------------------------------------------*/
 
 /* Constants -----------------------------------------------------------------*/
-const uint8_t Mass_DeviceDescriptor[MASS_SIZ_DEVICE_DESC] =
+const uint8_t Mass_DeviceDescriptor[MASS_SIZ_DEVICE_DESC] __attribute__ ((aligned (4))) =
   {
     0x12,   /* bLength  */
     0x01,   /* bDescriptorType */
@@ -48,7 +49,7 @@ const uint8_t Mass_DeviceDescriptor[MASS_SIZ_DEVICE_DESC] =
     /* */
     0x01    /*bNumConfigurations */
   };
-const uint8_t Mass_ConfigDescriptor[MASS_SIZ_CONFIG_DESC] =
+const uint8_t Mass_ConfigDescriptor[MASS_SIZ_CONFIG_DESC] __attribute__ ((aligned (4))) =
   {
 
     0x09,   /* bLength: Configuration Descriptor size */
@@ -96,7 +97,7 @@ const uint8_t Mass_ConfigDescriptor[MASS_SIZ_CONFIG_DESC] =
     0x00     /*Polling interval in milliseconds*/
     /*32*/
   };
-const uint8_t Mass_StringLangID[MASS_SIZ_STRING_LANGID] =
+const uint8_t Mass_StringLangID[MASS_SIZ_STRING_LANGID] __attribute__ ((aligned (4))) =
   {
     MASS_SIZ_STRING_LANGID,
     0x03,
@@ -104,7 +105,7 @@ const uint8_t Mass_StringLangID[MASS_SIZ_STRING_LANGID] =
     0x04
   }
   ;      /* LangID = 0x0409: U.S. English */
-const uint8_t Mass_StringVendor[MASS_SIZ_STRING_VENDOR] =
+const uint8_t Mass_StringVendor[MASS_SIZ_STRING_VENDOR] __attribute__ ((aligned (4))) =
   {
     MASS_SIZ_STRING_VENDOR, /* Size of manufacturer string */
     0x03,           /* bDescriptorType = String descriptor */
@@ -113,7 +114,7 @@ const uint8_t Mass_StringVendor[MASS_SIZ_STRING_VENDOR] =
     'l', 0, 'e', 0, 'c', 0, 't', 0, 'r', 0, 'o', 0, 'n', 0, 'i', 0,
     'c', 0, 's', 0
   };
-const uint8_t Mass_StringProduct[MASS_SIZ_STRING_PRODUCT] =
+const uint8_t Mass_StringProduct[MASS_SIZ_STRING_PRODUCT] __attribute__ ((aligned (4))) =
   {
     MASS_SIZ_STRING_PRODUCT,
     0x03,
@@ -123,14 +124,15 @@ const uint8_t Mass_StringProduct[MASS_SIZ_STRING_PRODUCT] =
 
   };
 
-uint8_t Mass_StringSerial[MASS_SIZ_STRING_SERIAL] =
+uint8_t Mass_StringSerial[MASS_SIZ_STRING_SERIAL] __attribute__ ((aligned (4))) =
   {
     MASS_SIZ_STRING_SERIAL,
     0x03,
     /* Serial number*/
     'S', 0, 'T', 0, 'M', 0, '3', 0, '2', 0, '1', 0, '0', 0
   };
-const uint8_t Mass_StringInterface[MASS_SIZ_STRING_INTERFACE] =
+
+const uint8_t Mass_StringInterface[MASS_SIZ_STRING_INTERFACE] __attribute__ ((aligned (4))) =
   {
     MASS_SIZ_STRING_INTERFACE,
     0x03,
@@ -142,6 +144,5 @@ const uint8_t Mass_StringInterface[MASS_SIZ_STRING_INTERFACE] =
 /* Function prototypes -------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
-
 
 /* End Of File ---------------------------------------------------------------*/

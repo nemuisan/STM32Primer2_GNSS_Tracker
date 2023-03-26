@@ -2,13 +2,14 @@
 /*!
 	@file			usb_pwr.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2014.01.23
+    @version        3.00
+    @date           2023.03.07
 	@brief          Connection/disconnection & power management header.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Adopted STM32_USB-FS-Device_DriverV4.0.0.
+		2023.03.07	V3.00	Fixed EP Buffer 8byte-boundery.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,10 +25,15 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-__IO uint32_t bDeviceState = UNCONNECTED; /* USB device status */
-__IO bool fSuspendEnabled = TRUE;  /* true when suspend is possible */
-__IO uint32_t EP[8];
-
+/* USB device status */
+__IO uint32_t bDeviceState = UNCONNECTED;
+/* True when suspend is possible */
+__IO bool fSuspendEnabled = TRUE;
+/* Endpoint buffer MUST BE 8byte-boundery */
+__IO uint16_t EP[8] __attribute__ ((aligned (8)));
+/* Remote Wakeup */
+__IO uint32_t remotewakeupon=0;
+/* Resume reration */
 struct
 {
   __IO RESUME_STATE eState;
@@ -35,7 +41,6 @@ struct
 }
 ResumeS;
 
-__IO uint32_t remotewakeupon=0;
 
 /* Constants -----------------------------------------------------------------*/
 

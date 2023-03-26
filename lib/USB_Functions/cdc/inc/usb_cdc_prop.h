@@ -2,8 +2,8 @@
 /*!
 	@file			usb_cdc_prop.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2019.09.20
+    @version        5.00
+    @date           2023.03.22
 	@brief          All processing related to Virtual COM Port.
 					Based On STMicro's Sample Thanks!
 
@@ -12,13 +12,14 @@
 		2014.01.18	V2.00	Added SEND_BREAK into no data class specific requests.
 		2014.01.23	V3.00	Removed retired STM32F10X_CL Codes.
 		2019.09.20	V4.00	Fixed shadowed variable.
+		2023.03.22	V5.00	Add comment for double buffering.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __USB_CDC_PROP_H
-#define __USB_CDC_PROP_H	0x0400
+#ifndef USB_CDC_PROP_H
+#define USB_CDC_PROP_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -79,4 +80,4 @@ extern void CDC_SetStructure(void);
 }
 #endif
 
-#endif	/* __USB_CDC_PROP_H */
+#endif	/* USB_CDC_PROP_H */

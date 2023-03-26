@@ -1,15 +1,16 @@
 /********************************************************************************/
 /*!
 	@file			usb_msc_prop.c
-    @version        3.00
-    @date           2019.09.20
+    @version        4.00
+    @date           2023.03.20
 	@brief          Mass Storage middle layer.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
-		2019.09.20	V6.00	Fixed shadowed variable.
+		2019.09.20	V3.00	Fixed shadowed variable.
+		2023.03.20	V4.00	Removed redundant declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -32,21 +33,22 @@
 
 /* Variables -----------------------------------------------------------------*/
 uint32_t Max_Lun = 0;
+extern __IO long StableCount;
 
 /* Constants -----------------------------------------------------------------*/
-ONE_DESCRIPTOR MSC_Device_Descriptor =
+ONE_DESCRIPTOR MSC_Device_Descriptor __attribute__ ((aligned (4))) =
   {
     (uint8_t*)Mass_DeviceDescriptor,
     MASS_SIZ_DEVICE_DESC
   };
 
-ONE_DESCRIPTOR MSC_Config_Descriptor =
+ONE_DESCRIPTOR MSC_Config_Descriptor __attribute__ ((aligned (4))) =
   {
     (uint8_t*)Mass_ConfigDescriptor,
     MASS_SIZ_CONFIG_DESC
   };
 
-ONE_DESCRIPTOR MSC_String_Descriptor[5] =
+ONE_DESCRIPTOR MSC_String_Descriptor[5] __attribute__ ((aligned (4))) =
   {
     {(uint8_t*)Mass_StringLangID, MASS_SIZ_STRING_LANGID},
     {(uint8_t*)Mass_StringVendor, MASS_SIZ_STRING_VENDOR},
@@ -56,8 +58,6 @@ ONE_DESCRIPTOR MSC_String_Descriptor[5] =
   };
 
 /* Function prototypes -------------------------------------------------------*/
-extern unsigned char Bot_State;
-extern Bulk_Only_CBW CBW;
 
 /* Functions -----------------------------------------------------------------*/
 
@@ -113,6 +113,7 @@ void Mass_init()
   USB_SIL_Init();
 
   bDeviceState = UNCONNECTED;
+
 }
 
 /**************************************************************************/
@@ -122,60 +123,49 @@ void Mass_init()
 /**************************************************************************/
 void Mass_Reset()
 {
-  /* Set the device as not configured */
-  Device_Info.Current_Configuration = 0;
+	/* Set the device as not configured */
+	Device_Info.Current_Configuration = 0;
 
-  /* Current Feature initialization */
-  pInformation->Current_Feature = Mass_ConfigDescriptor[7];
+	/* Current Feature initialization */
+	pInformation->Current_Feature = Mass_ConfigDescriptor[7];
 
-  SetBTABLE(BTABLE_ADDRESS);
+	SetBTABLE(BTABLE_ADDRESS);
 
-  /* Initialize Endpoint 0 */
-  SetEPType(ENDP0, EP_CONTROL);
-  SetEPTxStatus(ENDP0, EP_TX_NAK);
-  SetEPRxAddr(ENDP0, MSC_ENDP0_RXADDR);
-  SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
-  SetEPTxAddr(ENDP0, MSC_ENDP0_TXADDR);
-  Clear_Status_Out(ENDP0);
-  SetEPRxValid(ENDP0);
+	/* Initialize Endpoint 0 */
+	SetEPType(ENDP0, EP_CONTROL);
+	SetEPTxStatus(ENDP0, EP_TX_NAK);
+	SetEPRxAddr(ENDP0, MSC_ENDP0_RXADDR);
+	SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
+	SetEPTxAddr(ENDP0, MSC_ENDP0_TXADDR);
+	Clear_Status_Out(ENDP0);
+	SetEPRxValid(ENDP0);
 
-  /* Initialize Endpoint 1 */
-  SetEPType(ENDP1, EP_BULK);
-  SetEPTxAddr(ENDP1, MSC_ENDP1_TXADDR);
-  SetEPTxStatus(ENDP1, EP_TX_NAK);
-  SetEPRxStatus(ENDP1, EP_RX_DIS);
+	/* Initialize Endpoint 1 IN as TX (Device->HOST_PC) */
+	SetEPType(ENDP1, EP_BULK);
+	SetEPTxAddr(ENDP1, MSC_ENDP1_TXADDR);
+	SetEPTxStatus(ENDP1, EP_TX_NAK); /* STM32 -> HOST Enable */
+	SetEPRxStatus(ENDP1, EP_RX_DIS); /* STM32 -> HOST Disable */
 
-  /* Initialize Endpoint 2 */
-  /* Nemui Cchanged to Double Buffer */
-/*
-  SetEPType(ENDP2, EP_BULK);
-  SetEPRxAddr(ENDP2, MSC_ENDP2_RXADDR);
-  SetEPRxCount(ENDP2, Device_Property.MaxPacketSize);
-  SetEPRxStatus(ENDP2, EP_RX_VALID);
-  SetEPTxStatus(ENDP2, EP_TX_DIS);
-*/
-  /* Nemui added */
-  SetEPType(ENDP2, EP_BULK); 
-  SetEPDoubleBuff(ENDP2); 
-  SetEPDblBuffAddr(ENDP2, MSC_ENDP2_BUF0Addr, MSC_ENDP2_BUF1Addr); 
-  SetEPDblBuffCount(ENDP2, EP_DBUF_OUT, Device_Property.MaxPacketSize); 
-  ClearDTOG_RX(ENDP2); 
-  ClearDTOG_TX(ENDP2); 
-  ToggleDTOG_TX(ENDP2); 
-  SetEPRxStatus(ENDP2, EP_RX_VALID); 
-  SetEPTxStatus(ENDP2, EP_TX_DIS);  
- /* Nemui added */
+	/* Initialize Endpoint 2 OUT as RX (HOST_PC->Device) */
+	/* Nemui Changed to Double Buffer */
+	SetEPType(ENDP2, EP_BULK);
+	SetEPDoubleBuff(ENDP2);
+	SetEPDblBuffAddr(ENDP2, MSC_ENDP2_BUF0Addr, MSC_ENDP2_BUF1Addr);
+	SetEPDblBuffCount(ENDP2, EP_DBUF_OUT, Device_Property.MaxPacketSize); /* Full Speed MAX 64Bytes */
+	ClearDTOG_RX(ENDP2);    /* Clear DTOG USB PERIPHERAL */
+	ClearDTOG_TX(ENDP2);    /* Clear SW_BUF for APPLICATION */
+    ToggleDTOG_TX(ENDP2);	/* NOT RX ie Toggle SW_BUF - Sets buf 1 as software buffer (buf 0 for first rx) */
+	SetEPRxStatus(ENDP2, EP_RX_VALID);	/* HOST -> STM32 Enable */
+	SetEPTxStatus(ENDP2, EP_TX_DIS);	/* HOST -> STM32 Disable */
 
-  SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
-  SetEPRxValid(ENDP0);
+	/* Set the device to response on default address */
+	SetDeviceAddress(0);
 
-  /* Set the device to response on default address */
-  SetDeviceAddress(0);
+	bDeviceState = ATTACHED;
+	StableCount = BOT_STABLE_COUNT;
 
-  bDeviceState = ATTACHED;
-
-  CBW.dSignature = BOT_CBW_SIGNATURE;
-  Bot_State = BOT_IDLE;
+	CBW.dSignature = BOT_CBW_SIGNATURE;
+	Bot_State = BOT_IDLE;
 }
 
 /**************************************************************************/
@@ -190,7 +180,10 @@ void Mass_SetConfiguration(void)
     /* Device configured */
     bDeviceState = CONFIGURED;
 
+    /* Initialize Endpoint 1 */
     ClearDTOG_TX(ENDP1);
+
+    /* Initialize Endpoint 2 */
     ClearDTOG_RX(ENDP2);
 
     Bot_State = BOT_IDLE; /* set the Bot state machine to the IDLE state */
@@ -290,7 +283,8 @@ RESULT Mass_NoData_Setup(uint8_t RequestNo)
 
     /* Initialize Endpoint 2 */
     ClearDTOG_RX(ENDP2);
-
+	ToggleDTOG_TX(ENDP2); /* reset value of the data toggle bits for the endpoint out*/
+	
     /*initialize the CBW signature to enable the clear feature*/
     CBW.dSignature = BOT_CBW_SIGNATURE;
     Bot_State = BOT_IDLE;

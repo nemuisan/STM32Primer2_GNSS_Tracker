@@ -9,7 +9,7 @@ MEMORY
 {
 	RAM1 (xrw)	: ORIGIN = 0x20000000, LENGTH = 64k		/* Main Embedded SRAM 		*/
 	RAM5 (xrw)	: ORIGIN = 0x68000000, LENGTH = 0K		/* External SRAM (FSMC) 	*/
-	ROM (rx)	: ORIGIN = 0x08000000, LENGTH = 1024K	/* Main Embedded FlashROM	*/
+	ROM (rx)	: ORIGIN = 0x08000000, LENGTH = 512K	/* Main Embedded FlashROM	*/
 }
 
 /* higher address of the stack bottom,AAPCS said "stack MUST BE 8byte alignment". */

@@ -2,8 +2,8 @@
 /*!
 	@file			usb_cdc_prop.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2019.09.20
+    @version        5.00
+    @date           2023.03.22
 	@brief          All processing related to Virtual COM Port.
 					Based On STMicro's Sample Thanks!
 
@@ -12,6 +12,7 @@
 		2014.01.18	V2.00	Added SEND_BREAK into no data class specific requests.
 		2014.01.23	V3.00	Removed retired STM32F10X_CL Codes.
 		2019.09.20	V4.00	Fixed shadowed variable.
+		2023.03.22	V5.00	Add comment for double buffering.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -41,19 +42,19 @@ LINE_CODING linecoding =
   };
 
 /* Constants -----------------------------------------------------------------*/
-ONE_DESCRIPTOR CDC_Device_Descriptor =
+ONE_DESCRIPTOR CDC_Device_Descriptor   __attribute__ ((aligned (4))) =
   {
     (uint8_t*)Virtual_Com_Port_DeviceDescriptor,
     VIRTUAL_COM_PORT_SIZ_DEVICE_DESC
   };
 
-ONE_DESCRIPTOR CDC_Config_Descriptor =
+ONE_DESCRIPTOR CDC_Config_Descriptor  __attribute__ ((aligned (4))) =
   {
     (uint8_t*)Virtual_Com_Port_ConfigDescriptor,
     VIRTUAL_COM_PORT_SIZ_CONFIG_DESC
   };
 
-ONE_DESCRIPTOR CDC_String_Descriptor[4] =
+ONE_DESCRIPTOR CDC_String_Descriptor[4]  __attribute__ ((aligned (4))) =
   {
     {(uint8_t*)Virtual_Com_Port_StringLangID, VIRTUAL_COM_PORT_SIZ_STRING_LANGID},
     {(uint8_t*)Virtual_Com_Port_StringVendor, VIRTUAL_COM_PORT_SIZ_STRING_VENDOR},
@@ -97,7 +98,7 @@ void CDC_SetStructure(void)
 
 /**************************************************************************/
 /*! 
-    @brief	Virtual COM Port Mouse init routine.
+    @brief	Virtual COM Port init routine.
 */
 /**************************************************************************/
 void Virtual_Com_Port_init(void)
@@ -128,60 +129,54 @@ void Virtual_Com_Port_init(void)
 /**************************************************************************/
 void Virtual_Com_Port_Reset(void)
 {
-  /* Set Virtual_Com_Port DEVICE as not configured */
-  pInformation->Current_Configuration = 0;
+	/* Set Virtual_Com_Port DEVICE as not configured */
+	pInformation->Current_Configuration = 0;
 
-  /* Current Feature initialization */
-  pInformation->Current_Feature = Virtual_Com_Port_ConfigDescriptor[7];
+	/* Current Feature initialization */
+	pInformation->Current_Feature = Virtual_Com_Port_ConfigDescriptor[7];
 
-  /* Set Virtual_Com_Port DEVICE with the default Interface*/
-  pInformation->Current_Interface = 0;
+	/* Set Virtual_Com_Port DEVICE with the default Interface*/
+	pInformation->Current_Interface = 0;
 
-  SetBTABLE(BTABLE_ADDRESS);
+	SetBTABLE(BTABLE_ADDRESS);
 
-  /* Initialize Endpoint 0 */
-  SetEPType(ENDP0, EP_CONTROL);
-  SetEPTxStatus(ENDP0, EP_TX_STALL);
-  SetEPRxAddr(ENDP0, CDC_ENDP0_RXADDR);
-  SetEPTxAddr(ENDP0, CDC_ENDP0_TXADDR);
-  Clear_Status_Out(ENDP0);
-  SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
-  SetEPRxValid(ENDP0);
+	/* Initialize Endpoint 0 */
+	SetEPType(ENDP0, EP_CONTROL);
+	SetEPTxStatus(ENDP0, EP_TX_STALL);
+	SetEPRxAddr(ENDP0, CDC_ENDP0_RXADDR);
+	SetEPTxAddr(ENDP0, CDC_ENDP0_TXADDR);
+	Clear_Status_Out(ENDP0);
+	SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
+	SetEPRxValid(ENDP0);
 
-  /* Initialize Endpoint 1 */
-  SetEPType(ENDP1, EP_BULK);
-  SetEPTxAddr(ENDP1, CDC_ENDP1_TXADDR);
-  SetEPTxStatus(ENDP1, EP_TX_NAK);
-  SetEPRxStatus(ENDP1, EP_RX_DIS);
+	/* Initialize Endpoint 1 IN as TX (Device->HOST_PC) */
+	SetEPType(ENDP1, EP_BULK);
+	SetEPTxAddr(ENDP1, CDC_ENDP1_TXADDR);
+	SetEPTxStatus(ENDP1, EP_TX_NAK); /* STM32 -> HOST Enable */
+	SetEPRxStatus(ENDP1, EP_RX_DIS); /* STM32 -> HOST Disable */
 
-  /* Initialize Endpoint 2 */
-  SetEPType(ENDP2, EP_INTERRUPT);
-  SetEPTxAddr(ENDP2, CDC_ENDP2_TXADDR);
-  SetEPRxStatus(ENDP2, EP_RX_DIS);
-  SetEPTxStatus(ENDP2, EP_TX_NAK);
+	/* Initialize Endpoint 2 CDC-Specification need this */
+	SetEPType(ENDP2, EP_INTERRUPT);
+	SetEPTxAddr(ENDP2, CDC_ENDP2_TXADDR);
+	SetEPRxStatus(ENDP2, EP_RX_DIS);
+	SetEPTxStatus(ENDP2, EP_TX_NAK);
 
-  /* Initialize Endpoint 3 */
- /* nemui
-  SetEPType(ENDP3, EP_BULK);
-  SetEPRxAddr(ENDP3, CDC_ENDP3_RXADDR);
-  SetEPRxCount(ENDP3, VIRTUAL_COM_PORT_DATA_SIZE);
-  SetEPRxStatus(ENDP3, EP_RX_VALID);
-  SetEPTxStatus(ENDP3, EP_TX_DIS);
-*/
-  SetEPType(ENDP3, EP_BULK);
-  SetEPDoubleBuff(ENDP3);
-  SetEPDblBuffAddr(ENDP3, CDC_ENDP3_BUF0Addr, CDC_ENDP3_BUF1Addr);
-  SetEPDblBuffCount(ENDP3, EP_DBUF_OUT, VIRTUAL_COM_PORT_DATA_SIZE);
-  ClearDTOG_RX(ENDP3);
-  ClearDTOG_TX(ENDP3);
-  ToggleDTOG_TX(ENDP3);
-  SetEPRxStatus(ENDP3, EP_RX_VALID);
-  SetEPTxStatus(ENDP3, EP_TX_DIS); 
+	/* Initialize Endpoint 3 OUT as RX (HOST_PC->Device) */
+	/* Nemui Changed to Double Buffer */
+	SetEPType(ENDP3, EP_BULK);
+	SetEPDoubleBuff(ENDP3);
+	SetEPDblBuffAddr(ENDP3, CDC_ENDP3_BUF0Addr, CDC_ENDP3_BUF1Addr);
+	SetEPDblBuffCount(ENDP3, EP_DBUF_OUT, VIRTUAL_COM_PORT_DATA_SIZE); /* Full Speed MAX 64Bytes */
+	ClearDTOG_RX(ENDP3);    /* Clear DTOG USB PERIPHERAL */
+	ClearDTOG_TX(ENDP3);    /* Clear SW_BUF for APPLICATION */
+	ToggleDTOG_TX(ENDP3);	/* NOT RX ie Toggle SW_BUF - Sets buf 1 as software buffer (buf 0 for first rx) */
+	SetEPRxStatus(ENDP3, EP_RX_VALID);	/* HOST -> STM32 Enable */
+	SetEPTxStatus(ENDP3, EP_TX_DIS);	/* HOST -> STM32 Disable */
 
-  /* Set this device to response on default address */
-  SetDeviceAddress(0);
+	/* Set the device to response on default address */
+	SetDeviceAddress(0);
 
-  bDeviceState = ATTACHED;
+	bDeviceState = ATTACHED;
 }
 
 /**************************************************************************/
@@ -197,6 +192,8 @@ void Virtual_Com_Port_SetConfiguration(void)
   {
     /* Device configured */
     bDeviceState = CONFIGURED;
+	
+	USART_EnableRXInt();
   }
 }
 
@@ -220,6 +217,7 @@ void Virtual_Com_Port_Status_In(void)
   if (Request == SET_LINE_CODING)
   {
     USART_Config();
+	USART_EnableRXInt();
     Request = 0;
   }
 }

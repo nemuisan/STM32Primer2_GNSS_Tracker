@@ -2,14 +2,15 @@
 /*!
 	@file			usb_istr.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2014.12.17
+    @version        4.00
+    @date           2023.03.23
 	@brief          ISTR events interrupt service routine Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
 		2014.01.23	V2.00	Adopted STM32_USB-FS-Device_DriverV4.0.0.
 		2014.12.17	V3.00	Adopted GCC4.9.x.
+		2023.03.23	V4.00	Fixed incorrect EP Buffer declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,9 +23,9 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-__IO uint16_t wIstr;  /* ISTR register last read value */
-__IO uint8_t bIntPackSOF = 0;  /* SOFs received between 2 consecutive packets */
-__IO uint32_t esof_counter =0; /* expected SOF counter */
+__IO uint16_t wIstr;  			/* ISTR register last read value */
+__IO uint8_t bIntPackSOF = 0;	/* SOFs received between 2 consecutive packets */
+__IO uint32_t esof_counter =0; 	/* expected SOF counter */
 __IO uint32_t wCNTR=0;
 
 /* Constants -----------------------------------------------------------------*/
@@ -64,10 +65,9 @@ void (* volatile xUSB_Istr)(void) = NULL;
     @retval None.
 */
 /**************************************************************************/
-__attribute__((optimize("O0"))) void USB_Istr(void)
+void USB_Istr(void)
 {
 	xUSB_Istr();
-
 }
 
 /**************************************************************************/
@@ -80,7 +80,6 @@ __attribute__((optimize("O0"))) void USB_Istr(void)
 void CDC_USB_Istr(void)
 {
 	uint32_t i=0;
-	__IO uint32_t EP[8];
   
 	wIstr = _GetISTR();
 

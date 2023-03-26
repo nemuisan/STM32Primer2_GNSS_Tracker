@@ -1,22 +1,23 @@
 /********************************************************************************/
 /*!
 	@file			usb_msc_prop.h
-    @version        3.00
-    @date           2019.09.20
+    @version        4.00
+    @date           2023.03.10
 	@brief          Mass Storage middle layer.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
-		2019.09.20	V6.00	Fixed shadowed variable.
+		2019.09.20	V3.00	Fixed shadowed variable.
+		2023.03.20	V4.00	Removed redundant declaration.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __USB_MSC_PROP_H
-#define __USB_MSC_PROP_H	0x0300
+#ifndef USB_MSC_PROP_H
+#define USB_MSC_PROP_H	0x0400
 
 #ifdef __cplusplus
  extern "C" {
@@ -63,4 +64,4 @@ extern void MSC_SetStructure(void);
 }
 #endif
 
-#endif /* __USB_MSC_PROP_H */
+#endif /* USB_MSC_PROP_H */
