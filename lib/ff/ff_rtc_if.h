@@ -2,20 +2,21 @@
 /*!
 	@file			ff_rtc_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2012.08.27
+    @version        2.00
+    @date           2023.04.21
 	@brief          FatFs Realtime Clock Section.					@n
 					Hardware Abstraction Layer.
 
     @section HISTORY
-		2012.08.27	V1.00 Start Here.
+		2012.08.27	V1.00	Start Here.
+		2023.04.21	V2.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __FF_RTC_IF_H
-#define __FF_RTC_IF_H
+#ifndef FF_RTC_IF_H
+#define FF_RTC_IF_H 0x0200
 
 #ifdef __cplusplus
  extern "C" {
@@ -48,4 +49,4 @@ extern FF_RTC ff_rtc;
 }
 #endif
 
-#endif /*  __FF_RTC_IF_H */
+#endif /*  FF_RTC_IF_H */

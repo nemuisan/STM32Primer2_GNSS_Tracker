@@ -2,14 +2,15 @@
 /*!
 	@file			hw_config.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2022.10.15
+    @version        4.00
+    @date           2023.04.21
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
 		2010.12.31	V1.00	Restart Here.
 		2011.03.10	V2.00	C++ Ready.
 		2022.10.15	V3.00	Fixed cosmetic bugfixes.
+		2023.04.21	V4.00	Re-Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -19,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hw_config.h"
 /* check header file version for fool proof */
-#if __HW_CONFIG_H!= 0x0300
+#if HW_CONFIG_H!= 0x0400
 #error "header file version is not correspond!"
 #endif
 

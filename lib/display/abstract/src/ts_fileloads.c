@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        21.00
-    @date           2023.03.01
+    @version        22.00
+    @date           2023.05.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.03.01	See ts_ver.txt.
+		2023.05.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if TS_FILELOADS_H != 0x2100
+#if TS_FILELOADS_H != 0x2200
 #error "header file version is not correspond!"
 #endif
 
@@ -53,6 +53,16 @@ extern uint8_t Buff[];
 #warning "Enable Display Performance Counter!"
  extern void display_performance_ready_if(void);
  extern uint32_t display_performance_result_if(void);
+#endif
+
+/* Check using floating point unit on some graphic libraries */
+/* Use double-precision hardware floating point unit on libpng? */
+#if defined(LIBPNG_USE_DFPU)
+ #warning "Use Hardware FloatingPoint Unit on LIBPNG!"
+#endif
+/* Use single/double-precision hardware floating point unit on libpng? */
+#if defined (LIBJPEG_USE_FPU) || defined(LIBJPEG_USE_DFPU)
+ #warning "Use Hardware FloatingPoint Unit on LIBJPEG!"
 #endif
 
 /* Variables -----------------------------------------------------------------*/
@@ -746,7 +756,7 @@ static unsigned int tjd_output (
 	jd = jd;	/* Suppress warning (device identifier is not needed) */
 
 	/* Check user interrupt at left end */
-	if (!rect->left && __kbhit()) return 0;	/* Abort decompression */
+	if (!rect->left && _kbhit()) return 0;	/* Abort decompression */
 
 	/* Put the rectangular into the display */
 	disp_blt(rect->left, rect->right, rect->top, rect->bottom, (uint16_t*)bitmap);

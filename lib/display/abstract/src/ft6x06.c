@@ -2,13 +2,14 @@
 /*!
 	@file			ft6x06.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2016.06.01
+    @version        2.00
+    @date           2023.05.01
 	@brief          Touch Screen Control Upperside 						@n
 					Based on ST Microelectronics's Sample Thanks!
 	
     @section HISTORY
 		2016.06.01	V1.00	Stable Release.
+		2023.05.01	V2.00	Removed unused delay function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if_basis.h"
 /* check header file version for fool proof */
-#if __FT6x06_H != 0x0100
+#if FT6x06_H != 0x0200
 #error "header file version is not correspond!"
 #endif
 
@@ -31,18 +32,6 @@
 /* Function prototypes -------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
-/**************************************************************************/
-/*! 
-	Milliseconds wait routine.
-*/
-/**************************************************************************/
-#ifndef __SYSTICK_H
-inline static void _delay_ms(uint32_t ms)
-{
-	ms += ticktime;
-	while (ticktime < ms);
-}
-#endif
 
 /**************************************************************************/
 /*! 

@@ -2,8 +2,8 @@
 /*!
 	@file			stm32f10x_it.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2014.01.23
+    @version        5.00
+    @date           2023.04.21
 	@brief          Cortex-M3 Processor Exceptions Handlers.				@n
 					And STM32F10x Peripherals Interrupt Handlers.			@n
 					Device Dependent Section.
@@ -13,6 +13,7 @@
 		2011.01.20	V2.00	Rewrite Doxygen Style.
 		2011.03.10	V3.00	C++ Ready.
 		2014.01.23	V4.00	Removed retired STM32F10X_CL Codes.
+		2023.04.21	V5.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -158,11 +159,12 @@ void PendSV_Handler(void)
 /**************************************************************************/
 void SysTick_Handler(void)
 {
-
 	/* used for delay routine */
 	TimingDelay_Decrement();
+	
 	/* used for power managements */
 	PWR_Mgn();
+	
 	/* GPS Logger Mode Special */
 	if(TaskStat == GNSS_LOGGING) ChkAckLimit();
 	

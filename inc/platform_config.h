@@ -2,21 +2,22 @@
 /*!
 	@file			platform_config.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2011.03.10
+    @version        4.00
+    @date           2023.04.21
 	@brief          Device Dependent Section.
 
     @section HISTORY
 		2010.12.31	V1.00	ReStart Here.
 		2011.01.20	V2.00	Add EtherPod +TFT-LCD Shield's Porting..
 		2011.03.10	V3.00	C++ Ready.
+		2023.04.21	V4.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __PLATFORM_CONFIG_H
-#define __PLATFORM_CONFIG_H 0x0300
+#ifndef PLATFORM_CONFIG_H
+#define PLATFORM_CONFIG_H 0x0400
 
 #ifdef __cplusplus
  extern "C" {
@@ -68,4 +69,4 @@
 }
 #endif
 
-#endif /* __PLATFORM_CONFIG_H */
+#endif /* PLATFORM_CONFIG_H */

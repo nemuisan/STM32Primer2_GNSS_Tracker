@@ -2,8 +2,8 @@
 /  Low level disk interface modlue include file   (C)ChaN, 2019          /
 /-----------------------------------------------------------------------*/
 
-#ifndef _DISKIO_DEFINED
-#define _DISKIO_DEFINED
+#ifndef DISKIO_DEFINED
+#define DISKIO_DEFINED
 
 #ifdef __cplusplus
 extern "C" {

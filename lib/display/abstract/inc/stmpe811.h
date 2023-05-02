@@ -1,20 +1,20 @@
 /********************************************************************************/
 /*!
 	@file			stmpe811.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2013.03.20
+    @version        2.00
+    @date           2023.05.01
 	@brief          Touch Screen Control Upperside 
 	
     @section HISTORY
 		2013.03.20	V1.00	Stable Release.
+		2023.05.01	V2.00	Removed unused delay function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __STMPE811_H
-#define __STMPE811_H	0x0100
+#ifndef STMPE811_H
+#define STMPE811_H	0x0200
 
 #ifdef __cplusplus
  extern "C" {
@@ -64,4 +64,4 @@ extern uint8_t STMPE811_Init(void);
 }
 #endif
 
-#endif /* __STMPE811_H */
+#endif /* STMPE811_H */

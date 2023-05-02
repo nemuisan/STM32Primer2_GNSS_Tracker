@@ -2,20 +2,21 @@
 /*!
 	@file			stm32f10x_conf.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2011.03.10
+    @version        3.00
+    @date           2023.04.21
 	@brief          Device Dependent Section.
 
     @section HISTORY
 		2010.01.22	V1.00	Start Here.
 		2011.03.10	V2.00	C++ Ready.
+		2023.04.21	V3.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __STM32F10x_CONF_H
-#define __STM32F10x_CONF_H
+#ifndef STM32F10x_CONF_H
+#define STM32F10x_CONF_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -45,12 +46,9 @@
 #include "stm32f10x_wwdg.h"
 /* High level functions for NVIC and SysTick (add-on to CMSIS functions) */
 #include "misc.h" 
+
 /* Exported types ------------------------------------------------------------*/
-#ifdef __GNUC__
-#define RAMFUNC __attribute__ ((long_call, section(".ramfunc")))
-#else
-#define RAMFUNC
-#endif
+
 /* Exported constants --------------------------------------------------------*/
 /* Uncomment the line below to expanse the "assert_param" macro in the 
    Standard Peripheral Library drivers code */
@@ -78,4 +76,4 @@
 }
 #endif
 
-#endif /* __STM32F10x_CONF_H */
+#endif /* STM32F10x_CONF_H */

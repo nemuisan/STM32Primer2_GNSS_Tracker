@@ -1,8 +1,8 @@
 ********************* sdio_stm32f1.x update history ********************
 
+	2023.04.21 V32.00	Fixed cosmetic bugfix.
 
 	2022.09.03 V31.00	Fixed illegal size pointer cast on RX-DMA.
-
 	2019.09.11 V30.00	Fixed illegal pointer cast.
 	2018.11.07 V29.00	Fixed ExtCSD value retrieval problem for MMCv4.x or above cards.
 	2018.10.16 V28.00	Adopted FatFs0.13c.

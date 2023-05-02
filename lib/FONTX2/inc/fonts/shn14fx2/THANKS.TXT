@@ -1,0 +1,104 @@
+œŽÓŽ«
+                                                                    2001
+                                     The Electronic Font Open Laboratory
+                                        http://openlab.ring.gr.jp/efont/
+
+“Œ‰_ƒtƒHƒ“ƒg‚ÍŒÃì‘×”V‚³‚ñ‚ªì¬‚³‚ê‚½‚à‚Ì‚ðA/efont/ ‚É contribute ‚µ
+‚Ä’¸‚«‚Ü‚µ‚½B
+
+‚Ü‚¸AŽ„‚½‚¿‚©‚çŒÃì‚³‚ñ‚ÉÅ‘å‹‰‚ÌŠ´ŽÓ‚ð‚³‚¹‚Ä’¸‚«‚Ü‚·B“Œ‰_ƒtƒHƒ“ƒgƒV
+ƒŠ[ƒY‚Ì‚¨‚©‚°‚ÅCPC-UNIX ‚ÌƒfƒXƒNƒgƒbƒvŠÂ‹«‚ÍŠi’i‚Éi•à‚µ‚½‚ÆŒ¾‚¦‚é‚Å
+‚µ‚å‚¤B‚±‚Ì‚æ‚¤‚È‚•iŽ¿‚Ì‘‘Ì‚ðAˆêl‚Å‚Ü‚Æ‚ß‚ ‚°‚½‚»‚ÌŒ÷Ñ‚É‚ÍA‚½‚¾
+‚½‚¾“ª‚Ì‰º‚ª‚éŽv‚¢‚Å‚·B‚±‚Ì”ü‚µ‚­A“Ç‚Ý‚â‚·‚¢ƒrƒbƒgƒ}ƒbƒvƒtƒHƒ“ƒg‚Ìˆê
+ŽŸ”z•zŒ³‚Æ‚µ‚Ä‘I‚ñ‚Å’¸‚¯‚½‚±‚Æ‚ðS‚©‚çŠð‚µ‚­Žv‚¢‚Ü‚·B
+
+‚Ü‚½C‹¦—Í‚µ‚Ä’¸‚¢‚½ˆÈ‰º‚Ì•ûX‚ÉŠ´ŽÓ’v‚µ‚Ü‚·D
+
+Žë–ì GŽ÷—l 
+   16ƒhƒbƒg‚Ìu™Ó (0x5256)v‚ÌŒëƒfƒUƒCƒ“‚ðŽw“E‚µ‚Ä‚­‚¾‚³‚¢‚Ü‚µ‚½B
+
+VŽR—S‰î—l
+   mkitalic ‚Ì perl ƒo[ƒWƒ‡ƒ“‚ðì‚Á‚Ä’¸‚«‚Ü‚µ‚½B
+   bdfmerge ‚Ì perl ƒo[ƒWƒ‡ƒ“‚ðì‚Á‚Ä’¸‚«‚Ü‚µ‚½B
+
+»ìŒb‹P—l
+   12ƒhƒbƒg‚Ìu | (0x007c)v‚ÌŒëƒfƒUƒCƒ“‚ðŽw“E‚µ‚Ä‚­‚¾‚³‚¢‚Ü‚µ‚½B
+   12ƒhƒbƒg‚Ìu # (0x0023)v‚ÌŒëƒfƒUƒCƒ“‚ðŽw“E‚µ‚Ä‚­‚¾‚³‚¢‚Ü‚µ‚½B
+   14ƒhƒbƒg‚Ìu .ANW (0x00d7)v‚Ì‰ü‘PˆÄ‚ð’ñˆÄ‚µ‚Ä‚¢‚½‚¾‚«‚Ü‚µ‚½B
+   14ƒhƒbƒg‚Ìu Nw (0x00f7)v‚Ì‰ü‘PˆÄ‚ð’ñˆÄ‚µ‚Ä‚¢‚½‚¾‚«‚Ü‚µ‚½B
+
+ˆÈ‰º‚ÍŒÃì‚³‚ñ‚É‚æ‚éƒIƒŠƒWƒiƒ‹ƒA[ƒJƒCƒu‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚½ŽÓŽ«‚Å‚·B
+‚±‚±‚Éq‚×‚ç‚ê‚Ä‚¢‚é•ûX‚É‚àAŒÃì‚³‚ñ“¯—lAS‚©‚çŠ´ŽÓ‚¢‚½‚µ‚Ü‚·B
+
+# ‚½‚¾‚µCˆÈ‰º‚É‚ ‚Â‚©‚Ü‚µ‚­‚à–¼‘O‚ð‚Ì‚¹‚Ä’¸‚¢‚Ä‚¢‚é
+# Žë–ìŒ«Žu(/efont/ƒƒ“ƒo)‚Í‚½‚¢‚µ‚½‚±‚Æ‚ð‚µ‚Ä‚¢‚È‚¢‚Ì‚Å
+# Š´ŽÓ‚É’l‚µ‚È‚¢‚±‚Æ‚ð•t‚¯‰Á‚¦‚Ä‚¨‚«‚Ü‚· :-)
+
+
+
+œœœœ12ƒhƒbƒgœœœœ
+
+  “Œ‰_ƒtƒHƒ“ƒg‚ÍA—v’¬-‰üƒtƒHƒ“ƒg‚ðƒx[ƒX‚É‚µ‚ÄA1”N’ö‚©‚¯‚Ä‰ü‘¢‚µ‚Ä‚Å
+‚«‚½A12ƒhƒbƒgŠ¿ŽšƒtƒHƒ“ƒg‚Å‚·B
+
+  ‚±‚ÌƒtƒHƒ“ƒg‚ÍƒIƒŠƒWƒiƒ‹‚Ì—v’¬ƒtƒHƒ“ƒg‚È‚­‚µ‚Ä‚ÍA‘¶Ý‚µ‚¦‚È‚¢‚à‚Ì‚Å
+‚·B‚½‚Á‚½ˆê”NŠÔ’ö‚ÅA‚Ù‚Æ‚ñ‚Ç‚ðŠ®¬‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚½‚Ì‚ÍAƒIƒŠƒWƒiƒ‹
+—v’¬ƒtƒHƒ“ƒg‚Ì‘¶Ý‚É‚æ‚é‚Æ‚±‚ë‚ª‘å•Ï‘å‚«‚¢‚Å‚·B
+ƒIƒŠƒWƒiƒ‹—v’¬‚ðì¬EŒöŠJ‚³‚ê‚½–žŠJ»ìŠ‚Æ’†‘º—²¶—l‚¨‚æ‚ÑA—v’¬-‰ü
+‚ðƒƒ“ƒeƒiƒ“ƒX‚È‚³‚ê‚Ä‚¢‚éŒIŒ´ ‚Ü‚à‚é—l‚ÖAŒhˆÓ‚ð•\‚·‚é‚Æ‹¤‚ÉA“Œ‰_ƒtƒH
+ƒ“ƒg‚ðPublic Domain‚ÅŒöŠJ‚·‚é‚±‚Æ‚É‰ž‚¶‚Ä‰º‚³‚Á‚½Œä—¼ŽÒ‚ÖA[‚­Š´ŽÓ‚¢
+‚½‚µ‚Ü‚·B
+
+  ‚Ü‚½A‚•iŽ¿‚È(‚©‚ÂPublic Domain‚È)‘¾Žšì¬ƒtƒBƒ‹ƒ^mkbold‚ðì¬‚³‚ê
+‚½‰i”ö§ˆê—l(ƒiƒK10ƒtƒHƒ“ƒg‚Ì’˜ŽÒ‚Å‚·)Abit2bdfƒXƒNƒŠƒvƒg‚ÌPerl‰»(‚‘¬
+‰»)‚ð‚µ‚Ä‰º‚³‚Á‚½Žë–ìGŽ÷(Kappa20ƒtƒHƒ“ƒg‚Ì’˜ŽÒ‚Å‚·)—lA•À‚Ñ‚ÉA‚¢‚ë‚¢
+‚ëƒAƒhƒoƒCƒX‚ð‚­‚¾‚³‚Á‚½Žë–ì Œ«Žu—l‚ÖŠ´ŽÓ‚µ‚Ü‚·B
+
+  ‚±‚Ì‚µ‚ª‚È‚¢ƒtƒHƒ“ƒg‚ðAŽŽì’iŠK‚©‚çA‰õ‚­ƒp[ƒbƒP[ƒW‚Ö‚Ìƒ}[ƒW‚ð‹–
+‰Â‚µ‚Ä‚­‚¾‚³‚Á‚½AProject Vine ‚Ìƒƒ“ƒo‚Ì•ûX‚ÖŠ´ŽÓ‚¢‚½‚µ‚Ü‚·B
+
+  ÅŒã‚ÉAPC-UNIX‚Ì•‹y‚É‘½‚¢‚ÉvŒ£‚µ‚½‚Æ“¯Žž‚ÉA“Œ‰_ƒtƒHƒ“ƒgì¬‚Ìƒ‚
+ƒ`ƒx[ƒVƒ‡ƒ“‚ð—^‚¦‚Ä‰º‚³‚Á‚½k14‚ÌìŽÒ ‹k@_Žu—l‚ÖS‚©‚çŠ´ŽÓ‚¢‚½‚µ‚Ü‚·B
+
+
+œœœœ14ƒhƒbƒgœœœœ
+
+  k14gothƒtƒHƒ“ƒg‚ÍA—L–¼‚Èk14ƒtƒHƒ“ƒg‚ðƒSƒVƒbƒNƒ‰ƒCƒN‚ÉŒÂl‚ÌŽï–¡‚Å
+•ÏX‚ð‰Á‚¦‚½‚à‚Ì‚Å‚·B
+
+  ‘å•Ï³Šm‚ÅA”ü‚µ‚­A“¯Žž‚ÉPC-UNIX‚Ì•‹y‚É‘½‚¢‚ÉvŒ£‚µ‚½Public Doamin
+‚Èk14ƒtƒHƒ“ƒg‚ÌìŽÒ ‹k@_Žu—l‚ÖS‚©‚çŒhˆÓ‚Æ‹¤‚ÉŠ´ŽÓ‚¢‚½‚µ‚Ü‚·B
+
+  ‚Ü‚½A‚•iŽ¿‚È(‚©‚ÂPublic Domain‚È)‘¾Žšì¬ƒtƒBƒ‹ƒ^mkbold‚ðì¬‚³‚ê
+‚½‰i”ö§ˆê—l(ƒiƒK10ƒtƒHƒ“ƒg‚Ì’˜ŽÒ‚Å‚·)Abit2bdfƒXƒNƒŠƒvƒg‚ÌPerl‰»(‚‘¬
+‰»)‚ð‚µ‚Ä‰º‚³‚Á‚½‚èA‹Md‚ÈƒAƒhƒoƒCƒX‚ð‰º‚³‚Á‚½Žë–ìGŽ÷(Kappa20ƒtƒHƒ“
+ƒg‚Ì’˜ŽÒ‚Å‚·)—lA•À‚Ñ‚ÉA‚¢‚ë‚¢‚ë‘Š’k‚Éæ‚Á‚Ä‚­‚¾‚³‚Á‚½Žë–ì Œ«Žu—l‚ÖŠ´
+ŽÓ‚µ‚Ü‚·B
+
+
+œœœœ16ƒhƒbƒgœœœœ
+
+ˆÈ‰º ‚Ì‚¨“ñl‚Ì•ûX‚©‚çA‚¢‚ë‚¢‚ëƒAƒhƒoƒCƒX‚ð’¸‚«‚È‚ª‚çAì‹Æ‚ði‚ß‚Ä
+‚¨‚è‚Ü‚µ‚½B‚±‚Ìê‚ð‚à‚Á‚ÄŠ´ŽÓ‚ÌˆÓ‚ðq‚×‚³‚¹‚Ä’¸‚«‚Ü‚·B
+
+Žë–ì GŽ÷—l (Kappa20ƒtƒHƒ“ƒg‚Ì’˜ŽÒ‚Å‚·)
+   ‚È‚É‚æ‚è‚à‚Ü‚¸AƒIƒŠƒWƒiƒ‹jiskan16‚Ì•ø‚¦‚é–â‘è‚ðŽw“E‚µ‚Ä‚­‚¾‚³‚èA
+   Œë‚Á‚½•ûŒü‚Éi‚à‚¤‚Æ‚µ‚Ä‚¢‚½‚Ì‚ðŽw“ì‚µ‚Ä‚­‚¾‚³‚è‚Ü‚µ‚½B
+   ‚Ü‚½AŽ„‚Ì‚µ‚ª‚È‚¢awkƒXƒNƒŠƒvƒg‚ðPerl‰»‚µ‚ÄA‚à‚Á‚Æ‚‘¬‚È‚à‚Ì‚É‚µ‚Ä
+   ‰º‚è‚Ü‚µ‚½B
+
+Žë–ì Œ«Žu—l
+   12ƒhƒbƒgƒtƒHƒ“ƒg»ì‚Ì ‚©‚ç‚Å‚·‚ªAƒtƒHƒ“ƒg»ì‚ÉŠÖ‚·‚éA”­‚È‚¢
+   ‚æ‚è—Ç‚«—‰ðŽÒ‚Æ‚µ‚ÄA‚¢‚ë‚¢‚ë•‚¯‚ç‚ê‚Ü‚µ‚½B
+
+
+‚Ü‚½A‚•iŽ¿‚È(‚©‚ÂPublic Domain‚È)‘¾Žšì¬ƒtƒBƒ‹ƒ^mkbold‚ðì¬‚³‚ê
+‚½‰i”ö§ˆê—l(ƒiƒK10ƒtƒHƒ“ƒg‚Ì’˜ŽÒ‚Å‚·)‚Ö‚àŠ´ŽÓ‚µ‚Ü‚·B
+ÅŒã‚ÉA‚±‚ÌƒfƒUƒCƒ“‚ÉŠÖ‚µ‚ÄAŸŽè‚É‚¨Žè–{‚É‚³‚¹‚Ä’¸‚¢‚½Ak14ƒtƒH
+ƒ“ƒg‚ÌìŽÒ‚Ì‹k—l‚Ö,,,
+
+‹k@_Žu—l (k14ƒtƒHƒ“ƒg‚Ì’˜ŽÒ‚Å‚·)
+   ‚±‚ÌƒtƒHƒ“ƒg‚ÌƒfƒUƒCƒ“ƒ‹[ƒ‹‚ÍAREADME‚É‚à‚ ‚é‚æ‚¤‚ÉA‚Ù‚Æ‚ñ‚Ç‚Ì•”
+   •ª‚Åk14ƒtƒHƒ“ƒg‚ðŽQl‚É‚µ‚Ä‚¨‚è‚Ü‚·BÅ‚àŽ„‚²‚Æ‚«‚ªŽQl‚É‚µ‚½‚Æ‚±‚ë
+   ‚ÅA’P‚È‚é^Ž—Ž–‚Ìˆæ‚ð‰z‚¦‚ç‚ê‚È‚¢‚Ì‚ªƒIƒ`‚È‚Ì‚ÅAŠ´ŽÓ‚Æ‚¢‚¤‚æ‚èA
+   \‚µ–ó‚È‚¢‚Å‚·A‚Æ‚¢‚¤‹CŽ‚ðž‚ß‚Ä...

@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2019.02.01
+    @version        7.00
+    @date           2023.05.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -16,13 +16,14 @@
 		2014.03.31	V4.00	Fixed hardfault error on Cortex-M0 Devices.
 		2017.06.07	V5.00	Added signature validation function.
 		2019.02.01	V6.00	Fixed some compiler warnings.
+		2023.05.01	V7.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __FONT_IF_H 
-#define __FONT_IF_H 0x0600
+#ifndef FONT_IF_H 
+#define FONT_IF_H 0x0700
 
 #ifdef __cplusplus
  extern "C" {
@@ -31,7 +32,6 @@
 /* Include Basis */
 #include <inttypes.h>
 #include <string.h>
-#include "font_if_datatable.h"
 
 /* Device Dependent Macros */
 /* To Read uC Flash Memory Little Endian */ 
@@ -116,12 +116,18 @@ extern FontX_Kanji* CurrentKanjiDat;
 
 
 /* This is example valiables,U can increase more font-tables! */
-/* See "font_if_datatable.h" !*/
+/* See "font_if_datatable.c" !*/
 extern FontX_Ank   ANKFONT;
 extern FontX_Kanji KANJIFONT;
+
+/* Display helper macros */
+#define Chr_PosY(y)		(CurrentAnkDat->Y_Size*(y))
+#define Chr_PosX(x)		(CurrentAnkDat->X_Size*(x))
+#define Sjis_PosY(y)	(CurrentKanjiDat->Y_Size*(y))
+#define Sjis_PosX(x)	(CurrentKanjiDat->X_Size*(x))
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __FONT_IF */
+#endif /* FONT_IF */

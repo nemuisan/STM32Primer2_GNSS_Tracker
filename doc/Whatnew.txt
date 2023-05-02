@@ -1,3 +1,10 @@
+2023.04.25 :
+V101.00	Fixed cosmetic bugfix(reremaining no-fixed codes).
+		Adopted CMSIS Core(M) Version 5.0.5 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_5/commit/80ece22328073b501eb288c59f8b251211eac69b
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 12.2.MPACBTI-Rel1 (Build arm-12-mpacbti.34)) 12.2.1 20230214
+
 2023.03.23 :
 V100.00	"THE Great Fix"
 		Renamed ts.c,h -> ts_basis.c,h.
@@ -22,10 +29,6 @@ V100.00	"THE Great Fix"
 		Disabled fixed optimization level(on usb_regs.c).
 		Adopted CMSIS Core(M) Version 5.0.5 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/b4193bf147971b3b8ab85712d15d21822e7dceb5
-		Adopted CMSIS-DSP Header Files into latest repository.
-		 -> https://github.com/ARM-software/CMSIS-DSP/commit/d7e4dea51ad19724adcd2c9f82eb42af12e0f5fc
-		Adopted CMSIS-NN Header Files into latest repository.
-		 -> https://github.com/ARM-software/CMSIS-NN/commit/d071e9f70195559e7242709b8df3adeb7c50d0fb
 		Adopted arm-gcc toolchain updates
 		 -> (Arm GNU Toolchain 12.2.Rel1 (Build arm-12.24)) 12.2.1 20221205
 

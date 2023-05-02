@@ -2,7 +2,7 @@
 /*!
 	@file			font_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
+    @version        7.00
     @date           2019.02.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
@@ -16,6 +16,7 @@
 		2014.03.31	V4.00	Fixed hardfault error on Cortex-M0 Devices.
 		2017.06.07	V5.00	Added signature validation function.
 		2019.02.01	V6.00	Fixed some compiler warnings.
+		2023.05.01	V7.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -25,7 +26,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "font_if.h"
 /* check header file version for fool proof */
-#if __FONT_IF_H != 0x0600
+#if FONT_IF_H != 0x0700
 #error "header file version is not correspond!"
 #endif
 

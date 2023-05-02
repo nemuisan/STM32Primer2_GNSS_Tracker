@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2019.10.01
+    @version        10.00
+    @date           2023.05.01
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -17,6 +17,7 @@
 		2016.06.01	V7.00	Added FT6x06 Device Handlings.
 		2016.07.03	V8.00	Added SWAP or Reverse XY exec.
 		2019.10.01	V9.00	Fixed some variable inclusion.
+		2023.05.01	V10.00	Removed unused delay function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -26,7 +27,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if.h"
 /* check header file version for fool proof */
-#if __TOUCH_IF_H != 0x0900
+#if TOUCH_IF_H != 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -35,6 +36,8 @@
 #define CENTER_X2 	(((MAX_X-1)/2)-(12*CurrentAnkDat->X_Size))
 #define CENTER_Y1	(((MAX_Y-1)/2)-(1 *CurrentAnkDat->Y_Size))
 #define CENTER_Y2	(((MAX_Y-1)/2)-(0 *CurrentAnkDat->Y_Size))
+
+#define PRESSED_STROKE	(3)
 
 /* Variables -----------------------------------------------------------------*/
 /* Raw Value */
@@ -46,10 +49,11 @@ Touch_t  PosVal 	= {0xFFFF,0xFFFF};
 Touch_t* pPos 		= &PosVal;
 
 /* Touch State Value */
-uint8_t scaned_tc	= 0;
-uint8_t hold_okes_tc= 0;
-uint8_t last_pen 	= 0;
-uint8_t tc_stat 	= TC_STAT_NONE;
+uint8_t tc_scaned		= 0;
+uint8_t tc_hold_okes	= 0;
+uint8_t tc_last_pen 	= 0;
+uint8_t tc_stat 		= TC_STAT_NONE;
+uint8_t tc_hold_cnt 	= 0;
 
 /* Touch Calculate Value */
 const long chalfx 	= MAX_X/2;
@@ -78,20 +82,6 @@ long ccy, cm1y, cm2y;
 /* Function prototypes -------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
-#if	defined(USE_TOUCH_CTRL)
-/**************************************************************************/
-/*! 
-	Milliseconds wait routine.
-*/
-/**************************************************************************/
-#ifndef __SYSTICK_H
-inline static void _delay_ms (uint32_t ms)
-{
-	ms += ticktime;
-	while (ticktime < ms);
-}
-#endif
-
 #if defined(USE_STMPE811_I2C) || defined(USE_ADS7843)
 /**************************************************************************/
 /*! 
@@ -124,7 +114,6 @@ static uint16_t cal_posy(uint16_t y)
 	if(buf<0) buf =0;
 	return (buf);
 }
-#endif
 #endif
 
 #if defined(USE_ADS7843)
@@ -243,30 +232,37 @@ inline void TC_ScanPen(void)
 			pPos->X_Axis = cal_posx(tc_x_buf);
 			pPos->Y_Axis = cal_posy(tc_y_buf);
 			
-			if (last_pen)  /* last_pen:1->1 */
+			if (tc_last_pen)  /* tc_last_pen:1->1 */
 			{
-				tc_stat = TC_STAT_HOLD;
+				if(hold_cnt_tc > PRESSED_STROKE){
+					tc_stat = TC_STAT_HOLD;
+				}
+				else {
+					tc_stat = TC_STAT_NONE;
+					hold_cnt_tc++;
+				}
 			}
-			else		   /* last_pen:0->1 */
+			else		   /* tc_last_pen:0->1 */
 			{
 				tc_stat = TC_STAT_DOWN;
+				hold_cnt_tc =0;
 			}
 
-			last_pen = 1;
+			tc_last_pen = 1;
 		}
 	}
 	else
 	{
-		if (last_pen)  /* last_pen:1->0 */
+		if (tc_last_pen)  /* tc_last_pen:1->0 */
 		{
 			tc_stat = TC_STAT_UP;
 		}
-		else		   /* last_pen:0->0 */
+		else		   /* tc_last_pen:0->0 */
 		{
 			tc_stat = TC_STAT_NONE;
 		}
 
-		last_pen = 0;
+		tc_last_pen = 0;
 	}
 }
 
@@ -438,7 +434,7 @@ void TC_CalibScreen_If(void)
 		buf_mod1 = -buf_mod1;
 	buf = 1;
 
-    while ((buf_mod1 > 0.05) && (buf_mod1 < 0.95))
+    while ((buf_mod1 > 0.05f) && (buf_mod1 < 0.95f))
     {
         buf++;
         mx_new = mx*((float) buf);
@@ -455,7 +451,7 @@ void TC_CalibScreen_If(void)
 		buf_mod1 = -buf_mod1;
     buf = 1;
 
-    while ((buf_mod1 > 0.05) && (buf_mod1 < 0.95))
+    while ((buf_mod1 > 0.05f) && (buf_mod1 < 0.95f))
     {
         buf++;
         my_new = my*((float)buf);
@@ -545,28 +541,36 @@ inline void TC_ScanPen(void)
 		pPos->X_Axis = cal_posx(pTouch->X_Axis);
 		pPos->Y_Axis = cal_posy(pTouch->Y_Axis);
 		
-		if (last_pen)  /* last_pen:1->1 */
+		if (tc_last_pen)  /* tc_last_pen:1->1 */
 		{
-			tc_stat = TC_STAT_HOLD;
+			if(hold_cnt_tc > PRESSED_STROKE){
+				tc_stat = TC_STAT_HOLD;
+			}
+			else {
+				tc_stat = TC_STAT_NONE;
+				hold_cnt_tc++;
+			}
 		}
-		else		   /* last_pen:0->1 */
+		else		   /* tc_last_pen:0->1 */
 		{
 			tc_stat = TC_STAT_DOWN;
+			hold_cnt_tc =0;
 		}
-		last_pen = 1;
+
+		tc_last_pen = 1;
 	
 	}
 	else
 	{
-		if (last_pen)  /* last_pen:1->0 */
+		if (tc_last_pen)  /* tc_last_pen:1->0 */
 		{
 			tc_stat = TC_STAT_UP;
 		}
-		else		   /* last_pen:0->0 */
+		else		   /* tc_last_pen:0->0 */
 		{
 			tc_stat = TC_STAT_NONE;
 		}
-		last_pen = 0;
+		tc_last_pen = 0;
 	}
 }
 
@@ -674,7 +678,7 @@ void TC_CalibScreen_If(void)
 			for (k=0; k<CALIB_TEST_TIME; k++)
 			{
 				Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_BLUE);
-				while (!TC_PenDown());
+				while (!TC_PenDown()){};
 					TC_ReadRaw();
 					fx[i*TC_TP_NUM+j][k] = pTouch->X_Axis;
 					fy[i*TC_TP_NUM+j][k] = pTouch->Y_Axis;
@@ -735,7 +739,7 @@ void TC_CalibScreen_If(void)
 		buf_mod1 = -buf_mod1;
 	buf = 1;
 
-    while ((buf_mod1 > 0.05) && (buf_mod1 < 0.95))
+    while ((buf_mod1 > 0.05f) && (buf_mod1 < 0.95f))
     {
         buf++;
         mx_new = mx*((float) buf);
@@ -752,7 +756,7 @@ void TC_CalibScreen_If(void)
 		buf_mod1 = -buf_mod1;
     buf = 1;
 
-    while ((buf_mod1 > 0.05) && (buf_mod1 < 0.95))
+    while ((buf_mod1 > 0.05f) && (buf_mod1 < 0.95f))
     {
         buf++;
         my_new = my*((float)buf);
@@ -845,42 +849,50 @@ inline void TC_ScanPen(void)
 			pPos->X_Axis = ((uint16_t)(pkt_touch.xh & 0x0F)<<8 | (uint16_t)pkt_touch.xl);
 			pPos->Y_Axis = ((uint16_t)(pkt_touch.yh & 0x0F)<<8 | (uint16_t)pkt_touch.yl);
 		#endif
-			if (last_pen)  /* last_pen:1->1 */
+			if (tc_last_pen)  /* tc_last_pen:1->1 */
 			{
-				tc_stat = TC_STAT_HOLD;
+				if(hold_cnt_tc > PRESSED_STROKE){
+					tc_stat = TC_STAT_HOLD;
+				}
+				else {
+					tc_stat = TC_STAT_NONE;
+					hold_cnt_tc++;
+				}
 			}
-			else		   /* last_pen:0->1 */
+			else		   /* tc_last_pen:0->1 */
 			{
 				tc_stat = TC_STAT_DOWN;
+				hold_cnt_tc =0;
 			}
-			last_pen = 1;
+
+			tc_last_pen = 1;
 		}
 		else /* pkt_touch.td_status == 0 */
 		{
 			pPos->Y_Axis = 0xFFFF;
 			pPos->X_Axis = 0xFFFF;
-			if (last_pen)  /* last_pen:1->0 */
+			if (tc_last_pen)  /* tc_last_pen:1->0 */
 			{
 				tc_stat = TC_STAT_UP;
 			}
-			else		   /* last_pen:0->0 */
+			else		   /* tc_last_pen:0->0 */
 			{
 				tc_stat = TC_STAT_NONE;
 			}
-			last_pen = 0;
+			tc_last_pen = 0;
 		}
 	}
 	else
 	{
-		if (last_pen)  /* last_pen:1->0 */
+		if (tc_last_pen)  /* tc_last_pen:1->0 */
 		{
 			tc_stat = TC_STAT_UP;
 		}
-		else		   /* last_pen:0->0 */
+		else		   /* tc_last_pen:0->0 */
 		{
 			tc_stat = TC_STAT_NONE;
 		}
-		last_pen = 0;
+		tc_last_pen = 0;
 	}
 }
 

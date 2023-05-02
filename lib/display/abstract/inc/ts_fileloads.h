@@ -2,19 +2,19 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        21.00
-    @date           2023.03.01
+    @version        22.00
+    @date           2023.05.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.03.01	See ts_ver.txt.
+		2023.05.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TS_FILELOADS_H
-#define TS_FILELOADS_H 0x2100
+#define TS_FILELOADS_H 0x2200
 
 #ifdef __cplusplus
  extern "C" {
@@ -65,7 +65,7 @@ typedef struct my_error_mgr * my_error_ptr;
   * is not already defined by libpng!).
   */
  #ifndef png_jmpbuf
- #  define png_jmpbuf(png_ptr) ((png_ptr)->jmpbuf)
+  #define png_jmpbuf(png_ptr) ((png_ptr)->jmpbuf)
  #endif
 #endif
 

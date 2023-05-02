@@ -2,20 +2,21 @@
 /*!
 	@file			ft6x06.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        1.00
-    @date           2016.06.01
+    @version        2.00
+    @date           2023.05.01
 	@brief          Touch Screen Control Upperside 						@n
 					Based on ST Microelectronics's Sample Thanks!
 	
     @section HISTORY
 		2016.06.01	V1.00	Stable Release.
+		2023.05.01	V2.00	Removed unused delay function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __FT6x06_H
-#define __FT6x06_H	0x0100
+#ifndef FT6x06_H
+#define FT6x06_H	0x0200
 
 #ifdef __cplusplus
  extern "C" {
@@ -182,4 +183,4 @@ extern uint8_t FT6x06_Init(void);
 }
 #endif
 
-#endif /* __FT6x06_H */
+#endif /* FT6x06_H */

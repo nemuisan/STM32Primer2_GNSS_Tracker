@@ -2,8 +2,8 @@
 /*!
 	@file			rtc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2012.08.27
+    @version        5.00
+    @date           2023.04.21
 	@brief          Based on Keil's Sample Thanks!
 
     @section HISTORY
@@ -11,13 +11,14 @@
 		2010.12.31	V2.00	Renamed Filename.
 		2011.03.10	V3.00	C++ Ready.
 		2012.08.27	V4.00	Improve Portability
+		2023.04.21	V5.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __RTC_SUPPORT_H
-#define __RTC_SUPPORT_H 0x0400
+#ifndef RTC_SUPPORT_H
+#define RTC_SUPPORT_H 0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -56,4 +57,4 @@ extern struct tm rtc;
 }
 #endif
 
-#endif /* __RTC_SUPPORT_H */
+#endif /* RTC_SUPPORT_H */

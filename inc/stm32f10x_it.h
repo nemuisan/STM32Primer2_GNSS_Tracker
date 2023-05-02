@@ -2,8 +2,8 @@
 /*!
 	@file			stm32f10x_it.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2014.01.23
+    @version        5.00
+    @date           2023.04.21
 	@brief          Cortex-M3 Processor Exceptions Handlers.				@n
 					And STM32F10x Peripherals Interrupt Handlers.			@n
 					Device Dependent Section.
@@ -13,13 +13,14 @@
 		2011.01.20	V2.00	Rewrite Doxygen Style.
 		2011.03.10	V3.00	C++ Ready.
 		2014.01.23	V4.00	Removed retired STM32F10X_CL Codes.
+		2023.04.21	V5.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __STM32F10x_IT_H
-#define __STM32F10x_IT_H
+#ifndef STM32F10x_IT_H
+#define STM32F10x_IT_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -32,7 +33,6 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-
 void NMI_Handler(void);
 void HardFault_Handler(void);
 void MemManage_Handler(void);
@@ -44,6 +44,7 @@ void PendSV_Handler(void);
 void SysTick_Handler(void);
 
 void USB_LP_CAN1_RX0_IRQHandler(void);
+void USB_HP_CAN1_TX_IRQHandler(void);
 
 #if defined (USE_STM3210B_EVAL) || defined (USE_STM3210E_EVAL)
 void USART1_IRQHandler(void);
@@ -59,4 +60,4 @@ void USART2_IRQHandler(void);
 }
 #endif
 
-#endif /* __STM32F10x_IT_H */
+#endif /* STM32F10x_IT_H */

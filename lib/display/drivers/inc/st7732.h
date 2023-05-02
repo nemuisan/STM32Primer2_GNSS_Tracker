@@ -2,8 +2,8 @@
 /*!
 	@file			st7732.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2011.03.10
+    @version        5.00
+    @date           2023.05.01
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
 					Display Device Driver for STM32 Primer2
 
@@ -12,13 +12,14 @@
 		2010.09.06	V2.00	Changed CTRL-Port Contol Procedure.
 		2010.12.31	V3.00	Added GRAM write function.
 		2011.03.10	V4.00	C++ Ready.
+		2023.05.01	V5.00	Removed unused delay function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __ST7732_H
-#define __ST7732_H 0x0400
+#ifndef ST7732_H
+#define ST7732_H 0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -156,4 +157,4 @@ extern volatile uint32_t ticktime;
 }
 #endif
 
-#endif /* __ST7732_H */
+#endif /* ST7732_H */

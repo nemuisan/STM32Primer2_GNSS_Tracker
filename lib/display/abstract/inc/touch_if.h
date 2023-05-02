@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2019.10.01
+    @version        10.00
+    @date           2023.05.01
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -17,13 +17,14 @@
 		2016.06.01	V7.00	Added FT6x06 Device Handlings.
 		2016.07.03	V8.00	Added SWAP or Reverse XY exec.
 		2019.10.01	V9.00	Fixed some variable inclusion.
+		2023.05.01	V10.00	Removed unused delay function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __TOUCH_IF_H
-#define __TOUCH_IF_H	0x0900
+#ifndef TOUCH_IF_H
+#define TOUCH_IF_H	0x1000
 
 #ifdef __cplusplus
  extern "C" {
@@ -31,23 +32,6 @@
 
 /* Device or MCU Depend Includes */
 #include "touch_if_basis.h"
-
-/* FreeRTOS compatibility */
-#ifdef INC_FREERTOS_H
-#define _delay_ms(x)    vTaskDelay(x/portTICK_RATE_MS);
-#define _delay_us(x)    \
-    for(volatile uint32_t Count=0;Count<=x;Count++){ 	\
-						__NOP();				\
-						__NOP();				\
-						__NOP();				\
-						__NOP();				\
-						__NOP();				\
-						__NOP();				\
-						}
-#define __SYSTICK_H
-
-#endif
-
 
 /* Calibration Settings */
 #if defined(USE_32F429IDISCOVERY) /* For STM32F429I-Discovery */
@@ -67,30 +51,30 @@
 
 /* Valid Touch Point */
 #if (MAX_Y < 480)
-#define TOUCH_MIGI			((((MAX_X-40)   < pPos->X_Axis) && (pPos->X_Axis < MAX_X)) && \
+#define TOUCH_MIGI()		((((MAX_X-40)   < pPos->X_Axis) && (pPos->X_Axis < MAX_X)) && \
 							((((MAX_Y/2)-20)< pPos->Y_Axis) && (pPos->Y_Axis < ((MAX_Y/2)+20))))
 							
-#define TOUCH_HIDARI		(((0 < pPos->X_Axis) && (pPos->X_Axis < 40 )) && \
+#define TOUCH_HIDARI()		(((0 < pPos->X_Axis) && (pPos->X_Axis < 40 )) && \
 							((((MAX_Y/2)-20)< pPos->Y_Axis) && (pPos->Y_Axis < ((MAX_Y/2)+20))))
 							
-#define TOUCH_UE			(((((MAX_X/2)-20)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+20))) && \
+#define TOUCH_UE()			(((((MAX_X/2)-20)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+20))) && \
 							((0 < pPos->Y_Axis) && (pPos->Y_Axis < 50 )))
 
-#define TOUCH_SHITA			(((((MAX_X/2)-20)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+20))) && \
+#define TOUCH_SHITA()		(((((MAX_X/2)-20)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+20))) && \
 							(((MAX_Y-50) < pPos->Y_Axis) && (pPos->Y_Axis < MAX_Y)))
 
 #else
-#define TOUCH_MIGI			((((MAX_X-80)   < pPos->X_Axis) && (pPos->X_Axis < MAX_X)) && \
+#define TOUCH_MIGI()		((((MAX_X-80)   < pPos->X_Axis) && (pPos->X_Axis < MAX_X)) && \
 							((((MAX_Y/2)-40)< pPos->Y_Axis) && (pPos->Y_Axis < ((MAX_Y/2)+40))))
 							
-#define TOUCH_HIDARI		(((0 < pPos->X_Axis) && (pPos->X_Axis < 40 )) && \
+#define TOUCH_HIDARI()		(((0 < pPos->X_Axis) && (pPos->X_Axis < 40 )) && \
 							((((MAX_Y/2)-40)< pPos->Y_Axis) && (pPos->Y_Axis < ((MAX_Y/2)+40))))
 							
-#define TOUCH_UE			(((((MAX_X/2)-40)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+40))) && \
-							((0 < pPos->Y_Axis) && (pPos->Y_Axis < 80 )))
+#define TOUCH_UE()			(((((MAX_X/2)-40)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+40))) && \
+							((0 < pPos->Y_Axis) && (pPos->Y_Axis < 100 )))
 
-#define TOUCH_SHITA			(((((MAX_X/2)-40)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+40))) && \
-							(((MAX_Y-80) < pPos->Y_Axis) && (pPos->Y_Axis < MAX_Y)))
+#define TOUCH_SHITA()		(((((MAX_X/2)-40)< pPos->X_Axis) && (pPos->X_Axis < ((MAX_X/2)+40))) && \
+							(((MAX_Y-100) < pPos->Y_Axis) && (pPos->Y_Axis < MAX_Y)))
 #endif
 
 /* Pen Status High Side */
@@ -107,7 +91,7 @@ typedef enum TC_STAT_enum
 typedef struct {
 	uint16_t X_Axis;
 	uint16_t Y_Axis;
-}Touch_t;
+} Touch_t;
 
 /* Raw Value */
 extern Touch_t  TouchVal;
@@ -116,20 +100,23 @@ extern Touch_t* pTouch;
 extern Touch_t  PosVal;
 extern Touch_t* pPos;
 /* TouchScreen Related Flags */
-extern uint8_t scaned_tc;
-extern uint8_t hold_okes_tc;
-extern uint8_t last_pen;
+extern uint8_t tc_scaned;
+extern uint8_t tc_hold_okes;
+extern uint8_t tc_last_pen;
 extern uint8_t tc_stat;
+extern uint8_t tc_hold_cnt;
 
 /* Extern Functions */
-extern void TC_IoInit_If(void);
-extern void TC_CalibScreen_If(void);
-extern uint8_t TC_PenDown(void);
-extern void TC_ReadRaw(void);
-extern void TC_ScanPen(void);
+extern void 	TC_IoInit_If(void);
+extern void 	TC_CalibScreen_If(void);
+extern uint8_t	TC_PenDown(void);
+extern void 	TC_ReadRaw(void);
+extern void 	TC_ScanPen(void);
+extern void 	TC_Store_Calivalue(void);
+extern void 	TC_Restore_Calivalue(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __TOUCH_IF_H */
+#endif /* TOUCH_IF_H */

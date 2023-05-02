@@ -2,8 +2,8 @@
 /*!
 	@file			systick.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2017.07.31
+    @version        6.00
+    @date           2023.04.21
 	@brief          delay mSec-order routine using systick timer			@n
 					delay uSec-order routine using TIM3~5;
 
@@ -12,7 +12,8 @@
 		2011.01.20	V2.00	Using Timer5 for _delay_us(); instead of __NOP();.
 		2011.03.10	V3.00	C++ Ready.
 		2014.04.25  V4.00	Fixed Timer5 Clock definition fot _delay_us();
-		2017.07.31  V4.00	Fixed portability for uSec timer;
+		2017.07.31  V5.00	Fixed portability for uSec timer;
+		2023.04.21	V6.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,7 +23,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "systick.h"
 /* check header file version for fool proof */
-#if __SYSTICK_H!= 0x0500
+#if SYSTICK_H!= 0x0600
 #error "header file version is not correspond!"
 #endif
 

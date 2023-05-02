@@ -2,8 +2,8 @@
 /*!
 	@file			gnss_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        18.00
-    @date           2022.10.15
+    @version        19.00
+    @date           2023.04.21
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GNSS-Logger Program Thanks!
 
@@ -29,6 +29,7 @@
 		2021.02.05 V16.00	Adopted xprintf update.
 		2021.10.31 V17.00	Fixed MTK Commands parameter.
 		2022.10.15 V18.00	Fixed filesystem robustness and change filename.
+		2023.04.21 V19.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -38,7 +39,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gnss_support.h"
 /* check header file version for fool proof */
-#if __GNSS_SUPPORT_H!= 0x1800
+#if GNSS_SUPPORT_H!= 0x1900
 #error "header file version is not correspond!"
 #endif
 

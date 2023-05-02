@@ -16,13 +16,14 @@
 		2012.01.03	V4.00	Fixed fontkanji & fontank Relations.
 		2012.04.05	V5.01	Add Draw Circle Algorithm.
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
+		2023.05.01	V7.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __DISPLAY_IF_SUPPORT_H
-#define __DISPLAY_IF_SUPPORT_H	0x0600
+#ifndef DISPLAY_IF_SUPPORT_H
+#define DISPLAY_IF_SUPPORT_H 0x0700
 
 #ifdef __cplusplus
  extern "C" {
@@ -74,4 +75,4 @@ extern void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16
 }
 #endif
 
-#endif /* __DISPLAY_IF_SUPPORT_H */
+#endif /* DISPLAY_IF_SUPPORT_H */

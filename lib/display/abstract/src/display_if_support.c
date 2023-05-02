@@ -16,6 +16,7 @@
 		2012.01.03	V4.00	Fixed fontkanji & fontank Relations.
 		2012.04.05	V5.01	Add Draw Circle Algorithm.
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
+		2023.05.01	V7.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,9 +24,11 @@
 /********************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
-#include "display_if.h"
 #include "display_if_support.h"
-#include "font_if.h"
+/* check header file version for fool proof */
+#if DISPLAY_IF_SUPPORT_H != 0x0700
+#error "header file version is not correspond!"
+#endif
 
 /* Defines -------------------------------------------------------------------*/
 

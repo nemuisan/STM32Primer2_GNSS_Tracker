@@ -2,8 +2,8 @@
 /*!
 	@file			display_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2015.08.01
+    @version        6.00
+    @date           2023.05.01
 	@brief          Interface of Display Device
 
     @section HISTORY
@@ -13,20 +13,21 @@
 		2011.03.10	V4.00	C++ Ready.
 		2013.03.31	V5.00	Added STMPE811 Device Handlings.
 		2015.08.01	V6.00	Changed Frame Buffered TFT Handlings.
+		2023.05.01	V7.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-#ifndef __DISPLAY_IF_H
-#define __DISPLAY_IF_H	0x0600
+#ifndef DISPLAY_IF_H
+#define DISPLAY_IF_H 0x0700
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 /* NEED FreeRTOS Support? */
-#ifdef USE_FREERTOS
+#if defined(USE_FREERTOS)
  #include "FreeRTOS.h"
  #include "task.h"
 #endif
@@ -327,4 +328,4 @@
 }
 #endif
 
-#endif /* __DISPLAY_IF_H */
+#endif /* DISPLAY_IF_H */

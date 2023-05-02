@@ -2,9 +2,9 @@
 /*!
 	@file			display_if_basis.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2011.03.10
-	@brief          Interface of Display Device Basics for STM32 Primer2.			@n
+    @version        5.00
+    @date           2023.04.21
+	@brief          Interface of Display Device Basics for STM32 Primer2.		@n
 					"MCU Depend Layer"
 
     @section HISTORY
@@ -12,6 +12,7 @@
 		2010.10.01	V2.00	Changed CTRL-Port Contol Procedure.
 		2010.12.31	V3.00	Changed Some.
 		2011.03.10	V4.00	C++ Ready.
+		2023.04.21	V5.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
