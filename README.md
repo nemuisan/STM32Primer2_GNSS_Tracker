@@ -5,7 +5,7 @@ Logging GNSS NMEA Datas using STM32 Primer2 hardware!
 
 Functions
 ------
-- General
+- General  
 -- 4-direction and center key inputs.  
 -- Battery management with low voltage auto shutdown.  
 -- Push key to select below three functions.  
