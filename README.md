@@ -26,7 +26,7 @@ Functions
 - USB CDC Virtual Comport  
 -- Using doublebuffered endpoints(Bulk IN only).  
 -- Improved UART Rx performance and stability.  
--- It can send/receive datas to many GPS/GNSS Modules NMEA-0183 Sentences.
+-- It can send/receive datas to many GPS/GNSS Modules NMEA-0183 Sentences.　　
 -- Supports 4800~115200Bps,8bit,noparity,1stopbit.  
 
 Build
