@@ -2,12 +2,12 @@
 /*!
 	@file			ts_basis.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        19.00
-    @date           2023.03.01
+    @version        20.00
+    @date           2023.06.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.03.01	See ts_ver.txt.
+		2023.06.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,24 +17,24 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_basis.h"
 /* check header file version for fool proof */
-#if TS_BASIS_H != 0x1900
+#if TS_BASIS_H != 0x2000
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
 #if defined(EXT_SRAM_SUPPORT) || defined(EXT_SDRAM_SUPPORT)
- #define _EXRAM  __attribute__ ((section(".extram")))
+ #define ATTR_EXRAM  __attribute__ ((section(".extram"))) __attribute__ ((aligned (4)))
 #else
- #define _EXRAM
+ #define ATTR_EXRAM
 #endif
 
 /* Variables -----------------------------------------------------------------*/
 /* Used for Cursor and Original Movies */
 volatile uint8_t  CsrFlag;
 volatile uint32_t TmrFrm,TmrCsr;
-volatile uint16_t Attr _EXRAM;
-volatile uint16_t Col _EXRAM;
-volatile uint16_t Row _EXRAM;
+volatile uint16_t Attr ATTR_EXRAM;
+volatile uint16_t Col ATTR_EXRAM;
+volatile uint16_t Row ATTR_EXRAM;
 
 /* Usec for SJIS 2Byte Charactor */
 #if USE_FILER_FONTX
@@ -47,7 +47,7 @@ extern  volatile uint32_t on_filer=1;
 #endif
 
 /* Used for Filer VRAM */
-uint16_t Vram[TS_HEIGHT][TS_WIDTH] _EXRAM;
+uint16_t Vram[TS_HEIGHT][TS_WIDTH] ATTR_EXRAM;
 
 /* Constants -----------------------------------------------------------------*/
 #if !USE_FILER_FONTX

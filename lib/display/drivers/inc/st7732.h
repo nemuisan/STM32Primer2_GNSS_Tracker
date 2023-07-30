@@ -2,10 +2,10 @@
 /*!
 	@file			st7732.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2023.05.01
+    @version        6.00
+    @date           2023.08.01
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					Display Device Driver for STM32 Primer2
+					Display Device Driver for STM32 Primer2 special.
 
     @section HISTORY
 		2010.03.24	V1.00	Stable Release.
@@ -13,13 +13,14 @@
 		2010.12.31	V3.00	Added GRAM write function.
 		2011.03.10	V4.00	C++ Ready.
 		2023.05.01	V5.00	Removed unused delay function.
+		2023.08.01	V6.00	Revised release.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef ST7732_H
-#define ST7732_H 0x0500
+#define ST7732_H 0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -137,7 +138,7 @@ extern void ST7732_rect(uint32_t x, uint32_t width, uint32_t y, uint32_t height)
 extern void ST7732_wr_cmd(uint8_t cmd);
 extern void ST7732_wr_dat(uint8_t dat);
 extern void ST7732_wr_block(uint8_t *p,unsigned int cnt);
-extern int  ST7732_draw_bmp(const uint8_t* ptr);
+extern uint16_t ST7732_rd_cmd(uint8_t cmd);
 extern void ST7732_wr_gram(uint16_t gram);
 
 /* For Display Module's Delay Routine */
@@ -151,7 +152,6 @@ extern volatile uint32_t ticktime;
 #define Display_wr_cmd_if		ST7732_wr_cmd
 #define Display_wr_block_if		ST7732_wr_block
 #define Display_clear_if		ST7732_clear
-#define Display_draw_bmp_if		ST7732_draw_bmp
 
 #ifdef __cplusplus
 }

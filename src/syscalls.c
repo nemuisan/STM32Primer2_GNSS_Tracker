@@ -7,10 +7,10 @@
 	@brief          syscall.c's Device Dependent Header Section.
 
     @section HISTORY
-		2010.12.31	V1.00	ReStart Here.
+		2010.12.31	V1.00	ReStart here.
 		2011.03.10	V2.00	C++ Ready.
-		2012.06.15  V3.00	Fixed _heap_end Definition.
-		2014.06.26	V4.00	Added Version Check.
+		2012.06.15  V3.00	Fixed _heap_end definition.
+		2014.06.26	V4.00	Added version check.
 		2019.10.01	V5.00	Removed isatty() on GCC build.
 		2023.01.24	V6.00	Fixed different signedness.
 

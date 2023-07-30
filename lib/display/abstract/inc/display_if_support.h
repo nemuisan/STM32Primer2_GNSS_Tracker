@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2014.12.18
+    @version        8.00
+    @date           2023.08.01
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -17,13 +17,14 @@
 		2012.04.05	V5.01	Add Draw Circle Algorithm.
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
+		2023.08.01	V8.00	Revised release.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef DISPLAY_IF_SUPPORT_H
-#define DISPLAY_IF_SUPPORT_H 0x0700
+#define DISPLAY_IF_SUPPORT_H 0x0800
 
 #ifdef __cplusplus
  extern "C" {
@@ -67,6 +68,7 @@ extern void Display_FillRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t 
 extern void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour);
 extern void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour);
 extern void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour);
+extern int Display_DrawBmp_If(const uint8_t* ptr);
 /* For External Filer */
 extern void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg);
 extern void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg);
