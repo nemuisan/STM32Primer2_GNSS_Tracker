@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        25.00
-    @date           2023.07.23
+    @version        22.00
+    @date           2023.05.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.07.23	See ts_ver.txt.
+		2023.05.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if TS_FILELOADS_H != 0x2500
+#if TS_FILELOADS_H != 0x2200
 #error "header file version is not correspond!"
 #endif
 
@@ -76,9 +76,8 @@ extern uint16_t Vram[TS_HEIGHT][TS_WIDTH];
 
 #if defined(USE_TFT_FRAMEBUFFER)
 #if ((MAX_X*MAX_Y*2) > BUFSIZE)
- #define VBUFSIZE (MAX_X*MAX_Y*2)
- /* Assure D-Cache has 32byte,must be 32byte alignment */
- uint8_t vbuffer[VBUFSIZE] __attribute__ ((section(".extram"))) __attribute__ ((aligned (32)));
+	#define VBUFSIZE (MAX_X*MAX_Y*2)
+	uint8_t vbuffer[VBUFSIZE] __attribute__ ((section(".extram"))) __attribute__ ((aligned (4)));
 #endif
 #endif
 
@@ -145,8 +144,8 @@ static inline uint16_t MAKE_BGR888_TO_RGB565(uint8_t** pt)
 #if FF_USE_LFN
 /**************************************************************************/
 /*!
-	ts_fileloads helper functio
-	Get Long file name string.
+	ts_fileloads Support Function
+	Get LongFileName String.
 */
 /**************************************************************************/
 static const char* GetLFN(char* path, char* filename, DIR* dir, FILINFO* fno)
@@ -172,8 +171,8 @@ static const char* GetLFN(char* path, char* filename, DIR* dir, FILINFO* fno)
 
 /**************************************************************************/
 /*!
-	ts_fileloads helper function.
-	Extract file extention.
+	ts_fileloads Support Function
+	Extract File extention.
 */
 /**************************************************************************/
 static int strstr_ext (
@@ -200,8 +199,8 @@ static int strstr_ext (
 
 /**************************************************************************/
 /*!
-	ts_fileloads helper function.
-	PushSW/TouchPanel and UART-Input wait subroutine.
+	ts_fileloads Support Function
+	Key/TouchPanel-Press and UART-Input Wait Subroutine.
 */
 /**************************************************************************/
 static inline void wait_anyinput(void)
@@ -223,6 +222,7 @@ static inline void wait_anyinput(void)
 			c = 0;
 		}
 	}while(!c);
+
 }
 
 
@@ -242,15 +242,18 @@ static inline void wait_anyinput(void)
 
 
 
+
+
 /**************************************************************************/
 /*!
 	S-JIS/Ascii TEXT file loader sections
 */
 /**************************************************************************/
+
 /**************************************************************************/
 /*!
-	TEXT file loader subfunction.
-    Put a character into text buffer.
+	TEXT file loader Subfunction.
+    Put a character into Text Buffer.
 */
 /**************************************************************************/
 static void txt_putc(uint8_t chr)
@@ -280,7 +283,7 @@ static void txt_putc(uint8_t chr)
 /**************************************************************************/
 /*!
     TEXT file loader
-	User defined call-back function to SJIS style text files.
+	User defined call-back function to Sjis Style Text Files.
 */
 /**************************************************************************/
 static void load_txt (
@@ -295,14 +298,14 @@ static void load_txt (
 	uint8_t c;
 	char k;
 
-	/* Get MAXIMUM TXTFile line number */
+	/* Get MAXIMUM TXTFile Line Number */
 	max_lines = (sz_work - (unsigned int)tv->ltbl + (unsigned int)&tv) / 4;
 
-	/* Init file pointers */
+	/* Init File Pointers */
 	cfp = br = i = 0;
 	tv->ltbl[0] = 0;
 
-	/* Get Maximum charactor count per lines */
+	/* Get Maximum Charactor-amount Per Lines */
 	for (line = 0; line < max_lines - 1; ) {
 		if (i >= br) {
 			cfp = f_tell(fp);
@@ -313,17 +316,17 @@ static void load_txt (
 		if (tv->sbuf[i++] == '\n') tv->ltbl[++line] = cfp + i;
 	}
 
-	/* Init line pointers */
+	/* Init Line Pointers */
 	lines = line;
 	line = col = 0;
 
-	/* Display TXT file ready */
+	/* Display TXT File Ready */
 	Display_clear_if();
 	Attr = '\x87';
 
-	/* Display text on screen */
+	/* Display Text On Screen */
 	for (;;) {
-		/* Adjust character location */
+		/* Adjust Character Rocation */
 		ts_locate(0, 0 ,0);
 		for (i = line; i < line + TS_HEIGHT && i < lines; i++) {
 			f_lseek(fp, tv->ltbl[i]);
@@ -391,7 +394,7 @@ static void load_txt (
 /**************************************************************************/
 /*!
 	BitMapFile Loader.
-    Display Windows-24bit style BMP.
+    Display Windows24bit Style BMP.
 */
 /**************************************************************************/
 static int load_bmp(FIL *fil)
@@ -403,13 +406,13 @@ static int load_bmp(FIL *fil)
 	char k, c;
 
 
-	/* Load bitstream address offset  */
+	/* Load BitStream Address Offset  */
 	biofs = LD_DWORD(Buff+10);
-	/* Check plane count "1" */
+	/* Check Plane Count "1" */
 	if (LD_WORD(Buff+26) != 1) return 0;
 	/* Check BMP bit_counts "24(windows bitmap standard)" */
 	if (LD_WORD(Buff+28) != 24) return 0;
-	/* Check BMP compression "BI_RGB(no compresstion)"*/
+	/* Check BMP Compression "BI_RGB(no compresstion)"*/
 	if (LD_DWORD(Buff+30) != 0) return 0;
 	/* Load BMP width */
 	bw = LD_DWORD(Buff+18);
@@ -418,7 +421,7 @@ static int load_bmp(FIL *fil)
 	/* Check BMP width under 1280px */
 	if (!bw || bw > 1280 || !bh) return 0;
 
-	/* Calculate cata byte count per holizontal line */
+	/* Calculate Data byte count per holizontal line */
 	iw = ((bw * 3) + 3) & ~3;
 
 	/* Centering */
@@ -435,7 +438,7 @@ static int load_bmp(FIL *fil)
 		ye = (MAX_Y - bh) / 2 + bh - 1;
 	}
 
-	/* Clear display */
+	/* Clear Display */
 	Display_clear_if();
 
 
@@ -502,78 +505,68 @@ static int load_bmp(FIL *fil)
 
 /**************************************************************************/
 /*!
-	IMG streaming movie loader section
+	IMG movie loader section
 */
 /**************************************************************************/
 /**************************************************************************/
 /*!
 	IMG Loader.
-    Play streaming ChaN's Original format video file.
+    Play Streaming ChaN's Original Format VideoFile.
 */
 /**************************************************************************/
 static int load_img(FIL* fil, const char *filename)
 {
-	uint8_t f;						/* Cursor state */
-	uint8_t run;					/* Streaming stat 1:play 0:pause */
-	char k;							/* Input control val */
-	unsigned int br;				/* FatFs read bytes return */
-	unsigned int d;					/* FatFs read bytes */
-	unsigned int x,y;				/* Frame XY size */
-	unsigned int szfrm;				/* Size of frames (RGB565 format ,in bytes) */
-	unsigned int nfrm;				/* Number of frames */
-	unsigned int cfrm;				/* Current frames */
-	long fd, tp;					/* Frame period, timer period */
-	unsigned int x1,x2,y1,y2;		/* Frame rectangle val */
+	uint8_t f, stat;
+	char k;
+	unsigned int br;
+	volatile uint32_t x,y;
+	uint32_t d, szfrm, nfrm, cfrm;
+	long fd, tp;
 
 #if !defined(USE_TFT_FRAMEBUFFER)
-	unsigned int n;					/* FatFs read bytes */
-#elif defined(USE_TFT_FRAMEBUFFER)
-	uint8_t* tbuf;					/* Video framebuffer */
-	unsigned int vsize;				/* FatFs read bytes */
- #if defined(ENABLE_PERFORMANCE_MEASUREMENT)
-	unsigned int fcount;
- #endif
+	unsigned int n;
 #endif
 
-	/* Check color depth (RGB565 format) */
+#if defined(USE_TFT_FRAMEBUFFER)
+	uint8_t* tbuf;
+	unsigned int vsize;
+	unsigned int x1,x2,y1,y2;
+#if defined(ENABLE_PERFORMANCE_MEASUREMENT)
+	unsigned int fcount;
+#endif
+#endif
+
 	if (LD_WORD(Buff+6) != 16) return 0;
 
-	/* Store frame XY size */
 	x = LD_WORD(Buff+2);
 	y = LD_WORD(Buff+4);
 	if (!x || x > MAX_X || !y || y > MAX_Y) return 0;
 
-	/* Seek data start position */
 	d = LD_DWORD(Buff+8);
 	if (f_lseek(fil, d) || d != fil->fptr) return 0;
 
-	/* Store coursor flag */
 	f = CsrFlag;
 	CsrFlag = 0;
 
-	/* Clear display to ready to streaming */
 	Display_clear_if();
-
-	/* Display file information(long file name if can) */
 	ts_locate(0, 0 ,0);
 	xprintf("\33\x87\f");
 	xprintf("Playing Original stream img File\n");
 	xprintf("->%s\n", filename);
 
-	/* Set frame rectangle */
+	Display_rect_if((MAX_X - x) / 2, (MAX_X - x) / 2 + x - 1, (MAX_Y - y) / 2, (MAX_Y - y) / 2 + y - 1);
+#if defined(USE_TFT_FRAMEBUFFER)
 	x1 = (MAX_X - x) / 2;
 	x2 = (MAX_X - x) / 2 + x - 1;
 	y1 = (MAX_Y - y) / 2;
 	y2 = (MAX_Y - y) / 2 + y - 1;
-	Display_rect_if(x1, x2, y1, y2);
-	
-	/* Set size of frames (RGB565 format,in bytes) */
-	szfrm = x * y * 2;
-	
-#if defined(USE_TFT_FRAMEBUFFER) && defined(ENABLE_PERFORMANCE_MEASUREMENT)
+#if defined(ENABLE_PERFORMANCE_MEASUREMENT)
 	Timer = 0;
 	fcount = 0;
 #endif
+#endif
+
+	szfrm = x * y * 2;
 
 #if defined(USE_TFT_FRAMEBUFFER)
 	if(szfrm > BUFSIZE) {
@@ -585,27 +578,17 @@ static int load_img(FIL* fil, const char *filename)
 	}
 #endif
 
-	/* Store frame period (in us) */
 	fd = (long)LD_DWORD(Buff+16);
-	
-	/* Store number of frames and init run mode */
 	nfrm = LD_DWORD(Buff+12);
 	cfrm = 0;
-	run = 1;
-	
-	/* Store timer period */
+	stat = 1;
 	tp = TmrFrm + fd;
-	
-	/* Go streaming */
 	for (;;) {
 		d = szfrm;
 		do {
 		#if defined(USE_TFT_FRAMEBUFFER)
 			if (f_read(fil, tbuf, d, &br) || d != br) goto li_exit;
 			d -= br;
-		#if defined(USE_TFT_VSYNC) /* Wait VSYNC if needed */
-			Display_WaitVSYNC();
-		#endif
 			Display_wr_block_if(tbuf, d);
 		#else
 			n = (d > BUFSIZE) ? BUFSIZE : d;
@@ -614,8 +597,8 @@ static int load_img(FIL* fil, const char *filename)
 			Display_wr_block_if(Buff, n);
 		#endif
 		} while (d);
-#if defined(USE_SSD1963_TFT) || (USE_HX8369A_TFT) || (USE_HX8363B_TFT)
-		Display_wr_cmd_if(0x002C);	/* SSD1963/HX8369A/HX8363B consideration */
+#if defined(USE_SSD1963_TFT) || (USE_HX8369A_TFT)
+		Display_wr_cmd_if(0x002C);	/* SSD1963/HX8369A Consideration */
 #endif
 		tp += fd;
 		cfrm++;
@@ -624,7 +607,7 @@ static int load_img(FIL* fil, const char *filename)
 		fcount++;
 		if(Timer >= 1000){
 			ts_locate(2, 0 ,0);
-			xprintf("%2d.%03dfps  ", fcount*1000/Timer,fcount*1000%Timer);
+			xprintf("%d.%03dfps    ", fcount*1000/Timer,fcount*1000%Timer);
 			fcount = 0;
 			Timer = 0;
 			Display_rect_if(x1, x2, y1, y2);
@@ -634,25 +617,20 @@ static int load_img(FIL* fil, const char *filename)
 		xprintf("%d/%d frames    ", cfrm, nfrm);
 		Display_rect_if(x1, x2, y1, y2);
 #endif
-		/* Key control and frame timer wait */
+
 		for (;;) {
 			k = xgetc_n();
-			
-			/* Exit player */
-			if ((k == BTN_CAN) || (k == BTN_ESC)) goto li_exit;
-			
-			/* Pause & Resume */
+			if (k == BTN_CAN) goto li_exit;
+			if (k == BTN_ESC) goto li_exit;
 			if (k == BTN_OK) {
-				run ^= 1;
-				tp = TmrFrm + fd; /* Re-set timer period */
+				stat ^= 1;
+				tp = TmrFrm + fd;
 			}
-			
-			/* Advnace & Return frames */
 			if (cfrm < nfrm) {
-				if (run && TmrFrm >= tp) break; /* Go to next frame on Playing */
-				if (!run && k == BTN_UP) break; /* Go to next frame on Pause */
+				if (stat && TmrFrm >= tp) break;
+				if (!stat && k == BTN_UP) break;
 			}
-			if (!run && k == BTN_DOWN && cfrm >= 2) { /* Go to previous two frames on Pause */
+			if (!stat && k == BTN_DOWN && cfrm >= 2) {
 				if (f_lseek(fil, fil->fptr - szfrm * 2)) goto li_exit;
 				cfrm -= 2;
 				break;
@@ -660,12 +638,13 @@ static int load_img(FIL* fil, const char *filename)
 		}
 	}
 
-/* Exit */
 li_exit:
 	CsrFlag = f;
 	Display_clear_if();
 	return 1;
 }
+
+
 
 
 
@@ -722,13 +701,13 @@ static void disp_blt (
 		right = MaskR;
 	}
 	Display_rect_if(left, right, top, bottom);	/* Set rectangular area to fill */
-#if defined(__DCACHE_PRESENT) /* Flush cache datas */
+#if defined(__DCACHE_PRESENT) /* Flush Cache Datas */
 	SCB_CleanDCache_by_Addr((uint32_t*)pat, xc*yc*2);
 #endif
 #if defined(USE_TFT_FRAMEBUFFER)
 	Display_wr_block_if((uint8_t*)pat, xc*yc);
 #else
-	do { /* Send image data */
+	do {	/* Send image data */
 		xl = xc;
 		do {
 			pd = *pat++;
@@ -797,11 +776,11 @@ static void load_jpg (
 	unsigned int sz_work		/* Size of the working buffer (must be power of 2) */
 )
 {
-	JDEC jd;					/* Decoder object (124 bytes) */
+	JDEC jd;		/* Decoder object (124 bytes) */
 	JRESULT rc;
 	BYTE scale;
 
-	/* Clear screen */
+	/* Clear screen Anyway */
 	Display_clear_if();
 
 	/* Prepare to decompress the file */
@@ -827,15 +806,16 @@ static void load_jpg (
 		xprintf("\33\x87 Error: %d", rc);
 	}
 
-	/* Exit */
+	/* Exit Routine */
+	/* To Rerturn to Push Any Key  */
 	wait_anyinput();
 }
 
 #elif defined(USE_IJG_LIB)
 /**************************************************************************/
 /*!
-	JPEGFileLoader using IJG JPEG library.
-    Custom error handling for IJG JPEG library.
+	JPEGFileLoader using IJG JPEG Library.
+    Custom Error Handling for IJG JPEG Library.
 */
 /**************************************************************************/
 METHODDEF(void)
@@ -854,24 +834,24 @@ my_error_exit (j_common_ptr cinfo)
 
 /**************************************************************************/
 /*!
-    JPEG file loader Upper-Side Using IJG JPEG library.
-    Display JPEG file.
+    JPEG file loader Upper-Side Using IJG JPEG Library.
+    Display JPEG File.
 */
 /**************************************************************************/
 static int load_jpeg(FIL *fil,int mode)
 {
-	/* JPEG relation */
+	/* JPEG Relation */
 	int denom,scale,row_stride;
 	JSAMPARRAY	buffer;
 	struct my_error_mgr jerr;
 	struct jpeg_decompress_struct dcinfo;
 
-	/* Scribe relation */
+	/* Scribe Relation */
 	uint8_t	 *p;
 	uint16_t  x,y,dx,dy,i;
 	uint32_t  w,h;
 
-	/* Clear Screen */
+	/* Clear Screen Anyway */
 	Display_clear_if();
 
 	/* We set up the normal JPEG error routines, then override error_exit. */
@@ -893,12 +873,12 @@ static int load_jpeg(FIL *fil,int mode)
 	display_performance_ready_if();
 #endif
 
-	/* Allocate and initialize JPEG decompression object */
+	/* allocate and initialize JPEG decompression object */
 	jpeg_create_decompress(&dcinfo);
 	jpeg_fatfs_src(&dcinfo, fil);
 	jpeg_read_header(&dcinfo, TRUE);
 
-	/* Calculate scalling */
+	/* Calculate Scalling */
 	denom = 8;
 	dcinfo.scale_denom = 8;
 	dcinfo.scale_num = 8;
@@ -917,7 +897,7 @@ static int load_jpeg(FIL *fil,int mode)
     dcinfo.scale_denom = dcinfo.scale_num = 8;
     denom = 8;
 
-	/* Set byte Bboundery */
+	/* Set Byte Boundery */
 	for (scale = 8; scale > 1; scale--) {
 		if (w / denom * scale <= MAX_X)
 		break;
@@ -926,7 +906,7 @@ static int load_jpeg(FIL *fil,int mode)
 		scale--;
 	}
 
-	/* Check valid scalling */
+	/* Check Valid Scalling */
 	if(scale <= 0){
 		ts_locate(0, 0 ,0);
 		xprintf("\33\x87\ferror\nscaling region over!\n");
@@ -934,7 +914,7 @@ static int load_jpeg(FIL *fil,int mode)
 		goto jpeg_end_decode;
 	}
 
-	/* Check upper limit (1280 pixel width) */
+	/* Check Upper Limit (1280 pixel width) */
 	if((dcinfo.image_width > dcinfo.image_height) && (dcinfo.image_width > 1280)){
 		ts_locate(0, 0 ,0);
 		xprintf("\33\x87\ferror\nimage_width limit over!\n");
@@ -965,18 +945,16 @@ static int load_jpeg(FIL *fil,int mode)
 	buffer = (*dcinfo.mem->alloc_sarray)
 				((j_common_ptr) &dcinfo, JPOOL_IMAGE, row_stride, 1);
 
-	/* Display decoded line datas */
 	while (dcinfo.output_scanline < dcinfo.output_height) {
 		jpeg_read_scanlines(&dcinfo, buffer, 1);
-	#if defined(USE_TFT_FRAMEBUFFER) || (USE_NT35516_TFT)
+	#if defined(USE_TFT_FRAMEBUFFER)
 		Display_rect_if(x,x + dx - 1,y + dcinfo.output_scanline,y + dcinfo.output_scanline);
 	#endif
 		for(i = 0,p = buffer[0];i < dcinfo.output_width;i++) {
 			Display_wr_dat_if(MAKE_RGB888_TO_RGB565(&p));
 		}
 	}
-	
-	/* Finish decompress */
+
 	jpeg_finish_decompress(&dcinfo);
 
 jpeg_end_decode:
@@ -989,11 +967,11 @@ jpeg_end_decode:
 	ts_locate(TS_FILER_HEIGHT-1, 0,0);
 	xprintf("\33\x87 Decode in %duSec\n",end);
 #endif
-
-	/* Exit */
+	/* Exit Routine */
+	/* To Rerturn to Push Any Key  */
 	wait_anyinput();
 
-	return 1;
+   return 1;
 }
 #endif
 
@@ -1009,7 +987,7 @@ jpeg_end_decode:
 #ifdef USE_LIBPNG
 /**************************************************************************/
 /*!
-    PNG File Loader Lower-Side using libpng.
+    PNG File Loader Lower-Side Using libpng.
     Retarget FatFs's Filesystem to libpng.
 */
 /**************************************************************************/
@@ -1027,41 +1005,41 @@ static void fatfs_read_data(png_structp read_ptr, png_bytep data, png_size_t len
 
 /**************************************************************************/
 /*!
-    PNG file loader Upper-Side using libpng.
-    Decode and display PNG data.
+    PNG file loader Upper-Side Using libpng.
+    Decode and Display PNG Data.
 */
 /**************************************************************************/
 static int load_png(FIL *fil, const char *title)  /* File is already open */
 {
-	/* Scribe relation */
+	/* Scribe Relation */
 	uint16_t lx,ly;
 	uint32_t i,k=0;
 	UINT	 nb;
 
-	/* libpng structure pointers */
+	/* libpng Structure Pointers */
 	png_structp read_ptr;
 	png_infop read_info_ptr, end_read_info_ptr;
 
-	/* PNG informations */
+	/* PNG Informations */
 	uint8_t pngSignature[8];
 	png_uint_32 width, height,nx,ny;
 	int bit_depth, color_type, interlace_type;
 
-	/* Draw to TFT-LCD relations */
+	/* Draw to TFT-LCD Relations */
 	uint32_t row_stride;
 	uint8_t* p;
 	uint8_t* row_buffer=NULL;
 
-	/* Confirn PNG file */
+	/* Confirn PNG File */
 	f_read(fil, pngSignature, 8, &nb);
 	if(!png_check_sig(pngSignature, 8)) return 1;
 
 	/* Create and initialize the png_struct with the desired error handler
-	 * functions.  If you want to use the default stderr and longjump method,
-	 * you can supply NULL for the last three parameters.  We also supply the
-	 * the compiler header file version, so that we know if the application
-	 * was compiled with a compatible version of the library.  REQUIRED
-	 */
+	* functions.  If you want to use the default stderr and longjump method,
+	* you can supply NULL for the last three parameters.  We also supply the
+	* the compiler header file version, so that we know if the application
+	* was compiled with a compatible version of the library.  REQUIRED
+	*/
 	read_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (read_ptr == NULL)
 	{
@@ -1088,7 +1066,7 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
    if (setjmp(png_jmpbuf(read_ptr)))
    {
 		if( row_buffer != NULL ) {
-			/* Diacard allocated row stride */
+			/* Diacard Allocated Row Stride */
 			png_free(read_ptr,row_buffer);
 		}
 
@@ -1101,26 +1079,26 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 	}
 
     /* If you are using replacement read functions, instead of calling
-     * png_init_io() here you would call:
-     */
+    * png_init_io() here you would call:
+    */
 	png_set_read_fn(read_ptr, (png_voidp)fil, fatfs_read_data);
 
 	/* If we have already read some of the signature */
 	png_set_sig_bytes(read_ptr, 8);
 
 	/* The call to png_read_info() gives us all of the information from the
-	 * PNG file before the first IDAT (image data chunk).  REQUIRED
-	 */
+	* PNG file before the first IDAT (image data chunk).  REQUIRED
+	*/
 	png_read_info(read_ptr, read_info_ptr);
 	png_get_IHDR(read_ptr, read_info_ptr, &width, &height, &bit_depth, &color_type,
 	   &interlace_type, NULL, NULL);
 
 #if 1
 	/* Set up the data transformations you want.  Note that these are all
-	 * optional.  Only call them if you want/need them.  Many of the
-	 * transformations only work on specific types of images, and many
-	 * are mutually exclusive.
-	 */
+	* optional.  Only call them if you want/need them.  Many of the
+	* transformations only work on specific types of images, and many
+	* are mutually exclusive.
+	*/
 
 	/* Tell libpng to strip 16 bit/color files down to 8 bits/color */
 	/*png_set_strip_16(read_ptr);*/
@@ -1158,13 +1136,13 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 		png_set_add_alpha(read_ptr, 0xff, PNG_FILLER_AFTER);
 	}
 
-#if 0 /* Alpha channnel omake */
+#if 0
 	/* Set the background color to draw transparent and alpha images over.
-	 * It is possible to set the red, green, and blue components directly
-	 * for paletted images instead of supplying a palette index.  Note that
-	 * even if the PNG file supplies a background, you are not required to
-	 * use it - you should use the (solid) application background if it has one.
-	 */
+	* It is possible to set the red, green, and blue components directly
+	* for paletted images instead of supplying a palette index.  Note that
+	* even if the PNG file supplies a background, you are not required to
+	* use it - you should use the (solid) application background if it has one.
+	*/
 	png_color_16 my_background, *image_background;
 
 	if (png_get_bKGD(read_ptr, read_info_ptr, &image_background))
@@ -1187,14 +1165,14 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 	xprintf("col_depth= %d\n",bit_depth);
 	xprintf("col_type= %d\n",color_type);
 
-	/* Push any key to decode start */
+	/* Push Any Key to Start! */
 	wait_anyinput();
 
 #ifdef ENABLE_PERFORMANCE_MEASUREMENT
 	display_performance_ready_if();
 #endif
 
-	/* Setting displaylimit */
+	/* Setting Display Limit */
 	nx = width;
 	ny = height;
 	if((nx >1280)||(ny>1280)) {
@@ -1215,9 +1193,9 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 	row_stride = (png_get_rowbytes(read_ptr, read_info_ptr) + 3) & ~3; /* 4byte alignments */
 	row_buffer = png_malloc(read_ptr,row_stride);
 
-   /* Display PNG data */
-	for(k = 0; k < ny ;k++) {
-	#if defined(USE_TFT_FRAMEBUFFER) || (USE_NT35516_TFT)
+   /* Diaplay PNG Data */
+	for(k = 0;k < ny;k++) {
+	#if defined(USE_TFT_FRAMEBUFFER)
 		Display_rect_if(lx,lx + nx - 1,ly + k,ly + k);
 	#endif
 		png_read_row(read_ptr,row_buffer, NULL );
@@ -1228,26 +1206,26 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 		}
 	}
 
-	/* Discard allocated row stride */
+	/* Discard Allocated Row Stride */
 	png_free(read_ptr,row_buffer);
 
-	/* PNG read end procedure */
+	/* PNG Read End Procedure */
 	png_read_end(read_ptr, end_read_info_ptr);
 
 png_exit:
 	/* Free all of the memory associated with the read_ptr and read_info_ptr */
     png_destroy_read_struct(&read_ptr, &read_info_ptr, &end_read_info_ptr);
 
+	/* Exit Routine */
 #ifdef ENABLE_PERFORMANCE_MEASUREMENT
 	uint32_t end = display_performance_result_if();
 	ts_locate(TS_FILER_HEIGHT-1, 0,0);
 	xprintf("\33\x87 Decode in %duSec\n",end);
 #endif
-
-	/* Exit*/
+	/* To Rerturn to Push Any Key  */
 	wait_anyinput();
 
-	return 1;
+   return 1;
 }
 #endif
 
@@ -1279,8 +1257,8 @@ static inline uint16_t MAKE_GIFBGR565(GifColorType* p)
 }
 /**************************************************************************/
 /*!
-    GIF file loader Upper-Side using giflib.
-    Display GIF & Animation GIF data.
+    GIF file loader Upper-Side Using GIFLib.
+    Display GIF & Animation GIF Data.
 */
 /**************************************************************************/
 static int load_gif(FIL *fil)
@@ -1293,28 +1271,30 @@ static int load_gif(FIL *fil)
 	GifColorType*	ColorMapEntry;
 	ColorMapObject* ColorMap;
 
-	/* Scribe relation */
+	/* Scribe Relation */
 	uint8_t  c;
 	uint16_t d,DelayTime=0;
     volatile unsigned int i,j,n,lx,ly,Size,Left,Top,Width,Height;
 	int ErrorCode,ExtCode,TranCol=0;
 
 	/* Interlace relation */
-    int InterlacedOffset[] = { 0, 4, 2, 1 }; 	/* The way Interlaced image should. */
-	int InterlacedJumps[]  = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
+    int
+	InterlacedOffset[] = { 0, 4, 2, 1 }, 	/* The way Interlaced image should. */
+	InterlacedJumps[]  = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
 
-	/* Load GIF file pointer */
+
+	/* Load Gif File Pointer */
 	if ((GifFile = DGifOpenFileHandle(fil,&ErrorCode)) == NULL) {
 	    return 1;
 	}
 
-	/* Clear Screen */
+	/* ClearScreen Ready for Displaying GIF file */
 	Display_clear_if();
 
-	/* Set colour map or background colour */
+	/* Set Colour Map and BackGround Colour */
 	ColorMap = (GifFile->Image.ColorMap ? GifFile->Image.ColorMap : GifFile->SColorMap);
 
-	/* Check over lange */
+	/* Check Over Lange */
 	if((GifFile->SWidth > MAX_X)||(GifFile->SHeight > MAX_Y))  {
 		ts_locate(0, 0 ,0);
 		xprintf("\33\x87\fOOPS Screen Size Over!\n");
@@ -1336,7 +1316,7 @@ static int load_gif(FIL *fil)
 		goto gif_end;
 	}
 
-	/* Set rowbuffer to backGround colour */
+	/* Set Colour map and BackGround Colour */
 	for (i = 0; i < GifFile->SWidth; i++) RowBuffer[i] = GifFile->SBackGroundColor;
 
     /* Scan the content of the GIF file and load the image(s) in: */
@@ -1382,12 +1362,12 @@ static int load_gif(FIL *fil)
 							goto gif_end;
 						}
 
-						/* Set rectangle for virtual window */
+						/* Set Rectangle For Virtual Window */
 						Display_rect_if(lx + Left,lx + Left + Width  - 1,
 										ly + j  ,ly + j);
 
 						for (n = 0; n < Width; n++) {
-							/* Set global or local colour tables */
+							/* Set Global or Local Colour Tables */
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
@@ -1397,7 +1377,7 @@ static int load_gif(FIL *fil)
 				}
 				else {
 
-					/* Set rectangle for virtual window */
+					/* Set Rectangle For Virtual Window */
 					Display_rect_if(lx + Left,lx + Left + Width  - 1,
 									ly + Top ,ly + Top  + Height - 1);
 
@@ -1414,7 +1394,7 @@ static int load_gif(FIL *fil)
 										ly + Top +i ,ly + Top  + i);
 					#endif
 						for (n = 0; n < Width; n++) {
-							/* Set global or local colour tables */
+							/* Set Global or Local Colour Tables */
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
@@ -1440,7 +1420,7 @@ static int load_gif(FIL *fil)
 							}
 
 							for (n = 0; n < Width; n++) {
-								/* Set global or local colour tables */
+								/* Set Global or Local Colour Tables */
 								if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 								else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 								
@@ -1462,7 +1442,7 @@ static int load_gif(FIL *fil)
 						}
 
 						for (n = 0; n < Width; n++) {
-							//* Set global or local colour tables */
+							/* Set Global or Local Colour Tables */
 							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 							
@@ -1475,9 +1455,9 @@ static int load_gif(FIL *fil)
 				}
 			}
 
-			/* Gif Animation delay with input interruption */
+			/* Gif Animation Delay With Input Interruption */
 			for (n = 0; n < DelayTime ; n++) {
-				_delay_ms(10);						/* Wait 0.01*n Seconds */
+				_delay_ms(10);						/* Wait 0.01*n Sec */
 				c = xgetc_n();
 				switch (c) {
 				case BTN_CAN:
@@ -1536,21 +1516,20 @@ gif_end:
 		RowBuffer = NULL;
 	}
 	DGifCloseFile(GifFile,&ErrorCode);
-
-	/* Exit */
+	/* Exit Routine */
+	/* To Rerturn to Push Any Key  */
 	wait_anyinput();
+   return 1;
 
-	return 1;
-
-	/* Case of interrupt escape from on loading AnimationGIF */
+	/* Case of escape from on loading AnimationGIF */
 gif_esc:
 	if( RowBuffer != NULL ) {
 		free(RowBuffer);
 		RowBuffer = NULL;
 	}
 	DGifCloseFile(GifFile,&ErrorCode);
-	
-	return 1;
+   return 1;
+
 }
 #endif
 
@@ -1580,31 +1559,31 @@ static int load_file(char *path, char *filename, FIL *fil)
 	char fname[13];
 #endif
 
-	/* Check file read valid */
+	/* Check File Read Valid */
 	if (f_open(fil, path, FA_READ)) return 0;
 
-	/* Store filename */
+	/* Store Filename */
 	strcpy(fname, filename);
 
-	/* Read file header */
+	/* Read File Header */
 	/*if (f_read(fil, Buff, 256, &n) || n != 256) return 0;*/
 	if(f_read(fil, Buff, 256, &n)) return 0;
 
-	/* Execute original video file */
+	/* Execute Original Video File */
 	if (!memcmp(Buff, "IM", 2)) {
 		load_img(fil, fname);
 		f_close(fil);
 		return RES_OK;
 	}
 
-	/* Execute windows 24BITMAP file */
+	/* Execute Windows 24BITMAP File */
 	if (!memcmp(Buff, "BM", 2)) {
 		load_bmp(fil);
 		f_close(fil);
 		return RES_OK;
 	}
 
-	/* Execute SJIS/Ascii style text file */
+	/* Execute SJIS/Ascii Style Text File */
 	if (strstr_ext(path, ".TXT")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 		load_txt(fil, (BYTE*)Buff, BUFSIZE);
@@ -1613,7 +1592,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 	}
 
 #if defined(USE_IJG_LIB)
-	/* Execute JPEG File using IJG JPEG library(libjpeg) */
+	/* Execute JPEG File Using IJG JPEG Library(libjpeg) */
 	uint8_t JPEG_SOI[] = {0xFF,0xD8,0}; /* JPEG Merker */
 	if (!memcmp(Buff,JPEG_SOI,2)) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
@@ -1622,7 +1601,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 		return RES_OK;
 	}
 #elif defined(USE_TINYJPEG_LIB)
-	/* Execute JPEG File using ChaN's JPEG decorder */
+	/* Execute JPEG File Using ChaN's JPEG Decorder */
 	if (strstr_ext(path, ".JPG")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 	#if (BUFSIZE > 32*1024)
@@ -1637,7 +1616,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #endif
 
 #if defined(USE_LIBPNG)
-	/* Execute PNG File using libpng */
+	/* Execute PNG File Using libpng */
 	if (strstr_ext(path, ".PNG")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 		load_png(fil, fname);
@@ -1647,7 +1626,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #endif
 
 #if defined(USE_GIFLIB)
-	/* Execute gif File using giflib */
+	/* Execute gif File Using giflib */
 	if (strstr_ext(path, ".GIF")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 		load_gif(fil);
@@ -1671,7 +1650,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 	if (strstr_ext(path, ".MP3")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 
-		/* DMA Buffer size check (STM32F407 work around ) */
+		/* DMA Buffer Size Check (STM32F407 work around ) */
 	#if(BUFSIZE <= MP3_DMA_BUFFER_SIZE*2)
 			/* If didn't have enough DMA-RAM,then... */
 			/* Use heap memory as dma double buffer */
@@ -1692,7 +1671,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 	if (strstr_ext(path, ".AAC")) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 
-		/* DMA Buffer size check (STM32F407 work around ) */
+		/* DMA Buffer Size Check (STM32F407 work around ) */
 	#if(BUFSIZE <= AAC_DMA_BUFFER_SIZE*2)
 			/* If didn't have enough DMA-RAM,then... */
 			/* Use heap memory as dma double buffer */
@@ -1775,24 +1754,15 @@ static void filer_put_item (
 
 	ts_locate(tblofs + 1, 0, 0);
 #if FF_USE_LFN
-	/* Display long file name with round down */
-	if(strlen(item->fname) >= (TS_WIDTH-3)) {
-		int strl = strlen(item->fname);
-		char* str = malloc(strl);
-		strlcpy(str,item->fname,TS_WIDTH-3);
-		/* Force round down */
-		str[TS_WIDTH-4] = 0;
-		/* In case of 2byte charactor */
-		if(((str[TS_WIDTH-5] >= 0x81)&&(str[TS_WIDTH-5] <= 0x9F))||((str[TS_WIDTH-5] >= 0xE0)&&(str[TS_WIDTH-5] <= 0xEF))){
-			str[TS_WIDTH-5] = 0;
-		}
+	if(strlen(item->fname) > (TS_WIDTH-2)) {
+		char* str = malloc(TS_WIDTH);
+		strlcpy(str,item->fname,TS_WIDTH-2); /* round down within screen width */
 		xprintf(" %s", str);
 		if(str != NULL) free(str);
 	}
 	else {
 		xprintf(" %s", item->fname);
 	}
-	
 	if(strlen(item->fname) < 13){
 		for (n = strlen(item->fname); n < 12; n++) xputc(' ');
 		if (item->fattr & AM_DIR) {
@@ -1801,9 +1771,7 @@ static void filer_put_item (
 			xprintf("%10u", item->fsize);
 		}
 	}
-
 #else
-	/* Display short file name */
 	xprintf(" %s", item->fname);
 	for (n = strlen(item->fname); n < 12; n++) xputc(' ');
 #if !defined(USE_SSD1332_SPI_OLED)
@@ -1831,14 +1799,12 @@ static int filer_load_dir (
 	DIRITEM *diritem;
 
 
-	/* Try to read media upto 3 times */
+	/* Try 3 times */
     for(i=0;i<3;i++){
 		if (!(f_opendir(dir, path))) break;
 		if (i==2) return -1;
 	}
 
-	/* Read and store file names */
-	/* exFAT is always long file name */
 	i = 0;
 	diritem = (DIRITEM*)(void*)Buff;
 	while (f_readdir(dir, fno) == FR_OK && fno->fname[0] && i < MAX_DIR_ITEM) {
@@ -1849,7 +1815,7 @@ static int filer_load_dir (
 			if(strlen(fno->fname)>12) strcpy(diritem[i].fname, fno->altname);
 			else					  strcpy(diritem[i].fname, fno->fname);
 		} else {
-			sprintf(diritem[i].fname,"%s",fno->fname); /* In case of exFAT */
+			sprintf(diritem[i].fname,"%s",fno->fname); /* In cace of exFAT */
 		}
 #else
 		strcpy(diritem[i].fname, fno->fname);
@@ -1878,6 +1844,8 @@ int filer(
 	char k;
 	char* filenames;
 
+
+	/*while (xgetc_n());*/
 
 	for (;;) {
 		items = filer_load_dir(path, dir, fno);
@@ -1971,5 +1939,6 @@ int filer(
 	}
 
 }
+
 
 /* End Of File ---------------------------------------------------------------*/

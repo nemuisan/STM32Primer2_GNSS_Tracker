@@ -1,8 +1,7 @@
 ********************* ts_basis.x update history ********************
 
-	2023.06.01 V20.00	Fixed wrong macro expressions.
-	
 	2023.03.01 V19.00	Renamed from ts.x
+
 	2019.11.01 V18.00	Fixed wrong X limit setting for filer.
 	2019.10.01 V17.00	Fixed wrong TS_WIDTH setting.
 	2019.09.01 V16.00	Split cursor blink routine from ts_timer().
@@ -29,13 +28,8 @@
 
 ********************* ts_fileloads.x update history ********************
 
-	2023.07.20 V25.00	Added HX8363B streaming support.
-						Added NT35516 support.
-
-	2023.06.11 V24.00	Fixed filename round down on filer_put_item().
-	2023.06.01 V23.00	Added VSYNC wait for img streaming.
-	2023.05.01 V22.00	Fixed cosmetic bugfix.
 	2023.03.01 V21.00	Optimized PNG decode & display.
+	
 	2020.08.01 V20.00	Adopted ChaN's Tiny JPEG Decompressor to R0.01d.
 	2019.11.01 V19.00	Optimized some ts functions.
 	2019.10.01 V18.00	Add cache maintenance for STM32H7.

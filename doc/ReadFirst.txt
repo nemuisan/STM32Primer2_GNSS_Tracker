@@ -14,13 +14,10 @@ http://nemuisan.blog.bai.ne.jp/?eid=188402
 ========== Support Modules ==========
 appricable GNSS modules, you can use....
 
-SAM-M10Q		(u-blox)
- Supports u-blox M10 9600bps(default)
-
 PA1010D         (CDTop(former GlobalTOP))
 PA1616D
 PA1616S
- Supports MT3333 9600bps(default).
+ Supports MT3333 9600bps(default),38400bps,AIC Setting,AGPS With PC-Software.
 
 
 
@@ -47,7 +44,7 @@ SDSC : FAT16 Format,Up to 2GB.
 SDHC : FAT32 Format,Up to 32GB.
 SDXC : exFAT Format,Up to 2TB.
 MMC  : FAT16 Format,Up to 2GB.
-eMMC : FAT32/exFAT Format,Up to 2TB.
+eMMC : FAT32 Format,Up to 2TB.
 
 
 /* ATTENTION!! */

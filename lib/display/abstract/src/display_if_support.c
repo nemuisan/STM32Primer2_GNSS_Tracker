@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2023.08.01
+    @version        6.00
+    @date           2014.12.18
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -17,7 +17,6 @@
 		2012.04.05	V5.01	Add Draw Circle Algorithm.
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
-		2023.08.01	V8.00	Revised release.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -27,7 +26,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "display_if_support.h"
 /* check header file version for fool proof */
-#if DISPLAY_IF_SUPPORT_H != 0x0800
+#if DISPLAY_IF_SUPPORT_H != 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -445,89 +444,7 @@ inline void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
     }
 }
 
-/**************************************************************************/
-/*! 
-    Draw Windows 24bitBMP File.
-*/
-/**************************************************************************/
-int Display_DrawBmp_If(const uint8_t* ptr)
-{
-	uint32_t n, m, biofs, bw, iw, bh, w;
-	uint32_t xs, xe, ys, ye, i;
-	uint8_t *p;
-	uint16_t d;
 
-	/* Load BitStream Address Offset  */
-	biofs = LD_UINT32(ptr+10);
-	/* Check Plane Count "1" */
-	if (LD_UINT16(ptr+26) != 1)  return 0;
-	/* Check BMP bit_counts "24(windows bitmap standard)" */
-	if (LD_UINT16(ptr+28) != 24) return 0;
-	/* Check BMP Compression "BI_RGB(no compresstion)"*/
-	if (LD_UINT32(ptr+30) != 0)  return 0;
-	/* Load BMP width */
-	bw = LD_UINT32(ptr+18);
-	/* Load BMP height */
-	bh = LD_UINT32(ptr+22);
-	/* Check BMP width under 1280px */
-	if (!bw || bw > 1280 || !bh) return 0;
-	
-	/* Calculate Data byte count per holizontal line */
-	iw = ((bw * 3) + 3) & ~3;
-
-	/* Centering */
-	if (bw > MAX_X) {
-		xs = 0; xe = MAX_X-1;
-	} else {
-		xs = (MAX_X - bw) / 2;
-		xe = (MAX_X - bw) / 2 + bw - 1;
-	}
-	if (bh > MAX_Y) {
-		ys = 0; ye = MAX_Y-1;
-	} else {
-		ys = (MAX_Y - bh) / 2;
-		ye = (MAX_Y - bh) / 2 + bh - 1;
-	}
-
-	/* Clear Display */
-	Display_clear_if();
-
-    /* Limit to MAX_Y */
-	m = (bh <= MAX_Y) ? biofs : biofs + (bh - MAX_Y) * iw;
-
-	/* Set First data offset */  
-	i = m % 512;
-
-	/* Set BMP's Bottom-Left point */
-	m = ye;
-
-    /* Limit MAX_X */
-	w = (bw > MAX_X) ? MAX_X : bw;
-
-	do {
-		Display_rect_if(xs, xe, m, m);
-		n = 0;
-		p = (uint8_t*)ptr + i;
-		do {
-			n++;
-			/* Decode to 65k(16bit) colour */
-		#if !defined(USE_SSD1332_SPI_OLED)
-			d = *p++ >> 3;
-			d |= (*p++ >> 2) << 5;
-			d |= (*p++ >> 3) << 11;
-		#else                            
-			d =  (*p++ >> 3) << 11;
-			d |= (*p++ >> 2) << 5;
-			d |=  *p++ >> 3;
-		#endif
-			Display_wr_dat_if(d);
-		} while (n < w);
-		i += iw;
-
-	} while (m-- > ys);
-
-	return 1;
-}
 
 /**************************************************************************/
 /*! 

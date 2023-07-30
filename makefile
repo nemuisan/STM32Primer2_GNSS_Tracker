@@ -61,7 +61,6 @@ OPTIMIZE		= s
 # Force to Optimize level in debug
 ifeq ($(DEBUG_MODE),1)
  OPTIMIZE		= 0 -g -ggdb
-# OPTIMIZE		+= -gdwarf-4
 # OPTIMIZE		= g -g -ggdb
 endif
 
@@ -77,7 +76,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 102.00
+APP_VER = 101.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -294,7 +293,7 @@ CFLAGS  = -MD -mcpu=cortex-m3 -mtune=cortex-m3 -mfix-cortex-m3-ldrd
 CFLAGS += -mthumb -mlittle-endian $(ALIGNED_ACCESS) $(ARMV7M_BOOST)
 CFLAGS += -mno-sched-prolog -msoft-float
 CFLAGS += -std=gnu99
-CFLAGS += -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB)
+CFLAGS += -gdwarf-2 -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB)
 CFLAGS += -fno-strict-aliasing -fsigned-char
 CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -fno-schedule-insns2
@@ -437,7 +436,6 @@ program :
 	$(REMOVE) $(wildcard $(CMSIS_DEVICE)/*.d)
 	$(REMOVE) $(wildcard $(CMSIS_DEVICE)/*.lst)
 	$(REMOVE) $(wildcard $(CMSIS_DEVICE)/*.o)
-	$(REMOVEDIR) $(wildcard ./lib/codelite_dbg/.codelite)
 	$(REMOVEDIR) .dep
 	@$(MSGECHO)
 

@@ -2,11 +2,11 @@
 /*!
 	@file			main.c (STM32Primer2 GNSS-Tr@cker main file)
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        102.00
-    @date           2023.07.27
+    @version        101.00
+    @date           2023.04.25
 
     @section HISTORY
-		2023.07.27	V102.00	See Whatnew.txt
+		2023.04.25	V101.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -44,20 +44,19 @@ int main(void)
 	SysTickInit(INTERVAL);
 
 	/* Select GNSS-LOGGER/USB-MSC/USB-CDC Mode */
-	/* No Key input,then goes Nomal GNSS Logger */
+	/* No Key input,then goes GNSS Logger */
 	for(int mscnt=0; mscnt<3; mscnt++){
 		_delay_ms(1000);
-		if(!(GPIO_ReadInputDataBit(GPIOE, KEY_R) | GPIO_ReadInputDataBit(GPIOE, KEY_L) | GPIO_ReadInputDataBit(GPIOE, KEY_U))){
+		if(!(GPIO_ReadInputDataBit(GPIOE, KEY_R) | GPIO_ReadInputDataBit(GPIOE, KEY_L))){
 			TaskStat = GNSS_LOGGING;
 			break;
 		}
 	}
 
-	/* Select USB-MSC/USB-CDC and MTK-Logging Mode */
+	/* Select USB-MSC/USB-CDC Mode */
 	if(TaskStat == NO_SELECTED) {
 		if     (GPIO_ReadInputDataBit(GPIOE, KEY_L)) TaskStat = USB_VCOM;
 		else if(GPIO_ReadInputDataBit(GPIOE, KEY_R)) TaskStat = USB_MSC;
-		else if(GPIO_ReadInputDataBit(GPIOE, KEY_U)) TaskStat = GNSS_LOGGING_MTK;
 	}
 
 	/* Enable IWDG */
@@ -73,7 +72,6 @@ int main(void)
 		xEP3_OUT_Callback 	= NOP_Process;
 		xSOF_Callback     	= NOP_Process;
 		xUSB_Istr	      	= NOP_Process;
-		GNSS_SetCmdModes(CMD_NOMAL);
 	}
 	/* Install USB-CDC VirtualCOM Function */
 	else if(TaskStat == USB_VCOM){
@@ -97,17 +95,6 @@ int main(void)
 		xUSB_Istr	      	= MSC_USB_Istr;
 		MSC_SetStructure();
 	}
-	/* Install USB-MSC Function */
-	else if(TaskStat == GNSS_LOGGING_MTK){
-		xTask 				= gps_task;
-		xUART_IRQ			= conio_IRQ;
-		xEP1_IN_Callback  	= NOP_Process;
-		xEP2_OUT_Callback 	= NOP_Process;
-		xEP3_OUT_Callback 	= NOP_Process;
-		xSOF_Callback     	= NOP_Process;
-		xUSB_Istr	      	= NOP_Process;
-		GNSS_SetCmdModes(CMD_MTK);
-	}
 	/* Fool Proof Anyway GNSS-Logger */
 	else{
 		TaskStat 			= GNSS_LOGGING;
@@ -118,7 +105,6 @@ int main(void)
 		xEP3_OUT_Callback 	= NOP_Process;
 		xSOF_Callback     	= NOP_Process;
 		xUSB_Istr	      	= NOP_Process;
-		GNSS_SetCmdModes(CMD_NOMAL);
 	}
 
 	/* Main Loop */

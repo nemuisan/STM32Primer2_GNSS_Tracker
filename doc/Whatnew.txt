@@ -1,15 +1,5 @@
-2023.07.27 :
-V102.00	Added u-blox SAM-M10Q GNSS Module Support(gnss_support.c,h & hw_cofig.c,h).
-		Added MTK-Command mode at logging.(gnss_support.c,h).
-		Removed unused delay macro(display_support.c,h).
-		Updated latest display abstructions(see./lib/display/abstruct).
-		Updated latest display driver(see./lib/display/driver).
-		Fixed minor cosmeitc bugfix(sdio_stm32f1.h(tooooo minor fix ,so didn't version-uped)).
-		Adopted CMSIS Core(M) Version 5.0.5 Header Files into latest repository.
-		 -> https://github.com/ARM-software/CMSIS_5/commit/7b8c3f3b2a2a8f4a606eaa5c27fd38a056284373
-
 2023.04.25 :
-V101.00	Fixed cosmetic bugfix(re-remaining no-fixed codes).
+V101.00	Fixed cosmetic bugfix(reremaining no-fixed codes).
 		Adopted CMSIS Core(M) Version 5.0.5 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_5/commit/80ece22328073b501eb288c59f8b251211eac69b
 		Adopted arm-gcc toolchain updates

@@ -2,8 +2,8 @@
 /*!
 	@file			gnss_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        20.00
-    @date           2023.06.04
+    @version        19.00
+    @date           2023.04.21
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GNSS-Logger Program Thanks!
 
@@ -30,14 +30,13 @@
 		2021.10.31 V17.00	Fixed MTK Commands parameter.
 		2022.10.15 V18.00	Fixed filesystem robustness and change filename.
 		2023.04.21 V19.00	Fixed cosmetic bugfix.
-		2023.06.04 V20.00	Adopted u-blox SAM-M10Q module.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef GNSS_SUPPORT_H
-#define GNSS_SUPPORT_H 0x2000
+#define GNSS_SUPPORT_H 0x1900
 
 #ifdef __cplusplus
  extern "C" {
@@ -53,20 +52,11 @@
 #include "ff_rtc_if.h"
 #include "rtc_support.h"
 
-/* defines */
-#define	CMD_NOMAL	0
-#define	CMD_MTK		1
-
 /* Function Prototypes */
 extern void ff_support_timerproc(void);
 extern void gps_task(void);
 extern void ShutFileClose(void);
 extern void ChkAckLimit(void);
-extern volatile UINT cmd_mode;
-static inline void GNSS_SetCmdModes(UINT mode)
-{
-	cmd_mode = mode;
-}
 
 #ifdef __cplusplus
 }

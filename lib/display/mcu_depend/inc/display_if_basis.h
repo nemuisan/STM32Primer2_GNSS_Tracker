@@ -2,9 +2,9 @@
 /*!
 	@file			display_if_basis.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.06.01
-	@brief          Interface of Display Device Basics for STM32 Primer2.	@n
+    @version        5.00
+    @date           2023.04.21
+	@brief          Interface of Display Device Basics for STM32 Primer2.		@n
 					"MCU Depend Layer"
 
     @section HISTORY
@@ -13,14 +13,13 @@
 		2010.12.31	V3.00	Changed Some.
 		2011.03.10	V4.00	C++ Ready.
 		2023.04.21	V5.00	Fixed cosmetic bugfix.
-		2023.04.21	V6.00	Removed unused delay macro.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef DISPLAY_IF_BASIS_H
-#define DISPLAY_IF_BASIS_H 0x0600
+#define DISPLAY_IF_BASIS_H 0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -29,6 +28,21 @@
 /* Device or MCU Depend Includes */
 #include "stm32f10x.h"
 #include "systick.h"
+
+/* FreeRTOS compatibility */
+#ifdef INC_FREERTOS_H
+#define _delay_ms(x)    vTaskDelay(x/portTICK_RATE_MS);
+#define _delay_us(x)    \
+    for(volatile uint32_t Count=0;Count<=x;Count++){ 	\
+						__NOP();				\
+						__NOP();				\
+						__NOP();				\
+						__NOP();				\
+						__NOP();				\
+						__NOP();				\
+						}
+#define __SYSTICK_H
+#endif
 
 
 /* ST7732 TYPE PORT SETTINGS */
@@ -81,18 +95,15 @@
 
 /* Define Acess Procedure */
 #define BUS_ACCESS_8BIT
-#define LCD_D0          		GPIO_Pin_7		/* FSMC_D4 */
-#define LCD_D1         			GPIO_Pin_8		/* FSMC_D5 */
-#define LCD_D2          		GPIO_Pin_9		/* FSMC_D6 */
-#define LCD_D3          		GPIO_Pin_10		/* FSMC_D7 */
-#define LCD_D4          		GPIO_Pin_11		/* FSMC_D8 */
-#define LCD_D5          		GPIO_Pin_12		/* FSMC_D9 */
-#define LCD_D6          		GPIO_Pin_13		/* FSMC_D10 */
-#define LCD_D7          		GPIO_Pin_14		/* FSMC_D11 */
+#define LCD_D0          		GPIO_Pin_7
+#define LCD_D1         			GPIO_Pin_8
+#define LCD_D2          		GPIO_Pin_9
+#define LCD_D3          		GPIO_Pin_10
+#define LCD_D4          		GPIO_Pin_11
+#define LCD_D5          		GPIO_Pin_12
+#define LCD_D6          		GPIO_Pin_13
+#define LCD_D7          		GPIO_Pin_14
 #define DATA_PINS   			( LCD_D0 | LCD_D1 | LCD_D2 | LCD_D3 | LCD_D4 | LCD_D5 | LCD_D6 | LCD_D7 )
-
-#define ReadLCDData(x)					\
-	x = DISPLAY_DATAPORT;
 
 #endif
 
@@ -135,5 +146,5 @@ extern void Display_IoInit_If(void);
 }
 #endif
 
-#endif /* DISPLAY_IF_BASIS_H */
+#endif /* __DISPLAY_IF_BASIS_H */
 

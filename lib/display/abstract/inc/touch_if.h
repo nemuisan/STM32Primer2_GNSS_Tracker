@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2023.06.01
+    @version        10.00
+    @date           2023.05.01
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -18,14 +18,13 @@
 		2016.07.03	V8.00	Added SWAP or Reverse XY exec.
 		2019.10.01	V9.00	Fixed some variable inclusion.
 		2023.05.01	V10.00	Removed unused delay function.
-		2023.06.01	V11.00	Added warning SWAP or Reverse XY exec.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TOUCH_IF_H
-#define TOUCH_IF_H	0x1100
+#define TOUCH_IF_H	0x1000
 
 #ifdef __cplusplus
  extern "C" {

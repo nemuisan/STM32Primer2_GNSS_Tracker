@@ -2,19 +2,19 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        25.00
-    @date           2023.07.23
+    @version        22.00
+    @date           2023.05.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.07.23	See ts_ver.txt.
+		2023.05.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TS_FILELOADS_H
-#define TS_FILELOADS_H 0x2500
+#define TS_FILELOADS_H 0x2200
 
 #ifdef __cplusplus
  extern "C" {
@@ -22,7 +22,6 @@
 
 /* basic includes */
 #include "ts_basis.h"
-#include <wchar.h>
 
 /* JPEG Decorder Definitions */
 #ifdef USE_IJG_LIB
