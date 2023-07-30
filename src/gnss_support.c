@@ -2,8 +2,8 @@
 /*!
 	@file			gnss_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        19.00
-    @date           2023.04.21
+    @version        20.00
+    @date           2023.06.04
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GNSS-Logger Program Thanks!
 
@@ -30,6 +30,7 @@
 		2021.10.31 V17.00	Fixed MTK Commands parameter.
 		2022.10.15 V18.00	Fixed filesystem robustness and change filename.
 		2023.04.21 V19.00	Fixed cosmetic bugfix.
+		2023.06.04 V20.00	Adopted u-blox SAM-M10Q module.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -39,29 +40,29 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gnss_support.h"
 /* check header file version for fool proof */
-#if GNSS_SUPPORT_H!= 0x1900
+#if GNSS_SUPPORT_H!= 0x2000
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
-/* GT-723F,UP-501,PA6C,Gms-g6a,Gms-g9 and CD-PA1616 default baud is 9600,8,n,1 */
-/* (XA1110 default baud is 115200,8,n,1) */
+/* Many GPS/GNSS modules default baud is 9600bps,8bit,no-parity,1stopbit */
 #define GPS_UART_PORT	2
 #define GPS_UART_BAUD	9600
 
 /* GPS Sentences */
 #define GPRMC_COL_VALID	2
-#define GPRMC_COL_DATE  9 /*  obsoleted */
+#define GPRMC_COL_DATE  9 /* obsoleted */
 #define GPRMC_COL_YMD  	9
 #define GPRMC_COL_HMS  	1
 #define GPGGA_POS_TYPE	6
 #define GPGSV_NUM_VIEW	3
+#define GXGSV_NUM_FILT	1
 
 /* Synchronize the file in interval of 90Sec */
 #define SYNC_INTERVAL	90
 
 /* To Enable GxGSV Logging, Uncomment this */
-/*#define ENABLE_SATELLITE_ID_LOGGING*/
+//#define ENABLE_SATELLITE_ID_LOGGING
 
 /* Avoid f_close() Foolproof */
 #define STBY_STATE 		0
@@ -86,7 +87,6 @@
 #define PMTK_FR_MODE						"$PMTK886"
 #define PGCMD_NMEA_BAUDRATE 				"$PGCMD,232"	/* Need for AXN5.x firmware */
 #define PGCMD_SATELLITE_SEARCHMODE			"$PGCMD,229"	/* Need for AXN5.x firmware */
-
 /* ATTENSION FOR AXN5.x.x Functions */
 /* YOU MUST RE-POWER AFTER THIS COMMAND */
 /* Flash to changed baudrate */
@@ -97,16 +97,17 @@
 
 /* STM32 SDIO+DMA Transfer MUST need 4byte alignmanet */
 /* and MUST need 4byte-packed alignment */
-#define __ATTR_MEM	__attribute__ ((aligned (4)))
+#define ATTR_MEM	__attribute__ ((aligned (4)))
 
 /* Variables -----------------------------------------------------------------*/
 FF_RTC ff_rtc;						/* See ff_rtc_if.h */
 FATFS FatFs[FF_VOLUMES];			/* File system object for each logical drive */
 FIL File1;							/* File objects */
 DIR Dir;							/* Directory object */
-uint8_t Buff[1024] __ATTR_MEM; 		/* Working buffer(MUST be 4byte aligned) */
+uint8_t Buff[1024] ATTR_MEM; 		/* Working buffer(MUST be 4byte aligned) */
 volatile UINT Timer;				/* Performance timer (1kHz increment) */
-volatile UINT l_stat=STBY_STATE;	/* Avoid f_close() Foolproof */
+volatile UINT l_stat = STBY_STATE;	/* Avoid f_close() Foolproof */
+volatile UINT cmd_mode = CMD_NOMAL;	/* Detect command mode (MTK or Generic Nomal) */
 volatile UINT ack_limit;			/* Acklowledge Limit */
 
 /* Constants -----------------------------------------------------------------*/
@@ -153,8 +154,10 @@ uint32_t get_fattime (void)
 void ChkAckLimit(void)
 {
 	if(ack_limit++ > ACK_LIMIT*1000){
-		/* Wakeup(For MT333x) */
-		xSend_MTKCmd(PMTK_TEST,"");
+		if(cmd_mode == CMD_MTK){ /* GNSS MTK Mode */
+			/* Wakeup(For MT333x) */
+			xSend_MTKCmd(PMTK_TEST,"");
+		}
 		ack_limit =0;
 	}
 }
@@ -311,54 +314,66 @@ void gps_task(void)
 	xdev_out(putch);
 	xdev_in(getch);
 
-	/* If MTK chip baud is 38400bps or 115200bps,then... */
-	conio_init(GPS_UART_PORT,38400);
-	/* Set to 9600 bps forcely in 38400bps */
-	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
-	_delay_ms(100);		/* Need Break Time */
+	if(cmd_mode == CMD_MTK){ /* GNSS MTK Mode */
+		LED_RED_ON();
+		LED_GRN_ON();
+		/* If MTK chip baud is 38400bps or 115200bps,then... */
+		conio_init(GPS_UART_PORT,38400);
+		/* Set to 9600 bps forcely in 38400bps */
+		xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
+		_delay_ms(100);		/* Need Break Time */
+		
+		conio_init(GPS_UART_PORT,115200);
+		/* Set to 9600 bps forcely in 115200bps */
+		xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
+		_delay_ms(100);		/* Need Break Time */
+
+	#if defined(MTK_FLASH_BAUDRATE)
+		/* Set to 9600 bps forcely in 115200bps for XA1110 */
+		/* 1:9600bps,4:38400bps,6:115200bps(default) */
+		/* Need Re-Power module */
+		xSend_MTKCmd(PGCMD_NMEA_BAUDRATE ,"1");
+		_delay_ms(100);		/* Need Break Time */
+	#endif
+
+		/* Set UART to 9600bps and redirect to stdio */
+		conio_init(GPS_UART_PORT,GPS_UART_BAUD);
+
+		/* Enable WAAS/SBAS */
+		xSend_MTKCmd(PMTK_API_SET_SBAS_ENABLED,"1");
+		xSend_MTKCmd(PMTK_API_SET_SBAS_MODE,"1");
+		xSend_MTKCmd(PMTK_API_SET_DGPS_MODE,"2");
+
+		/*----- For MT3339/MT3333 Specific Commands(avobe AXN3.8) -----*/
+		/* Disable AlwaysLocate & Periodic Power Mode */
+		xSend_MTKCmd(PMTK_SET_PERIODIC_MODE,"0");
+		/* GNSS FAST TTFF:0 HIGH ACCURACY:1 */
+		xSend_MTKCmd(PMTK_SET_TUNNEL_SCENARIO,"0");
+		/* Enable Anti Interference Control ON:1 OFF:0 */
+		xSend_MTKCmd(PMTK_SET_AIC_MODE,"0");
+		/* Enable EASY */
+		xSend_MTKCmd(PMTK_EASY_ENABLE,"1,1");
+		/* Set 1 to Fitness(<5m/s) mode */
+		xSend_MTKCmd(PMTK_FR_MODE,"1");
+		/* Enable GPS/QZS/GLONASS/GALILEO */
+		xSend_MTKCmd(PMTK_API_SET_GNSS_SEARCH_MODE,"1,1,1,0,0");
+
+	#if defined(MTK_FLASH_SATELLITE)
+		/* Enable GPS/QZS/GLONASS/GALILEO */
+		/* Enable PMTK353 */
+		/* Need Re-Power module */
+		xSend_MTKCmd(PGCMD_SATELLITE_SEARCHMODE,"1,1,0,1,0");
+	#endif
 	
-	conio_init(GPS_UART_PORT,115200);
-	/* Set to 9600 bps forcely in 115200bps */
-	xSend_MTKCmd(PMTK_SET_NMEA_BAUDRATE,"9600");
-	_delay_ms(100);		/* Need Break Time */
-
-#if defined(MTK_FLASH_BAUDRATE)
-	/* Set to 9600 bps forcely in 115200bps for XA1110 */
-	/* 1:9600bps,4:38400bps,6:115200bps(default) */
-	/* Need Re-Power module */
-	xSend_MTKCmd(PGCMD_NMEA_BAUDRATE ,"1");
-	_delay_ms(100);		/* Need Break Time */
-#endif
-
-	/* Set UART to 9600bps and redirect to stdio */
-	conio_init(GPS_UART_PORT,GPS_UART_BAUD);
-
-	/* Enable WAAS/SBAS */
-	xSend_MTKCmd(PMTK_API_SET_SBAS_ENABLED,"1");
-	xSend_MTKCmd(PMTK_API_SET_SBAS_MODE,"1");
-	xSend_MTKCmd(PMTK_API_SET_DGPS_MODE,"2");
-
-	/*----- For MT3339/MT3333 Specific Commands(avobe AXN3.8) -----*/
-	/* Disable AlwaysLocate & Periodic Power Mode */
-	xSend_MTKCmd(PMTK_SET_PERIODIC_MODE,"0");
-	/* GNSS FAST TTFF:0 HIGH ACCURACY:1 */
-	xSend_MTKCmd(PMTK_SET_TUNNEL_SCENARIO,"0");
-	/* Enable Anti Interference Control ON:1 OFF:0 */
-	xSend_MTKCmd(PMTK_SET_AIC_MODE,"0");
-	/* Enable EASY */
-	xSend_MTKCmd(PMTK_EASY_ENABLE,"1,1");
-	/* Set 1 to Fitness(<5m/s) mode */
-	xSend_MTKCmd(PMTK_FR_MODE,"1");
-	/* Enable GPS/QZS/GLONASS/GALILEO */
-	xSend_MTKCmd(PMTK_API_SET_GNSS_SEARCH_MODE,"1,1,1,0,0");
-
-#if defined(MTK_FLASH_SATELLITE)
-	/* Enable GPS/QZS/GLONASS/GALILEO */
-	/* Enable PMTK353 */
-	/* Need Re-Power module */
-	xSend_MTKCmd(PGCMD_SATELLITE_SEARCHMODE,"1,1,0,1,0");
-#endif
-
+		LED_RED_OFF();
+		LED_GRN_OFF();
+	}
+	else{ /* GNSS Nomal Mode */
+		/* Set UART to 9600bps and redirect to stdio */
+		conio_init(GPS_UART_PORT,GPS_UART_BAUD);
+	}
+	
+	
 	/* Mount Fatfs Drive */
 	f_mount(&FatFs[0], "", 0);
 
@@ -384,9 +399,9 @@ startstat:
 			LED_GRN_ON();
 	
 			/* Get GPRMC & GNRMC Valid Flag Column */ 
-			if (!gp_comp(Buff,"$GPRMC") || !gp_comp(Buff,"$GNRMC"))
+			if (!gp_comp(Buff,"$GPRMC") || !gp_comp(Buff,"$GQRMC") || !gp_comp(Buff,"$GNRMC"))
 			{
-				/* Skip this execution When not a GPRMC or GNRMC Sentence */
+				/* Skip this execution When not a GxRMC Sentence */
 				p = gp_col(Buff,GPRMC_COL_VALID);
 				LED_GRN_OFF();
 			}
@@ -425,14 +440,15 @@ startstat:
 		/* Open or Create logfile */
 		if (f_open(&File1, (const char*)Buff, FA_OPEN_ALWAYS | FA_WRITE) ||
 		    f_lseek(&File1, File1.obj.objsize)) {goto errstat;}
+
 		/* Sync Anyway */
 		if (f_sync(&File1)) {goto errstat;}
 
 		/* Logging GPS Data */
 		while ((b = get_line_GPS()) > 0)
 		{
-			/* Get GPGGA & GNGGA Valid Flag Column */ 
-			if (!gp_comp(Buff,"$GPGGA") || !gp_comp(Buff,"$GNGGA"))
+			/* Get GxGGA Valid Flag Column */ 
+			if (!gp_comp(Buff,"$GPGGA") || !gp_comp(Buff,"$GQGGA")|| !gp_comp(Buff,"$GNGGA"))
 			{
 				p = gp_col(Buff,GPGGA_POS_TYPE);
 				if(*p != '0'){ /* 0 is invalid tracking data */
@@ -441,8 +457,8 @@ startstat:
 				}
 			}
 
-			/* Get GPRMC & GNRMC Valid Flag Column */ 
-			else if (!gp_comp(Buff,"$GPRMC") || !gp_comp(Buff,"$GNRMC"))
+			/* Get GxRMC Valid Flag Column */ 
+			else if (!gp_comp(Buff,"$GPRMC") || !gp_comp(Buff,"$GQRMC") || !gp_comp(Buff,"$GNRMC"))
 			{
 				p = gp_col(Buff,GPRMC_COL_VALID);
 				if(*p == 'A'){ /* A is valid tracking data */
@@ -452,13 +468,15 @@ startstat:
 			}
 
 #if defined(ENABLE_SATELLITE_ID_LOGGING)
-			/* Get GPGSV & GLGSV & GAGSV Valid Flag Column */ 
-			else if (!gp_comp(Buff,"$GPGSV") || !gp_comp(Buff,"$GLGSV") || !gp_comp(Buff,"$GAGSV"))
+			/* Get GPGSV & GQGSV & GLGSV & GAGSV & GBGSV Valid Flag Column */
+			/* QZGSV and BDGSV was "old" format,so didn't capture */
+			else if (!gp_comp(Buff,"$GPGSV") || !gp_comp(Buff,"$GQGSV") || !gp_comp(Buff,"$GLGSV") || \
+                     !gp_comp(Buff,"$GAGSV") || !gp_comp(Buff,"$GBGSV"))
 			{
 				char it;
 				p = gp_col(Buff,GPGSV_NUM_VIEW);
 				it = gp_val(p);
-				if(it >= 5){ /* Total sattelites in view */
+				if(it >= GXGSV_NUM_FILT){ /* Total sattelites in view */
 					LED_RED_ON();
 					if (f_write(&File1, Buff, b, &s) || b != s) {goto errstat;}
 				}

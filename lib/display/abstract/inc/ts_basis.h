@@ -2,19 +2,19 @@
 /*!
 	@file			ts_basis.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        19.00
-    @date           2023.03.01
+    @version        20.00
+    @date           2023.06.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.03.01	See ts_ver.txt.
+		2023.06.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TS_BASIS_H
-#define TS_BASIS_H 0x1900
+#define TS_BASIS_H 0x2000
 
 #ifdef __cplusplus
  extern "C" {

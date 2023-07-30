@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2023.05.01
+    @version        11.00
+    @date           2023.06.01
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -18,6 +18,7 @@
 		2016.07.03	V8.00	Added SWAP or Reverse XY exec.
 		2019.10.01	V9.00	Fixed some variable inclusion.
 		2023.05.01	V10.00	Removed unused delay function.
+		2023.06.01	V11.00	Added warning SWAP or Reverse XY exec.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -27,7 +28,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if.h"
 /* check header file version for fool proof */
-#if TOUCH_IF_H != 0x1000
+#if TOUCH_IF_H != 0x1100
 #error "header file version is not correspond!"
 #endif
 
@@ -234,18 +235,18 @@ inline void TC_ScanPen(void)
 			
 			if (tc_last_pen)  /* tc_last_pen:1->1 */
 			{
-				if(hold_cnt_tc > PRESSED_STROKE){
+				if(tc_hold_cnt > PRESSED_STROKE){
 					tc_stat = TC_STAT_HOLD;
 				}
 				else {
 					tc_stat = TC_STAT_NONE;
-					hold_cnt_tc++;
+					tc_hold_cnt++;
 				}
 			}
 			else		   /* tc_last_pen:0->1 */
 			{
 				tc_stat = TC_STAT_DOWN;
-				hold_cnt_tc =0;
+				tc_hold_cnt =0;
 			}
 
 			tc_last_pen = 1;
@@ -543,18 +544,18 @@ inline void TC_ScanPen(void)
 		
 		if (tc_last_pen)  /* tc_last_pen:1->1 */
 		{
-			if(hold_cnt_tc > PRESSED_STROKE){
+			if(tc_hold_cnt > PRESSED_STROKE){
 				tc_stat = TC_STAT_HOLD;
 			}
 			else {
 				tc_stat = TC_STAT_NONE;
-				hold_cnt_tc++;
+				tc_hold_cnt++;
 			}
 		}
 		else		   /* tc_last_pen:0->1 */
 		{
 			tc_stat = TC_STAT_DOWN;
-			hold_cnt_tc =0;
+			tc_hold_cnt =0;
 		}
 
 		tc_last_pen = 1;
@@ -843,6 +844,7 @@ inline void TC_ScanPen(void)
 		/* Check Touch Detect and Single Point */
 		if((pkt_touch.td_status & 0x0F) >0){
 		#if defined(TOUCH_REV_XY)
+		#warning "Swapped touch XY Axis!"
 			pPos->Y_Axis = ((uint16_t)(pkt_touch.xh & 0x0F)<<8 | (uint16_t)pkt_touch.xl);
 			pPos->X_Axis = (MAX_X-((uint16_t)(pkt_touch.yh & 0x0F)<<8 | (uint16_t)pkt_touch.yl));
 		#else
@@ -851,18 +853,18 @@ inline void TC_ScanPen(void)
 		#endif
 			if (tc_last_pen)  /* tc_last_pen:1->1 */
 			{
-				if(hold_cnt_tc > PRESSED_STROKE){
+				if(tc_hold_cnt > PRESSED_STROKE){
 					tc_stat = TC_STAT_HOLD;
 				}
 				else {
 					tc_stat = TC_STAT_NONE;
-					hold_cnt_tc++;
+					tc_hold_cnt++;
 				}
 			}
 			else		   /* tc_last_pen:0->1 */
 			{
 				tc_stat = TC_STAT_DOWN;
-				hold_cnt_tc =0;
+				tc_hold_cnt =0;
 			}
 
 			tc_last_pen = 1;

@@ -540,4 +540,4 @@ extern SD_CardInfo SDCardInfo;
 }
 #endif
 
-#endif /* __SDIO_STM32F1_H */
+#endif /* SDIO_STM32F1_H */
