@@ -5,7 +5,7 @@ Logging GNSS NMEA Datas using STM32 Primer2 hardware!
 
 Functions
 ------
-- General
+- General  
 -- 4-direction and center key inputs.  
 -- Battery management with low voltage auto shutdown.  
 -- Push key to select below three functions.  
@@ -26,7 +26,7 @@ Functions
 - USB CDC Virtual Comport  
 -- Using doublebuffered endpoints(Bulk IN only).  
 -- Improved UART Rx performance and stability.  
--- It can send/receive datas to many GPS/GNSS Modules NMEA-0183 Sentences.
+-- It can send/receive datas to many GPS/GNSS Modules NMEA-0183 Sentences.  
 -- Supports 4800~115200Bps,8bit,noparity,1stopbit.  
 
 Build
@@ -47,3 +47,4 @@ see /doc/Whatnew.txt
 License
 -------
 see /doc/Copyright.txt
+
