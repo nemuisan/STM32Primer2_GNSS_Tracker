@@ -2,8 +2,8 @@
 /*!
 	@file			font_if_datatable.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2023.05.01
+    @version        10.00
+    @date           2023.09.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -19,6 +19,7 @@
 		2015.09.01	V7.00	Optimized KANJI Constructors for Specific MPU.
 		2019.02.01	V8.00	Fixed some compiler warnings.
 		2023.05.01	V9.00	Fixed cosmetic bugfix.
+		2023.09.01 V10.00	Added Konatsu-Fonts.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -28,7 +29,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "font_if_datatable.h"
 /* check header file version for fool proof */
-#if FONT_IF_DATATABLE_H != 0x0900
+#if FONT_IF_DATATABLE_H != 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -100,6 +101,15 @@ FontX_Ank   Misaki_Ank;
  IMPORT_BIN(".rodata", "mplusfx2/MPLHN10X.FNT",  font_table_ank);
  FontX_Ank   Mplus_Ank;
 
+#elif defined(FONT10x10T)
+ #warning "USE KONATSU FONTS(10x10)"
+ #ifdef USE_KANJIFONT
+	IMPORT_BIN(".rodata", "KONATSU/KONATZN10.FNT", font_table_kanji);
+	FontX_Kanji Konatsu_Kanji ATTR_KANJI_RAM;
+ #endif
+ IMPORT_BIN(".rodata", "KONATSU/KONATHN10.FNT",  font_table_ank);
+ FontX_Ank   Konatsu_Ank;
+
 #elif defined(FONT12x10)
 #warning "USE K12x10 FONTS(12x10)"
  #ifdef USE_KANJIFONT
@@ -162,6 +172,15 @@ FontX_Ank   Misaki_Ank;
  #endif
  IMPORT_BIN(".rodata", "wlma2fnt/Wlma212a.fnt",  font_table_ank);
  FontX_Ank   Wlma_Ank;
+
+#elif defined(FONT12x12T)
+ #warning "USE KONATSU FONTS(12x12)"
+ #ifdef USE_KANJIFONT
+	IMPORT_BIN(".rodata", "KONATSU/KONATZN12.FNT", font_table_kanji);
+	FontX_Kanji Konatsu_Kanji ATTR_KANJI_RAM;
+ #endif
+ IMPORT_BIN(".rodata", "KONATSU/KONATHN12.FNT",  font_table_ank);
+ FontX_Ank   Konatsu_Ank;
 
 #elif defined(FONT14x14)
 #warning "USE SHINONOME GOTHIC FONTS(14x14)"
@@ -244,14 +263,14 @@ FontX_Ank   Tanu_Ank;
  IMPORT_BIN(".rodata", "hanazono/HNZNHN16.fnt",  font_table_ank);
  FontX_Ank   Hanazono_Ank;
 
-#elif defined(FONT16x16I)
-#warning "USE IL FONTS(16x16)"
+#elif defined(FONT16x16T)
+#warning "USE KONATSU FONTS(16x16)"
  #ifdef USE_KANJIFONT
-	IMPORT_BIN(".rodata", "ILFONT/ILGZ16XF.FNT", font_table_kanji);
-	FontX_Kanji IL_Kanji ATTR_KANJI_RAM;
+	IMPORT_BIN(".rodata", "KONATSU/KONATZN16.FNT", font_table_kanji);
+	FontX_Kanji Konatsu_Kanji ATTR_KANJI_RAM;
  #endif
- IMPORT_BIN(".rodata", "ILFONT/ILGH16XB.FNT",  font_table_ank);
- FontX_Ank   IL_Ank;
+ IMPORT_BIN(".rodata", "KONATSU/KONATHN16.FNT",  font_table_ank);
+ FontX_Ank   Konatsu_Ank;
 
 #elif defined(FONT20x20)
 #warning "USE TANUKI MAGIC FONTS(20x20)"

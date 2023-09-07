@@ -2,8 +2,8 @@
 /*!
 	@file			font_if_datatable.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2023.05.01
+    @version        10.00
+    @date           2023.09.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -19,13 +19,14 @@
 		2015.09.01	V7.00	Optimized KANJI Constructors for Specific MPU.
 		2019.02.01	V8.00	Fixed some compiler warnings.
 		2023.05.01	V9.00	Fixed cosmetic bugfix.
+		2023.09.01 V10.00	Added Konatsu-Fonts.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FONT_IF_DATATABLE_H 
-#define FONT_IF_DATATABLE_H 0x0900
+#define FONT_IF_DATATABLE_H 0x1000
 
 #ifdef __cplusplus
  extern "C" {
@@ -46,7 +47,13 @@
  extern FontX_Kanji Mplus_Kanji;
  #define ANKFONT	Mplus_Ank
  #define KANJIFONT	Mplus_Kanji
- 
+
+#elif  FONT10x10T
+ extern FontX_Ank 	Konatsu_Ank;
+ extern FontX_Kanji Konatsu_Kanji;
+ #define ANKFONT	Konatsu_Ank
+ #define KANJIFONT	Konatsu_Kanji
+
 #elif  FONT12x10
  extern FontX_Ank 	K12x10_Ank;
  extern FontX_Kanji K12x10_Kanji;
@@ -88,6 +95,12 @@
  extern FontX_Kanji Wlma_Kanji;
  #define ANKFONT	Wlma_Ank
  #define KANJIFONT	Wlma_Kanji
+ 
+#elif  FONT12x12T
+ extern FontX_Ank 	Konatsu_Ank;
+ extern FontX_Kanji Konatsu_Kanji;
+ #define ANKFONT	Konatsu_Ank
+ #define KANJIFONT	Konatsu_Kanji
  
 #elif  FONT14x14
  extern FontX_Ank 	Shinonome_Ank;
@@ -148,6 +161,12 @@
  extern FontX_Kanji IL_Kanji;
  #define ANKFONT	IL_Ank
  #define KANJIFONT	IL_Kanji
+
+#elif  FONT16x16T
+ extern FontX_Ank 	Konatsu_Ank;
+ extern FontX_Kanji Konatsu_Kanji;
+ #define ANKFONT	Konatsu_Ank
+ #define KANJIFONT	Konatsu_Kanji
 
 #elif  FONT20x20
  extern FontX_Ank 	Tanu_Ank;

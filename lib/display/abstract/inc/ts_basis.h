@@ -2,19 +2,19 @@
 /*!
 	@file			ts_basis.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        20.00
-    @date           2023.06.01
+    @version        21.00
+    @date           2023.09.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.06.01	See ts_ver.txt.
+		2023.09.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TS_BASIS_H
-#define TS_BASIS_H 0x2000
+#define TS_BASIS_H 0x2100
 
 #ifdef __cplusplus
  extern "C" {
@@ -40,8 +40,8 @@
  #define TS_FONTW	4
  #define TS_FONTH	8
 
-#elif defined(FONT10x10)
- /* Use M+ Fonts(10pt) */
+#elif defined(FONT10x10) || defined(FONT10x10T)
+ /* Use M+ Fonts(10pt) or  Konatsu Fonts(10pt) */
  #define TS_FONTW	5
  #define TS_FONTH	10
 
@@ -51,9 +51,9 @@
  #define TS_FONTH	10
 
 #elif defined(FONT12x12)  || defined(FONT12x12D) || defined(FONT12x12K) || defined(FONT12x12W) || \
-      defined(FONT12x12M) || defined(FONT12x12L)
+      defined(FONT12x12M) || defined(FONT12x12L) || defined(FONT12x12T)
  /* Use M+ Fonts(12pt) or Kanamechou Fonts (12pt) or Wada Laboratry Hosomaru Fonts(12pt)
-     or MAYAKU Fonts(12pt) or Dohgenzaka Fonts(12pt) or  Kodenmacho Fonts(12pt) */
+     or MAYAKU Fonts(12pt) or Dohgenzaka Fonts(12pt) or  Kodenmacho Fonts(12pt) or Konatsu Fonts(12pt) */
  #define TS_FONTW	6
  #define TS_FONTH	12
 
@@ -63,10 +63,10 @@
  #define TS_FONTH	14
 
 #elif defined(FONT16x16)  || defined(FONT16x16K) || defined(FONT16x16L) || defined(FONT16x16W) || \
-      defined(FONT16x16F) || defined(FONT16x16H) || defined(FONT16x16I)
+      defined(FONT16x16F) || defined(FONT16x16H) || defined(FONT16x16I) || defined(FONT16x16T)
  /* Use Tanuki Fonts(16pt) or Kyoukashotai Fonts(16pt) or Kodenma-cho Fonts(16pt)
      or Wada Laboratry Hosomaru Fonts(16pt) or Honoka-Maru Gothic Fonts(16pt)
-     or Hanazono Fonts(16pt) or IL Gothic Fonts(16pt) */
+     or Hanazono Fonts(16pt) or IL Gothic Fonts(16pt) or Konatsu Fonts(16pt) */
  #define TS_FONTW	8
  #define TS_FONTH	16
 

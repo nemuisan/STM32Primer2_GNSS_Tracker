@@ -44,7 +44,7 @@ Those sourcecode are included in this project.
 --- LIBRARIES ---
 * ARM Ltd. CMSIS Standard.
   ARM CMSIS is licensed under Apache-2.0.
-  See ./lib/CMSIS/LICENSE.txt.
+  See ./lib/CMSIS/LICENSE.
 
 * STMicroelectronics CMSIS Libraries
   STM32F10x standard peripheral library

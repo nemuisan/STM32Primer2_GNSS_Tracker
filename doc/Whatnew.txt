@@ -1,3 +1,11 @@
+2023.08.28 :
+V103.00	Adopted FatFs0.15 latest patch update(patch3).
+		Adopted latest FONTX2 Drivers.
+		Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_6/commit/f09017100a0eca8ccd5769c794d2de77f511c823
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 12.3.Rel1 (Build arm-12.35)) 12.3.1 20230626
+
 2023.07.27 :
 V102.00	Added u-blox SAM-M10Q GNSS Module Support(gnss_support.c,h & hw_cofig.c,h).
 		Added MTK-Command mode at logging.(gnss_support.c,h).

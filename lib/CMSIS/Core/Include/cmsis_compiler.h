@@ -1,8 +1,8 @@
 /**************************************************************************//**
  * @file     cmsis_compiler.h
  * @brief    CMSIS compiler generic header file
- * @version  V5.3.0
- * @date     04. April 2023
+ * @version  V6.0.0
+ * @date     27. July 2023
  ******************************************************************************/
 /*
  * Copyright (c) 2009-2023 Arm Limited. All rights reserved.
@@ -28,42 +28,77 @@
 #include <stdint.h>
 
 /*
- * Arm Compiler 4/5
- */
-#if   defined ( __CC_ARM )
-  #include "cmsis_armcc.h"
-
-
-/*
- * Arm Compiler 6.6 LTM (armclang)
- */
-#elif defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050) && (__ARMCC_VERSION < 6100100)
-  #include "cmsis_armclang_ltm.h"
-
-  /*
  * Arm Compiler above 6.10.1 (armclang)
  */
-#elif defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6100100)
-  #include "cmsis_armclang.h"
+#if defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6100100)
+  #if __ARM_ARCH_PROFILE == 'A'
+    #include "./a-profile/cmsis_armclang_a.h"
+  #elif __ARM_ARCH_PROFILE == 'R'
+    #include "./r-profile/cmsis_armclang_r.h"
+  #elif __ARM_ARCH_PROFILE == 'M'
+    #include "./m-profile/cmsis_armclang_m.h"
+  #else
+    #error "Unknown Arm architecture profile"
+  #endif
 
 /*
  * TI Arm Clang Compiler (tiarmclang)
  */
 #elif defined (__ti__)
-  #include "cmsis_tiarmclang.h"
+  #if __ARM_ARCH_PROFILE == 'A'
+    #error "Core-A is not supported for this compiler"
+  #elif __ARM_ARCH_PROFILE == 'R'
+    #error "Core-R is not supported for this compiler"
+  #elif __ARM_ARCH_PROFILE == 'M'
+    #include "m-profile/cmsis_tiarmclang_m.h"
+  #else
+    #error "Unknown Arm architecture profile"
+  #endif
+
+
+/*
+ * LLVM/Clang Compiler
+ */
+#elif defined ( __clang__ )
+  #if __ARM_ARCH_PROFILE == 'A'
+    #include "a-profile/cmsis_clang_a.h"
+  #elif __ARM_ARCH_PROFILE == 'R'
+    #include "r-profile/cmsis_clang_r.h"
+  #elif __ARM_ARCH_PROFILE == 'M'
+    #include "m-profile/cmsis_clang_m.h"
+  #else
+    #error "Unknown Arm architecture profile"
+  #endif
+
 
 /*
  * GNU Compiler
  */
 #elif defined ( __GNUC__ )
-  #include "cmsis_gcc.h"
+  #if __ARM_ARCH_PROFILE == 'A'
+    #include "a-profile/cmsis_gcc_a.h"
+  #elif __ARM_ARCH_PROFILE == 'R'
+    #include "r-profile/cmsis_gcc_r.h"
+  #elif __ARM_ARCH_PROFILE == 'M'
+    #include "m-profile/cmsis_gcc_m.h"
+  #else
+    #error "Unknown Arm architecture profile"
+  #endif
 
 
 /*
  * IAR Compiler
  */
 #elif defined ( __ICCARM__ )
-  #include <cmsis_iccarm.h>
+  #if __ARM_ARCH_PROFILE == 'A'
+    #include "a-profile/cmsis_iccarm_a.h"
+  #elif __ARM_ARCH_PROFILE == 'R'
+    #include "r-profile/cmsis_iccarm_r.h"
+  #elif __ARM_ARCH_PROFILE == 'M'
+    #include "m-profile/cmsis_iccarm_m.h"
+  #else
+    #error "Unknown Arm architecture profile"
+  #endif
 
 
 /*
@@ -200,7 +235,7 @@
     #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(addr))->v)
   #endif
   #ifndef   __ALIGNED
-    #define __ALIGNED(x)              __align(x)
+    #define __ALIGNED(x)                           __align(x)
   #endif
   #ifndef   __RESTRICT
     #warning No compiler specific solution for __RESTRICT. __RESTRICT is ignored.

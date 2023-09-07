@@ -1951,7 +1951,7 @@ __STATIC_INLINE void NVIC_DecodePriority (uint32_t Priority, uint32_t PriorityGr
  */
 __STATIC_INLINE void __NVIC_SetVector(IRQn_Type IRQn, uint32_t vector)
 {
-  uint32_t *vectors = (uint32_t *)SCB->VTOR;
+  uint32_t *vectors = (uint32_t *) ((uintptr_t) SCB->VTOR);
   vectors[(int32_t)IRQn + NVIC_USER_IRQ_OFFSET] = vector;
   /* ARM Application Note 321 states that the M4 does not require the architectural barrier */
 }
@@ -1967,7 +1967,7 @@ __STATIC_INLINE void __NVIC_SetVector(IRQn_Type IRQn, uint32_t vector)
  */
 __STATIC_INLINE uint32_t __NVIC_GetVector(IRQn_Type IRQn)
 {
-  uint32_t *vectors = (uint32_t *)SCB->VTOR;
+  uint32_t *vectors = (uint32_t *) ((uintptr_t) SCB->VTOR);
   return vectors[(int32_t)IRQn + NVIC_USER_IRQ_OFFSET];
 }
 
@@ -1998,7 +1998,7 @@ __NO_RETURN __STATIC_INLINE void __NVIC_SystemReset(void)
 
 #if defined (__MPU_PRESENT) && (__MPU_PRESENT == 1U)
 
-#include "mpu_armv7.h"
+#include "m-profile/armv7m_mpu.h"
 
 #endif
 

@@ -1,7 +1,8 @@
 ********************* ts_basis.x update history ********************
 
+	2023.09.01 V21.00	Added Konatsu-Font handlings.
+
 	2023.06.01 V20.00	Fixed wrong macro expressions.
-	
 	2023.03.01 V19.00	Renamed from ts.x
 	2019.11.01 V18.00	Fixed wrong X limit setting for filer.
 	2019.10.01 V17.00	Fixed wrong TS_WIDTH setting.

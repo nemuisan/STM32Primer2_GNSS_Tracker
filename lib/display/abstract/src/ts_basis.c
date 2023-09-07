@@ -2,12 +2,12 @@
 /*!
 	@file			ts_basis.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        20.00
-    @date           2023.06.01
+    @version        21.00
+    @date           2023.09.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.06.01	See ts_ver.txt.
+		2023.09.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_basis.h"
 /* check header file version for fool proof */
-#if TS_BASIS_H != 0x2000
+#if TS_BASIS_H != 0x2100
 #error "header file version is not correspond!"
 #endif
 

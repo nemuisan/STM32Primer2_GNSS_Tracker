@@ -4063,7 +4063,7 @@ __STATIC_INLINE void NVIC_DecodePriority (uint32_t Priority, uint32_t PriorityGr
  */
 __STATIC_INLINE void __NVIC_SetVector(IRQn_Type IRQn, uint32_t vector)
 {
-  uint32_t *vectors = (uint32_t *)SCB->VTOR;
+  uint32_t *vectors = (uint32_t *) ((uintptr_t) SCB->VTOR);
   vectors[(int32_t)IRQn + NVIC_USER_IRQ_OFFSET] = vector;
   __DSB();
 }
@@ -4079,7 +4079,7 @@ __STATIC_INLINE void __NVIC_SetVector(IRQn_Type IRQn, uint32_t vector)
  */
 __STATIC_INLINE uint32_t __NVIC_GetVector(IRQn_Type IRQn)
 {
-  uint32_t *vectors = (uint32_t *)SCB->VTOR;
+  uint32_t *vectors = (uint32_t *) ((uintptr_t) SCB->VTOR);
   return vectors[(int32_t)IRQn + NVIC_USER_IRQ_OFFSET];
 }
 
@@ -4311,7 +4311,7 @@ __STATIC_INLINE uint32_t TZ_NVIC_GetPriority_NS(IRQn_Type IRQn)
 
 #if defined (__MPU_PRESENT) && (__MPU_PRESENT == 1U)
 
-#include "mpu_armv8.h"
+  #include "m-profile/armv8m_mpu.h"
 
 #endif
 
@@ -4319,11 +4319,11 @@ __STATIC_INLINE uint32_t TZ_NVIC_GetPriority_NS(IRQn_Type IRQn)
 
 #if defined (__PMU_PRESENT) && (__PMU_PRESENT == 1U)
 
-#include "pmu_armv8.h"
+#include "m-profile/armv8m_pmu.h"
 
 /**
   \brief   Cortex-M85 PMU events
-  \note    Architectural PMU events can be found in pmu_armv8.h
+  \note    Architectural PMU events can be found in armv8m_pmu.h
 */
 
 #define ARMCM85_PMU_ECC_ERR                          0xC000             /*!< One or more Error Correcting Code (ECC) errors detected */
@@ -4465,7 +4465,7 @@ __STATIC_INLINE uint32_t SCB_GetMVEType(void)
 
 #if ((defined (__ICACHE_PRESENT) && (__ICACHE_PRESENT == 1U)) || \
      (defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)))
-#include "cachel1_armv7.h"
+  #include "m-profile/armv7m_cachel1.h"
 #endif
 
 
@@ -4508,7 +4508,7 @@ __STATIC_INLINE void TZ_SAU_Disable(void)
 /* ###################  PAC Key functions  ########################### */
 
 #if (defined (__ARM_FEATURE_PAUTH) && (__ARM_FEATURE_PAUTH == 1))
-#include "pac_armv81.h"
+#include "m-profile/armv81m_pac.h"
 #endif
 
 
