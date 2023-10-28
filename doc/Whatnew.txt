@@ -1,3 +1,7 @@
+2023.10.29 :
+V105.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_6/commit/f469926b3021be6ce0b3bd1b19995340d729ec09
+
 2023.10.27 :
 V104.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_6/commit/fc28c8db0a23c663d8d8bd86a1d4b4030db86eac
