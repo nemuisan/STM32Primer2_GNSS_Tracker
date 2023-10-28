@@ -1,11 +1,11 @@
 /**************************************************************************//**
  * @file     cmsis_armclang_a.h
  * @brief    CMSIS compiler armclang (Arm Compiler 6) header file
- * @version  V1.2.2
- * @date     13. November 2022
+ * @version  V1.2.3
+ * @date     11. October 2023
  ******************************************************************************/
 /*
- * Copyright (c) 2009-2021 Arm Limited. All rights reserved.
+ * Copyright (c) 2009-2023 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -327,27 +327,150 @@ __STATIC_FORCEINLINE uint8_t __CLZ(uint32_t value)
  */
 #define __USAT             __builtin_arm_usat
 
+/**
+  \brief   Rotate Right with Extend (32 bit)
+  \details Moves each bit of a bitstring right by one bit.
+           The carry input is shifted in at the left end of the bitstring.
+  \param [in]    value  Value to rotate
+  \return               Rotated value
+ */
+__STATIC_FORCEINLINE uint32_t __RRX(uint32_t value)
+{
+  uint32_t result;
+
+  __ASM volatile ("rrx %0, %1" : "=r" (result) : "r" (value));
+  return (result);
+}
+
+
+/**
+  \brief   LDRT Unprivileged (8 bit)
+  \details Executes a Unprivileged LDRT instruction for 8 bit value.
+  \param [in]    ptr  Pointer to data
+  \return             value of type uint8_t at (*ptr)
+ */
+__STATIC_FORCEINLINE uint8_t __LDRBT(volatile uint8_t *ptr)
+{
+  uint32_t result;
+
+  __ASM volatile ("ldrbt %0, %1" : "=r" (result) : "Q" (*ptr) );
+  return ((uint8_t)result);    /* Add explicit type cast here */
+}
+
+
+/**
+  \brief   LDRT Unprivileged (16 bit)
+  \details Executes a Unprivileged LDRT instruction for 16 bit values.
+  \param [in]    ptr  Pointer to data
+  \return        value of type uint16_t at (*ptr)
+ */
+__STATIC_FORCEINLINE uint16_t __LDRHT(volatile uint16_t *ptr)
+{
+  uint32_t result;
+
+  __ASM volatile ("ldrht %0, %1" : "=r" (result) : "Q" (*ptr) );
+  return ((uint16_t)result);    /* Add explicit type cast here */
+}
+
+
+/**
+  \brief   LDRT Unprivileged (32 bit)
+  \details Executes a Unprivileged LDRT instruction for 32 bit values.
+  \param [in]    ptr  Pointer to data
+  \return        value of type uint32_t at (*ptr)
+ */
+__STATIC_FORCEINLINE uint32_t __LDRT(volatile uint32_t *ptr)
+{
+  uint32_t result;
+
+  __ASM volatile ("ldrt %0, %1" : "=r" (result) : "Q" (*ptr) );
+  return (result);
+}
+
+
+/**
+  \brief   STRT Unprivileged (8 bit)
+  \details Executes a Unprivileged STRT instruction for 8 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__STATIC_FORCEINLINE void __STRBT(uint8_t value, volatile uint8_t *ptr)
+{
+  __ASM volatile ("strbt %1, %0, #0" : "=Q" (*ptr) : "r" ((uint32_t)value) );
+}
+
+
+/**
+  \brief   STRT Unprivileged (16 bit)
+  \details Executes a Unprivileged STRT instruction for 16 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__STATIC_FORCEINLINE void __STRHT(uint16_t value, volatile uint16_t *ptr)
+{
+  __ASM volatile ("strht %1, %0, #0" : "=Q" (*ptr) : "r" ((uint32_t)value) );
+}
+
+
+/**
+  \brief   STRT Unprivileged (32 bit)
+  \details Executes a Unprivileged STRT instruction for 32 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__STATIC_FORCEINLINE void __STRT(uint32_t value, volatile uint32_t *ptr)
+{
+  __ASM volatile ("strt %1, %0, #0" : "=Q" (*ptr) : "r" (value) );
+}
+
 /* ###################  Compiler specific Intrinsics  ########################### */
-/** \defgroup CMSIS_SIMD_intrinsics CMSIS SIMD Intrinsics
-  Access to dedicated SIMD instructions
-  @{
-*/
 
 #if (defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 
 #define     __SADD8                 __builtin_arm_sadd8
-#define     __SADD16                __builtin_arm_sadd16
 #define     __QADD8                 __builtin_arm_qadd8
+#define     __SHADD8                __builtin_arm_shadd8
+#define     __UADD8                 __builtin_arm_uadd8
+#define     __UQADD8                __builtin_arm_uqadd8
+#define     __UHADD8                __builtin_arm_uhadd8
+#define     __SSUB8                 __builtin_arm_ssub8
 #define     __QSUB8                 __builtin_arm_qsub8
+#define     __SHSUB8                __builtin_arm_shsub8
+#define     __USUB8                 __builtin_arm_usub8
+#define     __UQSUB8                __builtin_arm_uqsub8
+#define     __UHSUB8                __builtin_arm_uhsub8
+#define     __SADD16                __builtin_arm_sadd16
 #define     __QADD16                __builtin_arm_qadd16
 #define     __SHADD16               __builtin_arm_shadd16
+#define     __UADD16                __builtin_arm_uadd16
+#define     __UQADD16               __builtin_arm_uqadd16
+#define     __UHADD16               __builtin_arm_uhadd16
+#define     __SSUB16                __builtin_arm_ssub16
 #define     __QSUB16                __builtin_arm_qsub16
 #define     __SHSUB16               __builtin_arm_shsub16
+#define     __USUB16                __builtin_arm_usub16
+#define     __UQSUB16               __builtin_arm_uqsub16
+#define     __UHSUB16               __builtin_arm_uhsub16
+#define     __SASX                  __builtin_arm_sasx
 #define     __QASX                  __builtin_arm_qasx
 #define     __SHASX                 __builtin_arm_shasx
+#define     __UASX                  __builtin_arm_uasx
+#define     __UQASX                 __builtin_arm_uqasx
+#define     __UHASX                 __builtin_arm_uhasx
+#define     __SSAX                  __builtin_arm_ssax
 #define     __QSAX                  __builtin_arm_qsax
 #define     __SHSAX                 __builtin_arm_shsax
+#define     __USAX                  __builtin_arm_usax
+#define     __UQSAX                 __builtin_arm_uqsax
+#define     __UHSAX                 __builtin_arm_uhsax
+#define     __USAD8                 __builtin_arm_usad8
+#define     __USADA8                __builtin_arm_usada8
+#define     __SSAT16                __builtin_arm_ssat16
+#define     __USAT16                __builtin_arm_usat16
+#define     __UXTB16                __builtin_arm_uxtb16
+#define     __UXTAB16               __builtin_arm_uxtab16
 #define     __SXTB16                __builtin_arm_sxtb16
+#define     __SXTAB16               __builtin_arm_sxtab16
 #define     __SMUAD                 __builtin_arm_smuad
 #define     __SMUADX                __builtin_arm_smuadx
 #define     __SMLAD                 __builtin_arm_smlad
@@ -356,34 +479,23 @@ __STATIC_FORCEINLINE uint8_t __CLZ(uint32_t value)
 #define     __SMLALDX               __builtin_arm_smlaldx
 #define     __SMUSD                 __builtin_arm_smusd
 #define     __SMUSDX                __builtin_arm_smusdx
+#define     __SMLSD                 __builtin_arm_smlsd
 #define     __SMLSDX                __builtin_arm_smlsdx
-#define     __USAT16                __builtin_arm_usat16
-#define     __SSUB8                 __builtin_arm_ssub8
-#define     __SXTB16                __builtin_arm_sxtb16
-#define     __SXTAB16               __builtin_arm_sxtab16
-
-
-__STATIC_FORCEINLINE  int32_t __QADD( int32_t op1,  int32_t op2)
-{
-  int32_t result;
-
-  __ASM volatile ("qadd %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE  int32_t __QSUB( int32_t op1,  int32_t op2)
-{
-  int32_t result;
-
-  __ASM volatile ("qsub %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
+#define     __SMLSLD                __builtin_arm_smlsld
+#define     __SMLSLDX               __builtin_arm_smlsldx
+#define     __SEL                   __builtin_arm_sel
+#define     __QADD                  __builtin_arm_qadd
+#define     __QSUB                  __builtin_arm_qsub
 
 #define __PKHBT(ARG1,ARG2,ARG3)          ( ((((uint32_t)(ARG1))          ) & 0x0000FFFFUL) |  \
                                            ((((uint32_t)(ARG2)) << (ARG3)) & 0xFFFF0000UL)  )
 
 #define __PKHTB(ARG1,ARG2,ARG3)          ( ((((uint32_t)(ARG1))          ) & 0xFFFF0000UL) |  \
                                            ((((uint32_t)(ARG2)) >> (ARG3)) & 0x0000FFFFUL)  )
+
+#define __SXTB16_RORn(ARG1, ARG2)        __SXTB16(__ROR(ARG1, ARG2))
+
+#define __SXTAB16_RORn(ARG1, ARG2, ARG3) __SXTAB16(ARG1, __ROR(ARG2, ARG3))
 
 __STATIC_FORCEINLINE int32_t __SMMLA (int32_t op1, int32_t op2, int32_t op3)
 {
@@ -438,19 +550,36 @@ __STATIC_FORCEINLINE void __disable_fault_irq(void)
   __ASM volatile ("cpsid f" : : : "memory");
 }
 
+
 /**
   \brief   Get FPSCR
   \details Returns the current value of the Floating Point Status/Control register.
   \return               Floating Point Status/Control register value
  */
-#define __get_FPSCR      __builtin_arm_get_fpscr
+__STATIC_FORCEINLINE  uint32_t __get_FPSCR(void)
+{
+  #if (__ARM_FP >= 1)
+    return __builtin_arm_get_fpscr();
+  #else
+    return(0U);
+  #endif
+}
+
 
 /**
   \brief   Set FPSCR
   \details Assigns the given value to the Floating Point Status/Control register.
   \param [in]    fpscr  Floating Point Status/Control value to set
  */
-#define __set_FPSCR      __builtin_arm_set_fpscr
+__STATIC_FORCEINLINE void __set_FPSCR(uint32_t fpscr)
+{
+  #if (__ARM_FP >= 1)
+    __builtin_arm_set_fpscr(fpscr);
+  #else
+    (void)fpscr;
+  #endif
+}
+
 
 /** \brief  Get CPSR Register
     \return               CPSR Register value

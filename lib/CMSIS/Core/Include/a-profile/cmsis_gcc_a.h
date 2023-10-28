@@ -1,11 +1,11 @@
 /**************************************************************************//**
  * @file     cmsis_gcc_a.h
  * @brief    CMSIS compiler GCC header file
- * @version  V1.3.3
- * @date     13. November 2022
+ * @version  V1.3.4
+ * @date     11. October 2023
  ******************************************************************************/
 /*
- * Copyright (c) 2009-2022 Arm Limited. All rights reserved.
+ * Copyright (c) 2009-2023 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -444,6 +444,102 @@ __extension__ \
   __RES; \
  })
 
+/**
+  \brief   Rotate Right with Extend (32 bit)
+  \details Moves each bit of a bitstring right by one bit.
+           The carry input is shifted in at the left end of the bitstring.
+  \param [in]    value  Value to rotate
+  \return               Rotated value
+ */
+__STATIC_FORCEINLINE uint32_t __RRX(uint32_t value)
+{
+  uint32_t result;
+
+  __ASM volatile ("rrx %0, %1" : "=r" (result) : "r" (value));
+  return (result);
+}
+
+
+/**
+  \brief   LDRT Unprivileged (8 bit)
+  \details Executes a Unprivileged LDRT instruction for 8 bit value.
+  \param [in]    ptr  Pointer to data
+  \return             value of type uint8_t at (*ptr)
+ */
+__STATIC_FORCEINLINE uint8_t __LDRBT(volatile uint8_t *ptr)
+{
+  uint32_t result;
+
+  __ASM volatile ("ldrbt %0, %1" : "=r" (result) : "Q" (*ptr) );
+  return ((uint8_t)result);    /* Add explicit type cast here */
+}
+
+
+/**
+  \brief   LDRT Unprivileged (16 bit)
+  \details Executes a Unprivileged LDRT instruction for 16 bit values.
+  \param [in]    ptr  Pointer to data
+  \return        value of type uint16_t at (*ptr)
+ */
+__STATIC_FORCEINLINE uint16_t __LDRHT(volatile uint16_t *ptr)
+{
+  uint32_t result;
+
+  __ASM volatile ("ldrht %0, %1" : "=r" (result) : "Q" (*ptr) );
+  return ((uint16_t)result);    /* Add explicit type cast here */
+}
+
+
+/**
+  \brief   LDRT Unprivileged (32 bit)
+  \details Executes a Unprivileged LDRT instruction for 32 bit values.
+  \param [in]    ptr  Pointer to data
+  \return        value of type uint32_t at (*ptr)
+ */
+__STATIC_FORCEINLINE uint32_t __LDRT(volatile uint32_t *ptr)
+{
+  uint32_t result;
+
+  __ASM volatile ("ldrt %0, %1" : "=r" (result) : "Q" (*ptr) );
+  return (result);
+}
+
+
+/**
+  \brief   STRT Unprivileged (8 bit)
+  \details Executes a Unprivileged STRT instruction for 8 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__STATIC_FORCEINLINE void __STRBT(uint8_t value, volatile uint8_t *ptr)
+{
+  __ASM volatile ("strbt %1, %0" : "=Q" (*ptr) : "r" ((uint32_t)value) );
+}
+
+
+/**
+  \brief   STRT Unprivileged (16 bit)
+  \details Executes a Unprivileged STRT instruction for 16 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__STATIC_FORCEINLINE void __STRHT(uint16_t value, volatile uint16_t *ptr)
+{
+  __ASM volatile ("strht %1, %0" : "=Q" (*ptr) : "r" ((uint32_t)value) );
+}
+
+
+/**
+  \brief   STRT Unprivileged (32 bit)
+  \details Executes a Unprivileged STRT instruction for 32 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__STATIC_FORCEINLINE void __STRT(uint32_t value, volatile uint32_t *ptr)
+{
+  __ASM volatile ("strt %1, %0" : "=Q" (*ptr) : "r" (value) );
+}
+
 /* ###########################  Core Function Access  ########################### */
 /** \ingroup  CMSIS_Core_FunctionInterface
     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
@@ -499,19 +595,8 @@ __STATIC_FORCEINLINE void __disable_fault_irq(void)
  */
 __STATIC_FORCEINLINE  uint32_t __get_FPSCR(void)
 {
-  #if ((defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)) && \
-       (defined (__FPU_USED   ) && (__FPU_USED    == 1U))     )
-  #if __has_builtin(__builtin_arm_get_fpscr) 
-  // Re-enable using built-in when GCC has been fixed
-  // || (__GNUC__ > 7) || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2)
-    /* see https://gcc.gnu.org/ml/gcc-patches/2017-04/msg00443.html */
+  #if (__ARM_FP >= 1)
     return __builtin_arm_get_fpscr();
-  #else
-    uint32_t result;
-
-    __ASM volatile ("VMRS %0, fpscr" : "=r" (result) );
-    return(result);
-  #endif
   #else
     return(0U);
   #endif
@@ -525,16 +610,8 @@ __STATIC_FORCEINLINE  uint32_t __get_FPSCR(void)
  */
 __STATIC_FORCEINLINE void __set_FPSCR(uint32_t fpscr)
 {
-  #if ((defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)) && \
-       (defined (__FPU_USED   ) && (__FPU_USED    == 1U))     )
-  #if __has_builtin(__builtin_arm_set_fpscr)
-  // Re-enable using built-in when GCC has been fixed
-  // || (__GNUC__ > 7) || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2)
-    /* see https://gcc.gnu.org/ml/gcc-patches/2017-04/msg00443.html */
+  #if (__ARM_FP >= 1)
     __builtin_arm_set_fpscr(fpscr);
-  #else
-    __ASM volatile ("VMSR fpscr, %0" : : "r" (fpscr) : "vfpcc", "memory");
-  #endif
   #else
     (void)fpscr;
   #endif
@@ -545,227 +622,125 @@ __STATIC_FORCEINLINE void __set_FPSCR(uint32_t fpscr)
 
 
 /* ###################  Compiler specific Intrinsics  ########################### */
-/** \defgroup CMSIS_SIMD_intrinsics CMSIS SIMD Intrinsics
-  Access to dedicated SIMD instructions
-  @{
-*/
 
-__STATIC_FORCEINLINE uint32_t __QADD8(uint32_t op1, uint32_t op2)
+#if (__ARM_FEATURE_DSP == 1)
+#define     __SADD8                 __builtin_arm_sadd8
+#define     __QADD8                 __builtin_arm_qadd8
+#define     __SHADD8                __builtin_arm_shadd8
+#define     __UADD8                 __builtin_arm_uadd8
+#define     __UQADD8                __builtin_arm_uqadd8
+#define     __UHADD8                __builtin_arm_uhadd8
+#define     __SSUB8                 __builtin_arm_ssub8
+#define     __QSUB8                 __builtin_arm_qsub8
+#define     __SHSUB8                __builtin_arm_shsub8
+#define     __USUB8                 __builtin_arm_usub8
+#define     __UQSUB8                __builtin_arm_uqsub8
+#define     __UHSUB8                __builtin_arm_uhsub8
+#define     __SADD16                __builtin_arm_sadd16
+#define     __QADD16                __builtin_arm_qadd16
+#define     __SHADD16               __builtin_arm_shadd16
+#define     __UADD16                __builtin_arm_uadd16
+#define     __UQADD16               __builtin_arm_uqadd16
+#define     __UHADD16               __builtin_arm_uhadd16
+#define     __SSUB16                __builtin_arm_ssub16
+#define     __QSUB16                __builtin_arm_qsub16
+#define     __SHSUB16               __builtin_arm_shsub16
+#define     __USUB16                __builtin_arm_usub16
+#define     __UQSUB16               __builtin_arm_uqsub16
+#define     __UHSUB16               __builtin_arm_uhsub16
+#define     __SASX                  __builtin_arm_sasx
+#define     __QASX                  __builtin_arm_qasx
+#define     __SHASX                 __builtin_arm_shasx
+#define     __UASX                  __builtin_arm_uasx
+#define     __UQASX                 __builtin_arm_uqasx
+#define     __UHASX                 __builtin_arm_uhasx
+#define     __SSAX                  __builtin_arm_ssax
+#define     __QSAX                  __builtin_arm_qsax
+#define     __SHSAX                 __builtin_arm_shsax
+#define     __USAX                  __builtin_arm_usax
+#define     __UQSAX                 __builtin_arm_uqsax
+#define     __UHSAX                 __builtin_arm_uhsax
+#define     __USAD8                 __builtin_arm_usad8
+#define     __USADA8                __builtin_arm_usada8
+#define     __SSAT16                __builtin_arm_ssat16
+#define     __USAT16                __builtin_arm_usat16
+#define     __UXTB16                __builtin_arm_uxtb16
+#define     __UXTAB16               __builtin_arm_uxtab16
+#define     __SXTB16                __builtin_arm_sxtb16
+#define     __SXTAB16               __builtin_arm_sxtab16
+#define     __SMUAD                 __builtin_arm_smuad
+#define     __SMUADX                __builtin_arm_smuadx
+#define     __SMLAD                 __builtin_arm_smlad
+#define     __SMLADX                __builtin_arm_smladx
+#define     __SMLALD                __builtin_arm_smlald
+#define     __SMLALDX               __builtin_arm_smlaldx
+#define     __SMUSD                 __builtin_arm_smusd
+#define     __SMUSDX                __builtin_arm_smusdx
+#define     __SMLSD                 __builtin_arm_smlsd
+#define     __SMLSDX                __builtin_arm_smlsdx
+#define     __SMLSLD                __builtin_arm_smlsld
+#define     __SMLSLDX               __builtin_arm_smlsldx
+#define     __SEL                   __builtin_arm_sel
+#define     __QADD                  __builtin_arm_qadd
+#define     __QSUB                  __builtin_arm_qsub
+
+#define __PKHBT(ARG1,ARG2,ARG3) \
+__extension__ \
+({                          \
+  uint32_t __RES, __ARG1 = (ARG1), __ARG2 = (ARG2); \
+  __ASM ("pkhbt %0, %1, %2, lsl %3" : "=r" (__RES) :  "r" (__ARG1), "r" (__ARG2), "I" (ARG3)  ); \
+  __RES; \
+ })
+
+#define __PKHTB(ARG1,ARG2,ARG3) \
+__extension__ \
+({                          \
+  uint32_t __RES, __ARG1 = (ARG1), __ARG2 = (ARG2); \
+  if (ARG3 == 0) \
+    __ASM ("pkhtb %0, %1, %2" : "=r" (__RES) :  "r" (__ARG1), "r" (__ARG2)  ); \
+  else \
+    __ASM ("pkhtb %0, %1, %2, asr %3" : "=r" (__RES) :  "r" (__ARG1), "r" (__ARG2), "I" (ARG3)  ); \
+  __RES; \
+ })
+
+__STATIC_FORCEINLINE uint32_t __SXTB16_RORn(uint32_t op1, uint32_t rotate)
 {
-  uint32_t result;
-
-  __ASM ("qadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
+    uint32_t result;
+    if (__builtin_constant_p(rotate) && ((rotate == 8U) || (rotate == 16U) || (rotate == 24U)))
+    {
+        __ASM volatile("sxtb16 %0, %1, ROR %2" : "=r"(result) : "r"(op1), "i"(rotate));
+    }
+    else
+    {
+        result = __SXTB16(__ROR(op1, rotate));
+    }
+    return result;
 }
 
-
-__STATIC_FORCEINLINE uint32_t __QSUB8(uint32_t op1, uint32_t op2)
+__STATIC_FORCEINLINE uint32_t __SXTAB16_RORn(uint32_t op1, uint32_t op2, uint32_t rotate)
 {
-  uint32_t result;
-
-  __ASM ("qsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
+    uint32_t result;
+    if (__builtin_constant_p(rotate) && ((rotate == 8U) || (rotate == 16U) || (rotate == 24U)))
+    {
+        __ASM volatile("sxtab16 %0, %1, %2, ROR %3" : "=r"(result) : "r"(op1), "r"(op2), "i"(rotate));
+    }
+    else
+    {
+        result = __SXTAB16(op1, __ROR(op2, rotate));
+    }
+    return result;
 }
-
-
-__STATIC_FORCEINLINE uint32_t __QADD16(uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM ("qadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SHADD16(uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM ("shadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __QSUB16(uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM ("qsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SHSUB16(uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM ("shsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __QASX(uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM ("qasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SHASX(uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM ("shasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __QSAX(uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM ("qsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SHSAX(uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM ("shsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SXTB16(uint32_t op1)
-{
-  uint32_t result;
-
-  __ASM ("sxtb16 %0, %1" : "=r" (result) : "r" (op1));
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SMUADX (uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM volatile ("smuadx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SMLADX (uint32_t op1, uint32_t op2, uint32_t op3)
-{
-  uint32_t result;
-
-  __ASM volatile ("smladx %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint64_t __SMLALD (uint32_t op1, uint32_t op2, uint64_t acc)
-{
-  union llreg_u{
-    uint32_t w32[2];
-    uint64_t w64;
-  } llr;
-  llr.w64 = acc;
-
-#ifndef __ARMEB__   /* Little endian */
-  __ASM volatile ("smlald %0, %1, %2, %3" : "=r" (llr.w32[0]), "=r" (llr.w32[1]): "r" (op1), "r" (op2) , "0" (llr.w32[0]), "1" (llr.w32[1]) );
-#else               /* Big endian */
-  __ASM volatile ("smlald %0, %1, %2, %3" : "=r" (llr.w32[1]), "=r" (llr.w32[0]): "r" (op1), "r" (op2) , "0" (llr.w32[1]), "1" (llr.w32[0]) );
-#endif
-
-  return(llr.w64);
-}
-
-__STATIC_FORCEINLINE uint64_t __SMLALDX (uint32_t op1, uint32_t op2, uint64_t acc)
-{
-  union llreg_u{
-    uint32_t w32[2];
-    uint64_t w64;
-  } llr;
-  llr.w64 = acc;
-
-#ifndef __ARMEB__   /* Little endian */
-  __ASM volatile ("smlaldx %0, %1, %2, %3" : "=r" (llr.w32[0]), "=r" (llr.w32[1]): "r" (op1), "r" (op2) , "0" (llr.w32[0]), "1" (llr.w32[1]) );
-#else               /* Big endian */
-  __ASM volatile ("smlaldx %0, %1, %2, %3" : "=r" (llr.w32[1]), "=r" (llr.w32[0]): "r" (op1), "r" (op2) , "0" (llr.w32[1]), "1" (llr.w32[0]) );
-#endif
-
-  return(llr.w64);
-}
-
-__STATIC_FORCEINLINE uint32_t __SMUSD  (uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM volatile ("smusd %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SMUSDX (uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM volatile ("smusdx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE uint32_t __SMLSDX (uint32_t op1, uint32_t op2, uint32_t op3)
-{
-  uint32_t result;
-
-  __ASM volatile ("smlsdx %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE  int32_t __QADD( int32_t op1,  int32_t op2)
-{
-  int32_t result;
-
-  __ASM volatile ("qadd %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-__STATIC_FORCEINLINE  int32_t __QSUB( int32_t op1,  int32_t op2)
-{
-  int32_t result;
-
-  __ASM volatile ("qsub %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-
-__STATIC_FORCEINLINE uint32_t __SMUAD  (uint32_t op1, uint32_t op2)
-{
-  uint32_t result;
-
-  __ASM volatile ("smuad %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
-  return(result);
-}
-
-
-
-#define __PKHBT(ARG1,ARG2,ARG3)          ( ((((uint32_t)(ARG1))          ) & 0x0000FFFFUL) |  \
-                                           ((((uint32_t)(ARG2)) << (ARG3)) & 0xFFFF0000UL)  )
-
-#define __PKHTB(ARG1,ARG2,ARG3)          ( ((((uint32_t)(ARG1))          ) & 0xFFFF0000UL) |  \
-                                           ((((uint32_t)(ARG2)) >> (ARG3)) & 0x0000FFFFUL)  )
 
 __STATIC_FORCEINLINE int32_t __SMMLA (int32_t op1, int32_t op2, int32_t op3)
 {
- int32_t result;
+  int32_t result;
 
- __ASM ("smmla %0, %1, %2, %3" : "=r" (result): "r"  (op1), "r" (op2), "r" (op3) );
- return(result);
+  __ASM volatile ("smmla %0, %1, %2, %3" : "=r" (result): "r"  (op1), "r" (op2), "r" (op3) );
+  return (result);
 }
 
-__STATIC_FORCEINLINE uint32_t __SMLAD (uint32_t op1, uint32_t op2, uint32_t op3)
-{
-  uint32_t result;
-
-  __ASM volatile ("smlad %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
-  return(result);
-}
-
-/*@} end of group CMSIS_SIMD_intrinsics */
-
-
+#endif /* (__ARM_FEATURE_DSP == 1) */
+/** @} end of group CMSIS_SIMD_intrinsics */
 
 /** \defgroup CMSIS_Core_intrinsics CMSIS Core Intrinsics
   Access to dedicated SIMD instructions

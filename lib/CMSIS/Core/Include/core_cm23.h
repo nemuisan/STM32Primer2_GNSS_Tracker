@@ -64,11 +64,7 @@
 
 #include "cmsis_version.h"
 
-/*  CMSIS definitions */
-#define __CM23_CMSIS_VERSION_MAIN  (__CM_CMSIS_VERSION_MAIN)                   /*!< \deprecated [31:16] CMSIS HAL main version */
-#define __CM23_CMSIS_VERSION_SUB   (__CM_CMSIS_VERSION_SUB)                    /*!< \deprecated [15:0]  CMSIS HAL sub version */
-#define __CM23_CMSIS_VERSION       ((__CM23_CMSIS_VERSION_MAIN << 16U) | \
-                                     __CM23_CMSIS_VERSION_SUB           )      /*!< \deprecated CMSIS HAL version number */
+/* CMSIS CM23 definitions */
 
 #define __CORTEX_M                 (23U)                                       /*!< Cortex-M Core */
 
@@ -1462,8 +1458,8 @@ typedef struct
   #endif
   #include CMSIS_NVIC_VIRTUAL_HEADER_FILE
 #else
-/*#define NVIC_SetPriorityGrouping    __NVIC_SetPriorityGrouping   not available for Cortex-M23 */
-/*#define NVIC_GetPriorityGrouping    __NVIC_GetPriorityGrouping   not available for Cortex-M23 */
+/*        NVIC_SetPriorityGrouping    not available for Cortex-M23 */
+/*        NVIC_GetPriorityGrouping    not available for Cortex-M23 */
   #define NVIC_EnableIRQ              __NVIC_EnableIRQ
   #define NVIC_GetEnableIRQ           __NVIC_GetEnableIRQ
   #define NVIC_DisableIRQ             __NVIC_DisableIRQ

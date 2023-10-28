@@ -61,12 +61,8 @@
  */
 
 #include "cmsis_version.h"
- 
-/*  CMSIS CM0+ definitions */
-#define __CM0PLUS_CMSIS_VERSION_MAIN (__CM_CMSIS_VERSION_MAIN)                  /*!< \deprecated [31:16] CMSIS HAL main version */
-#define __CM0PLUS_CMSIS_VERSION_SUB  (__CM_CMSIS_VERSION_SUB)                   /*!< \deprecated [15:0]  CMSIS HAL sub version */
-#define __CM0PLUS_CMSIS_VERSION      ((__CM0PLUS_CMSIS_VERSION_MAIN << 16U) | \
-                                       __CM0PLUS_CMSIS_VERSION_SUB           )  /*!< \deprecated CMSIS HAL version number */
+
+/* CMSIS CM0+ definitions */
 
 #define __CORTEX_M                   (0U)                                       /*!< Cortex-M Core */
 
@@ -703,7 +699,7 @@ typedef struct
   #define NVIC_GetPendingIRQ          __NVIC_GetPendingIRQ
   #define NVIC_SetPendingIRQ          __NVIC_SetPendingIRQ
   #define NVIC_ClearPendingIRQ        __NVIC_ClearPendingIRQ
-/*#define NVIC_GetActive              __NVIC_GetActive             not available for Cortex-M0+ */
+/*        NVIC_GetActive              not available for Cortex-M0+ */
   #define NVIC_SetPriority            __NVIC_SetPriority
   #define NVIC_GetPriority            __NVIC_GetPriority
   #define NVIC_SystemReset            __NVIC_SystemReset
