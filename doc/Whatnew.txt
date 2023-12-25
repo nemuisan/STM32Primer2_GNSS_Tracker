@@ -1,3 +1,11 @@
+2023.12.19 :
+V106.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_6/commit/05706801cda10cec877f31c0db492dcd05ffed46
+		    (misc.c)
+		Improved watchdog handlings(gnss_support.c,h & cdc_support.c,h & pwr_support.c,h & stm32f10x_it.c).
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)) 13.2.1 20231009
+
 2023.10.29 :
 V105.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_6/commit/f469926b3021be6ce0b3bd1b19995340d729ec09

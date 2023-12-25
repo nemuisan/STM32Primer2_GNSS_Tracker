@@ -2,8 +2,8 @@
 /*!
 	@file			gnss_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        20.00
-    @date           2023.06.04
+    @version        21.00
+    @date           2023.12.19
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GNSS-Logger Program Thanks!
 
@@ -31,13 +31,14 @@
 		2022.10.15 V18.00	Fixed filesystem robustness and change filename.
 		2023.04.21 V19.00	Fixed cosmetic bugfix.
 		2023.06.04 V20.00	Adopted u-blox SAM-M10Q module.
+		2023.12.19 V21.00	Improved watchdog handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef GNSS_SUPPORT_H
-#define GNSS_SUPPORT_H 0x2000
+#define GNSS_SUPPORT_H 0x2100
 
 #ifdef __cplusplus
  extern "C" {

@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2023.03.22
+    @version        8.00
+    @date           2023.12.19
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -14,6 +14,7 @@
 		2020.05.30	V5.00	Display system version string.
 		2022.10.10	V6.00	Purge UART buffer on connect.
 		2023.03.22	V7.00	Enable UART Rx interrupt on connect.
+		2023.12.19  V8.00	Improved watchdog handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if CDC_SUPPORT_H!= 0x0700
+#if CDC_SUPPORT_H!= 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -445,9 +446,15 @@ void cdc_task(void)
 	USB_Interrupts_Config();
 	USB_Init();
 	USB_Cable_Config(ENABLE);
-	while (bDeviceState != CONFIGURED);
+	while (bDeviceState != CONFIGURED)
+	{
+		WDT_Reset();
+	}
 
-	while (1){__WFI();}
+	while (1){
+		__WFI();
+		WDT_Reset();
+	}
 
 }
 

@@ -2,8 +2,8 @@
 /*!
 	@file			gnss_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        20.00
-    @date           2023.06.04
+    @version        21.00
+    @date           2023.12.19
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GNSS-Logger Program Thanks!
 
@@ -31,6 +31,7 @@
 		2022.10.15 V18.00	Fixed filesystem robustness and change filename.
 		2023.04.21 V19.00	Fixed cosmetic bugfix.
 		2023.06.04 V20.00	Adopted u-blox SAM-M10Q module.
+		2023.12.19 V21.00	Improved watchdog handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -40,7 +41,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gnss_support.h"
 /* check header file version for fool proof */
-#if GNSS_SUPPORT_H!= 0x2000
+#if GNSS_SUPPORT_H!= 0x2100
 #error "header file version is not correspond!"
 #endif
 
@@ -139,11 +140,11 @@ uint32_t get_fattime (void)
 
 	/* Pack date and time into a DWORD variable */
 	return	  ((DWORD)(ff_rtc.year - 1980) << 25)
-			| ((DWORD)ff_rtc.month << 21)
-			| ((DWORD)ff_rtc.mday << 16)
-			| ((DWORD)ff_rtc.hour << 11)
-			| ((DWORD)ff_rtc.min << 5)
-			| ((DWORD)ff_rtc.sec >> 1);
+			| ((DWORD)ff_rtc.month << 23)
+			| ((DWORD)ff_rtc.mday  << 19)
+			| ((DWORD)ff_rtc.hour  << 12)
+			| ((DWORD)ff_rtc.min   <<  5)
+			| ((DWORD)ff_rtc.sec   >>  1);
 }
 
 /**************************************************************************/
@@ -212,6 +213,8 @@ static void xSend_MTKCmd(const char* cmdstr,const char* datastr)
 		xsprintf(strcmd,"%s*",cmdstr);
 	else
 		xsprintf(strcmd,"%s,%s*",cmdstr,datastr);
+		
+	WDT_Reset();
 	xprintf("%s%X\r\n",strcmd,get_Checksum(strcmd,sizeof(strcmd)));
 	while(!(WaitTxBuffer()));
 }
@@ -367,10 +370,12 @@ void gps_task(void)
 	
 		LED_RED_OFF();
 		LED_GRN_OFF();
+		WDT_Reset();
 	}
 	else{ /* GNSS Nomal Mode */
 		/* Set UART to 9600bps and redirect to stdio */
 		conio_init(GPS_UART_PORT,GPS_UART_BAUD);
+		WDT_Reset();
 	}
 	
 	
@@ -385,11 +390,15 @@ startstat:
 		/* "Wait for GPS Valid Data Acquisition" State */
 		l_stat = STBY_STATE;
 		LED_RED_ON();
+		WDT_Reset();
+		
 		/* Wait for valid RMC sentence. */
 		do {
 			__WFI();
+			WDT_Reset();
 			do{
 				b = get_line_GPS();
+				WDT_Reset();
 				/* Got UART String ? */
 				if (b) break;
 			}while(1);
@@ -447,6 +456,9 @@ startstat:
 		/* Logging GPS Data */
 		while ((b = get_line_GPS()) > 0)
 		{
+			/* WDT reset */
+			WDT_Reset();
+			
 			/* Get GxGGA Valid Flag Column */ 
 			if (!gp_comp(Buff,"$GPGGA") || !gp_comp(Buff,"$GQGGA")|| !gp_comp(Buff,"$GNGGA"))
 			{

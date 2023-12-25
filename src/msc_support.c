@@ -2,8 +2,8 @@
 /*!
 	@file			msc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2023.03.23
+    @version        8.00
+    @date           2023.12.19
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -14,6 +14,7 @@
 		2019.09.20	V5.00	Fixed redundant declaration.
 		2020.05.30	V6.00	Display system version string.
 		2023.03.23	V7.00	Added MAL_Init() successful check.
+		2023.12.19  V8.00	Improved watchdog handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if MSC_SUPPORT_H!= 0x0700
+#if MSC_SUPPORT_H!= 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -35,6 +36,7 @@
 
 /* Variables -----------------------------------------------------------------*/
 extern __IO long StableCount;
+
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
@@ -100,19 +102,28 @@ void msc_task(void)
 		USB_Interrupts_Config();
 		USB_Init();
 		USB_Cable_Config(ENABLE);
-		while (bDeviceState != CONFIGURED);
+		while (bDeviceState != CONFIGURED)
+		{
+			WDT_Reset();
+		}
 
 #if 0 /* MSC Debug */
 		Display_Puts_If(0,2*CurrentAnkDat->Y_Size,(uint8_t*)"Connected!",TRANSPARENT);
 		while (StableCount > 0);
 		Display_Puts_If(0,3*CurrentAnkDat->Y_Size,(uint8_t*)"Stabled!",TRANSPARENT);
 #endif
-		while (1){__WFI();}
+		while (1){
+			__WFI();
+			WDT_Reset();
+		}
 	}
 	else {
 		Display_Puts_If(0,2*CurrentAnkDat->Y_Size,(uint8_t*)"SD Card Init Failed!",TRANSPARENT);
 		Display_Puts_If(0,3*CurrentAnkDat->Y_Size,(uint8_t*)"Press Center Key to Power OFF!",TRANSPARENT);
-		while (1){__WFI();}
+		while (1){
+			__WFI();
+			WDT_Reset();
+		}
 	}
 
 }

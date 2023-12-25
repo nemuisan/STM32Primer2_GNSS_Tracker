@@ -2,8 +2,8 @@
 /*!
 	@file			pwr_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2023.03.08
+    @version        6.00
+    @date           2023.12.19
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
@@ -13,6 +13,7 @@
 		2014.12.22	V3.01	Enforce Watchdog handlings.
 		2022.10.15	V4.00	Changed power-handlings,some codes and filename.
 		2023.03.08	V5.00	Fixed lipo battery lower voltage limit.
+		2023.12.19	V6.00	Improved watchdog handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,7 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "pwr_support.h"
 /* check header file version for fool proof */
-#if PWR_SUPPORT_H!= 0x0500
+#if PWR_SUPPORT_H!= 0x0600
 #error "header file version is not correspond!"
 #endif
 
@@ -29,6 +30,7 @@
 
 /* Variables -----------------------------------------------------------------*/
 __IO uint32_t BatState = BAT_MIDDLE;
+__IO uint32_t WdtState = 0;
 
 /* Constants -----------------------------------------------------------------*/
 
@@ -49,10 +51,23 @@ void PWR_Mgn(void)
 {
 	ShutKey_Chk();
 	ShutVbat_Chk();
-	/* Reload IWDG counter */
-	IWDG_ReloadCounter();
 }
 
+/**************************************************************************/
+/*! 
+    @brief  STM32 Primer2 Watchdog managements.
+	@param  None.
+    @retval None.
+*/
+/**************************************************************************/
+void WDT_Reset(void)
+{
+	if(WdtState == 1){
+		WdtState =0;
+		/* Reload IWDG counter */
+		IWDG_ReloadCounter();
+	}
+}
 
 /**************************************************************************/
 /*! 

@@ -2,8 +2,8 @@
 /*!
 	@file			pwr_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2023.03.08
+    @version        6.00
+    @date           2023.12.19
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
@@ -13,13 +13,14 @@
 		2014.12.22	V3.01	Enforce Watchdog handlings.
 		2022.10.15	V4.00	Changed power-handlings,some codes and filename.
 		2023.03.08	V5.00	Fixed lipo battery lower voltage limit.
+		2023.12.19	V6.00	Improved watchdog handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef PWR_SUPPORT_H
-#define PWR_SUPPORT_H 0x0500
+#define PWR_SUPPORT_H 0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -57,9 +58,13 @@ enum
 extern __IO uint32_t BatState;
 #define LOWBATT_ALARM()		(BatState == BAT_LOW)
 
+/* Watchdog Handlings */
+extern __IO uint32_t WdtState;
+
 /* Externals */
 extern void PWR_Configuration(void);
 extern void PWR_Mgn(void);
+extern void WDT_Reset(void);
 extern int16_t GetVbat(void);
 
 

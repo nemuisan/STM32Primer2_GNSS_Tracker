@@ -68,8 +68,8 @@ endif
 
 # GCC LTO Specific Option
 ifeq ($(DEBUG_MODE),0)
-USE_LTO			= -flto-partition=none -fipa-sra
-#USE_LTO			= -flto -fipa-sra
+USE_LTO			= -flto-partition=none
+#USE_LTO			= -flto
 endif
 # GCC Version Specific Options
 ALIGNED_ACCESS	= -mno-unaligned-access
@@ -77,7 +77,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 105.00
+APP_VER = 106.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -297,7 +297,7 @@ CFLAGS += -std=gnu99
 CFLAGS += -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB)
 CFLAGS += -fno-strict-aliasing -fsigned-char
 CFLAGS += -ffunction-sections -fdata-sections
-CFLAGS += -fno-schedule-insns2
+CFLAGS += -fno-schedule-insns2 -fipa-sra
 CFLAGS += --param max-inline-insns-single=1000
 CFLAGS += -fno-common -fno-hosted
 CFLAGS += -Wall -Wdouble-promotion
