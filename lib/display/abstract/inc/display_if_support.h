@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2023.08.01
+    @version        9.00
+    @date           2024.08.01
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -18,13 +18,14 @@
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2023.08.01	V8.00	Revised release.
+		2024.08.01	V9.00	Fixed root(double) function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef DISPLAY_IF_SUPPORT_H
-#define DISPLAY_IF_SUPPORT_H 0x0800
+#define DISPLAY_IF_SUPPORT_H 0x0900
 
 #ifdef __cplusplus
  extern "C" {
@@ -34,6 +35,8 @@
 #include "display_if.h"
 #include "font_if.h"
 #include "font_if_datatable.h"
+#include <float.h>
+#include <math.h>
 
 /* Defines for DisplayFonts */
 enum{ 

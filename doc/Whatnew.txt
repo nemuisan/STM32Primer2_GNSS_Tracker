@@ -1,8 +1,20 @@
+2024.07.12 :
+V107.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_6/commit/641cb5ec499e635f062c5b6177bc8effc57ccced
+		Fixed LTO build support(on font_if_datatable.c,h).
+		Fixed signature validation function(on font_if.c,h).
+		Fixed root(double) function(on display_if_support.c,h).
+		Fixed datetime setting bug(on gnss_support.c,h).
+		Fixed RCA handlings in FindSCR()(on sdio_stm32f1.c,h).
+		Fixed unused parameter(syscalls.c,h and usb_msc_scsi.c,h).
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614
+
 2023.12.19 :
 V106.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_6/commit/05706801cda10cec877f31c0db492dcd05ffed46
 		    (misc.c)
-		Improved watchdog handlings(gnss_support.c,h & cdc_support.c,h & pwr_support.c,h & stm32f10x_it.c).
+		Improved watchdog handlings(on gnss_support.c,h & cdc_support.c,h & pwr_support.c,h & stm32f10x_it.c).
 		Adopted arm-gcc toolchain updates
 		 -> (Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)) 13.2.1 20231009
 
@@ -24,8 +36,8 @@ V103.00	Adopted FatFs0.15 latest patch update(patch3).
 		 -> (Arm GNU Toolchain 12.3.Rel1 (Build arm-12.35)) 12.3.1 20230626
 
 2023.07.27 :
-V102.00	Added u-blox SAM-M10Q GNSS Module Support(gnss_support.c,h & hw_cofig.c,h).
-		Added MTK-Command mode at logging.(gnss_support.c,h).
+V102.00	Added u-blox SAM-M10Q GNSS Module Support(on gnss_support.c,h & hw_cofig.c,h).
+		Added MTK-Command mode at logging.(on gnss_support.c,h).
 		Removed unused delay macro(display_support.c,h).
 		Updated latest display abstructions(see./lib/display/abstruct).
 		Updated latest display driver(see./lib/display/driver).

@@ -21,7 +21,7 @@ Functions
 -- Using SDIO with DMA Driver.  
 -- Supports MMC,SDSC,SDHC,SDXC and eMMC.  
 -- Using doublebuffered endpoints(Bulk IN only).  
--- WR:0.55MB/Sec,RD:0.21MB/Sec(using sdsc 1GB card case).  
+-- WR:0.55MB/Sec,RD:0.21MB/Sec(using SDSC 1GB card case).  
 
 - USB CDC Virtual Comport  
 -- Using doublebuffered endpoints(Bulk IN only).  
@@ -33,7 +33,7 @@ Build
 ------
 This program can build following compilers  
 -GNU Tools for ARM Embedded Processors(Recommend)  
- https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm  
+ https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads  
 
 And MUST need Coreutils/GNUMake for windows to build this projects.  
  http://gnuwin32.sourceforge.net/packages/coreutils.htm  

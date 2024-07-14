@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        25.00
-    @date           2023.07.23
+    @version        26.00
+    @date           2024.07.12
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2023.07.23	See ts_ver.txt.
+		2024.07.12	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if TS_FILELOADS_H != 0x2500
+#if TS_FILELOADS_H != 0x2600
 #error "header file version is not correspond!"
 #endif
 
@@ -522,7 +522,7 @@ static int load_img(FIL* fil, const char *filename)
 	unsigned int szfrm;				/* Size of frames (RGB565 format ,in bytes) */
 	unsigned int nfrm;				/* Number of frames */
 	unsigned int cfrm;				/* Current frames */
-	long fd, tp;					/* Frame period, timer period */
+	uint32_t fd, tp;				/* Frame period, timer period */
 	unsigned int x1,x2,y1,y2;		/* Frame rectangle val */
 
 #if !defined(USE_TFT_FRAMEBUFFER)
@@ -858,7 +858,7 @@ my_error_exit (j_common_ptr cinfo)
     Display JPEG file.
 */
 /**************************************************************************/
-static int load_jpeg(FIL *fil,int mode)
+static int load_jpeg(FIL *fil)
 {
 	/* JPEG relation */
 	int denom,scale,row_stride;
@@ -1337,7 +1337,7 @@ static int load_gif(FIL *fil)
 	}
 
 	/* Set rowbuffer to backGround colour */
-	for (i = 0; i < GifFile->SWidth; i++) RowBuffer[i] = GifFile->SBackGroundColor;
+	for (int m = 0; m < GifFile->SWidth; m++) RowBuffer[m] = GifFile->SBackGroundColor;
 
     /* Scan the content of the GIF file and load the image(s) in: */
     do {
@@ -1617,7 +1617,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 	uint8_t JPEG_SOI[] = {0xFF,0xD8,0}; /* JPEG Merker */
 	if (!memcmp(Buff,JPEG_SOI,2)) {
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
-		load_jpeg(fil,1);
+		load_jpeg(fil);
 		f_close(fil);
 		return RES_OK;
 	}
@@ -1627,7 +1627,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 		fil->fptr=0;  /* retrive file pointer to 0 offset */
 	#if (BUFSIZE > 32*1024)
 	#warning "ChaN's JPEG library have 32kByte buffersize restriction"
-		load_jpg(fil, (BYTE*)Buff, BUFSIZE);
+		load_jpg(fil, (BYTE*)Buff, 32764);
 	#else
 		load_jpg(fil, (BYTE*)Buff, BUFSIZE);
 	#endif
@@ -1778,15 +1778,15 @@ static void filer_put_item (
 	/* Display long file name with round down */
 	if(strlen(item->fname) >= (TS_WIDTH-3)) {
 		int strl = strlen(item->fname);
-		char* str = malloc(strl);
-		strlcpy(str,item->fname,TS_WIDTH-3);
+		uint8_t* str = malloc(strl);
+		strlcpy((char*)str,item->fname,TS_WIDTH-3);
 		/* Force round down */
 		str[TS_WIDTH-4] = 0;
 		/* In case of 2byte charactor */
 		if(((str[TS_WIDTH-5] >= 0x81)&&(str[TS_WIDTH-5] <= 0x9F))||((str[TS_WIDTH-5] >= 0xE0)&&(str[TS_WIDTH-5] <= 0xEF))){
 			str[TS_WIDTH-5] = 0;
 		}
-		xprintf(" %s", str);
+		xprintf(" %s", (char*)str);
 		if(str != NULL) free(str);
 	}
 	else {
@@ -1827,7 +1827,7 @@ static int filer_load_dir (
 	FILINFO *fno
 )
 {
-	int i;
+	unsigned int i;
 	DIRITEM *diritem;
 
 

@@ -2,8 +2,8 @@
 /*!
 	@file			font_if_datatable.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2023.09.01
+    @version        11.00
+    @date           2024.08.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -20,13 +20,14 @@
 		2019.02.01	V8.00	Fixed some compiler warnings.
 		2023.05.01	V9.00	Fixed cosmetic bugfix.
 		2023.09.01 V10.00	Added Konatsu-Fonts.
+		2024.07.10 V11.00	Fixed LTO build support.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FONT_IF_DATATABLE_H 
-#define FONT_IF_DATATABLE_H 0x1000
+#define FONT_IF_DATATABLE_H 0x1100
 
 #ifdef __cplusplus
  extern "C" {

@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		32.00
-	@date			2023.04.21
+	@version		33.00
+	@date			2024.07.12
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2023.04.21	V32.00	See sdio_stm32f1_ver.txt.
+		2024.07.12	V33.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if SDIO_STM32F1_H!= 0x3200
+#if SDIO_STM32F1_H!= 0x3300
 #error "header file version is not correspond!"
 #endif
 
@@ -3305,7 +3305,7 @@ static SD_Error FindSCR(uint16_t rca, uint32_t *pscr)
 	}
 
 	/*!< Send CMD55 APP_CMD with argument as card's RCA */
-	SDIO_CmdInitStructure.SDIO_Argument = (uint32_t) RCA << 16;
+	SDIO_CmdInitStructure.SDIO_Argument = (uint32_t) rca << 16;
 	SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
 	SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 	SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;

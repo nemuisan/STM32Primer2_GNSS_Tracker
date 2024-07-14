@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_scsi.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2023.03.08
+    @version        6.00
+    @date           2024.07.12
 	@brief          All processing related to the SCSI commands.
 					Based On STMicro's Sample Thanks!
 
@@ -13,6 +13,7 @@
 		2016.01.15	V3.00	Changed definition compatibility.
 		2017.03.29	V4.00	Removed retired variables.
 		2023.03.08	V5.00	Removed redundant declaration.
+		2024.07.12	V6.00	Fixed unused parameter.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -136,6 +137,7 @@ void SCSI_ReadCapacity10_Cmd(uint8_t lun)
 /**************************************************************************/
 void SCSI_ModeSense6_Cmd (uint8_t lun)
 {
+  (void)lun;
   Transfer_Data_Request(Mode_Sense6_data, MODE_SENSE6_DATA_LEN);
 }
 
@@ -146,6 +148,7 @@ void SCSI_ModeSense6_Cmd (uint8_t lun)
 /**************************************************************************/
 void SCSI_ModeSense10_Cmd (uint8_t lun)
 {
+  (void)lun;
   Transfer_Data_Request(Mode_Sense10_data, MODE_SENSE10_DATA_LEN);
 }
 
@@ -156,6 +159,7 @@ void SCSI_ModeSense10_Cmd (uint8_t lun)
 /**************************************************************************/
 void SCSI_RequestSense_Cmd (uint8_t lun)
 {
+  (void)lun;
   uint8_t Request_Sense_data_Length;
 
   if (CBW.CB[4] <= REQUEST_SENSE_DATA_LEN)
@@ -176,6 +180,7 @@ void SCSI_RequestSense_Cmd (uint8_t lun)
 /**************************************************************************/
 void Set_Scsi_Sense_Data(uint8_t lun, uint8_t Sens_Key, uint8_t Asc)
 {
+  (void)lun;
   Scsi_Sense_Data[2] = Sens_Key;
   Scsi_Sense_Data[12] = Asc;
 }
@@ -187,6 +192,7 @@ void Set_Scsi_Sense_Data(uint8_t lun, uint8_t Sens_Key, uint8_t Asc)
 /**************************************************************************/
 void SCSI_Start_Stop_Unit_Cmd(uint8_t lun)
 {
+  (void)lun;
   Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
 }
 
@@ -197,7 +203,7 @@ void SCSI_Start_Stop_Unit_Cmd(uint8_t lun)
 /**************************************************************************/
 void SCSI_Read10_Cmd(uint8_t lun , uint32_t LBA , uint32_t BlockNbr)
 {
-
+  (void)lun;
   if (Bot_State == BOT_IDLE)
   {
     if (!(SCSI_Address_Management(CBW.bLUN, SCSI_READ10, LBA, BlockNbr)))/*address out of range*/
@@ -265,6 +271,7 @@ void SCSI_Write10_Cmd(uint8_t lun , uint32_t LBA , uint32_t BlockNbr)
 /**************************************************************************/
 void SCSI_Verify10_Cmd(uint8_t lun)
 {
+  (void)lun;
   if ((CBW.dDataLength == 0) && !(CBW.CB[1] & BLKVFY))/* BLKVFY not set*/
   {
     Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
@@ -284,6 +291,7 @@ void SCSI_Verify10_Cmd(uint8_t lun)
 /**************************************************************************/
 void SCSI_Valid_Cmd(uint8_t lun)
 {
+  (void)lun;
   if (CBW.dDataLength != 0)
   {
     Bot_Abort(BOTH_DIR);
@@ -338,6 +346,7 @@ void SCSI_Format_Cmd(uint8_t lun)
 /**************************************************************************/
 void SCSI_Invalid_Cmd(uint8_t lun)
 {
+  (void)lun;
   if (CBW.dDataLength == 0)
   {
     Bot_Abort(DIR_IN);

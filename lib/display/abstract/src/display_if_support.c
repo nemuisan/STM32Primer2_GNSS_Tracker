@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2023.08.01
+    @version        9.00
+    @date           2024.08.01
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -18,6 +18,7 @@
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2023.08.01	V8.00	Revised release.
+		2024.08.01	V9.00	Fixed root(double) function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -27,7 +28,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "display_if_support.h"
 /* check header file version for fool proof */
-#if DISPLAY_IF_SUPPORT_H != 0x0800
+#if DISPLAY_IF_SUPPORT_H != 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -54,7 +55,9 @@ static inline int root_i(int x){
 static inline double root(double x){
     double s=1, s2=1;
     if (x<=0) return 1;
-    do { s2=s; s=(x/s+s)/2; } while(s2!=s);
+    do { s2=s; s=(x/s+s)/2; 
+		if((fabs(s2 - s) < DBL_EPSILON )) break; 
+	} while(1);
     return s;
 }
 
@@ -220,7 +223,7 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
     long dx, dy, x_sign, num_eigth, r_root2,y_sign =0;
     double d;
 
-    r_root2 = (diameter>3)? root(diameter*diameter/8) :1;
+    r_root2 = (diameter>3)? root_i(diameter*diameter/8) :1;
     tmp = r_root2*r_root2*8-diameter*diameter;
     if (ABS(tmp)>ABS(tmp+8*(2*r_root2+1))) r_root2++;	/* near by (r*Å„2) */
 

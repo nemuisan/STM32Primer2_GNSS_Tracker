@@ -2,8 +2,8 @@
 /*!
 	@file			syscalls.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.01.24
+    @version        7.00
+    @date           2024.07.12
 	@brief          syscall.c's Device Dependent Header Section.
 
     @section HISTORY
@@ -13,6 +13,7 @@
 		2014.06.26	V4.00	Added version check.
 		2019.10.01	V5.00	Removed isatty() on GCC build.
 		2023.01.24	V6.00	Fixed different signedness.
+		2024.07.12	V7.00	Fixed unused parameter.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* This is platform dependent includion */
 #include "syscalls_if.h"
 /* check header file version for fool proof */
-#if SYSCALLS_IF_H != 0x0600
+#if SYSCALLS_IF_H != 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -61,6 +62,8 @@ _ssize_t _read_r(
 	void *ptr,
 	size_t len)
 {
+	(void)r;
+	(void)file;
 	char c;
 	size_t  i;
 	unsigned char *p;
@@ -104,6 +107,8 @@ _ssize_t _write_r (
     const void *ptr, 
     size_t len)
 {
+	(void)r;
+	(void)file;
 	size_t i;
 	const unsigned char *p;
 	
@@ -134,6 +139,8 @@ void _fini(void)
 /**************************************************************************/
 int _close_r(struct _reent *r, int file)
 {
+	(void)r;
+	(void)file;
 	return 0;
 }
 
@@ -148,6 +155,10 @@ _off_t _lseek_r(
     _off_t ptr, 
     int dir)
 {
+	(void)r;
+	(void)file;
+	(void)ptr;
+	(void)dir;
 	return (_off_t)0;	/*  Always indicate we are at file beginning.	*/
 }
 
@@ -161,6 +172,8 @@ int _fstat_r(
     int file, 
     struct stat *st)
 {
+	(void)r;
+	(void)file;
 	/*  Always set as character device.				*/
 	st->st_mode = S_IFCHR;	
 	/* assigned to strong type with implicit 		*/
@@ -199,6 +212,7 @@ void * _sbrk_r(
     struct _reent *_s_r, 
     ptrdiff_t nbytes)
 {
+	(void)_s_r;
 	char  *base;		/*  errno should be set to  ENOMEM on error	*/
 
 	if (!heap_ptr) {	/*  Initialize if first time through.		*/
@@ -261,6 +275,8 @@ void * _sbrk(ptrdiff_t incr)
 /**************************************************************************/
 int _open(const char *path, int flags, ...)
 {
+	(void)path;
+	(void)flags;
 	return 1;
 }
 
@@ -271,6 +287,7 @@ int _open(const char *path, int flags, ...)
 /**************************************************************************/
 int _close(int fd)
 {
+	(void)fd;
 	return 0;
 }
 
@@ -281,6 +298,7 @@ int _close(int fd)
 /**************************************************************************/
 int _fstat(int fd, struct stat *st)
 {
+	(void)fd;
 	st->st_mode = S_IFCHR;
 	return 0;
 }
@@ -292,6 +310,7 @@ int _fstat(int fd, struct stat *st)
 /**************************************************************************/
 int _isatty(int fd)
 {
+	(void)fd;
 	return 1;
 }
 
@@ -302,6 +321,9 @@ int _isatty(int fd)
 /**************************************************************************/
 int _lseek(int fd, off_t pos, int whence)
 {
+	(void)fd;
+	(void)pos;
+	(void)whence;
 	return 0;
 }
 
@@ -312,6 +334,8 @@ int _lseek(int fd, off_t pos, int whence)
 /**************************************************************************/
 int _read(int fd, char *buf, size_t cnt)
 {
+	(void)fd;
+	(void)cnt;
 	*buf = getch();
 
 	return 1;
@@ -324,6 +348,7 @@ int _read(int fd, char *buf, size_t cnt)
 /**************************************************************************/
 int _write(int fd, const char *buf, size_t cnt)
 {
+	(void)fd;
 	size_t i;
 
 	for (i = 0; i < cnt; i++)
@@ -338,6 +363,7 @@ int _write(int fd, const char *buf, size_t cnt)
 */
 /**************************************************************************/
 int _times(struct tms *buf) {
+	(void)buf;
 	return -1;
 }
 
@@ -347,6 +373,7 @@ int _times(struct tms *buf) {
 */
 /**************************************************************************/
 int _init(struct tms *buf) {
+	(void)buf;
 	return -1;
 }
 
@@ -356,6 +383,8 @@ int _init(struct tms *buf) {
 */
 /**************************************************************************/
 int _link(char *old, char *new) {
+	(void)old;
+	(void)new;
 	errno = EMLINK;
 	return -1;
 }
@@ -366,6 +395,7 @@ int _link(char *old, char *new) {
 */
 /**************************************************************************/
 int _unlink(char *name) {
+	(void)name;
 	errno = ENOENT;
 	return -1;
 }
@@ -376,6 +406,7 @@ int _unlink(char *name) {
 */
 /**************************************************************************/
 int _wait(int *status) {
+	(void)status;
 	errno = ECHILD;
 	return -1;
 }
@@ -386,6 +417,9 @@ int _wait(int *status) {
 */
 /**************************************************************************/
 int _execve(char *name, char **argv, char **env) {
+	(void)name;
+	(void)argv;
+	(void)env;
 	errno = ENOMEM;
 	return -1;
 }
@@ -406,6 +440,7 @@ int _fork(void) {
 */
 /**************************************************************************/
 void _exit(int n){
+	(void)n;
 label:  goto label; /* endless loop */
 }
 #endif
@@ -417,6 +452,8 @@ label:  goto label; /* endless loop */
 /**************************************************************************/
 int _kill(int pid, int sig) __attribute__((weak));
 int _kill(int pid, int sig) {
+	(void)pid;
+	(void)sig;
 	errno = EINVAL;
 	return -1;
 }
@@ -429,6 +466,7 @@ int _kill(int pid, int sig) {
 int _getpid(int file) __attribute__((weak));
 int _getpid(int file)
 {
+	(void)file;
 	return 1;
 }
 

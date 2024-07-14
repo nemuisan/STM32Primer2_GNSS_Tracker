@@ -2,8 +2,8 @@
 /*!
 	@file			syscalls_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.01.24
+    @version        7.00
+    @date           2024.07.12
 	@brief          syscall.c's Device Dependent Header Section.
 
     @section HISTORY
@@ -13,13 +13,14 @@
 		2014.06.26	V4.00	Added version check.
 		2019.10.01	V5.00	Removed isatty() on GCC build.
 		2023.01.24	V6.00	Fixed different signedness.
+		2024.07.12	V7.00	Fixed unused parameter.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef SYSCALLS_IF_H
-#define SYSCALLS_IF_H 0x0600
+#define SYSCALLS_IF_H 0x0700
 
 #ifdef __cplusplus
  extern "C" {

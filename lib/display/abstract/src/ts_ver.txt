@@ -30,9 +30,10 @@
 
 ********************* ts_fileloads.x update history ********************
 
+	2024.07.12 V26.00	Fixed small fix.
+
 	2023.07.20 V25.00	Added HX8363B streaming support.
 						Added NT35516 support.
-
 	2023.06.11 V24.00	Fixed filename round down on filer_put_item().
 	2023.06.01 V23.00	Added VSYNC wait for img streaming.
 	2023.05.01 V22.00	Fixed cosmetic bugfix.

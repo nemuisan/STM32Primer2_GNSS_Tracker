@@ -2,8 +2,8 @@
 /*!
 	@file			gnss_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        21.00
-    @date           2023.12.19
+    @version        22.00
+    @date           2024.07.11
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GNSS-Logger Program Thanks!
 
@@ -32,6 +32,7 @@
 		2023.04.21 V19.00	Fixed cosmetic bugfix.
 		2023.06.04 V20.00	Adopted u-blox SAM-M10Q module.
 		2023.12.19 V21.00	Improved watchdog handlings.
+		2024.07.11 V22.00	Fixed datetime setting bug.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -41,7 +42,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gnss_support.h"
 /* check header file version for fool proof */
-#if GNSS_SUPPORT_H!= 0x2100
+#if GNSS_SUPPORT_H!= 0x2200
 #error "header file version is not correspond!"
 #endif
 
@@ -140,9 +141,9 @@ uint32_t get_fattime (void)
 
 	/* Pack date and time into a DWORD variable */
 	return	  ((DWORD)(ff_rtc.year - 1980) << 25)
-			| ((DWORD)ff_rtc.month << 23)
-			| ((DWORD)ff_rtc.mday  << 19)
-			| ((DWORD)ff_rtc.hour  << 12)
+			| ((DWORD)ff_rtc.month << 21)
+			| ((DWORD)ff_rtc.mday  << 16)
+			| ((DWORD)ff_rtc.hour  << 11)
 			| ((DWORD)ff_rtc.min   <<  5)
 			| ((DWORD)ff_rtc.sec   >>  1);
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017-2021 IAR Systems
- * Copyright (c) 2017-2023 Arm Limited. All rights reserved.
+ * Copyright (c) 2017-2024 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -77,7 +77,7 @@
 
 /* Alternativ core deduction for older ICCARM's */
 #if !defined(__ARM_ARCH_6M__) && !defined(__ARM_ARCH_7M__) && !defined(__ARM_ARCH_7EM__) && \
-    !defined(__ARM_ARCH_8M_BASE__) && !defined(__ARM_ARCH_8M_MAIN__)
+    !defined(__ARM_ARCH_8M_BASE__) && !defined(__ARM_ARCH_8M_MAIN__) && !defined(__ARM_ARCH_8_1M_MAIN__)
   #if defined(__ARM6M__) && (__CORE__ == __ARM6M__)
     #define __ARM_ARCH_6M__ 1
   #elif defined(__ARM7M__) && (__CORE__ == __ARM7M__)
@@ -90,6 +90,8 @@
     #define __ARM_ARCH_8M_MAIN__ 1
   #elif defined(__ARM8EM_MAINLINE__) && (__CORE == __ARM8EM_MAINLINE__)
     #define __ARM_ARCH_8M_MAIN__ 1
+  #elif defined(__ARM_ARCH_PROFILE) && __ARM_ARCH_PROFILE == 'M' && __ARM_ARCH == 801
+    #define __ARM_ARCH_8_1M_MAIN__ 1
   #else
     #error "Unknown target."
   #endif
@@ -180,6 +182,10 @@
 
 #ifndef   __STATIC_FORCEINLINE
   #define __STATIC_FORCEINLINE  __FORCEINLINE __STATIC_INLINE
+#endif
+
+#ifndef   CMSIS_DEPRECATED
+  #define CMSIS_DEPRECATED      __attribute__((deprecated))
 #endif
 
 #ifndef __UNALIGNED_UINT16_READ
@@ -338,7 +344,7 @@ __STATIC_FORCEINLINE void __TZ_set_STACKSEAL_S (uint32_t* stackTop) {
   #define __get_CONTROL()             (__arm_rsr("CONTROL"))
   #define __get_FAULTMASK()           (__arm_rsr("FAULTMASK"))
 
-  #if (defined (__ARM_FP)      && (__ARM_FP >= 1)) 
+  #if (defined (__ARM_FP)      && (__ARM_FP >= 1))
     #define __get_FPSCR()             (__arm_rsr("FPSCR"))
     #define __set_FPSCR(VALUE)        (__arm_wsr("FPSCR", (VALUE)))
   #else
@@ -618,7 +624,7 @@ __STATIC_FORCEINLINE void __TZ_set_CONTROL_NS(uint32_t control)
 
   #endif
 
-  #if !((defined (__ARM_FP)      && (__ARM_FP >= 1)) 
+  #if (!(defined (__ARM_FP)      && (__ARM_FP >= 1)))
     #undef __get_FPSCR
     #undef __set_FPSCR
     #define __get_FPSCR()       (0)

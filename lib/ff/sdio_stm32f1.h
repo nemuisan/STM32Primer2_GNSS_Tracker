@@ -2,20 +2,20 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		32.00
-	@date			2023.04.21
+	@version		33.00
+	@date			2024.07.12
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2023.04.21	V32.00	See sdio_stm32f1_ver.txt.
+		2024.07.12	V33.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef SDIO_STM32F1_H
-#define SDIO_STM32F1_H 0x3200
+#define SDIO_STM32F1_H 0x3300
 
 #ifdef __cplusplus
  extern "C" {
