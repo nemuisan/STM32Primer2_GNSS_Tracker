@@ -1,3 +1,8 @@
+2024.07.18 :
+V108.00	Fixed Shift-JIS font handlings(on ts_basis.c,h and ts_fileloads.c,h).
+		Fixed Shift-JIS font handlings(on display_if_support.c,h).
+		Fixed empty argument(on pwr_support_c,h and usb_prop.c,h).
+
 2024.07.12 :
 V107.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_6/commit/641cb5ec499e635f062c5b6177bc8effc57ccced

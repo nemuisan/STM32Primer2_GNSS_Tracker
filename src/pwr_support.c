@@ -2,8 +2,8 @@
 /*!
 	@file			pwr_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.12.19
+    @version        7.00
+    @date           2024.07.18
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
@@ -14,6 +14,7 @@
 		2022.10.15	V4.00	Changed power-handlings,some codes and filename.
 		2023.03.08	V5.00	Fixed lipo battery lower voltage limit.
 		2023.12.19	V6.00	Improved watchdog handlings.
+		2024.07.18	V7.00	Fixed empty argument.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,7 +23,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "pwr_support.h"
 /* check header file version for fool proof */
-#if PWR_SUPPORT_H!= 0x0600
+#if PWR_SUPPORT_H!= 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -205,7 +206,7 @@ int16_t GetVbat()
     @retval Degree Celsius.
 */
 /**************************************************************************/
-double GetTemp()
+double GetTemp(void)
 {
     s32 temp;
 

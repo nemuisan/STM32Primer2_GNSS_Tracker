@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        26.00
-    @date           2024.07.12
+    @version        27.00
+    @date           2024.07.16
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2024.07.12	See ts_ver.txt.
+		2024.07.16	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if TS_FILELOADS_H != 0x2600
+#if TS_FILELOADS_H != 0x2700
 #error "header file version is not correspond!"
 #endif
 
@@ -1780,11 +1780,16 @@ static void filer_put_item (
 		int strl = strlen(item->fname);
 		uint8_t* str = malloc(strl);
 		strlcpy((char*)str,item->fname,TS_WIDTH-3);
-		/* Force round down */
-		str[TS_WIDTH-4] = 0;
 		/* In case of 2byte charactor */
-		if(((str[TS_WIDTH-5] >= 0x81)&&(str[TS_WIDTH-5] <= 0x9F))||((str[TS_WIDTH-5] >= 0xE0)&&(str[TS_WIDTH-5] <= 0xEF))){
-			str[TS_WIDTH-5] = 0;
+		if(((str[TS_WIDTH-4] >= 0x81)&&(str[TS_WIDTH-4] <= 0x9F))||((str[TS_WIDTH-4] >= 0xE0)&&(str[TS_WIDTH-4] <= 0xFC))){
+			str[TS_WIDTH-4] = 0; /* Delete S-JIS 1st byte */ 
+		}
+		else if(((str[TS_WIDTH-5] >= 0x81)&&(str[TS_WIDTH-5] <= 0x9F))||((str[TS_WIDTH-5] >= 0xE0)&&(str[TS_WIDTH-5] <= 0xFC))){
+			str[TS_WIDTH-5] = 0; /* Delete S-JIS 1st byte */ 
+			str[TS_WIDTH-4] = 0; /* Delete S-JIS 2nd byte */ 
+		}
+		else{
+			str[TS_WIDTH-4] = 0; /* Delete Ascii byte */ 
 		}
 		xprintf(" %s", (char*)str);
 		if(str != NULL) free(str);

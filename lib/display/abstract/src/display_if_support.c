@@ -18,7 +18,7 @@
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2023.08.01	V8.00	Revised release.
-		2024.08.01	V9.00	Fixed root(double) function.
+		2024.08.01	V9.00	Fixed drawcircle and font function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -725,7 +725,7 @@ void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg)
 
 /**************************************************************************/
 /*! 
-	Put SJIS Fonts Basic.
+	Put Shift-JIS Fonts Basic.
 */
 /**************************************************************************/
 int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans)
@@ -735,7 +735,7 @@ int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans)
 
 		if (x >= MAX_X || y >= MAX_Y) return 0;
 
-		if(((*pch >= 0x80)&&(*pch < 0xA0))||((*pch >= 0xE0)&&(*pch <= 0xFF)))
+		if(((*pch >= 0x81)&&(*pch <= 0x9F))||((*pch >= 0xE0)&&(*pch <= 0xFC)))
 	  		{
 				if(trans == TRANSPARENT) putkanji_t(x,y,pch,pScrCol->Fg);
 				else					 putkanji  (x,y,pch,pScrCol->Fg,pScrCol->Bg);
@@ -758,7 +758,7 @@ int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans)
 
 /**************************************************************************/
 /*! 
-	Put SJIS Fonts Advanced.
+	Put Shift-JIS Fonts Advanced.
 */
 /**************************************************************************/
 int Display_Puts_If_Ex(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans, uint16_t fg,uint16_t bg)
@@ -768,7 +768,7 @@ int Display_Puts_If_Ex(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans, uint
 
 		if (x >= MAX_X || y >= MAX_Y) return 0;
 
-		if(((*pch >= 0x80)&&(*pch < 0xA0))||((*pch >= 0xE0)&&(*pch <= 0xFF)))
+		if(((*pch >= 0x81)&&(*pch <= 0x9F))||((*pch >= 0xE0)&&(*pch <= 0xFC)))
 	  		{
 				if(trans == TRANSPARENT) putkanji_t(x,y,pch,fg);
 				else					 putkanji  (x,y,pch,fg,bg);

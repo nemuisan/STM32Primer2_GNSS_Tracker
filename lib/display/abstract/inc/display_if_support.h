@@ -18,7 +18,7 @@
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2023.08.01	V8.00	Revised release.
-		2024.08.01	V9.00	Fixed root(double) function.
+		2024.08.01	V9.00	Fixed drawcircle and font function.
 
     @section LICENSE
 		BSD License. See Copyright.txt

@@ -1,7 +1,8 @@
 ********************* ts_basis.x update history ********************
 
-	2023.09.01 V21.00	Added Konatsu-Font handlings.
+	2024.07.16 V22.00	Fixed Shift-JIS font handling.
 
+	2023.09.01 V21.00	Added Konatsu-Font handlings.
 	2023.06.01 V20.00	Fixed wrong macro expressions.
 	2023.03.01 V19.00	Renamed from ts.x
 	2019.11.01 V18.00	Fixed wrong X limit setting for filer.
@@ -30,8 +31,9 @@
 
 ********************* ts_fileloads.x update history ********************
 
-	2024.07.12 V26.00	Fixed small fix.
+	2024.07.16 V27.00	Fixed Shift-JIS font handling.
 
+	2024.07.12 V26.00	Fixed small fix.
 	2023.07.20 V25.00	Added HX8363B streaming support.
 						Added NT35516 support.
 	2023.06.11 V24.00	Fixed filename round down on filer_put_item().

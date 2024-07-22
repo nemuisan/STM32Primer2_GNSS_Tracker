@@ -77,7 +77,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 107.00
+APP_VER = 108.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -300,9 +300,10 @@ CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -fno-schedule-insns2 -fipa-sra
 CFLAGS += --param max-inline-insns-single=1000
 CFLAGS += -fno-common -fno-hosted
-CFLAGS += -Wall -Wdouble-promotion -Woverflow
-CFLAGS += -Wno-unused-but-set-variable -Wno-maybe-uninitialized
-CFLAGS += -Wredundant-decls -Wreturn-type -Wshadow -Wunused
+CFLAGS += -Wall -Wextra
+CFLAGS += -Wdouble-promotion -Woverflow -Wfloat-equal
+CFLAGS += -Wstrict-prototypes -Wredundant-decls -Wreturn-type
+CFLAGS += -Wshadow -Wunused
 CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<)
 CFLAGS += $(SYNTHESIS_DEFS)
 

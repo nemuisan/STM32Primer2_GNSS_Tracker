@@ -14,7 +14,7 @@ extern "C" {
 #define	XF_USE_DUMP		1	/* 1: Enable put_dump function */
 #define	XF_USE_LLI		1	/* 1: Enable long long integer in size prefix ll */
 #define	XF_LLI_t		long long	/* Platform dependent long long integer type */
-#define	XF_USE_FP		1	/* 1: Enable support for floating point in type 'e' and 'f' */
+#define	XF_USE_FP		0	/* 1: Enable support for floating point in type 'e' and 'f' */
 #define XF_DPC			'.'	/* Decimal separator for floating point */
 #define XF_USE_INPUT	1	/* 1: Enable input functions */
 #define	XF_INPUT_ECHO	1	/* 1: Echo back input chars in xgets function */

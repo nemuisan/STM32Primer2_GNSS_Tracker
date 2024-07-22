@@ -2,14 +2,15 @@
 /*!
 	@file			usb_prop.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2023.03.07
+    @version        4.00
+    @date           2024.07.18
 	@brief          USB Endpoint Wrappers.
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here
 		2014.12.17	V2.00	Adopted GCC4.9.x.
 		2023.03.07	V3.00	Fixed wrong functional connection at xSetDeviceAddress.
+		2024.07.18	V4.00	Fixed empty argument.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -218,7 +219,7 @@ void nxGetInterface(void){
     SetInterface wrapper
 */
 /**************************************************************************/
-void nxSetInterface(){
+void nxSetInterface(void){
 	xSetInterface();
 }
 
