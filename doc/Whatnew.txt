@@ -1,3 +1,11 @@
+2025.01.24 :
+V109.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_6/commit/8c4dc58928b3347f6aa98b6fb2bf6770f32a72b7
+		Adopted FatFs0.15a.
+		Adopted FatFs0.15a latest patch update(patch1).
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 14.2.Rel1 (Build arm-14.52)) 14.2.1 20241119
+
 2024.07.18 :
 V108.00	Fixed Shift-JIS font handlings(on ts_basis.c,h and ts_fileloads.c,h).
 		Fixed Shift-JIS font handlings(on display_if_support.c,h).
