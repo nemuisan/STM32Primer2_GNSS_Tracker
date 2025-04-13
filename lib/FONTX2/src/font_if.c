@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2024.08.01
+    @version        9.00
+    @date           2025.04.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -18,6 +18,7 @@
 		2019.02.01	V6.00	Fixed some compiler warnings.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2024.08.01	V8.00	Fixed signature validation function.
+		2025.04.01	V9.00	Fixed typo.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -27,7 +28,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "font_if.h"
 /* check header file version for fool proof */
-#if FONT_IF_H != 0x0800
+#if FONT_IF_H != 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -107,7 +108,7 @@ uint8_t ChkFontSig_Ank(FontX_Ank* AnkDat)
 	int i =0;
 	char chkstr[7];
 	
-	/* Retrive Signature */
+	/* Retrieve Signature */
 	for(; i < 6; i++){
 		chkstr[i] = READ_ADDR_UNIT8_C(AnkDat->AnkFileOffset + ANK_HEADER + i);
 	}
@@ -127,7 +128,7 @@ void GetFontName_Ank(char* name)
 {
 	int i=0;
 
-	/* Retrive FONTX2 Name */
+	/* Retrieve FONTX2 Name */
 	for(;i<8;i++){
 		*(name + i) = READ_ADDR_UNIT8_C(CurrentAnkDat->AnkFileOffset + ANK_FONTNAME + i);
 	}
@@ -243,7 +244,7 @@ uint8_t ChkFontSig_Kanji(FontX_Kanji* KanjiDat)
 	int i =0;
 	char chkstr[7];
 	
-	/* Retrive Signature */
+	/* Retrieve Signature */
 	for(; i < 6; i++){
 		chkstr[i] = READ_ADDR_UNIT8_C(KanjiDat->KanjiFileOffset + KANJI_HEADER + i);
 	}
@@ -263,7 +264,7 @@ void GetFontName_Kanji(char* name)
 {
 	int i=0;
 
-	/* Retrive FONTX2 Name */
+	/* Retrieve FONTX2 Name */
 	for(;i<8;i++){
 		*(name + i) = READ_ADDR_UNIT8_C(CurrentKanjiDat->KanjiFileOffset + KANJI_FONTNAME + i);
 	}

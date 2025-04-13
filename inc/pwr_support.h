@@ -2,8 +2,8 @@
 /*!
 	@file			pwr_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2024.07.18
+    @version        8.00
+    @date           2025.04.07
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
@@ -15,13 +15,14 @@
 		2023.03.08	V5.00	Fixed lipo battery lower voltage limit.
 		2023.12.19	V6.00	Improved watchdog handlings.
 		2024.07.18	V7.00	Fixed empty argument.
+		2025.04.07	V8.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef PWR_SUPPORT_H
-#define PWR_SUPPORT_H 0x0700
+#define PWR_SUPPORT_H 0x0800
 
 #ifdef __cplusplus
  extern "C" {
@@ -32,7 +33,7 @@
 #include "hw_config.h"
 
 
-/* macros */
+/* Macros */
 #define PWR_ON()			GPIO_ResetBits(GPIO_PWR, SHUTDOWN)
 #define PWR_OFF()			GPIO_SetBits(GPIO_PWR, SHUTDOWN)
 
@@ -42,14 +43,14 @@
 #define MID_BAT_VOLTAGE		3600UL  /* 3600mV */
 #define LOWER_FILT_TIME		20    	/* 20Sec  */
 
-/* Shutdown Button */
+/* Shutdown button */
 #define SHUT_TIME			3000UL  /* 3000mSec */
 
-/* IWWDG Timer Relation */
+/* IWWDG Timer relation */
 #define LSI_FREQ			40000UL	/* For Independent Watchdog(in Hz) */
 #define WDT_INTERVAL		5000UL	/* For Independent Watchdog(in mSec) MAX6553.5mSec */
 
-/* BATTERY STATE */
+/* Battery state */
 enum
 {
 	BAT_HIGH,
@@ -59,7 +60,7 @@ enum
 extern __IO uint32_t BatState;
 #define LOWBATT_ALARM()		(BatState == BAT_LOW)
 
-/* Watchdog Handlings */
+/* Watchdog handlings */
 extern __IO uint32_t WdtState;
 
 /* Externals */

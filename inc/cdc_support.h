@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2023.12.19
+    @version        9.00
+    @date           2025.04.08
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -15,13 +15,14 @@
 		2022.10.10	V6.00	Purge UART buffer on connect.
 		2023.03.22	V7.00	Enable UART Rx interrupt on connect.
 		2023.12.19  V8.00	Improved watchdog handlings.
+		2025.04.08	V9.00	Changed minor function name.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef CDC_SUPPORT_H
-#define CDC_SUPPORT_H 0x0800
+#define CDC_SUPPORT_H 0x0900
 
 #ifdef __cplusplus
  extern "C" {

@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_memory.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2023.03.23
+    @version        8.00
+    @date           2025.04.09
 	@brief          Memory management layer.
 					Based On STMicro's Sample Thanks!
 
@@ -15,13 +15,14 @@
 		2017.03.29	V5.00	Removed retired variables.
 		2019.09.20	V6.00	Fixed shadowed variable.
 		2023.03.23	V7.00	Fixed data_buffer capacity.
+		2025.04.09	V8.00	Changed to MultiBlock R/W.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef USB_MSC_MEMORY_H
-#define USB_MSC_MEMORY_H	0x0700
+#define USB_MSC_MEMORY_H 0x0800
 
 #ifdef __cplusplus
  extern "C" {
@@ -43,8 +44,8 @@
 #define TXFR_ONGOING  1
 
 /* Externals */
-void Write_Memory (uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length);
-void Read_Memory (uint8_t lun, uint32_t Memory_Offset, uint32_t Transfer_Length);
+extern void Write_Memory(uint8_t lun, uint32_t Block_Addr, uint32_t BlockCount);
+extern void Read_Memory(uint8_t lun, uint32_t Block_Addr, uint32_t BlockCount);
 
 #ifdef __cplusplus
 }

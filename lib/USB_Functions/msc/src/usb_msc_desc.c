@@ -2,14 +2,15 @@
 /*!
 	@file			usb_msc_desc.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2023.03.20
+    @version        3.00
+    @date           2025.04.03
 	@brief          Descriptor Header for Mass Storage Device.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
 		2023.03.20	V2.00	All descriptors are aligned by 4-byte.
+		2025.04.03	V3.00	Fixed wrong comment.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -64,7 +65,7 @@ const uint8_t Mass_ConfigDescriptor[MASS_SIZ_CONFIG_DESC] __attribute__ ((aligne
     /*      Index of string descriptor */
     /*      describing the configuration */
     0xC0,   /* bmAttributes: */
-    /*      bus powered */
+    /*      Self powered */
     0x32,   /* MaxPower 100 mA */
 
     /******************** Descriptor of Mass Storage interface ********************/
@@ -76,25 +77,25 @@ const uint8_t Mass_ConfigDescriptor[MASS_SIZ_CONFIG_DESC] __attribute__ ((aligne
     0x00,   /* bAlternateSetting: Alternate setting */
     0x02,   /* bNumEndpoints*/
     0x08,   /* bInterfaceClass: MASS STORAGE Class */
-    0x06,   /* bInterfaceSubClass : SCSI transparent*/
+    0x06,   /* bInterfaceSubClass : SCSI transparent */
     0x50,   /* nInterfaceProtocol */
     4,          /* iInterface: */
     /* 18 */
-    0x07,   /*Endpoint descriptor length = 7*/
-    0x05,   /*Endpoint descriptor type */
-    0x81,   /*Endpoint address (IN, address 1) */
-    0x02,   /*Bulk endpoint type */
-    0x40,   /*Maximum packet size (64 bytes) */
+    0x07,   /* Endpoint descriptor length = 7 */
+    0x05,   /* Endpoint descriptor type */
+    0x81,   /* Endpoint address (IN, address 1) */
+    0x02,   /* Bulk endpoint type */
+    0x40,   /* Maximum packet size (64 bytes) */
     0x00,
-    0x00,   /*Polling interval in milliseconds */
-    /* 25 */
-    0x07,   /*Endpoint descriptor length = 7 */
-    0x05,   /*Endpoint descriptor type */
-    0x02,   /*Endpoint address (OUT, address 2) */
-    0x02,   /*Bulk endpoint type */
-    0x40,   /*Maximum packet size (64 bytes) */
+    0x00,   /* Polling interval in milliseconds */
+    /* 25 */ 
+    0x07,   /* Endpoint descriptor length = 7 */
+    0x05,   /* Endpoint descriptor type */
+    0x02,   /* Endpoint address (OUT, address 2) */
+    0x02,   /* Bulk endpoint type */
+    0x40,   /* Maximum packet size (64 bytes) */
     0x00,
-    0x00     /*Polling interval in milliseconds*/
+    0x00     /* Polling interval in milliseconds*/
     /*32*/
   };
 const uint8_t Mass_StringLangID[MASS_SIZ_STRING_LANGID] __attribute__ ((aligned (4))) =

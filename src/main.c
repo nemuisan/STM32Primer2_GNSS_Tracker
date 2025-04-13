@@ -2,11 +2,11 @@
 /*!
 	@file			main.c (STM32Primer2 GNSS-Tr@cker main file)
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        109.00
-    @date           2025.01.24
+    @version        110.00
+    @date           2025.04.09
 
     @section HISTORY
-		2025.01.24	V109.00	See Whatnew.txt
+		2025.04.09	V110.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -40,7 +40,7 @@ int main(void)
 	/* Set Basis System For STM32 Primer2 */
 	Set_System();
 
-	/* Set SysTickCounter for _delay_ms(); / _delay_us(); */
+	/* Set SysTickCounter for _delay_ms() or _delay_us() */
 	SysTickInit(INTERVAL);
 
 	/* Select GNSS-LOGGER/USB-MSC/USB-CDC Mode */
@@ -53,7 +53,7 @@ int main(void)
 		}
 	}
 
-	/* Select USB-MSC/USB-CDC and MTK-Logging Mode */
+	/* Select USB-MSC/USB-CDC and GNSS MTK-Logging Mode */
 	if(TaskStat == NO_SELECTED) {
 		if     (GPIO_ReadInputDataBit(GPIOE, KEY_L)) TaskStat = USB_VCOM;
 		else if(GPIO_ReadInputDataBit(GPIOE, KEY_R)) TaskStat = USB_MSC;

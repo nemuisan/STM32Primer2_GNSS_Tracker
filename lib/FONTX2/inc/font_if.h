@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2024.08.01
+    @version        9.00
+    @date           2025.04.01
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -18,13 +18,14 @@
 		2019.02.01	V6.00	Fixed some compiler warnings.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2024.08.01	V8.00	Fixed signature validation function.
+		2025.04.01	V9.00	Fixed typo.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FONT_IF_H 
-#define FONT_IF_H 0x0800
+#define FONT_IF_H 0x0900
 
 #ifdef __cplusplus
  extern "C" {
@@ -38,7 +39,7 @@
 /* To Read uC Flash Memory Little Endian */ 
 #define	READ_ADDR_UNIT8(ADDR) 	((uint8_t)*(uint8_t*)(addr_ofs+ADDR))
 #define	READ_ADDR_UNIT16(ADDR) 	((uint16_t)*(uint16_t*)(addr_ofs+ADDR))
-/* Retrive 8bit datas from Current pointer */
+/* Retrieve 8bit datas from Current pointer */
 #define	READ_ADDR_UNIT8_C(ADDR) ((uint8_t)*(uint8_t*)(ADDR))
 
 

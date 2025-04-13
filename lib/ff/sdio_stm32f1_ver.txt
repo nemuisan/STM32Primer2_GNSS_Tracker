@@ -1,9 +1,10 @@
 ********************* sdio_stm32f1.x update history ********************
 
-	2024.07.12 V33.00	Fixed RCA handlings in FindSCR();
+	2025.04.09 V34.00	Adopted latest USB-MassStorage implementation.
 
+	2024.07.12 V33.00	Fixed RCA handlings in FindSCR();
 	2023.04.21 V32.00	Fixed cosmetic bugfix.
-	2022.09.03 V31.00	Fixed illegal size pointer cast on RX-DMA.
+	2022.09.03 V31.00	Fixed illegal size pointer cast on DMA-Rx.
 	2019.09.11 V30.00	Fixed illegal pointer cast.
 	2018.11.07 V29.00	Fixed ExtCSD value retrieval problem for MMCv4.x or above cards.
 	2018.10.16 V28.00	Adopted FatFs0.13c.
@@ -28,7 +29,7 @@
 	2014.03.21  V9.00	Optimized SourceCodes.
 	2014.01.15  V8.00	Improved Insertion detect(configuarable).
 	2013.10.09  V7.00	Integrated with diskio_sdio.c.
-	2013.07.06  V6.00	Fixed over 4GB R/W Problem.
+	2013.07.06  V6.00	Fixed over 4GB R/W problem.
 	2012.10.05  V5.00	Fixed ACMD41 Argument for SDXC(Not UHS-1 mode).
 	2012.09.22  V4.00	Updated Support grater than 32GB Cards.
 	2012.04.17  V3.00	Added SD_GetCardStatus().

@@ -1,3 +1,19 @@
+2025.04.09 :
+V110.00	Updated STM32_USB-FS-Device_Driver(4.1.0).
+		Fixed dead-lock bug on STM32_USB-FS-Device_Driver(usb_int.c).
+		Fixed Setup_Out_In(Null In) problem on STM32_USB-FS-Device_Driver(usb_core.c).
+		Changed IN/OUT double-buffered bulk transfer(on usb_msc_bot.c,h and usb_msc_prop.c,h and usb_msc_conf.h).
+		Fixed wrong comment(on usb_msc_desc.c,h).
+		Removed non-used variable(on usb_msc_prop.c,h).
+		Changed to MultiBlock R/W(on usb_msc_memory.c,h and usb_msc_mass_mal.c,h).
+		Fixed typo comment(on hw_config.c,h).
+		Changed minor function name(on cdc_suppot.c,h msc_support.c,h).
+		Fixed retrieve current SystemCoreClock frequency on SysTickInit(on systick.c,h).
+		Fixed GNSS logging mode handlings in SysTick_Handler(on stm32f10x_it.c,h).
+		Fixed typo(on ts_fileloads.c,h and font_if.c,h).
+		Fixed cosmetic bugfix(on pwr_support.c,h).
+		Adopted latest USB-MassStorage implementation(on sdio_stm32f1.c,h).
+
 2025.01.24 :
 V109.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_6/commit/8c4dc58928b3347f6aa98b6fb2bf6770f32a72b7

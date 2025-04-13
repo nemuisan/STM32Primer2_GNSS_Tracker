@@ -7,7 +7,7 @@ Functions
 ------
 - General  
 -- 4-direction and center key inputs.  
--- Battery management with low voltage auto shutdown.  
+-- Battery management with low voltage detect & shutdown.  
 -- Push key to select below three functions.  
 -- Systick mSec Timer and uSec Timer(Using hardware timer).  
 -- Indication LEDs.
@@ -20,8 +20,8 @@ Functions
 - USB Mass Storage  
 -- Using SDIO with DMA Driver.  
 -- Supports MMC,SDSC,SDHC,SDXC and eMMC.  
--- Using doublebuffered endpoints(Bulk IN only).  
--- WR:0.55MB/Sec,RD:0.21MB/Sec(using SDSC 1GB card case).  
+-- Using double-buffered endpoints(Bulk IN/OUT).  
+-- Write:0.81MB/Sec,Read:0.42MB/Sec MAX(Tested with DELKIN U331 1GB microsd).  
 
 - USB CDC Virtual Comport  
 -- Using doublebuffered endpoints(Bulk IN only).  

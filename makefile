@@ -77,7 +77,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 109.00
+APP_VER = 110.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -186,7 +186,7 @@ ifneq ($(USE_DISPLAY),)
 include ./display_cfg_ex.mk
 endif
 
-#/*----- FONX2 Driver library PATH -----*/
+#/*----- FONTX2 Driver library PATH -----*/
 FONTX2_LIB	= ./lib/FONTX2
 ifneq ($(USE_FONTSIZE),)
 include $(FONTX2_LIB)/fontx2_drv.mk

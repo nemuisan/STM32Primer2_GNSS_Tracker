@@ -2,8 +2,8 @@
 /*!
 	@file			pwr_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2024.07.18
+    @version        8.00
+    @date           2025.04.07
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
@@ -15,6 +15,7 @@
 		2023.03.08	V5.00	Fixed lipo battery lower voltage limit.
 		2023.12.19	V6.00	Improved watchdog handlings.
 		2024.07.18	V7.00	Fixed empty argument.
+		2025.04.07	V8.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "pwr_support.h"
 /* check header file version for fool proof */
-#if PWR_SUPPORT_H!= 0x0700
+#if PWR_SUPPORT_H!= 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -64,7 +65,7 @@ void PWR_Mgn(void)
 void WDT_Reset(void)
 {
 	if(WdtState == 1){
-		WdtState =0;
+		WdtState = 0;
 		/* Reload IWDG counter */
 		IWDG_ReloadCounter();
 	}
@@ -82,27 +83,30 @@ static void ShutKey_Chk(void)
 	/* execute 1mSec every in Systick Timer */
 	static uint32_t shutcounts;
 
-	if(GPIO_ReadInputDataBit(GPIOA, KEY_CT)==1)
+	if(GPIO_ReadInputDataBit(GPIOA, KEY_CT))
+	{
+		/* Key pressed continuously 3000mSec */
+		if(++shutcounts > SHUT_TIME)
 		{
-			/* Key Pressed sequencery 3000mSec */
-			if(++shutcounts > SHUT_TIME)
-				{
-					/* Reload IWDG counter */
-					IWDG_ReloadCounter();
-					/* FatFs File Close */
-					ShutFileClose();
-					/* Power OFF by self */
-					PWR_OFF();
-					/* Reload IWDG counter eternal */
-					for(;;){
-						IWDG_ReloadCounter();
-					}
-				}
+			/* Reload IWDG counter */
+			IWDG_ReloadCounter();
+			/* FatFs File Close(Ignored in MSC/CDC mode) */
+			ShutFileClose();
+			/* LED Backlight is anyway OFF */
+			GPIO_ResetBits(GPIOB,GPIO_Pin_8);
+			/* Power OFF by itself */
+			PWR_OFF();
+			/* Reload IWDG counter eternal */
+			for(;;)
+			{
+				IWDG_ReloadCounter();
+			}
 		}
+	}
 	else
-		{
-			shutcounts = 0;
-		}
+	{
+		shutcounts = 0;
+	}
 }
 
 
@@ -118,7 +122,7 @@ static void ShutVbat_Chk(void)
 	/* execute 1mSec every in Systick Timer */
 	static uint32_t vbatcounts;
 	static uint32_t vbatlow;
-	static uint32_t vbatbabyflag=15;
+	static uint32_t vbatbabyflag = 15;
 	static uint32_t CurrentVbat;
 	
 	if(vbatbabyflag)
@@ -127,12 +131,12 @@ static void ShutVbat_Chk(void)
 		vbatbabyflag--;
 	}
 	
-	/* execute every 1Sec (about 1024mSec) */
+	/* Execute every 1Sec */
 	if(++vbatcounts > 1000 ){
-		vbatcounts =0;
+		vbatcounts = 0;
 		CurrentVbat =  ((CurrentVbat * 3) + (GetVbat()) ) / 4;
 		
-		 /* Bad battery or USB powered only detection */
+		/* Bad battery or USB powered only detection */
 		if(CurrentVbat > NO_BAT_VOLTAGE)
 		{
 			if(CurrentVbat < MID_BAT_VOLTAGE) 	{BatState = BAT_LOW;}
@@ -146,22 +150,23 @@ static void ShutVbat_Chk(void)
 					IWDG_ReloadCounter();
 					/* FatFs File Close */
 					ShutFileClose();
-					/* Power OFF by self */
+					/* Power OFF by itself */
 					PWR_OFF();
 					/* Reload IWDG counter eternal */
-					for(;;){
+					for(;;)
+					{
 						IWDG_ReloadCounter();
 					}
 				}
 			}
 			else
 			{
-				vbatlow =0;
+				vbatlow = 0;
 			}
 		}
 		else /* In case of USB Powered only */
 		{
-				vbatlow =0;
+				vbatlow = 0;
 		}
 	}
 }
@@ -208,10 +213,10 @@ int16_t GetVbat()
 /**************************************************************************/
 double GetTemp(void)
 {
-    s32 temp;
+    int32_t temp;
 
     // Measure temp
-    //  s16 *p=&ADC_ConvertedValue[1];
+    // int16_t *p=&ADC_ConvertedValue[1];
     // will not help reduce mains ripple because conversions are SO FAST!!
     // Calculate the mean value
 	// take avg of burst of 4 temp reads. may only help reject hi freq noise a bit
@@ -226,8 +231,8 @@ double GetTemp(void)
         }
     temp = temp / ADC_NB_SAMPLES;
     temp = temp & 0xFFF;
-    temp = ( temp * ADC_VREF_MV ) / 0x1000;  		   //finds mV
-    temp = (((V25_MV-temp)*100000)/AVG_SLOPE_UV)+25000;    //gives approx temp x 1000 degrees C
+    temp = ( temp * ADC_VREF_MV ) / 0x1000;  		   	//finds mV
+    temp = (((V25_MV-temp)*100000)/AVG_SLOPE_UV)+25000;	//gives approx temp x 1000 degrees C
 
 
     return (double)temp/1000;
@@ -236,7 +241,7 @@ double GetTemp(void)
 
 /**************************************************************************/
 /*! 
-    @brief  Configures the SHUTDOWN(PC13) on STM32Primer2.
+    @brief  Configures the SHUTDOWN(PC13) and IWDG on STM32Primer2.
 	@param  None.
     @retval None.
 */
@@ -254,7 +259,7 @@ void PWR_Configuration(void)
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_Out_PP;
 	GPIO_Init(GPIO_PWR, &GPIO_InitStructure);
 
-	/* Setting IWDG timeout equal (for USB Functions) */
+	/* Setting IWDG timeout (for USB Functions) */
 	/* Enable write access to IWDG_PR and IWDG_RLR registers */
 	IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);
 	/* IWDG counter clock: LSI/64 */

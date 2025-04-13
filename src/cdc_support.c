@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2023.12.19
+    @version        9.00
+    @date           2025.04.08
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -15,6 +15,7 @@
 		2022.10.10	V6.00	Purge UART buffer on connect.
 		2023.03.22	V7.00	Enable UART Rx interrupt on connect.
 		2023.12.19  V8.00	Improved watchdog handlings.
+		2025.04.08	V9.00	Changed minor function name.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if CDC_SUPPORT_H!= 0x0800
+#if CDC_SUPPORT_H!= 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -423,9 +424,10 @@ void CDC_IRQ(void)
 /**************************************************************************/
 void cdc_task(void)
 {
-	/* Available USB Clock Frequency */
-	Set72();
-	/* Retrive SystemClock Frequency and reset SysTick */
+	/* Set Available SystemClock to 72MHz for USB Functions */
+	SetSysClock72();
+	
+	/* Retrieve SystemClock Frequency and reset SysTick */
 	SysTickInit(INTERVAL);
 
 	/* Init Display Driver and FONTX Driver */
@@ -439,18 +441,21 @@ void cdc_task(void)
 	Display_Puts_If(0,1*CurrentAnkDat->Y_Size,(uint8_t*)("System Version:"APP_VERSION),TRANSPARENT);
 
 	/* USB-CDC Configurations */
-  	USB_Disconnect_Config();
+	USB_Disconnect_Config();
 	USB_Cable_Config(DISABLE); /* fool ploof */
 
 	Set_USBClock();
 	USB_Interrupts_Config();
 	USB_Init();
 	USB_Cable_Config(ENABLE);
+	
+	/* Wait CONFIGURED state */
 	while (bDeviceState != CONFIGURED)
 	{
 		WDT_Reset();
 	}
 
+	/* Main loop */
 	while (1){
 		__WFI();
 		WDT_Reset();

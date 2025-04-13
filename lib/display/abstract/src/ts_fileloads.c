@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        27.00
-    @date           2024.07.16
+    @version        28.00
+    @date           2025.04.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2024.07.16	See ts_ver.txt.
+		2025.04.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if TS_FILELOADS_H != 0x2700
+#if TS_FILELOADS_H != 0x2800
 #error "header file version is not correspond!"
 #endif
 
@@ -1606,7 +1606,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 
 	/* Execute SJIS/Ascii style text file */
 	if (strstr_ext(path, ".TXT")) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
 		load_txt(fil, (BYTE*)Buff, BUFSIZE);
 		f_close(fil);
 		return RES_OK;
@@ -1616,7 +1616,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 	/* Execute JPEG File using IJG JPEG library(libjpeg) */
 	uint8_t JPEG_SOI[] = {0xFF,0xD8,0}; /* JPEG Merker */
 	if (!memcmp(Buff,JPEG_SOI,2)) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
 		load_jpeg(fil);
 		f_close(fil);
 		return RES_OK;
@@ -1624,7 +1624,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #elif defined(USE_TINYJPEG_LIB)
 	/* Execute JPEG File using ChaN's JPEG decorder */
 	if (strstr_ext(path, ".JPG")) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
 	#if (BUFSIZE > 32*1024)
 	#warning "ChaN's JPEG library have 32kByte buffersize restriction"
 		load_jpg(fil, (BYTE*)Buff, 32764);
@@ -1639,7 +1639,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_LIBPNG)
 	/* Execute PNG File using libpng */
 	if (strstr_ext(path, ".PNG")) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
 		load_png(fil, fname);
 		f_close(fil);
 		return RES_OK;
@@ -1649,7 +1649,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_GIFLIB)
 	/* Execute gif File using giflib */
 	if (strstr_ext(path, ".GIF")) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
 		load_gif(fil);
 		f_close(fil);
 		return RES_OK;
@@ -1659,7 +1659,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_WAVE_OUT)
 	/* Execute RIFF-WAV file */
 	if (strstr_ext(path, ".WAV")) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
 		load_wav(fil, fname, (BYTE*)Buff, BUFSIZE);
 		f_close(fil);
 		return RES_OK;
@@ -1669,7 +1669,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_MP3_HELIX)
 	/* Execute MPEG2-Layer3 file */
 	if (strstr_ext(path, ".MP3")) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
 
 		/* DMA Buffer size check (STM32F407 work around ) */
 	#if(BUFSIZE <= MP3_DMA_BUFFER_SIZE*2)
@@ -1690,7 +1690,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_AAC_HELIX)
 	/* Execute MPEG4 file */
 	if (strstr_ext(path, ".AAC")) {
-		fil->fptr=0;  /* retrive file pointer to 0 offset */
+		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
 
 		/* DMA Buffer size check (STM32F407 work around ) */
 	#if(BUFSIZE <= AAC_DMA_BUFFER_SIZE*2)

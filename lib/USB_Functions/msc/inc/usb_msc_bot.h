@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_bot.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        4.00
-    @date           2023.03.23
+    @version        5.00
+    @date           2025.04.08
 	@brief          BOT State Machine management.
 					Based On STMicro's Sample Thanks!
 
@@ -12,13 +12,14 @@
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 		2019.09.20	V3.00	Fixed shadowed variable.
 		2023.03.23	V4.00	Fixed BOT data buffer to 4byte-alignment.
+		2025.04.08	V5.00	Changed IN/OUT double-buffered bulk transfer.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef USB_MSC_BOT_H
-#define USB_MSC_BOT_H	0x0400
+#define USB_MSC_BOT_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {
@@ -72,9 +73,6 @@ Bulk_Only_CSW;
 #define CSW_CMD_FAILED				0x01
 #define CSW_PHASE_ERROR				0x02
 
-#define SEND_CSW_DISABLE			0
-#define SEND_CSW_ENABLE				1
-
 #define DIR_IN						0
 #define DIR_OUT						1
 #define BOTH_DIR					2
@@ -82,14 +80,15 @@ Bulk_Only_CSW;
 /* Bulk Packet Size (upto 64byte USB-FullSpeed) */
 #define BULK_MAX_PACKET_SIZE		64
 
-/* why does this delay need??? anyway that stable it */
-#define BOT_STABLE_COUNT			50
 
 /* Externals */
 extern void CBW_Decode(void);
-extern void Transfer_Data_Request(uint8_t* Data_Pointer, uint16_t Data_Len);
-extern void Set_CSW (uint8_t CSW_Status, uint8_t Send_Permission);
+extern void Transfer_Data_Request(uint8_t* Data_Pointer, uint16_t Data_Length);
+extern void Set_CSW (uint8_t CSW_Status);
 extern void Bot_Abort(uint8_t Direction);
+
+extern uint16_t USB_SIL_DBLWrite(uint8_t bEpAddr, uint8_t* Data_Pointer, uint16_t Data_Length);
+extern uint16_t USB_SIL_DBLread(uint8_t bEpAddr, uint8_t* Data_Pointer);
 
 extern uint8_t Bulk_Data_Buff[];
 extern uint16_t Data_Len;

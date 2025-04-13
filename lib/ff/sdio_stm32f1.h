@@ -2,20 +2,20 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		33.00
-	@date			2024.07.12
+	@version		34.00
+	@date			2025.04.09
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2024.07.12	V33.00	See sdio_stm32f1_ver.txt.
+		2025.04.09	V34.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef SDIO_STM32F1_H
-#define SDIO_STM32F1_H 0x3300
+#define SDIO_STM32F1_H 0x3400
 
 #ifdef __cplusplus
  extern "C" {
@@ -41,7 +41,7 @@
 
    Nemuisan set SDIO_CK to 36MHz MAX and ClockBypass Disable,and falling edge
    when change into highspeedmode. 
-   Of cource this procedure is irregal situation.But works almost SDHC cards!. 
+   Of cource this procedure is irregal situation.May works almost SDHC cards. 
 */
 #define SD_NS_MODE
 //#define SD_HS_MODE
@@ -49,9 +49,9 @@
 /* Uncomment the following line to Disable Incert detection */  
 /*#define SDIO_INS_DETECT	*/						/* Enable SDIO Incert Detection */
 /* SDCARD Incert detection I/O Defninitions */
-#define SD_DETECT_PIN                    GPIO_Pin_11                 /* PF.11 */
-#define SD_DETECT_GPIO_PORT              GPIOF                       /* GPIOF */
-#define SD_DETECT_GPIO_CLK               RCC_APB2Periph_GPIOF
+//#define SD_DETECT_PIN                    GPIO_Pin_11                 /* PF.11 */
+//#define SD_DETECT_GPIO_PORT              GPIOF                       /* GPIOF */
+//#define SD_DETECT_GPIO_CLK               RCC_APB2Periph_GPIOF
 
 
 /* Defines */
@@ -462,7 +462,6 @@ typedef struct
 #define MMC_HIGHSPEED_REG      						0x03B90100
 #define MMC_4BIT_REG            					0x03B70100
 #define MMC_8BIT_REG            					0x03B70200
-#define MMC_CMD6_WAIT()								_delay_us(5000)
 
 /**
   * @brief  SD detection on its memory slot
@@ -532,6 +531,11 @@ SD_Error SD_SendStatus(uint32_t *pcardstatus);
 SD_Error SD_SendSDStatus(uint32_t *psdstatus);
 SD_Error SD_ProcessIRQSrc(void);
 SD_Error SD_EnableHighSpeed(void);
+
+DRESULT SD_Read(BYTE *buff, LBA_t sector, UINT count);
+DRESULT SD_Write(const BYTE *buff, LBA_t sector, UINT count);
+DSTATUS SD_Initialize(void);
+DSTATUS SD_Status(void);
 
 extern SD_CardInfo SDCardInfo;
 

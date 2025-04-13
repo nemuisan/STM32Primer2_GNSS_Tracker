@@ -1,8 +1,8 @@
 /********************************************************************************/
 /*!
 	@file			usb_msc_prop.c
-    @version        4.00
-    @date           2023.03.20
+    @version        5.00
+    @date           2025.04.03
 	@brief          Mass Storage middle layer.
 					Based On STMicro's Sample Thanks!
 
@@ -11,6 +11,7 @@
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 		2019.09.20	V3.00	Fixed shadowed variable.
 		2023.03.20	V4.00	Removed redundant declaration.
+		2025.04.03	V5.00	Removed non-used variable.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -33,7 +34,6 @@
 
 /* Variables -----------------------------------------------------------------*/
 uint32_t Max_Lun = 0;
-extern __IO long StableCount;
 
 /* Constants -----------------------------------------------------------------*/
 ONE_DESCRIPTOR MSC_Device_Descriptor __attribute__ ((aligned (4))) =
@@ -98,11 +98,8 @@ void MSC_SetStructure(void)
 /**************************************************************************/
 void Mass_init()
 {
-
-  /* Update the serial number string descriptor with the data from the unique
-  ID*/
+  /* Update the serial number string descriptor with the data from the unique ID */
   Get_SerialNum(&Mass_StringSerial[2],&Mass_StringSerial[18]);
-
 
   pInformation->Current_Configuration = 0;
 
@@ -113,7 +110,6 @@ void Mass_init()
   USB_SIL_Init();
 
   bDeviceState = UNCONNECTED;
-
 }
 
 /**************************************************************************/
@@ -140,13 +136,18 @@ void Mass_Reset()
 	Clear_Status_Out(ENDP0);
 	SetEPRxValid(ENDP0);
 
-	/* Initialize Endpoint 1 IN as TX (Device->HOST_PC) */
+	/* Initialize Endpoint 1 IN as TX (STM32->HOST_PC) */
+	/* Nemui Changed to Double Buffer */
 	SetEPType(ENDP1, EP_BULK);
-	SetEPTxAddr(ENDP1, MSC_ENDP1_TXADDR);
-	SetEPTxStatus(ENDP1, EP_TX_NAK); /* STM32 -> HOST Enable */
-	SetEPRxStatus(ENDP1, EP_RX_DIS); /* STM32 -> HOST Disable */
+	SetEPDoubleBuff(ENDP1);
+	SetEPDblBuffAddr(ENDP1, MSC_ENDP1_BUF0Addr, MSC_ENDP1_BUF1Addr);
+	ClearDTOG_RX(ENDP1);    /* Clear DTOG USB PERIPHERAL */
+	ToggleDTOG_RX(ENDP1);	/* NOT TX ie Toggle SW_BUF - Sets buf 1 as software buffer (buf 0 for first rx) */
+	ClearDTOG_TX(ENDP1);    /* Clear SW_BUF for APPLICATION */
+	SetEPTxStatus(ENDP1, EP_TX_VALID);	/* STM32 -> HOST Enable */
+	SetEPRxStatus(ENDP1, EP_RX_DIS); 	/* STM32 <- HOST Disable */
 
-	/* Initialize Endpoint 2 OUT as RX (HOST_PC->Device) */
+	/* Initialize Endpoint 2 OUT as RX (HOST_PC->STM32) */
 	/* Nemui Changed to Double Buffer */
 	SetEPType(ENDP2, EP_BULK);
 	SetEPDoubleBuff(ENDP2);
@@ -156,13 +157,12 @@ void Mass_Reset()
 	ClearDTOG_TX(ENDP2);    /* Clear SW_BUF for APPLICATION */
     ToggleDTOG_TX(ENDP2);	/* NOT RX ie Toggle SW_BUF - Sets buf 1 as software buffer (buf 0 for first rx) */
 	SetEPRxStatus(ENDP2, EP_RX_VALID);	/* HOST -> STM32 Enable */
-	SetEPTxStatus(ENDP2, EP_TX_DIS);	/* HOST -> STM32 Disable */
+	SetEPTxStatus(ENDP2, EP_TX_DIS);	/* HOST <- STM32 Disable */
 
 	/* Set the device to response on default address */
 	SetDeviceAddress(0);
 
 	bDeviceState = ATTACHED;
-	StableCount = BOT_STABLE_COUNT;
 
 	CBW.dSignature = BOT_CBW_SIGNATURE;
 	Bot_State = BOT_IDLE;
@@ -180,11 +180,14 @@ void Mass_SetConfiguration(void)
     /* Device configured */
     bDeviceState = CONFIGURED;
 
-    /* Initialize Endpoint 1 */
-    ClearDTOG_TX(ENDP1);
-
-    /* Initialize Endpoint 2 */
+	/* Initialize Endpoint 2 */
     ClearDTOG_RX(ENDP2);
+    ClearDTOG_TX(ENDP2);
+    ToggleDTOG_TX(ENDP2); /* reset value of the data toggle bits for the 
+                             endpoint out*/
+	 /* Initialize Endpoint 1 */
+    ClearDTOG_RX(ENDP1);
+    ClearDTOG_TX(ENDP1); /* clear the data toggle bits for the endpoint IN*/
 
     Bot_State = BOT_IDLE; /* set the Bot state machine to the IDLE state */
   }
@@ -197,10 +200,12 @@ void Mass_SetConfiguration(void)
 /**************************************************************************/
 void Mass_ClearFeature(void)
 {
-  /* when the host send a CBW with invalid signature or invalid length the two
-     Endpoints (IN & OUT) shall stall until receiving a Mass Storage Reset     */
-  if (CBW.dSignature != BOT_CBW_SIGNATURE)
-    Bot_Abort(BOTH_DIR);
+	/* when the host send a CBW with invalid signature or invalid length the two
+       Endpoints (IN & OUT) shall stall until receiving a Mass Storage Reset */
+	if (CBW.dSignature != BOT_CBW_SIGNATURE)
+	{
+		Bot_Abort(BOTH_DIR);
+	}
 }
 
 /**************************************************************************/
@@ -278,14 +283,17 @@ RESULT Mass_NoData_Setup(uint8_t RequestNo)
       && (RequestNo == MASS_STORAGE_RESET) && (pInformation->USBwValue == 0)
       && (pInformation->USBwIndex == 0) && (pInformation->USBwLength == 0x00))
   {
-    /* Initialize Endpoint 1 */
-    ClearDTOG_TX(ENDP1);
-
-    /* Initialize Endpoint 2 */
+  
+	/* Initialize Endpoint 2 */
     ClearDTOG_RX(ENDP2);
-	ToggleDTOG_TX(ENDP2); /* reset value of the data toggle bits for the endpoint out*/
+    ClearDTOG_TX(ENDP2);
+    ToggleDTOG_TX(ENDP2); /* reset value of the data toggle bits for the endpoint OUT */
 	
-    /*initialize the CBW signature to enable the clear feature*/
+	/* Initialize Endpoint 1 */
+    ClearDTOG_RX(ENDP1);
+    ClearDTOG_TX(ENDP1); /* clear the data toggle bits for the endpoint IN */
+	
+    /* Initialize the CBW signature to enable the clear feature */
     CBW.dSignature = BOT_CBW_SIGNATURE;
     Bot_State = BOT_IDLE;
 
@@ -342,7 +350,7 @@ uint8_t *Mass_GetStringDescriptor(uint16_t Length)
 {
   uint8_t wValue0 = pInformation->USBwValue0;
 
-  if (wValue0 > 5)
+  if (wValue0 >= 5)
   {
     return NULL;
   }

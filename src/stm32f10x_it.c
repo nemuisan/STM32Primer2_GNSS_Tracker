@@ -2,8 +2,8 @@
 /*!
 	@file			stm32f10x_it.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.12.19
+    @version        7.00
+    @date           2025.04.03
 	@brief          Cortex-M3 Processor Exceptions Handlers.				@n
 					And STM32F10x Peripherals Interrupt Handlers.			@n
 					Device Dependent Section.
@@ -15,6 +15,7 @@
 		2014.01.23	V4.00	Removed retired STM32F10X_CL Codes.
 		2023.04.21	V5.00	Fixed cosmetic bugfix.
 		2023.12.19  V6.00	Improved watchdog handlings.
+		2025.04.03	V7.00	Fixed TaskStat handlings in SysTick_Handler.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,6 +24,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
+/* check header file version for fool proof */
+#if STM32F10x_IT_H!= 0x0700
+#error "header file version is not correspond!"
+#endif
+
 #include "hw_config.h"
 
 /* Defines -------------------------------------------------------------------*/
@@ -160,22 +166,22 @@ void PendSV_Handler(void)
 /**************************************************************************/
 void SysTick_Handler(void)
 {
-	/* used for delay routine */
+	/* Used for delay routine */
 	TimingDelay_Decrement();
 	
-	/* used for power managements */
+	/* Used for power managements */
 	PWR_Mgn();
 	
-	/* used for watchdog handlings */
+	/* Used for watchdog handlings */
 	WdtState = 1;
 	
-	/* GPS Logger Mode Special */
-	if(TaskStat == GNSS_LOGGING) ChkAckLimit();
+	/* GNSS MTK Logger Mode Special */
+	if(TaskStat == GNSS_LOGGING_MTK) ChkAckLimit();
 	
 	/* key inputs */
 	/* JoyInp_Chk(); */
 	/* FatFs relation inputs */
-	/*ff_support_timerproc();*/
+	/* ff_support_timerproc(); */
 }
 
 
@@ -228,10 +234,10 @@ void RTC_IRQHandler(void)
 	{
 		/* Clear the RTC Second interrupt */
 		RTC_ClearITPendingBit(RTC_IT_SEC);
-
+		
 		/* Enable time update */
 		TimeDisplay = 1;
-
+		
 		/* Wait until last write operation on RTC registers has finished */
 		/* RTC_WaitForLastTask(); */
 	}

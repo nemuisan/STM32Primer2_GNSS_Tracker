@@ -87,7 +87,7 @@ void SCSI_ReadFormatCapacity_Cmd(uint8_t lun)
   if (MAL_GetStatus(lun) != 0 )
   {
     Set_Scsi_Sense_Data(CBW.bLUN, NOT_READY, MEDIUM_NOT_PRESENT);
-    Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+    Set_CSW (CSW_CMD_FAILED);
     Bot_Abort(DIR_IN);
     return;
   }
@@ -113,7 +113,7 @@ void SCSI_ReadCapacity10_Cmd(uint8_t lun)
   if (MAL_GetStatus(lun))
   {
     Set_Scsi_Sense_Data(CBW.bLUN, NOT_READY, MEDIUM_NOT_PRESENT);
-    Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+    Set_CSW (CSW_CMD_FAILED);
     Bot_Abort(DIR_IN);
     return;
   }
@@ -193,7 +193,7 @@ void Set_Scsi_Sense_Data(uint8_t lun, uint8_t Sens_Key, uint8_t Asc)
 void SCSI_Start_Stop_Unit_Cmd(uint8_t lun)
 {
   (void)lun;
-  Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+  Set_CSW (CSW_CMD_PASSED);
 }
 
 /**************************************************************************/
@@ -220,7 +220,7 @@ void SCSI_Read10_Cmd(uint8_t lun , uint32_t LBA , uint32_t BlockNbr)
     {
       Bot_Abort(BOTH_DIR);
       Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
-      Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+      Set_CSW (CSW_CMD_FAILED);
     }
     return;
   }
@@ -254,7 +254,7 @@ void SCSI_Write10_Cmd(uint8_t lun , uint32_t LBA , uint32_t BlockNbr)
     {
       Bot_Abort(DIR_IN);
       Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
-      Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+      Set_CSW (CSW_CMD_FAILED);
     }
     return;
   }
@@ -274,13 +274,13 @@ void SCSI_Verify10_Cmd(uint8_t lun)
   (void)lun;
   if ((CBW.dDataLength == 0) && !(CBW.CB[1] & BLKVFY))/* BLKVFY not set*/
   {
-    Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+    Set_CSW (CSW_CMD_PASSED);
   }
   else
   {
     Bot_Abort(BOTH_DIR);
     Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
-    Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+    Set_CSW (CSW_CMD_FAILED);
   }
 }
 
@@ -296,10 +296,10 @@ void SCSI_Valid_Cmd(uint8_t lun)
   {
     Bot_Abort(BOTH_DIR);
     Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_COMMAND);
-    Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+    Set_CSW (CSW_CMD_FAILED);
   }
   else
-    Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+    Set_CSW (CSW_CMD_PASSED);
 }
 
 /**************************************************************************/
@@ -312,13 +312,13 @@ void SCSI_TestUnitReady_Cmd(uint8_t lun)
   if (MAL_GetStatus(lun))
   {
     Set_Scsi_Sense_Data(CBW.bLUN, NOT_READY, MEDIUM_NOT_PRESENT);
-    Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+    Set_CSW (CSW_CMD_FAILED);
     Bot_Abort(DIR_IN);
     return;
   }
   else
   {
-    Set_CSW (CSW_CMD_PASSED, SEND_CSW_ENABLE);
+    Set_CSW (CSW_CMD_PASSED);
   }
 }
 
@@ -332,7 +332,7 @@ void SCSI_Format_Cmd(uint8_t lun)
   if (MAL_GetStatus(lun))
   {
     Set_Scsi_Sense_Data(CBW.bLUN, NOT_READY, MEDIUM_NOT_PRESENT);
-    Set_CSW (CSW_CMD_FAILED, SEND_CSW_ENABLE);
+    Set_CSW (CSW_CMD_FAILED);
     Bot_Abort(DIR_IN);
     return;
   }
@@ -363,7 +363,7 @@ void SCSI_Invalid_Cmd(uint8_t lun)
     }
   }
   Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_COMMAND);
-  Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+  Set_CSW (CSW_CMD_FAILED);
 }
 
 /**************************************************************************/
@@ -382,7 +382,7 @@ bool SCSI_Address_Management(uint8_t lun , uint8_t Cmd , uint32_t LBA , uint32_t
     }
     Bot_Abort(DIR_IN);
     Set_Scsi_Sense_Data(lun, ILLEGAL_REQUEST, ADDRESS_OUT_OF_RANGE);
-    Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+    Set_CSW (CSW_CMD_FAILED);
     return (FALSE);
   }
 
@@ -398,7 +398,7 @@ bool SCSI_Address_Management(uint8_t lun , uint8_t Cmd , uint32_t LBA , uint32_t
       Bot_Abort(DIR_IN);
     }
     Set_Scsi_Sense_Data(CBW.bLUN, ILLEGAL_REQUEST, INVALID_FIELED_IN_COMMAND);
-    Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);
+    Set_CSW (CSW_CMD_FAILED);
     return (FALSE);
   }
   return (TRUE);

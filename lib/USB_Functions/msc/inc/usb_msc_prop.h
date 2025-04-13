@@ -1,8 +1,8 @@
 /********************************************************************************/
 /*!
 	@file			usb_msc_prop.h
-    @version        4.00
-    @date           2023.03.10
+    @version        5.00
+    @date           2025.04.03
 	@brief          Mass Storage middle layer.
 					Based On STMicro's Sample Thanks!
 
@@ -11,13 +11,14 @@
 		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
 		2019.09.20	V3.00	Fixed shadowed variable.
 		2023.03.20	V4.00	Removed redundant declaration.
+		2025.04.03	V5.00	Removed non-used variable.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef USB_MSC_PROP_H
-#define USB_MSC_PROP_H	0x0400
+#define USB_MSC_PROP_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {

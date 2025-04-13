@@ -31,8 +31,9 @@
 
 ********************* ts_fileloads.x update history ********************
 
-	2024.07.16 V27.00	Fixed Shift-JIS font handling.
+	2025.04.01 V28.00	Fixed typo.
 
+	2024.07.16 V27.00	Fixed Shift-JIS font handling.
 	2024.07.12 V26.00	Fixed small fix.
 	2023.07.20 V25.00	Added HX8363B streaming support.
 						Added NT35516 support.

@@ -2,8 +2,8 @@
 /*!
 	@file			hw_config.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2023.06.01
+    @version        6.00
+    @date           2025.04.07
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -12,13 +12,14 @@
 		2022.10.15	V3.00	Fixed cosmetic bugfixes.
 		2023.04.21	V4.00	Re-Fixed cosmetic bugfix.
 		2023.06.01	V5.00	Added MTK_Command mode at gnss logging.
+		2025.04.07	V6.00	Fixed typo comment.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef HW_CONFIG_H
-#define HW_CONFIG_H 0x0500
+#define HW_CONFIG_H 0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -62,10 +63,6 @@ enum{
 		USB_MSC,
 		USB_VCOM
 	};
-	
-/* Power */
-#define PWR_ON()		GPIO_ResetBits(GPIO_PWR, SHUTDOWN)
-#define PWR_OFF()		GPIO_SetBits(GPIO_PWR, SHUTDOWN)
 
 /* LED */
 #define	LED_GRN_ON()	GPIO_SetBits(GPIO_LED, LED_GREEN)
@@ -82,13 +79,17 @@ extern void LED_Configuration(void);
 extern void KEY_Configuration(void);
 extern void JoyInp_Chk(void);
 
+/* USB Device Relation */
 extern void Set_USBClock(void);
-extern void Set72(void);
+extern void SetSysClock72(void);
 extern void Enter_LowPowerMode(void);
 extern void Leave_LowPowerMode(void);
 extern void USB_Cable_Config (FunctionalState NewState);
 extern void Get_SerialNum(uint8_t* string0,uint8_t* string1);
+extern void USB_DataPort_Config(void);
 extern void USB_Disconnect_Config(void);
+
+/* System Global Valuable */
 extern __IO uint16_t CmdKey;
 extern __IO int TaskStat;
 

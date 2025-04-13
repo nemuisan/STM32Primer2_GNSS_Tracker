@@ -2,8 +2,8 @@
 /*!
 	@file			stm32f10x_it.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2023.04.21
+    @version        7.00
+    @date           2025.04.03
 	@brief          Cortex-M3 Processor Exceptions Handlers.				@n
 					And STM32F10x Peripherals Interrupt Handlers.			@n
 					Device Dependent Section.
@@ -14,13 +14,15 @@
 		2011.03.10	V3.00	C++ Ready.
 		2014.01.23	V4.00	Removed retired STM32F10X_CL Codes.
 		2023.04.21	V5.00	Fixed cosmetic bugfix.
+		2023.12.19  V6.00	Improved watchdog handlings.
+		2025.04.03	V7.00	Fixed GNSS logging mode handlings in SysTick_Handler.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef STM32F10x_IT_H
-#define STM32F10x_IT_H
+#define STM32F10x_IT_H	0x0700
 
 #ifdef __cplusplus
  extern "C" {

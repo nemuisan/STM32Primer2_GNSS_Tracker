@@ -2,8 +2,8 @@
 /*!
 	@file			systick.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.04.21
+    @version        7.00
+    @date           2025.04.03
 	@brief          delay mSec-order routine using systick timer			@n
 					delay uSec-order routine using TIM3~5;
 
@@ -14,6 +14,7 @@
 		2014.04.25  V4.00	Fixed Timer5 Clock definition fot _delay_us();
 		2017.07.31  V5.00	Fixed portability for uSec timer;
 		2023.04.21	V6.00	Fixed cosmetic bugfix.
+		2025.04.03	V7.00	Fixed retrieve current SystemCoreClock on SysTickInit();
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "systick.h"
 /* check header file version for fool proof */
-#if SYSTICK_H!= 0x0600
+#if SYSTICK_H!= 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -49,7 +50,8 @@ void SysTickInit(__IO uint32_t interval)
 {
 	/* Making MilliSecond-Order Timer */
 	/* Select Clock Source  */
-	SysTick_CLKSourceConfig( SysTick_CLKSource_HCLK );
+	SystemCoreClockUpdate();
+	SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK);
 
 	/* Setup SysTick Timer for 1 msec interrupts  */
 	if (SysTick_Config(SystemCoreClock / interval))
@@ -58,7 +60,7 @@ void SysTickInit(__IO uint32_t interval)
 		while (1);
 	}
 	
-	/* Making MicroSecond-Order Timer */
+	/* Making MicroSecond-Order Timer (upto 65535 usec) */
 	/* Enable timer clock */
 	USEC_TIMx_CLKEN();
 

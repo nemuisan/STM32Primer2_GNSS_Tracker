@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_mass_mal.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2023.03.08
+    @version        8.00
+    @date           2024.04.09
 	@brief          Descriptor Header for Mal.
 					Based On STMicro's Sample Thanks!
 
@@ -15,13 +15,14 @@
 		2017.03.29	V5.00	Fixed capacity calculation.
 		2019.09.20	V6.00	Fixed shadowed variable.
 		2023.03.08	V7.00	Added external declaration.
+		2024.04.09	V8.00	Changed to MultiBlock R/W ready.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef MSC_MASS_MAL_H
-#define MSC_MASS_MAL_H	0x0700
+#define MSC_MASS_MAL_H 0x0800
 
 #ifdef __cplusplus
  extern "C" {
@@ -40,8 +41,8 @@
 /* Externals */
 extern uint16_t MAL_Init(uint8_t lun);
 extern uint16_t MAL_GetStatus(uint8_t lun);
-extern uint16_t MAL_Read(uint8_t lun, uint64_t Memory_Offset, uint32_t *Readbuff, uint16_t Transfer_Length);
-extern uint16_t MAL_Write(uint8_t lun, uint64_t Memory_Offset, uint32_t *Writebuff, uint16_t Transfer_Length);
+extern uint16_t MAL_Read(uint8_t lun, uint64_t Memory_Offset, uint32_t *Readbuff, uint32_t Transfer_Length);
+extern uint16_t MAL_Write(uint8_t lun, uint64_t Memory_Offset, uint32_t *Writebuff, uint32_t Transfer_Length);
 
 extern uint64_t Mass_Memory_Size[MAX_LUN];
 extern uint32_t Mass_Block_Size[MAX_LUN];

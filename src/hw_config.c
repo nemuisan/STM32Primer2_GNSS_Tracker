@@ -2,8 +2,8 @@
 /*!
 	@file			hw_config.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2023.06.01
+    @version        6.00
+    @date           2025.04.07
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -12,6 +12,7 @@
 		2022.10.15	V3.00	Fixed cosmetic bugfixes.
 		2023.04.21	V4.00	Re-Fixed cosmetic bugfix.
 		2023.06.01	V5.00	Added MTK_Command mode at gnss logging.
+		2025.04.07	V6.00	Fixed typo comment.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -21,7 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hw_config.h"
 /* check header file version for fool proof */
-#if HW_CONFIG_H!= 0x0500
+#if HW_CONFIG_H!= 0x0600
 #error "header file version is not correspond!"
 #endif
 
@@ -48,7 +49,7 @@ void Set_System(void)
 	/* SystemInit was already executed in asm startup Since StdPeriph V3.2.0 */
 	/* SystemInit(); */
 
-	/* Retrive SystemClock Frequency */
+	/* Retrieve SystemClock Frequency */
 	SystemCoreClockUpdate();
 
 	/* NVIC configuration */
@@ -134,7 +135,7 @@ void KEY_Configuration(void)
 	/* Enable 4 input clock */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
 
-	/* Configure GPIO for 4 input as Iutput PullDown */
+	/* Configure GPIO for 4 input as "Iutput PullDown" */
 	GPIO_InitStructure.GPIO_Pin 	= KEY_L | KEY_R | KEY_U | KEY_D;
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IPD;
@@ -144,7 +145,8 @@ void KEY_Configuration(void)
 	/* Enable Center input clock */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
-	/* Configure GPIO for Center (PBUTTON) input as Input Floating */
+	/* Configure GPIO for Center (PBUTTON) input as "Input Floating" */
+	/* Hardware pulldowned */
 	GPIO_InitStructure.GPIO_Pin 	= KEY_CT;
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
@@ -165,7 +167,6 @@ extern uint32_t _isr_vectorsram_offs;
 #endif
 void NVIC_Configuration(void)
 {
-
     /* 20090429Nemui */
     #ifdef  VECT_TAB_RAM  
       /* Set the Vector Table base location at 0x20000000 + _isr_vectorsram_offs */ 
@@ -176,19 +177,20 @@ void NVIC_Configuration(void)
     #endif
     /* 20090429Nemui */
 
-/* #if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY) */
-#if 0
-	NVIC_InitTypeDef NVIC_InitStructure;
-
 	/* Configure the NVIC Preemption Priority Bits */
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
+#if 0
+#if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
+	NVIC_InitTypeDef NVIC_InitStructure;
+	
 	/* Enable the RTC Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
+#endif
 #endif
 }
 
@@ -226,9 +228,9 @@ void JoyInp_Chk(void)
     @retval	None.
 */
 /**************************************************************************/
-void Set72(void)
+void SetSysClock72(void)
 {
-	RCC_ClocksTypeDef    RCC_ClockFreq;
+	RCC_ClocksTypeDef RCC_ClockFreq;
 
     /* Select PLL as system clock source */
     RCC_SYSCLKConfig( RCC_SYSCLKSource_HSI );
@@ -267,7 +269,27 @@ void Set72(void)
 
 /**************************************************************************/
 /*! 
-    @brief	Disconnect pin configuration.
+    @brief	USB D+/D- configuration.
+	@param	None.
+    @retval	None.
+*/
+/**************************************************************************/
+void USB_DataPort_Config(void)
+{
+	GPIO_InitTypeDef  GPIO_InitStructure;
+	
+	/* Enable the USB GPIO Clock */
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+}
+
+/**************************************************************************/
+/*! 
+    @brief	USB disconnect pin configuration.
 	@param	None.
     @retval	None.
 */
@@ -285,7 +307,6 @@ void USB_Disconnect_Config(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
 	GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
 }
-
 
 /**************************************************************************/
 /*! 

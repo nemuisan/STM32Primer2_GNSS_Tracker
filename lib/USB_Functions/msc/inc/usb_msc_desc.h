@@ -2,21 +2,24 @@
 /*!
 	@file			usb_msc_desc.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2023.03.20
-	@brief          Descriptor Header for Mass Storage Device.
+    @version        5.00
+    @date           2025.04.03
+	@brief          BOT State Machine management.
 					Based On STMicro's Sample Thanks!
 
     @section HISTORY
 		2012.01.30	V1.00	Start Here.
-		2023.03.20	V2.00	All descriptors are aligned by 4-byte.
+		2014.01.23	V2.00	Removed retired STM32F10X_CL Codes.
+		2019.09.20	V3.00	Fixed shadowed variable.
+		2023.03.23	V4.00	Fixed BOT data buffer to 4byte-alignment.
+		2025.04.03	V5.00	Fixed dead-lock problem in EP1_IN_Callback.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef USB_MSC_DESC_H
-#define USB_MSC_DESC_H	0x0200
+#define USB_MSC_DESC_H	0x0500
 
 #ifdef __cplusplus
  extern "C" {

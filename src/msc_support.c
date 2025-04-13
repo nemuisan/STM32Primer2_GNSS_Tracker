@@ -2,8 +2,8 @@
 /*!
 	@file			msc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2023.12.19
+    @version        9.00
+    @date           2025.04.08
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -15,6 +15,7 @@
 		2020.05.30	V6.00	Display system version string.
 		2023.03.23	V7.00	Added MAL_Init() successful check.
 		2023.12.19  V8.00	Improved watchdog handlings.
+		2025.04.08	V9.00	Changed minor function name.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if MSC_SUPPORT_H!= 0x0800
+#if MSC_SUPPORT_H!= 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -35,7 +36,6 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-extern __IO long StableCount;
 
 /* Constants -----------------------------------------------------------------*/
 
@@ -76,9 +76,10 @@ static void USB_Interrupts_Config(void)
 /**************************************************************************/
 void msc_task(void)
 {
-	/* Available USB Clock Frequency */
-	Set72();
-	/* Retrive SystemClock Frequency and reset SysTick */
+	/* Set Available SystemClock to 72MHz for USB Functions */
+	SetSysClock72();
+	
+	/* Retrieve SystemClock Frequency and reset SysTick */
 	SysTickInit(INTERVAL);
 
 	/* Init Display Driver and FONTX Driver */
@@ -96,29 +97,27 @@ void msc_task(void)
 		
 		/* USB MSC Setting */
 		USB_Disconnect_Config();
-		USB_Cable_Config(DISABLE); /* fool ploof */
-
+		USB_Cable_Config(DISABLE); /* Fool ploof */
+		
 		Set_USBClock();
 		USB_Interrupts_Config();
 		USB_Init();
 		USB_Cable_Config(ENABLE);
+		
+		/* Wait CONFIGURED state */
 		while (bDeviceState != CONFIGURED)
 		{
 			WDT_Reset();
 		}
-
-#if 0 /* MSC Debug */
-		Display_Puts_If(0,2*CurrentAnkDat->Y_Size,(uint8_t*)"Connected!",TRANSPARENT);
-		while (StableCount > 0);
-		Display_Puts_If(0,3*CurrentAnkDat->Y_Size,(uint8_t*)"Stabled!",TRANSPARENT);
-#endif
+		
+		/* Main loop */
 		while (1){
 			__WFI();
 			WDT_Reset();
 		}
 	}
 	else {
-		Display_Puts_If(0,2*CurrentAnkDat->Y_Size,(uint8_t*)"SD Card Init Failed!",TRANSPARENT);
+		Display_Puts_If(0,2*CurrentAnkDat->Y_Size,(uint8_t*)"SDCard/MMC Init Failed!",TRANSPARENT);
 		Display_Puts_If(0,3*CurrentAnkDat->Y_Size,(uint8_t*)"Press Center Key to Power OFF!",TRANSPARENT);
 		while (1){
 			__WFI();
