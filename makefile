@@ -38,15 +38,15 @@ MAKEDIR = C:/Devz/Coreutils/bin
 # Set RIDE Directory
 RIDEDIR  = C:/Devz/ARM/Raisonance/Ride/bin
 
-#Set Shell Definitions
+# Set Shell Definitions
 WSHELL  = cmd
 MSGECHO = echo.exe
 #MSGECHO = /bin/echo
 
-#Set Debugger Directory
+# Set Debugger Directory
 #DBGDIR  = C:/Devz/ARM/CodeLite
 #DBG_BIN = codelite.exe
-#BG_CMD = ./lib/codelite_dbg/codelite_dbg.workspace
+#DBG_CMD = ./lib/codelite_dbg/codelite_dbg.workspace
 # Environment Dependent!!!
 
 
@@ -77,7 +77,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 
 # Apprication Version
-APP_VER = 110.00
+APP_VER = 111.00
 
 # Basic definition
 EVAL_BOARD    	= USE_STM32PRIMER2
@@ -113,11 +113,11 @@ DEFZ = $(MPU_CLASS) $(MPU_MODEL) $(SUBMODEL) $(EVAL_BOARD) $(PERIF_DRIVER) $(VEC
 DEFZ += $(USE_DISPLAY) $(USE_FONTSIZE) $(USE_KANJI) $(USE_TOUCH_SENCE)  $(USE_XMSTN)	   \
         $(USE_JPEG_LIB) $(USE_PNG_LIB) $(USE_GIF_LIB) $(USE_AUDIO_LIB)  				   \
 		$(USE_SOUND_MP3)  $(USE_SOUND_WAV)
-SYNTHESIS_DEFS	= $(addprefix -D,$(DEFZ)) 							\
-				 -DPACK_STRUCT_END=__attribute\(\(packed\)\) 		\
+SYNTHESIS_DEFS	= $(addprefix -D,$(DEFZ)) \
+				 -DPACK_STRUCT_END=__attribute\(\(packed\)\) \
 				 -DALIGN_STRUCT_END=__attribute\(\(aligned\(4\)\)\) \
-				 -DMPU_SUBMODEL=\"$(SUBMODEL)\"						\
-				 -DAPP_VERSION=\"$(APP_VER)\"						\
+				 -DMPU_SUBMODEL=\"$(SUBMODEL)\" \
+				 -DAPP_VERSION=\"$(APP_VER)\" \
 				 -DHSE_VALUE=$(HSE_CLOCK)UL
 
 # TARGET definition
@@ -129,11 +129,11 @@ TARGET_BIN  = $(TARGET).bin
 TARGET_LSS  = $(TARGET).lss
 TARGET_SYM  = $(TARGET).sym
 
-# define CMSIS LIBRARY PATH
+# Define CMSIS LIBRARY PATH
 CMSISLIB 		= ./lib/CMSIS
 CMSIS_DEVICE 	= $(CMSISLIB)/Device/ST/STM32F10x
 CMSIS_CORE		= $(CMSISLIB)/Core
-# define HAL and BSP LIBRARY PATH
+# Define HAL and BSP LIBRARY PATH
 FWLIB  			= ./lib/STM32F10x_StdPeriph_Driver
 USBLIB 			= ./lib/STM32_USB-FS-Device_Driver
 
@@ -151,7 +151,7 @@ INCLUDES     = $(addprefix -I ,$(INCPATHS))
 # Set library PATH
 LIBPATHS     = $(FWLIB) $(USBLIB)
 LIBRARY_DIRS = $(addprefix -L,$(LIBPATHS))
-# if you use math-library, put "-lm"
+# If you use math-library, put "-lm"
 MATH_LIB	 =	-lm
 
 # LinkerScript PATH
@@ -403,6 +403,7 @@ program :
 
 # Drop files into dust-shoot
 .PHONY clean:
+	@$(MSGECHO) Cleaning Objects:
 	$(REMOVE) $(TARGET).elf
 	$(REMOVE) $(TARGET).hex
 	$(REMOVE) $(TARGET).bin

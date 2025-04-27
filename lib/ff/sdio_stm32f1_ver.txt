@@ -1,7 +1,8 @@
 ********************* sdio_stm32f1.x update history ********************
 
-	2025.04.09 V34.00	Adopted latest USB-MassStorage implementation.
+	2025.04.21 V35.00	Re-defined NVIC priority settings.
 
+	2025.04.09 V34.00	Adopted latest USB-MassStorage implementation.
 	2024.07.12 V33.00	Fixed RCA handlings in FindSCR();
 	2023.04.21 V32.00	Fixed cosmetic bugfix.
 	2022.09.03 V31.00	Fixed illegal size pointer cast on DMA-Rx.

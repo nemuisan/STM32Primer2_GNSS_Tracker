@@ -2,8 +2,8 @@
 /*!
 	@file			msc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2025.04.08
+    @version        10.00
+    @date           2025.04.21
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -16,6 +16,7 @@
 		2023.03.23	V7.00	Added MAL_Init() successful check.
 		2023.12.19  V8.00	Improved watchdog handlings.
 		2025.04.08	V9.00	Changed minor function name.
+		2025.04.21 V10.00	Re-defined NVIC priority settings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -25,7 +26,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if MSC_SUPPORT_H!= 0x0900
+#if MSC_SUPPORT_H!= 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -52,21 +53,13 @@
 /**************************************************************************/
 static void USB_Interrupts_Config(void)
 {
-	NVIC_InitTypeDef NVIC_InitStructure;
-
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-
-	NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
-
-	NVIC_InitStructure.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
+	/* Enable USB_LP Interrupt */
+	NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn,3);
+	NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
+	
+	/* Enable USB_HP Interrupt */
+	NVIC_SetPriority(USB_HP_CAN1_TX_IRQn,2);
+	NVIC_EnableIRQ(USB_HP_CAN1_TX_IRQn);
 }
 
 /**************************************************************************/

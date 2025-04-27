@@ -2,8 +2,8 @@
 /*!
 	@file			uart_support_gps.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2023.03.07
+    @version        8.00
+    @date           2025.04.21
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
@@ -14,6 +14,7 @@
 		2015.08.25	V5.00	Fixed wrong expression.
 		2022.10.10	V6.00	Fixed more robustness.
 		2023.03.07	V7.00	Fixed cosmetic bugfixes.
+		2025.04.21	V8.00	Fixed UART Rx-Pin to pullup.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "uart_support_gps.h"
 /* check header file version for fool proof */
-#if UART_SUPPORT_GPS_H!= 0x0700
+#if UART_SUPPORT_GPS_H!= 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -51,91 +52,82 @@ void (*xUART_IRQ)(void);
 void conio_init(uint32_t port, uint32_t baudrate)
 {
 	GPIO_InitTypeDef GPIO_InitStructure = {0};
-	NVIC_InitTypeDef NVIC_InitStructure = {0};
   
 	/* Turn on USART*/
 	switch (port)
 	{
-		case 1 :
+		case 1 : /* NOT Supported */
 		break;
- 
+		
 		case 2 :
 			UART = (USART_TypeDef *) USART2_BASE;
-
+			
 #if defined (USE_STM3210B_EVAL) || defined (USE_STM3210C_EVAL) || \
 	defined (USE_GOLDBULL)      || defined (USE_CQ_STARM_COMP) || defined (USE_ETHERPOD)
 			/* Turn on peripheral clocks */
 			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD|RCC_APB2Periph_AFIO, ENABLE);
 			RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
-
+			
 			/* Enable the USART2 Pins Software Remapping */
 			GPIO_PinRemapConfig(GPIO_Remap_USART2, ENABLE);
-	
+			
 			/* Configure USART2 TX as alternate function push-pull */
 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_5;
 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
 			GPIO_Init(GPIOD, &GPIO_InitStructure);
-
-			/* Configure USART2 RX as input floating */
+			
+			/* Configure USART2 RX as alternate function in pullup */
 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_6;
 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IPU;
 			GPIO_Init(GPIOD, &GPIO_InitStructure);
-
+			
 #else	/* defined (USE_STM32PRIMER2) */
-
 			/* Turn on peripheral clocks */
 			RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO, ENABLE);
 			RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
-
+			
 			/* Configure USART2 TX as alternate function push-pull */
 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_2;
 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
 			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
 			GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-			/* Configure USART2 RX as input floating */
+			
+			/* Configure USART2 RX as alternate function in pullup */
 			GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_3;
 			GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+			GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IPU;
 			GPIO_Init(GPIOA, &GPIO_InitStructure);
 #endif
-
-#if defined(UART_INTERRUPT_MODE)
-			/* Configure one bit for preemption priority */
-			NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-
-			/* Enable the UART Interrupt */
-			NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
-			NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-			NVIC_Init(&NVIC_InitStructure);
-
+			/* USART Settings */
 			USART_StructInit(&USART_InitStructure);
 			USART_InitStructure.USART_BaudRate = baudrate;
 			USART_Init(UART, &USART_InitStructure);
-
+			
+#if defined(UART_INTERRUPT_MODE)
+			/* Enable USART Interrupt */
+			NVIC_SetPriority(USART2_IRQn,2);
+			NVIC_EnableIRQ(USART2_IRQn);
+			
 			/* Init Ring Buffer */
 			pUSART_Buf = &USARTx_Buf;
 			USARTx_Buf.RX_Tail = 0;
 			USARTx_Buf.RX_Head = 0;
 			USARTx_Buf.TX_Tail = 0;
 			USARTx_Buf.TX_Head = 0;
-
-			/* Enable UART Receive interrupts */
+			
+			/* Enable USART Receive interrupts */
 			USART_ITConfig(UART, USART_IT_RXNE, ENABLE);
 #endif
-			/* Enable UART */
+			/* Enable USART */
 			USART_Cmd(UART, ENABLE);
 		break;
- 
-		case 3 : /* NOT Supported yet */
+		
+		case 3 : /* NOT Supported */
 		break;
-
+		
 	}
-
 }
 
 /**************************************************************************/
@@ -176,7 +168,7 @@ bool USART_TXBuffer_PutByte(USART_Buffer_t* USART_buf, uint8_t data)
 		/* Advance buffer head. */
 		USART_buf->TX_Head = (tempTX_Head + 1) & (UART_BUFSIZE-1);
 		__enable_irq();
-
+		
 		/* Enable TXE interrupt. */
 		USART_ITConfig(UART, USART_IT_TXE, ENABLE);
 	}
@@ -312,7 +304,7 @@ void cgets(char *s, int bufsize)
 			putch('\n');
 			*p = '\n';
 			return;
-
+			
 		  case '\b' :
 			if (p > s)
 			{
@@ -322,7 +314,7 @@ void cgets(char *s, int bufsize)
 			  putch('\b');
 			}
 			break;
-
+			
 		  default :
 			putch(c);
 			*p++ = c;
@@ -345,11 +337,11 @@ void conio_IRQ(void)
 	{
 		/* Advance buffer head. */
 		unsigned int tempRX_Head = ((&USARTx_Buf)->RX_Head + 1) & (UART_BUFSIZE-1);
-
+		
 		/* Check for overflow. */
 		unsigned int tempRX_Tail = (&USARTx_Buf)->RX_Tail;
 		uint8_t data =  USART_ReceiveData(UART);
-
+		
 		if (tempRX_Head == tempRX_Tail) {
 			/* Disable the UART Receive interrupt */
 			USART_ITConfig(UART, USART_IT_RXNE, DISABLE);
@@ -371,7 +363,7 @@ void conio_IRQ(void)
 			/* Start transmitting. */
 			uint8_t data = (&USARTx_Buf)->TX[(&USARTx_Buf)->TX_Tail];
 			UART->DR = data;
-
+			
 			/* Advance buffer tail. */
 			(&USARTx_Buf)->TX_Tail = ((&USARTx_Buf)->TX_Tail + 1) & (UART_BUFSIZE-1);
 		}

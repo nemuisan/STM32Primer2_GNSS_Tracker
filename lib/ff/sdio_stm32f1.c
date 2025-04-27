@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		34.00
-	@date			2025.04.09
+	@version		35.00
+	@date			2025.04.21
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2025.04.09	V34.00	See sdio_stm32f1_ver.txt.
+		2025.04.21	V35.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if SDIO_STM32F1_H!= 0x3400
+#if SDIO_STM32F1_H!= 0x3500
 #error "header file version is not correspond!"
 #endif
 
@@ -224,7 +224,6 @@ void SD_DeInit(void)
 SD_Error SD_Init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
-	NVIC_InitTypeDef  NVIC_InitStructure;
 	SD_Error errorstatus = SD_OK;
 
 	/* SDIO Peripheral Low Level Init */
@@ -300,11 +299,8 @@ SD_Error SD_Init(void)
 	SDIO_Init(&SDIO_InitStructure);
 
 	/*!< Enable the SDIO Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = SDIO_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
+	NVIC_SetPriority(SDIO_IRQn,1);
+	NVIC_EnableIRQ(SDIO_IRQn);
 
 	/*----------------- Read CSD/CID MSD registers ------------------*/
 	if (errorstatus == SD_OK)

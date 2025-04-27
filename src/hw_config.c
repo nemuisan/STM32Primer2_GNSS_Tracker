@@ -2,8 +2,8 @@
 /*!
 	@file			hw_config.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2025.04.07
+    @version        7.00
+    @date           2025.04.21
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -13,6 +13,7 @@
 		2023.04.21	V4.00	Re-Fixed cosmetic bugfix.
 		2023.06.01	V5.00	Added MTK_Command mode at gnss logging.
 		2025.04.07	V6.00	Fixed typo comment.
+		2025.04.21	V7.00	Re-defined NVIC priority settings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -22,7 +23,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hw_config.h"
 /* check header file version for fool proof */
-#if HW_CONFIG_H!= 0x0600
+#if HW_CONFIG_H!= 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -177,8 +178,9 @@ void NVIC_Configuration(void)
     #endif
     /* 20090429Nemui */
 
-	/* Configure the NVIC Preemption Priority Bits */
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+	/* Configure all the interrupt priority bits to the preempt priority group */
+	/* On STM32F1,0~15 priority levels. */
+	NVIC_SetPriorityGrouping(0U);
 
 #if 0
 #if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
@@ -186,8 +188,8 @@ void NVIC_Configuration(void)
 	
 	/* Enable the RTC Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 4;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 #endif
@@ -265,26 +267,6 @@ void SetSysClock72(void)
     /* This function fills a RCC_ClocksTypeDef structure with the current frequencies
     of different on chip clocks (for debug purpose) */
     RCC_GetClocksFreq( &RCC_ClockFreq );
-}
-
-/**************************************************************************/
-/*! 
-    @brief	USB D+/D- configuration.
-	@param	None.
-    @retval	None.
-*/
-/**************************************************************************/
-void USB_DataPort_Config(void)
-{
-	GPIO_InitTypeDef  GPIO_InitStructure;
-	
-	/* Enable the USB GPIO Clock */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 
 /**************************************************************************/

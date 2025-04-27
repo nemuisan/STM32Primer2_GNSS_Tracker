@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2025.04.08
+    @version        10.00
+    @date           2025.04.21
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -16,6 +16,7 @@
 		2023.03.22	V7.00	Enable UART Rx interrupt on connect.
 		2023.12.19  V8.00	Improved watchdog handlings.
 		2025.04.08	V9.00	Changed minor function name.
+		2025.04.21 V10.00	Fixed UART Rx-Pin to pullup.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -25,7 +26,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if CDC_SUPPORT_H!= 0x0900
+#if CDC_SUPPORT_H!= 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -114,10 +115,10 @@ void USART_Config_Default(void)
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-	/* Configure USART2 RX as input floating */
+	/* Configure USART2 RX as alternate function in pullup */
 	GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IPU;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 	/* Init USART */
@@ -138,7 +139,8 @@ void USART_Config_Default(void)
 bool USART_Config(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-	/* set the Stop bit*/
+	
+	/* set the Stop bit */
 	switch (linecoding.format)
 	{
 		case 0:
@@ -157,7 +159,7 @@ bool USART_Config(void)
 			}
 	}
 
-	/* set the parity bit*/
+	/* set the parity bit */
 	switch (linecoding.paritytype)
 	{
 		case 0:
@@ -193,7 +195,7 @@ bool USART_Config(void)
 				USART_InitStructure.USART_WordLength = USART_WordLength_9b;
 			}
 			break;
-
+			
 		default :
 			{
 				USART_Config_Default();
@@ -216,14 +218,14 @@ bool USART_Config(void)
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AF_PP;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-	/* Configure USART2 RX as input floating */
+	/* Configure USART2 RX as alternate function in pullup */
 	GPIO_InitStructure.GPIO_Pin 	= GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN_FLOATING;
+	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IPU;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 	/* Purge UART Buffer */
-	USART_ITConfig(USART2, USART_IT_RXNE, DISABLE);
+	USART_ITConfig(CDC_UART, USART_IT_RXNE, DISABLE);
 	USART_Rx_ptr_in  = 0;
 	USART_Rx_ptr_out = 0;
 	USART_Rx_length  = 0;
@@ -231,10 +233,10 @@ bool USART_Config(void)
 	USB_xMutex       = 0;
 
 	/* Init USART */
-	USART_Init(USART2, &USART_InitStructure);
+	USART_Init(CDC_UART, &USART_InitStructure);
 
 	/* Enable USART */
-	USART_Cmd(USART2, ENABLE);
+	USART_Cmd(CDC_UART, ENABLE);
 
 	return (true);
 }
@@ -254,8 +256,8 @@ void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes)
 
 	for (i = 0; i < Nb_bytes; i++)
 	{
-		USART_SendData(USART2, *(data_buffer + i));
-		while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
+		USART_SendData(CDC_UART, *(data_buffer + i));
+		while(USART_GetFlagStatus(CDC_UART, USART_FLAG_TXE) == RESET);
 	}
 
 }
@@ -283,7 +285,7 @@ void Handle_USBAsynchXfer (void)
 		{
 			USART_Rx_ptr_out = 0;
 		}
-
+		
 		/* If Rx buffer is empty */
 		if(USART_Rx_ptr_out == USART_Rx_ptr_in)
 		{
@@ -300,7 +302,7 @@ void Handle_USBAsynchXfer (void)
 			}
 			return;
 		}
-
+		
 		/* Pointer rollback */
 		if(USART_Rx_ptr_out > USART_Rx_ptr_in) 
 		{
@@ -310,13 +312,13 @@ void Handle_USBAsynchXfer (void)
 		{
 			USART_Rx_length = USART_Rx_ptr_in - USART_Rx_ptr_out;
 		}
-
+		
 		/* Larger than Max PacketSize */
 		if(USART_Rx_length > VIRTUAL_COM_PORT_DATA_SIZE)
 		{
 			USB_Tx_ptr = USART_Rx_ptr_out;
 			USB_Tx_length = VIRTUAL_COM_PORT_DATA_SIZE;
-
+			
 			USART_Rx_ptr_out += VIRTUAL_COM_PORT_DATA_SIZE;
 			USART_Rx_length -= VIRTUAL_COM_PORT_DATA_SIZE;
 		}
@@ -324,7 +326,7 @@ void Handle_USBAsynchXfer (void)
 		{
 			USB_Tx_ptr = USART_Rx_ptr_out;
 			USB_Tx_length = USART_Rx_length;
-
+			
 			USART_Rx_ptr_out += USART_Rx_length;
 			USART_Rx_length = 0;
 			
@@ -334,7 +336,7 @@ void Handle_USBAsynchXfer (void)
 		
 		/* Set USB Transfer State */
 		USB_Tx_State = 1;
-
+		
 		UserToPMABufferCopy(&USART_Rx_Buffer[USB_Tx_ptr], CDC_ENDP1_TXADDR, USB_Tx_length);
 		SetEPTxCount(ENDP1, USB_Tx_length);
 		SetEPTxValid(ENDP1);
@@ -359,6 +361,10 @@ void USART_To_USB_Send_Data(void)
 	{
 		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2);
 	}
+	else /* assure linecoding.datatype == 8 */
+	{
+		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2);
+	}
 
 	USART_Rx_ptr_in++;
 
@@ -379,20 +385,13 @@ void USART_To_USB_Send_Data(void)
 /**************************************************************************/
 static void USB_Interrupts_Config(void)
 {
-	NVIC_InitTypeDef NVIC_InitStructure;
-
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-
-	NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
-
+	/* Enable USB_LP Interrupt */
+	NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn,3);
+	NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
+	
 	/* Enable USART Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = CDC_UART_IRQ;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	NVIC_Init(&NVIC_InitStructure);
+	NVIC_SetPriority(CDC_UART_IRQ,2);
+	NVIC_EnableIRQ(CDC_UART_IRQ);
 }
 
 
@@ -405,7 +404,7 @@ void CDC_IRQ(void)
 {
 	if (USART_GetITStatus(CDC_UART, USART_IT_RXNE) != RESET)
 	{
-		/* Send the received data to the PC Host*/
+		/* Send the received data to the PC Host */
 		USART_To_USB_Send_Data();
 	}
 

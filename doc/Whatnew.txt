@@ -1,3 +1,9 @@
+2025.04.24 :
+V111.00	Fixed UART Rx-Pin to pullup(on uart_support_gps.c,h and cdc_support.c,h).
+		Re-defined NVIC priority settings(on hw_config.c,h and cdc_support.c,h and msc_support.c,h and uart_support_gps.c,h).
+		Fixed cosmetic bugfix(on makefile).
+		Added ".editorconfig" file for github appearance(tabsize force to 4).
+
 2025.04.09 :
 V110.00	Updated STM32_USB-FS-Device_Driver(4.1.0).
 		Fixed dead-lock bug on STM32_USB-FS-Device_Driver(usb_int.c).

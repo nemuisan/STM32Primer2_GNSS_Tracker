@@ -2,8 +2,8 @@
 /*!
 	@file			msc_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2025.04.08
+    @version        10.00
+    @date           2025.04.21
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -16,13 +16,14 @@
 		2023.03.23	V7.00	Added MAL_Init() successful check.
 		2023.12.19  V8.00	Improved watchdog handlings.
 		2025.04.08	V9.00	Changed minor function name.
+		2025.04.21 V10.00	Re-defined NVIC priority settings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef MSC_SUPPORT_H
-#define MSC_SUPPORT_H 0x0900
+#define MSC_SUPPORT_H 0x1000
 
 #ifdef __cplusplus
  extern "C" {

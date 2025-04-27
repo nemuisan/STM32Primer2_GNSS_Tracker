@@ -2,11 +2,11 @@
 /*!
 	@file			main.c (STM32Primer2 GNSS-Tr@cker main file)
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        110.00
-    @date           2025.04.09
+    @version        111.00
+    @date           2025.04.24
 
     @section HISTORY
-		2025.04.09	V110.00	See Whatnew.txt
+		2025.04.24	V111.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -61,10 +61,11 @@ int main(void)
 	}
 
 	/* Enable IWDG */
-	/* The Independent watchdog can not be stopped once started in any processor mode! */
+	/* Assure about 6Sec WDT limit. */
+	/* The Independent watchdog CANNOT be stopped once started in any processor mode! */
 	IWDG_Enable();
 
-	/* Install Main GNSS tracker Function */
+	/* Install Main GNSS tracker Function(with specific GNSS mode) */
 	if(TaskStat == GNSS_LOGGING){
 		xTask 				= gps_task;
 		xUART_IRQ			= conio_IRQ;
@@ -108,7 +109,7 @@ int main(void)
 		xUSB_Istr	      	= NOP_Process;
 		GNSS_SetCmdModes(CMD_MTK);
 	}
-	/* Fool Proof Anyway GNSS-Logger */
+	/* Anyway,GNSS tracker function(with default mode) */
 	else{
 		TaskStat 			= GNSS_LOGGING;
 		xTask 				= gps_task;
