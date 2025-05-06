@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		35.00
-	@date			2025.04.21
+	@version		36.00
+	@date			2025.05.03
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2025.04.21	V35.00	See sdio_stm32f1_ver.txt.
+		2025.05.03	V36.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if SDIO_STM32F1_H!= 0x3500
+#if SDIO_STM32F1_H!= 0x3600
 #error "header file version is not correspond!"
 #endif
 
@@ -299,7 +299,7 @@ SD_Error SD_Init(void)
 	SDIO_Init(&SDIO_InitStructure);
 
 	/*!< Enable the SDIO Interrupt */
-	NVIC_SetPriority(SDIO_IRQn,1);
+	NVIC_SetPriority(SDIO_IRQn,SDIO_IRQnPriority);
 	NVIC_EnableIRQ(SDIO_IRQn);
 
 	/*----------------- Read CSD/CID MSD registers ------------------*/
@@ -322,7 +322,7 @@ SD_Error SD_Init(void)
 		/* Read ExtCSD register and get total sector count
 		   for HighCapacity MMC & eMMC (above 4GB,block addressing) */
 		if(SDCardInfo.SD_csd.SysSpecVersion >= 4){
-			/* Retrives ExtCSD for V4.x or above cards */
+			/* Retrieves ExtCSD for V4.x or above cards */
 			MMCEXT_CSD ext_csd;
 			errorstatus = MMC_ReadExtCsd(&ext_csd);
 			if(errorstatus == SD_OK)

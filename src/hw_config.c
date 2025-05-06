@@ -2,8 +2,8 @@
 /*!
 	@file			hw_config.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2025.04.21
+    @version        8.00
+    @date           2025.05.03
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -14,6 +14,7 @@
 		2023.06.01	V5.00	Added MTK_Command mode at gnss logging.
 		2025.04.07	V6.00	Fixed typo comment.
 		2025.04.21	V7.00	Re-defined NVIC priority settings.
+		2025.05.03	V8.00	Fixed cosmetic bugfix.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hw_config.h"
 /* check header file version for fool proof */
-#if HW_CONFIG_H!= 0x0700
+#if HW_CONFIG_H!= 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -179,19 +180,14 @@ void NVIC_Configuration(void)
     /* 20090429Nemui */
 
 	/* Configure all the interrupt priority bits to the preempt priority group */
-	/* On STM32F1,0~15 priority levels. */
+	/* On STM32F1,can set 0~15 priority levels. */
 	NVIC_SetPriorityGrouping(0U);
 
 #if 0
 #if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
-	NVIC_InitTypeDef NVIC_InitStructure;
-	
 	/* Enable the RTC Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 4;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
+	NVIC_SetPriority(RTC_IRQn,4);
+	NVIC_EnableIRQ(RTC_IRQn);
 #endif
 #endif
 }

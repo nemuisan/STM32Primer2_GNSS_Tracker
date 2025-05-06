@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2024.08.01
+    @version        10.00
+    @date           2025.05.01
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -14,11 +14,12 @@
 		2011.06.14	V3.00	Altanate Filer Ready.
 		2011.10.14	V3.10	Chenged FontColour Function Name.
 		2012.01.03	V4.00	Fixed fontkanji & fontank Relations.
-		2012.04.05	V5.01	Add Draw Circle Algorithm.
+		2012.04.05	V5.01	Add draw-circle Algorithm.
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2023.08.01	V8.00	Revised release.
-		2024.08.01	V9.00	Fixed drawcircle and font function.
+		2024.08.01	V9.00	Fixed draw-circle and font function.
+		2025.05.01 V10.00	More optimized draw-circle function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -28,7 +29,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "display_if_support.h"
 /* check header file version for fool proof */
-#if DISPLAY_IF_SUPPORT_H != 0x0900
+#if DISPLAY_IF_SUPPORT_H != 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -50,14 +51,6 @@ static inline int root_i(int x){
         s2=s+1;
         if (s*s<=x && x<s2*s2) break;
     } while(1);
-    return s;
-}
-static inline double root(double x){
-    double s=1, s2=1;
-    if (x<=0) return 1;
-    do { s2=s; s=(x/s+s)/2; 
-		if((fabs(s2 - s) < DBL_EPSILON )) break; 
-	} while(1);
     return s;
 }
 
@@ -175,37 +168,35 @@ inline void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t 
 	if ( dx >= dy )
 	{
 		e = dx;
-
+		
 		for(n=0; n<=dx; ++n){
-
 			PutPixel(x,y,colour);
 			x += sx;
 			e += 2*dy;
-
+			
 			if (e >= 2*dx){
 				e -= 2*dx;
 				y += sy;
 			}
 		}
-
+		
 	}
 	else
 	{
 		e = dy;
-
+		
 		for(n=0; n<=dy; ++n){
-
+		
 			PutPixel(x,y,colour);
 			y += sy;
 			e += 2*dx;
-
+			
 			if (e>=2*dy){
 				e -= 2*dy;
 				x += sx;
 			}
 		}
 	}
-
 }
 
 /**************************************************************************/
@@ -221,7 +212,7 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
     center.y=y_ct;
     long cx = 0, cy=diameter/2, *px, *py, tmp;
     long dx, dy, x_sign, num_eigth, r_root2,y_sign =0;
-    double d;
+    long d;
 
     r_root2 = (diameter>3)? root_i(diameter*diameter/8) :1;
     tmp = r_root2*r_root2*8-diameter*diameter;
@@ -263,11 +254,11 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
 		/* Clipper Divided Octal Regions */
         if (cy*y_sign>r_root2){
             /* 1,2 -> 3,4 -> 5,6 -> 7,0 */
-            if (start_po[li*2+1].x<ABS(cx)) {
+            if (start_po[li*2+1].x < ABS(cx)) {
                 start_po[li*2+1].y = ABS(cy);
                 start_po[li*2+1].x = ABS(cx);
             }
-            if (start_po[(li*2+2)%8].x<ABS(cx)) {
+            if (start_po[(li*2+2)%8].x < ABS(cx)) {
                 start_po[(li*2+2)%8].y = ABS(cy);
                 start_po[(li*2+2)%8].x = ABS(cx);
             }
@@ -307,11 +298,11 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
                     start_po[(li*2+4)%8].x = start_po[(li*2+7)%8].x = diameter;
 					/* Set Out of Region...  4,7 -> 6,1 -> 0,3 -> 2,5 */
 					/* 5,6 -> 7,0 -> 1,2 -> 3,4 */
-                    if (end_po[(li*2+5)%8].x>ABS(cx)) {
+                    if (end_po[(li*2+5)%8].x > ABS(cx)) {
                         end_po[(li*2+5)%8].y = ABS(cy);
                         end_po[(li*2+5)%8].x = ABS(cx);
                     }
-                    if (end_po[(li*2+6)%8].x>ABS(cx)) {
+                    if (end_po[(li*2+6)%8].x > ABS(cx)) {
                         end_po[(li*2+6)%8].y = ABS(cy);
                         end_po[(li*2+6)%8].x = ABS(cx);
                     }
@@ -324,24 +315,24 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
     for(num_eigth=0; num_eigth<8 ; num_eigth++){
 		/* Circle Divided Octal Regions */
         if (num_eigth<4){
-                now_center.y = y_ct; y_sign=1; }            /* 0,1,2,3 */
+                now_center.y = y_ct; y_sign=1; }            	/* 0,1,2,3 */
         else{   now_center.y = mirror_center.y; y_sign=-1; }    /* 4,5,6,7 */
         if ((num_eigth%6)<=1){
-                now_center.x = x_ct;  x_sign=1; }           /* 0,1,6,7 */
+                now_center.x = x_ct;  x_sign=1; }          		/* 0,1,6,7 */
         else {  now_center.x = mirror_center.x; x_sign=-1; }    /* 2,3,4,5 */
         if ((num_eigth%4)%3){
                 px = &cx; py = &cy; }   /* 0,3,4,7 */
         else {  px = &cy; py = &cx; }   /* 1,2,5,6 */
-
+		
         /* initial value  */
         cy=start_po[num_eigth].y;
         cx=start_po[num_eigth].x;
-
+		
         /* diameter */
         d = 4*cx*cx+4*cy*cy -4*cy+2 - diameter * diameter;
         dx = 8*cx+4;
         dy = -8*cy+8;
-
+		
         /* Set Point */
         for (;cx<=end_po[num_eigth].x;cx++){
             if (d>0) {
@@ -360,7 +351,8 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
 inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour)
 {
 	/* Bresenham Midpoint Algorithm */
-   long cx, cy, d, dH, dD;
+	long cx, cy, d, dH, dD;
+	long radius = diameter/2;
 
     d   = 1 - radius;
     dH  = 3;
@@ -379,7 +371,7 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
             dD  += 4;
             --cy;
         }
-
+		
         PutPixel( cy + x_ct,  cx + y_ct, colour);	/* Between   0- 45 */
         PutPixel( cx + x_ct,  cy + y_ct, colour);	/* Between  45- 90 */
         PutPixel(-cx + x_ct,  cy + y_ct, colour);	/* Between  90-135 */
@@ -401,7 +393,7 @@ inline void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
 {
 	/* Bresenham Midpoint Algorithm */
 	long cx, cy, d, dH, dD, n;
-	long radius= diameter/2;
+	long radius = diameter/2;
 	
     d   = 1 - radius;
     dH  = 3;
@@ -420,31 +412,31 @@ inline void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
             dD  += 4;
             --cy;
         }
-
+		
 		/* Between 0-45deg */
 		n = 2*cy;
 		do{
 			PutPixel((cy-n)+ x_ct,cx + y_ct,colour);
 		} while (n--);
-
+		
 		/* Between 45-90deg */
 		n = 2*cx;
 		do{
 			PutPixel((cx-n)+ x_ct,cy + y_ct,colour);
 		} while (n--);
-
+		
 		/* Between 270-315deg */
 		n = 2*cx;
 		do{
 			PutPixel((cx-n)+ x_ct,-cy + y_ct,colour);
 		} while (n--);
-
+		
 		/* Between 315-360deg */
 		n = 2*cy;
 		do{
 			PutPixel((cy-n)+ x_ct,-cx + y_ct,colour);
 		} while (n--);
-
+		
     }
 }
 

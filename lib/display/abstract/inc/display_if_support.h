@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2024.08.01
+    @version        10.00
+    @date           2025.05.01
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -14,18 +14,19 @@
 		2011.06.14	V3.00	Altanate Filer Ready.
 		2011.10.14	V3.10	Chenged FontColour Function Name.
 		2012.01.03	V4.00	Fixed fontkanji & fontank Relations.
-		2012.04.05	V5.01	Add Draw Circle Algorithm.
+		2012.04.05	V5.01	Add draw-circle Algorithm.
 		2014.12.18	V6.00	Fixed Typo and Draw-Line Bugs.
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2023.08.01	V8.00	Revised release.
-		2024.08.01	V9.00	Fixed drawcircle and font function.
+		2024.08.01	V9.00	Fixed draw-circle and font function.
+		2025.05.01 V10.00	More optimized draw-circle function.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef DISPLAY_IF_SUPPORT_H
-#define DISPLAY_IF_SUPPORT_H 0x0900
+#define DISPLAY_IF_SUPPORT_H 0x1000
 
 #ifdef __cplusplus
  extern "C" {
@@ -35,7 +36,6 @@
 #include "display_if.h"
 #include "font_if.h"
 #include "font_if_datatable.h"
-#include <float.h>
 #include <math.h>
 
 /* Defines for DisplayFonts */
@@ -45,7 +45,7 @@ enum{
 	};
 
 /* Macro Function for DrawGraphics */
-/* Got Absolute */
+/* Get Absolute */
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 
 /* Valiable of Basic Functions */

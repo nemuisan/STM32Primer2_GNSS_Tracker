@@ -2,8 +2,8 @@
 /*!
 	@file			usb_cdc_endp.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2023.03.21
+    @version        4.00
+    @date           2025.05.01
 	@brief          Endpoint routines.
 					Based On STMicro's Sample Thanks!
 
@@ -11,6 +11,7 @@
 		2012.01.30	V1.00	Start Here.
 		2019.09.20	V2.00	Fixed shadowed variable.
 		2023.03.21	V3.00	Fixed USB Rx buffer size.
+		2025.05.03	V4.00	Fixed typo.
 		
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -31,7 +32,7 @@
 /* Variables -----------------------------------------------------------------*/
 uint8_t USB_Rx_Buffer[VIRTUAL_COM_PORT_DATA_SIZE*2]  __attribute__ ((aligned (4)));
 __IO uint8_t cdc_zpf = 0; /* Zero-length packet flag */
-extern  uint8_t USART_Rx_Buffer[]; /* Assure 2048Bytes */
+extern  uint8_t USART_Rx_Buffer[]; /* Assume 2048Bytes */
 extern uint32_t USART_Rx_ptr_out;
 extern uint32_t USART_Rx_length;
 extern uint8_t  USB_Tx_State;
@@ -162,7 +163,7 @@ void CDC_EP3_OUT_Callback(void)
 
 	/* USB data will be immediately processed, this allow next USB traffic beeing 
 	   NAKed till the end of the USART Xfer */
-	/* Assure MAX 64Bytes at USB-FullSpeed */
+	/* Assume MAX 64Bytes at USB-FullSpeed */
 	USB_To_USART_Send_Data(USB_Rx_Buffer+RxBufOFs, USB_Rx_Cnt);
 
 	/* Enable the receive of data on EP3 */

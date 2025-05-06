@@ -2,20 +2,20 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		35.00
-	@date			2025.04.21
+	@version		36.00
+	@date			2025.05.03
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2025.04.21	V35.00	See sdio_stm32f1_ver.txt.
+		2025.05.03	V36.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef SDIO_STM32F1_H
-#define SDIO_STM32F1_H 0x3500
+#define SDIO_STM32F1_H 0x3600
 
 #ifdef __cplusplus
  extern "C" {
@@ -466,30 +466,30 @@ typedef struct
 /**
   * @brief  SD detection on its memory slot
   */
-#define SD_PRESENT                                 ((uint8_t)0x01)
-#define SD_NOT_PRESENT                             ((uint8_t)0x00)
+#define SD_PRESENT									((uint8_t)0x01)
+#define SD_NOT_PRESENT								((uint8_t)0x00)
 
 /** 
   * @brief Supported SD Memory Cards 
   */
-#define SDIO_STD_CAPACITY_SD_CARD_V1_1             ((uint32_t)0x00000000)
-#define SDIO_STD_CAPACITY_SD_CARD_V2_0             ((uint32_t)0x00000001)
-#define SDIO_HIGH_CAPACITY_SD_CARD                 ((uint32_t)0x00000002)
-#define SDIO_MULTIMEDIA_CARD                       ((uint32_t)0x00000003)
-#define SDIO_SECURE_DIGITAL_IO_CARD                ((uint32_t)0x00000004)
-#define SDIO_HIGH_SPEED_MULTIMEDIA_CARD            ((uint32_t)0x00000005)
-#define SDIO_SECURE_DIGITAL_IO_COMBO_CARD          ((uint32_t)0x00000006)
-#define SDIO_HIGH_CAPACITY_MMC_CARD                ((uint32_t)0x00000007)
+#define SDIO_STD_CAPACITY_SD_CARD_V1_1				((uint32_t)0x00000000)
+#define SDIO_STD_CAPACITY_SD_CARD_V2_0				((uint32_t)0x00000001)
+#define SDIO_HIGH_CAPACITY_SD_CARD					((uint32_t)0x00000002)
+#define SDIO_MULTIMEDIA_CARD						((uint32_t)0x00000003)
+#define SDIO_SECURE_DIGITAL_IO_CARD					((uint32_t)0x00000004)
+#define SDIO_HIGH_SPEED_MULTIMEDIA_CARD				((uint32_t)0x00000005)
+#define SDIO_SECURE_DIGITAL_IO_COMBO_CARD			((uint32_t)0x00000006)
+#define SDIO_HIGH_CAPACITY_MMC_CARD					((uint32_t)0x00000007)
 
 
 /**
   * @brief  SDIO FIFO Address
   */
-#define SDIO_FIFO_ADDRESS                ((uint32_t)0x40018080)
+#define SDIO_FIFO_ADDRESS							((uint32_t)0x40018080)
 /** 
   * @brief  SDIO Intialization Frequency (400KHz max)
   */
-#define SDIO_INIT_CLK_DIV                ((uint8_t)0xB2)	/* 72MHz(HCLK MAX Value)/(178+2)= 0.4MHz */
+#define SDIO_INIT_CLK_DIV							((uint8_t)0xB2)	/* 72MHz(HCLK MAX Value)/(178+2)= 0.4MHz */
 /** 
   * @brief  SDIO Data Transfer Frequency
   *         NomalMode     25MHz(SD Card)/26MHz(MMCv4.x or above)/20MHz(MMCv3.x)
@@ -501,10 +501,12 @@ typedef struct
   */
 /* On STM32F1, SDIOCLK=HCLK.And SDIO_CK = SDIOCLK/(CLK_DIV+2). */
 #ifdef SD_DMA_MODE
- #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x1) 	/* 72MHz(HCLK MAX Value)/(1+2)= 24MHz MAX in Nomal Mode */
+ #define SDIO_TRANSFER_CLK_DIV						((uint8_t)0x1) 	/* 72MHz(HCLK MAX Value)/(1+2)= 24MHz MAX in Nomal Mode */
 #else /* SD_POLLING_MODE */
- #define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x4) 	/* 72MHz(HCLK MAX Value)/(4+2)= 12MHz MAX in PollingMode(due to TX/RX OVERRUN) */
+ #define SDIO_TRANSFER_CLK_DIV						((uint8_t)0x4) 	/* 72MHz(HCLK MAX Value)/(4+2)= 12MHz MAX in PollingMode(due to TX/RX OVERRUN) */
 #endif
+/* SDIO IRQ Priority(can set to 0~15) */
+#define SDIO_IRQnPriority							1U
 
 /* Function Prototypes */
 void SD_DeInit(void);

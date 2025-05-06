@@ -188,7 +188,7 @@ typedef struct {
   \brief  Read MPU Type Register
   \return Number of MPU regions
 */
-__STATIC_INLINE uint32_t ARM_MPU_TYPE(void)
+__STATIC_INLINE uint32_t ARM_MPU_TYPE(void) /* Nemui fixed -Wstrict-prototypes */
 {
   return ((MPU->TYPE) >> 8);
 }

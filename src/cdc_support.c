@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.04.21
+    @version        11.00
+    @date           2025.05.03
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -17,6 +17,7 @@
 		2023.12.19  V8.00	Improved watchdog handlings.
 		2025.04.08	V9.00	Changed minor function name.
 		2025.04.21 V10.00	Fixed UART Rx-Pin to pullup.
+		2025.05.03 V11.00	Fixed typo.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -26,7 +27,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if CDC_SUPPORT_H!= 0x1000
+#if CDC_SUPPORT_H!= 0x1100
 #error "header file version is not correspond!"
 #endif
 
@@ -361,7 +362,7 @@ void USART_To_USB_Send_Data(void)
 	{
 		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2);
 	}
-	else /* assure linecoding.datatype == 8 */
+	else /* assume linecoding.datatype == 8 */
 	{
 		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2);
 	}

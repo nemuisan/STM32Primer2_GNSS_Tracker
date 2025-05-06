@@ -4,25 +4,27 @@
 # http://nemuisan.blog.bai.ne.jp				#
 #################################################
 
-# Environment Dependent!!! This Environment assure under WINDOWS !!
+# Environment Dependent!!! This Environment assume under WINDOWS !!
 # Throw path into YOUR environments
 export PATH = %SYSTEMROOT%;$(TOOLDIR)/bin;$(OCDIR);$(DBGDIR);$(MAKEDIR);$(RIDEDIR)
 
-# Environment Dependent!!!
 # Toolchain prefix (i.e arm-none-eabi -> arm-none-eabi-gcc.exe)
 TCHAIN  = arm-none-eabi
+
+# OpenOCD/FlashTool prefix
 OCD		= openocd
 RLINK	= Cortex_pgm
 
 # Development Tools based on GNU Compiler Collection
 DEVTOOL = LAUNCHPAD
 #DEVTOOL = BLEEDING_EDGE
+
 # Check BuildTools
 ifeq ($(DEVTOOL),LAUNCHPAD)
  TOOLDIR = C:/Devz/ARM/Launchpad
  NANOLIB = --specs=nano.specs
-#  NANOLIB += -u _printf_float
-#  NANOLIB += -u _scanf_float
+ # NANOLIB += -u _printf_float
+ # NANOLIB += -u _scanf_float
  REMOVAL = rm
 else ifeq ($(DEVTOOL),BLEEDING_EDGE)
  TOOLDIR = C:/Devz/ARM/Bleeding-edge
@@ -31,9 +33,9 @@ else
  $(error SET BUILD-TOOLS AT FIRST!!)
 endif
 
-
-# Set UNIX-Like tools (Coreutils)
+# Set UNIX-Like Tools(CoreUtils) Directory
 MAKEDIR = C:/Devz/Coreutils/bin
+
 
 # Set RIDE Directory
 RIDEDIR  = C:/Devz/ARM/Raisonance/Ride/bin
@@ -51,14 +53,14 @@ MSGECHO = echo.exe
 
 
 
-# GDB DEBUG MODE Setting
-# If set to 1,FORCE to change OPTIMIZE into "-Og -g -ggdb".
+# GDB DEBUG BUILD Setting
+# If set to 1,FORCE to change OPTIMIZE into "-O0 -g -ggdb".
 DEBUG_MODE		= 0
 
 # OPTIMIZE definition
 OPTIMIZE		= s
 
-# Force to Optimize level in debug
+# Force to Optimize OFF in debug build
 ifeq ($(DEBUG_MODE),1)
  OPTIMIZE		= 0 -g -ggdb
 # OPTIMIZE		+= -gdwarf-4
@@ -66,9 +68,9 @@ ifeq ($(DEBUG_MODE),1)
 endif
 
 
-# GCC LTO Specific Option(for test)
+# GCC LTO Specific Option(for test...usually broken)
 ifneq ($(OPTIMIZE),0)
-# USE_LTO		= -flto -fuse-linker-plugin -ffat-lto-objects -flto-partition=none
+#USE_LTO			= -flto -fuse-linker-plugin -ffat-lto-objects -flto-partition=none
 endif
 
 # GCC Version Specific Options
@@ -76,10 +78,19 @@ ALIGNED_ACCESS	= -mno-unaligned-access
 ARMV7M_BOOST    = -mslow-flash-data
 
 
-# Apprication Version
-APP_VER = 111.00
+# Semihosting Definition
+#USING_HOSTAGE   = USE_SEMIHOSTING
+ifeq ($(USING_HOSTAGE),USE_SEMIHOSTING)
+SEMIHOST_LIB = --specs=rdimon.specs -lrdimon
+else
+START_LIB    = -nostartfiles
+endif
 
-# Basic definition
+# Program Version
+APP_VER = 112.00
+
+
+# Board and MPU Definitions
 EVAL_BOARD    	= USE_STM32PRIMER2
 MPU_MODEL		= STM32F10X_HD
 SUBMODEL		= STM32F103VET6
@@ -89,15 +100,17 @@ PERIF_DRIVER    = USE_STDPERIPH_DRIVER
 USE_TOUCH_SENCE =
 
 
-# Display Drivers Definition
+# Display Drivers Definition.
 # Use Display Device? MUST See lcddrv.mk
+# MUST put before DEFZ
 include ./lcddrv.mk
 
-# For JPEG Support
-#USE_JPEG_LIB    = USE_TINYJPEG_LIB
+# For JPEG Support(select one of those)
 #USE_JPEG_LIB    = USE_IJG_LIB
+#USE_JPEG_LIB    = USE_TINYJPEG_LIB
 
-# Use Display Fonts?
+# Display Fonts Definition.
+# MUST put before DEFZ
 #USE_FONTSIZE    = FONT8x8
 USE_FONTSIZE    = FONT10x10
 #USE_KANJI		= USE_KANJIFONT
@@ -106,19 +119,24 @@ USE_FONTSIZE    = FONT10x10
 OS_SUPPORT		= BARE_METAL
 #OS_SUPPORT		= USE_FREERTOS
 
+
 # Synthesis makefile Defines
 DEFZ = $(MPU_CLASS) $(MPU_MODEL) $(SUBMODEL) $(EVAL_BOARD) $(PERIF_DRIVER) $(VECTOR_START) \
-	   $(USING_HOSTAGE) $(OS_SUPPORT) $(USE_EXT_SRAM) $(USE_EXT_SDRAM) $(USE_EXT_ROM)
+	   $(USING_HOSTAGE) $(OS_SUPPORT) $(USE_EXT_SRAM) $(USE_EXT_SDRAM) $(USE_EXT_ROM)	   \
+	   $(USE_SYSCLK_FREQ)
 # Defines if Display and misc Drivers
 DEFZ += $(USE_DISPLAY) $(USE_FONTSIZE) $(USE_KANJI) $(USE_TOUCH_SENCE)  $(USE_XMSTN)	   \
         $(USE_JPEG_LIB) $(USE_PNG_LIB) $(USE_GIF_LIB) $(USE_AUDIO_LIB)  				   \
-		$(USE_SOUND_MP3)  $(USE_SOUND_WAV)
+		$(USE_SOUND_MP3) $(USE_SOUND_AAC) $(USE_SOUND_WAV)
 SYNTHESIS_DEFS	= $(addprefix -D,$(DEFZ)) \
 				 -DPACK_STRUCT_END=__attribute\(\(packed\)\) \
 				 -DALIGN_STRUCT_END=__attribute\(\(aligned\(4\)\)\) \
 				 -DMPU_SUBMODEL=\"$(SUBMODEL)\" \
 				 -DAPP_VERSION=\"$(APP_VER)\" \
 				 -DHSE_VALUE=$(HSE_CLOCK)UL
+# Exchange Uppercase into Lowercase
+MPU_MODEL_LOWER = $(strip $(shell echo $(MPU_MODEL) | tr A-Z a-z))
+
 
 # TARGET definition
 TARGET 		= main
@@ -133,12 +151,12 @@ TARGET_SYM  = $(TARGET).sym
 CMSISLIB 		= ./lib/CMSIS
 CMSIS_DEVICE 	= $(CMSISLIB)/Device/ST/STM32F10x
 CMSIS_CORE		= $(CMSISLIB)/Core
-# Define HAL and BSP LIBRARY PATH
+# Define SPL and USB LIBRARY PATH
 FWLIB  			= ./lib/STM32F10x_StdPeriph_Driver
 USBLIB 			= ./lib/STM32_USB-FS-Device_Driver
 
 
-# include PATH
+# Include PATH
 INCPATHS	 = 	./							\
 				./inc						\
 				$(FWLIB)/inc  				\
@@ -192,12 +210,6 @@ ifneq ($(USE_FONTSIZE),)
 include $(FONTX2_LIB)/fontx2_drv.mk
 endif
 
-#/*----- xMSTN Display library PATH -----*/
-xMSTN_LIB	= ./lib/xMSTN
-ifneq ($(USE_XMSTN),)
-include $(xMSTN_LIB)/xmstn_drv.mk
-endif
-
 #/*----- FatFs library PATH -----*/
 FATFS = ./lib/ff
 LIBINCDIRS += $(FATFS)
@@ -240,12 +252,15 @@ CFILES += \
 
 #/*----- STARTUP code PATH -----*/
 STARTUP_DIR = $(CMSIS_DEVICE)/Source/Templates/gcc_ride7
-ifeq ($(MPU_MODEL),STM32F10X_HD)
+ifeq ($(OS_SUPPORT),USE_FREERTOS)
 SFILES += \
-	$(STARTUP_DIR)/startup_stm32f10x_hd.s
+	$(SOURCE)/startup_$(MPU_MODEL_LOWER)_rtos.s
 else
-    $(error U MUST SELECT STM32F1_HD Device!!)
+SFILES += \
+	$(STARTUP_DIR)/startup_$(MPU_MODEL_LOWER).s
 endif
+
+
 
 #/*----- STM32 library PATH -----*/
 LIBCFILES = \
@@ -270,7 +285,7 @@ LIBCFILES = \
  $(USBLIB)/src/usb_regs.c 			\
  $(USBLIB)/src/usb_sil.c
 
-#/*----- I/O Debug library -----*/
+#/*----- Debugging I/O view library -----*/
 ifeq ($(DEBUG_MODE),1)
 CFILES += \
  ./lib/IOView/stm32f10x_io_view.c
@@ -294,35 +309,36 @@ CFLAGS  = -MD -mcpu=cortex-m3 -mtune=cortex-m3 -mfix-cortex-m3-ldrd
 CFLAGS += -mthumb -mlittle-endian $(ALIGNED_ACCESS) $(ARMV7M_BOOST)
 CFLAGS += -mno-sched-prolog -msoft-float
 CFLAGS += -std=gnu99
-CFLAGS += -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB)
+CFLAGS += -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB) $(SEMIHOST_LIB)
 CFLAGS += -fno-strict-aliasing -fsigned-char
 CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -fno-schedule-insns2 -fipa-sra
 CFLAGS += --param max-inline-insns-single=1000
 CFLAGS += -fno-common -fno-hosted
-CFLAGS += -Wall -Wextra
-CFLAGS += -Wdouble-promotion -Woverflow -Wfloat-equal
+#CFLAGS += -fanalyzer
+CFLAGS += -Wall
+CFLAGS += -Wdouble-promotion -Woverflow
 CFLAGS += -Wstrict-prototypes -Wredundant-decls -Wreturn-type
 CFLAGS += -Wshadow -Wunused
+CFLAGS += -Wextra -Wfloat-equal
+CFLAGS += -Wno-unused-but-set-variable
 CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<)
 CFLAGS += $(SYNTHESIS_DEFS)
 
 # Linker FLAGS
 LDFLAGS  = -mcpu=cortex-m3 -mthumb -mfix-cortex-m3-ldrd
-LDFLAGS += -u g_pfnVectors -Wl,-static -Wl,--gc-sections -nostartfiles
+LDFLAGS += -u g_pfnVectors -Wl,-static -Wl,--gc-sections $(START_LIB)
 LDFLAGS += -Wl,-Map=$(TARGET).map
 LDFLAGS += -Wl,--print-memory-usage
 LDFLAGS += $(LIBRARY_DIRS) $(LINKER_DIRS) $(MATH_LIB)
 LDFLAGS +=-T$(LINKER_PATH)/$(SUBMODEL).ld
 
-# Object Copy and dfu generation FLAGS
+# Object Copy relation FLAGS
 OBJCPFLAGS = -O
 OBJDUMPFLAGS = -h -S -C
-DFU	  = hex2dfu
-DFLAGS = -w
 
 
-# Build Object
+# Build Objects
 all: gccversion clean build buildinform sizeafter
 build: $(TARGET_ELF) $(TARGET_LSS) $(TARGET_SYM) $(TARGET_HEX) $(TARGET_SREC) $(TARGET_BIN)
 
@@ -348,11 +364,6 @@ $(TARGET).bin: $(TARGET).elf
 	@$(MSGECHO)
 	@$(MSGECHO) Objcopy: $@
 	$(OBJCOPY) $(OBJCPFLAGS) binary $< $@
-$(TARGET).dfu: $(TARGET).hex
-	@$(MSGECHO)
-	@$(MSGECHO) Make STM32 dfu: $@
-	$(DFU) $(DFLAGS) $< $@
-	@$(MSGECHO)
 $(TARGET).elf: $(OBJS) $(SUBMODEL)_lib.a
 	@$(MSGECHO) Link: $@
 	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
@@ -408,7 +419,6 @@ program :
 	$(REMOVE) $(TARGET).hex
 	$(REMOVE) $(TARGET).bin
 	$(REMOVE) $(TARGET).obj
-	$(REMOVE) $(SUBMODEL)_lib.a
 	$(REMOVE) $(wildcard *_lib.a)
 	$(REMOVE) $(TARGET).map
 	$(REMOVE) $(TARGET).s19
@@ -430,9 +440,15 @@ program :
 	$(REMOVE) $(wildcard ./lib/IOView/*.d)
 	$(REMOVE) $(wildcard ./lib/IOView/*.lst)
 	$(REMOVE) $(wildcard ./lib/IOView/*.o)
+	$(REMOVE) $(wildcard $(DISPLAY_SRC)/*.d)
+	$(REMOVE) $(wildcard $(DISPLAY_SRC)/*.lst)
+	$(REMOVE) $(wildcard $(DISPLAY_SRC)/*.o)
 	$(REMOVE) $(wildcard $(DISPLAY_DRV_SRC)/*.d)
 	$(REMOVE) $(wildcard $(DISPLAY_DRV_SRC)/*.lst)
 	$(REMOVE) $(wildcard $(DISPLAY_DRV_SRC)/*.o)
+	$(REMOVE) $(wildcard $(DISPLAY_MCU_SRC)/*.d)
+	$(REMOVE) $(wildcard $(DISPLAY_MCU_SRC)/*.lst)
+	$(REMOVE) $(wildcard $(DISPLAY_MCU_SRC)/*.o)
 	$(REMOVE) $(wildcard $(FATFS)/*.d)
 	$(REMOVE) $(wildcard $(FATFS)/*.lst)
 	$(REMOVE) $(wildcard $(FATFS)/*.o)
@@ -444,6 +460,6 @@ program :
 	@$(MSGECHO)
 
 # Listing of phony targets.
-.PHONY : all build clean begin finish end sizebefore sizeafter	\
-		 gccversion buildinform elf hex bin lss sym 			\
+.PHONY : all build clean begin finish end sizebefore sizeafter \
+		 gccversion buildinform elf hex bin lss sym \
 		 build_target clean_list program debug

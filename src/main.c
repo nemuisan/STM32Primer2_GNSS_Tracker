@@ -2,11 +2,11 @@
 /*!
 	@file			main.c (STM32Primer2 GNSS-Tr@cker main file)
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        111.00
-    @date           2025.04.24
+    @version        112.00
+    @date           2025.05.03
 
     @section HISTORY
-		2025.04.24	V111.00	See Whatnew.txt
+		2025.05.03	V112.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -61,7 +61,7 @@ int main(void)
 	}
 
 	/* Enable IWDG */
-	/* Assure about 6Sec WDT limit. */
+	/* Assume about 5Sec WDT limit(see pwr_support.h). */
 	/* The Independent watchdog CANNOT be stopped once started in any processor mode! */
 	IWDG_Enable();
 

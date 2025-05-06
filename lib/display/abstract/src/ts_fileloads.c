@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        28.00
-    @date           2025.04.01
+    @version        29.00
+    @date           2025.05.01
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2025.04.01	See ts_ver.txt.
+		2025.05.01	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if TS_FILELOADS_H != 0x2800
+#if TS_FILELOADS_H != 0x2900
 #error "header file version is not correspond!"
 #endif
 
@@ -77,7 +77,7 @@ extern uint16_t Vram[TS_HEIGHT][TS_WIDTH];
 #if defined(USE_TFT_FRAMEBUFFER)
 #if ((MAX_X*MAX_Y*2) > BUFSIZE)
  #define VBUFSIZE (MAX_X*MAX_Y*2)
- /* Assure D-Cache has 32byte,must be 32byte alignment */
+ /* Assume D-Cache has 32byte,must be 32byte alignment */
  uint8_t vbuffer[VBUFSIZE] __attribute__ ((section(".extram"))) __attribute__ ((aligned (32)));
 #endif
 #endif

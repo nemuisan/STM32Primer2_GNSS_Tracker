@@ -1,3 +1,7 @@
+2025.05.03 :
+V112.00	Fixed typo(on hw_config.c,h and sdio_stm32f1.c,h and cdc_support.c,h).
+		Fixed cosmetic bugfix(on makefile).
+
 2025.04.24 :
 V111.00	Fixed UART Rx-Pin to pullup(on uart_support_gps.c,h and cdc_support.c,h).
 		Re-defined NVIC priority settings(on hw_config.c,h and cdc_support.c,h and msc_support.c,h and uart_support_gps.c,h).
