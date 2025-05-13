@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f10x.h
   * @author  MCD Application Team
-  * @version V3.6.1
-  * @date    05-March-2012
+  * @version V3.6.4
+  * @date    22-September-2016
   * @brief   CMSIS Cortex-M3 Device Peripheral Access Layer Header File. 
   *          This file contains all the peripheral register's definitions, bits 
   *          definitions and memory mapping for STM32F10x Connectivity line, 
@@ -28,7 +28,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2016 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -70,11 +70,11 @@
 
 #if !defined (STM32F10X_LD) && !defined (STM32F10X_LD_VL) && !defined (STM32F10X_MD) && !defined (STM32F10X_MD_VL) && !defined (STM32F10X_HD) && !defined (STM32F10X_HD_VL) && !defined (STM32F10X_XL) && !defined (STM32F10X_CL) 
   /* #define STM32F10X_LD */     /*!< STM32F10X_LD: STM32 Low density devices */
-  /* #define STM32F10X_LD_VL */  /*!< STM32F10X_LD_VL: STM32 Low density Value Line devices */  
+  /* #define STM32F10X_LD_VL */  /*!< STM32F10X_LD_VL: STM32 Low density Value Line devices */
   /* #define STM32F10X_MD */     /*!< STM32F10X_MD: STM32 Medium density devices */
-  /* #define STM32F10X_MD_VL */  /*!< STM32F10X_MD_VL: STM32 Medium density Value Line devices */  
+  /* #define STM32F10X_MD_VL */  /*!< STM32F10X_MD_VL: STM32 Medium density Value Line devices */
   /* #define STM32F10X_HD */     /*!< STM32F10X_HD: STM32 High density devices */
-  /* #define STM32F10X_HD_VL */  /*!< STM32F10X_HD_VL: STM32 High density value line devices */  
+  /* #define STM32F10X_HD_VL */  /*!< STM32F10X_HD_VL: STM32 High density value line devices */
   /* #define STM32F10X_XL */     /*!< STM32F10X_XL: STM32 XL-density devices */
   /* #define STM32F10X_CL */     /*!< STM32F10X_CL: STM32 Connectivity line devices */
 #endif
@@ -139,11 +139,11 @@
 #endif /* HSI_VALUE */
 
 /**
- * @brief STM32F10x Standard Peripheral Library version number
+ * @brief STM32F10x Standard Peripheral Library version number V3.6.4
    */
 #define __STM32F10X_STDPERIPH_VERSION_MAIN   (0x03) /*!< [31:24] main version */
 #define __STM32F10X_STDPERIPH_VERSION_SUB1   (0x06) /*!< [23:16] sub1 version */
-#define __STM32F10X_STDPERIPH_VERSION_SUB2   (0x01) /*!< [15:8]  sub2 version */
+#define __STM32F10X_STDPERIPH_VERSION_SUB2   (0x04) /*!< [15:8]  sub2 version */
 #define __STM32F10X_STDPERIPH_VERSION_RC     (0x00) /*!< [7:0]  release candidate */
 #define __STM32F10X_STDPERIPH_VERSION        ((__STM32F10X_STDPERIPH_VERSION_MAIN << 24)\
                                              |(__STM32F10X_STDPERIPH_VERSION_SUB1 << 16)\
@@ -226,7 +226,7 @@ typedef enum IRQn
   USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                              */
   EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
   RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
-  USBWakeUp_IRQn              = 42      /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */    
+  USBWakeUp_IRQn              = 42      /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */
 #endif /* STM32F10X_LD */  
 
 #ifdef STM32F10X_LD_VL
@@ -247,7 +247,7 @@ typedef enum IRQn
   RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
   CEC_IRQn                    = 42,     /*!< HDMI-CEC Interrupt                                   */
   TIM6_DAC_IRQn               = 54,     /*!< TIM6 and DAC underrun Interrupt                      */
-  TIM7_IRQn                   = 55      /*!< TIM7 Interrupt                                       */       
+  TIM7_IRQn                   = 55      /*!< TIM7 Interrupt                                       */
 #endif /* STM32F10X_LD_VL */
 
 #ifdef STM32F10X_MD
@@ -275,7 +275,7 @@ typedef enum IRQn
   USART3_IRQn                 = 39,     /*!< USART3 global Interrupt                              */
   EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                      */
   RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
-  USBWakeUp_IRQn              = 42      /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */  
+  USBWakeUp_IRQn              = 42      /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */
 #endif /* STM32F10X_MD */  
 
 #ifdef STM32F10X_MD_VL
@@ -301,7 +301,7 @@ typedef enum IRQn
   RTCAlarm_IRQn               = 41,     /*!< RTC Alarm through EXTI Line Interrupt                */
   CEC_IRQn                    = 42,     /*!< HDMI-CEC Interrupt                                   */
   TIM6_DAC_IRQn               = 54,     /*!< TIM6 and DAC underrun Interrupt                      */
-  TIM7_IRQn                   = 55      /*!< TIM7 Interrupt                                       */       
+  TIM7_IRQn                   = 55      /*!< TIM7 Interrupt                                       */
 #endif /* STM32F10X_MD_VL */
 
 #ifdef STM32F10X_HD
@@ -377,16 +377,16 @@ typedef enum IRQn
   TIM5_IRQn                   = 50,     /*!< TIM5 global Interrupt                                */
   SPI3_IRQn                   = 51,     /*!< SPI3 global Interrupt                                */
   UART4_IRQn                  = 52,     /*!< UART4 global Interrupt                               */
-  UART5_IRQn                  = 53,     /*!< UART5 global Interrupt                               */  
+  UART5_IRQn                  = 53,     /*!< UART5 global Interrupt                               */
   TIM6_DAC_IRQn               = 54,     /*!< TIM6 and DAC underrun Interrupt                      */
-  TIM7_IRQn                   = 55,     /*!< TIM7 Interrupt                                       */  
+  TIM7_IRQn                   = 55,     /*!< TIM7 Interrupt                                       */
   DMA2_Channel1_IRQn          = 56,     /*!< DMA2 Channel 1 global Interrupt                      */
   DMA2_Channel2_IRQn          = 57,     /*!< DMA2 Channel 2 global Interrupt                      */
   DMA2_Channel3_IRQn          = 58,     /*!< DMA2 Channel 3 global Interrupt                      */
   DMA2_Channel4_5_IRQn        = 59,     /*!< DMA2 Channel 4 and Channel 5 global Interrupt        */
   DMA2_Channel5_IRQn          = 60      /*!< DMA2 Channel 5 global Interrupt (DMA2 Channel 5 is 
                                              mapped at position 60 only if the MISC_REMAP bit in 
-                                             the AFIO_MAPR2 register is set)                      */       
+                                             the AFIO_MAPR2 register is set)                      */
 #endif /* STM32F10X_HD_VL */
 
 #ifdef STM32F10X_XL
@@ -478,7 +478,7 @@ typedef enum IRQn
   CAN2_RX1_IRQn               = 65,     /*!< CAN2 RX1 Interrupt                                   */
   CAN2_SCE_IRQn               = 66,     /*!< CAN2 SCE Interrupt                                   */
   OTG_FS_IRQn                 = 67      /*!< USB OTG FS global Interrupt                          */
-#endif /* STM32F10X_CL */     
+#endif /* STM32F10X_CL */
 } IRQn_Type;
 
 /**
@@ -3623,7 +3623,7 @@ typedef struct
 #define  DMA_CCR7_PINC                       ((uint16_t)0x0040)            /*!< Peripheral increment mode */
 #define  DMA_CCR7_MINC                       ((uint16_t)0x0080)            /*!< Memory increment mode */
 
-#define  DMA_CCR7_PSIZE            ,         ((uint16_t)0x0300)            /*!< PSIZE[1:0] bits (Peripheral size) */
+#define  DMA_CCR7_PSIZE                      ((uint16_t)0x0300)            /*!< PSIZE[1:0] bits (Peripheral size) */
 #define  DMA_CCR7_PSIZE_0                    ((uint16_t)0x0100)            /*!< Bit 0 */
 #define  DMA_CCR7_PSIZE_1                    ((uint16_t)0x0200)            /*!< Bit 1 */
 
@@ -7835,7 +7835,7 @@ typedef struct
 /******************************************************************************/
 
 /*******************  Bit definition for FLASH_ACR register  ******************/
-#define  FLASH_ACR_LATENCY                   ((uint8_t)0x03)               /*!< LATENCY[2:0] bits (Latency) */
+#define  FLASH_ACR_LATENCY                   ((uint8_t)0x07)               /*!< LATENCY[2:0] bits (Latency) */
 #define  FLASH_ACR_LATENCY_0                 ((uint8_t)0x00)               /*!< Bit 0 */
 #define  FLASH_ACR_LATENCY_1                 ((uint8_t)0x01)               /*!< Bit 0 */
 #define  FLASH_ACR_LATENCY_2                 ((uint8_t)0x02)               /*!< Bit 1 */

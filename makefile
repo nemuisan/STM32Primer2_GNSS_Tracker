@@ -4,22 +4,22 @@
 # http://nemuisan.blog.bai.ne.jp				#
 #################################################
 
-# Environment Dependent!!! This Environment assume under WINDOWS !!
+# Environment dependent!!! This environment assume under WINDOWS OS!!!
 # Throw path into YOUR environments
 export PATH = %SYSTEMROOT%;$(TOOLDIR)/bin;$(OCDIR);$(DBGDIR);$(MAKEDIR);$(RIDEDIR)
 
-# Toolchain prefix (i.e arm-none-eabi -> arm-none-eabi-gcc.exe)
+# Toolchain Prefix (i.e arm-none-eabi -> arm-none-eabi-gcc.exe)
 TCHAIN  = arm-none-eabi
 
-# OpenOCD/FlashTool prefix
+# OpenOCD/FlashTool Prefix
 OCD		= openocd
 RLINK	= Cortex_pgm
 
-# Development Tools based on GNU Compiler Collection
+# Development Tools Based on GNU Compiler Collection
 DEVTOOL = LAUNCHPAD
 #DEVTOOL = BLEEDING_EDGE
 
-# Check BuildTools
+# Check Build Tools
 ifeq ($(DEVTOOL),LAUNCHPAD)
  TOOLDIR = C:/Devz/ARM/Launchpad
  NANOLIB = --specs=nano.specs
@@ -57,10 +57,10 @@ MSGECHO = echo.exe
 # If set to 1,FORCE to change OPTIMIZE into "-O0 -g -ggdb".
 DEBUG_MODE		= 0
 
-# OPTIMIZE definition
+# OPTIMIZE Definition
 OPTIMIZE		= s
 
-# Force to Optimize OFF in debug build
+# Force to Optimize OFF in Debug Build
 ifeq ($(DEBUG_MODE),1)
  OPTIMIZE		= 0 -g -ggdb
 # OPTIMIZE		+= -gdwarf-4
@@ -87,7 +87,7 @@ START_LIB    = -nostartfiles
 endif
 
 # Program Version
-APP_VER = 112.00
+APP_VER = 113.00
 
 
 # Board and MPU Definitions
@@ -100,7 +100,7 @@ PERIF_DRIVER    = USE_STDPERIPH_DRIVER
 USE_TOUCH_SENCE =
 
 
-# Display Drivers Definition.
+# Display Drivers Definition
 # Use Display Device? MUST See lcddrv.mk
 # MUST put before DEFZ
 include ./lcddrv.mk
@@ -109,7 +109,7 @@ include ./lcddrv.mk
 #USE_JPEG_LIB    = USE_IJG_LIB
 #USE_JPEG_LIB    = USE_TINYJPEG_LIB
 
-# Display Fonts Definition.
+# Display Fonts Definition
 # MUST put before DEFZ
 #USE_FONTSIZE    = FONT8x8
 USE_FONTSIZE    = FONT10x10
@@ -138,7 +138,7 @@ SYNTHESIS_DEFS	= $(addprefix -D,$(DEFZ)) \
 MPU_MODEL_LOWER = $(strip $(shell echo $(MPU_MODEL) | tr A-Z a-z))
 
 
-# TARGET definition
+# TARGET Definition
 TARGET 		= main
 TARGET_ELF  = $(TARGET).elf
 TARGET_SREC = $(TARGET).s19
@@ -176,7 +176,7 @@ MATH_LIB	 =	-lm
 LINKER_PATH =  ./lib/linker
 LINKER_DIRS = $(addprefix -L,$(LINKER_PATH))
 
-# Object definition
+# Object Definition
 OBJS 	 = $(CFILES:%.c=%.o)
 LIBOBJS  = $(LIBCFILES:%.c=%.o) $(SFILES:%.s=%.o)
 
@@ -251,7 +251,7 @@ CFILES += \
 
 
 #/*----- STARTUP code PATH -----*/
-STARTUP_DIR = $(CMSIS_DEVICE)/Source/Templates/gcc_ride7
+STARTUP_DIR = $(CMSIS_DEVICE)/Source/Templates/gcc
 ifeq ($(OS_SUPPORT),USE_FREERTOS)
 SFILES += \
 	$(SOURCE)/startup_$(MPU_MODEL_LOWER)_rtos.s
@@ -292,7 +292,7 @@ CFILES += \
 endif
 
 
-# TOOLCHAIN SETTING
+# Toolchain Settings
 CC 			= $(TCHAIN)-gcc
 CPP 		= $(TCHAIN)-g++
 OBJCOPY 	= $(TCHAIN)-objcopy
@@ -333,7 +333,7 @@ LDFLAGS += -Wl,--print-memory-usage
 LDFLAGS += $(LIBRARY_DIRS) $(LINKER_DIRS) $(MATH_LIB)
 LDFLAGS +=-T$(LINKER_PATH)/$(SUBMODEL).ld
 
-# Object Copy relation FLAGS
+# Object Copy Relation FLAGS
 OBJCPFLAGS = -O
 OBJDUMPFLAGS = -h -S -C
 
@@ -392,7 +392,7 @@ sizeafter:
 	@$(SIZE) $(TARGET).elf
 	@$(SIZE) -A -x $(TARGET).elf
 
-# Display compiler version information.
+# Display Compiler Version Informations
 gccversion :
 	@$(CC) --version
 	@$(MSGECHO)
@@ -407,12 +407,12 @@ buildinform :
 
 # Flash and Debug Program
 debug :
-
+# RLINK DOES NOT SUPPORT ANY OSS-DEBUG!!
 program :
 	$(RLINK) T$(SUBMODEL) E P$(TARGET).hex S
 
 
-# Drop files into dust-shoot
+# Drop Files into Dust-Shoot
 .PHONY clean:
 	@$(MSGECHO) Cleaning Objects:
 	$(REMOVE) $(TARGET).elf
@@ -459,7 +459,7 @@ program :
 	$(REMOVEDIR) .dep
 	@$(MSGECHO)
 
-# Listing of phony targets.
+# Listing of PHONY Targets
 .PHONY : all build clean begin finish end sizebefore sizeafter \
 		 gccversion buildinform elf hex bin lss sym \
 		 build_target clean_list program debug

@@ -2,9 +2,9 @@
   ******************************************************************************
   * @file      startup_stm32f10x_xl.s
   * @author    MCD Application Team
-  * @version   V3.6.1
-  * @date      05-March-2012
-  * @brief     STM32F10x XL-Density Devices vector table for RIDE7 toolchain. 
+  * @version   V3.6.4
+  * @date      22-September-2016
+  * @brief     STM32F10x XL-Density Devices vector table for GCC based toolchain. 
   *            This module performs:
   *                - Set the initial SP
   *                - Set the initial PC == Reset_Handler,
@@ -19,7 +19,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2016 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -55,7 +55,6 @@ defined in linker script */
 .word  _sbss
 /* end address for the .bss section. defined in linker script */
 .word  _ebss
-/* stack used for SystemInit_ExtMemCtl; always internal RAM used */
 
 .equ  BootRAM,        0xF1E0F85F
 /**
@@ -99,8 +98,11 @@ LoopFillZerobss:
   ldr  r3, = _ebss
   cmp  r2, r3
   bcc  FillZerobss
+
 /* Call the clock system intitialization function.*/
-  bl  SystemInit   
+  bl  SystemInit
+/* Call static constructors */
+  bl __libc_init_array
 /* Call the application's entry point.*/
   bl  main
   bx  lr    
@@ -252,7 +254,7 @@ g_pfnVectors:
   .word  0
   .word  0
   .word  BootRAM       /* @0x1E0. This is for boot in RAM mode for 
-                         STM32F10x XL Density devices. */
+                         STM32F10x XL-Density devices. */
 /*******************************************************************************
 *
 * Provide weak aliases for each Exception handler to the Default_Handler. 

@@ -1,3 +1,8 @@
+2025.05.09 :
+V113.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_6/commit/218b0362a3c9e3def9d36ed0d4449551f83bf0b5
+		Adopted "LAST" STM32F10x_StdPeriph_Driver(3.6.4) device definitions(on makefile).
+
 2025.05.03 :
 V112.00	Fixed typo(on hw_config.c,h and sdio_stm32f1.c,h and cdc_support.c,h).
 		Fixed cosmetic bugfix(on makefile).
