@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_mass_mal.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2024.04.09
+    @version        9.00
+    @date           2025.06.18
 	@brief          Descriptor Header for Mal.
 					Based On STMicro's Sample Thanks!
 
@@ -16,13 +16,14 @@
 		2019.09.20	V6.00	Fixed shadowed variable.
 		2023.03.08	V7.00	Added external declaration.
 		2024.04.09	V8.00	Changed to MultiBlock R/W ready.
+		2025.06.18	V9.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef MSC_MASS_MAL_H
-#define MSC_MASS_MAL_H 0x0800
+#define MSC_MASS_MAL_H 0x0900
 
 #ifdef __cplusplus
  extern "C" {

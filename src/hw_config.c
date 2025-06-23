@@ -2,8 +2,8 @@
 /*!
 	@file			hw_config.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2025.05.03
+    @version        9.00
+    @date           2025.06.19
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -15,6 +15,7 @@
 		2025.04.07	V6.00	Fixed typo comment.
 		2025.04.21	V7.00	Re-defined NVIC priority settings.
 		2025.05.03	V8.00	Fixed cosmetic bugfix.
+		2025.06.19	V9.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hw_config.h"
 /* check header file version for fool proof */
-#if HW_CONFIG_H!= 0x0800
+#if HW_CONFIG_H!= 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -203,7 +204,7 @@ void NVIC_Configuration(void)
 void JoyInp_Chk(void)
 {
 	static uint32_t keycounts=0;
-	static uint32_t prev,now;
+	static uint16_t prev,now;
 	
 	/* execute every 5mSec */
 	if(++keycounts >= 5 ){
@@ -380,15 +381,15 @@ static void IntToUnicode (uint32_t value , uint8_t *pbuf , uint8_t len)
 	{
 		if( ((value >> 28)) < 0xA )
 		{
-			pbuf[ 2* idx] = (value >> 28) + '0';
+			pbuf[2 * idx] = (uint8_t)((value >> 28) + '0');
 		}
 		else
 		{
-			pbuf[2* idx] = (value >> 28) + 'A' - 10; 
+			pbuf[2 * idx] = (uint8_t)((value >> 28) + 'A' - 10); 
 		}
-
+		
 		value = value << 4;
-		pbuf[ 2* idx + 1] = 0;
+		pbuf[(2 * idx) + 1] = 0;
 	}
 }
 

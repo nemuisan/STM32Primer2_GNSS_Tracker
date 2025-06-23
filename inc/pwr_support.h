@@ -2,8 +2,8 @@
 /*!
 	@file			pwr_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2025.04.07
+    @version        9.00
+    @date           2025.06.18
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
@@ -16,13 +16,14 @@
 		2023.12.19	V6.00	Improved watchdog handlings.
 		2024.07.18	V7.00	Fixed empty argument.
 		2025.04.07	V8.00	Fixed cosmetic bugfix.
+		2025.06.18	V9.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef PWR_SUPPORT_H
-#define PWR_SUPPORT_H 0x0800
+#define PWR_SUPPORT_H 0x0900
 
 #ifdef __cplusplus
  extern "C" {
@@ -38,10 +39,10 @@
 #define PWR_OFF()			GPIO_SetBits(GPIO_PWR, SHUTDOWN)
 
 /* Battery voltage defines */
-#define LOWER_BAT_VOLTAGE	3350UL	/* 3350mV */ /* Lipo battery lower limit voltage */
-#define NO_BAT_VOLTAGE		1000UL  /* 1000mV */ /* Death battery or USB Powered only */
-#define MID_BAT_VOLTAGE		3600UL  /* 3600mV */
-#define LOWER_FILT_TIME		20    	/* 20Sec  */
+#define LOWER_BAT_VOLTAGE	3350L	/* 3350mV */ /* Lipo battery lower limit voltage */
+#define NO_BAT_VOLTAGE		1000L	/* 1000mV */ /* Death battery or USB Powered only */
+#define MID_BAT_VOLTAGE		3600L	/* 3600mV */
+#define LOWER_FILT_TIME		20		/* 20Sec  */
 
 /* Shutdown button */
 #define SHUT_TIME			3000UL  /* 3000mSec */

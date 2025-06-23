@@ -2,21 +2,22 @@
 /*!
 	@file			ff_rtc_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2023.04.21
+    @version        3.00
+    @date           2025.06.18
 	@brief          FatFs Realtime Clock Section.					@n
 					Hardware Abstraction Layer.
 
     @section HISTORY
 		2012.08.27	V1.00	Start Here.
 		2023.04.21	V2.00	Fixed cosmetic bugfix.
+		2025.06.18	V3.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FF_RTC_IF_H
-#define FF_RTC_IF_H 0x0200
+#define FF_RTC_IF_H 0x0300
 
 #ifdef __cplusplus
  extern "C" {
@@ -33,7 +34,7 @@
 typedef struct {
 	uint16_t	year;	/* 1..4095 */
 	uint8_t		month;	/* 1..12 */
-	uint8_t		mday;	/* 1.. 31 */
+	uint8_t		mday;	/* 1..31 */
 	uint8_t		wday;	/* 1..7 */
 	uint8_t		hour;	/* 0..23 */
 	uint8_t		min;	/* 0..59 */

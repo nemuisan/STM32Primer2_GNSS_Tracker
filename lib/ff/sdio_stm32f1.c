@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		36.00
-	@date			2025.05.03
+	@version		37.00
+	@date			2025.06.18
 	@brief			SDIO Driver For STM32 HighDensity Devices				@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2025.05.03	V36.00	See sdio_stm32f1_ver.txt.
+		2025.06.18	V37.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if SDIO_STM32F1_H!= 0x3600
+#if SDIO_STM32F1_H!= 0x3700
 #error "header file version is not correspond!"
 #endif
 
@@ -125,7 +125,8 @@
 
 /* Variables -----------------------------------------------------------------*/
 static uint32_t CardType = SDIO_STD_CAPACITY_SD_CARD_V1_1;
-static uint32_t CSD_Tab[4], CID_Tab[4], SCR_Tab[2], RCA = 0, OCR = 0;
+static uint32_t CSD_Tab[4], CID_Tab[4], SCR_Tab[2], OCR = 0;
+static uint16_t RCA = 0;
 static uint8_t  MMC_EXTCSDREV = 0;
 static uint8_t  MMC_EXTCSDLIFE[2] = {0};
 static uint8_t  MMC_EXTCSDEOL = 0;
@@ -925,7 +926,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo)
 		
 		/*!< Byte 10 */
 		tmp = (uint8_t)((CSD_Tab[2] & 0x0000FF00) >> 8);
-		/* nemui fixed due to SD2.00 Capacity fomula is Size = (C_SIZE+1)~2^19 */
+		/* Nemui fixed due to SD2.00 Capacity fomula is Size = (C_SIZE+1)~2^19 */
 		cardinfo->CardCapacity = ((uint64_t)cardinfo->SD_csd.DeviceSize + 1) * 512 * 1024;
 		cardinfo->CardBlockSize = 512;
 	}
@@ -3933,7 +3934,7 @@ DSTATUS SD_Status()
 
 	if(SD_GetStatus() == SD_TRANSFER_OK)
 	{
-		Stat &= ~STA_NOINIT;
+		Stat &= (DSTATUS)~STA_NOINIT;
 	}
 	return Stat;
 }
@@ -4182,15 +4183,15 @@ DRESULT disk_ioctl(BYTE pdrv,BYTE cmd,void *buff)
 			/* Get number of sectors on the disk (DWORD) */
 			case GET_SECTOR_COUNT:
 		#if FF_MAX_SS != FF_MIN_SS
-			  *(uint32_t*)buff = SDCardInfo.CardCapacity / SDCardInfo.CardBlockSize;
+			  *(uint32_t*)buff = (uint32_t)(SDCardInfo.CardCapacity / SDCardInfo.CardBlockSize);
 		#else
-			  *(uint32_t*)buff = SDCardInfo.CardCapacity / SECTOR_SIZE;
+			  *(uint32_t*)buff = (uint32_t)(SDCardInfo.CardCapacity / SECTOR_SIZE);
 		#endif
 			  return RES_OK;
 			  
 			/* Get R/W sector size (WORD) (needed at FF_MAX_SS != FF_MIN_SS) */
 			case GET_SECTOR_SIZE :
-			  *(uint16_t*)buff = SDCardInfo.CardBlockSize;
+			  *(uint16_t*)buff = (uint16_t)SDCardInfo.CardBlockSize;
 			  return RES_OK;
 			  
 			/* Get erase block size in unit of sector (DWORD) */

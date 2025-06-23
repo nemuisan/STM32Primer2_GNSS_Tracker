@@ -2,8 +2,8 @@
 /*!
 	@file			uart_support_gps.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2025.04.21
+    @version        9.00
+    @date           2025.06.18
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
@@ -15,13 +15,14 @@
 		2022.10.10	V6.00	Fixed more robustness.
 		2023.03.07	V7.00	Fixed cosmetic bugfixes.
 		2025.04.21	V8.00	Fixed UART Rx-Pin to pullup.
+		2025.06.18	V9.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef UART_SUPPORT_GPS_H
-#define UART_SUPPORT_GPS_H	0x0800
+#define UART_SUPPORT_GPS_H	0x0900
 
 #ifdef __cplusplus
  extern "C" {

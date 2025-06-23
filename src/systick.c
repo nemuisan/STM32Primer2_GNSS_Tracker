@@ -2,8 +2,8 @@
 /*!
 	@file			systick.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2025.04.03
+    @version        8.00
+    @date           2025.06.12
 	@brief          delay mSec-order routine using systick timer			@n
 					delay uSec-order routine using TIM3~5;
 
@@ -15,16 +15,16 @@
 		2017.07.31  V5.00	Fixed portability for uSec timer;
 		2023.04.21	V6.00	Fixed cosmetic bugfix.
 		2025.04.03	V7.00	Fixed retrieve current SystemCoreClock on SysTickInit();
+		2025.06.12	V8.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
-
 /* Includes ------------------------------------------------------------------*/
 #include "systick.h"
 /* check header file version for fool proof */
-#if SYSTICK_H!= 0x0700
+#if SYSTICK_H!= 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -67,7 +67,7 @@ void SysTickInit(__IO uint32_t interval)
 	/* Time base configuration */
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 	TIM_TimeBaseStructInit(&TIM_TimeBaseStructure); 
-	TIM_TimeBaseStructure.TIM_Prescaler 	= ((SystemCoreClock)/USEC_INTERVAL) - 1;
+	TIM_TimeBaseStructure.TIM_Prescaler 	= (uint16_t)((SystemCoreClock)/USEC_INTERVAL) - 1;
 	TIM_TimeBaseStructure.TIM_Period 		= UINT16_MAX; 
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_CounterMode 	= TIM_CounterMode_Up;

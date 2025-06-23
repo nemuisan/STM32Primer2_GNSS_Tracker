@@ -9,11 +9,11 @@ Functions
 -- 4-direction and center key inputs.  
 -- Battery management with low voltage detect & shutdown.  
 -- Push key to select below three functions.  
--- Systick mSec Timer and uSec Timer(Using hardware timer).  
+-- Systick mSec Timer and hardware uSec Timer.  
 -- Indication LEDs.
 
 - GNSS Data Logging  
--- Using ChaN's FatFs Filesystem.  
+-- Using ChaN's FatFs FileSystem.  
 -- Using SDIO with DMA Driver.  
 -- Supports MMC,SDSC,SDHC,SDXC and eMMC.  
 
@@ -27,7 +27,7 @@ Functions
 -- Using doublebuffered endpoints(Bulk IN only).  
 -- Improved UART Rx performance and stability.  
 -- It can send/receive datas to many GPS/GNSS Modules NMEA-0183 Sentences.  
--- Supports 4800~115200Bps,8bit,noparity,1stopbit.  
+-- Supports 4800~115200Bps,7~8bit,noparity,1stopbit(Hardware handshake is NOT supported).  
 
 Build
 ------

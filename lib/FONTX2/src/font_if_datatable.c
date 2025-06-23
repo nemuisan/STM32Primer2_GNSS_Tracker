@@ -2,8 +2,8 @@
 /*!
 	@file			font_if_datatable.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2024.08.01
+    @version        12.00
+    @date           2025.06.20
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -20,7 +20,8 @@
 		2019.02.01	V8.00	Fixed some compiler warnings.
 		2023.05.01	V9.00	Fixed cosmetic bugfix.
 		2023.09.01 V10.00	Added Konatsu-Fonts.
-		2024.07.10 V11.00	Fixed LTO build support.
+		2024.08.01 V11.00	Fixed LTO build support.
+		2025.06.20 V12.00	Fixed dropped IL Font.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -30,7 +31,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "font_if_datatable.h"
 /* check header file version for fool proof */
-#if FONT_IF_DATATABLE_H != 0x1100
+#if FONT_IF_DATATABLE_H != 0x1200
 #error "header file version is not correspond!"
 #endif
 
@@ -266,6 +267,15 @@ FontX_Ank   Tanu_Ank;
  #endif
  IMPORT_BIN(".rodata", FONT_FILE_DIR "hanazono/HNZNHN16.fnt",  font_table_ank);
  FontX_Ank   Hanazono_Ank;
+
+#elif defined(FONT16x16I)
+#warning "USE IL FONTS(16x16)"
+ #ifdef USE_KANJIFONT
+	IMPORT_BIN(".rodata", FONT_FILE_DIR "ILFONT/ILGZ16XF.FNT", font_table_kanji);
+	FontX_Kanji IL_Kanji ATTR_KANJI_RAM;
+ #endif
+ IMPORT_BIN(".rodata", FONT_FILE_DIR "ILFONT/ILGH16XB.FNT",  font_table_ank);
+ FontX_Ank   IL_Ank;
 
 #elif defined(FONT16x16T)
 #warning "USE KONATSU FONTS(16x16)"

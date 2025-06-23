@@ -87,7 +87,7 @@ START_LIB    = -nostartfiles
 endif
 
 # Program Version
-APP_VER = 113.00
+APP_VER = 114.00
 
 
 # Board and MPU Definitions
@@ -316,12 +316,14 @@ CFLAGS += -fno-schedule-insns2 -fipa-sra
 CFLAGS += --param max-inline-insns-single=1000
 CFLAGS += -fno-common -fno-hosted
 #CFLAGS += -fanalyzer
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 CFLAGS += -Wdouble-promotion -Woverflow
 CFLAGS += -Wstrict-prototypes -Wredundant-decls -Wreturn-type
 CFLAGS += -Wshadow -Wunused
-CFLAGS += -Wextra -Wfloat-equal
-CFLAGS += -Wno-unused-but-set-variable
+#CFLAGS += -Wfloat-equal
+#CFLAGS += -Wconversion -Wsign-conversion -Wshift-count-negative
+#CFLAGS += -Wno-unused-parameter
+#CFLAGS += -Wno-unused-but-set-variable
 CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<)
 CFLAGS += $(SYNTHESIS_DEFS)
 

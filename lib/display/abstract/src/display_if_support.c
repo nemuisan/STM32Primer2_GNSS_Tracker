@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.05.01
+    @version        11.00
+    @date           2025.05.27
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -20,6 +20,7 @@
 		2023.08.01	V8.00	Revised release.
 		2024.08.01	V9.00	Fixed draw-circle and font function.
 		2025.05.01 V10.00	More optimized draw-circle function.
+		2025.05.27 V11.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -29,7 +30,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "display_if_support.h"
 /* check header file version for fool proof */
-#if DISPLAY_IF_SUPPORT_H != 0x1000
+#if DISPLAY_IF_SUPPORT_H != 0x1100
 #error "header file version is not correspond!"
 #endif
 
@@ -94,9 +95,9 @@ inline void PutPixel(uint16_t x, uint16_t y,uint16_t colour)
 	DRAW Rectangle Line with no Filler.
 */
 /**************************************************************************/
-inline void Display_DrawRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour)
+inline void Display_DrawRect_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye, uint16_t colour)
 {
-	volatile uint32_t n;
+	uint16_t n;
 
 	if((xe < xs) || (ye < ys) ) return;
 
@@ -127,9 +128,9 @@ inline void Display_DrawRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t 
 	Fill Rectangle.
 */
 /**************************************************************************/
-inline void Display_FillRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour)
+inline void Display_FillRect_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye, uint16_t colour)
 {
-	volatile uint32_t n;
+	int n;
 
 	if((xe < xs) || (ye < ys) ) return;
 	
@@ -139,20 +140,19 @@ inline void Display_FillRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t 
 	do {
 		Display_wr_dat_if(colour);
 	} while (--n);
-
 }
-
 
 /**************************************************************************/
 /*! 
 	DRAW Line Function(There is no cripper yet).
 */
 /**************************************************************************/
-inline void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour)
+inline void Display_DrawLine_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye, uint16_t colour)
 {
 	/* Bresenham Algorithm */
-	int  wwx,hhy,x,y,n,sx,sy,e;
-	uint16_t dx,dy;
+	int wwx,hhy,n,sx,sy,e;
+	int dx,dy;
+	int x,y;
 
 	wwx = (int)(xe - xs);
 	hhy = (int)(ye - ys);
@@ -170,7 +170,7 @@ inline void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t 
 		e = dx;
 		
 		for(n=0; n<=dx; ++n){
-			PutPixel(x,y,colour);
+			PutPixel((uint16_t)x,(uint16_t)y,colour);
 			x += sx;
 			e += 2*dy;
 			
@@ -186,8 +186,7 @@ inline void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t 
 		e = dy;
 		
 		for(n=0; n<=dy; ++n){
-		
-			PutPixel(x,y,colour);
+			PutPixel((uint16_t)x,(uint16_t)y,colour);
 			y += sy;
 			e += 2*dx;
 			
@@ -205,16 +204,17 @@ inline void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t 
 */
 /**************************************************************************/
 #if 1 /* More Accuracy method by http://dencha.ojaru.jp thanks! */
-inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour)
+inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,uint16_t diameter, uint16_t colour)
 {
     PLOT_XY center;
     center.x=x_ct;
     center.y=y_ct;
     long cx = 0, cy=diameter/2, *px, *py, tmp;
-    long dx, dy, x_sign, num_eigth, r_root2,y_sign =0;
+    long dx, dy, x_sign, num_eigth,y_sign =0;
     long d;
+	long r_root2;
 
-    r_root2 = (diameter>3)? root_i(diameter*diameter/8) :1;
+    r_root2 = (diameter>3)? ABS(root_i(diameter*diameter/8)) :1;
     tmp = r_root2*r_root2*8-diameter*diameter;
     if (ABS(tmp)>ABS(tmp+8*(2*r_root2+1))) r_root2++;	/* near by (r*Å„2) */
 
@@ -232,7 +232,7 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
     for(num_eigth=0; num_eigth <8; num_eigth++){
         start_po[num_eigth].y=diameter/2;
         start_po[num_eigth].x=0;
-        end_po[num_eigth].x=end_po[num_eigth].y=r_root2;
+        end_po[num_eigth].x=end_po[num_eigth].y=(uint16_t)ABS(r_root2);
     }
 
     for(int li=0;li<4;li++){
@@ -255,12 +255,12 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
         if (cy*y_sign>r_root2){
             /* 1,2 -> 3,4 -> 5,6 -> 7,0 */
             if (start_po[li*2+1].x < ABS(cx)) {
-                start_po[li*2+1].y = ABS(cy);
-                start_po[li*2+1].x = ABS(cx);
+                start_po[li*2+1].y = (uint16_t)ABS(cy);
+                start_po[li*2+1].x = (uint16_t)ABS(cx);
             }
             if (start_po[(li*2+2)%8].x < ABS(cx)) {
-                start_po[(li*2+2)%8].y = ABS(cy);
-                start_po[(li*2+2)%8].x = ABS(cx);
+                start_po[(li*2+2)%8].y = (uint16_t)ABS(cy);
+                start_po[(li*2+2)%8].x = (uint16_t)ABS(cx);
             }
         }
         else {
@@ -270,12 +270,12 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
                 /* Set Out of Region... 1,2 -> 3,4 -> 5,6 -> 7,0 */
                 /* 0,3 -> 2,5 -> 4,7 -> 6,1 */
                 if (end_po[li*2].x > ABS(cy)) {
-                    end_po[li*2].y = ABS(cx);
-                    end_po[li*2].x = ABS(cy);
+                    end_po[li*2].y = (uint16_t)ABS(cx);
+                    end_po[li*2].x = (uint16_t)ABS(cy);
                 }
                 if (end_po[(li*2+3)%8].x > ABS(cy)) {
-                    end_po[(li*2+3)%8].y = ABS(cx);
-                    end_po[(li*2+3)%8].x = ABS(cy);
+                    end_po[(li*2+3)%8].y = (uint16_t)ABS(cx);
+                    end_po[(li*2+3)%8].x = (uint16_t)ABS(cy);
                 }
             }
             else {
@@ -285,12 +285,12 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
 				    /* Set Out of Region... 0,3 -> 2,5 -> 4,7 -> 6,1 */
 					/* 4,7 -> 6,1 -> 0,3 -> 2,5 */
                     if (start_po[(li*2+4)%8].x < ABS(cy)) {
-                        start_po[(li*2+4)%8].y = ABS(cx);
-                        start_po[(li*2+4)%8].x = ABS(cy);
+                        start_po[(li*2+4)%8].y = (uint16_t)ABS(cx);
+                        start_po[(li*2+4)%8].x = (uint16_t)ABS(cy);
                     }
                     if (start_po[(li*2+7)%8].x < ABS(cy)) {
-                        start_po[(li*2+7)%8].y = ABS(cx);
-                        start_po[(li*2+7)%8].x = ABS(cy);
+                        start_po[(li*2+7)%8].y = (uint16_t)ABS(cx);
+                        start_po[(li*2+7)%8].x = (uint16_t)ABS(cy);
                     }
                 }
                 else {
@@ -299,12 +299,12 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
 					/* Set Out of Region...  4,7 -> 6,1 -> 0,3 -> 2,5 */
 					/* 5,6 -> 7,0 -> 1,2 -> 3,4 */
                     if (end_po[(li*2+5)%8].x > ABS(cx)) {
-                        end_po[(li*2+5)%8].y = ABS(cy);
-                        end_po[(li*2+5)%8].x = ABS(cx);
+                        end_po[(li*2+5)%8].y = (uint16_t)ABS(cy);
+                        end_po[(li*2+5)%8].x = (uint16_t)ABS(cx);
                     }
                     if (end_po[(li*2+6)%8].x > ABS(cx)) {
-                        end_po[(li*2+6)%8].y = ABS(cy);
-                        end_po[(li*2+6)%8].x = ABS(cx);
+                        end_po[(li*2+6)%8].y = (uint16_t)ABS(cy);
+                        end_po[(li*2+6)%8].x = (uint16_t)ABS(cx);
                     }
                 }
             }
@@ -340,7 +340,7 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
                 dy+=8;
                 cy--;
             }
-            PutPixel((*px)*x_sign + now_center.x, (*py)*y_sign + now_center.y, colour);
+            PutPixel((uint16_t)((*px)*x_sign + now_center.x), (uint16_t)((*py)*y_sign + now_center.y), colour);
             d += dx;
             dx+=8;
         }
@@ -372,14 +372,14 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
             --cy;
         }
 		
-        PutPixel( cy + x_ct,  cx + y_ct, colour);	/* Between   0- 45 */
-        PutPixel( cx + x_ct,  cy + y_ct, colour);	/* Between  45- 90 */
-        PutPixel(-cx + x_ct,  cy + y_ct, colour);	/* Between  90-135 */
-        PutPixel(-cy + x_ct,  cx + y_ct, colour);	/* Between 135-180 */
-        PutPixel(-cy + x_ct, -cx + y_ct, colour);	/* Between 180-225 */
-        PutPixel(-cx + x_ct, -cy + y_ct, colour);	/* Between 225-270 */
-        PutPixel( cx + x_ct, -cy + y_ct, colour);	/* Between 270-315 */
-        PutPixel( cy + x_ct, -cx + y_ct, colour);	/* Between 315-360 */
+        PutPixel((uint16_t)( cy + x_ct),(uint16_t)(  cx + y_ct), colour);	/* Between   0- 45 */
+        PutPixel((uint16_t)( cx + x_ct),(uint16_t)(  cy + y_ct), colour);	/* Between  45- 90 */
+        PutPixel((uint16_t)(-cx + x_ct),(uint16_t)(  cy + y_ct), colour);	/* Between  90-135 */
+        PutPixel((uint16_t)(-cy + x_ct),(uint16_t)(  cx + y_ct), colour);	/* Between 135-180 */
+        PutPixel((uint16_t)(-cy + x_ct),(uint16_t)( -cx + y_ct), colour);	/* Between 180-225 */
+        PutPixel((uint16_t)(-cx + x_ct),(uint16_t)( -cy + y_ct), colour);	/* Between 225-270 */
+        PutPixel((uint16_t)( cx + x_ct),(uint16_t)( -cy + y_ct), colour);	/* Between 270-315 */
+        PutPixel((uint16_t)( cy + x_ct),(uint16_t)( -cx + y_ct), colour);	/* Between 315-360 */
     }
 }
 #endif
@@ -389,7 +389,7 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
 	DRAW Circle with Filler.
 */
 /**************************************************************************/
-inline void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour)
+inline void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,uint16_t diameter, uint16_t colour)
 {
 	/* Bresenham Midpoint Algorithm */
 	long cx, cy, d, dH, dD, n;
@@ -416,25 +416,25 @@ inline void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
 		/* Between 0-45deg */
 		n = 2*cy;
 		do{
-			PutPixel((cy-n)+ x_ct,cx + y_ct,colour);
+			PutPixel((uint16_t)((cy-n)+ x_ct),(uint16_t)(cx + y_ct),colour);
 		} while (n--);
 		
 		/* Between 45-90deg */
 		n = 2*cx;
 		do{
-			PutPixel((cx-n)+ x_ct,cy + y_ct,colour);
+			PutPixel((uint16_t)((cx-n)+ x_ct),(uint16_t)(cy + y_ct),colour);
 		} while (n--);
 		
 		/* Between 270-315deg */
 		n = 2*cx;
 		do{
-			PutPixel((cx-n)+ x_ct,-cy + y_ct,colour);
+			PutPixel((uint16_t)((cx-n)+ x_ct),(uint16_t)(-cy + y_ct),colour);
 		} while (n--);
 		
 		/* Between 315-360deg */
 		n = 2*cy;
 		do{
-			PutPixel((cy-n)+ x_ct,-cx + y_ct,colour);
+			PutPixel((uint16_t)((cy-n)+ x_ct),(uint16_t)(-cx + y_ct),colour);
 		} while (n--);
 		
     }
@@ -468,7 +468,7 @@ int Display_DrawBmp_If(const uint8_t* ptr)
 	if (!bw || bw > 1280 || !bh) return 0;
 	
 	/* Calculate Data byte count per holizontal line */
-	iw = ((bw * 3) + 3) & ~3;
+	iw = ((bw * 3) + 3) & (uint32_t)~3;
 
 	/* Centering */
 	if (bw > MAX_X) {
@@ -500,7 +500,7 @@ int Display_DrawBmp_If(const uint8_t* ptr)
 	w = (bw > MAX_X) ? MAX_X : bw;
 
 	do {
-		Display_rect_if(xs, xe, m, m);
+		Display_rect_if((uint16_t)xs, (uint16_t)xe, (uint16_t)m, (uint16_t)m);
 		n = 0;
 		p = (uint8_t*)ptr + i;
 		do {
@@ -533,8 +533,8 @@ static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 {
 
 	uint8_t*	ptemp;
-	int 		i,j,l;
-	int 		k,m;
+	uint16_t 	i,j,l;
+	uint16_t 	k,m;
 
 	l = CurrentKanjiDat->X_Size / 8;
 	m = CurrentKanjiDat->X_Size % 8;
@@ -548,7 +548,7 @@ static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 			for(j=0; j< 8;j++){
 
 				if((*(ptemp)<<j)&0x80){
-						SetPixel((x+j+(k*8)),(y+i));
+						SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 						Display_wr_dat_if(colour);
 					}
 			}
@@ -558,7 +558,7 @@ static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 		for(j=0; j< m ;j++){
 
 			if((*(ptemp)<<j)&0x80){
-					SetPixel((x+j+(k*8)),(y+i));
+					SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 					Display_wr_dat_if(colour);
 				}
 				
@@ -580,8 +580,8 @@ static void putank_t(uint16_t x, uint16_t y, uint8_t* pank, uint16_t colour)
 {
 
 	uint8_t*	ptemp;
-	int 		i,j,l;
-	int 		k,m;
+	uint16_t 	i,j,l;
+	uint16_t 	k,m;
 
 	l = CurrentAnkDat->X_Size / 8;
 	m = CurrentAnkDat->X_Size % 8;
@@ -595,7 +595,7 @@ static void putank_t(uint16_t x, uint16_t y, uint8_t* pank, uint16_t colour)
 			for(j=0; j< 8;j++){
 
 				if((*(ptemp)<<j)&0x80){
-						SetPixel((x+j+(k*8)),(y+i));
+						SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 						Display_wr_dat_if(colour);
 					}
 			}
@@ -605,7 +605,7 @@ static void putank_t(uint16_t x, uint16_t y, uint8_t* pank, uint16_t colour)
 		for(j=0; j< m ;j++){
 
 			if((*(ptemp)<<j)&0x80){
-					SetPixel((x+j+(k*8)),(y+i));
+					SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 					Display_wr_dat_if(colour);
 				}
 		}
@@ -624,8 +624,8 @@ void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg)
 {
 
 	uint8_t*	ptemp;
-	int 		i,j,l;
-	int 		k,m;
+	uint16_t 	i,j,l;
+	uint16_t 	k,m;
 	uint16_t 	wd;
 
 	l = CurrentKanjiDat->X_Size / 8;
@@ -633,8 +633,8 @@ void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg)
 
 	ptemp = GetPtr_Kanji(((*pkanji) << 8) | *(pkanji+1));
 	
-	Display_rect_if(x, x + CurrentKanjiDat->X_Size - 1,
-					y, y + CurrentKanjiDat->Y_Size - 1);
+	Display_rect_if(x, (uint16_t)(x + CurrentKanjiDat->X_Size - 1),
+					y, (uint16_t)(y + CurrentKanjiDat->Y_Size - 1));
 
 
 	for(i=0; i<CurrentKanjiDat->Y_Size;i++)
@@ -644,21 +644,21 @@ void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg)
 			for(j=0; j< 8;j++){
 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
 			#if defined(DISABLE_FASTWRITE)
-				SetPixel((x+j+(k*8)),(y+i));
+				SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 			#endif
 				Display_wr_dat_if(wd);
 			}
 			ptemp++;
 		}
-
+		
 		for(j=0; j< m ;j++){
 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
 			#if defined(DISABLE_FASTWRITE)
-				SetPixel((x+j+(k*8)),(y+i));
+				SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 			#endif
 				Display_wr_dat_if(wd);
 		}
-
+		
 		if (m != 0) ptemp++;	
 	}
 
@@ -683,8 +683,8 @@ void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg)
 
 	ptemp = GetPtr_Ank(*pank);
 
-	Display_rect_if(x, x + CurrentAnkDat->X_Size - 1,
-					y, y + CurrentAnkDat->Y_Size - 1);
+	Display_rect_if(x, (uint16_t)(x + CurrentAnkDat->X_Size - 1),
+					y, (uint16_t)(y + CurrentAnkDat->Y_Size - 1));
 
 
 	for(i=0; i<CurrentAnkDat->Y_Size;i++)
@@ -694,21 +694,21 @@ void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg)
 			for(j=0; j< 8;j++){
 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
 			#if defined(DISABLE_FASTWRITE)
-				SetPixel((x+j+(k*8)),(y+i));
+				SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 			#endif
 				Display_wr_dat_if(wd);
 			}
 			ptemp++;
 		}
-
+		
 		for(j=0; j< m ;j++){
 				wd = (((*(ptemp))<<j)&0x80) ?  fg : bg;
 			#if defined(DISABLE_FASTWRITE)
-				SetPixel((x+j+(k*8)),(y+i));
+				SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 			#endif
 				Display_wr_dat_if(wd);
 		}
-
+		
 		if (m != 0) ptemp++;	
 	}
 
@@ -724,9 +724,9 @@ int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans)
 {
 
 	while(*pch){
-
+	
 		if (x >= MAX_X || y >= MAX_Y) return 0;
-
+		
 		if(((*pch >= 0x81)&&(*pch <= 0x9F))||((*pch >= 0xE0)&&(*pch <= 0xFC)))
 	  		{
 				if(trans == TRANSPARENT) putkanji_t(x,y,pch,pScrCol->Fg);
@@ -739,7 +739,7 @@ int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans)
 			{
 				if(trans == TRANSPARENT) putank_t(x,y,pch,pScrCol->Fg);
 				else					 putank  (x,y,pch,pScrCol->Fg,pScrCol->Bg);
-
+				
 				pch +=1;
 				x += CurrentAnkDat->X_Size;
 			}
@@ -757,9 +757,9 @@ int Display_Puts_If_Ex(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans, uint
 {
 
 	while(*pch){
-
+	
 		if (x >= MAX_X || y >= MAX_Y) return 0;
-
+		
 		if(((*pch >= 0x81)&&(*pch <= 0x9F))||((*pch >= 0xE0)&&(*pch <= 0xFC)))
 	  		{
 				if(trans == TRANSPARENT) putkanji_t(x,y,pch,fg);
@@ -772,7 +772,7 @@ int Display_Puts_If_Ex(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans, uint
 			{
 				if(trans == TRANSPARENT) putank_t(x,y,pch,fg);
 				else					 putank  (x,y,pch,fg,bg);
-
+				
 				pch +=1;
 				x += CurrentAnkDat->X_Size;
 			}

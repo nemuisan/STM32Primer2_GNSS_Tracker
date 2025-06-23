@@ -2,14 +2,15 @@
 /*!
 	@file			ff_rtc_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2023.04.21
+    @version        3.00
+    @date           2025.06.18
 	@brief          FatFs Realtime Clock Section.					@n
 					Hardware Abstraction Layer.
 
     @section HISTORY
 		2012.08.27	V1.00	Start Here.
 		2023.04.21	V2.00	Fixed cosmetic bugfix.
+		2025.06.18	V3.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -19,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ff_rtc_if.h"
 /* check header file version for fool proof */
-#if FF_RTC_IF_H!= 0x0200
+#if FF_RTC_IF_H!= 0x0300
 #error "header file version is not correspond!"
 #endif
 
@@ -48,12 +49,12 @@ int rtc_gettime(FF_RTC *f_rtc)
 	/* See rtc_support.h */
 	rtc = Time_GetCalendarTime();
 
-	f_rtc->sec   = ts_sec;
-	f_rtc->min   = ts_min;
-	f_rtc->hour  = ts_hour;
-	f_rtc->mday  = ts_mday;
-	f_rtc->month = ts_mon+1;
-	f_rtc->year  = ts_year;
+	f_rtc->sec   = (uint8_t)ts_sec;
+	f_rtc->min   = (uint8_t)ts_min;
+	f_rtc->hour  = (uint8_t)ts_hour;
+	f_rtc->mday  = (uint8_t)ts_mday;
+	f_rtc->month = (uint8_t)(ts_mon+1);
+	f_rtc->year  = (uint16_t)ts_year;
 
 #else
 	/* 2011/11/13 22:23:24 */

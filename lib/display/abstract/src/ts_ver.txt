@@ -1,7 +1,8 @@
 ********************* ts_basis.x update history ********************
 
-	2024.07.16 V22.00	Fixed Shift-JIS font handling.
+	2025.05.29 V23.00	Fixed implicit cast warnings.
 
+	2024.07.16 V22.00	Fixed Shift-JIS font handling.
 	2023.09.01 V21.00	Added Konatsu-Font handlings.
 	2023.06.01 V20.00	Fixed wrong macro expressions.
 	2023.03.01 V19.00	Renamed from ts.x
@@ -31,8 +32,9 @@
 
 ********************* ts_fileloads.x update history ********************
 
-	2025.05.01 V29.00	Fixed typo.
+	2025.05.27 V30.00	Fixed implicit cast warnings.
 
+	2025.05.01 V29.00	Fixed typo.
 	2025.04.01 V28.00	Fixed typo.
 	2024.07.16 V27.00	Fixed Shift-JIS font handling.
 	2024.07.12 V26.00	Fixed small fix.

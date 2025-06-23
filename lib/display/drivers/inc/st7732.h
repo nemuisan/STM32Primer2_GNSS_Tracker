@@ -2,10 +2,11 @@
 /*!
 	@file			st7732.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.08.01
+    @version        7.00
+    @date           2025.06.19
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					Display Device Driver for STM32 Primer2 special.
+					Available TFT-LCM are listed below.							@n
+					 -STM32 Primer2				(ST7732)	(Shifted 8bit mode.)
 
     @section HISTORY
 		2010.03.24	V1.00	Stable Release.
@@ -14,13 +15,14 @@
 		2011.03.10	V4.00	C++ Ready.
 		2023.05.01	V5.00	Removed unused delay function.
 		2023.08.01	V6.00	Revised release.
+		2025.06.19	V7.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef ST7732_H
-#define ST7732_H 0x0600
+#define ST7732_H 0x0700
 
 #ifdef __cplusplus
  extern "C" {
@@ -134,16 +136,13 @@
 extern void ST7732_reset(void);
 extern void ST7732_init(void);
 extern void ST7732_clear(void);
-extern void ST7732_rect(uint32_t x, uint32_t width, uint32_t y, uint32_t height);
+extern void ST7732_rect(uint16_t x, uint16_t width, uint16_t y, uint16_t height);
 extern void ST7732_wr_cmd(uint8_t cmd);
 extern void ST7732_wr_dat(uint8_t dat);
 extern void ST7732_wr_block(uint8_t *p,unsigned int cnt);
 extern uint16_t ST7732_rd_cmd(uint8_t cmd);
 extern void ST7732_wr_gram(uint16_t gram);
 
-/* For Display Module's Delay Routine */
-#define Display_timerproc_if()	ticktime++
-extern volatile uint32_t ticktime;
 
 /* Macros From Application Layer */ 
 #define Display_init_if			ST7732_init

@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2025.04.01
+    @version        10.00
+    @date           2025.05.20
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -19,6 +19,7 @@
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2024.08.01	V8.00	Fixed signature validation function.
 		2025.04.01	V9.00	Fixed typo.
+		2025.05.20 V10.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -28,7 +29,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "font_if.h"
 /* check header file version for fool proof */
-#if FONT_IF_H != 0x0900
+#if FONT_IF_H != 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -68,12 +69,12 @@ void InitFont_Ank(FontX_Ank* AnkDat,const char* addr_ofs)
 	AnkDat->X_Size		  = READ_ADDR_UNIT8(ANK_XSIZE);
 	AnkDat->Y_Size		  = READ_ADDR_UNIT8(ANK_YSIZE);
 
-	/* Store ANK Byte Size */
+	/* Store ANK One-Charactor Size(in bytes) */
 	if(( (AnkDat->X_Size) % 8)){
-		AnkDat->AnkSize =  ( (((AnkDat->X_Size) >> 3)+1) * (AnkDat->Y_Size));
+		AnkDat->AnkSize = (uint16_t)((((AnkDat->X_Size) >> 3)+1) * (AnkDat->Y_Size));
 	}
 	else{
-		AnkDat->AnkSize =  ( (((AnkDat->X_Size) >> 3))   * (AnkDat->Y_Size));
+		AnkDat->AnkSize = (uint16_t)((((AnkDat->X_Size) >> 3))   * (AnkDat->Y_Size));
 	}
 
 }
@@ -110,7 +111,7 @@ uint8_t ChkFontSig_Ank(FontX_Ank* AnkDat)
 	
 	/* Retrieve Signature */
 	for(; i < 6; i++){
-		chkstr[i] = READ_ADDR_UNIT8_C(AnkDat->AnkFileOffset + ANK_HEADER + i);
+		chkstr[i] = (char)READ_ADDR_UNIT8_C(AnkDat->AnkFileOffset + ANK_HEADER + i);
 	}
 	chkstr[i] = 0; /* zero padding 6th byte */
 
@@ -130,7 +131,7 @@ void GetFontName_Ank(char* name)
 
 	/* Retrieve FONTX2 Name */
 	for(;i<8;i++){
-		*(name + i) = READ_ADDR_UNIT8_C(CurrentAnkDat->AnkFileOffset + ANK_FONTNAME + i);
+		*(name + i) = (char)READ_ADDR_UNIT8_C(CurrentAnkDat->AnkFileOffset + ANK_FONTNAME + i);
 	}
 	*(name + i) = 0; /* zero padding 9th byte */
 }
@@ -158,12 +159,12 @@ void InitFont_Kanji(FontX_Kanji* KanjiDat,const char* addr_ofs)
 	KanjiDat->X_Size		  = READ_ADDR_UNIT8(KANJI_XSIZE);
 	KanjiDat->Y_Size		  = READ_ADDR_UNIT8(KANJI_YSIZE);
 
-	/* Store Kanji Byte Size */
+	/* Store Kanji One-Charactor Size(in bytes) */
 	if(( (KanjiDat->X_Size) % 8)){
-		KanjiDat->KanjiSize =  ( (((KanjiDat->X_Size) >> 3)+1) * (KanjiDat->Y_Size));
+		KanjiDat->KanjiSize = (uint16_t)((((KanjiDat->X_Size) >> 3)+1) * (KanjiDat->Y_Size));
 	}
 	else{
-		KanjiDat->KanjiSize =  ( (((KanjiDat->X_Size) >> 3))   * (KanjiDat->Y_Size));
+		KanjiDat->KanjiSize = (uint16_t)((((KanjiDat->X_Size) >> 3))   * (KanjiDat->Y_Size));
 	}
 
 	/* Store Kanji Table Number */
@@ -175,7 +176,7 @@ void InitFont_Kanji(FontX_Kanji* KanjiDat,const char* addr_ofs)
 	KanjiDat->KanjiSearchTable[0] = 0;
 
 	for (i=1;i<KanjiDat->KanjiTableNum;i++){
-		KanjiDat->KanjiSearchTable[i] = (KANJI_ENDE(i-1) - KANJI_START(i-1) + 1) + KanjiDat->KanjiSearchTable[i-1];
+		KanjiDat->KanjiSearchTable[i] = (uint16_t)(KANJI_ENDE(i-1) - KANJI_START(i-1) + 1) + KanjiDat->KanjiSearchTable[i-1];
 	}
 }
 
@@ -227,7 +228,7 @@ uint8_t* GetPtr_Kanji(uint16_t SjisCode){
 	}
 
 	/* Store Relative Font Address Offset */
-	KanjiDatOfs = (CurrentKanjiDat->KanjiSearchTable[FontBlock] + (SjisCode - KANJI_START_C(FontBlock))) * CurrentKanjiDat->KanjiSize;
+	KanjiDatOfs = (uint32_t)(CurrentKanjiDat->KanjiSearchTable[FontBlock] + (SjisCode - KANJI_START_C(FontBlock))) * CurrentKanjiDat->KanjiSize;
 
 	/* Return Absolute Font Address Offset */
 	return((uint8_t*)(CurrentKanjiDat->KanjiStartOffset + KanjiDatOfs));
@@ -246,7 +247,7 @@ uint8_t ChkFontSig_Kanji(FontX_Kanji* KanjiDat)
 	
 	/* Retrieve Signature */
 	for(; i < 6; i++){
-		chkstr[i] = READ_ADDR_UNIT8_C(KanjiDat->KanjiFileOffset + KANJI_HEADER + i);
+		chkstr[i] = (char)READ_ADDR_UNIT8_C(KanjiDat->KanjiFileOffset + KANJI_HEADER + i);
 	}
 	chkstr[i] = 0; /* zero padding 6th byte */
 
@@ -266,7 +267,7 @@ void GetFontName_Kanji(char* name)
 
 	/* Retrieve FONTX2 Name */
 	for(;i<8;i++){
-		*(name + i) = READ_ADDR_UNIT8_C(CurrentKanjiDat->KanjiFileOffset + KANJI_FONTNAME + i);
+		*(name + i) = (char)READ_ADDR_UNIT8_C(CurrentKanjiDat->KanjiFileOffset + KANJI_FONTNAME + i);
 	}
 	*(name + i) = 0; /* zero padding 9th byte */
 }

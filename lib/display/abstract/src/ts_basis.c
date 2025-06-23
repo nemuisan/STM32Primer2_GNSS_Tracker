@@ -2,12 +2,12 @@
 /*!
 	@file			ts_basis.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        22.00
-    @date           2024.07.16
+    @version        23.00
+    @date           2025.05.29
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2024.07.16	See ts_ver.txt.
+		2025.05.29	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_basis.h"
 /* check header file version for fool proof */
-#if TS_BASIS_H != 0x2200
+#if TS_BASIS_H != 0x2300
 #error "header file version is not correspond!"
 #endif
 
@@ -209,7 +209,7 @@ inline void ts_rtc(void)
 			xprintf("\33\x87 %04u/%02u/%02u %02u:%02u:%02u      ",\
 			rtc.tm_year, rtc.tm_mon+1, rtc.tm_mday, rtc.tm_hour, rtc.tm_min, rtc.tm_sec);
 		}
-
+		
 		TimeDisplay = 0;
 	}
 }
@@ -223,8 +223,8 @@ inline void ts_rtc(void)
 */
 /**************************************************************************/
 void ts_write(
-	uint8_t row,
-	uint8_t col,
+	uint16_t row,
+	uint16_t col,
 	uint16_t chr
 )
 {
@@ -232,10 +232,10 @@ void ts_write(
 
 #if USE_FILER_FONTX
 	uint8_t ankode;
-	static uint8_t col_r,row_r;
+	static uint16_t col_r,row_r;
 	static uint16_t unk;
 #else
-	int x, y;
+	uint16_t x, y;
 	uint8_t pat;
 	uint16_t wd;
 	const uint8_t *fnt;
@@ -246,14 +246,14 @@ void ts_write(
 	};
 
 
-	if (row >= TS_HEIGHT || col >= TS_WIDTH) return;
+	if ((row >= TS_HEIGHT) || (col >= TS_WIDTH)) return;
 
 	/* X clipper if U need */
-	xclip = col * TS_FONTW + TS_FONTW - 1;
+	xclip = (uint16_t)(col * TS_FONTW + TS_FONTW - 1);
     if (xclip > MAX_X) xclip = MAX_X-1;
 
 #if !USE_FILER_FONTX
-	Display_rect_if(col * TS_FONTW, xclip, row * TS_FONTH, row * TS_FONTH + TS_FONTH - 1);
+	Display_rect_if((uint16_t)(col * TS_FONTW), xclip, (uint16_t)(row * TS_FONTH), (uint16_t)(row * TS_FONTH + TS_FONTH - 1));
 #endif
 
 	fg = color[(chr >> 8) & 7];
@@ -261,23 +261,23 @@ void ts_write(
 
 
 #if USE_FILER_FONTX
-	ankode = chr & 0xFF;
+	ankode = (uint8_t)chr & 0xFF;
 
 	if(flg){
 		unk |= (uint16_t)(ankode<<8);
 		putkanji(col_r * TS_FONTW, row_r * TS_FONTH, (uint8_t*)&unk, fg, bg);
-		flg=0;
+		flg = 0;
 	}
 	else{
 		if(((ankode >= 0x81)&&(ankode <= 0x9F))||((ankode >= 0xE0)&&(ankode <= 0xFC))){
 			unk = ankode;
 			col_r = col;
-			row_r =row;
-			flg=1;
+			row_r = row;
+			flg = 1;
 	  	}
 		else{
 			putank(col * TS_FONTW, row * TS_FONTH, &ankode, fg, bg);
-			flg=0;
+			flg = 0;
 		}
 	}
 
@@ -330,13 +330,13 @@ static void csr_release(void)
 */
 /**************************************************************************/
 void ts_rfsh(
-	uint8_t top,
-	uint8_t left,
-	uint8_t bottom,
-	uint8_t right
+	uint16_t top,
+	uint16_t left,
+	uint16_t bottom,
+	uint16_t right
 )
 {
-	uint8_t x, y;
+	uint16_t x, y;
 
 
 	csr_hold();
@@ -356,14 +356,14 @@ void ts_rfsh(
 */
 /**************************************************************************/
 void ts_rlup(
-	uint8_t top,
-	uint8_t left,
-	uint8_t bottom,
-	uint8_t right
+	uint16_t top,
+	uint16_t left,
+	uint16_t bottom,
+	uint16_t right
 )
 {
 	uint16_t c;
-	uint8_t y, x;
+	uint16_t y, x;
 
 
 	if (top > bottom || bottom >= TS_HEIGHT) return;
@@ -390,14 +390,14 @@ void ts_rlup(
 */
 /**************************************************************************/
 void ts_rldown(
-	uint8_t top,
-	uint8_t left,
-	uint8_t bottom,
-	uint8_t right
+	uint16_t top,
+	uint16_t left,
+	uint16_t bottom,
+	uint16_t right
 )
 {
 	uint16_t c;
-	uint8_t y, x;
+	uint16_t y, x;
 
 
 	if (top > bottom || bottom >= TS_HEIGHT) return;
@@ -424,8 +424,8 @@ void ts_rldown(
 */
 /**************************************************************************/
 void ts_locate(
-	uint8_t row,
-	uint8_t col,
+	uint16_t row,
+	uint16_t col,
 	uint8_t csr
 )
 {
@@ -441,7 +441,15 @@ void ts_locate(
 	csr_release();
 }
 
-
+/**************************************************************************/
+/*!
+    Put a character into TTY screen Veneer(for xprintf).
+*/
+/**************************************************************************/
+void ts_putc_x(int chr)
+{
+	ts_putc((uint8_t)chr);
+}
 /**************************************************************************/
 /*!
     Put a character into TTY screen
@@ -451,21 +459,22 @@ void ts_putc(
 	uint8_t chr
 )
 {
-	int x, y;
+	uint16_t x, y;
 	uint16_t c;
 	static char esc;
 
-
 	csr_hold();
-
+	
+	/* Escape sequence(colour change) */
 	if (esc) {
-		if ((uint8_t)chr & 0x80) {
+		if (chr & 0x80) {
 			Attr = chr & 0x77;
 			esc = 0;
 			csr_release();
 			return;
 		}
 	}
+	/* Detect Escape(28,0x1B) sequence */
 	if (chr == '\33') {
 		esc = 1;
 		csr_release();
@@ -473,20 +482,23 @@ void ts_putc(
 	}
 	esc = 0;
 #if !(USE_FILER_FONTX) || !(defined(USE_KANJIFONT))
-	if ((uint8_t)chr & 0x80) {
+	if (chr & 0x80) {
 		chr = 1;
 	}
 #endif
+	/* 0x13 CarriageReturn */
 	if (chr == '\r') {
 		Col = 0;
 		csr_release();
 		return;
 	}
+	/* 0x08 BackSpace */
 	if (chr == '\b') {
 		if (Col) Col--;
 		csr_release();
 		return;
 	}
+	/* 0x0D LineFeed */
 	if (chr == '\n') {
 		if (++Row >= TS_HEIGHT) {
 			Row = TS_HEIGHT - 1;
@@ -496,6 +508,7 @@ void ts_putc(
 		csr_release();
 		return;
 	}
+	/* 0x0C FormFeed */
 	if (chr == '\f') {
 		c = ((uint16_t)Attr << 8) | 0x20;
 		for (y = 0; y < TS_HEIGHT; y++) {
@@ -509,6 +522,7 @@ void ts_putc(
 		return;
 	}
 
+	/* Put Ank/Kanji Charactor */
 	c = ((uint16_t)Attr << 8) | chr;
 	Vram[Row][Col] = c;
 	ts_write(Row, Col, c);

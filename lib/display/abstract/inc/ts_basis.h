@@ -2,19 +2,19 @@
 /*!
 	@file			ts_basis.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        22.00
-    @date           2024.07.16
+    @version        23.00
+    @date           2025.05.29
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2024.07.16	See ts_ver.txt.
+		2025.05.29	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TS_BASIS_H
-#define TS_BASIS_H 0x2200
+#define TS_BASIS_H 0x2300
 
 #ifdef __cplusplus
  extern "C" {
@@ -127,11 +127,12 @@ typedef struct {
 
 /* Terminal Screen Prototypes */
 extern void ts_putc(uint8_t chr);
-extern void ts_write(uint8_t row, uint8_t col, uint16_t chr);
-extern void ts_locate(uint8_t row, uint8_t col, uint8_t csr);
-extern void ts_rfsh(uint8_t top, uint8_t left, uint8_t bottom, uint8_t right);
-extern void ts_rlup(uint8_t top, uint8_t left, uint8_t bottom, uint8_t right);
-extern void ts_rldown(uint8_t top, uint8_t left, uint8_t bottom, uint8_t right);
+extern void ts_putc_x(int chr);
+extern void ts_write(uint16_t row, uint16_t col, uint16_t chr);
+extern void ts_locate(uint16_t row, uint16_t col, uint8_t csr);
+extern void ts_rfsh(uint16_t top, uint16_t left, uint16_t bottom, uint16_t right);
+extern void ts_rlup(uint16_t top, uint16_t left, uint16_t bottom, uint16_t right);
+extern void ts_rldown(uint16_t top, uint16_t left, uint16_t bottom, uint16_t right);
 
 extern void ts_timer(void);
 extern void ts_csrblink(void);

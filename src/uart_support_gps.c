@@ -2,8 +2,8 @@
 /*!
 	@file			uart_support_gps.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2025.04.21
+    @version        9.00
+    @date           2025.06.18
 	@brief          For STM32 Primer2(USART2).
 
     @section HISTORY
@@ -15,6 +15,7 @@
 		2022.10.10	V6.00	Fixed more robustness.
 		2023.03.07	V7.00	Fixed cosmetic bugfixes.
 		2025.04.21	V8.00	Fixed UART Rx-Pin to pullup.
+		2025.06.18	V9.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "uart_support_gps.h"
 /* check header file version for fool proof */
-#if UART_SUPPORT_GPS_H!= 0x0800
+#if UART_SUPPORT_GPS_H!= 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -270,8 +271,9 @@ uint8_t keypressed(void)
 /* Send a string */
 void cputs(char *s)
 {
-	while (*s)
-		putch(*s++);
+	uint8_t* p = (uint8_t*)s;
+	while (*p)
+    putch(*p++);
 }
 
 /**************************************************************************/
@@ -282,46 +284,44 @@ void cputs(char *s)
 /* Receive a string, with rudimentary line editing */
 void cgets(char *s, int bufsize)
 {
-	char *p;
-	int c;
+	uint8_t c;
+	uint8_t *p = (uint8_t*)s;
 
-	memset(s, 0, bufsize);
+	memset(s, 0, (size_t)bufsize);
 
-	p = s;
-
-	for (p = s; p < s + bufsize-1;)
+	for (; p < (uint8_t*)s + bufsize-1;)
 	{
 		/* 20090521Nemui */
 		do{		
 			c = getch();
-		}while(c == false);
+		}while(c == 0);
 		/* 20090521Nemui */
 		switch (c)
 		{
-		  case '\r' :
-		  case '\n' :
-			putch('\r');
-			putch('\n');
-			*p = '\n';
+			case '\r' :
+			case '\n' :
+				putch('\r');
+				putch('\n');
+				*p = '\n';
 			return;
 			
-		  case '\b' :
-			if (p > s)
-			{
-			  *p-- = 0;
-			  putch('\b');
-			  putch(' ');
-			  putch('\b');
-			}
+			case '\b' :
+				if(p > (uint8_t*)s)
+				{
+				  *p-- = 0;
+				  putch('\b');
+				  putch(' ');
+				  putch('\b');
+				}
 			break;
 			
-		  default :
-			putch(c);
-			*p++ = c;
+			default :
+				putch(c);
+				*p++ = c;
 			break;
 		}
 	}
-
+	return;
 }
 
 
@@ -340,7 +340,7 @@ void conio_IRQ(void)
 		
 		/* Check for overflow. */
 		unsigned int tempRX_Tail = (&USARTx_Buf)->RX_Tail;
-		uint8_t data =  USART_ReceiveData(UART);
+		uint8_t data = (uint8_t)USART_ReceiveData(UART);
 		
 		if (tempRX_Head == tempRX_Tail) {
 			/* Disable the UART Receive interrupt */

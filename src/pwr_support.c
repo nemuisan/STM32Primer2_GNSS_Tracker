@@ -2,8 +2,8 @@
 /*!
 	@file			pwr_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        8.00
-    @date           2025.04.07
+    @version        9.00
+    @date           2025.06.18
 	@brief          Power Control and Battery Supervisor on STM32Primer2.
 
     @section HISTORY
@@ -16,6 +16,7 @@
 		2023.12.19	V6.00	Improved watchdog handlings.
 		2024.07.18	V7.00	Fixed empty argument.
 		2025.04.07	V8.00	Fixed cosmetic bugfix.
+		2025.06.18	V9.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "pwr_support.h"
 /* check header file version for fool proof */
-#if PWR_SUPPORT_H!= 0x0800
+#if PWR_SUPPORT_H!= 0x0900
 #error "header file version is not correspond!"
 #endif
 
@@ -123,7 +124,7 @@ static void ShutVbat_Chk(void)
 	static uint32_t vbatcounts;
 	static uint32_t vbatlow;
 	static uint32_t vbatbabyflag = 15;
-	static uint32_t CurrentVbat;
+	static int32_t CurrentVbat;
 	
 	if(vbatbabyflag)
 	{
@@ -199,7 +200,7 @@ int16_t GetVbat()
 
 	/* Baby flag check */
     if (VBat == -1)  VBat = (int16_t)vbat;			
-    else             VBat = (VBat>>1) + (vbat>>1);
+    else             VBat = (VBat>>1) + (int16_t)(vbat>>1);
 
     return VBat;
 }

@@ -2,8 +2,8 @@
 /*!
 	@file			cdc_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2025.05.03
+    @version        12.00
+    @date           2025.06.18
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -18,6 +18,7 @@
 		2025.04.08	V9.00	Changed minor function name.
 		2025.04.21 V10.00	Fixed UART Rx-Pin to pullup.
 		2025.05.03 V11.00	Fixed typo.
+		2025.06.18 V12.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -27,7 +28,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if CDC_SUPPORT_H!= 0x1100
+#if CDC_SUPPORT_H!= 0x1200
 #error "header file version is not correspond!"
 #endif
 
@@ -43,9 +44,9 @@
 extern LINE_CODING linecoding;
 
 uint8_t  USART_Rx_Buffer [USART_RX_DATA_SIZE];
-uint32_t USART_Rx_ptr_in  = 0;
-uint32_t USART_Rx_ptr_out = 0;
-uint32_t USART_Rx_length  = 0;
+uint16_t USART_Rx_ptr_in  = 0;
+uint16_t USART_Rx_ptr_out = 0;
+uint16_t USART_Rx_length  = 0;
 uint8_t  USB_Tx_State     = 0;
 uint8_t  USB_xMutex       = 0;
 
@@ -251,7 +252,7 @@ bool USART_Config(void)
     @retval	None.
 */
 /**************************************************************************/
-void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes)
+void USB_To_USART_Send_Data(uint8_t* data_buffer, uint16_t Nb_bytes)
 {
 	uint32_t i;
 
@@ -356,15 +357,15 @@ void USART_To_USB_Send_Data(void)
 
 	if (linecoding.datatype == 7)
 	{
-		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2) & 0x7F;
+		USART_Rx_Buffer[USART_Rx_ptr_in] = (uint8_t)(USART_ReceiveData(USART2) & 0x7F);
 	}
 	else if (linecoding.datatype == 8)
 	{
-		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2);
+		USART_Rx_Buffer[USART_Rx_ptr_in] = (uint8_t)USART_ReceiveData(USART2);
 	}
 	else /* assume linecoding.datatype == 8 */
 	{
-		USART_Rx_Buffer[USART_Rx_ptr_in] = USART_ReceiveData(USART2);
+		USART_Rx_Buffer[USART_Rx_ptr_in] = (uint8_t)USART_ReceiveData(USART2);
 	}
 
 	USART_Rx_ptr_in++;

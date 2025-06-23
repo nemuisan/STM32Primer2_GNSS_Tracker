@@ -2,8 +2,8 @@
 /*!
 	@file			font_if.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2025.04.01
+    @version        10.00
+    @date           2025.05.20
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -19,13 +19,14 @@
 		2023.05.01	V7.00	Fixed cosmetic bugfix.
 		2024.08.01	V8.00	Fixed signature validation function.
 		2025.04.01	V9.00	Fixed typo.
+		2025.05.20 V10.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FONT_IF_H 
-#define FONT_IF_H 0x0900
+#define FONT_IF_H 0x1000
 
 #ifdef __cplusplus
  extern "C" {
@@ -59,7 +60,7 @@
 /* Structs */
 typedef struct {
 	const char* AnkFileOffset;		/* Ank FONTX2 File Address Offset 	*/
-	uint8_t  AnkSize;				/* Size of Ank Font (in byte) 		*/
+	uint16_t AnkSize;				/* Size of Ank Font (in bytes) 		*/
 	uint8_t  X_Size;				/* Xsize(in pixel) 					*/
 	uint8_t  Y_Size;				/* Ysize(in pixel)					*/
 } FontX_Ank;
@@ -101,7 +102,7 @@ extern FontX_Ank* CurrentAnkDat;
 typedef struct {
 	const char* KanjiFileOffset;	/* Kanji FONTX2 File Address Offset */
 	const char* KanjiStartOffset;	/* Kanji FONTX2 Data Address Offset */
-	uint8_t  KanjiSize;				/* Size of Kanji Font (in byte) 	*/
+	uint16_t KanjiSize;				/* Size of Kanji Font (in bytes) 	*/
 	uint8_t  X_Size;				/* Xsize(in pixel) 					*/
 	uint8_t  Y_Size;				/* Ysize(in pixel)					*/
 	uint8_t  KanjiTableNum;			/* Kanji Font Table Number  		*/ 

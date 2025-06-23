@@ -2,8 +2,8 @@
 /*!
 	@file			syscalls.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        7.00
-    @date           2024.07.12
+    @version        8.00
+    @date           2025.05.29
 	@brief          syscall.c's Device Dependent Header Section.
 
     @section HISTORY
@@ -14,6 +14,7 @@
 		2019.10.01	V5.00	Removed isatty() on GCC build.
 		2023.01.24	V6.00	Fixed different signedness.
 		2024.07.12	V7.00	Fixed unused parameter.
+		2025.05.29	V8.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +25,7 @@
 /* This is platform dependent includion */
 #include "syscalls_if.h"
 /* check header file version for fool proof */
-#if SYSCALLS_IF_H != 0x0700
+#if SYSCALLS_IF_H != 0x0800
 #error "header file version is not correspond!"
 #endif
 
@@ -39,7 +40,7 @@
 /* Defines -------------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-/* .ARM.exidx is sorted, so has to go in its own output section.  */
+/* .ARM.exidx is sorted, so has to go in its own output section. */
 extern char *__exidx_start;
 extern char *__exidx_end;
 
@@ -64,34 +65,34 @@ _ssize_t _read_r(
 {
 	(void)r;
 	(void)file;
-	char c;
+	uint8_t c;
 	size_t  i;
-	unsigned char *p;
+	uint8_t *p;
 
-	p = (unsigned char*)ptr;
+	p = (uint8_t *)ptr;
 	for (i = 0; i < len; i++)
 	{
-		/* 20090521Nemui */
-			do{		
-				c = getch();
-		}while(c == false);
-		/* 20090521Nemui */
-
+		/* 20250515Nemui */
+		do{		
+			c = getch();
+		}while(c == 0);
+		/* 20250515Nemui */
+		
 		*p++ = c;
 		#ifdef ECHOBACK 
-		 putch(c);
+		putch(c);
 		#endif
-
+		
 		if (c == '\r' && i <= (len - 2)) /* 0x0D */
 		{
 			*p = '\n';					 /* 0x0A */
 		  #ifdef ECHOBACK 
 			putch('\n');				 /* 0x0A */
 		  #endif
-			return i + 2;
+			return (_ssize_t)i + 2;
 		}
 	}
-	return i;
+	return (_ssize_t)i;
 }
 
 /**************************************************************************/
@@ -110,16 +111,16 @@ _ssize_t _write_r (
 	(void)r;
 	(void)file;
 	size_t i;
-	const unsigned char *p;
+	const uint8_t *p;
 	
-	p = (const unsigned char*) ptr;
+	p = (const uint8_t*) ptr;
 	
 	for (i = 0; i < len; i++) {
 		if (*p == '\n' ) putch('\r');
 		putch(*p++);
 	}
 	
-	return len;
+	return (_ssize_t)i;
 }
 
 /**************************************************************************/
@@ -159,7 +160,7 @@ _off_t _lseek_r(
 	(void)file;
 	(void)ptr;
 	(void)dir;
-	return (_off_t)0;	/*  Always indicate we are at file beginning.	*/
+	return (_off_t)0;	/*  Always indicate we are at file beginning. */
 }
 
 /**************************************************************************/
@@ -174,11 +175,10 @@ int _fstat_r(
 {
 	(void)r;
 	(void)file;
-	/*  Always set as character device.				*/
+	/* Always set as character device. */
 	st->st_mode = S_IFCHR;	
-	/* assigned to strong type with implicit 		*/
-	/* signed/unsigned conversion.  Required by 	*/
-	/* newlib.										*/
+	/* assigned to strong type with implicit */
+	/* signed/unsigned conversion. Required by newlib.*/
 	return 0;
 }
 
@@ -213,21 +213,21 @@ void * _sbrk_r(
     ptrdiff_t nbytes)
 {
 	(void)_s_r;
-	char  *base;		/*  errno should be set to  ENOMEM on error	*/
+	char  *base;		/* errno should be set to ENOMEM on error */
 
-	if (!heap_ptr) {	/*  Initialize if first time through.		*/
+	if (!heap_ptr) {	/* Initialize if first time through. */
 		heap_ptr = end;
 	}
-	base = heap_ptr;	/*  Point to end of heap.					*/
+	base = heap_ptr;	/* Point to end of heap. */
 	
 	if (heap_ptr + nbytes > _heap_end)
 	{
 			errno = ENOMEM;
 			return (caddr_t) -1;
 	}
-	heap_ptr += nbytes;	/*  Increase heap.							*/
+	heap_ptr += nbytes;	/* Increase heap. */
 	
-	return base;		/*  Return pointer to start of new heap area.	*/
+	return base;		/* Return pointer to start of new heap area. */
 }
 
 /**************************************************************************/
@@ -252,20 +252,20 @@ void * _sbrk(ptrdiff_t incr)
 {
 	char  *base;
 
-	/* Initialize if first time through. */
-	if (!heap_ptr) heap_ptr = end;
-
-	base = heap_ptr;      /*  Point to end of heap.                       */
+	if (!heap_ptr) {	/* Initialize if first time through. */
+		heap_ptr = end;
+	}
+	base = heap_ptr;	/* Point to end of heap. */
 
 	if (heap_ptr + incr > _heap_end)
 	{
 			errno = ENOMEM;
 			return (caddr_t) -1;
 	}
-  
-	heap_ptr += incr;     /*  Increase heap.                              */
 
-	return base;          /*  Return pointer to start of new heap area.   */
+	heap_ptr += incr;     /* Increase heap. */
+
+	return base;          /* Return pointer to start of new heap area. */
 }
 
 /**************************************************************************/
@@ -332,13 +332,15 @@ int _lseek(int fd, off_t pos, int whence)
     @brief  Dummy OS Function for Newlib.
 */
 /**************************************************************************/
-int _read(int fd, char *buf, size_t cnt)
+size_t _read(int fd, uint8_t *buf, size_t cnt)
 {
 	(void)fd;
-	(void)cnt;
-	*buf = getch();
+	size_t i;
 
-	return 1;
+	for (i = 0; i < cnt; i++)
+		*buf++ = getch();
+
+	return i;
 }
 
 /**************************************************************************/
@@ -346,7 +348,7 @@ int _read(int fd, char *buf, size_t cnt)
     @brief  Dummy OS Function for Newlib.
 */
 /**************************************************************************/
-int _write(int fd, const char *buf, size_t cnt)
+size_t _write(int fd, const uint8_t *buf, size_t cnt)
 {
 	(void)fd;
 	size_t i;

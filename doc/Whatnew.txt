@@ -1,3 +1,13 @@
+2025.06.20 :
+V114.00	Fixed implicit cast warnings
+		  (on display_support.c,h display_if_basis.c,h font_if.c,h hw_config.c,h
+		      pwr_support.c,h gnss_support.c,h uart_support_gps.c,h rtc_support.c,h
+			  usb_msc_mass_mal.c,h usb_cdc_ecndp.c sdio_stm32f1.c,h syscalls.c 
+			  and many in "./lib/display").
+		Exchanged xprintf function for latest change(on xprintf.c,h).
+		Fixed dropped IL Font(font_if_datatable.c,h).
+		Fixed ".editorconfig" file for github code appearance.
+
 2025.05.09 :
 V113.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_6/commit/218b0362a3c9e3def9d36ed0d4449551f83bf0b5

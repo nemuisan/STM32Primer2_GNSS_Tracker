@@ -1,6 +1,7 @@
-# EditorConfig is awesome: http://EditorConfig.org
-
+#editorconfig.org
 root = true
 
 [*]
+indent_style = tab
+indent_size = 4
 tab_width = 4

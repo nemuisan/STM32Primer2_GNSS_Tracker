@@ -2,8 +2,8 @@
 /*!
 	@file			gnss_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        22.00
-    @date           2024.07.11
+    @version        23.00
+    @date           2025.06.18
 	@brief          Interface of FatFs For STM32 uC.				@n
 					Based on Chan's GNSS-Logger Program Thanks!
 
@@ -33,6 +33,7 @@
 		2023.06.04 V20.00	Adopted u-blox SAM-M10Q module.
 		2023.12.19 V21.00	Improved watchdog handlings.
 		2024.07.11 V22.00	Fixed datetime setting bug.
+		2025.06.18 V23.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -42,7 +43,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "gnss_support.h"
 /* check header file version for fool proof */
-#if GNSS_SUPPORT_H!= 0x2200
+#if GNSS_SUPPORT_H!= 0x2300
 #error "header file version is not correspond!"
 #endif
 
@@ -195,7 +196,7 @@ static uint8_t get_Checksum(char* cmdstr,int bytes)
 		pstr = cmdstr+1;
 		for(;;){
 			if(((*pstr)=='*')|| !(--bytes)) break;
-			chksum = chksum^(*pstr++);
+			chksum = (uint8_t)(chksum^(*pstr++));
 		}
 	}
 	return chksum;
@@ -222,16 +223,17 @@ static void xSend_MTKCmd(const char* cmdstr,const char* datastr)
 
 /**************************************************************************/
 /*! 
-	0: Power fail occured, >0: Number of bytes received.
+	0: Something wrong occured, >0: Number of bytes received.
 */
 /**************************************************************************/
-static uint8_t get_line_GPS(void)	
+static uint16_t get_line_GPS(void)	
 {
-	uint16_t c, i = 0;
+	uint16_t i = 0;
+	uint8_t c;
 
 	for (;;) {
 		/* Get a char from the incoming stream */
-		c = xfunc_input();
+		c = (uint8_t)xfunc_input();
 		if (!c || (i == 0 && c != '$')) continue;
 		Buff[i++] = c;
 		if (c == '\n') break;
@@ -281,13 +283,13 @@ static uint8_t gp_val(
 	m = *db - '0';
 	if (m >= 10) return 0;
 
-	return n * 10 + m;
+	return (uint8_t)(n * 10 + m);
 }
 
 /**************************************************************************/
 /*! 
 	Compare sentence header string.
-	Correspond     :false
+	Correspond     :false(0)
 	Not Correspond :true
 */
 /**************************************************************************/
@@ -296,7 +298,7 @@ static uint8_t gp_comp(uint8_t *str1, const char *str2)
 	uint8_t c;
 
 	do {
-		c = *str2++;
+		c = (uint8_t)*str2++;
 	} while (c && c == *str1++);
 	return c;
 }

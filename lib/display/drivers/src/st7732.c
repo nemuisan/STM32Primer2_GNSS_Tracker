@@ -2,10 +2,11 @@
 /*!
 	@file			st7732.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.08.01
+    @version        7.00
+    @date           2025.06.19
 	@brief          Based on Chan's MCI_OLED@LPC23xx-demo thanks!				@n
-					Display Device Driver for STM32 Primer2 special.
+					Available TFT-LCM are listed below.							@n
+					 -STM32 Primer2				(ST7732)	(Shifted 8bit mode.)
 
     @section HISTORY
 		2010.03.24	V1.00	Stable Release.
@@ -14,6 +15,7 @@
 		2011.03.10	V4.00	C++ Ready.
 		2023.05.01	V5.00	Removed unused delay function.
 		2023.08.01	V6.00	Revised release.
+		2025.06.19	V7.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -23,7 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "st7732.h"
 /* check header file version for fool proof */
-#if ST7732_H != 0x0600
+#if ST7732_H != 0x0700
 #error "header file version is not correspond!"
 #endif
 
@@ -44,7 +46,9 @@
 /**************************************************************************/
 void ST7732_reset(void)
 {
-	ST7732_RES_SET();							/* RES=H			   		*/
+	ST7732_RES_SET();							/* RES=H, RD=H, WR=H   		*/
+	ST7732_RD_SET();
+	ST7732_WR_SET();
 	_delay_ms(10);								/* wait 10ms     			*/
 
 	ST7732_RES_CLR();							/* RES=L, CS=L   			*/
@@ -62,8 +66,17 @@ void ST7732_reset(void)
 /**************************************************************************/
 inline void ST7732_wr_cmd(uint8_t cmd)
 {
+#if defined(USE_STM32PRIMER2)
 	/* Transfer command to the FSMC */
 	ST7732_CMD = (cmd<<4);
+#else
+	ST7732_DC_CLR();							/* DC=L		     */
+
+	ST7732_CMD = cmd;							/* D7..D0=cmd    */
+	ST7732_WR();								/* WR=L->H       */
+
+	ST7732_DC_SET();							/* DC=H		     */
+#endif
 }
 
 /**************************************************************************/
@@ -73,8 +86,13 @@ inline void ST7732_wr_cmd(uint8_t cmd)
 /**************************************************************************/
 inline void ST7732_wr_dat(uint8_t dat)
 {
+#if defined(USE_STM32PRIMER2)
 	/* Transfer data to the FSMC */
 	ST7732_DATA = (dat<<4);
+#else
+	ST7732_DATA = dat;							/* D7..D0=dat    */
+	ST7732_WR();								/* WR=L->H       */
+#endif
 }
 
 /**************************************************************************/
@@ -84,9 +102,22 @@ inline void ST7732_wr_dat(uint8_t dat)
 /**************************************************************************/
 inline void ST7732_wr_gram(uint16_t gram)
 {
+#if defined(USE_STM32PRIMER2)
 	/* Transfer data to the FSMC */
 	ST7732_DATA = (gram>>4);
 	ST7732_DATA = (gram<<4);
+#else
+
+#if defined(GPIO_ACCESS_8BIT) | defined(BUS_ACCESS_8BIT)
+	ST7732_DATA = (uint8_t)(gram>>8);			/* upper 8bit data		*/
+	ST7732_WR();								/* WR=L->H				*/
+	ST7732_DATA = (uint8_t)gram;				/* lower 8bit data		*/
+#else
+	ST7732_DATA = gram;							/* 16bit data			*/
+#endif
+	ST7732_WR();								/* WR=L->H				*/
+
+#endif
 }
 
 /**************************************************************************/
@@ -101,12 +132,18 @@ inline uint16_t ST7732_rd_cmd(uint8_t cmd)
 	ST7732_wr_cmd(cmd);
 	ST7732_WR_SET();
 
+
     ReadLCDData(temp);	/* Dummy */
     ReadLCDData(temp);	/* 1st data */
-	temp = (temp>> 4) & 0xFF;
+#if defined(USE_STM32PRIMER2)
+	temp = (uint8_t)(temp>> 4) & 0xFF;
     ReadLCDData(val);	/* 2nd data */
 	val = (val>> 4) & 0xFF;
-	
+#else
+	temp = temp & 0xFF;
+    ReadLCDData(val);	/* 2nd data */
+	val = val & 0xFF;
+#endif
 	val = (temp << 8) | val;
 
 	return val;
@@ -119,6 +156,9 @@ inline uint16_t ST7732_rd_cmd(uint8_t cmd)
 /**************************************************************************/
 inline void ST7732_wr_block(uint8_t *p,unsigned int cnt)
 {
+#if  defined(USE_DISPLAY_DMA_TRANSFER) && !defined(USE_STM32PRIMER2)
+	DMA_TRANSACTION(p, cnt);
+#else
 	int n;
 
 	n = cnt % 4;
@@ -132,6 +172,7 @@ inline void ST7732_wr_block(uint8_t *p,unsigned int cnt)
 	while (n--) {
 		ST7732_wr_dat(*p++);
 	}
+#endif
 }
 
 /**************************************************************************/
@@ -139,21 +180,21 @@ inline void ST7732_wr_block(uint8_t *p,unsigned int cnt)
     Set Rectangle.
 */
 /**************************************************************************/
-inline void ST7732_rect(uint32_t x, uint32_t width, uint32_t y, uint32_t height)
+inline void ST7732_rect(uint16_t x, uint16_t width, uint16_t y, uint16_t height)
 {
 	/* Set CAS Address */
 	ST7732_wr_cmd(CASET); 
 	ST7732_wr_dat(0);
-	ST7732_wr_dat(OFS_COL+x);
+	ST7732_wr_dat((uint8_t)(OFS_COL+x));
 	ST7732_wr_dat(0);
-	ST7732_wr_dat(OFS_COL+width); 
+	ST7732_wr_dat((uint8_t)(OFS_COL+width)); 
 	
 	/* Set RAS Address */
 	ST7732_wr_cmd(RASET);
 	ST7732_wr_dat(0);
-	ST7732_wr_dat(OFS_RAW+y);
+	ST7732_wr_dat((uint8_t)(OFS_RAW+y));
 	ST7732_wr_dat(0);
-	ST7732_wr_dat(OFS_RAW+height);
+	ST7732_wr_dat((uint8_t)(OFS_RAW+height));
 	
 	/* Write RAM */
 	ST7732_wr_cmd(RAMWR);
@@ -172,7 +213,12 @@ inline void ST7732_clear(void)
 	n = (MAX_X) * (MAX_Y);
 	
 	do {
+		/* 16Bit Colour Access */
+#if defined(USE_STM32PRIMER2)
 		ST7732_wr_gram(COL_WHITE); /* STM32 Primer2 special */
+#else
+		ST7732_wr_gram(COL_BLACK);
+#endif
 	} while (--n);
 
 }
@@ -303,16 +349,18 @@ void ST7732_init(void)
 		
 		ST7732_wr_cmd(TEON);		/* Tearing Effect Line ON */
 		ST7732_wr_dat(0x00);		/* OFF */
-		
-		ST7732_clear();				/* Clear DDRAM */
-		
+#if defined(USE_STM32PRIMER2)
+		ST7732_clear();				/* Clear is done before DISPON */
+#endif
 		ST7732_wr_cmd(DISPON);		/* Display On */
 		_delay_ms(20);
 	}
 
 	else { for(;;);} /* Invalid Device Code!! */
-
-	/* ST7732_clear(); */ /* Clear is done before DISPON */
+	
+#if !defined(USE_STM32PRIMER2)
+	ST7732_clear();
+#endif
 
 #if 0	/* test code RED */
 	volatile uint32_t n;
@@ -323,8 +371,12 @@ void ST7732_init(void)
 	do {
 		ST7732_wr_gram(COL_RED);
 	} while (--n);
-	_delay_ms(500);
-	for(;;);
+	
+	for(;;){
+#if defined(USE_STM32PRIMER2)
+		WDT_Reset();
+#endif
+	}
 
 #endif
 

@@ -2,19 +2,19 @@
 /*!
 	@file			ts_fileloads.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        29.00
-    @date           2025.05.01
+    @version        30.00
+    @date           2025.05.27
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2025.05.01	See ts_ver.txt.
+		2025.05.27	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TS_FILELOADS_H
-#define TS_FILELOADS_H 0x2900
+#define TS_FILELOADS_H 0x3000
 
 #ifdef __cplusplus
  extern "C" {
@@ -50,9 +50,9 @@ typedef struct my_error_mgr * my_error_ptr;
 /* ChaN's TINYJPEG Decorder Definitions */
 #elif USE_TINYJPEG_LIB
  #include "tjpgd.h" /* Used for Tiny JPEG Decoder */
- #define MaskL 0
+ #define MaskL 1UL
  #define MaskR MAX_X
- #define MaskT 0
+ #define MaskT 1UL
  #define MaskB MAX_Y
 #endif
 
@@ -93,7 +93,7 @@ typedef struct my_error_mgr * my_error_ptr;
 #endif
 
 /* Terminal Screen Prototypes */
-extern int filer(char *path, FIL *fil, DIR *dir, FILINFO *fno);
+extern BYTE filer(char *path, FIL *fil, DIR *dir, FILINFO *fno);
 extern volatile uint32_t on_filer;	/* Used on STM32 Primer2 */
 
 

@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.05.01
+    @version        11.00
+    @date           2025.05.27
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -20,13 +20,14 @@
 		2023.08.01	V8.00	Revised release.
 		2024.08.01	V9.00	Fixed draw-circle and font function.
 		2025.05.01 V10.00	More optimized draw-circle function.
+		2025.05.27 V11.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef DISPLAY_IF_SUPPORT_H
-#define DISPLAY_IF_SUPPORT_H 0x1000
+#define DISPLAY_IF_SUPPORT_H 0x1100
 
 #ifdef __cplusplus
  extern "C" {
@@ -46,7 +47,7 @@ enum{
 
 /* Macro Function for DrawGraphics */
 /* Get Absolute */
-#define ABS(x) ((x) >= 0 ? (x) : -(x))
+#define ABS(x) __extension__ ({ __typeof (x) tmpval = x; tmpval < 0 ? -tmpval : tmpval; })
 
 /* Valiable of Basic Functions */
 typedef struct {
@@ -66,11 +67,11 @@ extern int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch,uint8_t trans);
 extern int Display_Puts_If_Ex(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans, uint16_t fg,uint16_t bg);
 /* Draw Gfx Relation */
 extern void PutPixel(uint16_t x, uint16_t y,uint16_t colour);
-extern void Display_DrawRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour);
-extern void Display_FillRect_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour);
-extern void Display_DrawLine_If(uint32_t xs, uint32_t xe, uint32_t ys, uint32_t ye, uint16_t colour);
-extern void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour);
-extern void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uint16_t colour);
+extern void Display_DrawRect_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye, uint16_t colour);
+extern void Display_FillRect_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye, uint16_t colour);
+extern void Display_DrawLine_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye, uint16_t colour);
+extern void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,uint16_t diameter, uint16_t colour);
+extern void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,uint16_t diameter, uint16_t colour);
 extern int Display_DrawBmp_If(const uint8_t* ptr);
 /* For External Filer */
 extern void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg);

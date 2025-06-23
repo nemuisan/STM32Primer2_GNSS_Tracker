@@ -90,6 +90,7 @@ static void ftoa (
 {
 	int d;
 	int e = 0, m = 0;
+	char sign = 0;
 	double w;
 	const char *er = 0;
 
@@ -98,15 +99,22 @@ static void ftoa (
 		er = "NaN";
 	} else {
 		if (prec < 0) prec = 6;	/* Default precision (6 fractional digits) */
-		if (val < 0) {			/* Nagative? */
-			val = -val; *buf++ = '-';
+		if (val < 0) {			/* Nagative value? */
+			val = -val; sign = '-';
+		} else {
+			sign = '+';
 		}
 		if (isinf(val)) {		/* Infinite? */
 			er = "INF";
 		} else {
-			if (fmt != 'f') {	/* E notation? */
-				if (val != 0) {		/* Not true zero? */
-					val += i10x(ilog10(val) - prec) / 2;	/* Round */
+			if (fmt == 'f') {	/* Decimal notation? */
+				val += i10x(-prec) / 2;	/* Round (nearest) */
+				m = ilog10(val);
+				if (m < 0) m = 0;
+				if (m + prec + 3 >= SZB_OUTPUT) er = "OV";	/* Buffer overflow? */
+			} else {			/* E notation */
+				if (val != 0) {		/* Not a true zero? */
+					val += i10x(ilog10(val) - prec) / 2;	/* Round (nearest) */
 					e = ilog10(val);
 					if (e > 99 || prec + 6 >= SZB_OUTPUT) {	/* Buffer overflow or E > +99? */
 						er = "OV";
@@ -115,18 +123,14 @@ static void ftoa (
 						val /= i10x(e);	/* Normalize */
 					}
 				}
-			} else {			/* Decimal notation */
-				val += i10x(-prec) / 2;	/* Round */
-				m = ilog10(val);
-				if (m < 0) m = 0;
-				if (m + prec + 3 >= SZB_OUTPUT) er = "OV";		/* Buffer overflow? */
 			}
 		}
 		if (!er) {	/* Not error condition */
+			if (sign == '-') *buf++ = sign;	/* Add a - if negative value */
 			do {				/* Put decimal number */
 				w = i10x(m);				/* Snip the highest digit d */
 				d = val / w; val -= d * w;
-				if (m == -1) *buf++ = XF_DPC;	/* Into fractional part? */
+				if (m == -1) *buf++ = XF_DPC;	/* Insert a decimal separarot if get into fractional part */
 				*buf++ = '0' + d;			/* Put the digit */
 			} while (--m >= -prec);			/* Output all digits specified by prec */
 			if (fmt != 'f') {	/* Put exponent if needed */
@@ -142,7 +146,8 @@ static void ftoa (
 		}
 	}
 	if (er) {	/* Error condition? */
-		do *buf++ = *er++; while (*er);
+		if (sign) *buf++ = sign;		/* Add sign if needed */
+		do *buf++ = *er++; while (*er);	/* Put error symbol */
 	}
 	*buf = 0;	/* Term */
 }
@@ -169,9 +174,9 @@ void xfputc (			/* Put a character to the specified device */
 	if (XF_CRLF && chr == '\n') xfputc(func, '\r');	/* CR -> CRLF */
 
 	if (func) {
-		func((unsigned char)chr);			/* Write a character to the output device */ /* Nemui Fixed */
+		func(chr);		/* Write a character to the output device */
 	} else if (strptr) {
-		 *strptr++ = (unsigned char)chr;	/* Write a character to the memory */ /* Nemui Fixed */
+		 *strptr++ = chr;	/* Write a character to the memory */
 	}
 }
 
@@ -236,11 +241,11 @@ static void xvfprintf (
 	int n, prec;
 	char str[SZB_OUTPUT], c, d, *p, pad;
 #if XF_USE_LLI
-	XF_LLI_t v;
-	unsigned XF_LLI_t vs;
+	long long v;
+	unsigned long long uv;
 #else
 	long v;
-	unsigned long vs;
+	unsigned long uv;
 #endif
 
 	for (;;) {
@@ -301,15 +306,18 @@ static void xvfprintf (
 		case 'd':					/* Signed decimal */
 		case 'u':					/* Unsigned decimal */
 			r = 10; break;
-		case 'x':					/* Hexdecimal (abc) */
-		case 'X':					/* Hexdecimal (ABC) */
+		case 'x':					/* Hexdecimal (lower case) */
+		case 'X':					/* Hexdecimal (upper case) */
 			r = 16; break;
 		case 'c':					/* A character */
 			xfputc(func, (char)va_arg(arp, int)); continue;
 		case 's':					/* String */
-			p = va_arg(arp, char*);
-			for (j = strlen(p); !(f & 2) && j < w; j++) xfputc(func, pad);	/* Left pads */
-			while (*p && prec--) xfputc(func, *p++);/* String */
+			p = va_arg(arp, char*);		/* Get a pointer argument */
+			if (!p) p = "";				/* Null ptr generates a null string */
+			j = strlen(p);
+			if (prec >= 0 && j > (unsigned int)prec) j = prec;	/* Limited length of string body */
+			for ( ; !(f & 2) && j < w; j++) xfputc(func, pad);	/* Left pads */
+			while (*p && prec--) xfputc(func, *p++);/* String body */
 			while (j++ < w) xfputc(func, ' ');		/* Right pads */
 			continue;
 #if XF_USE_FP
@@ -318,7 +326,7 @@ static void xvfprintf (
 		case 'E':					/* Float (E) */
 			ftoa(p = str, va_arg(arp, double), prec, c);	/* Make fp string */
 			for (j = strlen(p); !(f & 2) && j < w; j++) xfputc(func, pad);	/* Left pads */
-			do xfputc(func, *p++); while (*p);	/* Value */
+			while (*p) xfputc(func, *p++);		/* Value */
 			while (j++ < w) xfputc(func, ' ');	/* Right pads */
 			continue;
 #endif
@@ -326,20 +334,20 @@ static void xvfprintf (
 			xfputc(func, c); continue;
 		}
 
-		/* Get an argument and put it in numeral */
+		/* Get an integer argument and put it in numeral */
 #if XF_USE_LLI
 		if (f & 8) {	/* long long argument? */
-			v = va_arg(arp, XF_LLI_t);
+			v = (long long)va_arg(arp, long long);
 		} else {
 			if (f & 4) {	/* long argument? */
-				v = (c == 'd') ? (XF_LLI_t)va_arg(arp, long) : (XF_LLI_t)va_arg(arp, unsigned long);
+				v = (c == 'd') ? (long long)va_arg(arp, long) : (long long)va_arg(arp, unsigned long);
 			} else {		/* int/short/char argument */
-				v = (c == 'd') ? (XF_LLI_t)va_arg(arp, int) : (XF_LLI_t)va_arg(arp, unsigned int);
+				v = (c == 'd') ? (long long)va_arg(arp, int) : (long long)va_arg(arp, unsigned int);
 			}
 		}
 #else
 		if (f & 4) {	/* long argument? */
-			v = va_arg(arp, long);
+			v = (long)va_arg(arp, long);
 		} else {		/* int/short/char argument */
 			v = (c == 'd') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int);
 		}
@@ -347,13 +355,13 @@ static void xvfprintf (
 		if (c == 'd' && v < 0) {	/* Negative value? */
 			v = 0 - v; f |= 1;
 		}
-		i = 0; vs = v;
-		do {	/* Make value string */
-			d = (char)(vs % r); vs /= r;
+		i = 0; uv = v;
+		do {	/* Make an integer number string */
+			d = (char)(uv % r); uv /= r;
 			if (d > 9) d += (c == 'x') ? 0x27 : 0x07;
 			str[i++] = d + '0';
-		} while (vs != 0 && i < sizeof str);
-		if (f & 1) str[i++] = '-';				/* Sign */
+		} while (uv != 0 && i < sizeof str);
+		if (f & 1) str[i++] = '-';					/* Sign */
 		for (j = i; !(f & 2) && j < w; j++) xfputc(func, pad);	/* Left pads */
 		do xfputc(func, str[--i]); while (i != 0);	/* Value */
 		while (j++ < w) xfputc(func, ' ');			/* Right pads */
