@@ -1,21 +1,21 @@
 /********************************************************************************/
 /*!
 	@file			sdio_stm32f1.h
-	@author			Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-	@version		37.00
-	@date			2025.06.18
-	@brief			SDIO Driver For STM32 HighDensity Devices				@n
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		38.00
+	@date			2025.07.25
+	@brief			SDIO Driver For STM32 HighDensity Devices			@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2025.06.18	V37.00	See sdio_stm32f1_ver.txt.
+		2025.07.25	V38.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef SDIO_STM32F1_H
-#define SDIO_STM32F1_H 0x3700
+#define SDIO_STM32F1_H 0x3800
 
 #ifdef __cplusplus
  extern "C" {
@@ -28,30 +28,27 @@
 #include "systick.h"
 #include "ff.h"
 #include "diskio.h"
- 
-/* Uncomment the following line to select the SDIO Data transfer mode */ 
+
+/* Uncomment/Comment the following line to select the SDIO Data transfer mode */ 
 #define SD_DMA_MODE
 //#define SD_POLLING_MODE
 
-/* Uncomment the following line to select the SD Nomal/High Speed Mode */ 
-/* Notice !
-   STM32F1 Series can also set ClockBypass Enable.
-   But when CPU running at 72MHz, SDIO_CK reaches 72MHz.
-   This is excess over clocking!(SDIOCLK=HCLK=SDIO_CK on ClockBypass Enable)
-
-   Nemuisan set SDIO_CK to 36MHz MAX and ClockBypass Disable,and falling edge
-   when change into highspeedmode. 
-   Of cource this procedure is irregal situation.May works almost SDHC cards. 
+/* Uncomment/Comment the following line to select the SD Nomal/High Speed Mode */ 
+/* ! Notice !
+   STM32F1's SDIO CANNOT set ClockBypass because of erratum!
+   Nemuisan set SDIO_CK to 36MHz MAX when change into HighSpeedMode. 
+   But to get more stability,Nemuisan recommend leaving 
+   NomalSpeedMode(24MHz MAX) on STM32F1....
 */
 #define SD_NS_MODE
 //#define SD_HS_MODE
 
-/* Uncomment the following line to Disable Incert detection */  
-/*#define SDIO_INS_DETECT	*/						/* Enable SDIO Incert Detection */
+/* Uncomment the following line to enable Incert detection */  
+/* #define SDIO_INS_DETECT */						/* Enable SDIO Incert Detection */
 /* SDCARD Incert detection I/O Defninitions */
-//#define SD_DETECT_PIN                    GPIO_Pin_11                 /* PF.11 */
-//#define SD_DETECT_GPIO_PORT              GPIOF                       /* GPIOF */
-//#define SD_DETECT_GPIO_CLK               RCC_APB2Periph_GPIOF
+#define SD_DETECT_PIN                    GPIO_Pin_x
+#define SD_DETECT_GPIO_PORT              GPIOx
+#define SD_DETECT_GPIO_CLK               RCC_APB2Periph_GPIOx
 
 
 /* Defines */
@@ -251,7 +248,7 @@ typedef union
 			__IO uint8_t  Reserved13;
 			__IO uint8_t  EXT_CSD_REV;
 			__IO uint8_t  Reserved12;
-			__IO uint8_t  Reserved11;
+			__IO uint8_t  CSD_STRUCTURE;
 			__IO uint8_t  Reserved10;
 			__IO uint8_t  DEVICE_TYPE;
 			__IO uint8_t  DRIVER_STRENGTH;
@@ -301,7 +298,16 @@ typedef union
 			__IO uint8_t  POWER_OFF_LONG_TIME;
 			__IO uint8_t  GENERIC_CMD6_TIME;
 			__IO uint8_t  CACHE_SIZE[4];
-			__IO uint8_t  Reserved2[255];
+			__IO uint8_t  ReservedA;
+			__IO uint8_t  FIRMWARE_VERSION[4];
+			__IO uint8_t  DEVICE_VERSION[2];
+			__IO uint8_t  OPTIMAL_TRIM_UNIT_SIZE;
+			__IO uint8_t  OPTIMAL_WRITE_SIZE;
+			__IO uint8_t  OPTIMAL_READ_SIZE;
+			__IO uint8_t  PRE_EOL_INFO;
+			__IO uint8_t  DEVICE_LIFE_TIME_EST_TYP_A;
+			__IO uint8_t  DEVICE_LIFE_TIME_EST_TYP_B;
+			__IO uint8_t  Reserved2[242];
 			__IO uint8_t  EXT_SUPPORT;
 			__IO uint8_t  LARGE_UNIT_SIZE_M1;
 			__IO uint8_t  CONTEXT_CAPABILITIES;
@@ -520,7 +526,6 @@ SD_Error SD_InitializeCards(void);
 SD_Error SD_GetCardInfo(SD_CardInfo *cardinfo);
 SD_Error SD_GetCardStatus(SD_CardStatus *cardstatus);
 SD_Error SD_EnableWideBusOperation(uint32_t WideMode);
-SD_Error SD_SetDeviceMode(uint32_t Mode);
 SD_Error SD_SelectDeselect(uint64_t addr);
 SD_Error SD_ReadBlock(uint8_t *readbuff, uint64_t ReadAddr, uint16_t BlockSize);
 SD_Error SD_ReadMultiBlocks(uint8_t *readbuff, uint64_t ReadAddr, uint16_t BlockSize, uint32_t NumberOfBlocks);

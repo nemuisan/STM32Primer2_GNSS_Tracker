@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2025.05.27
+    @version        12.00
+    @date           2025.07.30
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -21,6 +21,7 @@
 		2024.08.01	V9.00	Fixed draw-circle and font function.
 		2025.05.01 V10.00	More optimized draw-circle function.
 		2025.05.27 V11.00	Fixed implicit cast warnings.
+		2025.07.30 V12.00	Fixed incorrect internal variable width.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -30,7 +31,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "display_if_support.h"
 /* check header file version for fool proof */
-#if DISPLAY_IF_SUPPORT_H != 0x1100
+#if DISPLAY_IF_SUPPORT_H != 0x1200
 #error "header file version is not correspond!"
 #endif
 
@@ -92,7 +93,7 @@ inline void PutPixel(uint16_t x, uint16_t y,uint16_t colour)
 
 /**************************************************************************/
 /*! 
-	DRAW Rectangle Line with no Filler.
+	Draw Rectangle Line with no Filler.
 */
 /**************************************************************************/
 inline void Display_DrawRect_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye, uint16_t colour)
@@ -144,7 +145,7 @@ inline void Display_FillRect_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t 
 
 /**************************************************************************/
 /*! 
-	DRAW Line Function(There is no cripper yet).
+	Draw Line Function(There is no cripper yet).
 */
 /**************************************************************************/
 inline void Display_DrawLine_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye, uint16_t colour)
@@ -200,7 +201,7 @@ inline void Display_DrawLine_If(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t 
 
 /**************************************************************************/
 /*! 
-	DRAW Circle Function With no Filler.
+	Draw Circle Function With no Filler.
 */
 /**************************************************************************/
 #if 1 /* More Accuracy method by http://dencha.ojaru.jp thanks! */
@@ -386,7 +387,7 @@ inline void Display_DrawCircle_If(uint16_t x_ct,uint16_t y_ct,long diameter, uin
 
 /**************************************************************************/
 /*! 
-	DRAW Circle with Filler.
+	Draw Circle with Filler.
 */
 /**************************************************************************/
 inline void Display_FillCircle_If(uint16_t x_ct,uint16_t y_ct,uint16_t diameter, uint16_t colour)
@@ -518,9 +519,9 @@ int Display_DrawBmp_If(const uint8_t* ptr)
 			Display_wr_dat_if(d);
 		} while (n < w);
 		i += iw;
-
+		
 	} while (m-- > ys);
-
+	
 	return 1;
 }
 
@@ -531,7 +532,6 @@ int Display_DrawBmp_If(const uint8_t* ptr)
 /**************************************************************************/
 static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 {
-
 	uint8_t*	ptemp;
 	uint16_t 	i,j,l;
 	uint16_t 	k,m;
@@ -546,7 +546,7 @@ static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 		for(k=0; k < l ;k++){
 			
 			for(j=0; j< 8;j++){
-
+			
 				if((*(ptemp)<<j)&0x80){
 						SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 						Display_wr_dat_if(colour);
@@ -554,9 +554,8 @@ static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 			}
 			ptemp++;
 		}
-
+		
 		for(j=0; j< m ;j++){
-
 			if((*(ptemp)<<j)&0x80){
 					SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 					Display_wr_dat_if(colour);
@@ -564,12 +563,9 @@ static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 				
 		}
 		
-		if (m != 0) ptemp++;	
-	
+		if (m != 0) ptemp++;
 	}
-
 }
-
 
 /**************************************************************************/
 /*! 
@@ -578,7 +574,6 @@ static void putkanji_t(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t colour)
 /**************************************************************************/
 static void putank_t(uint16_t x, uint16_t y, uint8_t* pank, uint16_t colour)
 {
-
 	uint8_t*	ptemp;
 	uint16_t 	i,j,l;
 	uint16_t 	k,m;
@@ -593,7 +588,7 @@ static void putank_t(uint16_t x, uint16_t y, uint8_t* pank, uint16_t colour)
 		for(k=0; k < l ;k++){
 			
 			for(j=0; j< 8;j++){
-
+			
 				if((*(ptemp)<<j)&0x80){
 						SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 						Display_wr_dat_if(colour);
@@ -601,19 +596,18 @@ static void putank_t(uint16_t x, uint16_t y, uint8_t* pank, uint16_t colour)
 			}
 			ptemp++;
 		}
-
+		
 		for(j=0; j< m ;j++){
-
+		
 			if((*(ptemp)<<j)&0x80){
 					SetPixel((uint16_t)(x+j+(k*8)),(uint16_t)(y+i));
 					Display_wr_dat_if(colour);
 				}
 		}
-		if (m != 0) ptemp++;	
-
+		
+		if (m != 0) ptemp++;
 	}
 }
-
 
 /**************************************************************************/
 /*! 
@@ -622,7 +616,6 @@ static void putank_t(uint16_t x, uint16_t y, uint8_t* pank, uint16_t colour)
 /**************************************************************************/
 void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg)
 {
-
 	uint8_t*	ptemp;
 	uint16_t 	i,j,l;
 	uint16_t 	k,m;
@@ -661,9 +654,7 @@ void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg)
 		
 		if (m != 0) ptemp++;	
 	}
-
 }
-
 
 /**************************************************************************/
 /*! 
@@ -672,10 +663,9 @@ void putkanji(uint16_t x, uint16_t y, uint8_t* pkanji, uint16_t fg,uint16_t bg)
 /**************************************************************************/
 void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg)
 {
-
 	uint8_t*	ptemp;
-	int 		i,j,l;
-	int 		k,m;
+	uint16_t 	i,j,l;
+	uint16_t 	k,m;
 	uint16_t 	wd;
 
 	l = CurrentAnkDat->X_Size / 8;
@@ -711,9 +701,7 @@ void putank(uint16_t x, uint16_t y, uint8_t* pank, uint16_t fg,uint16_t bg)
 		
 		if (m != 0) ptemp++;	
 	}
-
 }
-
 
 /**************************************************************************/
 /*! 
@@ -728,23 +716,23 @@ int Display_Puts_If(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans)
 		if (x >= MAX_X || y >= MAX_Y) return 0;
 		
 		if(((*pch >= 0x81)&&(*pch <= 0x9F))||((*pch >= 0xE0)&&(*pch <= 0xFC)))
-	  		{
-				if(trans == TRANSPARENT) putkanji_t(x,y,pch,pScrCol->Fg);
-				else					 putkanji  (x,y,pch,pScrCol->Fg,pScrCol->Bg);
-				
-				pch +=2;
-				x += CurrentKanjiDat->X_Size;
-	  		}
+	  	{
+			if(trans == TRANSPARENT) putkanji_t(x,y,pch,pScrCol->Fg);
+			else					 putkanji  (x,y,pch,pScrCol->Fg,pScrCol->Bg);
+			
+			pch +=2;
+			x += CurrentKanjiDat->X_Size;
+	  	}
 		else
-			{
-				if(trans == TRANSPARENT) putank_t(x,y,pch,pScrCol->Fg);
-				else					 putank  (x,y,pch,pScrCol->Fg,pScrCol->Bg);
-				
-				pch +=1;
-				x += CurrentAnkDat->X_Size;
-			}
+		{
+			if(trans == TRANSPARENT) putank_t(x,y,pch,pScrCol->Fg);
+			else					 putank  (x,y,pch,pScrCol->Fg,pScrCol->Bg);
+			
+			pch +=1;
+			x += CurrentAnkDat->X_Size;
+		}
 	}
-
+	
 	return 1;
 }
 
@@ -761,23 +749,23 @@ int Display_Puts_If_Ex(uint16_t x, uint16_t y, uint8_t* pch, uint8_t trans, uint
 		if (x >= MAX_X || y >= MAX_Y) return 0;
 		
 		if(((*pch >= 0x81)&&(*pch <= 0x9F))||((*pch >= 0xE0)&&(*pch <= 0xFC)))
-	  		{
-				if(trans == TRANSPARENT) putkanji_t(x,y,pch,fg);
-				else					 putkanji  (x,y,pch,fg,bg);
-				
-				pch +=2;
-				x += CurrentKanjiDat->X_Size;
-	  		}
+	  	{
+			if(trans == TRANSPARENT) putkanji_t(x,y,pch,fg);
+			else					 putkanji  (x,y,pch,fg,bg);
+			
+			pch +=2;
+			x += CurrentKanjiDat->X_Size;
+	  	}
 		else
-			{
-				if(trans == TRANSPARENT) putank_t(x,y,pch,fg);
-				else					 putank  (x,y,pch,fg,bg);
-				
-				pch +=1;
-				x += CurrentAnkDat->X_Size;
-			}
+		{
+			if(trans == TRANSPARENT) putank_t(x,y,pch,fg);
+			else					 putank  (x,y,pch,fg,bg);
+			
+			pch +=1;
+			x += CurrentAnkDat->X_Size;
+		}
 	}
-
+	
 	return 1;
 }
 

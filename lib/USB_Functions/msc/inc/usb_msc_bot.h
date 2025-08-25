@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_bot.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2025.04.08
+    @version        6.00
+    @date           2025.08.19
 	@brief          BOT State Machine management.
 					Based On STMicro's Sample Thanks!
 
@@ -13,13 +13,14 @@
 		2019.09.20	V3.00	Fixed shadowed variable.
 		2023.03.23	V4.00	Fixed BOT data buffer to 4byte-alignment.
 		2025.04.08	V5.00	Changed IN/OUT double-buffered bulk transfer.
+		2025.08.19	V6.00	Improve double buffered bulk transfer handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef USB_MSC_BOT_H
-#define USB_MSC_BOT_H	0x0500
+#define USB_MSC_BOT_H 0x0600
 
 #ifdef __cplusplus
  extern "C" {
@@ -77,7 +78,7 @@ Bulk_Only_CSW;
 #define DIR_OUT						1
 #define BOTH_DIR					2
 
-/* Bulk Packet Size (upto 64byte USB-FullSpeed) */
+/* Bulk Packet Size (upto 64byte for USB-FullSpeed) */
 #define BULK_MAX_PACKET_SIZE		64
 
 
@@ -90,11 +91,11 @@ extern void Bot_Abort(uint8_t Direction);
 extern uint16_t USB_SIL_DBLWrite(uint8_t bEpAddr, uint8_t* Data_Pointer, uint16_t Data_Length);
 extern uint16_t USB_SIL_DBLread(uint8_t bEpAddr, uint8_t* Data_Pointer);
 
-extern uint8_t Bulk_Data_Buff[];
-extern uint16_t Data_Len;
 extern __IO uint8_t Bot_State;
 extern __IO Bulk_Only_CBW CBW;
 extern __IO Bulk_Only_CSW CSW;
+extern __IO uint16_t Data_Len;
+extern uint8_t Bulk_Data_Buff[];
 
 #ifdef __cplusplus
 }

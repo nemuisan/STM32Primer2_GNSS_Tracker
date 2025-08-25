@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			cdc_support.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2025.06.18
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        13.00
+    @date           2025.08.19
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -19,13 +19,14 @@
 		2025.04.21 V10.00	Fixed UART Rx-Pin to pullup.
 		2025.05.03 V11.00	Fixed typo.
 		2025.06.18 V12.00	Fixed implicit cast warnings.
+		2025.08.19 V13.00	Set IRQ priority definitions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef CDC_SUPPORT_H
-#define CDC_SUPPORT_H 0x1200
+#define CDC_SUPPORT_H 0x1300
 
 #ifdef __cplusplus
  extern "C" {
@@ -46,6 +47,9 @@
 /* CDC-USART Definition */
 #define CDC_UART			USART2
 #define CDC_UART_IRQ		USART2_IRQn
+/* Interrupt priority High: UART >> USB_LP :Low */ 
+#define CDC_UART_IRQnPriority		(2U)
+#define CDC_USB_LP_IRQnPriority		(CDC_UART_IRQnPriority +1U)
 
 /* Externals */
 extern void cdc_task(void);

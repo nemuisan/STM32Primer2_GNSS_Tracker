@@ -2,8 +2,8 @@
 /*!
 	@file			usb_msc_bot.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        5.00
-    @date           2025.04.08
+    @version        6.00
+    @date           2025.08.19
 	@brief          BOT State Machine management.
 					Based On STMicro's Sample Thanks!
 
@@ -13,6 +13,7 @@
 		2019.09.20	V3.00	Fixed shadowed variable.
 		2023.03.23	V4.00	Fixed BOT data buffer to 4byte-alignment.
 		2025.04.08	V5.00	Changed IN/OUT double-buffered bulk transfer.
+		2025.08.19	V6.00	Improve double buffered bulk transfer handlings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -33,11 +34,11 @@
 
 /* Variables -----------------------------------------------------------------*/
 __IO uint8_t Bot_State;
-uint8_t Bulk_Data_Buff[BULK_MAX_PACKET_SIZE]  __attribute__ ((aligned (4)));
-uint16_t Data_Len;
 __IO Bulk_Only_CBW CBW;
 __IO Bulk_Only_CSW CSW;
 __IO uint32_t SCSI_LBA , SCSI_BlkLen;
+__IO uint16_t Data_Len;
+uint8_t Bulk_Data_Buff[BULK_MAX_PACKET_SIZE]  __attribute__ ((aligned (4)));
 extern uint32_t Max_Lun;
 
 /* Constants -----------------------------------------------------------------*/
@@ -62,14 +63,14 @@ uint16_t USB_SIL_DBLWrite(uint8_t bEpAddr, uint8_t* Data_Pointer, uint16_t Data_
 	/* Endpoint type is Bulk and Double Buffer enabled */
 	if(!(GetENDPOINT(bEpAddr & 0x7F) & EP_DTOG_RX)) /* NOT TX ie SW_BUF */
 	{
-		SetEPDblBuf0Count((bEpAddr & 0x7F), EP_DBUF_IN, Data_Length);
 		FreeUserBuffer((bEpAddr & 0x7F), EP_DBUF_IN); /* Toggles EP_DTOG_RX / SW_BUF soon */
+		SetEPDblBuf0Count((bEpAddr & 0x7F), EP_DBUF_IN, Data_Length);
 		UserToPMABufferCopy(Data_Pointer, GetEPDblBuf0Addr(bEpAddr & 0x7F), Data_Length);
 	}
 	else
 	{
-		SetEPDblBuf1Count((bEpAddr & 0x7F), EP_DBUF_IN, Data_Length);
 		FreeUserBuffer((bEpAddr & 0x7F), EP_DBUF_IN); /* Toggles EP_DTOG_RX / SW_BUF soon */
+		SetEPDblBuf1Count((bEpAddr & 0x7F), EP_DBUF_IN, Data_Length);
 		UserToPMABufferCopy(Data_Pointer, GetEPDblBuf1Addr(bEpAddr & 0x7F), Data_Length);
 	}
 	

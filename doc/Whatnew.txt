@@ -1,3 +1,17 @@
+2025.08.19
+V115.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+			 -> https://github.com/ARM-software/CMSIS_6/commit/964440d18a57985e59db64914569ad13dac07c32
+		Adopted FatFs0.16.
+		Adopted newer improvement on ffunicode.c.
+		Improved ITM-Printf debug function (on makefile,syscalls_if.h).
+		Fixed incorrect markdown on README.md.
+		Fixed incorrect internal variable width(on display_if_support.c,h).
+		Fixed data corruption bug in write mode(on usb_msc_memory.c,h and usb_msc_bot.c,h).
+		Set IRQ priority definitions(on sdc_support.c,h and msc_support.c,h).
+		Changed GCC optimization level -Os -> -O2.
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 14.3.Rel1 (Build arm-14.174)) 14.3.1 20250623
+
 2025.06.20 :
 V114.00	Fixed implicit cast warnings
 		  (on display_support.c,h display_if_basis.c,h font_if.c,h hw_config.c,h

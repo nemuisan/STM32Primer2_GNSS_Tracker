@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			cdc_support.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2025.06.18
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        13.00
+    @date           2025.08.19
 	@brief          Interface of USB-CommunicationDeviceClass.
 
     @section HISTORY
@@ -19,6 +19,7 @@
 		2025.04.21 V10.00	Fixed UART Rx-Pin to pullup.
 		2025.05.03 V11.00	Fixed typo.
 		2025.06.18 V12.00	Fixed implicit cast warnings.
+		2025.08.19 V13.00	Set IRQ priority definitions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -28,7 +29,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "cdc_support.h"
 /* check header file version for fool proof */
-#if CDC_SUPPORT_H!= 0x1200
+#if CDC_SUPPORT_H!= 0x1300
 #error "header file version is not correspond!"
 #endif
 
@@ -387,13 +388,13 @@ void USART_To_USB_Send_Data(void)
 /**************************************************************************/
 static void USB_Interrupts_Config(void)
 {
-	/* Enable USB_LP Interrupt */
-	NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn,3);
-	NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
-	
 	/* Enable USART Interrupt */
-	NVIC_SetPriority(CDC_UART_IRQ,2);
+	NVIC_SetPriority(CDC_UART_IRQ, CDC_UART_IRQnPriority);
 	NVIC_EnableIRQ(CDC_UART_IRQ);
+	
+	/* Enable USB_LP Interrupt */
+	NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn, CDC_USB_LP_IRQnPriority);
+	NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
 }
 
 
@@ -438,8 +439,8 @@ void cdc_task(void)
 
 	/* Diaplay CDC mode message */
 	Display_clear_if();
-	Display_Puts_If(0,0,(uint8_t*)"Start Virtual COM",TRANSPARENT);
-	Display_Puts_If(0,1*CurrentAnkDat->Y_Size,(uint8_t*)("System Version:"APP_VERSION),TRANSPARENT);
+	Display_Puts_If(1,0,(uint8_t*)"Start Virtual COM",TRANSPARENT);
+	Display_Puts_If(1,1*CurrentAnkDat->Y_Size,(uint8_t*)("System Version:"APP_VERSION),TRANSPARENT);
 
 	/* USB-CDC Configurations */
 	USB_Disconnect_Config();

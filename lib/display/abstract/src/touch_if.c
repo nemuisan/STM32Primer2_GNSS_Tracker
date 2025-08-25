@@ -2,8 +2,8 @@
 /*!
 	@file			touch_if.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2023.06.01
+    @version        12.00
+    @date           2025.07.25
 	@brief          Interface of Touch Panel Hardware Depend Layer				 @n
 					Based On "ThaiEasyElec.com BlueScreen" Touch Driver Thanks ! @n
 
@@ -17,8 +17,9 @@
 		2016.06.01	V7.00	Added FT6x06 Device Handlings.
 		2016.07.03	V8.00	Added SWAP or Reverse XY exec.
 		2019.10.01	V9.00	Fixed some variable inclusion.
-		2023.05.01	V10.00	Removed unused delay function.
-		2023.06.01	V11.00	Added warning SWAP or Reverse XY exec.
+		2023.05.01 V10.00	Removed unused delay function.
+		2023.06.01 V11.00	Added warning SWAP or Reverse XY exec.
+		2025.07.25 V12.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -28,15 +29,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if.h"
 /* check header file version for fool proof */
-#if TOUCH_IF_H != 0x1100
+#if TOUCH_IF_H != 0x1200
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
-#define CENTER_X1 	(((MAX_X-1)/2)-(8 *CurrentAnkDat->X_Size))
-#define CENTER_X2 	(((MAX_X-1)/2)-(12*CurrentAnkDat->X_Size))
-#define CENTER_Y1	(((MAX_Y-1)/2)-(1 *CurrentAnkDat->Y_Size))
-#define CENTER_Y2	(((MAX_Y-1)/2)-(0 *CurrentAnkDat->Y_Size))
+#define CENTER_X1 	(uint16_t)(((MAX_X-1)/2)-(8 *CurrentAnkDat->X_Size))
+#define CENTER_X2 	(uint16_t)(((MAX_X-1)/2)-(12*CurrentAnkDat->X_Size))
+#define CENTER_Y1	(uint16_t)(((MAX_Y-1)/2)-(1 *CurrentAnkDat->Y_Size))
+#define CENTER_Y2	(uint16_t)(((MAX_Y-1)/2)-(0 *CurrentAnkDat->Y_Size))
 
 #define PRESSED_STROKE	(3)
 
@@ -97,7 +98,7 @@ static uint16_t cal_posx(uint16_t x)
 	buf = buf/cm2x;
 	buf = buf + chalfx;
 	if(buf<0) buf =0;
-	return (buf);
+	return (uint16_t)(buf);
 }
 
 /**************************************************************************/
@@ -113,7 +114,7 @@ static uint16_t cal_posy(uint16_t y)
 	buf = buf/cm2y;
 	buf = buf + chalfy;
 	if(buf<0) buf =0;
-	return (buf);
+	return (uint16_t)(buf);
 }
 #endif
 
@@ -362,7 +363,7 @@ void TC_CalibScreen_If(void)
 
 			for (k=0; k<CALIB_TEST_TIME; k++)
 			{
-				Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_BLUE);
+				Display_FillRect_If((uint16_t)(tc_tpx[i]-2),(uint16_t)(tc_tpx[i]+2),(uint16_t)(tc_tpy[j]-2),(uint16_t)(tc_tpy[j]+2),COL_BLUE);
 				good_press = 0;
 				while (!good_press)
 				{
@@ -372,7 +373,7 @@ void TC_CalibScreen_If(void)
 					if (TC_PenDown())
 					{
 						TC_ReadRaw();
-						Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_YELLOW);
+						Display_FillRect_If((uint16_t)(tc_tpx[i]-2),(uint16_t)(tc_tpx[i]+2),(uint16_t)(tc_tpy[j]-2),(uint16_t)(tc_tpy[j]+2),COL_YELLOW);
 						/* _delay_ms(50); */ /* <- Debug only */
 						while (TC_PenDown());
 						good_press = 1;
@@ -385,7 +386,7 @@ void TC_CalibScreen_If(void)
 
 			Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
 			Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
-			Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_WHITE);
+			Display_FillRect_If((uint16_t)(tc_tpx[i]-2),(uint16_t)(tc_tpx[i]+2),(uint16_t)(tc_tpy[j]-2),(uint16_t)(tc_tpy[j]+2),COL_WHITE);
 			_delay_ms(100);
 			
 		}
@@ -445,7 +446,7 @@ void TC_CalibScreen_If(void)
     }
 
 	cm1x = buf;
-    cm2x = (long)(mx * buf);
+    cm2x = (long)(mx*((float) buf));
 
 	buf_mod1 = my_new - (long)my_new;
 	if (buf_mod1 < 0)
@@ -462,7 +463,7 @@ void TC_CalibScreen_If(void)
     }
 
     cm1y = buf;
-    cm2y = (long)(my * buf);
+    cm2y = (long)(my*((float)buf));
 
 	TC_Store_Calivalue();
 
@@ -678,19 +679,19 @@ void TC_CalibScreen_If(void)
 
 			for (k=0; k<CALIB_TEST_TIME; k++)
 			{
-				Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_BLUE);
+				Display_FillRect_If((uint16_t)(tc_tpx[i]-2),(uint16_t)(tc_tpx[i]+2),(uint16_t)(tc_tpy[j]-2),(uint16_t)(tc_tpy[j]+2),COL_BLUE);
 				while (!TC_PenDown()){};
 					TC_ReadRaw();
 					fx[i*TC_TP_NUM+j][k] = pTouch->X_Axis;
 					fy[i*TC_TP_NUM+j][k] = pTouch->Y_Axis;
-					Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_YELLOW);
+					Display_FillRect_If((uint16_t)(tc_tpx[i]-2),(uint16_t)(tc_tpx[i]+2),(uint16_t)(tc_tpy[j]-2),(uint16_t)(tc_tpy[j]+2),COL_YELLOW);
 					_delay_ms(300);
 				while (TC_PenDown());
 			}
 
 			Display_Puts_If_Ex(CENTER_X1,CENTER_Y1,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
 			Display_Puts_If_Ex(CENTER_X1,CENTER_Y2,(uint8_t*)"                  ",OPAQUE,COL_WHITE,COL_WHITE);
-			Display_FillRect_If(tc_tpx[i]-2,tc_tpx[i]+2,tc_tpy[j]-2,tc_tpy[j]+2,COL_WHITE);
+			Display_FillRect_If((uint16_t)(tc_tpx[i]-2),(uint16_t)(tc_tpx[i]+2),(uint16_t)(tc_tpy[j]-2),(uint16_t)(tc_tpy[j]+2),COL_WHITE);
 			_delay_ms(100);
 			
 		}
@@ -750,7 +751,7 @@ void TC_CalibScreen_If(void)
     }
 
 	cm1x = buf;
-    cm2x = (long)(mx * buf);
+    cm2x = (long)(mx*((float) buf));
 
 	buf_mod1 = my_new - (long)my_new;
 	if (buf_mod1 < 0)
@@ -767,7 +768,7 @@ void TC_CalibScreen_If(void)
     }
 
     cm1y = buf;
-    cm2y = (long)(my * buf);
+    cm2y = (long)(my*((float)buf));
 
 	TC_Store_Calivalue();
 

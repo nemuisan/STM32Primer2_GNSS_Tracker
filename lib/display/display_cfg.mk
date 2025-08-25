@@ -21,13 +21,13 @@ CFILES += \
  $(DISPLAY_SRC)/ts_fileloads.c			\
  $(DISPLAY_SRC)/ts_basis.c
 ifeq ($(USE_DISPLAY),USE_ILI9341_RGB_TFT)
-CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
+ CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
 else ifeq ($(USE_DISPLAY),USE_RK043FN48H_RGB_TFT)
-CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
+ CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
 else ifeq ($(USE_DISPLAY),USE_OTM8009A_DSI_TFT)
-CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
+ CFILES +=  $(DISPLAY_MCU_SRC)/lcdc_if_basis.c
 else
-CFILES += $(DISPLAY_SRC)/display_if_support.c
+ CFILES += $(DISPLAY_SRC)/display_if_support.c
 endif
 
 # Set Abstract-layer of Display Driver
@@ -45,6 +45,9 @@ ifeq ($(USE_JPEG_LIB),USE_IJG_LIB)
  else ifeq ($(MPU_CLASS),STM32H7XX)
   SYNTHESIS_DEFS	+= -DDEFAULT_MAX_MEM=65536UL
   SYNTHESIS_DEFS	+= -DMAX_ALLOC_CHUNK=32768UL
+ else ifeq ($(MPU_CLASS),STM32H5XX)
+  SYNTHESIS_DEFS	+= -DDEFAULT_MAX_MEM=65536UL
+  SYNTHESIS_DEFS	+= -DMAX_ALLOC_CHUNK=32768UL
  else
   SYNTHESIS_DEFS	+= -DDEFAULT_MAX_MEM=32768UL
   SYNTHESIS_DEFS	+= -DMAX_ALLOC_CHUNK=16384UL
@@ -56,7 +59,6 @@ ifeq ($(USE_JPEG_LIB),USE_IJG_LIB)
   SYNTHESIS_DEFS	+= -DLIBJPEG_USE_NOFPU
  else ifeq ($(USING_FPU),-mfloat-abi=hard -mfpu=fpv5-d16)
   SYNTHESIS_DEFS	+= -DLIBJPEG_USE_DFPU
-  SYNTHESIS_DEFS	+= -DLIBPNG_USE_DFPU
  else ifeq ($(USING_FPU),-mfloat-abi=hard -mfpu=fpv5-sp-d16)
   SYNTHESIS_DEFS	+= -DLIBJPEG_USE_FPU
  else ifeq ($(USING_FPU),-mfloat-abi=hard -mfpu=fpv4-sp-d16)
@@ -74,25 +76,28 @@ endif
 
 # Chan's TINY JPEG Library
 ifeq ($(USE_JPEG_LIB),USE_TINYJPEG_LIB)
-JPEGLIB = $(DISPLAY_LIB)/jpeg/tjpgd
-LIBINCDIRS += $(JPEGLIB)
-CFILES += \
- $(JPEGLIB)/tjpgd.c
+ JPEGLIB = $(DISPLAY_LIB)/jpeg/tjpgd
+ LIBINCDIRS += $(JPEGLIB)
+ CFILES += \
+  $(JPEGLIB)/tjpgd.c
 endif
 
 # PNG Library
 ifeq ($(USE_PNG_LIB),USE_LIBPNG)
-PNGLIB = $(DISPLAY_LIB)/png
-LIBINCDIRS += $(PNGLIB)/libpng \
-              $(PNGLIB)/zlib
-include $(PNGLIB)/pnglib.mk
+ ifeq ($(USING_FPU),-mfloat-abi=hard -mfpu=fpv5-d16)
+  SYNTHESIS_DEFS	+= -DLIBPNG_USE_DFPU
+ endif
+ PNGLIB = $(DISPLAY_LIB)/png
+ LIBINCDIRS += $(PNGLIB)/libpng \
+               $(PNGLIB)/zlib
+ include $(PNGLIB)/pnglib.mk
 endif
 
 # GIF Library
 ifeq ($(USE_GIF_LIB),USE_GIFLIB)
-GIFLIB = $(DISPLAY_LIB)/gif
-LIBINCDIRS += $(GIFLIB)/giflib
-include $(GIFLIB)/giflib.mk
+ GIFLIB = $(DISPLAY_LIB)/gif
+ LIBINCDIRS += $(GIFLIB)/giflib
+ include $(GIFLIB)/giflib.mk
 endif
 
 # Display Driver Touch Sence

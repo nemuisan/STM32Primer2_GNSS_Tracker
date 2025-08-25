@@ -2,12 +2,12 @@
 /*!
 	@file			ts_fileloads.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        30.00
-    @date           2025.05.27
+    @version        33.00
+    @date           2025.08.16
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2025.05.27	See ts_ver.txt.
+		2025.08.16	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if TS_FILELOADS_H != 0x3000
+#if TS_FILELOADS_H != 0x3300
 #error "header file version is not correspond!"
 #endif
 
@@ -228,18 +228,11 @@ static inline void wait_anyinput(void)
 
 
 
-
-
-
-
-
-
 /**************************************************************************/
 /*!
 	TXT/BMP/JPEG/PNG/GIF/IMG LODER SECTIONS
 */
 /**************************************************************************/
-
 
 
 /**************************************************************************/
@@ -440,7 +433,7 @@ static int load_bmp(FIL *fil)
 	do {
 	    /* Limit to MAX_Y */
 		m = (bh <= MAX_Y) ? biofs : biofs + (bh - MAX_Y - t) * iw;
-		if (f_lseek(fil, m) || fil->fptr != m) return 0;
+		if (f_lseek(fil, m) || f_tell(fil) != m) return 0;
 		i = m % 512;
 		f_read(fil, &Buff[i], BUFSIZE - i, &bx);
 		lin = ye; w = (bw > MAX_X) ? MAX_X : bw;
@@ -526,7 +519,6 @@ static int load_img(FIL* fil, const char *filename)
 	unsigned int n;					/* FatFs read bytes */
 #elif defined(USE_TFT_FRAMEBUFFER)
 	uint8_t* tbuf;					/* Video framebuffer */
-	unsigned int vsize;				/* FatFs read bytes */
  #if defined(ENABLE_PERFORMANCE_MEASUREMENT)
 	unsigned int fcount;
  #endif
@@ -542,7 +534,7 @@ static int load_img(FIL* fil, const char *filename)
 
 	/* Seek data start position */
 	d = LD_DWORD(Buff+8);
-	if (f_lseek(fil, d) || d != fil->fptr) return 0;
+	if (f_lseek(fil, d) || d != f_tell(fil)) return 0;
 
 	/* Store coursor flag */
 	f = CsrFlag;
@@ -575,10 +567,8 @@ static int load_img(FIL* fil, const char *filename)
 #if defined(USE_TFT_FRAMEBUFFER)
 	if(szfrm > BUFSIZE) {
 		tbuf = vbuffer;
-		vsize = VBUFSIZE;
 	}else{
 		tbuf = Buff;
-		vsize = BUFSIZE;
 	}
 #endif
 
@@ -650,7 +640,7 @@ static int load_img(FIL* fil, const char *filename)
 				if (!run && k == BTN_UP) break; /* Go to next frame on Pause */
 			}
 			if (!run && k == BTN_DOWN && cfrm >= 2) { /* Go to previous two frames on Pause */
-				if (f_lseek(fil, fil->fptr - szfrm * 2)) goto li_exit;
+				if (f_lseek(fil, f_tell(fil) - szfrm * 2)) goto li_exit;
 				cfrm -= 2;
 				break;
 			}
@@ -682,8 +672,8 @@ static void disp_blt (
 	uint16_t left,				/* Left end (-32768 to 32767) */
 	uint16_t right,				/* Right end (-32768 to 32767, >=left) */
 	uint16_t top,				/* Top end (-32768 to 32767) */
-	uint16_t bottom,				/* Bottom end (-32768 to 32767, >=right) */
-	const uint16_t *pat		/* Pattern data */
+	uint16_t bottom,			/* Bottom end (-32768 to 32767, >=right) */
+	const uint16_t *pat			/* Pattern data */
 )
 {
 	uint16_t yc, xc, xs;
@@ -955,7 +945,7 @@ static int load_jpeg(FIL *fil)
 	x = (uint16_t)((MAX_X - dx) / 2);
 	y = (uint16_t)((MAX_Y - dy) / 2);
 	uint16_t tdx = (uint16_t)(x + dx - 1);
-	uint16_t tdy =(uint16_t)(y + dy - 1);
+	uint16_t tdy = (uint16_t)(y + dy - 1);
 	Display_rect_if(x,tdx,y,tdy);
 
 	/* JSAMPLEs per row in output buffer */
@@ -968,7 +958,7 @@ static int load_jpeg(FIL *fil)
 	while (dcinfo.output_scanline < dcinfo.output_height) {
 		jpeg_read_scanlines(&dcinfo, buffer, 1);
 	#if defined(USE_TFT_FRAMEBUFFER) || (USE_NT35516_TFT)
-		Display_rect_if(x,tdx,y + dcinfo.output_scanline,y + dcinfo.output_scanline);
+		Display_rect_if(x,tdx,(uint16_t)(y + dcinfo.output_scanline),(uint16_t)(y + dcinfo.output_scanline));
 	#endif
 		for(i = 0,p = buffer[0];i < dcinfo.output_width;i++) {
 			Display_wr_dat_if(MAKE_RGB888_TO_RGB565(&p));
@@ -1222,7 +1212,7 @@ static int load_png(FIL *fil, const char *title)  /* File is already open */
 		Display_rect_if(lx,(uint16_t)(lx + nx - 1),(uint16_t)(ly + k),(uint16_t)(ly + k));
 	#endif
 		png_read_row(read_ptr,row_buffer, NULL );
-
+		
 		for(i = 0,p = row_buffer;i < nx;i++) {
 			Display_wr_dat_if(MAKE_RGB888_TO_RGB565(&p));
 			p++;/* Alpha-Channel is discarded */
@@ -1351,44 +1341,71 @@ static int load_gif(FIL *fil)
 			goto gif_end;
 		}
 		
-	switch (RecordType) {
-	    case IMAGE_DESC_RECORD_TYPE:
-			if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
-				ts_locate(0, 0 ,0);
-				xprintf("\33\x87\fDGifGetImageDesc Error!\n");
-				xprintf("press any key\n");
-				goto gif_end;
-			}
-			
-			Left 	= (uint16_t)GifFile->Image.Left;
-			Width 	= (uint16_t)GifFile->Image.Width;
-			Top 	= (uint16_t)GifFile->Image.Top;
-			Height 	= (uint16_t)GifFile->Image.Height;
-			if (GifFile->Image.Left + GifFile->Image.Width  > GifFile->SWidth   ||
-			    GifFile->Image.Top  + GifFile->Image.Height > GifFile->SHeight) {
-				ts_locate(0, 0 ,0);
-				xprintf("\33\x87\fImage %d is not confined to screen dimension, aborted.\n", GifFile->ImageCount);
-				xprintf("press any key\n");
-				goto gif_end;
-			}
-
-			if(TranCol == NO_TRANSPARENT_COLOR) {
-
-				if(GifFile->Image.Interlace) {
-					/* Need to perform 4 passes on the images: */
-					for (int i = 0; i < 4; i++){
-						for (int j = Top + InterlacedOffset[i]; j < Top + Height; j += InterlacedJumps[i]) {
+		switch (RecordType) {
+			case IMAGE_DESC_RECORD_TYPE:
+				if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
+					ts_locate(0, 0 ,0);
+					xprintf("\33\x87\fDGifGetImageDesc Error!\n");
+					xprintf("press any key\n");
+					goto gif_end;
+				}
+				
+				Left 	= (uint16_t)GifFile->Image.Left;
+				Width 	= (uint16_t)GifFile->Image.Width;
+				Top 	= (uint16_t)GifFile->Image.Top;
+				Height 	= (uint16_t)GifFile->Image.Height;
+				if (GifFile->Image.Left + GifFile->Image.Width  > GifFile->SWidth   ||
+					GifFile->Image.Top  + GifFile->Image.Height > GifFile->SHeight) {
+					ts_locate(0, 0 ,0);
+					xprintf("\33\x87\fImage %d is not confined to screen dimension, aborted.\n", GifFile->ImageCount);
+					xprintf("press any key\n");
+					goto gif_end;
+				}
+				
+				if(TranCol == NO_TRANSPARENT_COLOR) {
+				
+					if(GifFile->Image.Interlace) {
+						/* Need to perform 4 passes on the images: */
+						for (int i = 0; i < 4; i++){
+							for (int j = Top + InterlacedOffset[i]; j < Top + Height; j += InterlacedJumps[i]) {
+								if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
+									ts_locate(0, 0 ,0);
+									xprintf("\33\x87\fDGifGetLine Error!\n");
+									xprintf("press any key\n");
+									goto gif_end;
+								}
+								
+								/* Set rectangle for virtual window */
+								Display_rect_if((uint16_t)(lx + Left),(uint16_t)(lx + Left + Width  - 1),
+												(uint16_t)(ly + j),(uint16_t)(ly + j));
+												
+								for (int k = 0; k < Width; k++) {
+									/* Set global or local colour tables */
+									if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
+									else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
+									ColorMapEntry = &ColorMap->Colors[RowBuffer[k]];
+									Display_wr_dat_if(MAKE_GIFBGR565(ColorMapEntry));
+								}
+							}
+						}
+					}
+					else {
+					
+						/* Set rectangle for virtual window */
+						Display_rect_if((uint16_t)(lx + Left),(uint16_t)(lx + Left + Width  - 1),
+										(uint16_t)(ly + Top) ,(uint16_t)(ly + Top  + Height - 1));
+										
+						for (int i = 0; i < Height; i++) {
 							if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
 								ts_locate(0, 0 ,0);
 								xprintf("\33\x87\fDGifGetLine Error!\n");
 								xprintf("press any key\n");
 								goto gif_end;
 							}
-							
-							/* Set rectangle for virtual window */
-							Display_rect_if((uint16_t)(lx + Left),(uint16_t)(lx + Left + Width  - 1),
-											(uint16_t)(ly + j),(uint16_t)(ly + j));
-											
+						#if defined(USE_TFT_FRAMEBUFFER)
+							Display_rect_if((uint16_t)(lx + Left)   ,(uint16_t)(lx + Left + Width  - 1),
+											(uint16_t)(ly + Top +i) ,(uint16_t)(ly + Top  + i));
+						#endif
 							for (int k = 0; k < Width; k++) {
 								/* Set global or local colour tables */
 								if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
@@ -1398,148 +1415,121 @@ static int load_gif(FIL *fil)
 							}
 						}
 					}
+					
 				}
-				else {
-
-					/* Set rectangle for virtual window */
-					Display_rect_if((uint16_t)(lx + Left),(uint16_t)(lx + Left + Width  - 1),
-									(uint16_t)(ly + Top),(uint16_t)(ly + Top  + Height - 1));
+				else{
+					GifColorType ct = ColorMap->Colors[TranCol];
+					uint16_t tc = MAKE_GIFBGR565(&ct);
+					
+					if(GifFile->Image.Interlace) {
+						/* Need to perform 4 passes on the images: */
+						for (int i = 0; i < 4; i++){
+							for (int j = Top + InterlacedOffset[i]; j < Top + Height; j += InterlacedJumps[i]) {
+								if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
+									ts_locate(0, 0 ,0);
+									xprintf("\33\x87\fDGifGetLine Error!\n");
+									xprintf("press any key\n");
+									goto gif_end;
+								}
+								
+								for (int k = 0; k < Width; k++) {
+									/* Set global or local colour tables */
+									if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
+									else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 									
-					for (int i = 0; i < Height; i++) {
-						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
-							ts_locate(0, 0 ,0);
-							xprintf("\33\x87\fDGifGetLine Error!\n");
-							xprintf("press any key\n");
-							goto gif_end;
-						}
-					#if defined(USE_TFT_FRAMEBUFFER)
-						Display_rect_if(lx + Left   ,lx + Left + Width  - 1,
-										ly + Top +i ,ly + Top  + i);
-					#endif
-						for (int k = 0; k < Width; k++) {
-							/* Set global or local colour tables */
-							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
-							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
-							ColorMapEntry = &ColorMap->Colors[RowBuffer[k]];
-							Display_wr_dat_if(MAKE_GIFBGR565(ColorMapEntry));
+									ColorMapEntry = &ColorMap->Colors[RowBuffer[k]];
+									Display_rect_if((uint16_t)(lx + k),(uint16_t)(lx + k),(uint16_t)(ly + j),(uint16_t)(ly + j));
+									d = MAKE_GIFBGR565(ColorMapEntry);
+									if(tc != d) Display_wr_dat_if(d);
+								}
+							}
 						}
 					}
-				}
-
-			}
-			else{
-				GifColorType ct = ColorMap->Colors[TranCol];
-				uint16_t tc = MAKE_GIFBGR565(&ct);
-
-				if(GifFile->Image.Interlace) {
-					/* Need to perform 4 passes on the images: */
-					for (int i = 0; i < 4; i++){
-						for (int j = Top + InterlacedOffset[i]; j < Top + Height; j += InterlacedJumps[i]) {
+					else {
+						for (int i = 0; i < Height; i++) {
 							if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
 								ts_locate(0, 0 ,0);
 								xprintf("\33\x87\fDGifGetLine Error!\n");
 								xprintf("press any key\n");
 								goto gif_end;
 							}
-
-							for (int k = 0; k < Width; k++) {
+							
+							for (n = 0; n < Width; n++) {
 								/* Set global or local colour tables */
 								if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
 								else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
 								
-								ColorMapEntry = &ColorMap->Colors[RowBuffer[k]];
-								Display_rect_if((uint16_t)(lx + k),(uint16_t)(lx + k),(uint16_t)(ly + j),(uint16_t)(ly + j));
-								d = MAKE_GIFBGR565(ColorMapEntry);
+								ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
+								Display_rect_if((uint16_t)(lx + n),(uint16_t)(lx + n),(uint16_t)(ly + Top + i),(uint16_t)(ly +Top + i));
+								d= MAKE_GIFBGR565(ColorMapEntry);
 								if(tc != d) Display_wr_dat_if(d);
 							}
 						}
 					}
 				}
-				else {
-					for (int i = 0; i < Height; i++) {
-						if (DGifGetLine(GifFile, &RowBuffer[Left], Width) == GIF_ERROR) {
-							ts_locate(0, 0 ,0);
-							xprintf("\33\x87\fDGifGetLine Error!\n");
-							xprintf("press any key\n");
-							goto gif_end;
-						}
-
-						for (n = 0; n < Width; n++) {
-							/* Set global or local colour tables */
-							if      (GifFile->Image.ColorMap) ColorMap = GifFile->Image.ColorMap;
-							else if (GifFile->SColorMap) 	  ColorMap = GifFile->SColorMap;
-							
-							ColorMapEntry = &ColorMap->Colors[RowBuffer[n]];
-							Display_rect_if((uint16_t)(lx + n),(uint16_t)(lx + n),(uint16_t)(ly + Top + i),(uint16_t)(ly +Top + i));
-							d= MAKE_GIFBGR565(ColorMapEntry);
-							if(tc != d) Display_wr_dat_if(d);
-						}
+				
+				/* Gif Animation delay with input interruption */
+				for (int k = 0; k < DelayTime ; k++) {
+					_delay_ms(10);						/* Wait 0.01*n Seconds */
+					c = xgetc_n();
+					switch (c) {
+					case BTN_CAN:
+					case BTN_ESC:
+					case BTN_OK:
+					case BTN_RIGHT:
+						goto gif_esc;
+					default:
+						;
 					}
 				}
-			}
-
-			/* Gif Animation delay with input interruption */
-			for (int k = 0; k < DelayTime ; k++) {
-				_delay_ms(10);						/* Wait 0.01*n Seconds */
-				c = xgetc_n();
-				switch (c) {
-				case BTN_CAN:
-				case BTN_ESC:
-				case BTN_OK:
-				case BTN_RIGHT:
-					goto gif_esc;
-				default:
-					;
-				}
-			}
-		break;
-
-	    case EXTENSION_RECORD_TYPE:
-			/* Skip any extension blocks in file except comments: */
-			if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
-				ts_locate(0, 0 ,0);
-				xprintf("\33\x87\fDGifGetExtension Error!\n");
-				xprintf("press any key\n");
-				goto gif_end;
-			}
-			while (Extension != NULL) {
-			#if 0
-				if(ExtCode == COMMENT_EXT_FUNC_CODE) {
-					Extension[Extension[0]+1] = '\000';   /* Convert gif's pascal-like string */
-					Comment = (char*) realloc(Comment, strlen(Comment) + Extension[0] + 1);
-					strcat(Comment, (char*)Extension+1);
-				}
-			#endif
-				if(ExtCode == GRAPHICS_EXT_FUNC_CODE ) {
-					DelayTime= Extension[2] + 256 * Extension[3];
-					if (Extension[1] & 0x01)	TranCol = (int)Extension[4];
-					else						TranCol = NO_TRANSPARENT_COLOR;
-				}
-
-				if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
+			break;
+			
+			case EXTENSION_RECORD_TYPE:
+				/* Skip any extension blocks in file except comments: */
+				if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
 					ts_locate(0, 0 ,0);
-					xprintf("\33\x87\fDGifGetExtensionNext Error!\n");
+					xprintf("\33\x87\fDGifGetExtension Error!\n");
 					xprintf("press any key\n");
 					goto gif_end;
 				}
-			}
-
-		break;
-	    case TERMINATE_RECORD_TYPE:
-		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
-		break;
-	}
+				while (Extension != NULL) {
+				#if 0
+					if(ExtCode == COMMENT_EXT_FUNC_CODE) {
+						Extension[Extension[0]+1] = '\000';   /* Convert gif's pascal-like string */
+						Comment = (char*) realloc(Comment, strlen(Comment) + Extension[0] + 1);
+						strcat(Comment, (char*)Extension+1);
+					}
+				#endif
+					if(ExtCode == GRAPHICS_EXT_FUNC_CODE ) {
+						DelayTime= Extension[2] + 256 * Extension[3];
+						if (Extension[1] & 0x01)	TranCol = (int)Extension[4];
+						else						TranCol = NO_TRANSPARENT_COLOR;
+					}
+					
+					if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
+						ts_locate(0, 0 ,0);
+						xprintf("\33\x87\fDGifGetExtensionNext Error!\n");
+						xprintf("press any key\n");
+						goto gif_end;
+					}
+				}
+				
+			break;
+			case TERMINATE_RECORD_TYPE:
+			break;
+			default:		    /* Should be traps by DGifGetRecordType. */
+			break;
+		}
     }
     while (RecordType != TERMINATE_RECORD_TYPE);
-
+	
 gif_end:
 	if( RowBuffer != NULL ) {
 		free(RowBuffer);
 		RowBuffer = NULL;
 	}
 	DGifCloseFile(GifFile,&ErrorCode);
-
+	
 	/* Exit */
 	wait_anyinput();
 
@@ -1609,7 +1599,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 
 	/* Execute SJIS/Ascii style text file */
 	if (strstr_ext(path, ".TXT")) {
-		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
 		load_txt(fil, (BYTE*)Buff, BUFSIZE);
 		f_close(fil);
 		return RES_OK;
@@ -1619,7 +1609,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 	/* Execute JPEG File using IJG JPEG library(libjpeg) */
 	uint8_t JPEG_SOI[] = {0xFF,0xD8,0}; /* JPEG Merker */
 	if (!memcmp(Buff,JPEG_SOI,2)) {
-		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
 		load_jpeg(fil);
 		f_close(fil);
 		return RES_OK;
@@ -1627,7 +1617,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #elif defined(USE_TINYJPEG_LIB)
 	/* Execute JPEG File using ChaN's JPEG decorder */
 	if (strstr_ext(path, ".JPG")) {
-		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
 	#if (BUFSIZE > 32*1024)
 	#warning "ChaN's JPEG library have 32kByte buffersize restriction"
 		load_jpg(fil, (BYTE*)Buff, 32764);
@@ -1642,7 +1632,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_LIBPNG)
 	/* Execute PNG File using libpng */
 	if (strstr_ext(path, ".PNG")) {
-		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
 		load_png(fil, fname);
 		f_close(fil);
 		return RES_OK;
@@ -1652,7 +1642,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_GIFLIB)
 	/* Execute gif File using giflib */
 	if (strstr_ext(path, ".GIF")) {
-		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
 		load_gif(fil);
 		f_close(fil);
 		return RES_OK;
@@ -1662,7 +1652,7 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_WAVE_OUT)
 	/* Execute RIFF-WAV file */
 	if (strstr_ext(path, ".WAV")) {
-		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
 		load_wav(fil, fname, (BYTE*)Buff, BUFSIZE);
 		f_close(fil);
 		return RES_OK;
@@ -1672,40 +1662,25 @@ static int load_file(char *path, char *filename, FIL *fil)
 #if defined(USE_MP3_HELIX)
 	/* Execute MPEG2-Layer3 file */
 	if (strstr_ext(path, ".MP3")) {
-		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
-
-		/* DMA Buffer size check (STM32F407 work around ) */
-	#if(BUFSIZE <= MP3_DMA_BUFFER_SIZE*2)
-			/* If didn't have enough DMA-RAM,then... */
-			/* Use heap memory as dma double buffer */
-			uint8_t* twork = malloc(MP3_DMA_BUFFER_SIZE*2);
-			if(twork == NULL)	return RES_ERROR;
-			load_mp3(fil, fname, twork, MP3_DMA_BUFFER_SIZE*2);
-			free(twork);
-	#else
-			load_mp3(fil, fname, (BYTE*)Buff, BUFSIZE);
-	#endif
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
+		load_mp3(fil, fname, (BYTE*)Buff, BUFSIZE);
 		f_close(fil);
 		return RES_OK;
 	}
 #endif
 
 #if defined(USE_AAC_HELIX)
-	/* Execute MPEG4 file */
+	/* Execute AAC-LC file */
 	if (strstr_ext(path, ".AAC")) {
-		fil->fptr=0;  /* Retrieve file pointer to 0 offset */
-
-		/* DMA Buffer size check (STM32F407 work around ) */
-	#if(BUFSIZE <= AAC_DMA_BUFFER_SIZE*2)
-			/* If didn't have enough DMA-RAM,then... */
-			/* Use heap memory as dma double buffer */
-			uint8_t* twork = malloc(AAC_DMA_BUFFER_SIZE*2);
-			if(twork == NULL)	return RES_ERROR;
-			load_aac(fil, fname, twork, AAC_DMA_BUFFER_SIZE*2);
-			free(twork);
-	#else
-			load_aac(fil, fname, (BYTE*)Buff, BUFSIZE);
-	#endif
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
+		load_aac(fil, fname, (BYTE*)Buff, BUFSIZE, AAC_ADTS_AAC);
+		f_close(fil);
+		return RES_OK;
+	}
+	/* Execute MP4/M4A file(Experimental) */
+	if (strstr_ext(path, ".MP4") || strstr_ext(path, ".M4A") ) {
+		f_rewind(fil);/* Retrieve file pointer to 0 offset */
+		load_m4a(fil, fname, (BYTE*)Buff, BUFSIZE);
 		f_close(fil);
 		return RES_OK;
 	}
@@ -1806,9 +1781,7 @@ static void filer_put_item (
 		if (item->fattr & AM_DIR) {
 			xputs("   <DIR>   ");
 		} else {
-#if !defined(FF_USE_LFN)
-			xprintf("%10u", item->fsize);
-#endif
+			xprintf("%10llu", item->fsize);
 		}
 	}
 
@@ -1820,7 +1793,7 @@ static void filer_put_item (
 	if (item->fattr & AM_DIR) {
 		xputs("   <DIR>   ");
 	} else {
-		xprintf("%10u", item->fsize);
+		xprintf("%10llu", item->fsize);
 	}
 #endif
 #endif
@@ -1855,12 +1828,7 @@ static int filer_load_dir (
 		diritem[i].fsize = fno->fsize;
 		diritem[i].fattr = fno->fattrib;
 #if FF_USE_LFN
-		if(fno->altname[0]){
-			if(strlen(fno->fname)>12) strcpy(diritem[i].fname, fno->altname);
-			else					  strcpy(diritem[i].fname, fno->fname);
-		} else {
-			sprintf(diritem[i].fname,"%s",fno->fname); /* In case of exFAT */
-		}
+		sprintf(diritem[i].fname,"%s",fno->fname);
 #else
 		strcpy(diritem[i].fname, fno->fname);
 #endif

@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			msc_support.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.04.21
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        11.00
+    @date           2025.08.19
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -17,6 +17,7 @@
 		2023.12.19  V8.00	Improved watchdog handlings.
 		2025.04.08	V9.00	Changed minor function name.
 		2025.04.21 V10.00	Re-defined NVIC priority settings.
+		2025.08.19 V11.00	Set IRQ priority definitions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -26,7 +27,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "msc_support.h"
 /* check header file version for fool proof */
-#if MSC_SUPPORT_H!= 0x1000
+#if MSC_SUPPORT_H!= 0x1100
 #error "header file version is not correspond!"
 #endif
 
@@ -53,13 +54,13 @@
 /**************************************************************************/
 static void USB_Interrupts_Config(void)
 {
-	/* Enable USB_LP Interrupt */
-	NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn,3);
-	NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
-	
 	/* Enable USB_HP Interrupt */
-	NVIC_SetPriority(USB_HP_CAN1_TX_IRQn,2);
+	NVIC_SetPriority(USB_HP_CAN1_TX_IRQn, MSC_USB_HP_IRQnPriority);
 	NVIC_EnableIRQ(USB_HP_CAN1_TX_IRQn);
+	
+	/* Enable USB_LP Interrupt */
+	NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn, MSC_USB_LP_IRQnPriority);
+	NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
 }
 
 /**************************************************************************/
@@ -82,11 +83,11 @@ void msc_task(void)
 
 	/* Diaplay MSC mode message */
 	Display_clear_if();
-	Display_Puts_If(0,1*CurrentAnkDat->Y_Size,(uint8_t*)("System Version:"APP_VERSION),TRANSPARENT);
+	Display_Puts_If(1,1*CurrentAnkDat->Y_Size,(uint8_t*)("System Version:"APP_VERSION),TRANSPARENT);
 	
 	/* USB-MSC Configurations */
 	if(MAL_Init(LUN_SDCARD) == MAL_OK) {
-		Display_Puts_If(0,0,(uint8_t*)"Start Mass Storage",TRANSPARENT);
+		Display_Puts_If(1,0,(uint8_t*)"Start Mass Storage",TRANSPARENT);
 		
 		/* USB MSC Setting */
 		USB_Disconnect_Config();
@@ -110,8 +111,8 @@ void msc_task(void)
 		}
 	}
 	else {
-		Display_Puts_If(0,2*CurrentAnkDat->Y_Size,(uint8_t*)"SDCard/MMC Init Failed!",TRANSPARENT);
-		Display_Puts_If(0,3*CurrentAnkDat->Y_Size,(uint8_t*)"Press Center Key to Power OFF!",TRANSPARENT);
+		Display_Puts_If(1,2*CurrentAnkDat->Y_Size,(uint8_t*)"SDCard/MMC Init Failed!",TRANSPARENT);
+		Display_Puts_If(1,3*CurrentAnkDat->Y_Size,(uint8_t*)"Press Center Key to Power OFF!",TRANSPARENT);
 		while (1){
 			__WFI();
 			WDT_Reset();

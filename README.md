@@ -21,18 +21,18 @@ Functions
 -- Using SDIO with DMA Driver.  
 -- Supports MMC,SDSC,SDHC,SDXC and eMMC.  
 -- Using double-buffered endpoints(Bulk IN/OUT).  
--- Write:0.81MB/Sec,Read:0.42MB/Sec MAX(Tested with DELKIN U331 1GB microsd).  
+-- Write:0.81MB/Sec,Read:0.45MB/Sec MAX(Tested with DELKIN U331 1GB microsd).  
 
 - USB CDC Virtual Comport  
 -- Using doublebuffered endpoints(Bulk IN only).  
 -- Improved UART Rx performance and stability.  
 -- It can send/receive datas to many GPS/GNSS Modules NMEA-0183 Sentences.  
--- Supports 4800~115200Bps,7~8bit,noparity,1stopbit(Hardware handshake is NOT supported).  
+-- Supports 4800\~115200Bps,7\~8bit,noparity,1stopbit(Hardware handshake is NOT supported).  
 
 Build
 ------
 This program can build following compilers  
--GNU Tools for ARM Embedded Processors(Recommend)  
+-GNU Tools for ARM Embedded Processors(strongly recommend!)  
  https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads  
 
 And MUST need Coreutils/GNUMake for windows to build this projects.  
@@ -41,9 +41,9 @@ And MUST need Coreutils/GNUMake for windows to build this projects.
  
 Misc
 ---------
-see /doc/ReadFirst.txt  
-see /doc/Whatnew.txt  
+see ./doc/ReadFirst.txt  
+see ./doc/Whatnew.txt  
 
 License
 -------
-see /doc/Copyright.txt
+see ./doc/Copyright.txt

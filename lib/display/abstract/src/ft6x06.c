@@ -2,14 +2,15 @@
 /*!
 	@file			ft6x06.c
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2023.05.01
+    @version        3.00
+    @date           2025.07.25
 	@brief          Touch Screen Control Upperside 						@n
 					Based on ST Microelectronics's Sample Thanks!
 	
     @section HISTORY
 		2016.06.01	V1.00	Stable Release.
 		2023.05.01	V2.00	Removed unused delay function.
+		2025.07.25	V3.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -19,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "touch_if_basis.h"
 /* check header file version for fool proof */
-#if FT6x06_H != 0x0200
+#if FT6x06_H != 0x0300
 #error "header file version is not correspond!"
 #endif
 
@@ -63,8 +64,8 @@ start:
 	TS_Start_I2C();
 	if(TS_TxAddr_I2C(FT6x06_ADDR|TS_SD_WRITE)!=TS_ACK) goto start;
 	if(TS_TxData_I2C(adrs)!=TS_ACK) goto start;
-	if(TS_TxData_I2C(data >> 8)!=TS_ACK) goto start;
-	if(TS_TxData_I2C(data & 0x00FF)!=TS_ACK) goto start;
+	if(TS_TxData_I2C((uint8_t)(data >> 8))!=TS_ACK) goto start;
+	if(TS_TxData_I2C((uint8_t)(data & 0x00FF))!=TS_ACK) goto start;
 	TS_Stop_I2C();
 }
 

@@ -2,8 +2,8 @@
 /*!
 	@file			display_if_support.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        11.00
-    @date           2025.05.27
+    @version        12.00
+    @date           2025.07.30
 	@brief          Interface of Display Device								@n
 					Draw Line & Circle Algolithm is based on under URL TNX!	@n
 					http://dencha.ojaru.jp/
@@ -21,13 +21,14 @@
 		2024.08.01	V9.00	Fixed draw-circle and font function.
 		2025.05.01 V10.00	More optimized draw-circle function.
 		2025.05.27 V11.00	Fixed implicit cast warnings.
+		2025.07.30 V12.00	Fixed incorrect internal variable width.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef DISPLAY_IF_SUPPORT_H
-#define DISPLAY_IF_SUPPORT_H 0x1100
+#define DISPLAY_IF_SUPPORT_H 0x1200
 
 #ifdef __cplusplus
  extern "C" {

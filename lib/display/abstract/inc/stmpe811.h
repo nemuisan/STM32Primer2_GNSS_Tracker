@@ -1,20 +1,22 @@
 /********************************************************************************/
 /*!
 	@file			stmpe811.h
-    @version        2.00
-    @date           2023.05.01
+	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
+    @version        3.00
+    @date           2025.07.25
 	@brief          Touch Screen Control Upperside 
 	
     @section HISTORY
 		2013.03.20	V1.00	Stable Release.
 		2023.05.01	V2.00	Removed unused delay function.
+		2025.07.25	V3.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef STMPE811_H
-#define STMPE811_H	0x0200
+#define STMPE811_H 0x0300
 
 #ifdef __cplusplus
  extern "C" {

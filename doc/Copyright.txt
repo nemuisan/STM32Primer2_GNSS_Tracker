@@ -2,13 +2,13 @@
   STM32 Primer2 BARE-METAL Project GNSS-Tr@cker.
   Since : 20100901
   by Nemui Trinomius
-     http://nemuisan.blog.bai.ne.jp
+     https://nemuisan.blog.bai.ne.jp
      nemuisan_kawausogasuki@live.jp
 ******************************************************************************
    Copyright (c) 2010-2025
    - Nemui Trinomius (add STM32Primer2 Compatibility support.
-					  add SDIO FatFs HAL for STM32F1 Support.
-					  and TFT-LCD Module Controller drivers Support. )
+					  add SDIO FatFs HAL for STM32F1 support.
+					  and TFT-LCD Module Controller drivers support.)
    All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
@@ -53,8 +53,8 @@ Those sourcecode are included in this project.
 
 * ChaN's FatFs and FatFs Control(e.g. xprintf()) Apprications
   GPS Logger Main routines.
-  http://elm-chan.org/fsw/ff/00index_e.html
-  http://elm-chan.org/fsw/ff/en/appnote.html#license
+  https://elm-chan.org/fsw/ff/
+  https://elm-chan.org/fsw/ff/doc/appnote.html#license
 
 * stm32f10x_io_view.c
   Peripheral View Magic for STM32F1
@@ -67,9 +67,9 @@ Those sourcecode are included in this project.
 
 --- FONTFILES ---
 * M+ Bitmap Fonts for FONTX2 is free font.
-  http://members.at.infoseek.co.jp/yu_izumi/mplus/index.html
+  http://izumilib.web.fc2.com/mplus/index.html
   Yu Izumi thanks!
 
 * Misaki Fonts for FONTX2 is free font.
-  http://www.geocities.jp/littlimi/misaki.htm
+  https://littlelimit.net/misaki.htm
   Num Kadoma thanks!

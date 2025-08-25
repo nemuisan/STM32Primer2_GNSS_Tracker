@@ -2,21 +2,22 @@
 /*!
 	@file			ft6x06.h
 	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        2.00
-    @date           2023.05.01
+    @version        3.00
+    @date           2025.07.25
 	@brief          Touch Screen Control Upperside 						@n
 					Based on ST Microelectronics's Sample Thanks!
 	
     @section HISTORY
 		2016.06.01	V1.00	Stable Release.
 		2023.05.01	V2.00	Removed unused delay function.
+		2025.07.25	V3.00	Fixed implicit cast warnings.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FT6x06_H
-#define FT6x06_H	0x0200
+#define FT6x06_H 0x0300
 
 #ifdef __cplusplus
  extern "C" {

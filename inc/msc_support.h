@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			msc_support.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.04.21
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        11.00
+    @date           2025.08.19
 	@brief          Interface of USB-MassStorageClass.
 
     @section HISTORY
@@ -17,13 +17,14 @@
 		2023.12.19  V8.00	Improved watchdog handlings.
 		2025.04.08	V9.00	Changed minor function name.
 		2025.04.21 V10.00	Re-defined NVIC priority settings.
+		2025.08.19 V11.00	Set IRQ priority definitions.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef MSC_SUPPORT_H
-#define MSC_SUPPORT_H 0x1000
+#define MSC_SUPPORT_H 0x1100
 
 #ifdef __cplusplus
  extern "C" {
@@ -41,6 +42,11 @@
 #include "usb_pwr.h"
 #include "usb_istr.h"
 #include "hw_config.h"
+
+/* MSC (with SDIO) Definition */
+/* Interrupt priority High: SDIO >> USB_HP >> USB_LP :Low */ 
+#define MSC_USB_HP_IRQnPriority		(SDIO_IRQnPriority +1U)
+#define MSC_USB_LP_IRQnPriority		(MSC_USB_HP_IRQnPriority +1U)
 
 /* Function Prototypes */
 extern void msc_task(void);

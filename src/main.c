@@ -1,12 +1,12 @@
 /********************************************************************************/
 /*!
 	@file			main.c (STM32Primer2 GNSS-Tr@cker main file)
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        114.00
-    @date           2025.06.20
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        115.00
+    @date           2025.08.19
 
     @section HISTORY
-		2025.06.20	V114.00	See Whatnew.txt
+		2025.08.19	V115.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt

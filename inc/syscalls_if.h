@@ -40,7 +40,10 @@
  #pragma GCC diagnostic ignored "-Wempty-body"
 #endif
 
+/* Retarget to uart/semihosting/ITM */
 #if defined(USE_SEMIHOSTING)
+ #define putch(x)  
+#elif defined(USE_ITM_PRINTF)
  #define putch(x)  ITM_SendChar(x)
 #else
  #if 1 /* use usart functions */

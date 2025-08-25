@@ -1,7 +1,7 @@
 #################################################
 # MAKEFILE For STM32Primer2 BARE-METAL 			#
 # (c) 20091026 Nemui Trinomius					#
-# http://nemuisan.blog.bai.ne.jp				#
+# https://nemuisan.blog.bai.ne.jp				#
 #################################################
 
 # Environment dependent!!! This environment assume under WINDOWS OS!!!
@@ -46,9 +46,9 @@ MSGECHO = echo.exe
 #MSGECHO = /bin/echo
 
 # Set Debugger Directory
-#DBGDIR  = C:/Devz/ARM/CodeLite
-#DBG_BIN = codelite.exe
-#DBG_CMD = ./lib/codelite_dbg/codelite_dbg.workspace
+#DBGDIR  = C:/Devz/ARM/CodeBlocks
+#DBG_BIN = codeblocks.exe
+#DBG_CMD = ./lib/codeblocks_dbg/default.workspace
 # Environment Dependent!!!
 
 
@@ -58,7 +58,7 @@ MSGECHO = echo.exe
 DEBUG_MODE		= 0
 
 # OPTIMIZE Definition
-OPTIMIZE		= s
+OPTIMIZE		= 2
 
 # Force to Optimize OFF in Debug Build
 ifeq ($(DEBUG_MODE),1)
@@ -80,6 +80,7 @@ ARMV7M_BOOST    = -mslow-flash-data
 
 # Semihosting Definition
 #USING_HOSTAGE   = USE_SEMIHOSTING
+#USING_HOSTAGE   = USE_ITM_PRINTF
 ifeq ($(USING_HOSTAGE),USE_SEMIHOSTING)
 SEMIHOST_LIB = --specs=rdimon.specs -lrdimon
 else
@@ -87,7 +88,7 @@ START_LIB    = -nostartfiles
 endif
 
 # Program Version
-APP_VER = 114.00
+APP_VER = 115.00
 
 
 # Board and MPU Definitions
@@ -324,6 +325,7 @@ CFLAGS += -Wshadow -Wunused
 #CFLAGS += -Wconversion -Wsign-conversion -Wshift-count-negative
 #CFLAGS += -Wno-unused-parameter
 #CFLAGS += -Wno-unused-but-set-variable
+#CFLAGS += -Wno-sign-compare
 CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<)
 CFLAGS += $(SYNTHESIS_DEFS)
 
@@ -428,7 +430,6 @@ program :
 	$(REMOVE) $(TARGET).sym
 	$(REMOVE) $(TARGET).lnk
 	$(REMOVE) $(TARGET).lss
-	$(REMOVE) $(TARGET).dfu
 	$(REMOVE) $(wildcard *.stackdump)
 	$(REMOVE) $(OBJS)
 	$(REMOVE) $(AOBJ)
@@ -457,7 +458,6 @@ program :
 	$(REMOVE) $(wildcard $(CMSIS_DEVICE)/*.d)
 	$(REMOVE) $(wildcard $(CMSIS_DEVICE)/*.lst)
 	$(REMOVE) $(wildcard $(CMSIS_DEVICE)/*.o)
-	$(REMOVEDIR) $(wildcard ./lib/codelite_dbg/.codelite)
 	$(REMOVEDIR) .dep
 	@$(MSGECHO)
 
