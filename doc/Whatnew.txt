@@ -1,3 +1,12 @@
+2025.09.29
+V116.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+		-> https://github.com/ARM-software/CMSIS_6/commit/39817a2c88fa4166a6aa8e02d04f1d4cbeb61400
+		Adopted CMSIS-DSP Header Files into latest repository.
+		Adopted FatFs0.16 latest patch update(patch1).
+		Fixed HighSpeedMode description(on sdio_stm32f1.c,h).
+		Fixed invalid PCLK1 frequency setting at 72MHz(on hw_config.c,h).
+		Fixed wrong description on README.md.
+
 2025.08.19
 V115.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 			 -> https://github.com/ARM-software/CMSIS_6/commit/964440d18a57985e59db64914569ad13dac07c32

@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			font_if.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.05.20
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        11.00
+    @date           2025.09.29
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -20,6 +20,7 @@
 		2024.08.01	V8.00	Fixed signature validation function.
 		2025.04.01	V9.00	Fixed typo.
 		2025.05.20 V10.00	Fixed implicit cast warnings.
+		2025.09.29 V11.00	Fixed typo.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -29,7 +30,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "font_if.h"
 /* check header file version for fool proof */
-#if FONT_IF_H != 0x1000
+#if FONT_IF_H != 0x1100
 #error "header file version is not correspond!"
 #endif
 
@@ -69,7 +70,7 @@ void InitFont_Ank(FontX_Ank* AnkDat,const char* addr_ofs)
 	AnkDat->X_Size		  = READ_ADDR_UNIT8(ANK_XSIZE);
 	AnkDat->Y_Size		  = READ_ADDR_UNIT8(ANK_YSIZE);
 
-	/* Store ANK One-Charactor Size(in bytes) */
+	/* Store ANK One-Character Size(in bytes) */
 	if(( (AnkDat->X_Size) % 8)){
 		AnkDat->AnkSize = (uint16_t)((((AnkDat->X_Size) >> 3)+1) * (AnkDat->Y_Size));
 	}
@@ -159,7 +160,7 @@ void InitFont_Kanji(FontX_Kanji* KanjiDat,const char* addr_ofs)
 	KanjiDat->X_Size		  = READ_ADDR_UNIT8(KANJI_XSIZE);
 	KanjiDat->Y_Size		  = READ_ADDR_UNIT8(KANJI_YSIZE);
 
-	/* Store Kanji One-Charactor Size(in bytes) */
+	/* Store Kanji One-Character Size(in bytes) */
 	if(( (KanjiDat->X_Size) % 8)){
 		KanjiDat->KanjiSize = (uint16_t)((((KanjiDat->X_Size) >> 3)+1) * (KanjiDat->Y_Size));
 	}

@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			font_if_datatable.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2025.06.20
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        13.00
+    @date           2025.09.29
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -22,13 +22,14 @@
 		2023.09.01 V10.00	Added Konatsu-Fonts.
 		2024.08.01 V11.00	Fixed LTO build support.
 		2025.06.20 V12.00	Fixed dropped IL Font.
+		2025.09.29 V13.00	Added PAW Font.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FONT_IF_DATATABLE_H 
-#define FONT_IF_DATATABLE_H 0x1200
+#define FONT_IF_DATATABLE_H 0x1300
 
 #ifdef __cplusplus
  extern "C" {
@@ -169,6 +170,12 @@
  extern FontX_Kanji Konatsu_Kanji;
  #define ANKFONT	Konatsu_Ank
  #define KANJIFONT	Konatsu_Kanji
+ 
+#elif  FONT16x16P
+ extern FontX_Ank 	PAW_Ank;
+ extern FontX_Kanji PAW_Kanji;
+ #define ANKFONT	PAW_Ank
+ #define KANJIFONT	PAW_Kanji
 
 #elif  FONT20x20
  extern FontX_Ank 	Tanu_Ank;

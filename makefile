@@ -88,7 +88,7 @@ START_LIB    = -nostartfiles
 endif
 
 # Program Version
-APP_VER = 115.00
+APP_VER = 116.00
 
 
 # Board and MPU Definitions

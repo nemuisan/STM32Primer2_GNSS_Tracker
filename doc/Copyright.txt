@@ -44,7 +44,7 @@ Those sourcecode are included in this project.
 --- LIBRARIES ---
 * ARM Ltd. CMSIS Standard.
   ARM CMSIS is licensed under Apache-2.0.
-  See ./lib/CMSIS/LICENSE.
+  See ./lib/CMSIS/LICENSE
 
 * STMicroelectronics CMSIS Libraries
   STM32F10x standard peripheral library
@@ -52,7 +52,7 @@ Those sourcecode are included in this project.
   http://www.st.com/software_license_agreement_liberty_v2
 
 * ChaN's FatFs and FatFs Control(e.g. xprintf()) Apprications
-  GPS Logger Main routines.
+  GPS Logger main routines
   https://elm-chan.org/fsw/ff/
   https://elm-chan.org/fsw/ff/doc/appnote.html#license
 

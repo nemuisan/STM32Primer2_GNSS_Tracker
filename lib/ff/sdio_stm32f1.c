@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-	@version		38.00
-	@date			2025.07.25
+	@version		39.00
+	@date			2025.09.29
 	@brief			SDIO Driver For STM32 HighDensity Devices			@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2025.07.25	V38.00	See sdio_stm32f1_ver.txt.
+		2025.09.29	V39.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if SDIO_STM32F1_H!= 0x3800
+#if SDIO_STM32F1_H!= 0x3900
 #error "header file version is not correspond!"
 #endif
 
@@ -3473,7 +3473,7 @@ static SD_Error SD_HighSpeed(void)
 		{
 			/*!< Configure the SDIO peripheral */
 			SDIO_InitStructure.SDIO_ClockDiv = 0; /* Set 0 to SDIO_CK = 36MHz MAX */
-			SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Falling;	/* This is a baddest work around */
+			SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
 			SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
 			SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
 			SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
@@ -3551,7 +3551,7 @@ static SD_Error MMC_HighSpeed(void)
 		}
 			/*!< Configure the SDIO peripheral */
 			SDIO_InitStructure.SDIO_ClockDiv = 0; /* Set 0 to SDIO_CK = 36MHz MAX */
-			SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Falling;	/* This is a baddest work around */
+			SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
 			SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
 			SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
 			SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;

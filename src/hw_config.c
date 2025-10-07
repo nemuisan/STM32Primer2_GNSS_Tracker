@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			hw_config.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2025.06.19
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        10.00
+    @date           2025.09.29
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -16,6 +16,7 @@
 		2025.04.21	V7.00	Re-defined NVIC priority settings.
 		2025.05.03	V8.00	Fixed cosmetic bugfix.
 		2025.06.19	V9.00	Fixed implicit cast warnings.
+		2025.09.29 V10.00	Fixed invalid PCLK1 frequency setting at 72MHz.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -25,7 +26,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hw_config.h"
 /* check header file version for fool proof */
-#if HW_CONFIG_H!= 0x0900
+#if HW_CONFIG_H!= 0x1000
 #error "header file version is not correspond!"
 #endif
 
@@ -232,33 +233,45 @@ void SetSysClock72(void)
 	RCC_ClocksTypeDef RCC_ClockFreq;
 
     /* Select PLL as system clock source */
-    RCC_SYSCLKConfig( RCC_SYSCLKSource_HSI );
+    RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
 
-    /* Enable PLL */
-    RCC_PLLCmd( DISABLE );
-
-    /* PLLCLK = 12MHz * 6 = 72 MHz */
-    RCC_PLLConfig( RCC_PLLSource_HSE_Div1, RCC_PLLMul_6 );
-
-    /* Enable PLL */
-    RCC_PLLCmd( ENABLE );
-
-    /* Wait till PLL is ready */
-    while( RCC_GetFlagStatus( RCC_FLAG_PLLRDY ) == RESET )
-        { ; }
-
+    /* Disable PLL */
+    RCC_PLLCmd(DISABLE);
+	
     /* Enable Prefetch Buffer */
     FLASH->ACR |= FLASH_ACR_PRFTBE;
 
     /* Flash 2 wait state */
     FLASH->ACR &= (uint32_t)((uint32_t)~FLASH_ACR_LATENCY);
     FLASH->ACR |= (uint32_t)FLASH_ACR_LATENCY_2;
+	
+    /* HCLK = SYSCLK */
+	RCC->CFGR &= (uint32_t)((uint32_t)~RCC_CFGR_HPRE);
+    RCC->CFGR |= (uint32_t)RCC_CFGR_HPRE_DIV1;
+      
+    /* PCLK2 = HCLK */
+	RCC->CFGR &= (uint32_t)((uint32_t)~RCC_CFGR_PPRE2);
+    RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE2_DIV1;
+    
+    /* PCLK1 = HCLK/2 */
+	RCC->CFGR &= (uint32_t)((uint32_t)~RCC_CFGR_PPRE1);
+    RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE1_DIV2;
+
+    /* PLLCLK = 12MHz * 6 = 72 MHz */
+    RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_6);
+
+    /* Enable PLL */
+    RCC_PLLCmd(ENABLE);
+
+    /* Wait till PLL is ready */
+    while(RCC_GetFlagStatus( RCC_FLAG_PLLRDY ) == RESET)
+        { ; }
 
     /* Select PLL as system clock source */
     RCC_SYSCLKConfig( RCC_SYSCLKSource_PLLCLK );
 
     /* Wait till PLL is used as system clock source */
-    while( RCC_GetSYSCLKSource() != 0x08 )
+    while(RCC_GetSYSCLKSource() != 0x08)
         { ; }
 
     /* This function fills a RCC_ClocksTypeDef structure with the current frequencies

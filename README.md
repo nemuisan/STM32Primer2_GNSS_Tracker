@@ -21,7 +21,7 @@ Functions
 -- Using SDIO with DMA Driver.  
 -- Supports MMC,SDSC,SDHC,SDXC and eMMC.  
 -- Using double-buffered endpoints(Bulk IN/OUT).  
--- Write:0.81MB/Sec,Read:0.45MB/Sec MAX(Tested with DELKIN U331 1GB microsd).  
+-- Read:0.81MB/Sec,Write:0.45MB/Sec MAX(Tested with DELKIN U331 1GB microsd).  
 
 - USB CDC Virtual Comport  
 -- Using doublebuffered endpoints(Bulk IN only).  
@@ -46,4 +46,4 @@ see ./doc/Whatnew.txt
 
 License
 -------
-see ./doc/Copyright.txt
+see ./doc/Copyright.txt  

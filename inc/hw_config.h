@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			hw_config.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        9.00
-    @date           2025.06.19
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        10.00
+    @date           2025.09.29
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -16,13 +16,14 @@
 		2025.04.21	V7.00	Re-defined NVIC priority settings.
 		2025.05.03	V8.00	Fixed cosmetic bugfix.
 		2025.06.19	V9.00	Fixed implicit cast warnings.
+		2025.09.29 V10.00	Fixed invalid PCLK1 frequency setting at 72MHz.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef HW_CONFIG_H
-#define HW_CONFIG_H 0x0900
+#define HW_CONFIG_H 0x1000
 
 #ifdef __cplusplus
  extern "C" {

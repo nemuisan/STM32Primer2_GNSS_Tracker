@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			font_if_datatable.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        12.00
-    @date           2025.06.20
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        13.00
+    @date           2025.09.29
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -22,6 +22,7 @@
 		2023.09.01 V10.00	Added Konatsu-Fonts.
 		2024.08.01 V11.00	Fixed LTO build support.
 		2025.06.20 V12.00	Fixed dropped IL Font.
+		2025.09.29 V13.00	Added PAW Font.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -31,7 +32,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "font_if_datatable.h"
 /* check header file version for fool proof */
-#if FONT_IF_DATATABLE_H != 0x1200
+#if FONT_IF_DATATABLE_H != 0x1300
 #error "header file version is not correspond!"
 #endif
 
@@ -224,7 +225,7 @@ FontX_Ank   Shinonome_Ank;
 FontX_Ank   Tanu_Ank;
 
 #elif defined(FONT16x16K)
-#warning "USE NINGYOUCHOU FONTS(16x16)"
+#warning "USE KYOUKASHO FONTS(16x16)"
  #ifdef USE_KANJIFONT
 	IMPORT_BIN(".rodata", FONT_FILE_DIR "VKYO16/KYOZN16X.TLF", font_table_kanji);
 	FontX_Kanji Kyoukasho_Kanji ATTR_KANJI_RAM;
@@ -285,6 +286,15 @@ FontX_Ank   Tanu_Ank;
  #endif
  IMPORT_BIN(".rodata", FONT_FILE_DIR "KONATSU/KONATHN16.FNT",  font_table_ank);
  FontX_Ank   Konatsu_Ank;
+ 
+#elif defined(FONT16x16P)
+#warning "USE PAW FONTS(16x16)"
+ #ifdef USE_KANJIFONT
+	IMPORT_BIN(".rodata", FONT_FILE_DIR "PAW16/PAW16K.FNT", font_table_kanji);
+	FontX_Kanji PAW_Kanji ATTR_KANJI_RAM;
+ #endif
+ IMPORT_BIN(".rodata", FONT_FILE_DIR "PAW16/PAW16A.FNT",  font_table_ank);
+ FontX_Ank   PAW_Ank;
 
 #elif defined(FONT20x20)
 #warning "USE TANUKI MAGIC FONTS(20x20)"

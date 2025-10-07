@@ -1,13 +1,13 @@
 /********************************************************************************/
 /*!
 	@file			ts_basis.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        23.00
-    @date           2025.05.29
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        24.00
+    @date           2025.09.29
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2025.05.29	See ts_ver.txt.
+		2025.09.29	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_basis.h"
 /* check header file version for fool proof */
-#if TS_BASIS_H != 0x2300
+#if TS_BASIS_H != 0x2400
 #error "header file version is not correspond!"
 #endif
 
@@ -36,7 +36,7 @@ volatile uint16_t Attr ATTR_EXRAM;
 volatile uint16_t Col ATTR_EXRAM;
 volatile uint16_t Row ATTR_EXRAM;
 
-/* Usec for SJIS 2Byte Charactor */
+/* Usec for SJIS 2Byte Character */
 #if USE_FILER_FONTX
 volatile uint8_t flg =0;
 #endif
@@ -420,7 +420,7 @@ void ts_rldown(
 
 /**************************************************************************/
 /*!
-    Terminal Screen Set Charactor location.
+    Terminal Screen Set Character location.
 */
 /**************************************************************************/
 void ts_locate(
@@ -522,7 +522,7 @@ void ts_putc(
 		return;
 	}
 
-	/* Put Ank/Kanji Charactor */
+	/* Put Ank/Kanji Character */
 	c = ((uint16_t)Attr << 8) | chr;
 	Vram[Row][Col] = c;
 	ts_write(Row, Col, c);

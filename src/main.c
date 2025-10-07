@@ -2,11 +2,11 @@
 /*!
 	@file			main.c (STM32Primer2 GNSS-Tr@cker main file)
 	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-    @version        115.00
-    @date           2025.08.19
+    @version        116.00
+    @date           2025.09.29
 
     @section HISTORY
-		2025.08.19	V115.00	See Whatnew.txt
+		2025.09.29	V116.00	See Whatnew.txt
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -24,7 +24,7 @@ volatile int TaskStat = NO_SELECTED; /* Default State */
 /* Constants -----------------------------------------------------------------*/
 
 /* Function prototypes -------------------------------------------------------*/
-void (* volatile xTask)(void);
+void (* volatile xTask)(void); /* Main function pointer */
 
 /* Functions -----------------------------------------------------------------*/
 

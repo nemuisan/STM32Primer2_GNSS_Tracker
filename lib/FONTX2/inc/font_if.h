@@ -1,9 +1,9 @@
 /********************************************************************************/
 /*!
 	@file			font_if.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.05.20
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        11.00
+    @date           2025.09.29
 	@brief          Interface of FONTX Driver								@n
                     Referred under URL thanks!								@n
 					http://www.hmsoft.co.jp/lepton/software/dosv/fontx.htm	@n
@@ -20,13 +20,14 @@
 		2024.08.01	V8.00	Fixed signature validation function.
 		2025.04.01	V9.00	Fixed typo.
 		2025.05.20 V10.00	Fixed implicit cast warnings.
+		2025.09.29 V11.00	Fixed typo.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FONT_IF_H 
-#define FONT_IF_H 0x1000
+#define FONT_IF_H 0x1100
 
 #ifdef __cplusplus
  extern "C" {
@@ -76,7 +77,7 @@ extern FontX_Ank* CurrentAnkDat;
 
 /**************************************************************************/
 /*! 
-    FONTX2 Kanji(2 Byte Charactor) Definitions !!
+    FONTX2 Kanji(2 Byte Character) Definitions !!
 */
 /**************************************************************************/
 /* FONTX2 Structure offset of KANJI(Sift-JIS) */

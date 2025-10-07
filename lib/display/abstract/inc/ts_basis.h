@@ -1,20 +1,20 @@
 /********************************************************************************/
 /*!
 	@file			ts_basis.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        23.00
-    @date           2025.05.29
+	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+    @version        24.00
+    @date           2025.09.29
 	@brief          Filer and File Loaders.
 
     @section HISTORY
-		2025.05.29	See ts_ver.txt.
+		2025.09.29	See ts_ver.txt.
 
     @section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TS_BASIS_H
-#define TS_BASIS_H 0x2300
+#define TS_BASIS_H 0x2400
 
 #ifdef __cplusplus
  extern "C" {
@@ -63,10 +63,12 @@
  #define TS_FONTH	14
 
 #elif defined(FONT16x16)  || defined(FONT16x16K) || defined(FONT16x16L) || defined(FONT16x16W) || \
-      defined(FONT16x16F) || defined(FONT16x16H) || defined(FONT16x16I) || defined(FONT16x16T)
+      defined(FONT16x16F) || defined(FONT16x16H) || defined(FONT16x16I) || defined(FONT16x16T) || \
+	  defined(FONT16x16P)
  /* Use Tanuki Fonts(16pt) or Kyoukashotai Fonts(16pt) or Kodenma-cho Fonts(16pt)
      or Wada Laboratry Hosomaru Fonts(16pt) or Honoka-Maru Gothic Fonts(16pt)
-     or Hanazono Fonts(16pt) or IL Gothic Fonts(16pt) or Konatsu Fonts(16pt) */
+     or Hanazono Fonts(16pt) or IL Gothic Fonts(16pt) or Konatsu Fonts(16pt)
+	 or PAW Maru Fonts(16pt) */
  #define TS_FONTW	8
  #define TS_FONTH	16
 
