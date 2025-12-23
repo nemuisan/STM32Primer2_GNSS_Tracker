@@ -1,7 +1,15 @@
+2025.12.18
+V117.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_6/commit/c37951ea68b7df57989c0e1d4b46210813b0f436
+		Fixed stability for MMC/eMMC(on sdio_stm32f1.c,h).
+		Fixed typo and wrong description(on hw_config.c,h).
+		Added GCC option"-fno-schedule-insns"(on makefile).
+		Adopted arm-gcc toolchain updates
+		 -> (Arm GNU Toolchain 15.2.Rel1 (Build arm-15.86)) 15.2.1 20251203
+
 2025.09.29
 V116.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		-> https://github.com/ARM-software/CMSIS_6/commit/39817a2c88fa4166a6aa8e02d04f1d4cbeb61400
-		Adopted CMSIS-DSP Header Files into latest repository.
 		Adopted FatFs0.16 latest patch update(patch1).
 		Fixed HighSpeedMode description(on sdio_stm32f1.c,h).
 		Fixed invalid PCLK1 frequency setting at 72MHz(on hw_config.c,h).
@@ -9,7 +17,7 @@ V116.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 
 2025.08.19
 V115.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
-			 -> https://github.com/ARM-software/CMSIS_6/commit/964440d18a57985e59db64914569ad13dac07c32
+		 -> https://github.com/ARM-software/CMSIS_6/commit/964440d18a57985e59db64914569ad13dac07c32
 		Adopted FatFs0.16.
 		Adopted newer improvement on ffunicode.c.
 		Improved ITM-Printf debug function (on makefile,syscalls_if.h).
@@ -17,7 +25,7 @@ V115.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		Fixed incorrect internal variable width(on display_if_support.c,h).
 		Fixed data corruption bug in write mode(on usb_msc_memory.c,h and usb_msc_bot.c,h).
 		Set IRQ priority definitions(on sdc_support.c,h and msc_support.c,h).
-		Changed GCC optimization level -Os -> -O2.
+		Changed GCC optimization level -Os -> -O2(on makefile).
 		Adopted arm-gcc toolchain updates
 		 -> (Arm GNU Toolchain 14.3.Rel1 (Build arm-14.174)) 14.3.1 20250623
 

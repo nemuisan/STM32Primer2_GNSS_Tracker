@@ -2,8 +2,8 @@
 /*!
 	@file			hw_config.h
 	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.09.29
+    @version        11.00
+    @date           2025.12.03
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -17,19 +17,20 @@
 		2025.05.03	V8.00	Fixed cosmetic bugfix.
 		2025.06.19	V9.00	Fixed implicit cast warnings.
 		2025.09.29 V10.00	Fixed invalid PCLK1 frequency setting at 72MHz.
+		2025.12.03 V11.00	Fixed typo and wrong description.
 
     @section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef HW_CONFIG_H
-#define HW_CONFIG_H 0x1000
+#define HW_CONFIG_H 0x1100
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
-/* General Inclusion */
+/* General inclusion */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,7 +40,7 @@
 #include "stm32f10x_conf.h"
 #include "platform_config.h"
 
-/* Function Inclusion */
+/* Function inclusion */
 #include "systick.h"
 #include "pwr_support.h"
 #include "adc_support.h"
@@ -48,7 +49,7 @@
 #include "sdio_stm32f1.h"
 #include "xprintf.h"
 
-/* High Level Function */
+/* High level function */
 #include "ff.h"
 #include "diskio.h"
 #include "gnss_support.h"
@@ -83,7 +84,7 @@ extern void LED_Configuration(void);
 extern void KEY_Configuration(void);
 extern void JoyInp_Chk(void);
 
-/* USB Device Relation */
+/* USB Device relation */
 extern void Set_USBClock(void);
 extern void SetSysClock72(void);
 extern void Enter_LowPowerMode(void);
@@ -92,7 +93,7 @@ extern void USB_Cable_Config (FunctionalState NewState);
 extern void Get_SerialNum(uint8_t* string0,uint8_t* string1);
 extern void USB_Disconnect_Config(void);
 
-/* System Global Valuable */
+/* System global variables */
 extern __IO uint16_t CmdKey;
 extern __IO int TaskStat;
 

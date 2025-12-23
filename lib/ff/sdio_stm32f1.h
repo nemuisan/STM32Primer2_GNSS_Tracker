@@ -2,20 +2,20 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-	@version		39.00
-	@date			2025.09.29
+	@version		40.00
+	@date			2025.12.04
 	@brief			SDIO Driver For STM32 HighDensity Devices			@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2025.09.29	V39.00	See sdio_stm32f1_ver.txt.
+		2025.12.04	V40.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef SDIO_STM32F1_H
-#define SDIO_STM32F1_H 0x3900
+#define SDIO_STM32F1_H 0x4000
 
 #ifdef __cplusplus
  extern "C" {
@@ -35,12 +35,13 @@
 
 /* Uncomment/Comment the following line to select the SD Nomal/High Speed Mode */ 
 /* ! Notice !
-   Nemuisan set SDIO_CK to 36MHz MAX not 48MHz when change into HighSpeedMode. 
+   Nemuisan set SDIO_CK to 36MHzMAX(@72MHz Sysclock for STM32F1) when change into HighSpeedMode. 
    Because of...
-    1: SDIO_ClockBypass_Enable -> CANNOT USE DUE TO ERRATA!
-	2: SDIO_HardwareFlowControl_Enable -> CANNOT USE DUE TO ERRATA!
-   So,to get more stability,Nemuisan strongly recommend leaving 
-   NomalSpeedMode(24MHz MAX) on STM32F1....
+    1: SDIO_ClockBypass_Enable -> Not always suitable for SD/MMC Spec(It says upto 50/52MHz@3.3v).
+    2: SDIO_ClockEdge_Falling -> CANNOT USE DUE TO ERRATA!
+    3: SDIO_HardwareFlowControl_Enable -> CANNOT USE DUE TO ERRATA!
+   So,to get more stability,Nemuisan strongly recommend leaving
+   NomalSpeedMode(24MHz MAX) on STM32F1....!!
 */
 #define SD_NS_MODE
 //#define SD_HS_MODE
@@ -84,10 +85,10 @@ typedef enum
   SD_WP_ERASE_SKIP                   = (23), /*!< only partial address space was erased */
   SD_CARD_ECC_DISABLED               = (24), /*!< Command has been executed without using internal ECC */
   SD_ERASE_RESET                     = (25), /*!< Erase sequence was cleared before executing because an out of erase sequence command was received */
-  SD_AKE_SEQ_ERROR                   = (26), /*!< Error in sequence of authentication. */
+  SD_AKE_SEQ_ERROR                   = (26), /*!< Error in sequence of authentication */
   SD_INVALID_VOLTRANGE               = (27),
   SD_ADDR_OUT_OF_RANGE               = (28),
-  SD_SWITCH_ERROR                    = (29),
+  SD_SWITCH_ERROR                    = (29), /*!< Error cannot changed requested mode */
   SD_SDIO_DISABLED                   = (30),
   SD_SDIO_FUNCTION_BUSY              = (31),
   SD_SDIO_FUNCTION_FAILED            = (32),
@@ -388,7 +389,7 @@ typedef struct
 #define SD_CMD_GO_IDLE_STATE                       ((uint8_t)0)
 #define SD_CMD_SEND_OP_COND                        ((uint8_t)1)
 #define SD_CMD_ALL_SEND_CID                        ((uint8_t)2)
-#define SD_CMD_SET_REL_ADDR                        ((uint8_t)3) /*!< SDIO_SEND_REL_ADDR for SD Card */
+#define SD_CMD_SET_REL_ADDR                        ((uint8_t)3)
 #define SD_CMD_SET_DSR                             ((uint8_t)4)
 #define SD_CMD_SDIO_SEN_OP_COND                    ((uint8_t)5)
 #define SD_CMD_HS_SWITCH                           ((uint8_t)6)
@@ -465,11 +466,15 @@ typedef struct
 /**
   * @brief  MultiMediaCards and eMMC Relations
   */ 
-#define MMC_OCR_REG             					0x40FF8080
-#define MMC_POWER_REG           					0x03BB0800
-#define MMC_HIGHSPEED_REG      						0x03B90100
-#define MMC_4BIT_REG            					0x03B70100
-#define MMC_8BIT_REG            					0x03B70200
+#define MMC_VOLTAGE_WINDOW                         ((uint32_t)0x80FF8000)	/* Throw CMD1 argument base for MMC(assume VDD=3.3V) */
+#define MMC_DUAL_VOLTAGE_WINDOW                    ((uint32_t)0x80FF8080)	/* Some Cards go into Inactivate-state ...shall not be used. */
+#define MMC_HIGH_CAPACITY                          ((uint32_t)0x40000000)	/* Bits[30:29]=1,0 is new host argument */
+#define MMC_HIGH_CAPACITY_MASK                     ((uint32_t)0x60000000)	/* Bits[30:29]=1,0 suggests block address */
+#define MMC_POWER_REG_BASE                         0x03BB0000UL				/* CMD6 Argument Power class base */
+#define MMC_NORMALSPEED_MODE                       0x03B90000UL				/* CMD6 Argument Speed class */
+#define MMC_HIGHSPEED_MODE                         0x03B90100UL				/* CMD6 Argument Speed class */
+#define MMC_1BIT_SDR_MODE                          0x03B70000UL				/* CMD6 Argument Bus-Width class */
+#define MMC_4BIT_SDR_MODE                          0x03B70100UL				/* CMD6 Argument Bus-Width class */
 
 /**
   * @brief  SD detection on its memory slot
@@ -511,7 +516,7 @@ typedef struct
   * 		e.g.2 : SysClock = HCLK = 24MHz:
   *			     -> SDIO_CK can take upto 24MHz(Consider ClockDivision value at 72MHz SysClock,actually frequency 24MHz/3 = 8MHz).
   */
-/* On STM32F1, SDIOCLK=HCLK.And SDIO_CK = SDIOCLK/(CLK_DIV+2). */
+/* On STM32F1,SDIOCLK=HCLK. And SDIO_CK = SDIOCLK/(CLK_DIV+2). */
 #ifdef SD_DMA_MODE
  #define SDIO_TRANSFER_CLK_DIV						((uint8_t)0x1) 	/* 72MHz(HCLK MAX Value)/(1+2)= 24MHz MAX in DMA Mode */
 #else /* SD_POLLING_MODE */

@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-	@version		39.00
-	@date			2025.09.29
+	@version		40.00
+	@date			2025.12.04
 	@brief			SDIO Driver For STM32 HighDensity Devices			@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
     @section HISTORY
-		2025.09.29	V39.00	See sdio_stm32f1_ver.txt.
+		2025.12.04	V40.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if SDIO_STM32F1_H!= 0x3900
+#if SDIO_STM32F1_H!= 0x4000
 #error "header file version is not correspond!"
 #endif
 
@@ -74,18 +74,16 @@
 #define SD_R6_ILLEGAL_CMD               ((uint32_t)0x00004000)
 #define SD_R6_COM_CRC_FAILED            ((uint32_t)0x00008000)
 
-#define SD_VOLTAGE_WINDOW_SD            ((uint32_t)0x80100000)
+#define SD_VOLTAGE_WINDOW               ((uint32_t)0x80100000)
 #define SD_OCR_XPC                      ((uint32_t)0x10000000)	/* Nemui added SDXC power ctrl (bit28) */
 #define SD_OCR_S18                      ((uint32_t)0x01000000)	/* Nemui added Signaling 1.8V req&ans (bit24) */
 #define SD_OCR_UHS2                     ((uint32_t)0x20000000)	/* Nemui added UHS-ii card detect (bit29) */
 #define SD_HIGH_CAPACITY                ((uint32_t)0x40000000)
-#define MMC_VOLTAGE_WINDOW	            ((uint32_t)0x80FF8000)
-#define MMC_HIGH_CAPACITY	            ((uint32_t)0x40000000)	/* Bits[30:29]=1,0 is new host argument */
-#define MMC_HIGH_CAPACITY_MASK          ((uint32_t)0x60000000)	/* Bits[30:29]=1,0 suggests block address */
 #define SD_STD_CAPACITY                 ((uint32_t)0x00000000)
 #define SD_CHECK_PATTERN                ((uint32_t)0x000001AA)
 
 #define SD_MAX_VOLT_TRIAL               ((uint32_t)0x0000FFFF)
+#define SD_MAX_CMD_TRIAL                ((uint32_t)0x0000FFFF)
 #define SD_ALLZERO                      ((uint32_t)0x00000000)
 
 #define SD_WIDE_BUS_SUPPORT             ((uint32_t)0x00040000)
@@ -117,9 +115,9 @@
 
 
 /* FatFs Glue */
-#define SECTOR_SIZE		512U	/* Must be Set "512" in use of SDCARD! 			*/
-#define SDIO_DRIVE		0		/* Physical Drive Number set to 0. 				*/
-#define SOCKWP			0		/* Write Protect Switch is not Supported.		*/
+#define SECTOR_SIZE		512U	/* Must be Set "512" in use of SDCARD! 	  */
+#define SDIO_DRIVE		0		/* Physical Drive Number set to 0. 		  */
+#define SOCKWP			0		/* Write Protect Switch is not Supported. */
 
 /* Variables -----------------------------------------------------------------*/
 static uint32_t CardType = SDIO_STD_CAPACITY_SD_CARD_V1_1;
@@ -169,6 +167,7 @@ static SD_Error FindSCR(uint16_t rca, uint32_t *pscr);
 static SD_Error SD_HighSpeed(void);
 static SD_Error MMC_HighSpeed(void);
 static SD_Error MMC_ReadExtCsd(MMCEXT_CSD *ExtCsd);
+static SD_Error MMC_WaitCmdResp(void);
 static uint8_t convert_from_bytes_to_power_of_two(uint16_t NumberOfBytes);
 #if defined(SD_DMA_MODE)
  static void SD_LowLevel_DMA_TxConfig(uint32_t *BufferSRC, uint32_t BufferSize);
@@ -345,7 +344,7 @@ SD_Error SD_Init(void)
 		errorstatus = SD_EnableWideBusOperation(SDIO_BusWide_4b);
 	}
 	
- 	/*----------------- Enable HighSpeedMode --------------------------------*/
+ 	/*----------------- Enable SDC/MMC HighSpeedMode --------------------------------*/
 #if defined(SD_HS_MODE) && !defined(SD_NS_MODE)
 	/* Configure to HighSpeed mode,if card can drive HS Mode. */
 	if (errorstatus == SD_OK)
@@ -473,7 +472,7 @@ SD_Error SD_PowerON(void)
 	
 	/*!< CMD0: GO_IDLE_STATE ---------------------------------------------------*/
 	/*!< No CMD response required */
-	SDIO_CmdInitStructure.SDIO_Argument = 0x0;
+	SDIO_CmdInitStructure.SDIO_Argument = 0x00000000;
 	SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_GO_IDLE_STATE;
 	SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_No;
 	SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -513,7 +512,7 @@ SD_Error SD_PowerON(void)
 	{
 		/*!< SD Card 1.x or MMC */
 		/*!< Re-issue CMD0 to reset card */
-		SDIO_CmdInitStructure.SDIO_Argument = 0x0;
+		SDIO_CmdInitStructure.SDIO_Argument = 0x00000000;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_GO_IDLE_STATE;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_No;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -530,7 +529,7 @@ SD_Error SD_PowerON(void)
 	}
 	
 	/*!< CMD55 */
-	SDIO_CmdInitStructure.SDIO_Argument = 0x00;
+	SDIO_CmdInitStructure.SDIO_Argument = 0x00000000;
 	SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
 	SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 	SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -548,7 +547,7 @@ SD_Error SD_PowerON(void)
 		while ((!validvoltage) && (count < SD_MAX_VOLT_TRIAL))
 		{
 			/*!< SEND CMD55 APP_CMD with RCA as 0 */
-			SDIO_CmdInitStructure.SDIO_Argument = 0x00;
+			SDIO_CmdInitStructure.SDIO_Argument = 0x00000000;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
 			SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 			SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -561,7 +560,7 @@ SD_Error SD_PowerON(void)
 			{
 				return(errorstatus);
 			}
-			SDIO_CmdInitStructure.SDIO_Argument = SD_VOLTAGE_WINDOW_SD	  | \
+			SDIO_CmdInitStructure.SDIO_Argument = SD_VOLTAGE_WINDOW		  | \
 												  SD_OCR_XPC | SD_OCR_S18 | \
 												  SDType;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SD_APP_OP_COND;
@@ -615,7 +614,7 @@ SD_Error SD_PowerON(void)
 		_delay_ms(1); /* From Linux Kernel Implementation(mmc_ops.c) */
 		
 		/*!< Re-issue CMD0 to reset card */
-		SDIO_CmdInitStructure.SDIO_Argument = 0x0;
+		SDIO_CmdInitStructure.SDIO_Argument = 0x00000000;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_GO_IDLE_STATE;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_No;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -737,7 +736,8 @@ SD_Error SD_PowerOFF(void)
 SD_Error SD_InitializeCards(void)
 {
 	SD_Error errorstatus = SD_OK;
-	uint16_t rca = 0x01;
+	uint16_t rca = 0x02; /* For MMC & eMMC,relative addr should be greater than 1 */
+						 /* Refer to the eMMC Protocol Specification JESD84-B51 Section 7.5 */
 	
 	if (SDIO_GetPowerState() == SDIO_PowerState_OFF)
 	{
@@ -748,7 +748,7 @@ SD_Error SD_InitializeCards(void)
 	if (SDIO_SECURE_DIGITAL_IO_CARD != CardType)
 	{
 		/*!< Send CMD2 ALL_SEND_CID */
-		SDIO_CmdInitStructure.SDIO_Argument = 0x0;
+		SDIO_CmdInitStructure.SDIO_Argument = 0x00000000;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_ALL_SEND_CID;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Long;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -768,14 +768,12 @@ SD_Error SD_InitializeCards(void)
 		CID_Tab[3] = SDIO_GetResponse(SDIO_RESP4);
 	}
 	
-	if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType)	||	(SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) 	|| \
-       (SDIO_SECURE_DIGITAL_IO_COMBO_CARD == CardType)	||	(SDIO_HIGH_CAPACITY_SD_CARD == CardType)     	|| \
-       (SDIO_MULTIMEDIA_CARD == CardType)				||	(SDIO_HIGH_SPEED_MULTIMEDIA_CARD == CardType)   || \
-       (SDIO_HIGH_CAPACITY_MMC_CARD  == CardType) )
+	if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) || (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) || \
+	    (SDIO_HIGH_CAPACITY_SD_CARD == CardType))
 	{
 		/*!< Send CMD3 SET_REL_ADDR with argument 0 */
 		/*!< SD Card publishes its RCA. */
-		SDIO_CmdInitStructure.SDIO_Argument = 0x00;
+		SDIO_CmdInitStructure.SDIO_Argument = 0x00000000;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SET_REL_ADDR;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -783,6 +781,25 @@ SD_Error SD_InitializeCards(void)
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
 		
 		errorstatus = CmdResp6Error(SD_CMD_SET_REL_ADDR, &rca);
+		
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+	}
+	
+	if ((SDIO_MULTIMEDIA_CARD == CardType) || (SDIO_HIGH_SPEED_MULTIMEDIA_CARD == CardType) || \
+	    (SDIO_HIGH_CAPACITY_MMC_CARD == CardType))
+	{
+		/*!< Send CMD3 SET_REL_ADDR with argument 2 */
+		SDIO_CmdInitStructure.SDIO_Argument = ((uint32_t)rca << 16U);
+		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SET_REL_ADDR;
+		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
+		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
+		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
+		SDIO_SendCommand(&SDIO_CmdInitStructure);
+		
+		errorstatus = CmdResp1Error(SD_CMD_SET_REL_ADDR);
 		
 		if (SD_OK != errorstatus)
 		{
@@ -2346,7 +2363,7 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
 		return(errorstatus);
 	}
 	
-	/*!< CMD55 */
+	/*!< Send ACMD13 SD_APP_STAUS(CMD55) with argument as card's RCA.*/
 	SDIO_CmdInitStructure.SDIO_Argument = (uint32_t) RCA << 16;
 	SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_CMD;
 	SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
@@ -2368,7 +2385,7 @@ SD_Error SD_SendSDStatus(uint32_t *psdstatus)
 	SDIO_DataInitStructure.SDIO_DPSM = SDIO_DPSM_Enable;
 	SDIO_DataConfig(&SDIO_DataInitStructure);
 	
-	/*!< Send ACMD13 SD_APP_STAUS  with argument as card's RCA.*/
+	/*!< Send ACMD13 SD_APP_STAUS(CMD13) with argument 0 */
 	SDIO_CmdInitStructure.SDIO_Argument = 0;
 	SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_SD_APP_STAUS;
 	SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
@@ -2939,7 +2956,7 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 			}
 			
 			/*!< Send ACMD6 APP_CMD with argument as 2 for wide bus mode */
-			SDIO_CmdInitStructure.SDIO_Argument = 0x2;
+			SDIO_CmdInitStructure.SDIO_Argument = 2;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_SD_SET_BUSWIDTH;
 			SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 			SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -2980,8 +2997,8 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 				return(errorstatus);
 			}
 			
-			/*!< Send ACMD6 APP_CMD with argument as 2 for wide bus mode */
-			SDIO_CmdInitStructure.SDIO_Argument = 0x00;
+			/*!< Send ACMD6 APP_CMD with argument as 0 for 1bit-bus mode */
+			SDIO_CmdInitStructure.SDIO_Argument = 0;
 			SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_APP_SD_SET_BUSWIDTH;
 			SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 			SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
@@ -3006,8 +3023,8 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 
 /**************************************************************************/
 /*! 
-	@brief  Enables or disables the SDIO wide bus mode.
-	@param  NewState: new state of the SDIO wide bus mode.
+	@brief  Enables or disables the MMC wide bus mode.
+	@param  NewState: new state of the MMC wide bus mode.
 		This parameter can be: ENABLE or DISABLE.
 	@retval SD_Error: SD Card Error code.
 */
@@ -3015,7 +3032,8 @@ static SD_Error SDEnWideBus(FunctionalState NewState)
 static SD_Error MMCEnWideBus(FunctionalState NewState)
 {
 	SD_Error errorstatus = SD_OK;
-
+	MMCEXT_CSD ext_csd = {0};
+	
 	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED)
 	{
 		errorstatus = SD_LOCK_UNLOCK_FAILED;
@@ -3025,56 +3043,137 @@ static SD_Error MMCEnWideBus(FunctionalState NewState)
 	/*!< If wide bus operation to be enabled */
 	if (NewState == ENABLE)
 	{
-		/* CMD6 */ 
-		SDIO_CmdInitStructure.SDIO_Argument = MMC_POWER_REG;
+		errorstatus = MMC_ReadExtCsd(&ext_csd);
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+			
+		/* CMD6 to set power_class SDR52@3.3V */ 
+		SDIO_CmdInitStructure.SDIO_Argument = (MMC_POWER_REG_BASE | (ext_csd.EXT_CSD.PWR_CL_52_360<<8));
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(5);
-		
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
 		{
 			return(errorstatus);
 		}
 		
-		/* CMD6 */ 
-		SDIO_CmdInitStructure.SDIO_Argument = MMC_HIGHSPEED_REG;
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* CMD6 to set HS_TIMING to 0x01 to High Speed Mode */ 
+		SDIO_CmdInitStructure.SDIO_Argument = MMC_HIGHSPEED_MODE;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(5);
-		
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
 		{
 			return(errorstatus);
 		}
 		
-		/* CMD6 */ 
-		SDIO_CmdInitStructure.SDIO_Argument = MMC_4BIT_REG;
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* CMD6 to set BUS_WIDTH to 4-BIT SDR Mode */ 
+		SDIO_CmdInitStructure.SDIO_Argument = MMC_4BIT_SDR_MODE;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(5);
-		
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
 		{
 			return(errorstatus);
 		}
+		
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
 	}   /*!< If wide bus operation to be disabled */
 	else
 	{
-		errorstatus = CmdResp1Error(SD_CMD_APP_CMD);
+		errorstatus = MMC_ReadExtCsd(&ext_csd);
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+			
+		/* CMD6 to set power_class */ 
+		SDIO_CmdInitStructure.SDIO_Argument = (MMC_POWER_REG_BASE | (ext_csd.EXT_CSD.PWR_CL_26_360<<16));
+		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
+		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
+		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
+		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
+		SDIO_SendCommand(&SDIO_CmdInitStructure);
+		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
 		
-		if (errorstatus != SD_OK)
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* CMD6 to set HS_TIMING to 0x00 to Nomal Speed Mode */ 
+		SDIO_CmdInitStructure.SDIO_Argument = MMC_NORMALSPEED_MODE;
+		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
+		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
+		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
+		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
+		SDIO_SendCommand(&SDIO_CmdInitStructure);
+		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* CMD6 to set BUS_WIDTH to 1-BIT SDR Mode */ 
+		SDIO_CmdInitStructure.SDIO_Argument = MMC_1BIT_SDR_MODE;
+		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
+		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
+		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
+		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
+		SDIO_SendCommand(&SDIO_CmdInitStructure);
+		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
 		{
 			return(errorstatus);
 		}
@@ -3492,72 +3591,99 @@ static SD_Error SD_HighSpeed(void)
 
 /**************************************************************************/
 /*! 
-	@brief  Switch mode High-SpeedMode 								@n
-			But does not work properly due to f**kin' errata!		@n
-			See sdio_stm32f1.h line 37 for more information.
+	@brief  Switch mode MMC High speed mode & 4bit-bus mode
 	@retval None
 */
 /**************************************************************************/
 static SD_Error MMC_HighSpeed(void)
 {
 	SD_Error errorstatus = SD_OK;
-	
+	MMCEXT_CSD ext_csd = {0};
 	SDIO->DCTRL = 0x0;
-
-	if(SDCardInfo.SD_csd.SysSpecVersion >= 4){
-		/* CMD6 */ 
-		SDIO_CmdInitStructure.SDIO_Argument = MMC_POWER_REG;
+	
+	if (SDIO_GetResponse(SDIO_RESP1) & SD_CARD_LOCKED)
+	{
+		errorstatus = SD_LOCK_UNLOCK_FAILED;
+		return(errorstatus);
+	}
+	
+	if(SDCardInfo.SD_csd.SysSpecVersion >= 4)
+	{
+		errorstatus = MMC_ReadExtCsd(&ext_csd);
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* CMD6 to set power_class */ 
+		SDIO_CmdInitStructure.SDIO_Argument = (MMC_POWER_REG_BASE | (ext_csd.EXT_CSD.PWR_CL_52_360<<16));
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(5);
-		
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
 		{
 			return(errorstatus);
 		}
 		
-		/* CMD6 */ 
-		SDIO_CmdInitStructure.SDIO_Argument = MMC_HIGHSPEED_REG;
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* CMD6 to set HS_TIMING to 0x01 to High Speed Mode */ 
+		SDIO_CmdInitStructure.SDIO_Argument = MMC_HIGHSPEED_MODE;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(5);
-		
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
 		{
 			return(errorstatus);
 		}
 		
-		/* CMD6 */ 
-		SDIO_CmdInitStructure.SDIO_Argument = MMC_4BIT_REG;
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/* CMD6 to set BUS_WIDTH to 4-BIT SDR Mode */ 
+		SDIO_CmdInitStructure.SDIO_Argument = MMC_4BIT_SDR_MODE;
 		SDIO_CmdInitStructure.SDIO_CmdIndex = SD_CMD_HS_SWITCH;
 		SDIO_CmdInitStructure.SDIO_Response = SDIO_Response_Short;
 		SDIO_CmdInitStructure.SDIO_Wait = SDIO_Wait_No;
 		SDIO_CmdInitStructure.SDIO_CPSM = SDIO_CPSM_Enable;
 		SDIO_SendCommand(&SDIO_CmdInitStructure);
-		_delay_ms(5);
-		
 		errorstatus = CmdResp1Error(SD_CMD_HS_SWITCH);
 		if (SD_OK != errorstatus)
 		{
 			return(errorstatus);
 		}
-			/*!< Configure the SDIO peripheral */
-			SDIO_InitStructure.SDIO_ClockDiv = 0; /* Set 0 to SDIO_CK = 36MHz MAX */
-			SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
-			SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
-			SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
-			SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
-			SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
-			SDIO_Init(&SDIO_InitStructure);
-			errorstatus = SD_OK;	/* Enter MMC HighSpeedMode */
+		
+		/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+		errorstatus = MMC_WaitCmdResp();
+		if (SD_OK != errorstatus)
+		{
+			return(errorstatus);
+		}
+		
+		/*!< Configure the SDIO peripheral */
+		SDIO_InitStructure.SDIO_ClockDiv = 0; /* Set 0 to SDIO_CK = 36MHz MAX */
+		SDIO_InitStructure.SDIO_ClockEdge = SDIO_ClockEdge_Rising;
+		SDIO_InitStructure.SDIO_ClockBypass = SDIO_ClockBypass_Disable;
+		SDIO_InitStructure.SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
+		SDIO_InitStructure.SDIO_BusWide = SDIO_BusWide_4b;
+		SDIO_InitStructure.SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
+		SDIO_Init(&SDIO_InitStructure);
+		errorstatus = SD_OK;	/* Enter MMC HighSpeedMode */
 	}
 	
 	return(errorstatus);
@@ -3565,7 +3691,7 @@ static SD_Error MMC_HighSpeed(void)
 
 /**************************************************************************/
 /*! 
-	@brief  Switch mode High-SpeedMode.
+	@brief  Switch mode SD/MMC High-SpeedMode.
 	@retval None
 */
 /**************************************************************************/
@@ -3579,7 +3705,7 @@ SD_Error SD_EnableHighSpeed(void)
 		(SDIO_HIGH_CAPACITY_MMC_CARD  == CardType))
 	{
 		errorstatus = MMC_HighSpeed();
-	}
+	}/*!< SD Card */
 	else if ((SDIO_STD_CAPACITY_SD_CARD_V1_1 == CardType) || \
              (SDIO_STD_CAPACITY_SD_CARD_V2_0 == CardType) || \
              (SDIO_HIGH_CAPACITY_SD_CARD == CardType))
@@ -3611,7 +3737,7 @@ static uint8_t convert_from_bytes_to_power_of_two(uint16_t nBytes)
 
 /**************************************************************************/
 /*! 
-	@brief  Read ExtCSD Register for MMCv4.x.
+	@brief  Read ExtCSD Register for MMCv4.x or above.
 	@retval None
 */
 /**************************************************************************/
@@ -3621,6 +3747,7 @@ SD_Error MMC_ReadExtCsd(MMCEXT_CSD *ExtCsd)
 	uint32_t count = 0;
 	uint32_t *ExtCsdBuf;
 	ExtCsdBuf = (uint32_t *)(&ExtCsd->CsdBuf[0]);
+	SDIO->DCTRL = 0x0;
 	
 	SDIO_DataInitStructure.SDIO_DataTimeOut = SD_DATATIMEOUT;
 	SDIO_DataInitStructure.SDIO_DataLength = (uint32_t)512;
@@ -3695,6 +3822,48 @@ SD_Error MMC_ReadExtCsd(MMCEXT_CSD *ExtCsd)
 	return errorstatus;
 }
 
+/**************************************************************************/
+/*! 
+	@brief  Wait CMD13 response for MMCv4.x or above.
+	@retval None
+*/
+/**************************************************************************/
+SD_Error MMC_WaitCmdResp(void)
+{
+	SD_Error errorstatus = SD_OK;
+	uint32_t count;
+	uint32_t response = 0U;
+	
+	/* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+	count = SD_MAX_CMD_TRIAL;
+	do
+	{
+		errorstatus = SD_SendStatus(&response);
+		if(errorstatus != SD_OK)
+		{
+			break;
+		}
+		count--;
+	}while(((response & 0x100U) == 0U) && (count != 0U));
+	
+	/* Check the status after the switch command execution */
+	if ((count != 0U) && (errorstatus == SD_OK))
+	{
+		/* Check the bit SWITCH_ERROR of the device status */
+		if ((response & 0x80U) != 0U)
+		{
+			errorstatus = SD_SWITCH_ERROR;
+			return(errorstatus);
+		}
+	}
+	else if (count == 0U)
+	{
+		errorstatus = SD_DATA_TIMEOUT;
+		return(errorstatus);
+	}
+	
+	return errorstatus;
+}
 
 #if defined(SD_DMA_MODE)
 /**************************************************************************/

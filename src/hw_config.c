@@ -2,8 +2,8 @@
 /*!
 	@file			hw_config.c
 	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-    @version        10.00
-    @date           2025.09.29
+    @version        11.00
+    @date           2025.12.03
 	@brief          Configure Basis System on STM32Primer2.
 
     @section HISTORY
@@ -17,6 +17,7 @@
 		2025.05.03	V8.00	Fixed cosmetic bugfix.
 		2025.06.19	V9.00	Fixed implicit cast warnings.
 		2025.09.29 V10.00	Fixed invalid PCLK1 frequency setting at 72MHz.
+		2025.12.03 V11.00	Fixed typo and wrong description.
 
     @section LICENSE
 		BSD License. See Copyright.txt
@@ -26,7 +27,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hw_config.h"
 /* check header file version for fool proof */
-#if HW_CONFIG_H!= 0x1000
+#if HW_CONFIG_H!= 0x1100
 #error "header file version is not correspond!"
 #endif
 
@@ -139,7 +140,7 @@ void KEY_Configuration(void)
 	/* Enable 4 input clock */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
 
-	/* Configure GPIO for 4 input as "Iutput PullDown" */
+	/* Configure GPIO for 4 input as PullDown */
 	GPIO_InitStructure.GPIO_Pin 	= KEY_L | KEY_R | KEY_U | KEY_D;
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IPD;
@@ -149,7 +150,7 @@ void KEY_Configuration(void)
 	/* Enable Center input clock */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
-	/* Configure GPIO for Center (PBUTTON) input as "Input Floating" */
+	/* Configure GPIO for Center (PBUTTON) input as Floating */
 	/* Hardware pulldowned */
 	GPIO_InitStructure.GPIO_Pin 	= KEY_CT;
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
@@ -185,7 +186,7 @@ void NVIC_Configuration(void)
 	/* On STM32F1,can set 0~15 priority levels. */
 	NVIC_SetPriorityGrouping(0U);
 
-#if 0
+#if 0 /* RTC Interrupt not be used in GNSS-Tr@cker */
 #if defined(USE_STM32PRIMER2) || defined(USE_TIME_DISPLAY)
 	/* Enable the RTC Interrupt */
 	NVIC_SetPriority(RTC_IRQn,4);
@@ -197,7 +198,7 @@ void NVIC_Configuration(void)
 
 /**************************************************************************/
 /*! 
-    @brief	4+1inputs key on STM32Primer2.
+    @brief	4+1 input key on STM32Primer2.
 	@param	None.
     @retval	None.
 */
@@ -223,7 +224,7 @@ void JoyInp_Chk(void)
 
 /**************************************************************************/
 /*! 
-    @brief	Set Available SystemClock to 72MHz for USB Functions.
+    @brief	Ramp up SystemClock to 72MHz for USB Functions.
 	@param	None.
     @retval	None.
 */
@@ -234,11 +235,11 @@ void SetSysClock72(void)
 
     /* Select PLL as system clock source */
     RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
-
+	
     /* Disable PLL */
     RCC_PLLCmd(DISABLE);
 	
-    /* Enable Prefetch Buffer */
+    /* Enable prefetch buffer */
     FLASH->ACR |= FLASH_ACR_PRFTBE;
 
     /* Flash 2 wait state */
@@ -248,7 +249,7 @@ void SetSysClock72(void)
     /* HCLK = SYSCLK */
 	RCC->CFGR &= (uint32_t)((uint32_t)~RCC_CFGR_HPRE);
     RCC->CFGR |= (uint32_t)RCC_CFGR_HPRE_DIV1;
-      
+	
     /* PCLK2 = HCLK */
 	RCC->CFGR &= (uint32_t)((uint32_t)~RCC_CFGR_PPRE2);
     RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE2_DIV1;
@@ -256,26 +257,26 @@ void SetSysClock72(void)
     /* PCLK1 = HCLK/2 */
 	RCC->CFGR &= (uint32_t)((uint32_t)~RCC_CFGR_PPRE1);
     RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE1_DIV2;
-
+	
     /* PLLCLK = 12MHz * 6 = 72 MHz */
     RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_6);
-
+	
     /* Enable PLL */
     RCC_PLLCmd(ENABLE);
-
+	
     /* Wait till PLL is ready */
     while(RCC_GetFlagStatus( RCC_FLAG_PLLRDY ) == RESET)
         { ; }
-
+	
     /* Select PLL as system clock source */
     RCC_SYSCLKConfig( RCC_SYSCLKSource_PLLCLK );
-
+	
     /* Wait till PLL is used as system clock source */
     while(RCC_GetSYSCLKSource() != 0x08)
         { ; }
-
+	
     /* This function fills a RCC_ClocksTypeDef structure with the current frequencies
-    of different on chip clocks (for debug purpose) */
+       of different on chip clocks (for debug purpose) */
     RCC_GetClocksFreq( &RCC_ClockFreq );
 }
 

@@ -88,7 +88,7 @@ START_LIB    = -nostartfiles
 endif
 
 # Program Version
-APP_VER = 116.00
+APP_VER = 117.00
 
 
 # Board and MPU Definitions
@@ -313,7 +313,7 @@ CFLAGS += -std=gnu99
 CFLAGS += -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB) $(SEMIHOST_LIB)
 CFLAGS += -fno-strict-aliasing -fsigned-char
 CFLAGS += -ffunction-sections -fdata-sections
-CFLAGS += -fno-schedule-insns2 -fipa-sra
+CFLAGS += -fno-schedule-insns -fno-schedule-insns2 -fipa-sra
 CFLAGS += --param max-inline-insns-single=1000
 CFLAGS += -fno-common -fno-hosted
 #CFLAGS += -fanalyzer
