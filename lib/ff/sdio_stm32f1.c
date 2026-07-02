@@ -2,13 +2,13 @@
 /*!
 	@file			sdio_stm32f1.c
 	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-	@version		40.00
-	@date			2025.12.04
+	@version		41.00
+	@date			2026.06.23
 	@brief			SDIO Driver For STM32 HighDensity Devices			@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
-    @section HISTORY
-		2025.12.04	V40.00	See sdio_stm32f1_ver.txt.
+	@section HISTORY
+		2026.06.23	V40.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "sdio_stm32f1.h"
 /* check header file version for fool proof */
-#if SDIO_STM32F1_H!= 0x4000
+#if SDIO_STM32F1_H!= 0x4100
 #error "header file version is not correspond!"
 #endif
 
@@ -39,7 +39,7 @@
 /** 
   * @brief  SDIO Static flags, TimeOut, FIFO Address  
   */
-#define SDIO_NULL 						0
+#define SDIO_NULL                       0
 #define SDIO_STATIC_FLAGS               ((uint32_t)0x000005FF)
 #define SDIO_CMD0TIMEOUT                ((uint32_t)0x00010000)
 

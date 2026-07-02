@@ -1,18 +1,19 @@
 /********************************************************************************/
 /*!
 	@file			ff_rtc_if.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2025.06.18
-	@brief          FatFs Realtime Clock Section.					@n
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		4.00
+	@date			2026.06.23
+	@brief			FatFs Realtime Clock Section.					@n
 					Hardware Abstraction Layer.
 
-    @section HISTORY
+	@section HISTORY
 		2012.08.27	V1.00	Start Here.
 		2023.04.21	V2.00	Fixed cosmetic bugfix.
 		2025.06.18	V3.00	Fixed implicit cast warnings.
+		2026.06.23	V2.00	Fixed cosmetic bugfix.
 
-    @section LICENSE
+	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
@@ -20,7 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ff_rtc_if.h"
 /* check header file version for fool proof */
-#if FF_RTC_IF_H!= 0x0300
+#if FF_RTC_IF_H!= 0x0400
 #error "header file version is not correspond!"
 #endif
 
@@ -37,9 +38,9 @@
 
 /**************************************************************************/
 /*! 
-    @brief  FatFs Realtime Clock Section.
+	@brief  FatFs Realtime Clock Section.
 	@param  RTC : rtc structure
-    @retval : 1
+	@retval : 1
 */
 /**************************************************************************/
 int rtc_gettime(FF_RTC *f_rtc)
@@ -71,9 +72,9 @@ int rtc_gettime(FF_RTC *f_rtc)
 
 /**************************************************************************/
 /*! 
-    @brief  FatFs Realtime Clock Section.
+	@brief  FatFs Realtime Clock Section.
 	@param  RTC : rtc structure
-    @retval : 1
+	@retval : 1
 */
 /**************************************************************************/
 int rtc_settime(const FF_RTC *f_rtc)

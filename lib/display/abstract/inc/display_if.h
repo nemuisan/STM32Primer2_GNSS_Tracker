@@ -325,6 +325,9 @@
 #elif	USE_RM68180_TFT
  #include "rm68120.h"
  
+#elif	USE_ST7796_SPI_TFT
+ #include "st7796.h"
+ 
 #else
  #error "None of the Selected Display Device!!"
 #endif

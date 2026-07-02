@@ -1,14 +1,14 @@
 /********************************************************************************/
 /*!
 	@file			main.c (STM32Primer2 GNSS-Tr@cker main file)
-	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-    @version        117.00
-    @date           2025.12.18
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		118.00
+	@date			2026.06.23
 
-    @section HISTORY
-		2025.12.18	V117.00	See Whatnew.txt
+	@section HISTORY
+		2026.06.23	V118.00	See Whatnew.txt
 
-    @section LICENSE
+	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
@@ -30,9 +30,9 @@ void (* volatile xTask)(void); /* Main function pointer */
 
 /**************************************************************************/
 /*!
-    @brief  Main Program.
+	@brief  Main Program.
 	@param  None.
-    @retval None.
+	@retval None.
 */
 /**************************************************************************/
 int main(void)
@@ -67,58 +67,58 @@ int main(void)
 
 	/* Install Main GNSS tracker Function(with default mode) */
 	if(TaskStat == GNSS_LOGGING){
-		xTask 				= gps_task;
+		xTask				= gps_task;
 		xUART_IRQ			= conio_IRQ;
-		xEP1_IN_Callback  	= NOP_Process;
-		xEP2_OUT_Callback 	= NOP_Process;
-		xEP3_OUT_Callback 	= NOP_Process;
-		xSOF_Callback     	= NOP_Process;
-		xUSB_Istr	      	= NOP_Process;
+		xEP1_IN_Callback	= NOP_Process;
+		xEP2_OUT_Callback	= NOP_Process;
+		xEP3_OUT_Callback	= NOP_Process;
+		xSOF_Callback		= NOP_Process;
+		xUSB_Istr			= NOP_Process;
 		GNSS_SetCmdModes(CMD_NOMAL);
 	}
 	/* Install USB-CDC VirtualCOM Function */
 	else if(TaskStat == USB_VCOM){
-		xTask 				= cdc_task;
+		xTask				= cdc_task;
 		xUART_IRQ			= CDC_IRQ;
-		xEP1_IN_Callback  	= CDC_EP1_IN_Callback;
-		xEP2_OUT_Callback 	= NOP_Process;
-		xEP3_OUT_Callback 	= CDC_EP3_OUT_Callback;
-		xSOF_Callback     	= CDC_SOF_Callback;
-		xUSB_Istr	      	= CDC_USB_Istr;
+		xEP1_IN_Callback	= CDC_EP1_IN_Callback;
+		xEP2_OUT_Callback	= NOP_Process;
+		xEP3_OUT_Callback	= CDC_EP3_OUT_Callback;
+		xSOF_Callback		= CDC_SOF_Callback;
+		xUSB_Istr			= CDC_USB_Istr;
 		CDC_SetStructure();
 	}
 	/* Install USB-MSC Function */
 	else if(TaskStat == USB_MSC){
-		xTask 				= msc_task;
+		xTask				= msc_task;
 		xUART_IRQ			= conio_IRQ;
-		xEP1_IN_Callback  	= MSC_EP1_IN_Callback;
-		xEP2_OUT_Callback 	= MSC_EP2_OUT_Callback;
-		xEP3_OUT_Callback 	= NOP_Process;
-		xSOF_Callback     	= NOP_Process;
-		xUSB_Istr	      	= MSC_USB_Istr;
+		xEP1_IN_Callback	= MSC_EP1_IN_Callback;
+		xEP2_OUT_Callback	= MSC_EP2_OUT_Callback;
+		xEP3_OUT_Callback	= NOP_Process;
+		xSOF_Callback		= NOP_Process;
+		xUSB_Istr			= MSC_USB_Istr;
 		MSC_SetStructure();
 	}
 	/* Install Main GNSS tracker Function(with MTK specific mode) */
 	else if(TaskStat == GNSS_LOGGING_MTK){
 		xTask 				= gps_task;
 		xUART_IRQ			= conio_IRQ;
-		xEP1_IN_Callback  	= NOP_Process;
-		xEP2_OUT_Callback 	= NOP_Process;
-		xEP3_OUT_Callback 	= NOP_Process;
-		xSOF_Callback     	= NOP_Process;
-		xUSB_Istr	      	= NOP_Process;
+		xEP1_IN_Callback	= NOP_Process;
+		xEP2_OUT_Callback	= NOP_Process;
+		xEP3_OUT_Callback	= NOP_Process;
+		xSOF_Callback		= NOP_Process;
+		xUSB_Istr			= NOP_Process;
 		GNSS_SetCmdModes(CMD_MTK);
 	}
 	/* Anyway,GNSS tracker function(with default mode) */
 	else{
-		TaskStat 			= GNSS_LOGGING;
-		xTask 				= gps_task;
+		TaskStat			= GNSS_LOGGING;
+		xTask				= gps_task;
 		xUART_IRQ			= conio_IRQ;
-		xEP1_IN_Callback  	= NOP_Process;
-		xEP2_OUT_Callback 	= NOP_Process;
-		xEP3_OUT_Callback 	= NOP_Process;
-		xSOF_Callback     	= NOP_Process;
-		xUSB_Istr	      	= NOP_Process;
+		xEP1_IN_Callback	= NOP_Process;
+		xEP2_OUT_Callback	= NOP_Process;
+		xEP3_OUT_Callback	= NOP_Process;
+		xSOF_Callback		= NOP_Process;
+		xUSB_Istr			= NOP_Process;
 		GNSS_SetCmdModes(CMD_NOMAL);
 	}
 

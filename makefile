@@ -1,5 +1,5 @@
 #################################################
-# MAKEFILE For STM32Primer2 BARE-METAL 			#
+# MAKEFILE For STM32Primer2 BARE-METAL			#
 # (c) 20091026 Nemui Trinomius					#
 # https://nemuisan.blog.bai.ne.jp				#
 #################################################
@@ -9,11 +9,11 @@
 export PATH = %SYSTEMROOT%;$(TOOLDIR)/bin;$(OCDIR);$(DBGDIR);$(MAKEDIR);$(RIDEDIR)
 
 # Toolchain Prefix (i.e arm-none-eabi -> arm-none-eabi-gcc.exe)
-TCHAIN  = arm-none-eabi
+TCHAIN = arm-none-eabi
 
 # OpenOCD/FlashTool Prefix
-OCD		= openocd
-RLINK	= Cortex_pgm
+OCD = openocd
+RLINK = Cortex_pgm
 
 # Development Tools Based on GNU Compiler Collection
 DEVTOOL = LAUNCHPAD
@@ -75,29 +75,29 @@ endif
 
 # GCC Version Specific Options
 ALIGNED_ACCESS	= -mno-unaligned-access
-ARMV7M_BOOST    = -mslow-flash-data
+ARMV7M_BOOST	= -mslow-flash-data
 
 
 # Semihosting Definition
-#USING_HOSTAGE   = USE_SEMIHOSTING
-#USING_HOSTAGE   = USE_ITM_PRINTF
+#USING_HOSTAGE = USE_SEMIHOSTING
+#USING_HOSTAGE = USE_ITM_PRINTF
 ifeq ($(USING_HOSTAGE),USE_SEMIHOSTING)
 SEMIHOST_LIB = --specs=rdimon.specs -lrdimon
 else
-START_LIB    = -nostartfiles
+START_LIB = -nostartfiles
 endif
 
 # Program Version
-APP_VER = 117.00
+APP_VER = 118.00
 
 
 # Board and MPU Definitions
-EVAL_BOARD    	= USE_STM32PRIMER2
+EVAL_BOARD		= USE_STM32PRIMER2
 MPU_MODEL		= STM32F10X_HD
 SUBMODEL		= STM32F103VET6
-HSE_CLOCK 		= 12000000
-VECTOR_START  	= VECT_TAB_FLASH
-PERIF_DRIVER    = USE_STDPERIPH_DRIVER
+HSE_CLOCK		= 12000000
+VECTOR_START	= VECT_TAB_FLASH
+PERIF_DRIVER	= USE_STDPERIPH_DRIVER
 USE_TOUCH_SENCE =
 
 
@@ -107,13 +107,13 @@ USE_TOUCH_SENCE =
 include ./lcddrv.mk
 
 # For JPEG Support(select one of those)
-#USE_JPEG_LIB    = USE_IJG_LIB
-#USE_JPEG_LIB    = USE_TINYJPEG_LIB
+#USE_JPEG_LIB = USE_IJG_LIB
+#USE_JPEG_LIB = USE_TINYJPEG_LIB
 
 # Display Fonts Definition
 # MUST put before DEFZ
-#USE_FONTSIZE    = FONT8x8
-USE_FONTSIZE    = FONT10x10
+#USE_FONTSIZE	= FONT8x8
+USE_FONTSIZE	= FONT10x10
 #USE_KANJI		= USE_KANJIFONT
 
 # Use FreeRTOS?
@@ -123,11 +123,11 @@ OS_SUPPORT		= BARE_METAL
 
 # Synthesis makefile Defines
 DEFZ = $(MPU_CLASS) $(MPU_MODEL) $(SUBMODEL) $(EVAL_BOARD) $(PERIF_DRIVER) $(VECTOR_START) \
-	   $(USING_HOSTAGE) $(OS_SUPPORT) $(USE_EXT_SRAM) $(USE_EXT_SDRAM) $(USE_EXT_ROM)	   \
+	   $(USING_HOSTAGE) $(OS_SUPPORT) $(USE_EXT_SRAM) $(USE_EXT_SDRAM) $(USE_EXT_ROM) \
 	   $(USE_SYSCLK_FREQ)
 # Defines if Display and misc Drivers
-DEFZ += $(USE_DISPLAY) $(USE_FONTSIZE) $(USE_KANJI) $(USE_TOUCH_SENCE)  $(USE_XMSTN)	   \
-        $(USE_JPEG_LIB) $(USE_PNG_LIB) $(USE_GIF_LIB) $(USE_AUDIO_LIB)  				   \
+DEFZ += $(USE_DISPLAY) $(USE_FONTSIZE) $(USE_KANJI) $(USE_TOUCH_SENCE) $(USE_XMSTN) \
+		$(USE_JPEG_LIB) $(USE_PNG_LIB) $(USE_GIF_LIB) $(USE_AUDIO_LIB) \
 		$(USE_SOUND_MP3) $(USE_SOUND_AAC) $(USE_SOUND_WAV)
 SYNTHESIS_DEFS	= $(addprefix -D,$(DEFZ)) \
 				 -DPACK_STRUCT_END=__attribute\(\(packed\)\) \
@@ -140,17 +140,17 @@ MPU_MODEL_LOWER = $(strip $(shell echo $(MPU_MODEL) | tr A-Z a-z))
 
 
 # TARGET Definition
-TARGET 		= main
-TARGET_ELF  = $(TARGET).elf
-TARGET_SREC = $(TARGET).s19
-TARGET_HEX  = $(TARGET).hex
-TARGET_BIN  = $(TARGET).bin
-TARGET_LSS  = $(TARGET).lss
-TARGET_SYM  = $(TARGET).sym
+TARGET		= main
+TARGET_ELF	= $(TARGET).elf
+TARGET_SREC	= $(TARGET).s19
+TARGET_HEX	= $(TARGET).hex
+TARGET_BIN	= $(TARGET).bin
+TARGET_LSS	= $(TARGET).lss
+TARGET_SYM	= $(TARGET).sym
 
 # Define CMSIS LIBRARY PATH
-CMSISLIB 		= ./lib/CMSIS
-CMSIS_DEVICE 	= $(CMSISLIB)/Device/ST/STM32F10x
+CMSISLIB		= ./lib/CMSIS
+CMSIS_DEVICE	= $(CMSISLIB)/Device/ST/STM32F10x
 CMSIS_CORE		= $(CMSISLIB)/Core
 # Define SPL and USB LIBRARY PATH
 FWLIB  			= ./lib/STM32F10x_StdPeriph_Driver
@@ -165,48 +165,48 @@ INCPATHS	 = 	./							\
 				$(CMSIS_DEVICE)/Include		\
 				$(CMSIS_CORE)/Include		\
 				$(LIBINCDIRS)
-INCLUDES     = $(addprefix -I ,$(INCPATHS))
+INCLUDES	 = $(addprefix -I ,$(INCPATHS))
 
 # Set library PATH
-LIBPATHS     = $(FWLIB) $(USBLIB)
+LIBPATHS	 = $(FWLIB) $(USBLIB)
 LIBRARY_DIRS = $(addprefix -L,$(LIBPATHS))
 # If you use math-library, put "-lm"
-MATH_LIB	 =	-lm
+MATH_LIB	 = -lm
 
 # LinkerScript PATH
 LINKER_PATH =  ./lib/linker
 LINKER_DIRS = $(addprefix -L,$(LINKER_PATH))
 
 # Object Definition
-OBJS 	 = $(CFILES:%.c=%.o)
-LIBOBJS  = $(LIBCFILES:%.c=%.o) $(SFILES:%.s=%.o)
+OBJS		= $(CFILES:%.c=%.o)
+LIBOBJS		= $(LIBCFILES:%.c=%.o) $(SFILES:%.s=%.o)
 
 # C code PATH
-SOURCE  = ./src
+SOURCE = ./src
 CFILES = \
- $(SOURCE)/$(TARGET).c 				\
+ $(SOURCE)/$(TARGET).c				\
  $(SOURCE)/sysinit_primer2.c		\
  $(SOURCE)/systick.c				\
  $(SOURCE)/syscalls.c				\
  $(SOURCE)/stm32f10x_it.c			\
- $(SOURCE)/hw_config.c 				\
- $(SOURCE)/pwr_support.c 			\
- $(SOURCE)/adc_support.c 			\
- $(SOURCE)/rtc_support.c 			\
- $(SOURCE)/gnss_support.c 			\
- $(SOURCE)/cdc_support.c 			\
- $(SOURCE)/msc_support.c 			\
+ $(SOURCE)/hw_config.c				\
+ $(SOURCE)/pwr_support.c			\
+ $(SOURCE)/adc_support.c			\
+ $(SOURCE)/rtc_support.c			\
+ $(SOURCE)/gnss_support.c			\
+ $(SOURCE)/cdc_support.c			\
+ $(SOURCE)/msc_support.c			\
  $(SOURCE)/uart_support_gps.c		\
  $(SOURCE)/xprintf.c
 
 #/*----- Display library PATH -----*/
-DISPLAY_LIB	= ./lib/display
+DISPLAY_LIB = ./lib/display
 ifneq ($(USE_DISPLAY),)
 include ./display_cfg_ex.mk
 endif
 
 #/*----- FONTX2 Driver library PATH -----*/
-FONTX2_LIB	= ./lib/FONTX2
+FONTX2_LIB = ./lib/FONTX2
 ifneq ($(USE_FONTSIZE),)
 include $(FONTX2_LIB)/fontx2_drv.mk
 endif
@@ -215,7 +215,7 @@ endif
 FATFS = ./lib/ff
 LIBINCDIRS += $(FATFS)
 CFILES += \
- $(FATFS)/ff.c 						\
+ $(FATFS)/ff.c						\
  $(FATFS)/ffunicode.c				\
  $(FATFS)/ffsystem.c				\
  $(FATFS)/ff_rtc_if.c				\
@@ -225,29 +225,29 @@ CFILES += \
 USBFUNC = ./lib/USB_Functions
 LIBINCDIRS += $(USBFUNC)
 CFILES += \
- $(USBFUNC)/usb_pwr.c 					\
- $(USBFUNC)/usb_istr.c 					\
- $(USBFUNC)/usb_conf.c 					\
+ $(USBFUNC)/usb_pwr.c					\
+ $(USBFUNC)/usb_istr.c					\
+ $(USBFUNC)/usb_conf.c					\
  $(USBFUNC)/usb_prop.c
 
 #/*----- USB-CDC library PATH -----*/
 USBCDC =  $(USBFUNC)/cdc
 LIBINCDIRS += $(USBCDC)/inc
 CFILES += \
- $(USBCDC)/src/usb_cdc_desc.c 			\
- $(USBCDC)/src/usb_cdc_prop.c 			\
+ $(USBCDC)/src/usb_cdc_desc.c			\
+ $(USBCDC)/src/usb_cdc_prop.c			\
  $(USBCDC)/src/usb_cdc_endp.c
 
 #/*----- USB-MSC library PATH -----*/
 USBMSC =  $(USBFUNC)/msc
 LIBINCDIRS += $(USBMSC)/inc
 CFILES += \
- $(USBMSC)/src/usb_msc_mass_mal.c 		\
- $(USBMSC)/src/usb_msc_memory.c 		\
- $(USBMSC)/src/usb_msc_scsi_data.c 		\
+ $(USBMSC)/src/usb_msc_mass_mal.c		\
+ $(USBMSC)/src/usb_msc_memory.c			\
+ $(USBMSC)/src/usb_msc_scsi_data.c		\
  $(USBMSC)/src/usb_msc_scsi.c			\
- $(USBMSC)/src/usb_msc_bot.c 			\
- $(USBMSC)/src/usb_msc_desc.c 			\
+ $(USBMSC)/src/usb_msc_bot.c			\
+ $(USBMSC)/src/usb_msc_desc.c			\
  $(USBMSC)/src/usb_msc_prop.c
 
 
@@ -294,16 +294,16 @@ endif
 
 
 # Toolchain Settings
-CC 			= $(TCHAIN)-gcc
-CPP 		= $(TCHAIN)-g++
-OBJCOPY 	= $(TCHAIN)-objcopy
-OBJDUMP 	= $(TCHAIN)-objdump
-SIZE 		= $(TCHAIN)-size
-AR 			= $(TCHAIN)-ar
-LD 			= $(TCHAIN)-gcc
-NM 			= $(TCHAIN)-nm
+CC			= $(TCHAIN)-gcc
+CPP			= $(TCHAIN)-g++
+OBJCOPY		= $(TCHAIN)-objcopy
+OBJDUMP		= $(TCHAIN)-objdump
+SIZE		= $(TCHAIN)-size
+AR			= $(TCHAIN)-ar
+LD			= $(TCHAIN)-gcc
+NM			= $(TCHAIN)-nm
 REMOVE		= $(REMOVAL) -f
-REMOVEDIR 	= $(REMOVAL) -rf
+REMOVEDIR	= $(REMOVAL) -rf
 
 # C and ASM FLAGS
 CFLAGS  = -MD -mcpu=cortex-m3 -mtune=cortex-m3 -mfix-cortex-m3-ldrd
@@ -313,7 +313,7 @@ CFLAGS += -std=gnu99
 CFLAGS += -O$(OPTIMIZE) $(USE_LTO) $(NANOLIB) $(SEMIHOST_LIB)
 CFLAGS += -fno-strict-aliasing -fsigned-char
 CFLAGS += -ffunction-sections -fdata-sections
-CFLAGS += -fno-schedule-insns -fno-schedule-insns2 -fipa-sra
+#CFLAGS += -fno-schedule-insns -fno-schedule-insns2 -fipa-sra
 CFLAGS += --param max-inline-insns-single=1000
 CFLAGS += -fno-common -fno-hosted
 #CFLAGS += -fanalyzer
@@ -321,7 +321,7 @@ CFLAGS += -Wall -Wextra
 CFLAGS += -Wdouble-promotion -Woverflow
 CFLAGS += -Wstrict-prototypes -Wredundant-decls -Wreturn-type
 CFLAGS += -Wshadow -Wunused
-#CFLAGS += -Wfloat-equal
+CFLAGS += -Wfloat-equal
 #CFLAGS += -Wconversion -Wsign-conversion -Wshift-count-negative
 #CFLAGS += -Wno-unused-parameter
 #CFLAGS += -Wno-unused-but-set-variable

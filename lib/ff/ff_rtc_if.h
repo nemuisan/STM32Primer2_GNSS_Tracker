@@ -1,23 +1,24 @@
 /********************************************************************************/
 /*!
 	@file			ff_rtc_if.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        3.00
-    @date           2025.06.18
-	@brief          FatFs Realtime Clock Section.					@n
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		4.00
+	@date			2026.06.23
+	@brief			FatFs Realtime Clock Section.					@n
 					Hardware Abstraction Layer.
 
-    @section HISTORY
+	@section HISTORY
 		2012.08.27	V1.00	Start Here.
 		2023.04.21	V2.00	Fixed cosmetic bugfix.
 		2025.06.18	V3.00	Fixed implicit cast warnings.
+		2026.06.23	V2.00	Fixed cosmetic bugfix.
 
-    @section LICENSE
+	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef FF_RTC_IF_H
-#define FF_RTC_IF_H 0x0300
+#define FF_RTC_IF_H 0x0400
 
 #ifdef __cplusplus
  extern "C" {
@@ -42,12 +43,12 @@ typedef struct {
 } FF_RTC;
 
 /* Function Prototypes */
-int rtc_settime(const FF_RTC *f_rtc);
 int rtc_gettime(FF_RTC *f_rtc);
+int rtc_settime(const FF_RTC *f_rtc);
 extern FF_RTC ff_rtc;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /*  FF_RTC_IF_H */
+#endif /* FF_RTC_IF_H */

@@ -1,3 +1,10 @@
+2026.06.23
+V118.00	Adopted CMSIS Core(M) Header Files into latest repository.
+		 -> https://github.com/ARM-software/CMSIS_6/commit/2d1af12613d6e3a734bb78bfed3b04e71ae9d206
+		Commented out GCC option"-fno-schedule-insns -fno-schedule-insns2 -fipa-sra"(on makefile).
+		Adopted latest fix(on display_if_basis.c,h).
+		Fixed cosmetic bugfix(ff_rtc_if.c,h and sdio_stm32f1.c,h).
+
 2025.12.18
 V117.00	Adopted CMSIS Core(M) Version 6 Header Files into latest repository.
 		 -> https://github.com/ARM-software/CMSIS_6/commit/c37951ea68b7df57989c0e1d4b46210813b0f436

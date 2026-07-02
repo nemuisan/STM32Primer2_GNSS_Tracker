@@ -2,20 +2,20 @@
 /*!
 	@file			sdio_stm32f1.h
 	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-	@version		40.00
-	@date			2025.12.04
+	@version		41.00
+	@date			2026.06.23
 	@brief			SDIO Driver For STM32 HighDensity Devices			@n
 					Based on STM32F10x_StdPeriph_Driver V3.4.0.
 
-    @section HISTORY
-		2025.12.04	V40.00	See sdio_stm32f1_ver.txt.
+	@section HISTORY
+		2026.06.23	V40.00	See sdio_stm32f1_ver.txt.
 
 	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef SDIO_STM32F1_H
-#define SDIO_STM32F1_H 0x4000
+#define SDIO_STM32F1_H 0x4100
 
 #ifdef __cplusplus
  extern "C" {
@@ -40,8 +40,8 @@
     1: SDIO_ClockBypass_Enable -> Not always suitable for SD/MMC Spec(It says upto 50/52MHz@3.3v).
     2: SDIO_ClockEdge_Falling -> CANNOT USE DUE TO ERRATA!
     3: SDIO_HardwareFlowControl_Enable -> CANNOT USE DUE TO ERRATA!
-   So,to get more stability,Nemuisan strongly recommend leaving
-   NomalSpeedMode(24MHz MAX) on STM32F1....!!
+   So,to get more stability,Nemuisan strongly recommends keeping
+   Normal Speed Mode (24MHz MAX) on STM32F1....!!
 */
 #define SD_NS_MODE
 //#define SD_HS_MODE
@@ -511,7 +511,7 @@ typedef struct
   *			Frequency(HCLK/2) >= (3 / 8 x Frequency(SDIO_CK))
   *
   * 		e.g.1 : SysClock = HCLK = 72MHz:
-  *			     -> SDIO_CK can take upto 36MHz(not 72MHz, because of sdcard side's limitation(50MHz MAX)).
+  *			     -> SDIO_CK can take upto 36MHz(not 72MHz, because of sdcard's HS mode clock limitation(50MHz MAX)).
   *
   * 		e.g.2 : SysClock = HCLK = 24MHz:
   *			     -> SDIO_CK can take upto 24MHz(Consider ClockDivision value at 72MHz SysClock,actually frequency 24MHz/3 = 8MHz).

@@ -48,6 +48,7 @@ SDHC : FAT32 Format,Up to 32GB.
 SDXC : exFAT Format,Up to 2TB.
 MMC  : FAT16 Format,Up to 2GB.
 eMMC : FAT32/exFAT Format,Up to 2TB.
+NMCard : FAT32/exFAT Format,Up to 2TB.
 
 
 /* ATTENTION!! */

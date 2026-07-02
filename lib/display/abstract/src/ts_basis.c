@@ -1,15 +1,15 @@
 /********************************************************************************/
 /*!
 	@file			ts_basis.c
-	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-    @version        24.00
-    @date           2025.09.29
-	@brief          Filer and File Loaders.
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		25.00
+	@date			2026.04.01
+	@brief			Filer and File Loaders.
 
-    @section HISTORY
-		2025.09.29	See ts_ver.txt.
+	@section HISTORY
+		2026.04.01	See ts_ver.txt.
 
-    @section LICENSE
+	@section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
@@ -17,7 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_basis.h"
 /* check header file version for fool proof */
-#if TS_BASIS_H != 0x2400
+#if TS_BASIS_H != 0x2500
 #error "header file version is not correspond!"
 #endif
 
@@ -189,7 +189,7 @@ const uint8_t font[128][8] = {
 /* Functions -----------------------------------------------------------------*/
 /**************************************************************************/
 /*!
-    Display RTC Timeline.
+	Display RTC Timeline.
 */
 /**************************************************************************/
 #if defined(USE_TIME_DISPLAY)
@@ -219,7 +219,7 @@ inline void ts_rtc(void)
 
 /**************************************************************************/
 /*!
-    Terminal Screen Write Function Lowest Side.
+	Terminal Screen Write Function Lowest Side.
 */
 /**************************************************************************/
 void ts_write(
@@ -250,7 +250,7 @@ void ts_write(
 
 	/* X clipper if U need */
 	xclip = (uint16_t)(col * TS_FONTW + TS_FONTW - 1);
-    if (xclip > MAX_X) xclip = MAX_X-1;
+	if (xclip > MAX_X) xclip = MAX_X-1;
 
 #if !USE_FILER_FONTX
 	Display_rect_if((uint16_t)(col * TS_FONTW), xclip, (uint16_t)(row * TS_FONTH), (uint16_t)(row * TS_FONTH + TS_FONTH - 1));
@@ -274,7 +274,7 @@ void ts_write(
 			col_r = col;
 			row_r = row;
 			flg = 1;
-	  	}
+		}
 		else{
 			putank(col * TS_FONTW, row * TS_FONTH, &ankode, fg, bg);
 			flg = 0;
@@ -299,7 +299,7 @@ void ts_write(
 
 /**************************************************************************/
 /*!
-    Terminal Screen Cursor Hold.
+	Terminal Screen Cursor Hold.
 */
 /**************************************************************************/
 static void csr_hold(void)
@@ -314,7 +314,7 @@ static void csr_hold(void)
 
 /**************************************************************************/
 /*!
-    Terminal Screen Cursor Release.
+	Terminal Screen Cursor Release.
 */
 /**************************************************************************/
 static void csr_release(void)
@@ -326,7 +326,7 @@ static void csr_release(void)
 
 /**************************************************************************/
 /*!
-    Terminal Screen Reflesh ALL.
+	Terminal Screen Reflesh ALL.
 */
 /**************************************************************************/
 void ts_rfsh(
@@ -337,7 +337,6 @@ void ts_rfsh(
 )
 {
 	uint16_t x, y;
-
 
 	csr_hold();
 
@@ -352,7 +351,7 @@ void ts_rfsh(
 
 /**************************************************************************/
 /*!
-    Terminal Screen Rollup Row.
+	Terminal Screen Rollup Row.
 */
 /**************************************************************************/
 void ts_rlup(
@@ -364,7 +363,6 @@ void ts_rlup(
 {
 	uint16_t c;
 	uint16_t y, x;
-
 
 	if (top > bottom || bottom >= TS_HEIGHT) return;
 	if (left > right || right >= TS_WIDTH) return;
@@ -386,7 +384,7 @@ void ts_rlup(
 
 /**************************************************************************/
 /*!
-    Terminal Screen Rolludown Row.
+	Terminal Screen Rolludown Row.
 */
 /**************************************************************************/
 void ts_rldown(
@@ -398,7 +396,6 @@ void ts_rldown(
 {
 	uint16_t c;
 	uint16_t y, x;
-
 
 	if (top > bottom || bottom >= TS_HEIGHT) return;
 	if (left > right || right >= TS_WIDTH) return;
@@ -420,7 +417,7 @@ void ts_rldown(
 
 /**************************************************************************/
 /*!
-    Terminal Screen Set Character location.
+	Terminal Screen Set Character location.
 */
 /**************************************************************************/
 void ts_locate(
@@ -443,7 +440,7 @@ void ts_locate(
 
 /**************************************************************************/
 /*!
-    Put a character into TTY screen Veneer(for xprintf).
+	Put a character into TTY screen Veneer(for xprintf).
 */
 /**************************************************************************/
 void ts_putc_x(int chr)
@@ -452,7 +449,7 @@ void ts_putc_x(int chr)
 }
 /**************************************************************************/
 /*!
-    Put a character into TTY screen
+	Put a character into TTY screen
 */
 /**************************************************************************/
 void ts_putc(
@@ -541,7 +538,7 @@ void ts_putc(
 
 /**************************************************************************/
 /*!
-    Brink Cursor execute every 1mSec.
+	Brink Cursor execute every 1mSec.
 */
 /**************************************************************************/
 void ts_csrblink(void)
@@ -563,7 +560,7 @@ void ts_csrblink(void)
 
 /**************************************************************************/
 /*!
-    MUST Execute 1mSec Every.
+	MUST Execute 1mSec Every.
 */
 /**************************************************************************/
  __attribute__((weak)) void ts_timer(void)

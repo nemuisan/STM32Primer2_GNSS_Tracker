@@ -1,20 +1,20 @@
 /********************************************************************************/
 /*!
 	@file			ts_basis.h
-	@author         Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
-    @version        24.00
-    @date           2025.09.29
-	@brief          Filer and File Loaders.
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		25.00
+	@date			2026.04.01
+	@brief			Filer and File Loaders.
 
-    @section HISTORY
-		2025.09.29	See ts_ver.txt.
+	@section HISTORY
+		2026.04.01	See ts_ver.txt.
 
-    @section LICENSE
+	@section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
 #ifndef TS_BASIS_H
-#define TS_BASIS_H 0x2400
+#define TS_BASIS_H 0x2500
 
 #ifdef __cplusplus
  extern "C" {
@@ -53,22 +53,22 @@
 #elif defined(FONT12x12)  || defined(FONT12x12D) || defined(FONT12x12K) || defined(FONT12x12W) || \
       defined(FONT12x12M) || defined(FONT12x12L) || defined(FONT12x12T)
  /* Use M+ Fonts(12pt) or Kanamechou Fonts (12pt) or Wada Laboratry Hosomaru Fonts(12pt)
-     or MAYAKU Fonts(12pt) or Dohgenzaka Fonts(12pt) or  Kodenmacho Fonts(12pt) or Konatsu Fonts(12pt) */
+     or MAYAKU Fonts(12pt) or Dogenzaka Fonts(12pt) or  Kodenmacho Fonts(12pt) or Konatsu Fonts(12pt) */
  #define TS_FONTW	6
  #define TS_FONTH	12
 
 #elif defined(FONT14x14) || defined(FONT14x14M) || defined(FONT14x14W)
- /* Use Shinnonome Gothic Fonts(14pt) or Wada Laboratry Hosomaru Fonts(14pt) or Dohgenzaka Fonts(14pt) */
+ /* Use Shinnonome Gothic Fonts(14pt) or Wada Laboratry Hosomaru Fonts(14pt) or Dogenzaka Fonts(14pt) */
  #define TS_FONTW	7
  #define TS_FONTH	14
 
 #elif defined(FONT16x16)  || defined(FONT16x16K) || defined(FONT16x16L) || defined(FONT16x16W) || \
       defined(FONT16x16F) || defined(FONT16x16H) || defined(FONT16x16I) || defined(FONT16x16T) || \
-	  defined(FONT16x16P)
+      defined(FONT16x16P)
  /* Use Tanuki Fonts(16pt) or Kyoukashotai Fonts(16pt) or Kodenma-cho Fonts(16pt)
      or Wada Laboratry Hosomaru Fonts(16pt) or Honoka-Maru Gothic Fonts(16pt)
      or Hanazono Fonts(16pt) or IL Gothic Fonts(16pt) or Konatsu Fonts(16pt)
-	 or PAW Maru Fonts(16pt) */
+     or PAW Maru Fonts(16pt) */
  #define TS_FONTW	8
  #define TS_FONTH	16
 

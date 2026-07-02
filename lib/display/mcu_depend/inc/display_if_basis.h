@@ -1,26 +1,26 @@
 /********************************************************************************/
 /*!
 	@file			display_if_basis.h
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.06.01
-	@brief          Interface of Display Device Basics for STM32 Primer2.	@n
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		7.00
+	@date			Interface of Display Device Basics for STM32 Primer2.	@n
 					"MCU Depend Layer"
 
-    @section HISTORY
+	@section HISTORY
 		2010.07.02	V1.00	Restart Here.
 		2010.10.01	V2.00	Changed CTRL-Port Contol Procedure.
 		2010.12.31	V3.00	Changed Some.
 		2011.03.10	V4.00	C++ Ready.
 		2023.04.21	V5.00	Fixed cosmetic bugfix.
-		2023.04.21	V6.00	Removed unused delay macro.
+		2023.06.01	V6.00	Removed unused delay macro.
+		2026.03.19	V7.00	Adopted latest fix.
 
-    @section LICENSE
+	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 #ifndef DISPLAY_IF_BASIS_H
-#define DISPLAY_IF_BASIS_H 0x0600
+#define DISPLAY_IF_BASIS_H 0x0700
 
 #ifdef __cplusplus
  extern "C" {
@@ -59,21 +59,21 @@
 #define DISPLAY_RES_SET()		(DISPLAY_PORT_RES->BSRR = CTRL_RES)
 #define DISPLAY_RES_CLR()		(DISPLAY_PORT_RES->BRR  = CTRL_RES)
 #define DISPLAY_CS_SET()		(DISPLAY_PORT_CS->BSRR  = CTRL_CS)
-#define DISPLAY_CS_CLR()        (DISPLAY_PORT_CS->BRR   = CTRL_CS)
+#define DISPLAY_CS_CLR()		(DISPLAY_PORT_CS->BRR   = CTRL_CS)
 #define DISPLAY_DC_SET()		(DISPLAY_PORT_DC->BSRR  = CTRL_DC)
-#define DISPLAY_DC_CLR()        (DISPLAY_PORT_DC->BRR   = CTRL_DC)
+#define DISPLAY_DC_CLR()		(DISPLAY_PORT_DC->BRR   = CTRL_DC)
 #define DISPLAY_WR_SET()		(DISPLAY_PORT_WR->BSRR  = CTRL_WR)
-#define DISPLAY_WR_CLR()        (DISPLAY_PORT_WR->BRR   = CTRL_WR)
+#define DISPLAY_WR_CLR()		(DISPLAY_PORT_WR->BRR   = CTRL_WR)
 #define DISPLAY_RD_SET()		(DISPLAY_PORT_RD->BSRR  = CTRL_RD)
-#define DISPLAY_RD_CLR()        (DISPLAY_PORT_RD->BRR   = CTRL_RD)
+#define DISPLAY_RD_CLR()		(DISPLAY_PORT_RD->BRR   = CTRL_RD)
 
 /*DATA-Definitions*/
 #define DISPLAY_PORT_DATA		GPIOE
 #define DISPLAY_CLK_DATA		RCC_APB2Periph_GPIOE
 
 /* LCD addresses as seen by the FSMC*/
-#define LCD_DATA_MODE_ADDR   	((uint32_t)0x68020000)
-#define LCD_CMD_MODE_ADDR   	((uint32_t)0x68000000)
+#define LCD_DATA_MODE_ADDR		((uint32_t)0x68020000)
+#define LCD_CMD_MODE_ADDR		((uint32_t)0x68000000)
 
 /* LCD is connected to the FSMC_Bank1_NOR/SRAM3 and NE3 is used as ship select signal */
 #define DISPLAY_DATAPORT		(*(volatile uint16_t*)LCD_DATA_MODE_ADDR)
@@ -81,15 +81,15 @@
 
 /* Define Acess Procedure */
 #define BUS_ACCESS_8BIT
-#define LCD_D0          		GPIO_Pin_7		/* FSMC_D4 */
-#define LCD_D1         			GPIO_Pin_8		/* FSMC_D5 */
-#define LCD_D2          		GPIO_Pin_9		/* FSMC_D6 */
-#define LCD_D3          		GPIO_Pin_10		/* FSMC_D7 */
-#define LCD_D4          		GPIO_Pin_11		/* FSMC_D8 */
-#define LCD_D5          		GPIO_Pin_12		/* FSMC_D9 */
-#define LCD_D6          		GPIO_Pin_13		/* FSMC_D10 */
-#define LCD_D7          		GPIO_Pin_14		/* FSMC_D11 */
-#define DATA_PINS   			( LCD_D0 | LCD_D1 | LCD_D2 | LCD_D3 | LCD_D4 | LCD_D5 | LCD_D6 | LCD_D7 )
+#define LCD_D0					GPIO_Pin_7		/* FSMC_D4 */
+#define LCD_D1					GPIO_Pin_8		/* FSMC_D5 */
+#define LCD_D2					GPIO_Pin_9		/* FSMC_D6 */
+#define LCD_D3					GPIO_Pin_10		/* FSMC_D7 */
+#define LCD_D4					GPIO_Pin_11		/* FSMC_D8 */
+#define LCD_D5					GPIO_Pin_12		/* FSMC_D9 */
+#define LCD_D6					GPIO_Pin_13		/* FSMC_D10 */
+#define LCD_D7					GPIO_Pin_14		/* FSMC_D11 */
+#define DATA_PINS				( LCD_D0 | LCD_D1 | LCD_D2 | LCD_D3 | LCD_D4 | LCD_D5 | LCD_D6 | LCD_D7 )
 
 #define ReadLCDData(x)					\
 	x = DISPLAY_DATAPORT;
@@ -108,7 +108,7 @@
 
 
 #define FrontG		COL_REDPINK
-#define BackG   	COL_BLACK
+#define BackG		COL_BLACK
 
 #define COL_BLACK	RGB(0,0,0)
 #define COL_WHITE	RGB(255,255,255)
@@ -121,8 +121,8 @@
 #define COL_AQUA	RGB(0,255,255)
 
 #define COL_PURPLE	RGB(160,32,240)
-#define COL_REDPINK RGB(255,50,50)
-#define COL_ORANGE  RGB(255,165,0)
+#define COL_REDPINK	RGB(255,50,50)
+#define COL_ORANGE	RGB(255,165,0)
 
 /* Potiner Access Macro(Little Endian) */
 #define	LD_UINT16(ptr)		(uint16_t)(((uint16_t)*(uint8_t*)((ptr)+1)<<8)|(uint16_t)*(uint8_t*)(ptr))
@@ -136,4 +136,3 @@ extern void Display_IoInit_If(void);
 #endif
 
 #endif /* DISPLAY_IF_BASIS_H */
-

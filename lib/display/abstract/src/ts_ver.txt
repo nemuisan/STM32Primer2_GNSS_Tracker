@@ -1,7 +1,8 @@
 ********************* ts_basis.x update history ********************
 
-	2025.09.29 V24.00	Fixed typo.
+	2026.04.01 V25.00	Added support UTF-8 string handle for FatFs.
 
+	2025.09.29 V24.00	Fixed typo.
 	2025.05.29 V23.00	Fixed implicit cast warnings.
 	2024.07.16 V22.00	Fixed Shift-JIS font handling.
 	2023.09.01 V21.00	Added Konatsu-Font handlings.
@@ -33,8 +34,9 @@
 
 ********************* ts_fileloads.x update history ********************
 
-	2025.08.16 V33.00	Fixed filename display when FF_USE_LFN defined.
+	2026.04.01 V34.00	Added support UTF-8 string handle for FatFs.
 
+	2025.08.16 V33.00	Fixed filename display when FF_USE_LFN defined.
 	2025.07.29 V32.00	Added MP4/M4A Player preliminary support.
 	2025.06.25 V31.00	Fixed implicit cast warnings for frame-buffered TFT.
 	2025.05.27 V30.00	Fixed implicit cast warnings.

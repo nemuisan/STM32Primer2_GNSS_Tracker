@@ -15,11 +15,11 @@ Functions
 - GNSS Data Logging  
 -- Using ChaN's FatFs FileSystem.  
 -- Using SDIO with DMA Driver.  
--- Supports MMC,SDSC,SDHC,SDXC and eMMC.  
+-- Supports SDSC,SDHC,SDXC,MMC,eMMC and NMCard.  
 
 - USB Mass Storage  
 -- Using SDIO with DMA Driver.  
--- Supports MMC,SDSC,SDHC,SDXC and eMMC.  
+-- Supports SDSC,SDHC,SDXC,MMC,eMMC and NMCard.  
 -- Using double-buffered endpoints(Bulk IN/OUT).  
 -- Read:0.81MB/Sec,Write:0.45MB/Sec MAX(Tested with DELKIN U331 1GB microsd).  
 

@@ -1,27 +1,31 @@
 /********************************************************************************/
 /*!
 	@file			display_if_basis.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        6.00
-    @date           2023.06.01
-	@brief          Interface of Display Device Basics for STM32 Primer2.	@n
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		7.00
+	@date			Interface of Display Device Basics for STM32 Primer2.	@n
 					"MCU Depend Layer"
 
-    @section HISTORY
+	@section HISTORY
 		2010.07.02	V1.00	Restart Here.
 		2010.10.01	V2.00	Changed CTRL-Port Contol Procedure.
 		2010.12.31	V3.00	Changed Some.
 		2011.03.10	V4.00	C++ Ready.
 		2023.04.21	V5.00	Fixed cosmetic bugfix.
-		2023.04.21	V6.00	Removed unused delay macro.
+		2023.06.01	V6.00	Removed unused delay macro.
+		2026.03.19	V7.00	Adopted latest fix.
 
-    @section LICENSE
+	@section LICENSE
 		BSD License. See Copyright.txt
 */
 /********************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
 #include "display_if_basis.h"
+/* Check header file version for fool proof */
+#if DISPLAY_IF_BASIS_H != 0x0700
+#error "header file version is not correspond!"
+#endif
 
 /* Defines -------------------------------------------------------------------*/
 
@@ -35,13 +39,13 @@
 
 /**************************************************************************/
 /*! 
-    Display Driver Lowest Layer Settings.
+	Display Driver Lowest Layer Settings.
 */
 /**************************************************************************/
 static void FSMC_Conf(void)
 {
-	FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
-	FSMC_NORSRAMTimingInitTypeDef  p;
+	FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure = {0};
+	FSMC_NORSRAMTimingInitTypeDef p = {0};
 
 	/*-- FSMC Configuration ------------------------------------------------------*/
 	p.FSMC_AddressSetupTime 		= 2;
@@ -55,10 +59,10 @@ static void FSMC_Conf(void)
 	FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM3;
 	FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable;
 	FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;
-	FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;        /* MUST be 16b*/
+	FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;			/* MUST be 16b */
 	FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
 	FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait= FSMC_AsynchronousWait_Disable;
-	FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;  /* cf RM p363 + p384*/
+	FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;	/* cf RM p363 + p384 */
 	FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;
 	FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
 	FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;
@@ -78,12 +82,12 @@ static void FSMC_Conf(void)
 
 /**************************************************************************/
 /*! 
-    Display Driver Lowest Layer Settings.
+	Display Driver Lowest Layer Settings.
 */
 /**************************************************************************/
 static void GPIO_Conf(void)
 {
-	GPIO_InitTypeDef GPIO_InitStructure; 
+	GPIO_InitTypeDef GPIO_InitStructure = {0};
 	
 	/* Enable FSMC, GPIOD, GPIOE, GPIOF, GPIOG and AFIO clocks */
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FSMC, ENABLE);
@@ -125,7 +129,7 @@ static void GPIO_Conf(void)
 
 /**************************************************************************/
 /*! 
-    Display Driver Lowest Layer Settings.
+	Display Driver Lowest Layer Settings.
 */
 /**************************************************************************/
 void Display_IoInit_If()

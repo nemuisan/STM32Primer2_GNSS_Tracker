@@ -1,15 +1,15 @@
 /********************************************************************************/
 /*!
 	@file			ts_fileloads.c
-	@author         Nemui Trinomius (http://nemuisan.blog.bai.ne.jp)
-    @version        33.00
-    @date           2025.08.16
-	@brief          Filer and File Loaders.
+	@author			Nemui Trinomius (https://nemuisan.blog.bai.ne.jp)
+	@version		34.00
+	@date			2026.04.01
+	@brief			Filer and File Loaders.
 
-    @section HISTORY
-		2025.08.16	See ts_ver.txt.
+	@section HISTORY
+		2026.04.01	See ts_ver.txt.
 
-    @section LICENSE
+	@section LICENSE
 		BSD License + IJG JPEGLIB license See Copyright.txt
 */
 /********************************************************************************/
@@ -17,27 +17,26 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ts_fileloads.h"
 /* check header file version for fool proof */
-#if TS_FILELOADS_H != 0x3300
+#if TS_FILELOADS_H != 0x3400
 #error "header file version is not correspond!"
 #endif
 
 /* Defines -------------------------------------------------------------------*/
 /* Used for Filer */
+#if FF_USE_LFN && (FF_LFN_UNICODE == 2)
+ #define FILNAMEBUF ((FF_MAX_LFN*3)+1)	/* 766Byte MAX: Assume UTF8 Basic Multilingual Plane */
+#elif FF_USE_LFN
+ #define FILNAMEBUF ((FF_MAX_LFN+1)*2)	/* 512Byte MAX: Assume UTF16LE */
+#else
+ #define FILNAMEBUF (FF_SFN_BUF+1)		/*  13Byte MAX: Assume ShortFileName */
+#endif
+/* Used for Filer */
 typedef struct {
 	FSIZE_t fsize;
 	uint8_t fattr;
-#if FF_USE_LFN
-	char fname[FF_MAX_LFN+1];
-#else
-	char fname[13];
-#endif
+	uint32_t fname_ofs; /* Filename offset in Buff[],defined in ff_func_disp.c) */
 } DIRITEM;
 
-#if FF_USE_LFN
- #define MAX_DIR_ITEM (int)(((BUFSIZE/sizeof(DIRITEM)) > 200) ? 200 : (BUFSIZE/sizeof(DIRITEM)) )
-#else
- #define MAX_DIR_ITEM (int)(200)
-#endif
 
 /* Used for TEXT Viewer */
 typedef struct {
@@ -145,29 +144,92 @@ static inline uint16_t MAKE_BGR888_TO_RGB565(uint8_t** pt)
 #if FF_USE_LFN
 /**************************************************************************/
 /*!
-	ts_fileloads helper functio
-	Get Long file name string.
+	ts_fileloads helper function.
+	truncate to MAX_X.
 */
 /**************************************************************************/
-static const char* GetLFN(char* path, char* filename, DIR* dir, FILINFO* fno)
+#define IS_SJIS_1ST(c) (((unsigned char)(c) >= 0x81 && (unsigned char)(c) <= 0x9F) || \
+                        ((unsigned char)(c) >= 0xE0 && (unsigned char)(c) <= 0xFC))
+static void store_visible_sjis(char *dest, const char *src, size_t dest_size, size_t ofs)
 {
-	int i =0;
-
-	if ( (f_opendir(dir, path) == FR_OK) ) {
-		while (f_readdir(dir, fno) == FR_OK && i < 256) {
-			if(strcmp(filename, fno->altname)==0){
-				if(*(fno->fname)) return (const char*)fno->fname;
-				else 			  return (const char*)fno->altname;
-			}
-			i++;
-		}
-		return (const char*)filename;
+    size_t current_x = 0;
+    size_t dest_idx = 0;
+	size_t remax = 0;
+	
+	if((TS_FONTW*(ofs+1)) > MAX_X){
+		dest[dest_idx] = '\0'; /* String termination */
+		return;
 	}
-	else{
-		return (const char*)filename;
-	}
-
+	
+	remax = MAX_X - TS_FONTW*(ofs+1); /* Retain 1character gap */
+	
+	/* Loop keeping terminal 1byte */
+    while (*src && (dest_idx < dest_size - 1)) {
+        if (IS_SJIS_1ST(*src)) {
+			/* In Zenkaku */
+            if((current_x + TS_FONTW*2) > remax) break;
+			
+			/* Zenkaku empty check */
+            if((dest_idx + 2) >= dest_size) break;
+			
+            dest[dest_idx++] = *src++;
+            dest[dest_idx++] = *src++;
+            current_x += TS_FONTW*2;
+        } else {
+			/* In Hankaku */
+            if (current_x + TS_FONTW > remax) break;
+			
+            dest[dest_idx++] = *src++;
+            current_x += TS_FONTW;
+        }
+    }
+	dest[dest_idx] = '\0'; /* String termination */
 }
+
+#if FF_LFN_UNICODE == 2
+/**************************************************************************/
+/*!
+	ts_fileloads helper function.
+	Simple UTF-8 string to SJIS.
+	If not suitable character,when exchange Å†(0x81A0) toofu.
+	Not supported surrogate pair.
+*/
+/**************************************************************************/
+static void convert_utf8_to_sjis_safe(const char* utf8_str, char* sjis_out, size_t out_size)
+{
+	WCHAR dw;
+	size_t i = 0, j = 0;
+	WORD sjis_char;
+	
+	while (utf8_str[i] && (j < (out_size-2))) {
+		/* 1: Extract unicode(UCS-2) */
+		BYTE b = (BYTE)utf8_str[i++];
+		if (b < 0x80) {
+			dw = b;
+		} else if (b < 0xE0) {
+			dw = ((b & 0x1F) << 6) | (utf8_str[i++] & 0x3F);
+		} else {
+			dw = ((b & 0x0F) << 12) | ((utf8_str[i] & 0x3F) << 6) | (utf8_str[i+1] & 0x3F);
+			i += 2;
+		}
+		
+		/* 2: Using FatFs support function */
+		sjis_char = ff_uni2oem(dw, FF_CODE_PAGE);
+		
+		/* 3: Toofu Ga Sutaato Suru */
+		if (sjis_char == 0) {
+			sjis_out[j++] = (char)0x81; /* Toofu Upper */
+			sjis_out[j++] = (char)0xA0; /* Toofu Lower */
+		} else {
+			if (sjis_char > 0xFF) {
+				sjis_out[j++] = (char)(sjis_char >> 8);
+			}
+			sjis_out[j++] = (char)sjis_char;
+		}
+	}
+	sjis_out[j] = '\0';
+}
+#endif
 #endif
 
 /**************************************************************************/
@@ -294,7 +356,7 @@ static void load_txt (
 	cfp = br = i = 0;
 	tv->ltbl[0] = 0;
 
-	/* Get Maximum charactor count per lines */
+	/* Get Maximum character count per lines */
 	for (line = 0; line < max_lines - 1; ) {
 		if (i >= br) {
 			cfp = (uint32_t)f_tell(fp);
@@ -1565,19 +1627,21 @@ static int load_file(char *path, char *filename, FIL *fil)
 {
 	unsigned int n;
 
-	/* Store filename buffer */
-	/* Because "char *filename" address is equal to Buff[]. */
-#if FF_USE_LFN
-	char fname[FF_MAX_LFN+1];
-#else
-	char fname[13];
-#endif
+	/* Internal filename buffer */
+	/* Because "char *filename" address is equal to Buff[]! */
+	char fname[FILNAMEBUF];
 
 	/* Check file read valid */
 	if (f_open(fil, path, FA_READ)) return 0;
 
 	/* Store filename */
+#if FF_LFN_UNICODE == 2
+	/* Exchange UTF-8 to SJIS */
+	size_t strl = strlen(filename) + 1; /* filename_length + Null(1byte) */
+	convert_utf8_to_sjis_safe(filename, fname, strl+1); /* Add more 1byte for UTF-8 to SJIS */
+#else
 	strcpy(fname, filename);
+#endif
 
 	/* Read file header */
 	/*if (f_read(fil, Buff, 256, &n) || n != 256) return 0;*/
@@ -1703,22 +1767,35 @@ static void filer_draw_screen (
 	int i, j;
 	uint16_t w;
 	FSIZE_t n;
-	DIRITEM *diritem = (DIRITEM*)(void*)Buff;
-
+	/* General purpose buffer Buff[] is Defined at ff_func_disp.c */
+    DIRITEM *diritem = (DIRITEM*)(void*)Buff;
+	
 	for (j = 0; j < TS_FILER_HEIGHT; j++) {
 		w = (j == 0 || j == TS_FILER_HEIGHT- 1) ? 0x1720 : 0x0720;
 		for (i = 0; i < TS_WIDTH; i++)
 			Vram[j][i] = w;
 	}
+	
 	ts_rfsh(0, 0, TS_FILER_HEIGHT - 1, TS_WIDTH - 1);
 	ts_locate(0,1,0);
+	
+#if FF_LFN_UNICODE == 2
+	/* Exchange UTF-8 to SJIS */
+	size_t strl = strlen(path)+1; /* filename_length + Null(1byte) */
+	char* str = malloc(strl);
+	convert_utf8_to_sjis_safe(path, str, strl+1); /* Add more 1byte for UTF-8 to SJIS */
+	i = (strlen(str) > 24) ? (int)strlen(str) - 24 : 0;
+	xprintf("\33\x97%s/", &str[i]);
+	if(str != NULL) free(str);
+#else
 	i = (strlen(path) > 24) ? (int)strlen(path) - 24 : 0;
 	xprintf("\33\x97%s/", &path[i]);
-
+#endif
+	
 	for (i = 0, n = 0; i < items; i++)
 		n += diritem[i].fsize;
 	ts_locate(TS_FILER_HEIGHT - 1,0,0);
-
+	
 #if !defined(USE_SSD1332_SPI_OLED)
 	xprintf("\33\x97 %u files, %u KB", items, n / 1024);
 #else
@@ -1733,67 +1810,72 @@ static void filer_draw_screen (
 */
 /**************************************************************************/
 static void filer_put_item (
-	const DIRITEM *item,
+	int item_idx,
 	int tblofs,
 	unsigned int sel
 )
 {
 	int n;
 	char c;
-
+	
+	/* General purpose buffer Buff[] is Defined at ff_func_disp.c */
+    DIRITEM *item = (DIRITEM*)(void*)Buff;
+	
+	/* Calculate filename string address directly in Buff[] */ 
+    char *fname = (char*)&Buff[item[item_idx].fname_ofs];
 
 	ts_locate((uint16_t)(tblofs + 1),0,0);
 	c = '\x87';
-	if (item->fattr & AM_HID) c = '\x81';
-	if (item->fattr & AM_RDO) c = '\x84';
-	if (item->fattr & AM_DIR) c = '\x85';
+	if (item[item_idx].fattr & AM_HID) c = '\x81';
+	if (item[item_idx].fattr & AM_RDO) c = '\x84';
+	if (item[item_idx].fattr & AM_DIR) c = '\x85';
 	if (sel) c ^= 0x77;
 	xputc('\33');
 	xputc(c);
 
 	ts_locate((uint16_t)(tblofs + 1),0,0);
 #if FF_USE_LFN
-	/* Display long file name with round down */
-	if(strlen(item->fname) >= (TS_WIDTH-3)) {
-		size_t strl = strlen(item->fname);
-		uint8_t* str = malloc(strl);
-		strlcpy((char*)str,item->fname,TS_WIDTH-3);
-		/* In case of 2byte charactor */
-		if(((str[TS_WIDTH-4] >= 0x81)&&(str[TS_WIDTH-4] <= 0x9F))||((str[TS_WIDTH-4] >= 0xE0)&&(str[TS_WIDTH-4] <= 0xFC))){
-			str[TS_WIDTH-4] = 0; /* Delete S-JIS 1st byte */ 
-		}
-		else if(((str[TS_WIDTH-5] >= 0x81)&&(str[TS_WIDTH-5] <= 0x9F))||((str[TS_WIDTH-5] >= 0xE0)&&(str[TS_WIDTH-5] <= 0xFC))){
-			str[TS_WIDTH-5] = 0; /* Delete S-JIS 1st byte */ 
-			str[TS_WIDTH-4] = 0; /* Delete S-JIS 2nd byte */ 
-		}
-		else{
-			str[TS_WIDTH-4] = 0; /* Delete Ascii byte */ 
-		}
-		xprintf(" %s", (char*)str);
-		if(str != NULL) free(str);
-	}
-	else {
-		xprintf(" %s", item->fname);
+	/* Display Long File Name with round down */
+	size_t strl = strlen(fname)+1; /* filename_length + Null(1byte) */
+	
+#if FF_LFN_UNICODE == 2
+	/* Exchange UTF-8 to SJIS */
+	char* str = malloc(strl);
+	char* stru = malloc(strl+1); /* Add more 1byte for UTF-8 to SJIS */
+	convert_utf8_to_sjis_safe(fname, stru, strl+1); /* Add more 1byte for UTF-8 to SJIS */
+	store_visible_sjis(str, stru, strl, 1);
+	if(stru != NULL) free(stru);
+#else
+	char* str = malloc(strl);
+	store_visible_sjis(str, fname, strl, 1);
+#endif
+	
+	/* Put directory item(file or directory) */
+	xprintf(" %s", str);
+	
+	/* Incase of SFN */
+	if(strlen(str) < 13){
+		for (n = (int)strlen(str); n < 12; n++) xputc(' ');
+		#if !defined(USE_SSD1332_SPI_OLED)
+			if (item[item_idx].fattr & AM_DIR) {
+				xputs("   <DIR>   ");
+			} else {
+				xprintf("%10llu", item[item_idx].fsize);
+			}
+		#endif
 	}
 	
-	if(strlen(item->fname) < 13){
-		for (n = (int)strlen(item->fname); n < 12; n++) xputc(' ');
-		if (item->fattr & AM_DIR) {
-			xputs("   <DIR>   ");
-		} else {
-			xprintf("%10llu", item->fsize);
-		}
-	}
-
+	if(str != NULL) free(str);
+	
 #else
-	/* Display short file name */
-	xprintf(" %s", item->fname);
-	for (n = strlen(item->fname); n < 12; n++) xputc(' ');
+	/* Display Short File Name */
+	xprintf(" %s", fname);
+	for (n = strlen(fname); n < 12; n++) xputc(' ');
 #if !defined(USE_SSD1332_SPI_OLED)
-	if (item->fattr & AM_DIR) {
+	if (item[item_idx].fattr & AM_DIR) {
 		xputs("   <DIR>   ");
 	} else {
-		xprintf("%10llu", item->fsize);
+		xprintf("%10llu", item[item_idx].fsize);
 	}
 #endif
 #endif
@@ -1810,31 +1892,44 @@ static int filer_load_dir (
 	FILINFO *fno
 )
 {
-	int i;
-	DIRITEM *diritem;
-
-
-	/* Try to read media upto 3 times */
+    int i = 0;
+    DIRITEM *diritem = (DIRITEM*)(void*)Buff; 	/* General purpose buffer Buff[] is defined at ff_func_disp.c */
+    uint32_t free_ptr = BUFSIZE;				/* BUFSIZE is Ddefined at ff_func_disp.h */
+	
+	/* Try to acquire media upto 3 times */
     for(i=0;i<3;i++){
 		if (!(f_opendir(dir, path))) break;
-		if (i==2) return -1;
+		if (i>=2) return -1;
 	}
-
-	/* Read and store file names */
-	/* exFAT is always long file name */
+	
+	/* Read and store file names(exFAT is always long file name) */
 	i = 0;
-	diritem = (DIRITEM*)(void*)Buff;
 	while (f_readdir(dir, fno) == FR_OK && fno->fname[0] && i < MAX_DIR_ITEM) {
-		diritem[i].fsize = fno->fsize;
-		diritem[i].fattr = fno->fattrib;
+	
 #if FF_USE_LFN
-		sprintf(diritem[i].fname,"%s",fno->fname);
+		char* name = fno->fname; /* Always prefer to use LFN */
 #else
-		strcpy(diritem[i].fname, fno->fname);
+		char* name = fno->altname[0] ? fno->altname : fno->fname; /* Prefer to use SFN */
 #endif
+	    size_t nlen = strlen(name) + 1;
+		
+		/* Store items limit check */
+        if ((uint32_t)((uint32_t)(i + 1) * sizeof(DIRITEM)) >= (free_ptr - nlen)) {
+            break; /* Discard after excess portion */
+        }
+		
+		/* Store filename from behind */
+        free_ptr -= nlen;
+        memcpy(&Buff[free_ptr], name, nlen);
+		
+		/* Store filename index datas */
+        diritem[i].fsize = fno->fsize;
+        diritem[i].fattr = fno->fattrib;
+        diritem[i].fname_ofs = free_ptr;
 		i++;
 	}
-	return i;
+	
+	return i; /* Return item count */
 }
 
 
@@ -1852,7 +1947,7 @@ BYTE filer(
 {
 	static int lv;
 	int item = 0, ofs = 0, items, i;
-	DIRITEM *diritem = (DIRITEM*)(void*)Buff;
+	DIRITEM *diritem = (DIRITEM*)(void*)Buff; /* General purpose buffer Buff[] is defined at ff_func_disp.c */
 	uint8_t k;
 	char* filenames;
 
@@ -1876,7 +1971,7 @@ BYTE filer(
 #endif
 		filer_draw_screen(path, items);
 		for (i = 0; i + ofs < items && i < TS_FILER_HEIGHT - 2; i++)
-			filer_put_item(&diritem[i + ofs], i, ((item == i + ofs) ? 1 : 0));
+			filer_put_item(i + ofs, i, ((item == i + ofs) ? 1 : 0));
 		for (;;) {
 			k = xgetc();
 			if (k == BTN_ESC) return BTN_ESC;
@@ -1890,18 +1985,12 @@ BYTE filer(
 			if (item >= items) continue;
 			if (k == BTN_OK) {
 				i = (int)strlen(path);
-
-#if FF_USE_LFN
-				filenames = (char*)GetLFN(path,diritem[item].fname,dir,fno);
-#else
-				filenames = diritem[item].fname;
-#endif
-
+				filenames = (char*)&Buff[diritem[item].fname_ofs];
 				path[i] = '/';
-				strcpy(&path[i+1], diritem[item].fname);
+				strcpy(&path[i+1], filenames);
 				if (diritem[item].fattr & AM_DIR) {
-					if(((*(diritem[item].fname))=='.')){
-						if(((*(diritem[item].fname+1))=='.')){
+					if(((*(filenames))=='.')){
+						if(((*(filenames+1))=='.')){
 						return BTN_CAN;
 						}
 					}
@@ -1926,23 +2015,23 @@ BYTE filer(
 			}
 			if (k == BTN_DOWN) {
 				if (item + 1 >= items) continue;
-				filer_put_item(&diritem[item], item - ofs, 0);
+				filer_put_item(item, item - ofs, 0);
 				item++;
 				if (item - ofs >= TS_FILER_HEIGHT - 2) {
 					ts_rlup(1, 0, TS_FILER_HEIGHT - 2, TS_WIDTH - 1);
 					ofs++;
 				}
-				filer_put_item(&diritem[item], item - ofs, 1);
+				filer_put_item(item, item - ofs, 1);
 			}
 			if (k == BTN_UP) {
 				if (item == 0) continue;
-				filer_put_item(&diritem[item], item - ofs, 0);
+				filer_put_item(item, item - ofs, 0);
 				item--;
 				if (item < ofs) {
 					ts_rldown(1, 0, TS_FILER_HEIGHT - 2, TS_WIDTH - 1);
 					ofs--;
 				}
-				filer_put_item(&diritem[item], item - ofs, 1);
+				filer_put_item(item, item - ofs, 1);
 			}
 		}
 	}
